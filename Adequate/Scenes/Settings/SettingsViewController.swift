@@ -125,7 +125,7 @@ class SettingsViewController: UITableViewController {
         switch section {
         case 0: return 1
         case 1: return 3
-        default: fatalError("Unknown number of sections")
+        default: fatalError("Unknown number of sections in \(description)")
         }
     }
 
@@ -135,16 +135,16 @@ class SettingsViewController: UITableViewController {
         case 0:
             switch indexPath.row {
             case 0: return notificationCell
-            default: fatalError("Unknown row in section 0")
+            default: fatalError("Unknown row in section 0 of \(description)")
             }
         case 1:
             switch indexPath.row {
             case 0: return webCell
             case 1: return emailCell
             case 2: return twitterCell
-            default: fatalError("Unknown row in section 1")
+            default: fatalError("Unknown row in section 1 of \(description)")
             }
-        default: fatalError("Unknown section")
+        default: fatalError("Unknown section in \(description)")
         }
     }
 
@@ -153,7 +153,7 @@ class SettingsViewController: UITableViewController {
         switch section {
         case 0: return "Notifications"
         case 1: return "Support"
-        default: fatalError("Unknown section")
+        default: fatalError("Unknown section in \(description)")
         }
     }
 
