@@ -11,6 +11,8 @@
 		8BD6EF3F1B90EC8DCC495CCF /* Pods_AdequateTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36632BB1419EBA91A2B6FAD6 /* Pods_AdequateTests.framework */; };
 		C9058DE9215C724700FF7B4C /* AppSecrets.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9058DE8215C724700FF7B4C /* AppSecrets.generated.swift */; };
 		C9058DEE215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9058DED215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift */; };
+		C9058DF1215C7CB600FF7B4C /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9058DF0215C7CB600FF7B4C /* SettingsCoordinator.swift */; };
+		C9058DF3215C7CC400FF7B4C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9058DF2215C7CC400FF7B4C /* SettingsViewController.swift */; };
 		C9058DF5215C7E4C00FF7B4C /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9058DF4215C7E4C00FF7B4C /* NotificationManager.swift */; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
 		C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45A2147688500D6558B /* Assets.xcassets */; };
@@ -66,6 +68,8 @@
 		C9058DE8215C724700FF7B4C /* AppSecrets.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSecrets.generated.swift; sourceTree = "<group>"; };
 		C9058DEA215C752F00FF7B4C /* Adequate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Adequate.entitlements; sourceTree = "<group>"; };
 		C9058DED215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNUserNotificationCenter+Promise.swift"; sourceTree = "<group>"; };
+		C9058DF0215C7CB600FF7B4C /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
+		C9058DF2215C7CC400FF7B4C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		C9058DF4215C7E4C00FF7B4C /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		C9DAC4502147688500D6558B /* Adequate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adequate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DAC4532147688500D6558B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -143,6 +147,15 @@
 				36632BB1419EBA91A2B6FAD6 /* Pods_AdequateTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C9058DEF215C7C8D00FF7B4C /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C9058DF0215C7CB600FF7B4C /* SettingsCoordinator.swift */,
+				C9058DF2215C7CC400FF7B4C /* SettingsViewController.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		C9DAC4472147688500D6558B = {
@@ -256,6 +269,7 @@
 			children = (
 				C9DAC47D2147693000D6558B /* Common */,
 				C9DAC4AA21476CD900D6558B /* Main */,
+				C9058DEF215C7C8D00FF7B4C /* Settings */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -497,6 +511,7 @@
 			files = (
 				C9DAC48B21476ADA00D6558B /* String+Ext.swift in Sources */,
 				C9DAC48921476AC300D6558B /* DateFormatter+Ext.swift in Sources */,
+				C9058DF3215C7CC400FF7B4C /* SettingsViewController.swift in Sources */,
 				C9058DE9215C724700FF7B4C /* AppSecrets.generated.swift in Sources */,
 				C9DAC48721476AA100D6558B /* Themeable.swift in Sources */,
 				C9DAC49F21476BC500D6558B /* Topic.swift in Sources */,
@@ -504,6 +519,7 @@
 				C9DAC4A721476C8600D6558B /* NetworkClientError.swift in Sources */,
 				C9DAC49121476B4700D6558B /* Deal.swift in Sources */,
 				C9DAC49521476B9900D6558B /* Item.swift in Sources */,
+				C9058DF1215C7CB600FF7B4C /* SettingsCoordinator.swift in Sources */,
 				C9DAC48521476A7A00D6558B /* Reusable.swift in Sources */,
 				C9DAC477214768CF00D6558B /* AppCoordinator.swift in Sources */,
 				C9DAC4A121476BCD00D6558B /* Video.swift in Sources */,
