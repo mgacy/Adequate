@@ -15,3 +15,7 @@ protocol HasClient {
 protocol HasMehService {
     var mehService: MehServiceType { get }
 }
+
+protocol HasNotificationManager {
+    var notificationManager: NotificationManagerType { get }
+}

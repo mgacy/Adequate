@@ -8,9 +8,10 @@
 
 import Foundation
 
-struct AppDependency: HasClient, HasMehService {
+struct AppDependency: HasClient, HasMehService, HasNotificationManager {
     let client: NetworkClientType
     let mehService: MehServiceType
+    let notificationManager: NotificationManagerType
 
     init() {
         self.client = NetworkClient()
@@ -27,6 +28,8 @@ struct AppDependency: HasClient, HasMehService {
 
         let mehClient = NetworkClient(configuration: configuration, decoder: decoder)
         self.mehService = MehService(client: mehClient)
+
+        self.notificationManager = NotificationManager()
     }
 
 }

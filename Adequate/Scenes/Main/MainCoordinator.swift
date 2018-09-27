@@ -11,7 +11,7 @@ import SafariServices
 import Promise
 
 class MainCoordinator: BaseCoordinator {
-    typealias Dependencies = HasClient & HasMehService
+    typealias Dependencies = HasClient & HasMehService & HasNotificationManager
 
     private let window: UIWindow
     private let dependencies: Dependencies
