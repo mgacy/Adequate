@@ -46,6 +46,7 @@
 		C9DAC4B1214785DF00D6558B /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4B0214785DF00D6558B /* BaseCoordinator.swift */; };
 		C9DAC4B32147864A00D6558B /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4B22147864A00D6558B /* ViewState.swift */; };
 		C9DAC4B52147872700D6558B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4B42147872700D6558B /* Router.swift */; };
+		C9EF5ACB215CA82F00B5D2EC /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF5ACA215CA82F00B5D2EC /* Operators.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 		C9DAC4B0214785DF00D6558B /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		C9DAC4B22147864A00D6558B /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		C9DAC4B42147872700D6558B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		C9EF5ACA215CA82F00B5D2EC /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 				C9DAC47C2147692B00D6558B /* Scenes */,
 				C9DAC47E2147693900D6558B /* Resources */,
 				C9DAC47F2147693E00D6558B /* Supporting */,
+				C9EF5ACA215CA82F00B5D2EC /* Operators.swift */,
 			);
 			path = Adequate;
 			sourceTree = "<group>";
@@ -525,6 +528,7 @@
 				C9DAC4A121476BCD00D6558B /* Video.swift in Sources */,
 				C9DAC475214768C600D6558B /* AppDependency.swift in Sources */,
 				C9DAC4A321476C3A00D6558B /* NetworkClient.swift in Sources */,
+				C9EF5ACB215CA82F00B5D2EC /* Operators.swift in Sources */,
 				C9DAC4AC21476CEA00D6558B /* MainCoordinator.swift in Sources */,
 				C9DAC49D21476BBE00D6558B /* Theme.swift in Sources */,
 				C9058DF5215C7E4C00FF7B4C /* NotificationManager.swift in Sources */,
