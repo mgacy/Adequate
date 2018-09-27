@@ -71,7 +71,18 @@ extension MainCoordinator: DealViewControllerDelegate {
     }
 
     @objc func showSettings() {
-        // ...
+        let settingsRouter = Router()
+        let coordinator = SettingsCoordinator(router: settingsRouter, dependencies: dependencies)
+        coordinator.onFinishFlow = { [weak self, weak coordinator] result in
+            self?.router.dismissModule(animated: true, completion: nil)
+            if let strongCoordinator = coordinator {
+                self?.free(coordinator: strongCoordinator)
+            }
+        }
+
+        store(coordinator: coordinator)
+        router.present(coordinator, animated: true)
+        coordinator.start()
     }
 
 }
