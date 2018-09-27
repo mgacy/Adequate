@@ -26,12 +26,36 @@ enum NotificationManagerError: Error {
 
 // MARK: - Implementation
 
-class NotificationManager: NotificationManagerType {
+class NotificationManager: NSObject, NotificationManagerType {
 
     let notificationCenter: UNUserNotificationCenter
 
-    init() {
+    override init() {
         notificationCenter = .current()
+        super.init()
+        notificationCenter.delegate = self
+    }
+
+}
+
+extension NotificationManager: UNUserNotificationCenterDelegate {
+
+    // Handle notifications when app is in foreground
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        // ...
+        completionHandler([.alert, .sound, .badge])
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+
+        //let userInfo = response.notification.request.content.userInfo
+        //let aps = userInfo["aps"] as! [String: AnyObject]
+        // ...
+        completionHandler()
     }
 
 }
