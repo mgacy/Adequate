@@ -65,6 +65,45 @@ class DealViewController: UIViewController {
 
     // ...
 
+    private var storyButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("Story", for: .normal)
+        button.layer.cornerRadius = 5
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = button.tintColor
+        return button
+    }()
+
+    private var forumButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("Comments", for: .normal)
+        button.layer.cornerRadius = 5
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = button.tintColor
+        return button
+    }()
+
+    private var settingsButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "Settings"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    private lazy var footerButtonStackView: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [storyButton, forumButton, settingsButton])
+        view.axis = .vertical
+        view.alignment = .fill
+        view.distribution = .fillEqually
+        view.spacing = 5.0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    // Footer
+
+    // ...
+
     // MARK: - Lifecycle
 
     typealias Dependencies = HasMehService
@@ -97,6 +136,13 @@ class DealViewController: UIViewController {
         view.addSubview(scrollView)
         view.addSubview(activityIndicator)
         view.addSubview(messageLabel)
+        view.addSubview(footerButtonStackView)
+
+        /// TODO: consolidate in dedicated UIView subclass
+        view.addSubview(activityIndicator)
+        view.addSubview(messageLabel)
+
+        settingsButton.addTarget(self, action: #selector(showSettings(_:)), for: .touchUpInside)
 
         setupConstraints()
     }
@@ -105,7 +151,7 @@ class DealViewController: UIViewController {
         let guide = view.safeAreaLayoutGuide
 
         /// TODO: move these into class property?
-        //let spacing: CGFloat = 14.0
+        let spacing: CGFloat = 14.0
         let sideMargin: CGFloat = 14.0
         //let widthInset: CGFloat = -2.0 * sideMargin
 
@@ -121,7 +167,11 @@ class DealViewController: UIViewController {
             scrollView.leftAnchor.constraint(equalTo: guide.leftAnchor),
             scrollView.topAnchor.constraint(equalTo: guide.topAnchor),
             scrollView.rightAnchor.constraint(equalTo: guide.rightAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: guide.bottomAnchor)
+            scrollView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
+            // footerButtonStackView
+            footerButtonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            footerButtonStackView.widthAnchor.constraint(equalToConstant: 200.0),
+            footerButtonStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -spacing)
         ])
     }
 
