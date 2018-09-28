@@ -11,7 +11,9 @@ import Promise
 
 // MARK: - Protocol
 
-protocol NotificationManagerType {}
+protocol NotificationManagerType {
+    func registerForPushNotifications() -> Promise<Void>
+}
 
 // MARK: - Errors
 
@@ -34,6 +36,24 @@ class NotificationManager: NSObject, NotificationManagerType {
         notificationCenter = .current()
         super.init()
         notificationCenter.delegate = self
+    }
+
+    // MARK: - NotificationManagerType
+
+    @discardableResult
+    func registerForPushNotifications() -> Promise<Void> {
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        return notificationCenter.requestAuthorization(options: options)
+            .ensure({ $0 })
+            .then({ _ -> Promise<UNNotificationSettings> in
+                return self.notificationCenter.getNotificationSettings()
+            })
+            .ensure({ $0.authorizationStatus == .authorized })
+            .then({ settings in
+                //print("Notification settings: \(settings)")
+                // .setNotificationCategories([])
+                UIApplication.shared.registerForRemoteNotifications()
+            })
     }
 
 }

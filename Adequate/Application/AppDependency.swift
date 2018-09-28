@@ -30,6 +30,14 @@ struct AppDependency: HasClient, HasMehService, HasNotificationManager {
         self.mehService = MehService(client: mehClient)
 
         self.notificationManager = NotificationManager()
+
+        // Notifications
+        if UserDefaults.standard.bool(forKey: "showNotifications") {
+            notificationManager.registerForPushNotifications().catch({ error in
+                print("ERROR: \(error)")
+            })
+        }
+
     }
 
 }

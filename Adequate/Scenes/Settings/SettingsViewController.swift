@@ -202,12 +202,18 @@ class SettingsViewController: UITableViewController {
     }
 
     @objc private func tappedSwitch(_ sender: UISwitch) {
-        //let defaults = UserDefaults.standard
+        let defaults = UserDefaults.standard
         switch sender.isOn {
         case true:
-            print("Enabling notifications ...")
+            notificationManager.registerForPushNotifications().then({ _ in
+                UserDefaults.standard.set(true, forKey: "showNotifications")
+            }).catch({ [weak self] error in
+                print("ERROR: \(error.localizedDescription)")
+                /// TODO: how best to handle this? Display alert with option to go to Settings?
+                self?.notificationSwitch.setOn(false, animated: true)
+            })
         case false:
-            print("Disabling notifications ...")
+            defaults.set(false, forKey: "showNotifications")
         }
     }
 
