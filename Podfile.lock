@@ -1,20 +1,34 @@
 PODS:
+  - AWSCognito (2.6.29):
+    - AWSCore (= 2.6.29)
+  - AWSCore (2.6.29)
+  - AWSSNS (2.6.29):
+    - AWSCore (= 2.6.29)
   - Down (0.5.2)
   - Promises (2.0.1)
 
 DEPENDENCIES:
+  - AWSCognito
+  - AWSCore
+  - AWSSNS
   - Down
   - Promises
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - AWSCognito
+    - AWSCore
+    - AWSSNS
     - Down
     - Promises
 
 SPEC CHECKSUMS:
+  AWSCognito: 62540f2b15fbb76b9e8469f093cb998e2ea24b82
+  AWSCore: cef664649db38b1cfc43d5669baa95d6479f0e21
+  AWSSNS: c67139847b1df3d191ea03f7851f4ab0f0b29d42
   Down: 587371ad58002b06023d9c602519216862c3acbc
   Promises: e94e1d74d818d1d2f8933e1f4f12d443c3bb4f3b
 
-PODFILE CHECKSUM: 96f7d37da9485af94c6d17111f59b9a4d5b43f11
+PODFILE CHECKSUM: 9c5a56f57c7b76b36e5ede99a073804d45da3089
 
 COCOAPODS: 1.5.3
