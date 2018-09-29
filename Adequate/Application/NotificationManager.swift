@@ -24,7 +24,24 @@ enum NotificationManagerError: Error {
 
 // MARK: - Configuration
 
-//struct NotificationConfig {}
+fileprivate enum CategoryIdentifier: String {
+    case dailyDeal = "MGDailyDealCategory"
+}
+
+fileprivate enum NotificationAction: String {
+    case buyAction = "MGBuyAction"
+    case mehAction = "MGMehAction"
+
+    /// TODO: what about localization?
+    var title: String {
+        switch self {
+        case .buyAction:
+            return "Buy"
+        case .mehAction:
+            return "Meh"
+        }
+    }
+}
 
 // MARK: - Implementation
 
@@ -54,6 +71,27 @@ class NotificationManager: NSObject, NotificationManagerType {
                 // .setNotificationCategories([])
                 UIApplication.shared.registerForRemoteNotifications()
             })
+    }
+
+    // MARK: - Helper Factory Methods
+
+    private func makeCategory(for categoryID: CategoryIdentifier) -> UNNotificationCategory {
+        let actions = makeActions(for: categoryID)
+        return UNNotificationCategory(identifier: categoryID.rawValue,
+                                      actions: actions, intentIdentifiers: [], options: [])
+    }
+
+    private func makeActions(for categoryID: CategoryIdentifier) -> [UNNotificationAction] {
+        let actions: [UNNotificationAction]
+        switch categoryID {
+        case .dailyDeal:
+            let buyAction = UNNotificationAction(identifier: NotificationAction.buyAction.rawValue,
+                                                 title: NotificationAction.buyAction.title, options: [])
+            let mehAction = UNNotificationAction(identifier: NotificationAction.mehAction.rawValue,
+                                                 title: NotificationAction.mehAction.title, options: [])
+            actions = [buyAction, mehAction]
+        }
+        return actions
     }
 
 }
