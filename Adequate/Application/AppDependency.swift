@@ -11,6 +11,8 @@ import Foundation
 struct AppDependency: HasClient, HasMehService, HasNotificationManager {
     let client: NetworkClientType
     let mehService: MehServiceType
+    /// TODO: should we always carry this, or provide factory method so callers can create / destroy as needed?
+    //func makeNotificationManager() -> NotificationManagerType {}
     let notificationManager: NotificationManagerType
 
     init() {

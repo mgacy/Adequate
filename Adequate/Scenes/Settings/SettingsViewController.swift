@@ -129,7 +129,6 @@ class SettingsViewController: UITableViewController {
         }
     }
 
-    // Return the row for the corresponding section and row
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
@@ -148,7 +147,6 @@ class SettingsViewController: UITableViewController {
         }
     }
 
-    // Customize the section headings for each section
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0: return "Notifications"
