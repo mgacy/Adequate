@@ -487,7 +487,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#check if env-vars.sh exists\nif [ -f ./env-vars.sh ]\nthen\nsource ./env-vars.sh\nfi\n#no `else` case needed if the CI works as expected\nsourcery --sources . --templates ./templates --output ./Adequate/Application --args apikey=$API_KEY\n";
+			shellScript = "#check if env-vars.sh exists\nif [ -f ./env-vars.sh ]\nthen\nsource ./env-vars.sh\nfi\n#no `else` case needed if the CI works as expected\nsourcery --sources . --templates ./templates --output ./Adequate/Application --args apikey=$API_KEY,identity_pool_id=$IDENTITY_POOL_ID,platform_application_arn=$PLATFORM_APPLICATION_ARN\n";
 		};
 		DB6458F974A6AE33EE2730DC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
