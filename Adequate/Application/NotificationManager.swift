@@ -69,6 +69,7 @@ class NotificationManager: NSObject, NotificationManagerType {
             .then({ settings in
                 //print("Notification settings: \(settings)")
                 // .setNotificationCategories([])
+                /// must register on main thread
                 UIApplication.shared.registerForRemoteNotifications()
             })
     }
@@ -113,7 +114,16 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
 
         //let userInfo = response.notification.request.content.userInfo
         //let aps = userInfo["aps"] as! [String: AnyObject]
-        // ...
+        /*
+        switch response.actionIdentifier {
+        case NotificationAction.buyAction.rawValue:
+            print("ACTION: Buy")
+        case NotificationAction.mehAction.rawValue:
+            print("ACTION: Meh")
+        default:
+            print("Unknown Action")
+        }
+        */
         completionHandler()
     }
 
