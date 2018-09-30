@@ -63,7 +63,8 @@ extension MainCoordinator: DealViewControllerDelegate {
     }
 
     func showStory(with story: Story) {
-        // ...
+        let viewController = StoryViewController(story: story)
+        router.push(viewController, animated: true, completion: nil)
     }
 
     func showForum(_ url: URL) {
