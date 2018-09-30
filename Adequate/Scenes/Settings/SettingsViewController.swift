@@ -155,6 +155,14 @@ class SettingsViewController: UITableViewController {
         }
     }
 
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        switch section {
+        case 0: return nil
+        case 1: return "This is an unofficial app. Please direct any issues to the developer, not to Meh."
+        default: fatalError("Unknown section in \(description)")
+        }
+    }
+
     // MARK: - UITableViewDelegate
 
     // Configure the row selection code for any cells that you want to customize the row selection
