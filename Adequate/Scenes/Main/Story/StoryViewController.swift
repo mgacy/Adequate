@@ -80,10 +80,7 @@ final class StoryViewController: UIViewController {
         titleLabel.text = story.title
 
         let down = Down(markdownString: story.body)
-        // https://stackoverflow.com/a/30711288/4472195
-        // https://github.com/iwasrobbed/Down/issues/90#issuecomment-411877259
-        let stylesheet = "* { font: -apple-system-body; } h1, h2, h3, h4, h5, h6, strong { font-weight: bold; } em { font-style: italic; } h1 { font-size: 175%; } h2 { font-size: 150%; } h3 { font-size: 130%; } h4 { font-size: 115%; } h5 { font-style: italic; }"
-        let attributedString = try? down.toAttributedString(.smart, stylesheet: stylesheet)
+        let attributedString = try? down.toAttributedString(.smart, stylesheet: Appearance.styleSheet)
         bodyLabel.attributedText = attributedString
 
         setupConstraints()
