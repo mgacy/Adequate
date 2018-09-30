@@ -30,6 +30,6 @@ struct Deal: Codable {
     let theme: Theme
     let url: URL
     let soldOutAt: Date?
-    let launches: [Launch]
+    let launches: [Launch]?
     let topic: Topic?
 }
