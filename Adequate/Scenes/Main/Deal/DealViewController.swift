@@ -142,6 +142,7 @@ class DealViewController: UIViewController {
         view.addSubview(activityIndicator)
         view.addSubview(messageLabel)
 
+        storyButton.addTarget(self, action: #selector(showStory(_:)), for: .touchUpInside)
         settingsButton.addTarget(self, action: #selector(showSettings(_:)), for: .touchUpInside)
 
         setupConstraints()
