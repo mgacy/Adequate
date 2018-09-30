@@ -5,6 +5,10 @@ platform :ios, '11.0'
 def basic_pods
   pod 'Down'
   pod 'Promises'
+  # AWS
+  pod 'AWSCore'
+  pod 'AWSCognito'
+  pod 'AWSSNS'
 end
 
 # Testing

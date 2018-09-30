@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AWSSNS
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,7 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
 
+        // Initialize the Amazon Cognito credentials provider
+        configurePushService()
+
+        /// TODO: create NotificationManager here and inject into AppCoordinator / create delegate protocol?
         self.appCoordinator = AppCoordinator(window: self.window!)
+        /// TODO: check if app launched from notification
         self.appCoordinator.start()
 
         return true
@@ -43,6 +49,58 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+
+    // MARK: - Notifications
+
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        print("Device Token: \(token)")
+        createPlatformEndpoint(with: token)
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register for remote notifications with error: \(error)")
+    }
+
+}
+
+// MARK: - AWS Integration
+/// TODO: put in separate object
+extension AppDelegate {
+
+    func configurePushService() {
+        // Initialize the Amazon Cognito credentials provider
+        let credentialsProvider = AWSCognitoCredentialsProvider(regionType: .USWest2,
+                                                                identityPoolId: AppSecrets.identityPoolId)
+        let configuration = AWSServiceConfiguration(region: .USWest2, credentialsProvider: credentialsProvider)
+        AWSServiceManager.default().defaultServiceConfiguration = configuration
+    }
+
+    /// TODO: should this return a promise?
+    /// TODO: should UserDefaults be handled elsewhere?
+    func createPlatformEndpoint(with token: String) {
+        UserDefaults.standard.set(token, forKey: "deviceTokenForSNS")
+
+        let sns = AWSSNS.default()
+        guard let request = AWSSNSCreatePlatformEndpointInput() else {
+            print("ERROR: unable to create AWSSNSCreatePlatformEndpointInput"); return
+        }
+        request.token = token
+        request.platformApplicationArn = AppSecrets.platformApplicationArn
+
+        /// TODO: perform on background thread?
+        sns.createPlatformEndpoint(request: request).then({ response in
+            guard let endpointArnForSNS = response.endpointArn else {
+                /// TODO: improve error handling
+                fatalError("Missing ARN")
+            }
+            print("endpointArn: \(endpointArnForSNS)")
+            UserDefaults.standard.set(endpointArnForSNS, forKey: "endpointArnForSNS")
+        }).catch({ error in
+            /// TODO: improve error handling
+            print("ERROR: unable to create AWS SNS platform endpoint")
+        })
     }
 
 }
