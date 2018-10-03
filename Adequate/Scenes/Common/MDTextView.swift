@@ -27,6 +27,12 @@ class MDTextView: UIView {
         get { return _markdown }
     }
 
+    override var backgroundColor: UIColor? {
+        didSet {
+            textView.backgroundColor = backgroundColor
+        }
+    }
+
     // UITextView Properties
     var text: String! {
         set { textView.text = newValue }
