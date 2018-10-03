@@ -16,7 +16,7 @@ class PagedImageView: UIView {
 
     override var backgroundColor: UIColor? {
         didSet {
-            //collectionView.backgroundColor = backgroundColor
+            imageView.backgroundColor = backgroundColor
             pageControl.backgroundColor = backgroundColor
         }
     }
@@ -33,8 +33,8 @@ class PagedImageView: UIView {
 
     let pageControl: UIPageControl = {
         let control = UIPageControl()
-        control.pageIndicatorTintColor = .lightGray
-        control.currentPageIndicatorTintColor = .black
+        control.pageIndicatorTintColor = control.tintColor.withAlphaComponent(0.3)
+        control.currentPageIndicatorTintColor = control.tintColor
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
