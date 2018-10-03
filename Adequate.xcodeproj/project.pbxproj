@@ -51,6 +51,7 @@
 		C9DAC4B52147872700D6558B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4B42147872700D6558B /* Router.swift */; };
 		C9DDB20121643F9E004D7957 /* MDTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20021643F9E004D7957 /* MDTextView.swift */; };
 		C9DDB20421644C01004D7957 /* PagedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20321644C01004D7957 /* PagedImageView.swift */; };
+		C9DDB20821644E71004D7957 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20721644E71004D7957 /* FooterView.swift */; };
 		C9EF5ACB215CA82F00B5D2EC /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF5ACA215CA82F00B5D2EC /* Operators.swift */; };
 /* End PBXBuildFile section */
 
@@ -118,6 +119,7 @@
 		C9DAC4B42147872700D6558B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		C9DDB20021643F9E004D7957 /* MDTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDTextView.swift; sourceTree = "<group>"; };
 		C9DDB20321644C01004D7957 /* PagedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageView.swift; sourceTree = "<group>"; };
+		C9DDB20721644E71004D7957 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		C9EF5ACA215CA82F00B5D2EC /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -341,6 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				C9DAC4AE21476D3F00D6558B /* DealViewController.swift */,
+				C9DDB20721644E71004D7957 /* FooterView.swift */,
 			);
 			path = Deal;
 			sourceTree = "<group>";
@@ -552,6 +555,7 @@
 				C9DAC48721476AA100D6558B /* Themeable.swift in Sources */,
 				C9DAC49F21476BC500D6558B /* Topic.swift in Sources */,
 				C9DDB20121643F9E004D7957 /* MDTextView.swift in Sources */,
+				C9DDB20821644E71004D7957 /* FooterView.swift in Sources */,
 				C9116E5321616CA60084934B /* StoryViewController.swift in Sources */,
 				C9DAC49B21476BB500D6558B /* Story.swift in Sources */,
 				C9DAC4A721476C8600D6558B /* NetworkClientError.swift in Sources */,

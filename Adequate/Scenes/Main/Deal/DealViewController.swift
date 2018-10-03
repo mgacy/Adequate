@@ -132,7 +132,12 @@ class DealViewController: UIViewController {
 
     // Footer
 
-    // ...
+    private lazy var footerView: FooterView = {
+        let view = FooterView()
+        view.backgroundColor = view.tintColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     // MARK: - Lifecycle
 
@@ -178,6 +183,9 @@ class DealViewController: UIViewController {
         view.addSubview(messageLabel)
         view.addSubview(retryButton)
 
+        view.addSubview(footerView)
+        footerView.delegate = self
+
         retryButton.addTarget(self, action: #selector(getDeal), for: .touchUpInside)
         forumButton.addTarget(self, action: #selector(showForum(_:)), for: .touchUpInside)
         storyButton.addTarget(self, action: #selector(showStory(_:)), for: .touchUpInside)
@@ -205,11 +213,15 @@ class DealViewController: UIViewController {
             // retryButton
             retryButton.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
             retryButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: spacing),
+            // footerView
+            footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             // scrollView
             scrollView.leftAnchor.constraint(equalTo: guide.leftAnchor),
             scrollView.topAnchor.constraint(equalTo: guide.topAnchor),
             scrollView.rightAnchor.constraint(equalTo: guide.rightAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: footerView.topAnchor),
             // pagedImageView
             pagedImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
             pagedImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: spacing),
@@ -306,6 +318,7 @@ extension DealViewController {
             featuresText.markdown = result.deal.features
             // forum
             // footerView
+            footerView.update(withDeal: result.deal)
         }
     }
 
@@ -316,4 +329,16 @@ extension DealViewController: Themeable {
     func apply(theme: Theme) {
         // ...
     }
+}
+
+// MARK: - DealFooterDelegate
+extension DealViewController: DealFooterDelegate {
+
+    func buy() {
+        guard let deal = deal else {
+            return
+        }
+        delegate?.showPurchase(for: deal)
+    }
+
 }
