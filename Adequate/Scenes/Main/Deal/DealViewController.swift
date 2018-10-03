@@ -313,7 +313,9 @@ extension DealViewController {
             scrollView.isHidden = false
             // Update UI
             titleLabel.text = result.deal.title
-            // images ...
+            // images
+            let safePhotoURLs = result.deal.photos.compactMap { $0.secure() }
+            pagedImageView.updateImages(with: safePhotoURLs)
             // features
             featuresText.markdown = result.deal.features
             // forum

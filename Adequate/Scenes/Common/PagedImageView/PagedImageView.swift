@@ -22,7 +22,14 @@ class PagedImageView: UIView {
     }
     private var pageControlHeight: CGFloat = 30.0
 
-    // MARK: - Views
+    // MARK: - Subviews
+
+    let imageView: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFit
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     let pageControl: UIPageControl = {
         let control = UIPageControl()
@@ -31,6 +38,8 @@ class PagedImageView: UIView {
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
+
+    private let dataSource = PagedImageViewDataSource()
 
     // MARK: - Lifecycle
 
@@ -51,8 +60,7 @@ class PagedImageView: UIView {
     // MARK: - Configuration
 
     private func configure() {
-        self.backgroundColor = .cyan
-        // ...
+        addSubview(imageView)
         addSubview(pageControl)
         setupConstraints()
         updatePageControl()
@@ -60,6 +68,11 @@ class PagedImageView: UIView {
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            // imageView
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: pageControl.topAnchor),
             // pageController
             pageControl.leadingAnchor.constraint(equalTo: leadingAnchor),
             pageControl.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -71,9 +84,11 @@ class PagedImageView: UIView {
     // MARK: - Images
 
     public func updateImages(with urls: [URL]) {
-        //dataSource.urls = urls
-        //collectionView.reloadData()
-        //updatePageControl()
+        dataSource.updateImages(with: urls)
+        dataSource.imageSource(for: 1).then({ image in
+            self.imageView.image = image
+        })
+        updatePageControl()
     }
 
     // MARK: - Pages
@@ -83,7 +98,7 @@ class PagedImageView: UIView {
     // MARK: - Appearance / Sizing
 
     private func updatePageControl() {
-        pageControl.numberOfPages = 5
+        pageControl.numberOfPages = dataSource.numberOfItems()
         pageControl.currentPage = currentPage
     }
 
