@@ -24,16 +24,14 @@ final class StoryViewController: UIViewController {
         return label
     }()
 
-    private let bodyLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private let bodyText: MDTextView = {
+        let view = MDTextView(stylesheet: Appearance.stylesheet)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
     private lazy var stackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [titleLabel, bodyLabel])
+        let view = UIStackView(arrangedSubviews: [titleLabel, bodyText])
         view.axis = .vertical
         view.alignment = .fill
         view.spacing = 12.0
@@ -76,12 +74,8 @@ final class StoryViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(stackView)
 
-        // Story
         titleLabel.text = story.title
-
-        let down = Down(markdownString: story.body)
-        let attributedString = try? down.toAttributedString(.smart, stylesheet: Appearance.stylesheet)
-        bodyLabel.attributedText = attributedString
+        bodyText.markdown = story.body
 
         setupConstraints()
     }
