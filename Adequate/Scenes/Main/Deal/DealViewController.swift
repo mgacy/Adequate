@@ -317,8 +317,27 @@ extension DealViewController {
             // features
             featuresText.markdown = result.deal.features
             // forum
+            renderComments(for: result.deal)
             // footerView
             footerView.update(withDeal: result.deal)
+        }
+    }
+
+    // MARK: Helper Methods
+
+    private func renderComments(for deal: Deal) {
+        guard let topic = deal.topic else {
+            forumButton.isEnabled = false
+            forumButton.isHidden = true
+            return
+        }
+        forumButton.isHidden = false
+        forumButton.isEnabled = true
+        if topic.commentCount > 0 {
+            /// TODO: display .commentCount + .replyCount?
+            forumButton.setTitle("\(topic.commentCount) Comments", for: .normal)
+        } else {
+            forumButton.setTitle("Comments", for: .normal)
         }
     }
 
