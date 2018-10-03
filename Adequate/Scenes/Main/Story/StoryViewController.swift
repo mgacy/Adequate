@@ -80,7 +80,7 @@ final class StoryViewController: UIViewController {
         titleLabel.text = story.title
 
         let down = Down(markdownString: story.body)
-        let attributedString = try? down.toAttributedString(.smart, stylesheet: Appearance.styleSheet)
+        let attributedString = try? down.toAttributedString(.smart, stylesheet: Appearance.stylesheet)
         bodyLabel.attributedText = attributedString
 
         setupConstraints()
