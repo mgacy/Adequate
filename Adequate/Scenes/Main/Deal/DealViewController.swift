@@ -47,14 +47,42 @@ class DealViewController: UIViewController {
     private var messageLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
-        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.font = UIFont.preferredFont(forTextStyle: .caption2)
         label.text = "LOADING"
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
+    private var retryButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("Retry", for: .normal)
+        button.layer.cornerRadius = 5
+        button.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: 15.0, bottom: 5.0, right: 15.0)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = button.tintColor
+        return button
+    }()
+
     // ScrollView
+
+    // pagedImageView ...
+
+    private var titleLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private var featuresText: MDTextView = {
+        let label = MDTextView(stylesheet: Appearance.stylesheet)
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
 
     private var scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -134,14 +162,21 @@ class DealViewController: UIViewController {
         view.backgroundColor = .white
 
         view.addSubview(scrollView)
+        //scrollView.addSubview(pagedImageView)
+        //pagedImageView.delegate = self
+        scrollView.addSubview(titleLabel)
+        scrollView.addSubview(featuresText)
+        scrollView.addSubview(footerButtonStackView)
+
         view.addSubview(activityIndicator)
         view.addSubview(messageLabel)
-        view.addSubview(footerButtonStackView)
 
         /// TODO: consolidate in dedicated UIView subclass
         view.addSubview(activityIndicator)
         view.addSubview(messageLabel)
+        view.addSubview(retryButton)
 
+        retryButton.addTarget(self, action: #selector(getDeal), for: .touchUpInside)
         forumButton.addTarget(self, action: #selector(showForum(_:)), for: .touchUpInside)
         storyButton.addTarget(self, action: #selector(showStory(_:)), for: .touchUpInside)
         settingsButton.addTarget(self, action: #selector(showSettings(_:)), for: .touchUpInside)
@@ -155,7 +190,7 @@ class DealViewController: UIViewController {
         /// TODO: move these into class property?
         let spacing: CGFloat = 14.0
         let sideMargin: CGFloat = 14.0
-        //let widthInset: CGFloat = -2.0 * sideMargin
+        let widthInset: CGFloat = -2.0 * sideMargin
 
         NSLayoutConstraint.activate([
             // messageLabel
@@ -165,15 +200,29 @@ class DealViewController: UIViewController {
             // activityIndicator
             activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
             activityIndicator.bottomAnchor.constraint(equalTo: messageLabel.topAnchor),
+            // retryButton
+            retryButton.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
+            retryButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: spacing),
             // scrollView
             scrollView.leftAnchor.constraint(equalTo: guide.leftAnchor),
             scrollView.topAnchor.constraint(equalTo: guide.topAnchor),
             scrollView.rightAnchor.constraint(equalTo: guide.rightAnchor),
             scrollView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
+            // pagedImageView
+            // ...
+            // titleLabel
+            titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
+            titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: spacing),
+            titleLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
+            // featuresLabel
+            featuresText.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
+            featuresText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing),
+            featuresText.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
             // footerButtonStackView
             footerButtonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            footerButtonStackView.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: spacing),
             footerButtonStackView.widthAnchor.constraint(equalToConstant: 200.0),
-            footerButtonStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -spacing)
+            footerButtonStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -spacing)
         ])
     }
 
@@ -225,24 +274,33 @@ extension DealViewController {
         case .empty:
             activityIndicator.stopAnimating()
             messageLabel.text = "There was no data"
+            retryButton.isHidden = false
             scrollView.isHidden = true
         case .error(let error):
             activityIndicator.stopAnimating()
-            messageLabel.isHidden = true
             /// TODO: display error message on messageLabel?
+            messageLabel.isHidden = true
+            retryButton.isHidden = false
             scrollView.isHidden = true
             displayError(error: error)
         case .loading:
             activityIndicator.startAnimating()
             messageLabel.text = "LOADING"
             messageLabel.isHidden = false
+            retryButton.isHidden = true
             scrollView.isHidden = true
         case .result(let result):
             activityIndicator.stopAnimating()
             messageLabel.isHidden = true
+            retryButton.isHidden = true
             scrollView.isHidden = false
             // Update UI
-            // ...
+            titleLabel.text = result.deal.title
+            // images ...
+            // features
+            featuresText.markdown = result.deal.features
+            // forum
+            // footerView
         }
     }
 
