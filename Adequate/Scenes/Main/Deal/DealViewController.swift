@@ -66,7 +66,18 @@ class DealViewController: UIViewController {
 
     // ScrollView
 
-    // pagedImageView ...
+    private var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        return view
+    }()
+
+    private var pagedImageView: PagedImageView = {
+        let view = PagedImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     private var titleLabel: UILabel = {
         let label = UILabel()
@@ -83,15 +94,6 @@ class DealViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
-    private var scrollView: UIScrollView = {
-        let view = UIScrollView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
-        return view
-    }()
-
-    // ...
 
     private var storyButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -162,7 +164,7 @@ class DealViewController: UIViewController {
         view.backgroundColor = .white
 
         view.addSubview(scrollView)
-        //scrollView.addSubview(pagedImageView)
+        scrollView.addSubview(pagedImageView)
         //pagedImageView.delegate = self
         scrollView.addSubview(titleLabel)
         scrollView.addSubview(featuresText)
@@ -209,10 +211,13 @@ class DealViewController: UIViewController {
             scrollView.rightAnchor.constraint(equalTo: guide.rightAnchor),
             scrollView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
             // pagedImageView
-            // ...
+            pagedImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
+            pagedImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: spacing),
+            pagedImageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
+            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor),
             // titleLabel
             titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
-            titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: spacing),
+            titleLabel.topAnchor.constraint(equalTo: pagedImageView.bottomAnchor, constant: spacing),
             titleLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
             // featuresLabel
             featuresText.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
