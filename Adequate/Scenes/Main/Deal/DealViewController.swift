@@ -312,6 +312,7 @@ extension DealViewController {
             retryButton.isHidden = true
             scrollView.isHidden = false
             // Update UI
+            apply(theme: result.deal.theme)
             titleLabel.text = result.deal.title
             // images
             let safePhotoURLs = result.deal.photos.compactMap { $0.secure() }
@@ -348,7 +349,37 @@ extension DealViewController {
 // MARK: - Themeable
 extension DealViewController: Themeable {
     func apply(theme: Theme) {
-        // ...
+        // accentColor
+        let accentColor = UIColor(hexString: theme.accentColor)
+
+        //let sharedApplication = UIApplication.shared
+        UIApplication.shared.delegate?.window??.tintColor = accentColor
+
+        storyButton.backgroundColor = accentColor
+        forumButton.backgroundColor = accentColor
+
+        // backgroundColor
+        let backgroundColor = UIColor(hexString: theme.backgroundColor)
+        view.backgroundColor = backgroundColor
+        pagedImageView.backgroundColor = backgroundColor
+        scrollView.backgroundColor = backgroundColor
+        featuresText.backgroundColor = backgroundColor
+        storyButton.setTitleColor(backgroundColor, for: .normal)
+        forumButton.setTitleColor(backgroundColor, for: .normal)
+
+        // foreground
+        switch theme.foreground {
+        case .dark:
+            titleLabel.textColor = .black
+            featuresText.textColor = .black
+        case .light:
+            titleLabel.textColor = .white
+            featuresText.textColor = .white
+        }
+
+        // Subviews
+        pagedImageView.apply(theme: theme)
+        footerView.apply(theme: theme)
     }
 }
 

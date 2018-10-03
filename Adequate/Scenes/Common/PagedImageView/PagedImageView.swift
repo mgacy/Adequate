@@ -107,6 +107,11 @@ class PagedImageView: UIView {
 // MARK: - Themeable
 extension PagedImageView: Themeable {
     func apply(theme: Theme) {
-        // ...
+        // accentColor
+        let accentColor = UIColor(hexString: theme.accentColor)
+        pageControl.currentPageIndicatorTintColor = accentColor
+        pageControl.pageIndicatorTintColor = accentColor.withAlphaComponent(0.3)
+        // backgroundColor
+        pageControl.pageIndicatorTintColor = UIColor(hexString: theme.backgroundColor)
     }
 }

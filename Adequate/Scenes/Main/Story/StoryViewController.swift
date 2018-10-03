@@ -103,3 +103,27 @@ final class StoryViewController: UIViewController {
     }
 
 }
+
+// MARK: - Themeable
+extension StoryViewController: Themeable {
+    func apply(theme: Theme) {
+        // accentColor
+        //let accentColor = UIColor(hexString: theme.accentColor)
+        // ...
+
+        // backgroundColor
+        let backgroundColor = UIColor(hexString: theme.backgroundColor)
+        view.backgroundColor = backgroundColor
+        bodyText.backgroundColor = backgroundColor
+
+        // foreground
+        switch theme.foreground {
+        case .dark:
+            titleLabel.textColor = .black
+            bodyText.textColor = .black
+        case .light:
+            titleLabel.textColor = .white
+            bodyText.textColor = .white
+        }
+    }
+}

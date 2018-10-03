@@ -185,6 +185,20 @@ class FooterView: UIView {
 // MARK: - Themeable
 extension FooterView: Themeable {
     public func apply(theme: Theme) {
-        // ...
+        // accentColor
+        let accentColor = UIColor(hexString: theme.accentColor)
+        backgroundColor = accentColor
+        buyButton.setTitleColor(accentColor, for: .normal)
+
+        // backgroundColor
+        buyButton.backgroundColor = UIColor(hexString: theme.backgroundColor)
+
+        // foreground
+        switch theme.foreground {
+        case .dark:
+            priceLabel.textColor = .white
+        case .light:
+            priceLabel.textColor = .black
+        }
     }
 }
