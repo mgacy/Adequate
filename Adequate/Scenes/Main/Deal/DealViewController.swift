@@ -288,6 +288,18 @@ class DealViewController: UIViewController {
 
 }
 
+// MARK: - DealFooterDelegate
+extension DealViewController: DealFooterDelegate {
+
+    func buy() {
+        guard let deal = deal else {
+            return
+        }
+        delegate?.showPurchase(for: deal)
+    }
+
+}
+
 // MARK: - ViewState
 extension DealViewController {
 
@@ -386,16 +398,4 @@ extension DealViewController: Themeable {
         pagedImageView.apply(theme: theme)
         footerView.apply(theme: theme)
     }
-}
-
-// MARK: - DealFooterDelegate
-extension DealViewController: DealFooterDelegate {
-
-    func buy() {
-        guard let deal = deal else {
-            return
-        }
-        delegate?.showPurchase(for: deal)
-    }
-
 }
