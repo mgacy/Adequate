@@ -66,11 +66,16 @@ class NotificationManager: NSObject, NotificationManagerType {
                 return self.notificationCenter.getNotificationSettings()
             })
             .ensure({ $0.authorizationStatus == .authorized })
+            .then(on: DispatchQueue.global(), { _ in
+                self.notificationCenter.setNotificationCategories([self.makeCategory(for: .dailyDeal)])
+            })
             .then({ settings in
                 //print("Notification settings: \(settings)")
-                // .setNotificationCategories([])
                 /// must register on main thread
                 UIApplication.shared.registerForRemoteNotifications()
+            })
+            .catch({ error in
+                print("ERROR: \(error)")
             })
     }
 
