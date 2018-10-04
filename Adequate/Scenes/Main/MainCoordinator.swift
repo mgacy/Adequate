@@ -36,18 +36,20 @@ class MainCoordinator: BaseCoordinator {
 
     deinit { print("\(#function) - \(String(describing: self))") }
 
-}
+    // MARK: - Private Methods
 
-// MARK: - DealViewControllerDelegate
-extension MainCoordinator: DealViewControllerDelegate {
-
-    func showWebPage(with url: URL) {
+    func showWebPage(with url: URL, animated: Bool) {
         let configuration = SFSafariViewController.Configuration()
         configuration.barCollapsingEnabled = false
 
         let viewController = SFSafariViewController(url: url, configuration: configuration)
-        router.present(viewController, animated: true)
+        router.present(viewController, animated: animated)
     }
+
+}
+
+// MARK: - DealViewControllerDelegate
+extension MainCoordinator: DealViewControllerDelegate {
 
     func showImage(with imageSource: Promise<UIImage>) {
         // ...
@@ -55,11 +57,7 @@ extension MainCoordinator: DealViewControllerDelegate {
 
     func showPurchase(for deal: Deal) {
         let dealURL = deal.url.appendingPathComponent("checkout")
-        let configuration = SFSafariViewController.Configuration()
-        configuration.barCollapsingEnabled = true
-
-        let viewController = SFSafariViewController(url: dealURL, configuration: configuration)
-        router.present(viewController, animated: true)
+        showWebPage(with: dealURL, animated: true)
     }
 
     func showStory(with story: Story) {
@@ -67,8 +65,8 @@ extension MainCoordinator: DealViewControllerDelegate {
         router.push(viewController, animated: true, completion: nil)
     }
 
-    func showForum(_ url: URL) {
-        // ...
+    func showForum(with topic: Topic) {
+        showWebPage(with: topic.url, animated: true)
     }
 
     @objc func showSettings() {

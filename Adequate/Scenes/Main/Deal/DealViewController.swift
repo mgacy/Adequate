@@ -12,13 +12,11 @@ import Promise
 // MARK: - Delegate
 
 protocol DealViewControllerDelegate: class {
-    func showWebPage(with: URL)
     func showImage(with: Promise<UIImage>)
     func showPurchase(for: Deal)
     func showStory(with: Story)
-    func showForum(_: URL)
+    func showForum(with: Topic)
     func showSettings()
-    //func controllerDidPressSettings(_ controller: DealViewController)
     //func controller(_ controller: DealViewController, shouldTransitionTo: MainScene)
 }
 
@@ -276,7 +274,7 @@ class DealViewController: UIViewController {
         guard let deal = deal, let topic = deal.topic else {
             return
         }
-        delegate?.showWebPage(with: topic.url)
+        delegate?.showForum(with: topic)
     }
 
     @objc private func showStory(_ sender: UIButton) {
