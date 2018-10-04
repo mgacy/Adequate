@@ -15,6 +15,7 @@
 		C9058DF3215C7CC400FF7B4C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9058DF2215C7CC400FF7B4C /* SettingsViewController.swift */; };
 		C9058DF5215C7E4C00FF7B4C /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9058DF4215C7E4C00FF7B4C /* NotificationManager.swift */; };
 		C9116E5321616CA60084934B /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E5221616CA60084934B /* StoryViewController.swift */; };
+		C9116E562161781F0084934B /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E552161781F0084934B /* Appearance.swift */; };
 		C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
 		C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45A2147688500D6558B /* Assets.xcassets */; };
@@ -48,6 +49,10 @@
 		C9DAC4B1214785DF00D6558B /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4B0214785DF00D6558B /* BaseCoordinator.swift */; };
 		C9DAC4B32147864A00D6558B /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4B22147864A00D6558B /* ViewState.swift */; };
 		C9DAC4B52147872700D6558B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4B42147872700D6558B /* Router.swift */; };
+		C9DDB20121643F9E004D7957 /* MDTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20021643F9E004D7957 /* MDTextView.swift */; };
+		C9DDB20421644C01004D7957 /* PagedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20321644C01004D7957 /* PagedImageView.swift */; };
+		C9DDB20821644E71004D7957 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20721644E71004D7957 /* FooterView.swift */; };
+		C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20921653AA5004D7957 /* PagedImageViewDataSource.swift */; };
 		C9EF5ACB215CA82F00B5D2EC /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF5ACA215CA82F00B5D2EC /* Operators.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +80,7 @@
 		C9058DF2215C7CC400FF7B4C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		C9058DF4215C7E4C00FF7B4C /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		C9116E5221616CA60084934B /* StoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
+		C9116E552161781F0084934B /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSSNS+Promise.swift"; sourceTree = "<group>"; };
 		C9DAC4502147688500D6558B /* Adequate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adequate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DAC4532147688500D6558B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +118,10 @@
 		C9DAC4B0214785DF00D6558B /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		C9DAC4B22147864A00D6558B /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		C9DAC4B42147872700D6558B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		C9DDB20021643F9E004D7957 /* MDTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDTextView.swift; sourceTree = "<group>"; };
+		C9DDB20321644C01004D7957 /* PagedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageView.swift; sourceTree = "<group>"; };
+		C9DDB20721644E71004D7957 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
+		C9DDB20921653AA5004D7957 /* PagedImageViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageViewDataSource.swift; sourceTree = "<group>"; };
 		C9EF5ACA215CA82F00B5D2EC /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -293,9 +303,12 @@
 		C9DAC47D2147693000D6558B /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				C9DDB20221644BE8004D7957 /* PagedImageView */,
+				C9116E552161781F0084934B /* Appearance.swift */,
 				C9DAC4B0214785DF00D6558B /* BaseCoordinator.swift */,
 				C9DAC4B42147872700D6558B /* Router.swift */,
 				C9DAC4B22147864A00D6558B /* ViewState.swift */,
+				C9DDB20021643F9E004D7957 /* MDTextView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -332,8 +345,18 @@
 			isa = PBXGroup;
 			children = (
 				C9DAC4AE21476D3F00D6558B /* DealViewController.swift */,
+				C9DDB20721644E71004D7957 /* FooterView.swift */,
 			);
 			path = Deal;
+			sourceTree = "<group>";
+		};
+		C9DDB20221644BE8004D7957 /* PagedImageView */ = {
+			isa = PBXGroup;
+			children = (
+				C9DDB20321644C01004D7957 /* PagedImageView.swift */,
+				C9DDB20921653AA5004D7957 /* PagedImageViewDataSource.swift */,
+			);
+			path = PagedImageView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -534,6 +557,8 @@
 				C9058DE9215C724700FF7B4C /* AppSecrets.generated.swift in Sources */,
 				C9DAC48721476AA100D6558B /* Themeable.swift in Sources */,
 				C9DAC49F21476BC500D6558B /* Topic.swift in Sources */,
+				C9DDB20121643F9E004D7957 /* MDTextView.swift in Sources */,
+				C9DDB20821644E71004D7957 /* FooterView.swift in Sources */,
 				C9116E5321616CA60084934B /* StoryViewController.swift in Sources */,
 				C9DAC49B21476BB500D6558B /* Story.swift in Sources */,
 				C9DAC4A721476C8600D6558B /* NetworkClientError.swift in Sources */,
@@ -543,6 +568,7 @@
 				C9DAC48521476A7A00D6558B /* Reusable.swift in Sources */,
 				C9DAC477214768CF00D6558B /* AppCoordinator.swift in Sources */,
 				C9DAC4A121476BCD00D6558B /* Video.swift in Sources */,
+				C9116E562161781F0084934B /* Appearance.swift in Sources */,
 				C9DAC475214768C600D6558B /* AppDependency.swift in Sources */,
 				C9DAC4A321476C3A00D6558B /* NetworkClient.swift in Sources */,
 				C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */,
@@ -560,10 +586,12 @@
 				C9058DEE215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift in Sources */,
 				C9DAC49321476B5100D6558B /* MehResponse.swift in Sources */,
 				C9DAC4B32147864A00D6558B /* ViewState.swift in Sources */,
+				C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */,
 				C9DAC48D21476AF600D6558B /* UIColor+Ext.swift in Sources */,
 				C9DAC48321476A4000D6558B /* HasProtocols.swift in Sources */,
 				C9DAC4A521476C5E00D6558B /* ImageService.swift in Sources */,
 				C9DAC49921476BAA00D6558B /* PriceComparison.swift in Sources */,
+				C9DDB20421644C01004D7957 /* PagedImageView.swift in Sources */,
 				C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

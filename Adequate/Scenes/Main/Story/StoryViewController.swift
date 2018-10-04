@@ -24,16 +24,14 @@ final class StoryViewController: UIViewController {
         return label
     }()
 
-    private let bodyLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private let bodyText: MDTextView = {
+        let view = MDTextView(stylesheet: Appearance.stylesheet)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
     private lazy var stackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [titleLabel, bodyLabel])
+        let view = UIStackView(arrangedSubviews: [titleLabel, bodyText])
         view.axis = .vertical
         view.alignment = .fill
         view.spacing = 12.0
@@ -76,15 +74,8 @@ final class StoryViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(stackView)
 
-        // Story
         titleLabel.text = story.title
-
-        let down = Down(markdownString: story.body)
-        // https://stackoverflow.com/a/30711288/4472195
-        // https://github.com/iwasrobbed/Down/issues/90#issuecomment-411877259
-        let stylesheet = "* { font: -apple-system-body; } h1, h2, h3, h4, h5, h6, strong { font-weight: bold; } em { font-style: italic; } h1 { font-size: 175%; } h2 { font-size: 150%; } h3 { font-size: 130%; } h4 { font-size: 115%; } h5 { font-style: italic; }"
-        let attributedString = try? down.toAttributedString(.smart, stylesheet: stylesheet)
-        bodyLabel.attributedText = attributedString
+        bodyText.markdown = story.body
 
         setupConstraints()
     }
@@ -111,4 +102,28 @@ final class StoryViewController: UIViewController {
         ])
     }
 
+}
+
+// MARK: - Themeable
+extension StoryViewController: Themeable {
+    func apply(theme: Theme) {
+        // accentColor
+        //let accentColor = UIColor(hexString: theme.accentColor)
+        // ...
+
+        // backgroundColor
+        let backgroundColor = UIColor(hexString: theme.backgroundColor)
+        view.backgroundColor = backgroundColor
+        bodyText.backgroundColor = backgroundColor
+
+        // foreground
+        switch theme.foreground {
+        case .dark:
+            titleLabel.textColor = .black
+            bodyText.textColor = .black
+        case .light:
+            titleLabel.textColor = .white
+            bodyText.textColor = .white
+        }
+    }
 }
