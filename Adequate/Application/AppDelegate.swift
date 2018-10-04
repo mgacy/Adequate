@@ -21,11 +21,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialize the Amazon Cognito credentials provider
         configurePushService()
 
+        // Check if launched from notification
+        let notification = launchOptions?[.remoteNotification] as? [String: AnyObject]
+        let deepLink = DeepLink.build(with: notification)
+
         /// TODO: create NotificationManager here and inject into AppCoordinator / create delegate protocol?
         self.appCoordinator = AppCoordinator(window: self.window!)
-        /// TODO: check if app launched from notification
-        self.appCoordinator.start()
-
+        self.appCoordinator.start(with: deepLink)
         return true
     }
 

@@ -10,7 +10,29 @@ import UIKit
 
 // MARK: - DeepLink
 
-enum DeepLink {}
+struct DeepLinkURLConstants {
+    static let onboarding = "onboarding"
+}
+
+enum DeepLink {
+    case onboarding
+    case buy(URL)
+    case meh
+
+    static func build(with userActivity: NSUserActivity) -> DeepLink? {
+        return nil
+    }
+
+    static func build(with dict: [String: AnyObject]?) -> DeepLink? {
+        guard let id = dict?["launch_id"] as? String else { return nil }
+
+        switch id {
+        case DeepLinkURLConstants.onboarding: return .onboarding
+        default: return nil
+        }
+    }
+
+}
 
 // MARK: - Protocol
 

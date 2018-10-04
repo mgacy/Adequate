@@ -25,13 +25,24 @@ class MainCoordinator: BaseCoordinator {
         self.router = Router(navigationController: UINavigationController())
     }
 
-    override func start() {
+    override func start(with deepLink: DeepLink?) {
         let dealViewController = DealViewController(dependencies: dependencies)
         dealViewController.delegate = self
 
         router.setRootModule(dealViewController, hideBar: true)
         window.rootViewController = router.toPresent()
         window.makeKeyAndVisible()
+
+        if let option = deepLink {
+            switch option {
+            case .buy(let url):
+                showWebPage(with: url, animated: false)
+            case .meh:
+                print("meh")
+            default:
+                print("ERROR: invalid DeepLink")
+            }
+        }
     }
 
     deinit { print("\(#function) - \(String(describing: self))") }
