@@ -56,6 +56,8 @@
 		C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20921653AA5004D7957 /* PagedImageViewDataSource.swift */; };
 		C9EF22CF216C616D00D9DD22 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF22CE216C616D00D9DD22 /* NotificationService.swift */; };
 		C9EF22D3216C616D00D9DD22 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9EF22CC216C616D00D9DD22 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C9EF22D9216C67C600D9DD22 /* FileDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF22D8216C67C600D9DD22 /* FileDownloader.swift */; };
+		C9EF22DB216D195600D9DD22 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF22DA216D195600D9DD22 /* Constants.swift */; };
 		C9EF5ACB215CA82F00B5D2EC /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF5ACA215CA82F00B5D2EC /* Operators.swift */; };
 /* End PBXBuildFile section */
 
@@ -152,6 +154,8 @@
 		C9EF22CC216C616D00D9DD22 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EF22CE216C616D00D9DD22 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		C9EF22D0216C616D00D9DD22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9EF22D8216C67C600D9DD22 /* FileDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDownloader.swift; sourceTree = "<group>"; };
+		C9EF22DA216D195600D9DD22 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C9EF5ACA215CA82F00B5D2EC /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -405,6 +409,8 @@
 		C9EF22CD216C616D00D9DD22 /* NotificationService */ = {
 			isa = PBXGroup;
 			children = (
+				C9EF22DA216D195600D9DD22 /* Constants.swift */,
+				C9EF22D8216C67C600D9DD22 /* FileDownloader.swift */,
 				C9EF22CE216C616D00D9DD22 /* NotificationService.swift */,
 				C9EF22D0216C616D00D9DD22 /* Info.plist */,
 			);
@@ -710,7 +716,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EF22D9216C67C600D9DD22 /* FileDownloader.swift in Sources */,
 				C9EF22CF216C616D00D9DD22 /* NotificationService.swift in Sources */,
+				C9EF22DB216D195600D9DD22 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
