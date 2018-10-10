@@ -16,7 +16,9 @@
 		C9058DF5215C7E4C00FF7B4C /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9058DF4215C7E4C00FF7B4C /* NotificationManager.swift */; };
 		C9116E5321616CA60084934B /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E5221616CA60084934B /* StoryViewController.swift */; };
 		C9116E562161781F0084934B /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E552161781F0084934B /* Appearance.swift */; };
+		C928547B216DCE44001E5993 /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C928547A216DCE44001E5993 /* AWSManager.swift */; };
 		C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */; };
+		C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992D1DD216D93F000B373D5 /* Optional+Ext.swift */; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
 		C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45A2147688500D6558B /* Assets.xcassets */; };
 		C9DAC45E2147688500D6558B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45C2147688500D6558B /* LaunchScreen.storyboard */; };
@@ -81,7 +83,9 @@
 		C9058DF4215C7E4C00FF7B4C /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		C9116E5221616CA60084934B /* StoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
 		C9116E552161781F0084934B /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
+		C928547A216DCE44001E5993 /* AWSManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSManager.swift; sourceTree = "<group>"; };
 		C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSSNS+Promise.swift"; sourceTree = "<group>"; };
+		C992D1DD216D93F000B373D5 /* Optional+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Ext.swift"; sourceTree = "<group>"; };
 		C9DAC4502147688500D6558B /* Adequate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adequate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DAC4532147688500D6558B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9DAC45A2147688500D6558B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -182,6 +186,14 @@
 			path = Story;
 			sourceTree = "<group>";
 		};
+		C9285479216DCE2B001E5993 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				C928547A216DCE44001E5993 /* AWSManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		C9DAC4472147688500D6558B = {
 			isa = PBXGroup;
 			children = (
@@ -209,6 +221,7 @@
 				C9DAC478214768D600D6558B /* Extensions */,
 				C9DAC479214768FF00D6558B /* Protocols */,
 				C9DAC47A2147691700D6558B /* Models */,
+				C9285479216DCE2B001E5993 /* Managers */,
 				C9DAC47B2147692600D6558B /* Services */,
 				C9DAC47C2147692B00D6558B /* Scenes */,
 				C9DAC47E2147693900D6558B /* Resources */,
@@ -244,6 +257,7 @@
 			children = (
 				C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */,
 				C9DAC48821476AC300D6558B /* DateFormatter+Ext.swift */,
+				C992D1DD216D93F000B373D5 /* Optional+Ext.swift */,
 				C9DAC48A21476ADA00D6558B /* String+Ext.swift */,
 				C9DAC48C21476AF600D6558B /* UIColor+Ext.swift */,
 				C9058DED215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift */,
@@ -524,7 +538,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#check if env-vars.sh exists\nif [ -f ./env-vars.sh ]\nthen\nsource ./env-vars.sh\nfi\n#no `else` case needed if the CI works as expected\nsourcery --sources . --templates ./templates --output ./Adequate/Application --args apikey=$API_KEY,identity_pool_id=$IDENTITY_POOL_ID,platform_application_arn=$PLATFORM_APPLICATION_ARN\n";
+			shellScript = "#check if env-vars.sh exists\nif [ -f ./env-vars.sh ]\nthen\nsource ./env-vars.sh\nfi\n#no `else` case needed if the CI works as expected\nsourcery --sources . --templates ./templates --output ./Adequate/Application --args apikey=$API_KEY,identity_pool_id=$IDENTITY_POOL_ID,platform_application_arn=$PLATFORM_APPLICATION_ARN,topic_arn=$TOPIC_ARN\n";
 		};
 		DB6458F974A6AE33EE2730DC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -566,6 +580,7 @@
 				C9DAC49521476B9900D6558B /* Item.swift in Sources */,
 				C9058DF1215C7CB600FF7B4C /* SettingsCoordinator.swift in Sources */,
 				C9DAC48521476A7A00D6558B /* Reusable.swift in Sources */,
+				C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */,
 				C9DAC477214768CF00D6558B /* AppCoordinator.swift in Sources */,
 				C9DAC4A121476BCD00D6558B /* Video.swift in Sources */,
 				C9116E562161781F0084934B /* Appearance.swift in Sources */,
@@ -583,6 +598,7 @@
 				C9DAC4B1214785DF00D6558B /* BaseCoordinator.swift in Sources */,
 				C9DAC49721476BA000D6558B /* Poll.swift in Sources */,
 				C9DAC4B52147872700D6558B /* Router.swift in Sources */,
+				C928547B216DCE44001E5993 /* AWSManager.swift in Sources */,
 				C9058DEE215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift in Sources */,
 				C9DAC49321476B5100D6558B /* MehResponse.swift in Sources */,
 				C9DAC4B32147864A00D6558B /* ViewState.swift in Sources */,
