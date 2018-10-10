@@ -23,8 +23,7 @@ class NotificationService: UNNotificationServiceExtension {
             // Parse image url from bestAttemptContent?.userInfo
             guard
                 let urlString = bestAttemptContent.userInfo[NotificationConstants.imageKey] as? String,
-                let url = URL(string: urlString)?.secure()
-                else {
+                let url = URL(string: urlString)?.secure() else {
                     return contentHandler(request.content)
             }
 
@@ -35,8 +34,7 @@ class NotificationService: UNNotificationServiceExtension {
             downloader.downloadFile(from: url, as: attachmentID) { url in
                 guard
                     let url = url,
-                    let attachment = try? UNNotificationAttachment(identifier: attachmentID, url: url, options: nil)
-                    else {
+                    let attachment = try? UNNotificationAttachment(identifier: attachmentID, url: url) else {
                         return
                 }
                 bestAttemptContent.attachments.append(attachment)
