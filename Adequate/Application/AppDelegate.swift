@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
 
         // Initialize the Amazon Cognito credentials provider
-        configurePushService()
+        configurePushService(region: .USWest2)
 
         /// TODO: create NotificationManager here and inject into AppCoordinator / create delegate protocol?
         self.appCoordinator = AppCoordinator(window: self.window!)
@@ -69,11 +69,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 /// TODO: put in separate object
 extension AppDelegate {
 
-    func configurePushService() {
+    func configurePushService(region: AWSRegionType) {
         // Initialize the Amazon Cognito credentials provider
-        let credentialsProvider = AWSCognitoCredentialsProvider(regionType: .USWest2,
+        let credentialsProvider = AWSCognitoCredentialsProvider(regionType: region,
                                                                 identityPoolId: AppSecrets.identityPoolId)
-        let configuration = AWSServiceConfiguration(region: .USWest2, credentialsProvider: credentialsProvider)
+        let configuration = AWSServiceConfiguration(region: region, credentialsProvider: credentialsProvider)
         AWSServiceManager.default().defaultServiceConfiguration = configuration
     }
 
@@ -82,18 +82,18 @@ extension AppDelegate {
     func createPlatformEndpoint(with token: String) {
         UserDefaults.standard.set(token, forKey: "deviceTokenForSNS")
 
-        let sns = AWSSNS.default()
         guard let request = AWSSNSCreatePlatformEndpointInput() else {
             print("ERROR: unable to create AWSSNSCreatePlatformEndpointInput"); return
         }
         request.token = token
         request.platformApplicationArn = AppSecrets.platformApplicationArn
 
+        let sns = AWSSNS.default()
         /// TODO: perform on background thread?
         sns.createPlatformEndpoint(request: request).then({ response in
             guard let endpointArnForSNS = response.endpointArn else {
                 /// TODO: improve error handling
-                fatalError("Missing ARN")
+                fatalError("Missing Platform Endpoint ARN")
             }
             print("endpointArn: \(endpointArnForSNS)")
             UserDefaults.standard.set(endpointArnForSNS, forKey: "endpointArnForSNS")
