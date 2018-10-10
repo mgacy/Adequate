@@ -17,6 +17,7 @@
 		C9116E5321616CA60084934B /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E5221616CA60084934B /* StoryViewController.swift */; };
 		C9116E562161781F0084934B /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E552161781F0084934B /* Appearance.swift */; };
 		C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */; };
+		C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992D1DD216D93F000B373D5 /* Optional+Ext.swift */; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
 		C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45A2147688500D6558B /* Assets.xcassets */; };
 		C9DAC45E2147688500D6558B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45C2147688500D6558B /* LaunchScreen.storyboard */; };
@@ -82,6 +83,7 @@
 		C9116E5221616CA60084934B /* StoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
 		C9116E552161781F0084934B /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSSNS+Promise.swift"; sourceTree = "<group>"; };
+		C992D1DD216D93F000B373D5 /* Optional+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Ext.swift"; sourceTree = "<group>"; };
 		C9DAC4502147688500D6558B /* Adequate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adequate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DAC4532147688500D6558B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9DAC45A2147688500D6558B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 			children = (
 				C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */,
 				C9DAC48821476AC300D6558B /* DateFormatter+Ext.swift */,
+				C992D1DD216D93F000B373D5 /* Optional+Ext.swift */,
 				C9DAC48A21476ADA00D6558B /* String+Ext.swift */,
 				C9DAC48C21476AF600D6558B /* UIColor+Ext.swift */,
 				C9058DED215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift */,
@@ -566,6 +569,7 @@
 				C9DAC49521476B9900D6558B /* Item.swift in Sources */,
 				C9058DF1215C7CB600FF7B4C /* SettingsCoordinator.swift in Sources */,
 				C9DAC48521476A7A00D6558B /* Reusable.swift in Sources */,
+				C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */,
 				C9DAC477214768CF00D6558B /* AppCoordinator.swift in Sources */,
 				C9DAC4A121476BCD00D6558B /* Video.swift in Sources */,
 				C9116E562161781F0084934B /* Appearance.swift in Sources */,
