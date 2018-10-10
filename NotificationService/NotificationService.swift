@@ -40,8 +40,8 @@ class NotificationService: UNNotificationServiceExtension {
                         return
                 }
                 bestAttemptContent.attachments.append(attachment)
-            }            
-            contentHandler(bestAttemptContent)
+                contentHandler(bestAttemptContent)
+            }
         }
     }
     
