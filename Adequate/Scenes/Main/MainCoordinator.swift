@@ -38,7 +38,7 @@ class MainCoordinator: BaseCoordinator {
             case .buy(let url):
                 showWebPage(with: url, animated: false)
             case .meh:
-                print("meh")
+                print("DeepLink: meh")
             default:
                 print("ERROR: invalid DeepLink")
             }

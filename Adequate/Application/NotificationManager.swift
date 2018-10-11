@@ -24,6 +24,7 @@ enum NotificationManagerError: Error {
 
 // MARK: - Configuration
 
+/// TODO: Rename NotificationCategory to mirror NotificationAction?
 fileprivate enum CategoryIdentifier: String {
     case dailyDeal = "MGDailyDealCategory"
 }
@@ -93,6 +94,7 @@ class NotificationManager: NSObject, NotificationManagerType {
         case .dailyDeal:
             let buyAction = UNNotificationAction(identifier: NotificationAction.buyAction.rawValue,
                                                  title: NotificationAction.buyAction.title, options: [])
+            //let viewAction = ...
             let mehAction = UNNotificationAction(identifier: NotificationAction.mehAction.rawValue,
                                                  title: NotificationAction.mehAction.title, options: [])
             actions = [buyAction, mehAction]

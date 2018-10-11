@@ -32,6 +32,8 @@ enum DeepLink {
         }
     }
 
+    //static func build(with notificationResponse: import UserNotifications) -> DeepLink? {}
+
 }
 
 // MARK: - Protocol
