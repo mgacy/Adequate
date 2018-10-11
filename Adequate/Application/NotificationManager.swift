@@ -29,7 +29,7 @@ fileprivate enum CategoryIdentifier: String {
     case dailyDeal = "MGDailyDealCategory"
 }
 
-fileprivate enum NotificationAction: String {
+enum NotificationAction: String {
     case buyAction = "MGBuyAction"
     case mehAction = "MGMehAction"
 
@@ -44,6 +44,11 @@ fileprivate enum NotificationAction: String {
     }
 }
 
+struct NotificationConstants {
+    static let dealKey = "adequate-deal-url"
+    static let imageKey = "adequate-image-url"
+}
+
 // MARK: - Implementation
 
 class NotificationManager: NSObject, NotificationManagerType {
@@ -53,7 +58,6 @@ class NotificationManager: NSObject, NotificationManagerType {
     override init() {
         notificationCenter = .current()
         super.init()
-        notificationCenter.delegate = self
     }
 
     // MARK: - NotificationManagerType
@@ -100,38 +104,6 @@ class NotificationManager: NSObject, NotificationManagerType {
             actions = [buyAction, mehAction]
         }
         return actions
-    }
-
-}
-
-extension NotificationManager: UNUserNotificationCenterDelegate {
-
-    // Called when a notification is delivered to a foreground app.
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // ...
-        completionHandler([.alert, .sound])
-    }
-
-    // Called to let your app know which action was selected by the user for a given notification.
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
-
-        //let userInfo = response.notification.request.content.userInfo
-        //let aps = userInfo["aps"] as! [String: AnyObject]
-        /*
-        switch response.actionIdentifier {
-        case NotificationAction.buyAction.rawValue:
-            print("ACTION: Buy")
-        case NotificationAction.mehAction.rawValue:
-            print("ACTION: Meh")
-        default:
-            print("Unknown Action")
-        }
-        */
-        completionHandler()
     }
 
 }
