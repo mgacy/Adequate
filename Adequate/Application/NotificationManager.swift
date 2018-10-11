@@ -97,10 +97,10 @@ class NotificationManager: NSObject, NotificationManagerType {
         switch categoryID {
         case .dailyDeal:
             let buyAction = UNNotificationAction(identifier: NotificationAction.buyAction.rawValue,
-                                                 title: NotificationAction.buyAction.title, options: [])
+                                                 title: NotificationAction.buyAction.title, options: [.foreground])
             //let viewAction = ...
             let mehAction = UNNotificationAction(identifier: NotificationAction.mehAction.rawValue,
-                                                 title: NotificationAction.mehAction.title, options: [])
+                                                 title: NotificationAction.mehAction.title, options: [.foreground])
             actions = [buyAction, mehAction]
         }
         return actions
