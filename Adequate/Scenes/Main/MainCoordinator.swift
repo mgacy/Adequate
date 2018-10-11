@@ -33,14 +33,15 @@ class MainCoordinator: BaseCoordinator {
         window.rootViewController = router.toPresent()
         window.makeKeyAndVisible()
 
-        if let option = deepLink {
-            switch option {
+        if let deepLink = deepLink {
+            switch deepLink {
             case .buy(let url):
                 showWebPage(with: url, animated: false)
             case .meh:
                 print("DeepLink: meh")
             default:
-                print("ERROR: invalid DeepLink")
+                print("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+                startChildren(with: deepLink)
             }
         }
     }

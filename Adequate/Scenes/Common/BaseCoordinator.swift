@@ -54,7 +54,7 @@ class BaseCoordinator: CoordinatorType {
     /// Unique identifier.
     internal let identifier = UUID()
 
-    private var childCoordinators = [UUID: Any]()
+    private var childCoordinators = [UUID: CoordinatorType]()
 
     func store(coordinator: CoordinatorType) {
         childCoordinators[coordinator.identifier] = coordinator
@@ -74,6 +74,13 @@ class BaseCoordinator: CoordinatorType {
         // ...
     }
 
+    //deinit { print("\(#function) - \(String(describing: self))") }
+
+}
+
+// MARK: - Helper Methods
+extension BaseCoordinator {
+
     public func coordinate(to coordinator: CoordinatorType) {
         store(coordinator: coordinator)
         coordinator.start()
@@ -85,6 +92,8 @@ class BaseCoordinator: CoordinatorType {
         coordinator.start(with: deepLink)
     }
 
-    //deinit { print("\(#function) - \(String(describing: self))") }
+    public func startChildren(with deepLink: DeepLink) {
+        childCoordinators.forEach { $1.start(with: deepLink) }
+    }
 
 }

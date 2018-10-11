@@ -24,7 +24,7 @@ class AppCoordinator: BaseCoordinator {
             case .onboarding:
                 showOnboarding()
             default:
-                showMain(with: deepLink)
+                startChildren(with: deepLink)
             }
         } else {
             /// TODO: use LaunchInstructor

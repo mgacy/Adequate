@@ -23,11 +23,16 @@ class SettingsCoordinator: BaseCoordinator {
         self.router = router
     }
 
-    override func start() {
-        let viewController = SettingsViewController(style: .grouped)
-        viewController.notificationManager = dependencies.notificationManager
-        viewController.delegate = self
-        router.setRootModule(viewController, hideBar: false)
+    override func start(with deepLink: DeepLink?) {
+        if let deepLink = deepLink {
+            print("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+            startChildren(with: deepLink)
+        } else {
+            let viewController = SettingsViewController(style: .grouped)
+            viewController.notificationManager = dependencies.notificationManager
+            viewController.delegate = self
+            router.setRootModule(viewController, hideBar: false)
+        }
     }
 
     deinit { print("\(#function) - \(String(describing: self))") }
