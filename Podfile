@@ -23,6 +23,10 @@ target 'Adequate' do
   # Pods for Adequate
   basic_pods
 
+  target 'NotificationService' do
+    inherit! :search_paths
+  end
+
   target 'AdequateTests' do
     inherit! :search_paths
     # Pods for testing

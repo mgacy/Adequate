@@ -25,7 +25,29 @@ class MainCoordinator: BaseCoordinator {
         self.router = Router(navigationController: UINavigationController())
     }
 
-    override func start() {
+    override func start(with deepLink: DeepLink?) {
+        if let deepLink = deepLink {
+            switch deepLink {
+            case .buy(let url):
+                router.dismissModule(animated: false, completion: nil)
+                router.popToRootModule(animated: false)
+                showWebPage(with: url, animated: false)
+            case .meh:
+                print("DeepLink: meh")
+            default:
+                print("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+                startChildren(with: deepLink)
+            }
+        } else {
+            showDeal()
+        }
+    }
+
+    deinit { print("\(#function) - \(String(describing: self))") }
+
+    // MARK: - Private Methods
+
+    private func showDeal() {
         let dealViewController = DealViewController(dependencies: dependencies)
         dealViewController.delegate = self
 
@@ -34,20 +56,18 @@ class MainCoordinator: BaseCoordinator {
         window.makeKeyAndVisible()
     }
 
-    deinit { print("\(#function) - \(String(describing: self))") }
+    private func showWebPage(with url: URL, animated: Bool) {
+        let configuration = SFSafariViewController.Configuration()
+        configuration.barCollapsingEnabled = false
+
+        let viewController = SFSafariViewController(url: url, configuration: configuration)
+        router.present(viewController, animated: animated)
+    }
 
 }
 
 // MARK: - DealViewControllerDelegate
 extension MainCoordinator: DealViewControllerDelegate {
-
-    func showWebPage(with url: URL) {
-        let configuration = SFSafariViewController.Configuration()
-        configuration.barCollapsingEnabled = false
-
-        let viewController = SFSafariViewController(url: url, configuration: configuration)
-        router.present(viewController, animated: true)
-    }
 
     func showImage(with imageSource: Promise<UIImage>) {
         // ...
@@ -55,11 +75,7 @@ extension MainCoordinator: DealViewControllerDelegate {
 
     func showPurchase(for deal: Deal) {
         let dealURL = deal.url.appendingPathComponent("checkout")
-        let configuration = SFSafariViewController.Configuration()
-        configuration.barCollapsingEnabled = true
-
-        let viewController = SFSafariViewController(url: dealURL, configuration: configuration)
-        router.present(viewController, animated: true)
+        showWebPage(with: dealURL, animated: true)
     }
 
     func showStory(with story: Story) {
@@ -67,8 +83,8 @@ extension MainCoordinator: DealViewControllerDelegate {
         router.push(viewController, animated: true, completion: nil)
     }
 
-    func showForum(_ url: URL) {
-        // ...
+    func showForum(with topic: Topic) {
+        showWebPage(with: topic.url, animated: true)
     }
 
     @objc func showSettings() {

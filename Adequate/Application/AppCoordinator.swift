@@ -18,10 +18,30 @@ class AppCoordinator: BaseCoordinator {
         self.dependencies = AppDependency()
     }
 
-    override func start() {
+    override func start(with deepLink: DeepLink?) {
+        if let deepLink = deepLink {
+            switch deepLink {
+            case .onboarding:
+                showOnboarding()
+            default:
+                startChildren(with: deepLink)
+            }
+        } else {
+            /// TODO: use LaunchInstructor
+            showMain()
+        }
+    }
+
+    // MARK: - Flows
+
+    private func showOnboarding() {
+        fatalError("Onboarding flow not yet implemented")
+    }
+
+    private func showMain(with deepLink: DeepLink? = nil) {
         let mainCoordinator = MainCoordinator(window: window, dependencies: dependencies)
         store(coordinator: mainCoordinator)
-        mainCoordinator.start()
+        mainCoordinator.start(with: deepLink)
     }
 
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,11 +19,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
 
+        UNUserNotificationCenter.current().delegate = self
+
+        // Check if launched from notification
+        let notification = launchOptions?[.remoteNotification] as? [String: AnyObject]
+        let deepLink = DeepLink.build(with: notification)
+
         /// TODO: create NotificationManager here and inject into AppCoordinator / create delegate protocol?
         self.appCoordinator = AppCoordinator(window: self.window!)
-        /// TODO: check if app launched from notification
-        self.appCoordinator.start()
-
+        self.appCoordinator.start(with: deepLink)
         return true
     }
 
@@ -67,6 +72,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register for remote notifications with error: \(error)")
+    }
+
+}
+
+// MARK: - UNUserNotificationCenterDelegate
+extension AppDelegate: UNUserNotificationCenterDelegate {
+
+    // Called when a notification is delivered to a foreground app.
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        // ...
+        completionHandler([.alert, .sound])
+    }
+
+    // Called to let your app know which action was selected by the user for a given notification.
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+
+        let userInfo = response.notification.request.content.userInfo
+
+        switch response.actionIdentifier {
+        case NotificationAction.buyAction.rawValue:
+            if let urlString = userInfo[NotificationConstants.dealKey] as? String, let buyURL = URL(string: urlString) {
+                appCoordinator.start(with: .buy(buyURL))
+            } else {
+                print("ERROR: unable to parse \(NotificationConstants.dealKey) from Notification")
+            }
+        case NotificationAction.mehAction.rawValue:
+            appCoordinator.start(with: .meh)
+        default:
+            print("Unknown Action")
+        }
+        completionHandler()
     }
 
 }

@@ -10,7 +10,31 @@ import UIKit
 
 // MARK: - DeepLink
 
-enum DeepLink {}
+struct DeepLinkURLConstants {
+    static let onboarding = "onboarding"
+}
+
+enum DeepLink {
+    case onboarding
+    case buy(URL)
+    case meh
+
+    static func build(with userActivity: NSUserActivity) -> DeepLink? {
+        return nil
+    }
+
+    static func build(with dict: [String: AnyObject]?) -> DeepLink? {
+        guard let id = dict?["launch_id"] as? String else { return nil }
+
+        switch id {
+        case DeepLinkURLConstants.onboarding: return .onboarding
+        default: return nil
+        }
+    }
+
+    //static func build(with notificationResponse: import UserNotifications) -> DeepLink? {}
+
+}
 
 // MARK: - Protocol
 
@@ -30,7 +54,7 @@ class BaseCoordinator: CoordinatorType {
     /// Unique identifier.
     internal let identifier = UUID()
 
-    private var childCoordinators = [UUID: Any]()
+    private var childCoordinators = [UUID: CoordinatorType]()
 
     func store(coordinator: CoordinatorType) {
         childCoordinators[coordinator.identifier] = coordinator
@@ -50,6 +74,13 @@ class BaseCoordinator: CoordinatorType {
         // ...
     }
 
+    //deinit { print("\(#function) - \(String(describing: self))") }
+
+}
+
+// MARK: - Helper Methods
+extension BaseCoordinator {
+
     public func coordinate(to coordinator: CoordinatorType) {
         store(coordinator: coordinator)
         coordinator.start()
@@ -61,6 +92,8 @@ class BaseCoordinator: CoordinatorType {
         coordinator.start(with: deepLink)
     }
 
-    //deinit { print("\(#function) - \(String(describing: self))") }
+    public func startChildren(with deepLink: DeepLink) {
+        childCoordinators.forEach { $1.start(with: deepLink) }
+    }
 
 }
