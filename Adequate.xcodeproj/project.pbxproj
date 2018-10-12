@@ -236,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				C928547A216DCE44001E5993 /* AWSManager.swift */,
+				C9058DF4215C7E4C00FF7B4C /* NotificationManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -295,7 +296,6 @@
 				C9DAC474214768C600D6558B /* AppDependency.swift */,
 				C9DAC476214768CF00D6558B /* AppCoordinator.swift */,
 				C9058DE8215C724700FF7B4C /* AppSecrets.generated.swift */,
-				C9058DF4215C7E4C00FF7B4C /* NotificationManager.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
