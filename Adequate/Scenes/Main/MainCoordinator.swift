@@ -26,16 +26,11 @@ class MainCoordinator: BaseCoordinator {
     }
 
     override func start(with deepLink: DeepLink?) {
-        let dealViewController = DealViewController(dependencies: dependencies)
-        dealViewController.delegate = self
-
-        router.setRootModule(dealViewController, hideBar: true)
-        window.rootViewController = router.toPresent()
-        window.makeKeyAndVisible()
-
         if let deepLink = deepLink {
             switch deepLink {
             case .buy(let url):
+                router.dismissModule(animated: false, completion: nil)
+                router.popToRootModule(animated: false)
                 showWebPage(with: url, animated: false)
             case .meh:
                 print("DeepLink: meh")
@@ -43,6 +38,8 @@ class MainCoordinator: BaseCoordinator {
                 print("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
                 startChildren(with: deepLink)
             }
+        } else {
+            showDeal()
         }
     }
 
@@ -50,7 +47,16 @@ class MainCoordinator: BaseCoordinator {
 
     // MARK: - Private Methods
 
-    func showWebPage(with url: URL, animated: Bool) {
+    private func showDeal() {
+        let dealViewController = DealViewController(dependencies: dependencies)
+        dealViewController.delegate = self
+
+        router.setRootModule(dealViewController, hideBar: true)
+        window.rootViewController = router.toPresent()
+        window.makeKeyAndVisible()
+    }
+
+    private func showWebPage(with url: URL, animated: Bool) {
         let configuration = SFSafariViewController.Configuration()
         configuration.barCollapsingEnabled = false
 
