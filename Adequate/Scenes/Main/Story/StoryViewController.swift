@@ -62,8 +62,13 @@ final class StoryViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.isNavigationBarHidden = false
         super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
     // MARK: - View Methods

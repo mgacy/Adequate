@@ -156,11 +156,6 @@ class DealViewController: UIViewController {
         getDeal()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.isNavigationBarHidden = true
-        super.viewWillAppear(animated)
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
