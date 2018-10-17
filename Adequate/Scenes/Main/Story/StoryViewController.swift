@@ -39,7 +39,7 @@ final class StoryViewController: UIViewController {
         return view
     }()
 
-    private var scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view

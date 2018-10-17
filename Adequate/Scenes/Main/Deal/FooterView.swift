@@ -26,7 +26,7 @@ class FooterView: UIView {
 
     // MARK: - Subviews
 
-    private var priceLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.textColor = .white
@@ -36,7 +36,7 @@ class FooterView: UIView {
         return label
     }()
 
-    private var priceComparisonLabel: UILabel = {
+    private let priceComparisonLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.textColor = UIColor(red:0.28, green:0.25, blue:0.19, alpha:1.00)
@@ -55,7 +55,7 @@ class FooterView: UIView {
         return view
     }()
 
-    private var buyButton: UIButton = {
+    private let buyButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Buy", for: .normal)
         button.setTitle("Sold Out", for: .disabled)

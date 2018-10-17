@@ -35,14 +35,14 @@ class DealViewController: UIViewController {
 
     // MARK: - Interface
 
-    private var activityIndicator: UIActivityIndicatorView = {
+    private let activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
         view.style = .gray
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    private var messageLabel: UILabel = {
+    private let messageLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
@@ -52,7 +52,7 @@ class DealViewController: UIViewController {
         return label
     }()
 
-    private var retryButton: UIButton = {
+    private let retryButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Retry", for: .normal)
         button.layer.cornerRadius = 5
@@ -64,20 +64,20 @@ class DealViewController: UIViewController {
 
     // ScrollView
 
-    private var scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         return view
     }()
 
-    private var pagedImageView: PagedImageView = {
+    private let pagedImageView: PagedImageView = {
         let view = PagedImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    private var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .title2)
@@ -86,14 +86,14 @@ class DealViewController: UIViewController {
         return label
     }()
 
-    private var featuresText: MDTextView = {
+    private let featuresText: MDTextView = {
         let label = MDTextView(stylesheet: Appearance.stylesheet)
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    private var storyButton: UIButton = {
+    private let storyButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Story", for: .normal)
         button.layer.cornerRadius = 5
@@ -102,7 +102,7 @@ class DealViewController: UIViewController {
         return button
     }()
 
-    private var forumButton: UIButton = {
+    private let forumButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Comments", for: .normal)
         button.layer.cornerRadius = 5
@@ -111,7 +111,7 @@ class DealViewController: UIViewController {
         return button
     }()
 
-    private var settingsButton: UIButton = {
+    private let settingsButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "Settings"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
