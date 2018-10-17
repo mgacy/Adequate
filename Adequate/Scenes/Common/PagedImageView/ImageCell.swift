@@ -57,7 +57,7 @@ class ImageCell: UICollectionViewCell {
         invalidatableQueue.invalidate()
         invalidatableQueue = InvalidatableQueue()
         imageView.image = nil
-        /// TODO: activityIndicator.stopAnimating()?
+        activityIndicator.stopAnimating()
     }
 
     // MARK: - Configuration
