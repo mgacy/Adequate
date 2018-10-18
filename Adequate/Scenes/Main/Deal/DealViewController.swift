@@ -12,7 +12,7 @@ import Promise
 // MARK: - Delegate
 
 protocol DealViewControllerDelegate: class {
-    func showImage(with: Promise<UIImage>)
+    func showImage(_: Promise<UIImage>, animatingFrom: CGRect)
     func showPurchase(for: Deal)
     func showStory(with: Story)
     func showForum(with: Topic)

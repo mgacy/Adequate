@@ -69,7 +69,7 @@ class MainCoordinator: BaseCoordinator {
 // MARK: - DealViewControllerDelegate
 extension MainCoordinator: DealViewControllerDelegate {
 
-    func showImage(with imageSource: Promise<UIImage>) {
+    func showImage(_ imageSource: Promise<UIImage>, animatingFrom originFrame: CGRect) {
         // ...
     }
 
