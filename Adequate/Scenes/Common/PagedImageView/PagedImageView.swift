@@ -77,7 +77,7 @@ class PagedImageView: UIView {
             pageControl.leadingAnchor.constraint(equalTo: leadingAnchor),
             pageControl.bottomAnchor.constraint(equalTo: bottomAnchor),
             pageControl.trailingAnchor.constraint(equalTo: trailingAnchor),
-            pageControl.heightAnchor.constraint(equalToConstant: 30.0)
+            pageControl.heightAnchor.constraint(equalToConstant: 24.0)
         ])
     }
 

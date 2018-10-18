@@ -196,8 +196,8 @@ class DealViewController: UIViewController {
         let guide = view.safeAreaLayoutGuide
 
         /// TODO: move these into class property?
-        let spacing: CGFloat = 14.0
-        let sideMargin: CGFloat = 14.0
+        let spacing: CGFloat = 8.0
+        let sideMargin: CGFloat = 16.0
         let widthInset: CGFloat = -2.0 * sideMargin
 
         NSLayoutConstraint.activate([

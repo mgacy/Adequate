@@ -22,7 +22,7 @@ class FooterView: UIView {
 
     // MARK: - Appearance
 
-    private let horizontalInset: CGFloat = 14.0
+    private let horizontalInset: CGFloat = 16.0
 
     // MARK: - Subviews
 
@@ -96,6 +96,7 @@ class FooterView: UIView {
 
     private func configure() {
         buyButton.addTarget(self, action: #selector(buy(_:)), for: .touchUpInside)
+        buyButton.isHidden = true
         addSubview(stackView)
         setupConstraints()
     }
@@ -118,6 +119,7 @@ class FooterView: UIView {
     // MARK: - Update View
 
     public func update(withDeal deal: Deal) {
+        buyButton.isHidden = false
         guard deal.soldOutAt == nil else {
             buyButton.isEnabled = false
             /// TODO: hide or change color?
