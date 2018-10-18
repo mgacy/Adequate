@@ -281,6 +281,15 @@ class DealViewController: UIViewController {
 
 }
 
+// MARK: - PagedImageViewDelegate
+extension DealViewController: PagedImageViewDelegate {
+
+    func displayFullscreenImage(_ imageSource: Promise<UIImage>, animatingFrom originFrame: CGRect) {
+        delegate?.showImage(imageSource, animatingFrom: originFrame)
+    }
+
+}
+
 // MARK: - DealFooterDelegate
 extension DealViewController: DealFooterDelegate {
 

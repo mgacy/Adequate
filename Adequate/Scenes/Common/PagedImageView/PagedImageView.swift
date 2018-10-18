@@ -23,7 +23,7 @@ class PagedImageView: UIView {
     }
 
     private let dataSource = PagedImageViewDataSource()
-    //weak var delegate: PagedImageViewDelegate?
+    weak var delegate: PagedImageViewDelegate?
 
     // MARK: - Appearance
 
@@ -123,7 +123,12 @@ class PagedImageView: UIView {
     // MARK: Selection
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // ...
+        guard let delegate = delegate else {
+            return
+        }
+        let imageSource = dataSource.imageSource(for: indexPath)
+        let originFrame = convert(collectionView.frame, to: nil)
+        delegate.displayFullscreenImage(imageSource, animatingFrom: originFrame)
     }
 
     // MARK: - Pages
