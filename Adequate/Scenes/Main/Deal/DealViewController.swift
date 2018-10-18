@@ -132,7 +132,7 @@ class DealViewController: UIViewController {
 
     private lazy var footerView: FooterView = {
         let view = FooterView()
-        view.backgroundColor = view.tintColor
+        //view.backgroundColor = view.tintColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
