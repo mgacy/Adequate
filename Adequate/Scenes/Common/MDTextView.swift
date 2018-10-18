@@ -56,7 +56,7 @@ class MDTextView: UIView {
 
     // MARK: - Interface Elements
 
-    private var textView: UITextView = {
+    private let textView: UITextView = {
         let view = UITextView()
         view.isScrollEnabled = false
         view.isEditable = false

@@ -35,14 +35,14 @@ class DealViewController: UIViewController {
 
     // MARK: - Interface
 
-    private var activityIndicator: UIActivityIndicatorView = {
+    private let activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
         view.style = .gray
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    private var messageLabel: UILabel = {
+    private let messageLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
@@ -52,7 +52,7 @@ class DealViewController: UIViewController {
         return label
     }()
 
-    private var retryButton: UIButton = {
+    private let retryButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Retry", for: .normal)
         button.layer.cornerRadius = 5
@@ -64,36 +64,36 @@ class DealViewController: UIViewController {
 
     // ScrollView
 
-    private var scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         return view
     }()
 
-    private var pagedImageView: PagedImageView = {
+    private let pagedImageView: PagedImageView = {
         let view = PagedImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    private var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.preferredFont(forTextStyle: .title2)
-        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        //label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    private var featuresText: MDTextView = {
+    private let featuresText: MDTextView = {
         let label = MDTextView(stylesheet: Appearance.stylesheet)
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    private var storyButton: UIButton = {
+    private let storyButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Story", for: .normal)
         button.layer.cornerRadius = 5
@@ -102,7 +102,7 @@ class DealViewController: UIViewController {
         return button
     }()
 
-    private var forumButton: UIButton = {
+    private let forumButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Comments", for: .normal)
         button.layer.cornerRadius = 5
@@ -111,7 +111,7 @@ class DealViewController: UIViewController {
         return button
     }()
 
-    private var settingsButton: UIButton = {
+    private let settingsButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "Settings"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -132,7 +132,7 @@ class DealViewController: UIViewController {
 
     private lazy var footerView: FooterView = {
         let view = FooterView()
-        view.backgroundColor = view.tintColor
+        //view.backgroundColor = view.tintColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -154,11 +154,6 @@ class DealViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         getDeal()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.isNavigationBarHidden = true
-        super.viewWillAppear(animated)
     }
 
     override func didReceiveMemoryWarning() {
@@ -201,8 +196,8 @@ class DealViewController: UIViewController {
         let guide = view.safeAreaLayoutGuide
 
         /// TODO: move these into class property?
-        let spacing: CGFloat = 14.0
-        let sideMargin: CGFloat = 14.0
+        let spacing: CGFloat = 8.0
+        let sideMargin: CGFloat = 16.0
         let widthInset: CGFloat = -2.0 * sideMargin
 
         NSLayoutConstraint.activate([

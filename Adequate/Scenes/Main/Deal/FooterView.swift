@@ -22,11 +22,11 @@ class FooterView: UIView {
 
     // MARK: - Appearance
 
-    private let horizontalInset: CGFloat = 14.0
+    private let horizontalInset: CGFloat = 16.0
 
     // MARK: - Subviews
 
-    private var priceLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.textColor = .white
@@ -36,7 +36,7 @@ class FooterView: UIView {
         return label
     }()
 
-    private var priceComparisonLabel: UILabel = {
+    private let priceComparisonLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.textColor = UIColor(red:0.28, green:0.25, blue:0.19, alpha:1.00)
@@ -55,7 +55,7 @@ class FooterView: UIView {
         return view
     }()
 
-    private var buyButton: UIButton = {
+    private let buyButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Buy", for: .normal)
         button.setTitle("Sold Out", for: .disabled)
@@ -96,6 +96,7 @@ class FooterView: UIView {
 
     private func configure() {
         buyButton.addTarget(self, action: #selector(buy(_:)), for: .touchUpInside)
+        buyButton.isHidden = true
         addSubview(stackView)
         setupConstraints()
     }
@@ -118,6 +119,7 @@ class FooterView: UIView {
     // MARK: - Update View
 
     public func update(withDeal deal: Deal) {
+        buyButton.isHidden = false
         guard deal.soldOutAt == nil else {
             buyButton.isEnabled = false
             /// TODO: hide or change color?
