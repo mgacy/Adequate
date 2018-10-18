@@ -80,8 +80,8 @@ class DealViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.preferredFont(forTextStyle: .title2)
-        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        //label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
