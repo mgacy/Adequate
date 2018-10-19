@@ -370,8 +370,6 @@ extension DealViewController: Themeable {
     func apply(theme: Theme) {
         // accentColor
         let accentColor = UIColor(hexString: theme.accentColor)
-
-        //let sharedApplication = UIApplication.shared
         UIApplication.shared.delegate?.window??.tintColor = accentColor
 
         storyButton.backgroundColor = accentColor
@@ -387,6 +385,7 @@ extension DealViewController: Themeable {
         forumButton.setTitleColor(backgroundColor, for: .normal)
 
         // foreground
+        /// TODO: set status bar and home indicator color?
         switch theme.foreground {
         case .dark:
             titleLabel.textColor = .black

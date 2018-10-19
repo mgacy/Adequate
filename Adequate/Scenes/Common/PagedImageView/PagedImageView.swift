@@ -66,13 +66,13 @@ class PagedImageView: UIView {
 
     // MARK: - Lifecycle
 
+    convenience init() {
+        self.init(frame: CGRect.zero)
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.configure()
-    }
-
-    convenience init() {
-        self.init(frame: CGRect.zero)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -183,5 +183,6 @@ extension PagedImageView: Themeable {
         pageControl.pageIndicatorTintColor = accentColor.withAlphaComponent(0.3)
         // backgroundColor
         //let backgroundColor = UIColor(hexString: theme.backgroundColor)
+        /// TODO: set activityIndicator color based on theme.forground? set property on dataSource?
     }
 }
