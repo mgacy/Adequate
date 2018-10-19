@@ -259,6 +259,26 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
+		C951885A21797D990097F49E /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				C9AE54CE21795D7A00818F11 /* FullScreenImageDelegate.swift */,
+				C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */,
+				C9AE54CA21792ABC00818F11 /* ZoomingImageViewDelegate.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		C951885B21797E440097F49E /* Animator */ = {
+			isa = PBXGroup;
+			children = (
+				C9AE54CC21792BE400818F11 /* FullScreenImageTransitionController.swift */,
+				C9AE54D02179697F00818F11 /* ZoomInAnimationController.swift */,
+				C9AE54D22179733E00818F11 /* ZoomOutAnimationController.swift */,
+			);
+			path = Animator;
+			sourceTree = "<group>";
+		};
 		C9DAC4472147688500D6558B = {
 			isa = PBXGroup;
 			children = (
@@ -435,15 +455,11 @@
 			children = (
 				C9DDB20321644C01004D7957 /* PagedImageView.swift */,
 				C9DDB20921653AA5004D7957 /* PagedImageViewDataSource.swift */,
-				C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */,
-				C928547C21704C72001E5993 /* ImageCell.swift */,
 				C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */,
-				C9AE54CE21795D7A00818F11 /* FullScreenImageDelegate.swift */,
+				C928547C21704C72001E5993 /* ImageCell.swift */,
 				C9AE54C8217927B500818F11 /* ZoomingImageView.swift */,
-				C9AE54CA21792ABC00818F11 /* ZoomingImageViewDelegate.swift */,
-				C9AE54CC21792BE400818F11 /* FullScreenImageTransitionController.swift */,
-				C9AE54D02179697F00818F11 /* ZoomInAnimationController.swift */,
-				C9AE54D22179733E00818F11 /* ZoomOutAnimationController.swift */,
+				C951885B21797E440097F49E /* Animator */,
+				C951885A21797D990097F49E /* Protocols */,
 			);
 			path = PagedImageView;
 			sourceTree = "<group>";
