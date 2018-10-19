@@ -54,7 +54,7 @@ class FullScreenImageViewController: UIViewController {
         self.imageSource = imageSource
         self.originFrame = originFrame
         super.init(nibName: nil, bundle: nil)
-        //view.frame = UIScreen.main.bounds
+        view.frame = UIScreen.main.bounds
         self.modalPresentationStyle = .custom
     }
 
@@ -90,7 +90,6 @@ class FullScreenImageViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        view.frame = UIScreen.main.bounds
         view.backgroundColor = backgroundColor
 
         // zoomingImageView
