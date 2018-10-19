@@ -9,7 +9,7 @@
 import UIKit
 import Promise
 
-class PagedImageViewDataSource: NSObject {
+class PagedImageViewDataSource: NSObject, UICollectionViewDataSource {
 
     lazy var imageService: ImageService = {
         // Configuration
@@ -35,8 +35,8 @@ class PagedImageViewDataSource: NSObject {
         self.urls = urls
     }
 
-    func imageSource(for index: Int) -> Promise<UIImage> {
-        let imageURL = urls[index]
+    func imageSource(for indexPath: IndexPath) -> Promise<UIImage> {
+        let imageURL = urls[indexPath.row]
         let imageSource: Promise<UIImage>
         if let cachedImage = imageService.fetchedImage(for: imageURL) {
             imageSource = Promise<UIImage>(value: cachedImage)
@@ -46,10 +46,25 @@ class PagedImageViewDataSource: NSObject {
         return imageSource
     }
 
-    // MARK: - A
+    // MARK: - UICollectionViewDataSource
 
-    func numberOfItems() -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return urls.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell: ImageCell = collectionView.dequeueReusableCell(for: indexPath)
+        let imageURL = urls[indexPath.row]
+
+        cell.imageURL = imageURL
+        //cell.delegate = self
+
+        if let cachedImage = imageService.fetchedImage(for: imageURL) {
+            cell.configure(with: cachedImage)
+        } else {
+            cell.configure(with: imageService.fetchImage(for: imageURL))
+        }
+        return cell
     }
 
 }

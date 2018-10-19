@@ -69,8 +69,10 @@ class MainCoordinator: BaseCoordinator {
 // MARK: - DealViewControllerDelegate
 extension MainCoordinator: DealViewControllerDelegate {
 
-    func showImage(with imageSource: Promise<UIImage>) {
-        // ...
+    func showImage(_ imageSource: Promise<UIImage>, animatingFrom originFrame: CGRect) {
+        let viewController = FullScreenImageViewController(imageSource: imageSource, originFrame: originFrame)
+        viewController.delegate = self
+        router.present(viewController, animated: true)
     }
 
     func showPurchase(for deal: Deal) {
@@ -100,6 +102,14 @@ extension MainCoordinator: DealViewControllerDelegate {
         store(coordinator: coordinator)
         router.present(coordinator, animated: true)
         coordinator.start()
+    }
+
+}
+
+extension MainCoordinator: FullScreenImageDelegate {
+
+    func dismissFullScreenImage() {
+        router.dismissModule(animated: true, completion: nil)
     }
 
 }

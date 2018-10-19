@@ -7,16 +7,29 @@
 //
 
 import UIKit
+import Promise
 
 class PagedImageView: UIView {
 
     var currentPage: Int = 0
+    var isPaging: Bool = false
+
+    var visibleImage: Promise<UIImage> {
+        return dataSource.imageSource(for: IndexPath(item: primaryVisiblePage, section: 0))
+    }
+
+    var primaryVisiblePage: Int {
+        return collectionView.frame.size.width > 0 ? Int(collectionView.contentOffset.x + collectionView.frame.size.width / 2) / Int(collectionView.frame.size.width) : 0
+    }
+
+    private let dataSource = PagedImageViewDataSource()
+    weak var delegate: PagedImageViewDelegate?
 
     // MARK: - Appearance
 
     override var backgroundColor: UIColor? {
         didSet {
-            imageView.backgroundColor = backgroundColor
+            collectionView.backgroundColor = backgroundColor
             pageControl.backgroundColor = backgroundColor
         }
     }
@@ -24,9 +37,21 @@ class PagedImageView: UIView {
 
     // MARK: - Subviews
 
-    let imageView: UIImageView = {
-        let view = UIImageView()
-        view.contentMode = .scaleAspectFit
+    let flowLayout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: 90, height: 120)
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        return layout
+    }()
+
+    lazy var collectionView: UICollectionView = {
+        let view = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
+        view.isPagingEnabled = true
+        view.isPrefetchingEnabled = true
+        view.showsHorizontalScrollIndicator = false
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -39,17 +64,15 @@ class PagedImageView: UIView {
         return control
     }()
 
-    private let dataSource = PagedImageViewDataSource()
-
     // MARK: - Lifecycle
+
+    convenience init() {
+        self.init(frame: CGRect.zero)
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.configure()
-    }
-
-    convenience init() {
-        self.init(frame: CGRect.zero)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -60,19 +83,27 @@ class PagedImageView: UIView {
     // MARK: - Configuration
 
     private func configure() {
-        addSubview(imageView)
+        // collectionView
+        collectionView.register(cellType: ImageCell.self)
+        collectionView.delegate = self
+        collectionView.dataSource = dataSource
+        addSubview(collectionView)
+
+        // pageControl
+        pageControl.addTarget(self, action: #selector(pageControlValueChanged), for: .valueChanged)
         addSubview(pageControl)
+
         setupConstraints()
         updatePageControl()
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            // imageView
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: pageControl.topAnchor),
+            // collectionView
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.topAnchor.constraint(equalTo: topAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: pageControl.topAnchor),
             // pageController
             pageControl.leadingAnchor.constraint(equalTo: leadingAnchor),
             pageControl.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -85,21 +116,60 @@ class PagedImageView: UIView {
 
     public func updateImages(with urls: [URL]) {
         dataSource.updateImages(with: urls)
-        dataSource.imageSource(for: 1).then({ image in
-            self.imageView.image = image
-        })
+        collectionView.reloadData()
         updatePageControl()
+    }
+
+    // MARK: Selection
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let delegate = delegate else {
+            return
+        }
+        let imageSource = dataSource.imageSource(for: indexPath)
+        let originFrame = convert(collectionView.frame, to: nil)
+        delegate.displayFullscreenImage(imageSource, animatingFrom: originFrame)
     }
 
     // MARK: - Pages
 
-    // ...
+    @objc private func pageControlValueChanged() {
+        isPaging = true
+        let newPage = pageControl.currentPage
+        currentPage = newPage
+        collectionView.scrollRectToVisible(makeRect(forPage: newPage), animated: true)
+    }
 
     // MARK: - Appearance / Sizing
 
     private func updatePageControl() {
-        pageControl.numberOfPages = dataSource.numberOfItems()
+        pageControl.numberOfPages = collectionView.numberOfItems(inSection: 0)
         pageControl.currentPage = currentPage
+    }
+
+    private func makeRect(forPage page: Int) -> CGRect {
+        return CGRect(x: collectionView.frame.size.width * CGFloat(page), y: 0.0,
+                      width: collectionView.frame.size.width,
+                      height: collectionView.frame.size.height)
+    }
+
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+extension PagedImageView: UICollectionViewDelegateFlowLayout {
+
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return collectionView.bounds.size
+    }
+
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if !isPaging {
+            pageControl.currentPage = primaryVisiblePage
+        }
+    }
+
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        isPaging = false
     }
 
 }
@@ -112,6 +182,7 @@ extension PagedImageView: Themeable {
         pageControl.currentPageIndicatorTintColor = accentColor
         pageControl.pageIndicatorTintColor = accentColor.withAlphaComponent(0.3)
         // backgroundColor
-        pageControl.pageIndicatorTintColor = UIColor(hexString: theme.backgroundColor)
+        //let backgroundColor = UIColor(hexString: theme.backgroundColor)
+        /// TODO: set activityIndicator color based on theme.forground? set property on dataSource?
     }
 }

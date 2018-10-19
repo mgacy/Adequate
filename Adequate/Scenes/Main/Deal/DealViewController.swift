@@ -12,7 +12,7 @@ import Promise
 // MARK: - Delegate
 
 protocol DealViewControllerDelegate: class {
-    func showImage(with: Promise<UIImage>)
+    func showImage(_: Promise<UIImage>, animatingFrom: CGRect)
     func showPurchase(for: Deal)
     func showStory(with: Story)
     func showForum(with: Topic)
@@ -33,7 +33,12 @@ class DealViewController: UIViewController {
     private let mehService: MehServiceType
     private var deal: Deal? = nil
 
-    // MARK: - Interface
+    /// TODO: make part of a protocol
+    var visibleImage: Promise<UIImage> {
+        return pagedImageView.visibleImage
+    }
+
+    // MARK: - Subviews
 
     private let activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
@@ -168,7 +173,7 @@ class DealViewController: UIViewController {
 
         view.addSubview(scrollView)
         scrollView.addSubview(pagedImageView)
-        //pagedImageView.delegate = self
+        pagedImageView.delegate = self
         scrollView.addSubview(titleLabel)
         scrollView.addSubview(featuresText)
         scrollView.addSubview(footerButtonStackView)
@@ -281,6 +286,15 @@ class DealViewController: UIViewController {
 
 }
 
+// MARK: - PagedImageViewDelegate
+extension DealViewController: PagedImageViewDelegate {
+
+    func displayFullscreenImage(_ imageSource: Promise<UIImage>, animatingFrom originFrame: CGRect) {
+        delegate?.showImage(imageSource, animatingFrom: originFrame)
+    }
+
+}
+
 // MARK: - DealFooterDelegate
 extension DealViewController: DealFooterDelegate {
 
@@ -322,13 +336,12 @@ extension DealViewController {
             retryButton.isHidden = true
             scrollView.isHidden = false
             // Update UI
-            apply(theme: result.deal.theme)
             titleLabel.text = result.deal.title
+            featuresText.markdown = result.deal.features
+            apply(theme: result.deal.theme)
             // images
             let safePhotoURLs = result.deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
-            // features
-            featuresText.markdown = result.deal.features
             // forum
             renderComments(for: result.deal)
             // footerView
@@ -361,8 +374,6 @@ extension DealViewController: Themeable {
     func apply(theme: Theme) {
         // accentColor
         let accentColor = UIColor(hexString: theme.accentColor)
-
-        //let sharedApplication = UIApplication.shared
         UIApplication.shared.delegate?.window??.tintColor = accentColor
 
         storyButton.backgroundColor = accentColor
@@ -378,6 +389,7 @@ extension DealViewController: Themeable {
         forumButton.setTitleColor(backgroundColor, for: .normal)
 
         // foreground
+        /// TODO: set status bar and home indicator color?
         switch theme.foreground {
         case .dark:
             titleLabel.textColor = .black

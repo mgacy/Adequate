@@ -65,7 +65,6 @@ public class ImageService {
     /// TODO: pass InvalidatableQueue as well?
     //@discardableResult
     public func fetchImage(for url: URL) -> Promise<UIImage> {
-        /// TODO: change url scheme to https?
         if let pendingFetch = pendingTasks[url.absoluteString] {
             return pendingFetch
         } else {
