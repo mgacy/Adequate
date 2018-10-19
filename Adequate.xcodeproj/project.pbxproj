@@ -22,11 +22,11 @@
 		C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */; };
 		C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992D1DD216D93F000B373D5 /* Optional+Ext.swift */; };
 		C9AE54C521791E4200818F11 /* PagedImageViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */; };
-		C9AE54C72179270C00818F11 /* FullscreenImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C62179270C00818F11 /* FullscreenImageViewController.swift */; };
+		C9AE54C72179270C00818F11 /* FullScreenImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */; };
 		C9AE54C9217927B500818F11 /* ZoomingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C8217927B500818F11 /* ZoomingImageView.swift */; };
 		C9AE54CB21792ABC00818F11 /* ZoomingImageViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54CA21792ABC00818F11 /* ZoomingImageViewDelegate.swift */; };
-		C9AE54CD21792BE400818F11 /* FullscreenImageTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54CC21792BE400818F11 /* FullscreenImageTransitionController.swift */; };
-		C9AE54CF21795D7A00818F11 /* FullscreenImageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54CE21795D7A00818F11 /* FullscreenImageDelegate.swift */; };
+		C9AE54CD21792BE400818F11 /* FullScreenImageTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54CC21792BE400818F11 /* FullScreenImageTransitionController.swift */; };
+		C9AE54CF21795D7A00818F11 /* FullScreenImageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54CE21795D7A00818F11 /* FullScreenImageDelegate.swift */; };
 		C9AE54D12179697F00818F11 /* ZoomInAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54D02179697F00818F11 /* ZoomInAnimationController.swift */; };
 		C9AE54D32179733E00818F11 /* ZoomOutAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54D22179733E00818F11 /* ZoomOutAnimationController.swift */; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
@@ -127,11 +127,11 @@
 		C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSSNS+Promise.swift"; sourceTree = "<group>"; };
 		C992D1DD216D93F000B373D5 /* Optional+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Ext.swift"; sourceTree = "<group>"; };
 		C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageViewDelegate.swift; sourceTree = "<group>"; };
-		C9AE54C62179270C00818F11 /* FullscreenImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullscreenImageViewController.swift; sourceTree = "<group>"; };
+		C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageViewController.swift; sourceTree = "<group>"; };
 		C9AE54C8217927B500818F11 /* ZoomingImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomingImageView.swift; sourceTree = "<group>"; };
 		C9AE54CA21792ABC00818F11 /* ZoomingImageViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomingImageViewDelegate.swift; sourceTree = "<group>"; };
-		C9AE54CC21792BE400818F11 /* FullscreenImageTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullscreenImageTransitionController.swift; sourceTree = "<group>"; };
-		C9AE54CE21795D7A00818F11 /* FullscreenImageDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullscreenImageDelegate.swift; sourceTree = "<group>"; };
+		C9AE54CC21792BE400818F11 /* FullScreenImageTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageTransitionController.swift; sourceTree = "<group>"; };
+		C9AE54CE21795D7A00818F11 /* FullScreenImageDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageDelegate.swift; sourceTree = "<group>"; };
 		C9AE54D02179697F00818F11 /* ZoomInAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomInAnimationController.swift; sourceTree = "<group>"; };
 		C9AE54D22179733E00818F11 /* ZoomOutAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomOutAnimationController.swift; sourceTree = "<group>"; };
 		C9DAC4502147688500D6558B /* Adequate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adequate.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -437,11 +437,11 @@
 				C9DDB20921653AA5004D7957 /* PagedImageViewDataSource.swift */,
 				C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */,
 				C928547C21704C72001E5993 /* ImageCell.swift */,
-				C9AE54C62179270C00818F11 /* FullscreenImageViewController.swift */,
-				C9AE54CE21795D7A00818F11 /* FullscreenImageDelegate.swift */,
+				C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */,
+				C9AE54CE21795D7A00818F11 /* FullScreenImageDelegate.swift */,
 				C9AE54C8217927B500818F11 /* ZoomingImageView.swift */,
 				C9AE54CA21792ABC00818F11 /* ZoomingImageViewDelegate.swift */,
-				C9AE54CC21792BE400818F11 /* FullscreenImageTransitionController.swift */,
+				C9AE54CC21792BE400818F11 /* FullScreenImageTransitionController.swift */,
 				C9AE54D02179697F00818F11 /* ZoomInAnimationController.swift */,
 				C9AE54D22179733E00818F11 /* ZoomOutAnimationController.swift */,
 			);
@@ -728,7 +728,7 @@
 				C9DAC48721476AA100D6558B /* Themeable.swift in Sources */,
 				C9DAC49F21476BC500D6558B /* Topic.swift in Sources */,
 				C9DDB20121643F9E004D7957 /* MDTextView.swift in Sources */,
-				C9AE54CF21795D7A00818F11 /* FullscreenImageDelegate.swift in Sources */,
+				C9AE54CF21795D7A00818F11 /* FullScreenImageDelegate.swift in Sources */,
 				C9DDB20821644E71004D7957 /* FooterView.swift in Sources */,
 				C9116E5321616CA60084934B /* StoryViewController.swift in Sources */,
 				C9DAC49B21476BB500D6558B /* Story.swift in Sources */,
@@ -738,7 +738,7 @@
 				C9058DF1215C7CB600FF7B4C /* SettingsCoordinator.swift in Sources */,
 				C9DAC48521476A7A00D6558B /* Reusable.swift in Sources */,
 				C9AE54CB21792ABC00818F11 /* ZoomingImageViewDelegate.swift in Sources */,
-				C9AE54C72179270C00818F11 /* FullscreenImageViewController.swift in Sources */,
+				C9AE54C72179270C00818F11 /* FullScreenImageViewController.swift in Sources */,
 				C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */,
 				C9DAC477214768CF00D6558B /* AppCoordinator.swift in Sources */,
 				C9DAC4A121476BCD00D6558B /* Video.swift in Sources */,
@@ -770,7 +770,7 @@
 				C9AE54D32179733E00818F11 /* ZoomOutAnimationController.swift in Sources */,
 				C9DAC4A521476C5E00D6558B /* ImageService.swift in Sources */,
 				C9DAC49921476BAA00D6558B /* PriceComparison.swift in Sources */,
-				C9AE54CD21792BE400818F11 /* FullscreenImageTransitionController.swift in Sources */,
+				C9AE54CD21792BE400818F11 /* FullScreenImageTransitionController.swift in Sources */,
 				C9DDB20421644C01004D7957 /* PagedImageView.swift in Sources */,
 				C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */,
 			);

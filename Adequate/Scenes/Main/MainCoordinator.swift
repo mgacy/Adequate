@@ -106,9 +106,9 @@ extension MainCoordinator: DealViewControllerDelegate {
 
 }
 
-extension MainCoordinator: FullscreenImageDelegate {
+extension MainCoordinator: FullScreenImageDelegate {
 
-    func dismissFullscreenImage() {
+    func dismissFullScreenImage() {
         router.dismissModule(animated: true, completion: nil)
     }
 

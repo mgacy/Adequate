@@ -1,5 +1,5 @@
 //
-//  FullscreenImageViewController.swift
+//  FullScreenImageViewController.swift
 //  Adequate
 //
 //  Created by Mathew Gacy on 10/18/18.
@@ -11,13 +11,13 @@ import Promise
 
 class FullScreenImageViewController: UIViewController {
 
-    weak var delegate: FullscreenImageDelegate?
+    weak var delegate: FullScreenImageDelegate?
     let imageSource: Promise<UIImage>
     let originFrame: CGRect
 
     private let panGestureRecognizer = UIPanGestureRecognizer()
     /// TODO: rename `interactionController?
-    private var transitionController: FullscreenImageTransitionController?
+    private var transitionController: FullScreenImageTransitionController?
 
     // MARK: - Appearance
 
@@ -140,14 +140,14 @@ class FullScreenImageViewController: UIViewController {
     }
 
     private func setupTransitionController() {
-        transitionController = FullscreenImageTransitionController(viewController: self, originFrame: originFrame)
+        transitionController = FullScreenImageTransitionController(viewController: self, originFrame: originFrame)
         transitioningDelegate = transitionController
     }
 
     // MARK: - B
 
     @objc private func dismissView(_ sender: UIButton) {
-        delegate?.dismissFullscreenImage()
+        delegate?.dismissFullScreenImage()
     }
 
 }

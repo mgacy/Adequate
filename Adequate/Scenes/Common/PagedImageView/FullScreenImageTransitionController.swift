@@ -1,5 +1,5 @@
 //
-//  FullscreenImageTransitionController.swift
+//  FullScreenImageTransitionController.swift
 //  Adequate
 //
 //  Created by Mathew Gacy on 10/18/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FullscreenImageTransitionController: NSObject {
+class FullScreenImageTransitionController: NSObject {
 
     var originFrame: CGRect
     weak var viewController: FullScreenImageViewController!
@@ -73,7 +73,7 @@ class FullscreenImageTransitionController: NSObject {
 }
 
 // MARK: - UIGestureRecognizerDelegate
-extension FullscreenImageTransitionController: UIGestureRecognizerDelegate {
+extension FullScreenImageTransitionController: UIGestureRecognizerDelegate {
 
     // Recognize downward gestures only
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -88,7 +88,7 @@ extension FullscreenImageTransitionController: UIGestureRecognizerDelegate {
 }
 
 // MARK: - UIViewControllerTransitioningDelegate
-extension FullscreenImageTransitionController: UIViewControllerTransitioningDelegate {
+extension FullScreenImageTransitionController: UIViewControllerTransitioningDelegate {
 
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return ZoomInAnimationController(sourceFrame: originFrame)
