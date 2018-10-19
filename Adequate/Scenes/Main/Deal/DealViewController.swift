@@ -168,7 +168,7 @@ class DealViewController: UIViewController {
 
         view.addSubview(scrollView)
         scrollView.addSubview(pagedImageView)
-        //pagedImageView.delegate = self
+        pagedImageView.delegate = self
         scrollView.addSubview(titleLabel)
         scrollView.addSubview(featuresText)
         scrollView.addSubview(footerButtonStackView)
