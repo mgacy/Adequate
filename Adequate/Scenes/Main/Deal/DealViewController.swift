@@ -331,13 +331,12 @@ extension DealViewController {
             retryButton.isHidden = true
             scrollView.isHidden = false
             // Update UI
-            apply(theme: result.deal.theme)
             titleLabel.text = result.deal.title
+            featuresText.markdown = result.deal.features
+            apply(theme: result.deal.theme)
             // images
             let safePhotoURLs = result.deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
-            // features
-            featuresText.markdown = result.deal.features
             // forum
             renderComments(for: result.deal)
             // footerView
