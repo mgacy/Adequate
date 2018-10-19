@@ -33,7 +33,12 @@ class DealViewController: UIViewController {
     private let mehService: MehServiceType
     private var deal: Deal? = nil
 
-    // MARK: - Interface
+    /// TODO: make part of a protocol
+    var visibleImage: Promise<UIImage> {
+        return pagedImageView.visibleImage
+    }
+
+    // MARK: - Subviews
 
     private let activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
