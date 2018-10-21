@@ -230,7 +230,7 @@ class DealViewController: UIViewController {
             pagedImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
             pagedImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: spacing),
             pagedImageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
-            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor),
+            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor, constant: 32.0),
             // titleLabel
             titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
             titleLabel.topAnchor.constraint(equalTo: pagedImageView.bottomAnchor, constant: spacing),
