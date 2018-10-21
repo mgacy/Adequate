@@ -332,14 +332,9 @@ extension DealViewController {
             retryButton.isHidden = true
             scrollView.isHidden = true
         case .result(let result):
-            activityIndicator.stopAnimating()
-            messageLabel.isHidden = true
-            retryButton.isHidden = true
-            scrollView.isHidden = false
             // Update UI
             titleLabel.text = result.deal.title
             featuresText.markdown = result.deal.features
-            apply(theme: result.deal.theme)
             // images
             let safePhotoURLs = result.deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
@@ -347,6 +342,14 @@ extension DealViewController {
             renderComments(for: result.deal)
             // footerView
             footerView.update(withDeal: result.deal)
+
+            UIView.animate(withDuration: 0.3, animations: {
+                self.activityIndicator.stopAnimating()
+                self.messageLabel.isHidden = true
+                self.retryButton.isHidden = true
+                self.scrollView.isHidden = false
+                self.apply(theme: result.deal.theme)
+            })
         }
     }
 
