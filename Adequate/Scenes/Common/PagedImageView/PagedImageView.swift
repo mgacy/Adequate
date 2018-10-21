@@ -182,7 +182,8 @@ extension PagedImageView: Themeable {
         pageControl.currentPageIndicatorTintColor = accentColor
         pageControl.pageIndicatorTintColor = accentColor.withAlphaComponent(0.3)
         // backgroundColor
-        //let backgroundColor = UIColor(hexString: theme.backgroundColor)
+        let backgroundColor = UIColor(hexString: theme.backgroundColor)
+        self.backgroundColor = backgroundColor
         /// TODO: set activityIndicator color based on theme.forground? set property on dataSource?
     }
 }

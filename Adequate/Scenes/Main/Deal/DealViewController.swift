@@ -78,6 +78,7 @@ class DealViewController: UIViewController {
 
     private let pagedImageView: PagedImageView = {
         let view = PagedImageView()
+        view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
