@@ -51,6 +51,7 @@ class DealViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
+        label.textColor = .gray
         label.text = "LOADING"
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -60,10 +61,13 @@ class DealViewController: UIViewController {
     private let retryButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Retry", for: .normal)
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 5.0
+        button.layer.borderWidth = 1.0
+        button.layer.borderColor = UIColor.gray.cgColor
+        button.backgroundColor = .clear
+        button.setTitleColor(.gray, for: .normal)
         button.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: 15.0, bottom: 5.0, right: 15.0)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = button.tintColor
         return button
     }()
 
