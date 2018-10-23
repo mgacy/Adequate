@@ -222,20 +222,20 @@ class DealViewController: UIViewController {
         let widthInset: CGFloat = -2.0 * sideMargin
 
         NSLayoutConstraint.activate([
+            // activityIndicator
+            activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
+            activityIndicator.topAnchor.constraint(equalTo: view.centerYAnchor),
             // messageLabel
             messageLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
             messageLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
-            messageLabel.centerYAnchor.constraint(equalTo: guide.centerYAnchor),
-            // activityIndicator
-            activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
-            activityIndicator.bottomAnchor.constraint(equalTo: messageLabel.topAnchor),
+            messageLabel.topAnchor.constraint(equalTo: activityIndicator.bottomAnchor, constant: 4.0),
             // errorMessageLabel
             errorMessageLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
             errorMessageLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
             errorMessageLabel.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: spacing * -2.0),
             // retryButton
-            retryButton.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
-            retryButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: spacing),
+            retryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            retryButton.topAnchor.constraint(equalTo: view.centerYAnchor, constant: spacing),
             // footerView
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
