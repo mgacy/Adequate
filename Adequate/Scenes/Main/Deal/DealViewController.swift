@@ -58,6 +58,16 @@ class DealViewController: UIViewController {
         return label
     }()
 
+    private let errorMessageLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textColor = .gray
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
     private let retryButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Retry", for: .normal)
@@ -189,6 +199,7 @@ class DealViewController: UIViewController {
         /// TODO: consolidate in dedicated UIView subclass
         view.addSubview(activityIndicator)
         view.addSubview(messageLabel)
+        view.addSubview(errorMessageLabel)
         view.addSubview(retryButton)
 
         view.addSubview(footerView)
@@ -218,6 +229,10 @@ class DealViewController: UIViewController {
             // activityIndicator
             activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
             activityIndicator.bottomAnchor.constraint(equalTo: messageLabel.topAnchor),
+            // errorMessageLabel
+            errorMessageLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
+            errorMessageLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
+            errorMessageLabel.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: spacing * -2.0),
             // retryButton
             retryButton.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
             retryButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: spacing),
@@ -320,19 +335,23 @@ extension DealViewController {
         case .empty:
             activityIndicator.stopAnimating()
             messageLabel.text = "There was no data"
+            errorMessageLabel.isHidden = true
             retryButton.isHidden = false
             scrollView.isHidden = true
         case .error(let error):
             activityIndicator.stopAnimating()
             /// TODO: display error message on messageLabel?
             messageLabel.isHidden = true
+            errorMessageLabel.isHidden = false
+            errorMessageLabel.text = error.localizedDescription
             retryButton.isHidden = false
             scrollView.isHidden = true
-            displayError(error: error)
+            //displayError(error: error)
         case .loading:
             activityIndicator.startAnimating()
             messageLabel.text = "LOADING"
             messageLabel.isHidden = false
+            errorMessageLabel.isHidden = true
             retryButton.isHidden = true
             scrollView.isHidden = true
         case .result(let result):
@@ -350,6 +369,7 @@ extension DealViewController {
             UIView.animate(withDuration: 0.3, animations: {
                 self.activityIndicator.stopAnimating()
                 self.messageLabel.isHidden = true
+                self.errorMessageLabel.isHidden = true
                 self.retryButton.isHidden = true
                 self.scrollView.isHidden = false
                 self.apply(theme: result.deal.theme)
