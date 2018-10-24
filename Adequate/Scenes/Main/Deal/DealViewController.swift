@@ -51,7 +51,18 @@ class DealViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
+        label.textColor = .gray
         label.text = "LOADING"
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private let errorMessageLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textColor = .gray
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -60,10 +71,13 @@ class DealViewController: UIViewController {
     private let retryButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Retry", for: .normal)
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 5.0
+        button.layer.borderWidth = 1.0
+        button.layer.borderColor = UIColor.gray.cgColor
+        button.backgroundColor = .clear
+        button.setTitleColor(.gray, for: .normal)
         button.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: 15.0, bottom: 5.0, right: 15.0)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = button.tintColor
         return button
     }()
 
@@ -78,6 +92,7 @@ class DealViewController: UIViewController {
 
     private let pagedImageView: PagedImageView = {
         let view = PagedImageView()
+        view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -184,6 +199,7 @@ class DealViewController: UIViewController {
         /// TODO: consolidate in dedicated UIView subclass
         view.addSubview(activityIndicator)
         view.addSubview(messageLabel)
+        view.addSubview(errorMessageLabel)
         view.addSubview(retryButton)
 
         view.addSubview(footerView)
@@ -206,16 +222,20 @@ class DealViewController: UIViewController {
         let widthInset: CGFloat = -2.0 * sideMargin
 
         NSLayoutConstraint.activate([
+            // activityIndicator
+            activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
+            activityIndicator.topAnchor.constraint(equalTo: view.centerYAnchor),
             // messageLabel
             messageLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
             messageLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
-            messageLabel.centerYAnchor.constraint(equalTo: guide.centerYAnchor),
-            // activityIndicator
-            activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
-            activityIndicator.bottomAnchor.constraint(equalTo: messageLabel.topAnchor),
+            messageLabel.topAnchor.constraint(equalTo: activityIndicator.bottomAnchor, constant: 4.0),
+            // errorMessageLabel
+            errorMessageLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
+            errorMessageLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
+            errorMessageLabel.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: spacing * -2.0),
             // retryButton
-            retryButton.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
-            retryButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: spacing),
+            retryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            retryButton.topAnchor.constraint(equalTo: view.centerYAnchor, constant: spacing),
             // footerView
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -229,7 +249,7 @@ class DealViewController: UIViewController {
             pagedImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
             pagedImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: spacing),
             pagedImageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
-            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor),
+            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor, constant: 32.0),
             // titleLabel
             titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
             titleLabel.topAnchor.constraint(equalTo: pagedImageView.bottomAnchor, constant: spacing),
@@ -315,30 +335,29 @@ extension DealViewController {
         case .empty:
             activityIndicator.stopAnimating()
             messageLabel.text = "There was no data"
+            errorMessageLabel.isHidden = true
             retryButton.isHidden = false
             scrollView.isHidden = true
         case .error(let error):
             activityIndicator.stopAnimating()
             /// TODO: display error message on messageLabel?
             messageLabel.isHidden = true
+            errorMessageLabel.isHidden = false
+            errorMessageLabel.text = error.localizedDescription
             retryButton.isHidden = false
             scrollView.isHidden = true
-            displayError(error: error)
+            //displayError(error: error)
         case .loading:
             activityIndicator.startAnimating()
             messageLabel.text = "LOADING"
             messageLabel.isHidden = false
+            errorMessageLabel.isHidden = true
             retryButton.isHidden = true
             scrollView.isHidden = true
         case .result(let result):
-            activityIndicator.stopAnimating()
-            messageLabel.isHidden = true
-            retryButton.isHidden = true
-            scrollView.isHidden = false
             // Update UI
             titleLabel.text = result.deal.title
             featuresText.markdown = result.deal.features
-            apply(theme: result.deal.theme)
             // images
             let safePhotoURLs = result.deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
@@ -346,6 +365,15 @@ extension DealViewController {
             renderComments(for: result.deal)
             // footerView
             footerView.update(withDeal: result.deal)
+
+            UIView.animate(withDuration: 0.3, animations: {
+                self.activityIndicator.stopAnimating()
+                self.messageLabel.isHidden = true
+                self.errorMessageLabel.isHidden = true
+                self.retryButton.isHidden = true
+                self.scrollView.isHidden = false
+                self.apply(theme: result.deal.theme)
+            })
         }
     }
 

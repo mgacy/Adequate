@@ -103,7 +103,7 @@ class PagedImageView: UIView {
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.topAnchor.constraint(equalTo: topAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: pageControl.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: pageControl.topAnchor, constant: -8.0),
             // pageController
             pageControl.leadingAnchor.constraint(equalTo: leadingAnchor),
             pageControl.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -182,7 +182,8 @@ extension PagedImageView: Themeable {
         pageControl.currentPageIndicatorTintColor = accentColor
         pageControl.pageIndicatorTintColor = accentColor.withAlphaComponent(0.3)
         // backgroundColor
-        //let backgroundColor = UIColor(hexString: theme.backgroundColor)
+        let backgroundColor = UIColor(hexString: theme.backgroundColor)
+        self.backgroundColor = backgroundColor
         /// TODO: set activityIndicator color based on theme.forground? set property on dataSource?
     }
 }
