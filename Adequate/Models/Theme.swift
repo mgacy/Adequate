@@ -16,7 +16,6 @@ enum ThemeForeground: String, Codable {
 struct Theme: Codable {
     let accentColor: String
     let backgroundColor: String
-    let backgroundImage: URL
-    //let foreground: String
+    //let backgroundImage: URL?
     let foreground: ThemeForeground
 }
