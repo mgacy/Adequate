@@ -19,6 +19,7 @@
 		C9116E562161781F0084934B /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E552161781F0084934B /* Appearance.swift */; };
 		C928547B216DCE44001E5993 /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C928547A216DCE44001E5993 /* AWSManager.swift */; };
 		C928547D21704C73001E5993 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C928547C21704C72001E5993 /* ImageCell.swift */; };
+		C95B83C521811DFA0051B72B /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B83C421811DFA0051B72B /* AppTheme.swift */; };
 		C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */; };
 		C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992D1DD216D93F000B373D5 /* Optional+Ext.swift */; };
 		C9AE54C521791E4200818F11 /* PagedImageViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */; };
@@ -124,6 +125,7 @@
 		C9116E552161781F0084934B /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		C928547A216DCE44001E5993 /* AWSManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSManager.swift; sourceTree = "<group>"; };
 		C928547C21704C72001E5993 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		C95B83C421811DFA0051B72B /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSSNS+Promise.swift"; sourceTree = "<group>"; };
 		C992D1DD216D93F000B373D5 /* Optional+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Ext.swift"; sourceTree = "<group>"; };
 		C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageViewDelegate.swift; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 		C9DAC47A2147691700D6558B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C95B83C421811DFA0051B72B /* AppTheme.swift */,
 				C9DAC49221476B5100D6558B /* MehResponse.swift */,
 				C9DAC49021476B4700D6558B /* Deal.swift */,
 				C9DAC49421476B9900D6558B /* Item.swift */,
@@ -770,6 +773,7 @@
 				C9DAC4A921476C9D00D6558B /* MehService.swift in Sources */,
 				C9DAC48F21476B2400D6558B /* URL+Ext.swift in Sources */,
 				C9DAC48121476A2900D6558B /* ErrorAlertDisplayable.swift in Sources */,
+				C95B83C521811DFA0051B72B /* AppTheme.swift in Sources */,
 				C928547D21704C73001E5993 /* ImageCell.swift in Sources */,
 				C9DAC4AF21476D3F00D6558B /* DealViewController.swift in Sources */,
 				C9DAC4B1214785DF00D6558B /* BaseCoordinator.swift in Sources */,

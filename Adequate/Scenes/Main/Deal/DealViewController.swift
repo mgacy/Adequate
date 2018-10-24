@@ -371,7 +371,7 @@ extension DealViewController {
                 self.errorMessageLabel.isHidden = true
                 self.retryButton.isHidden = true
                 self.scrollView.isHidden = false
-                self.apply(theme: result.deal.theme)
+                self.apply(theme: AppTheme(theme: result.deal.theme))
             })
         }
     }
@@ -398,22 +398,19 @@ extension DealViewController {
 
 // MARK: - Themeable
 extension DealViewController: Themeable {
-    func apply(theme: Theme) {
+    func apply(theme: AppTheme) {
         // accentColor
-        let accentColor = UIColor(hexString: theme.accentColor)
-        UIApplication.shared.delegate?.window??.tintColor = accentColor
-
-        storyButton.backgroundColor = accentColor
-        forumButton.backgroundColor = accentColor
+        UIApplication.shared.delegate?.window??.tintColor = theme.accentColor
+        storyButton.backgroundColor = theme.accentColor
+        forumButton.backgroundColor = theme.accentColor
 
         // backgroundColor
-        let backgroundColor = UIColor(hexString: theme.backgroundColor)
-        view.backgroundColor = backgroundColor
-        pagedImageView.backgroundColor = backgroundColor
-        scrollView.backgroundColor = backgroundColor
-        featuresText.backgroundColor = backgroundColor
-        storyButton.setTitleColor(backgroundColor, for: .normal)
-        forumButton.setTitleColor(backgroundColor, for: .normal)
+        view.backgroundColor = theme.backgroundColor
+        pagedImageView.backgroundColor = theme.backgroundColor
+        scrollView.backgroundColor = theme.backgroundColor
+        featuresText.backgroundColor = theme.backgroundColor
+        storyButton.setTitleColor(theme.backgroundColor, for: .normal)
+        forumButton.setTitleColor(theme.backgroundColor, for: .normal)
 
         // foreground
         /// TODO: set status bar and home indicator color?

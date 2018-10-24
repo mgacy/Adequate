@@ -176,14 +176,12 @@ extension PagedImageView: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Themeable
 extension PagedImageView: Themeable {
-    func apply(theme: Theme) {
+    func apply(theme: AppTheme) {
         // accentColor
-        let accentColor = UIColor(hexString: theme.accentColor)
-        pageControl.currentPageIndicatorTintColor = accentColor
-        pageControl.pageIndicatorTintColor = accentColor.withAlphaComponent(0.3)
+        pageControl.currentPageIndicatorTintColor = theme.accentColor
+        pageControl.pageIndicatorTintColor = theme.accentColor.withAlphaComponent(0.3)
         // backgroundColor
-        let backgroundColor = UIColor(hexString: theme.backgroundColor)
-        self.backgroundColor = backgroundColor
+        self.backgroundColor = theme.backgroundColor
         /// TODO: set activityIndicator color based on theme.forground? set property on dataSource?
     }
 }
