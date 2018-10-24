@@ -32,6 +32,7 @@ class DealViewController: UIViewController {
     weak var delegate: DealViewControllerDelegate?
 
     private let mehService: MehServiceType
+    private let themeManager: ThemeManagerType
     private var deal: Deal? = nil
 
     /// TODO: make part of a protocol
@@ -162,6 +163,7 @@ class DealViewController: UIViewController {
 
     init(dependencies: Dependencies) {
         self.mehService = dependencies.mehService
+        self.themeManager = dependencies.themeManager
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -371,7 +373,7 @@ extension DealViewController {
                 self.errorMessageLabel.isHidden = true
                 self.retryButton.isHidden = true
                 self.scrollView.isHidden = false
-                self.apply(theme: AppTheme(theme: result.deal.theme))
+                (self.themeManager.applyTheme >>> self.apply)(result.deal.theme)
             })
         }
     }

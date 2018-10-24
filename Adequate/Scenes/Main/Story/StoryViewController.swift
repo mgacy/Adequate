@@ -10,8 +10,10 @@ import UIKit
 import Down
 
 final class StoryViewController: UIViewController {
+    typealias Dependencies = HasThemeManager
 
     let story: Story
+    let themeManager: ThemeManagerType
 
     // MARK: - View
 
@@ -47,8 +49,9 @@ final class StoryViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init(story: Story) {
+    init(story: Story, depenedencies: Dependencies) {
         self.story = story
+        self.themeManager = depenedencies.themeManager
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -81,6 +84,10 @@ final class StoryViewController: UIViewController {
 
         titleLabel.text = story.title
         bodyText.markdown = story.body
+
+        if let theme = themeManager.theme {
+            apply(theme: theme)
+        }
 
         setupConstraints()
     }
@@ -118,6 +125,7 @@ extension StoryViewController: Themeable {
         // backgroundColor
         view.backgroundColor = theme.backgroundColor
         bodyText.backgroundColor = theme.backgroundColor
+        navigationController?.navigationBar.barTintColor = theme.backgroundColor
 
         // foreground
         titleLabel.textColor = theme.foreground.textColor
