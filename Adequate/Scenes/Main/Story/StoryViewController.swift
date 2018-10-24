@@ -122,13 +122,7 @@ extension StoryViewController: Themeable {
         bodyText.backgroundColor = backgroundColor
 
         // foreground
-        switch theme.foreground {
-        case .dark:
-            titleLabel.textColor = .black
-            bodyText.textColor = .black
-        case .light:
-            titleLabel.textColor = .white
-            bodyText.textColor = .white
-        }
+        titleLabel.textColor = theme.foreground.textColor
+        bodyText.textColor = theme.foreground.textColor
     }
 }

@@ -197,14 +197,8 @@ extension FooterView: Themeable {
         priceLabel.textColor = backgroundColor
         priceComparisonLabel.textColor = backgroundColor.withAlphaComponent(0.5)
         buyButton.backgroundColor = backgroundColor
-        /*
+
         // foreground
-        switch theme.foreground {
-        case .dark:
-            priceLabel.textColor = .white
-        case .light:
-            priceLabel.textColor = .black
-        }
-        */
+        //priceLabel.textColor = theme.foreground.textColor
     }
 }

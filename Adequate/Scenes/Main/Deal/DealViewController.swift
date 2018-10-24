@@ -417,14 +417,8 @@ extension DealViewController: Themeable {
 
         // foreground
         /// TODO: set status bar and home indicator color?
-        switch theme.foreground {
-        case .dark:
-            titleLabel.textColor = .black
-            featuresText.textColor = .black
-        case .light:
-            titleLabel.textColor = .white
-            featuresText.textColor = .white
-        }
+        titleLabel.textColor = theme.foreground.textColor
+        featuresText.textColor = theme.foreground.textColor
 
         // Subviews
         pagedImageView.apply(theme: theme)
