@@ -27,6 +27,7 @@ protocol DealViewControllerDelegate: class {
 // MARK: - View Controller
 
 class DealViewController: UIViewController {
+    typealias Dependencies = HasMehService & HasThemeManager
 
     weak var delegate: DealViewControllerDelegate?
 
@@ -158,8 +159,6 @@ class DealViewController: UIViewController {
     }()
 
     // MARK: - Lifecycle
-
-    typealias Dependencies = HasMehService
 
     init(dependencies: Dependencies) {
         self.mehService = dependencies.mehService
