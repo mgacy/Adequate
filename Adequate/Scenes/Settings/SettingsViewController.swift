@@ -45,10 +45,11 @@ class SettingsViewController: UITableViewController {
 
     weak var delegate: SettingsViewControllerDelegate? = nil
     var notificationManager: NotificationManagerType!
+    var themeManager: ThemeManagerType!
 
     // MARK: - Interface
 
-    private var notificationCell: UITableViewCell = UITableViewCell()
+    private let notificationCell: UITableViewCell = UITableViewCell()
 
     private let notificationSwitch: UISwitch = {
         let view = UISwitch()
@@ -109,10 +110,13 @@ class SettingsViewController: UITableViewController {
     func setupView() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
                                                             action: #selector(didPressDone(_:)))
-        /// TODO: set state of notificationSwitch
         let defaults = UserDefaults.standard
         let showNotifications = defaults.bool(forKey: "showNotifications")
         notificationSwitch.setOn(showNotifications, animated: false)
+
+        if let theme = themeManager.theme {
+            apply(theme: theme)
+        }
     }
 
     // MARK: - UITableViewDatasource
@@ -223,4 +227,29 @@ class SettingsViewController: UITableViewController {
         }
     }
 
+}
+
+// MARK: - Themeable
+extension SettingsViewController: Themeable {
+    func apply(theme: AppTheme) {
+        // accentColor
+        notificationSwitch.thumbTintColor = theme.accentColor
+        notificationCell.backgroundColor = theme.accentColor
+        webCell.backgroundColor = theme.accentColor
+        emailCell.backgroundColor = theme.accentColor
+        twitterCell.backgroundColor = theme.accentColor
+
+        // backgroundColor
+        view.backgroundColor = theme.backgroundColor
+
+        // foreground
+        notificationCell.textLabel?.textColor = theme.backgroundColor
+        notificationCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
+        webCell.textLabel?.textColor = theme.backgroundColor
+        webCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
+        emailCell.textLabel?.textColor = theme.backgroundColor
+        emailCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
+        twitterCell.textLabel?.textColor = theme.backgroundColor
+        twitterCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
+    }
 }
