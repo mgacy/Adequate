@@ -49,10 +49,26 @@ class SettingsViewController: UITableViewController {
 
     // MARK: - Interface
 
+    private let notificationHeader: UILabel = {
+        let view = PaddingLabel(padding: UIEdgeInsets(top: 32.0, left: 16.0, bottom: 8.0, right: 16.0))
+        view.font = UIFont.preferredFont(forTextStyle: .footnote)
+        view.textColor = .gray
+        view.text = "NOTIFICATIONS"
+        return view
+    }()
+
     private let notificationCell: UITableViewCell = UITableViewCell()
 
     private let notificationSwitch: UISwitch = {
         let view = UISwitch()
+        return view
+    }()
+
+    private let supportHeader: UILabel = {
+        let view = PaddingLabel(padding: UIEdgeInsets(top: 24.0, left: 16.0, bottom: 8.0, right: 16.0))
+        view.font = UIFont.preferredFont(forTextStyle: .footnote)
+        view.textColor = .gray
+        view.text = "SUPPORT"
         return view
     }()
 
@@ -78,6 +94,15 @@ class SettingsViewController: UITableViewController {
         cell.detailTextLabel?.text = SupportAddress.twitter.rawValue
         cell.accessoryType = .disclosureIndicator
         return cell
+    }()
+
+    private let supportFooter: UILabel = {
+        let view = PaddingLabel()
+        view.numberOfLines = 0
+        view.font = UIFont.preferredFont(forTextStyle: .footnote)
+        view.textColor = .gray
+        view.text = "This is an unofficial app. Please direct any issues to the developer, not to Meh."
+        return view
     }()
 
     // MARK: - Lifecycle
@@ -150,7 +175,7 @@ class SettingsViewController: UITableViewController {
         default: fatalError("Unknown section in \(description)")
         }
     }
-
+    /*
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0: return "Notifications"
@@ -166,7 +191,7 @@ class SettingsViewController: UITableViewController {
         default: fatalError("Unknown section in \(description)")
         }
     }
-
+    */
     // MARK: - UITableViewDelegate
 
     // Configure the row selection code for any cells that you want to customize the row selection
@@ -229,6 +254,34 @@ class SettingsViewController: UITableViewController {
 
 }
 
+extension SettingsViewController {
+
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch section {
+        case 0: return notificationHeader.intrinsicContentSize.height
+        case 1: return supportHeader.intrinsicContentSize.height
+        default: fatalError("Unknown section in \(description)")
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        switch section {
+        case 0: return notificationHeader
+        case 1: return supportHeader
+        default: fatalError("Unknown section in \(description)")
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        switch section {
+        case 0: return nil
+        case 1: return supportFooter
+        default: fatalError("Unknown section in \(description)")
+        }
+    }
+
+}
+
 // MARK: - Themeable
 extension SettingsViewController: Themeable {
     func apply(theme: AppTheme) {
@@ -251,5 +304,9 @@ extension SettingsViewController: Themeable {
         emailCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
         twitterCell.textLabel?.textColor = theme.backgroundColor
         twitterCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
+
+        notificationHeader.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
+        supportHeader.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
+        supportFooter.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
     }
 }
