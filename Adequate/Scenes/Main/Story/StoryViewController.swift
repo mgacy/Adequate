@@ -10,8 +10,10 @@ import UIKit
 import Down
 
 final class StoryViewController: UIViewController {
+    typealias Dependencies = HasThemeManager
 
     let story: Story
+    let themeManager: ThemeManagerType
 
     // MARK: - View
 
@@ -47,8 +49,9 @@ final class StoryViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init(story: Story) {
+    init(story: Story, depenedencies: Dependencies) {
         self.story = story
+        self.themeManager = depenedencies.themeManager
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -82,6 +85,10 @@ final class StoryViewController: UIViewController {
         titleLabel.text = story.title
         bodyText.markdown = story.body
 
+        if let theme = themeManager.theme {
+            apply(theme: theme)
+        }
+
         setupConstraints()
     }
 
@@ -111,24 +118,17 @@ final class StoryViewController: UIViewController {
 
 // MARK: - Themeable
 extension StoryViewController: Themeable {
-    func apply(theme: Theme) {
+    func apply(theme: AppTheme) {
         // accentColor
-        //let accentColor = UIColor(hexString: theme.accentColor)
         // ...
 
         // backgroundColor
-        let backgroundColor = UIColor(hexString: theme.backgroundColor)
-        view.backgroundColor = backgroundColor
-        bodyText.backgroundColor = backgroundColor
+        view.backgroundColor = theme.backgroundColor
+        bodyText.backgroundColor = theme.backgroundColor
+        navigationController?.navigationBar.barTintColor = theme.backgroundColor
 
         // foreground
-        switch theme.foreground {
-        case .dark:
-            titleLabel.textColor = .black
-            bodyText.textColor = .black
-        case .light:
-            titleLabel.textColor = .white
-            bodyText.textColor = .white
-        }
+        titleLabel.textColor = theme.foreground.textColor
+        bodyText.textColor = theme.foreground.textColor
     }
 }

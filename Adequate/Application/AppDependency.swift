@@ -8,12 +8,13 @@
 
 import Foundation
 
-struct AppDependency: HasClient, HasMehService, HasNotificationManager {
+struct AppDependency: HasClient, HasMehService, HasNotificationManager, HasThemeManager {
     let client: NetworkClientType
     let mehService: MehServiceType
     /// TODO: should we always carry this, or provide factory method so callers can create / destroy as needed?
     //func makeNotificationManager() -> NotificationManagerType {}
     let notificationManager: NotificationManagerType
+    let themeManager: ThemeManagerType
 
     init() {
         self.client = NetworkClient()
@@ -31,15 +32,15 @@ struct AppDependency: HasClient, HasMehService, HasNotificationManager {
         let mehClient = NetworkClient(configuration: configuration, decoder: decoder)
         self.mehService = MehService(client: mehClient)
 
-        self.notificationManager = NotificationManager()
-
         // Notifications
+        self.notificationManager = NotificationManager()
         if UserDefaults.standard.bool(forKey: "showNotifications") {
             notificationManager.registerForPushNotifications().catch({ error in
                 print("ERROR: \(error)")
             })
         }
 
+        self.themeManager = ThemeManager()
     }
 
 }

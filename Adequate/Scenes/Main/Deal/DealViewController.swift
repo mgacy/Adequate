@@ -27,10 +27,12 @@ protocol DealViewControllerDelegate: class {
 // MARK: - View Controller
 
 class DealViewController: UIViewController {
+    typealias Dependencies = HasMehService & HasThemeManager
 
     weak var delegate: DealViewControllerDelegate?
 
     private let mehService: MehServiceType
+    private let themeManager: ThemeManagerType
     private var deal: Deal? = nil
 
     /// TODO: make part of a protocol
@@ -159,10 +161,9 @@ class DealViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    typealias Dependencies = HasMehService
-
     init(dependencies: Dependencies) {
         self.mehService = dependencies.mehService
+        self.themeManager = dependencies.themeManager
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -372,7 +373,7 @@ extension DealViewController {
                 self.errorMessageLabel.isHidden = true
                 self.retryButton.isHidden = true
                 self.scrollView.isHidden = false
-                self.apply(theme: result.deal.theme)
+                (self.themeManager.applyTheme >>> self.apply)(result.deal.theme)
             })
         }
     }
@@ -399,33 +400,24 @@ extension DealViewController {
 
 // MARK: - Themeable
 extension DealViewController: Themeable {
-    func apply(theme: Theme) {
+    func apply(theme: AppTheme) {
         // accentColor
-        let accentColor = UIColor(hexString: theme.accentColor)
-        UIApplication.shared.delegate?.window??.tintColor = accentColor
-
-        storyButton.backgroundColor = accentColor
-        forumButton.backgroundColor = accentColor
+        UIApplication.shared.delegate?.window??.tintColor = theme.accentColor
+        storyButton.backgroundColor = theme.accentColor
+        forumButton.backgroundColor = theme.accentColor
 
         // backgroundColor
-        let backgroundColor = UIColor(hexString: theme.backgroundColor)
-        view.backgroundColor = backgroundColor
-        pagedImageView.backgroundColor = backgroundColor
-        scrollView.backgroundColor = backgroundColor
-        featuresText.backgroundColor = backgroundColor
-        storyButton.setTitleColor(backgroundColor, for: .normal)
-        forumButton.setTitleColor(backgroundColor, for: .normal)
+        view.backgroundColor = theme.backgroundColor
+        pagedImageView.backgroundColor = theme.backgroundColor
+        scrollView.backgroundColor = theme.backgroundColor
+        featuresText.backgroundColor = theme.backgroundColor
+        storyButton.setTitleColor(theme.backgroundColor, for: .normal)
+        forumButton.setTitleColor(theme.backgroundColor, for: .normal)
 
         // foreground
         /// TODO: set status bar and home indicator color?
-        switch theme.foreground {
-        case .dark:
-            titleLabel.textColor = .black
-            featuresText.textColor = .black
-        case .light:
-            titleLabel.textColor = .white
-            featuresText.textColor = .white
-        }
+        titleLabel.textColor = theme.foreground.textColor
+        featuresText.textColor = theme.foreground.textColor
 
         // Subviews
         pagedImageView.apply(theme: theme)

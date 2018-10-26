@@ -186,25 +186,17 @@ class FooterView: UIView {
 
 // MARK: - Themeable
 extension FooterView: Themeable {
-    public func apply(theme: Theme) {
+    public func apply(theme: AppTheme) {
         // accentColor
-        let accentColor = UIColor(hexString: theme.accentColor)
-        self.backgroundColor = accentColor
-        buyButton.setTitleColor(accentColor, for: .normal)
+        self.backgroundColor = theme.accentColor
+        buyButton.setTitleColor(theme.accentColor, for: .normal)
 
         // backgroundColor
-        let backgroundColor = UIColor(hexString: theme.backgroundColor)
-        priceLabel.textColor = backgroundColor
-        priceComparisonLabel.textColor = backgroundColor.withAlphaComponent(0.5)
-        buyButton.backgroundColor = backgroundColor
-        /*
+        priceLabel.textColor = theme.backgroundColor
+        priceComparisonLabel.textColor = theme.backgroundColor.withAlphaComponent(0.5)
+        buyButton.backgroundColor = theme.backgroundColor
+
         // foreground
-        switch theme.foreground {
-        case .dark:
-            priceLabel.textColor = .white
-        case .light:
-            priceLabel.textColor = .black
-        }
-        */
+        //priceLabel.textColor = theme.foreground.textColor
     }
 }

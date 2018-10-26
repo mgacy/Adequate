@@ -11,7 +11,7 @@ import UIKit
 class SettingsCoordinator: BaseCoordinator {
     typealias CoordinationResult = Void
 
-    typealias Dependencies = HasClient & HasNotificationManager
+    typealias Dependencies = HasClient & HasNotificationManager & HasThemeManager
 
     private let router: RouterType
     private let dependencies: Dependencies
@@ -30,6 +30,7 @@ class SettingsCoordinator: BaseCoordinator {
         } else {
             let viewController = SettingsViewController(style: .grouped)
             viewController.notificationManager = dependencies.notificationManager
+            viewController.themeManager = dependencies.themeManager
             viewController.delegate = self
             router.setRootModule(viewController, hideBar: false)
         }

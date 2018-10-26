@@ -19,3 +19,7 @@ protocol HasMehService {
 protocol HasNotificationManager {
     var notificationManager: NotificationManagerType { get }
 }
+
+protocol HasThemeManager {
+    var themeManager: ThemeManagerType { get }
+}

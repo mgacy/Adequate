@@ -11,7 +11,7 @@ import SafariServices
 import Promise
 
 class MainCoordinator: BaseCoordinator {
-    typealias Dependencies = HasClient & HasMehService & HasNotificationManager
+    typealias Dependencies = HasClient & HasMehService & HasNotificationManager & HasThemeManager
 
     private let window: UIWindow
     private let dependencies: Dependencies
@@ -81,7 +81,7 @@ extension MainCoordinator: DealViewControllerDelegate {
     }
 
     func showStory(with story: Story) {
-        let viewController = StoryViewController(story: story)
+        let viewController = StoryViewController(story: story, depenedencies: dependencies)
         router.push(viewController, animated: true, completion: nil)
     }
 
