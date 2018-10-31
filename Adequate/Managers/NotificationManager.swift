@@ -80,6 +80,7 @@ class NotificationManager: NSObject, NotificationManagerType {
                 UIApplication.shared.registerForRemoteNotifications()
             })
             .catch({ error in
+                /// TODO: display alert with action to open Settings if not authorized
                 print("ERROR: \(error)")
             })
     }

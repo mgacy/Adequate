@@ -60,6 +60,7 @@ class BaseCoordinator: CoordinatorType {
         childCoordinators[coordinator.identifier] = coordinator
     }
 
+    /// TODO: accept optional to avoid weak/strong dance in onFinishFlow
     func free(coordinator: CoordinatorType) {
         childCoordinators[coordinator.identifier] = nil
     }
