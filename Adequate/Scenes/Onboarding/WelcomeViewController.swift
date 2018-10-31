@@ -11,17 +11,18 @@ import UIKit
 final class WelcomeViewController: UIViewController {
 
     private enum Strings {
-        static let title = "Welcome to Adequate"
-        static let body = "The most adequate app to see what crap meh is trying to sell you."
+        static let title = "Adequate"
+        static let body = "An app to see the crap meh is trying to sell you today."
     }
 
     // MARK: - Subviews
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.text = Strings.title
-        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        //label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -30,6 +31,7 @@ final class WelcomeViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 0
         label.text = Strings.body
+        label.textColor = .gray
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -40,7 +42,7 @@ final class WelcomeViewController: UIViewController {
         view.axis = .vertical
         view.alignment = .fill
         view.distribution = .fillEqually
-        view.spacing = 5.0
+        //view.spacing = 5.0
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -67,7 +69,6 @@ final class WelcomeViewController: UIViewController {
 
     func setupView() {
         view.backgroundColor = .white
-        // ...
         setupConstraints()
     }
 
@@ -78,9 +79,5 @@ final class WelcomeViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16.0),
         ])
     }
-
-    // MARK: - A
-
-    // ...
 
 }

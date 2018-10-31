@@ -287,7 +287,6 @@ extension SettingsViewController {
 extension SettingsViewController: Themeable {
     func apply(theme: AppTheme) {
         // accentColor
-        notificationSwitch.thumbTintColor = theme.accentColor
         notificationCell.backgroundColor = theme.accentColor
         webCell.backgroundColor = theme.accentColor
         emailCell.backgroundColor = theme.accentColor
@@ -295,6 +294,7 @@ extension SettingsViewController: Themeable {
 
         // backgroundColor
         view.backgroundColor = theme.backgroundColor
+        notificationSwitch.onTintColor = theme.backgroundColor
 
         // foreground
         notificationCell.textLabel?.textColor = theme.backgroundColor

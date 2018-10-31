@@ -17,7 +17,7 @@ final class NotificationViewController: UIViewController {
 
     private enum Strings {
         static let title = "Enable Notifications?"
-        static let body = "Enable notifications so Adequate can notify you when meh has new crap."
+        static let body = "Enable notifications so Adequate can alert you when meh offers a new daily deal."
         static let cancel = "Not Now"
         static let ok = "OK"
     }
@@ -26,18 +26,18 @@ final class NotificationViewController: UIViewController {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 1
         label.text = Strings.title
-        label.numberOfLines = 0
-        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let bodyLabel: UILabel = {
         let label = UILabel()
-        label.text = Strings.body
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        label.text = Strings.body
+        label.textColor = .gray
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -48,7 +48,7 @@ final class NotificationViewController: UIViewController {
         view.axis = .vertical
         view.alignment = .fill
         view.distribution = .fillEqually
-        view.spacing = 8.0
+        //view.spacing = 8.0
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -127,7 +127,6 @@ final class NotificationViewController: UIViewController {
 
     func setupView() {
         view.backgroundColor = .white
-        // ...
         setupConstraints()
     }
 
@@ -136,13 +135,11 @@ final class NotificationViewController: UIViewController {
             // labelStack
             labelStack.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0),
             labelStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16.0),
-            //labelStack.topAnchor.constraint(equalTo: bodyLabel.bottomAnchor, constant: 32.0),
             labelStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16.0),
             // buttonStack
             buttonStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16.0),
-            //buttonStack.topAnchor.constraint(equalTo: bodyLabel.bottomAnchor, constant: 32.0),
             buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16.0),
-            buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -32.0)
+            buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0.0)
         ])
     }
 
