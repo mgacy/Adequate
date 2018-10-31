@@ -34,8 +34,16 @@ class AppCoordinator: BaseCoordinator {
 
     // MARK: - Flows
 
-    private func showOnboarding() {
-        fatalError("Onboarding flow not yet implemented")
+    private func showOnboarding(with deepLink: DeepLink? = nil) {
+        let coordinator = OnboardingCoordinator(window: window, dependencies: dependencies)
+        coordinator.onFinishFlow = { [weak self, weak coordinator] result in
+            if let strongCoordinator = coordinator {
+                self?.free(coordinator: strongCoordinator)
+            }
+            self?.showMain()
+        }
+        store(coordinator: coordinator)
+        coordinator.start(with: deepLink)
     }
 
     private func showMain(with deepLink: DeepLink? = nil) {
