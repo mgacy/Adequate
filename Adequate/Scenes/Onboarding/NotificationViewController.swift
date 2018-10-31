@@ -8,16 +8,6 @@
 
 import UIKit
 
-// MARK: - Delegate
-
-protocol VoidDismissalDelegate: class {
-    //associatedtype ResultType
-    //func dismiss(_: ResultType)
-    func dismiss()
-}
-
-// MARK: - View Controller
-
 final class NotificationViewController: UIViewController {
     typealias Dependencies = HasNotificationManager
 
