@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Promise
 
 final class NotificationViewController: UIViewController {
     typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
@@ -154,11 +155,19 @@ final class NotificationViewController: UIViewController {
     }
 
     @objc private func handleOKTapped(_ sender: UIButton) {
-        notificationManager.registerForPushNotifications()
-            .then({ [weak self] _ in
-                self?.delegate?.dismiss()
-            }).catch({ error in
+        notificationManager.requestAuthorization()
+            .ensure({ $0 })
+            .then({ _ -> Promise<Void> in
+                self.userDefaultsManager.showNotifications = true
+                return self.notificationManager.registerForPushNotifications()
+            })
+            .catch({ error in
                 print("ERROR: \(error)")
+                self.userDefaultsManager.showNotifications = false
+            })
+            .always({
+                self.userDefaultsManager.hasShownOnboarding = true
+                self.delegate?.dismiss()
             })
     }
 

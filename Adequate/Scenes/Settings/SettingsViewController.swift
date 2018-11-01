@@ -260,8 +260,8 @@ class SettingsViewController: UITableViewController {
                 self?.notificationSwitch.setOn(false, animated: true)
             })
         case false:
-            /// TODO: unregisterForRemoteNotifications()
             userDefaultsManager.showNotifications = false
+            notificationManager.unregisterForRemoteNotifications()
         }
     }
 
