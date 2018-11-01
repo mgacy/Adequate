@@ -42,10 +42,29 @@ protocol SettingsViewControllerDelegate: class {
 // MARK: - View
 
 class SettingsViewController: UITableViewController {
+    typealias Dependencies = HasNotificationManager & HasThemeManager & HasUserDefaultsManager
+
+    private enum Strings {
+        // Section: Notifications
+        static let notificationsHeader = "NOTIFICATIONS"
+        static let notificationsCell = "Daily Notifications"
+        // Section: Support
+        static let supportHeader = "SUPPORT"
+        static let webCell = "Web"
+        static let emailCell = "Email"
+        static let twitterCell = "Twitter"
+        static let supportFooter = "This is an unofficial app. Please direct any issues to the developer, not to Meh."
+        // Alert
+        static let alertTitle = "Title"
+        static let alertBody = "Notifications are disabled. Please allow Adequate to access notifications in Settings."
+        static let alertCancelTitle = "Cancel"
+        static let alertOKTitle = "Settings"
+    }
 
     weak var delegate: SettingsViewControllerDelegate? = nil
-    var notificationManager: NotificationManagerType!
-    var themeManager: ThemeManagerType!
+    private let notificationManager: NotificationManagerType
+    private let themeManager: ThemeManagerType
+    private let userDefaultsManager: UserDefaultsManagerType
 
     // MARK: - Interface
 
@@ -53,10 +72,11 @@ class SettingsViewController: UITableViewController {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 32.0, left: 16.0, bottom: 8.0, right: 16.0))
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
         view.textColor = .gray
-        view.text = "NOTIFICATIONS"
+        view.text = Strings.notificationsHeader
         return view
     }()
 
+    // TODO: configure this cell like all the others
     private let notificationCell: UITableViewCell = UITableViewCell()
 
     private let notificationSwitch: UISwitch = {
@@ -68,13 +88,13 @@ class SettingsViewController: UITableViewController {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 24.0, left: 16.0, bottom: 8.0, right: 16.0))
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
         view.textColor = .gray
-        view.text = "SUPPORT"
+        view.text = Strings.supportHeader
         return view
     }()
 
     private lazy var webCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        cell.textLabel?.text = "Web"
+        cell.textLabel?.text = Strings.webCell
         cell.detailTextLabel?.text = SupportAddress.web.rawValue
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -82,7 +102,7 @@ class SettingsViewController: UITableViewController {
 
     private lazy var emailCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        cell.textLabel?.text = "Email"
+        cell.textLabel?.text = Strings.emailCell
         cell.detailTextLabel?.text = SupportAddress.email.rawValue
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -90,7 +110,7 @@ class SettingsViewController: UITableViewController {
 
     private lazy var twitterCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        cell.textLabel?.text = "Twitter"
+        cell.textLabel?.text = Strings.twitterCell
         cell.detailTextLabel?.text = SupportAddress.twitter.rawValue
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -101,17 +121,28 @@ class SettingsViewController: UITableViewController {
         view.numberOfLines = 0
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
         view.textColor = .gray
-        view.text = "This is an unofficial app. Please direct any issues to the developer, not to Meh."
+        view.text = Strings.supportFooter
         return view
     }()
 
     // MARK: - Lifecycle
 
+    init(dependencies: Dependencies) {
+        self.notificationManager = dependencies.notificationManager
+        self.themeManager = dependencies.themeManager
+        self.userDefaultsManager = dependencies.userDefaultsManager
+        super.init(style: .grouped)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func loadView() {
         super.loadView()
 
         // Section 1
-        notificationCell.textLabel?.text = "Daily Notifications"
+        notificationCell.textLabel?.text = Strings.notificationsCell
         notificationCell.accessoryView = notificationSwitch
         notificationCell.selectionStyle = .none
         notificationSwitch.addTarget(self, action: #selector(tappedSwitch(_:)), for: .touchUpInside)
@@ -135,9 +166,7 @@ class SettingsViewController: UITableViewController {
     func setupView() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
                                                             action: #selector(didPressDone(_:)))
-        let defaults = UserDefaults.standard
-        let showNotifications = defaults.bool(forKey: "showNotifications")
-        notificationSwitch.setOn(showNotifications, animated: false)
+        notificationSwitch.setOn(userDefaultsManager.showNotifications, animated: false)
 
         if let theme = themeManager.theme {
             apply(theme: theme)
@@ -237,19 +266,38 @@ class SettingsViewController: UITableViewController {
     }
 
     @objc private func tappedSwitch(_ sender: UISwitch) {
-        let defaults = UserDefaults.standard
         switch sender.isOn {
         case true:
-            notificationManager.registerForPushNotifications().then({ _ in
-                UserDefaults.standard.set(true, forKey: "showNotifications")
+            notificationManager.registerForPushNotifications().then({ [weak self] _ in
+                self?.userDefaultsManager.showNotifications = true
             }).catch({ [weak self] error in
                 print("ERROR: \(error.localizedDescription)")
-                /// TODO: how best to handle this? Display alert with option to go to Settings?
                 self?.notificationSwitch.setOn(false, animated: true)
+                self?.showOpenSettingsAlert()
             })
         case false:
-            defaults.set(false, forKey: "showNotifications")
+            userDefaultsManager.showNotifications = false
+            notificationManager.unregisterForRemoteNotifications()
         }
+    }
+
+    private func showOpenSettingsAlert() {
+        let alertController = UIAlertController (title: Strings.alertTitle, message: Strings.alertBody, preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: Strings.alertCancelTitle, style: .default, handler: nil)
+        alertController.addAction(cancelAction)
+
+        let settingsAction = UIAlertAction(title: Strings.alertOKTitle, style: .default) { (_) -> Void in
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                return
+            }
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                UIApplication.shared.open(settingsUrl)
+            }
+        }
+        alertController.addAction(settingsAction)
+
+        present(alertController, animated: true, completion: nil)
     }
 
 }
@@ -286,7 +334,6 @@ extension SettingsViewController {
 extension SettingsViewController: Themeable {
     func apply(theme: AppTheme) {
         // accentColor
-        notificationSwitch.thumbTintColor = theme.accentColor
         notificationCell.backgroundColor = theme.accentColor
         webCell.backgroundColor = theme.accentColor
         emailCell.backgroundColor = theme.accentColor
@@ -294,6 +341,7 @@ extension SettingsViewController: Themeable {
 
         // backgroundColor
         view.backgroundColor = theme.backgroundColor
+        notificationSwitch.onTintColor = theme.backgroundColor
 
         // foreground
         notificationCell.textLabel?.textColor = theme.backgroundColor

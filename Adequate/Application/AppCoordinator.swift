@@ -8,6 +8,21 @@
 
 import UIKit
 
+fileprivate enum LaunchInstructor {
+    case onboarding
+    case main
+
+    static func configure(with userDefaultsManager: UserDefaultsManagerType) -> LaunchInstructor {
+        switch userDefaultsManager.hasShownOnboarding {
+        case true:
+            return .main
+        case false:
+            return .onboarding
+        }
+    }
+
+}
+
 class AppCoordinator: BaseCoordinator {
 
     private let window: UIWindow
@@ -27,15 +42,27 @@ class AppCoordinator: BaseCoordinator {
                 startChildren(with: deepLink)
             }
         } else {
-            /// TODO: use LaunchInstructor
-            showMain()
+            switch LaunchInstructor.configure(with: dependencies.userDefaultsManager) {
+            case .onboarding:
+                showOnboarding()
+            case .main:
+                showMain()
+            }
         }
     }
 
     // MARK: - Flows
 
-    private func showOnboarding() {
-        fatalError("Onboarding flow not yet implemented")
+    private func showOnboarding(with deepLink: DeepLink? = nil) {
+        let coordinator = OnboardingCoordinator(window: window, dependencies: dependencies)
+        coordinator.onFinishFlow = { [weak self, weak coordinator] result in
+            if let strongCoordinator = coordinator {
+                self?.free(coordinator: strongCoordinator)
+            }
+            self?.showMain()
+        }
+        store(coordinator: coordinator)
+        coordinator.start(with: deepLink)
     }
 
     private func showMain(with deepLink: DeepLink? = nil) {

@@ -12,7 +12,9 @@ import Promise
 // MARK: - Protocol
 
 protocol NotificationManagerType {
+    func requestAuthorization() -> Promise<Bool>
     func registerForPushNotifications() -> Promise<Void>
+    func unregisterForRemoteNotifications()
 }
 
 // MARK: - Errors
@@ -53,35 +55,34 @@ struct NotificationConstants {
 
 class NotificationManager: NSObject, NotificationManagerType {
 
-    let notificationCenter: UNUserNotificationCenter
+    private let notificationCenter: UNUserNotificationCenter
 
     override init() {
-        notificationCenter = .current()
+        self.notificationCenter = .current()
         super.init()
     }
 
     // MARK: - NotificationManagerType
 
-    @discardableResult
-    func registerForPushNotifications() -> Promise<Void> {
+    func requestAuthorization() -> Promise<Bool> {
         let options: UNAuthorizationOptions = [.alert, .sound]
         return notificationCenter.requestAuthorization(options: options)
-            .ensure({ $0 })
-            .then({ _ -> Promise<UNNotificationSettings> in
-                return self.notificationCenter.getNotificationSettings()
-            })
+    }
+
+    func registerForPushNotifications() -> Promise<Void> {
+        return notificationCenter.getNotificationSettings()
             .ensure({ $0.authorizationStatus == .authorized })
             .then(on: DispatchQueue.global(), { _ in
                 self.notificationCenter.setNotificationCategories([self.makeCategory(for: .dailyDeal)])
             })
             .then({ settings in
-                //print("Notification settings: \(settings)")
                 /// must register on main thread
                 UIApplication.shared.registerForRemoteNotifications()
             })
-            .catch({ error in
-                print("ERROR: \(error)")
-            })
+    }
+
+    func unregisterForRemoteNotifications() {
+        UIApplication.shared.unregisterForRemoteNotifications()
     }
 
     // MARK: - Helper Factory Methods

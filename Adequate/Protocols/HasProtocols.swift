@@ -20,6 +20,10 @@ protocol HasNotificationManager {
     var notificationManager: NotificationManagerType { get }
 }
 
+protocol HasUserDefaultsManager {
+    var userDefaultsManager: UserDefaultsManagerType { get }
+}
+
 protocol HasThemeManager {
     var themeManager: ThemeManagerType { get }
 }
