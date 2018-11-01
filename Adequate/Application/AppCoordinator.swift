@@ -8,6 +8,21 @@
 
 import UIKit
 
+fileprivate enum LaunchInstructor {
+    case onboarding
+    case main
+
+    static func configure(with userDefaultsManager: UserDefaultsManagerType) -> LaunchInstructor {
+        switch userDefaultsManager.hasShownOnboarding {
+        case true:
+            return .main
+        case false:
+            return .onboarding
+        }
+    }
+
+}
+
 class AppCoordinator: BaseCoordinator {
 
     private let window: UIWindow
@@ -27,8 +42,12 @@ class AppCoordinator: BaseCoordinator {
                 startChildren(with: deepLink)
             }
         } else {
-            /// TODO: use LaunchInstructor
-            showMain()
+            switch LaunchInstructor.configure(with: dependencies.userDefaultsManager) {
+            case .onboarding:
+                showOnboarding()
+            case .main:
+                showMain()
+            }
         }
     }
 
