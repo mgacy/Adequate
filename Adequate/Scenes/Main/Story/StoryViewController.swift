@@ -36,7 +36,7 @@ final class StoryViewController: UIViewController {
         let view = UIStackView(arrangedSubviews: [titleLabel, bodyText])
         view.axis = .vertical
         view.alignment = .fill
-        view.spacing = 12.0
+        view.spacing = 8.0
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -96,8 +96,8 @@ final class StoryViewController: UIViewController {
         let guide = view.safeAreaLayoutGuide
 
         /// TODO: move these into class property?
-        let spacing: CGFloat = 14.0
-        let sideMargin: CGFloat = 14.0
+        //let spacing: CGFloat = 16.0
+        let sideMargin: CGFloat = 16.0
         let widthInset: CGFloat = -2.0 * sideMargin
 
         NSLayoutConstraint.activate([
@@ -109,7 +109,7 @@ final class StoryViewController: UIViewController {
             // stackView
             stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
             stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
-            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: spacing),
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0.0),
             stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
     }
