@@ -45,6 +45,15 @@ class SettingsViewController: UITableViewController {
     typealias Dependencies = HasNotificationManager & HasThemeManager & HasUserDefaultsManager
 
     private enum Strings {
+        // Section: Notifications
+        static let notificationsHeader = "NOTIFICATIONS"
+        static let notificationsCell = "Daily Notifications"
+        // Section: Support
+        static let supportHeader = "SUPPORT"
+        static let webCell = "Web"
+        static let emailCell = "Email"
+        static let twitterCell = "Twitter"
+        static let supportFooter = "This is an unofficial app. Please direct any issues to the developer, not to Meh."
         // Alert
         static let alertTitle = "Title"
         static let alertBody = "Notifications are disabled. Please allow Adequate to access notifications in Settings."
@@ -63,10 +72,11 @@ class SettingsViewController: UITableViewController {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 32.0, left: 16.0, bottom: 8.0, right: 16.0))
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
         view.textColor = .gray
-        view.text = "NOTIFICATIONS"
+        view.text = Strings.notificationsHeader
         return view
     }()
 
+    // TODO: configure this cell like all the others
     private let notificationCell: UITableViewCell = UITableViewCell()
 
     private let notificationSwitch: UISwitch = {
@@ -78,13 +88,13 @@ class SettingsViewController: UITableViewController {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 24.0, left: 16.0, bottom: 8.0, right: 16.0))
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
         view.textColor = .gray
-        view.text = "SUPPORT"
+        view.text = Strings.supportHeader
         return view
     }()
 
     private lazy var webCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        cell.textLabel?.text = "Web"
+        cell.textLabel?.text = Strings.webCell
         cell.detailTextLabel?.text = SupportAddress.web.rawValue
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -92,7 +102,7 @@ class SettingsViewController: UITableViewController {
 
     private lazy var emailCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        cell.textLabel?.text = "Email"
+        cell.textLabel?.text = Strings.emailCell
         cell.detailTextLabel?.text = SupportAddress.email.rawValue
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -100,7 +110,7 @@ class SettingsViewController: UITableViewController {
 
     private lazy var twitterCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        cell.textLabel?.text = "Twitter"
+        cell.textLabel?.text = Strings.twitterCell
         cell.detailTextLabel?.text = SupportAddress.twitter.rawValue
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -111,7 +121,7 @@ class SettingsViewController: UITableViewController {
         view.numberOfLines = 0
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
         view.textColor = .gray
-        view.text = "This is an unofficial app. Please direct any issues to the developer, not to Meh."
+        view.text = Strings.supportFooter
         return view
     }()
 
@@ -132,7 +142,7 @@ class SettingsViewController: UITableViewController {
         super.loadView()
 
         // Section 1
-        notificationCell.textLabel?.text = "Daily Notifications"
+        notificationCell.textLabel?.text = Strings.notificationsCell
         notificationCell.accessoryView = notificationSwitch
         notificationCell.selectionStyle = .none
         notificationSwitch.addTarget(self, action: #selector(tappedSwitch(_:)), for: .touchUpInside)
