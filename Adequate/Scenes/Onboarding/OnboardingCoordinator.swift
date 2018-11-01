@@ -10,7 +10,7 @@ import UIKit
 
 final class OnboardingCoordinator: BaseCoordinator {
     typealias CoordinationResult = Void
-    typealias Dependencies = HasNotificationManager
+    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
 
     private let window: UIWindow
     private let dependencies: Dependencies

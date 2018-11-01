@@ -79,6 +79,7 @@
 		C9EF22DC216D1A3D00D9DD22 /* URL+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC48E21476B2400D6558B /* URL+Ext.swift */; };
 		C9EF5ACB215CA82F00B5D2EC /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF5ACA215CA82F00B5D2EC /* Operators.swift */; };
 		C9F92264218A4EB2001C257A /* DismissalDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F92263218A4EB2001C257A /* DismissalDelegate.swift */; };
+		C9F92266218A88D0001C257A /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F92265218A88D0001C257A /* UserDefaultsManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -196,6 +197,7 @@
 		C9EF22DA216D195600D9DD22 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C9EF5ACA215CA82F00B5D2EC /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		C9F92263218A4EB2001C257A /* DismissalDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissalDelegate.swift; sourceTree = "<group>"; };
+		C9F92265218A88D0001C257A /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,6 +275,7 @@
 				C928547A216DCE44001E5993 /* AWSManager.swift */,
 				C9058DF4215C7E4C00FF7B4C /* NotificationManager.swift */,
 				C95B83C2218017FD0051B72B /* ThemeManager.swift */,
+				C9F92265218A88D0001C257A /* UserDefaultsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -801,6 +804,7 @@
 				C9DAC4AC21476CEA00D6558B /* MainCoordinator.swift in Sources */,
 				C9DAC49D21476BBE00D6558B /* Theme.swift in Sources */,
 				C9058DF5215C7E4C00FF7B4C /* NotificationManager.swift in Sources */,
+				C9F92266218A88D0001C257A /* UserDefaultsManager.swift in Sources */,
 				C96CA86A2182DB2500C3459E /* OnboardingCoordinator.swift in Sources */,
 				C9DAC4A921476C9D00D6558B /* MehService.swift in Sources */,
 				C9DAC48F21476B2400D6558B /* URL+Ext.swift in Sources */,

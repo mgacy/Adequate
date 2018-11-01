@@ -9,10 +9,11 @@
 import UIKit
 
 final class NotificationViewController: UIViewController {
-    typealias Dependencies = HasNotificationManager
+    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
 
     /// TODO: improve handling of .init
     let notificationManager: NotificationManagerType
+    let userDefaultsManager: UserDefaultsManagerType
     weak var delegate: VoidDismissalDelegate?
 
     private enum Strings {
@@ -99,6 +100,7 @@ final class NotificationViewController: UIViewController {
 
     init(dependencies: Dependencies) {
         self.notificationManager = dependencies.notificationManager
+        self.userDefaultsManager = dependencies.userDefaultsManager
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -146,8 +148,8 @@ final class NotificationViewController: UIViewController {
     // MARK: - A
 
     @objc private func handleNotNowTapped(_ sender: UIButton) {
-        /// TODO: should NotificationManager be responsible for handling this?
-        UserDefaults.standard.set(false, forKey: "showNotifications")
+        userDefaultsManager.showNotifications = false
+        userDefaultsManager.hasShownOnboarding = true
         delegate?.dismiss()
     }
 

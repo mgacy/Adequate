@@ -9,7 +9,7 @@
 import UIKit
 
 final class OnboardingPageViewController: UIPageViewController {
-    typealias Dependencies = HasNotificationManager
+    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
 
     let dependencies: Dependencies
     var pages = [UIViewController]()
