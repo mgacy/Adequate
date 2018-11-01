@@ -156,9 +156,7 @@ class SettingsViewController: UITableViewController {
     func setupView() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
                                                             action: #selector(didPressDone(_:)))
-        let defaults = UserDefaults.standard
-        let showNotifications = defaults.bool(forKey: "showNotifications")
-        notificationSwitch.setOn(showNotifications, animated: false)
+        notificationSwitch.setOn(userDefaultsManager.showNotifications, animated: false)
 
         if let theme = themeManager.theme {
             apply(theme: theme)
