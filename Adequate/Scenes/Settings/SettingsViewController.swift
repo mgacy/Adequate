@@ -44,6 +44,14 @@ protocol SettingsViewControllerDelegate: class {
 class SettingsViewController: UITableViewController {
     typealias Dependencies = HasNotificationManager & HasThemeManager & HasUserDefaultsManager
 
+    private enum Strings {
+        // Alert
+        static let alertTitle = "Title"
+        static let alertBody = "Notifications are disabled. Please allow Adequate to access notifications in Settings."
+        static let alertCancelTitle = "Cancel"
+        static let alertOKTitle = "Settings"
+    }
+
     weak var delegate: SettingsViewControllerDelegate? = nil
     private let notificationManager: NotificationManagerType
     private let themeManager: ThemeManagerType
@@ -256,13 +264,32 @@ class SettingsViewController: UITableViewController {
                 self?.userDefaultsManager.showNotifications = true
             }).catch({ [weak self] error in
                 print("ERROR: \(error.localizedDescription)")
-                /// TODO: how best to handle this? Display alert with option to go to Settings?
                 self?.notificationSwitch.setOn(false, animated: true)
+                self?.showOpenSettingsAlert()
             })
         case false:
             userDefaultsManager.showNotifications = false
             notificationManager.unregisterForRemoteNotifications()
         }
+    }
+
+    private func showOpenSettingsAlert() {
+        let alertController = UIAlertController (title: Strings.alertTitle, message: Strings.alertBody, preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: Strings.alertCancelTitle, style: .default, handler: nil)
+        alertController.addAction(cancelAction)
+
+        let settingsAction = UIAlertAction(title: Strings.alertOKTitle, style: .default) { (_) -> Void in
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                return
+            }
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                UIApplication.shared.open(settingsUrl)
+            }
+        }
+        alertController.addAction(settingsAction)
+
+        present(alertController, animated: true, completion: nil)
     }
 
 }
