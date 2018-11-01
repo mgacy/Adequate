@@ -20,7 +20,7 @@ final class StoryViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -77,7 +77,8 @@ final class StoryViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        navigationItem.title = "Story"
+        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+        navigationController?.navigationBar.isTranslucent = false
         view.backgroundColor = .white
         view.addSubview(scrollView)
         scrollView.addSubview(stackView)
