@@ -42,10 +42,12 @@ protocol SettingsViewControllerDelegate: class {
 // MARK: - View
 
 class SettingsViewController: UITableViewController {
+    typealias Dependencies = HasNotificationManager & HasThemeManager & HasUserDefaultsManager
 
     weak var delegate: SettingsViewControllerDelegate? = nil
-    var notificationManager: NotificationManagerType!
-    var themeManager: ThemeManagerType!
+    private let notificationManager: NotificationManagerType
+    private let themeManager: ThemeManagerType
+    private let userDefaultsManager: UserDefaultsManagerType
 
     // MARK: - Interface
 
@@ -106,6 +108,17 @@ class SettingsViewController: UITableViewController {
     }()
 
     // MARK: - Lifecycle
+
+    init(dependencies: Dependencies) {
+        self.notificationManager = dependencies.notificationManager
+        self.themeManager = dependencies.themeManager
+        self.userDefaultsManager = dependencies.userDefaultsManager
+        super.init(style: .grouped)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func loadView() {
         super.loadView()
@@ -237,11 +250,10 @@ class SettingsViewController: UITableViewController {
     }
 
     @objc private func tappedSwitch(_ sender: UISwitch) {
-        let defaults = UserDefaults.standard
         switch sender.isOn {
         case true:
-            notificationManager.registerForPushNotifications().then({ _ in
-                UserDefaults.standard.set(true, forKey: "showNotifications")
+            notificationManager.registerForPushNotifications().then({ [weak self] _ in
+                self?.userDefaultsManager.showNotifications = true
             }).catch({ [weak self] error in
                 print("ERROR: \(error.localizedDescription)")
                 /// TODO: how best to handle this? Display alert with option to go to Settings?
@@ -249,7 +261,7 @@ class SettingsViewController: UITableViewController {
             })
         case false:
             /// TODO: unregisterForRemoteNotifications()
-            defaults.set(false, forKey: "showNotifications")
+            userDefaultsManager.showNotifications = false
         }
     }
 

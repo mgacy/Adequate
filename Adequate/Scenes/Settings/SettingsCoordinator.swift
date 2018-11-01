@@ -10,8 +10,7 @@ import UIKit
 
 class SettingsCoordinator: BaseCoordinator {
     typealias CoordinationResult = Void
-
-    typealias Dependencies = HasClient & HasNotificationManager & HasThemeManager
+    typealias Dependencies = HasNotificationManager & HasThemeManager & HasUserDefaultsManager
 
     private let router: RouterType
     private let dependencies: Dependencies
@@ -28,9 +27,7 @@ class SettingsCoordinator: BaseCoordinator {
             print("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
             startChildren(with: deepLink)
         } else {
-            let viewController = SettingsViewController(style: .grouped)
-            viewController.notificationManager = dependencies.notificationManager
-            viewController.themeManager = dependencies.themeManager
+            let viewController = SettingsViewController(dependencies: dependencies)
             viewController.delegate = self
             router.setRootModule(viewController, hideBar: false)
         }
