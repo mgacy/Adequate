@@ -171,6 +171,29 @@ class DealViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func loadView() {
+        super.loadView()
+
+        view.addSubview(scrollView)
+        scrollView.addSubview(pagedImageView)
+        scrollView.addSubview(titleLabel)
+        scrollView.addSubview(featuresText)
+        scrollView.addSubview(footerButtonStackView)
+
+        view.addSubview(activityIndicator)
+        view.addSubview(messageLabel)
+
+        /// TODO: consolidate in dedicated UIView subclass
+        view.addSubview(activityIndicator)
+        view.addSubview(messageLabel)
+        view.addSubview(errorMessageLabel)
+        view.addSubview(retryButton)
+
+        view.addSubview(footerView)
+
+        setupConstraints()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -186,32 +209,13 @@ class DealViewController: UIViewController {
 
     func setupView() {
         view.backgroundColor = .white
-
-        view.addSubview(scrollView)
-        scrollView.addSubview(pagedImageView)
         pagedImageView.delegate = self
-        scrollView.addSubview(titleLabel)
-        scrollView.addSubview(featuresText)
-        scrollView.addSubview(footerButtonStackView)
-
-        view.addSubview(activityIndicator)
-        view.addSubview(messageLabel)
-
-        /// TODO: consolidate in dedicated UIView subclass
-        view.addSubview(activityIndicator)
-        view.addSubview(messageLabel)
-        view.addSubview(errorMessageLabel)
-        view.addSubview(retryButton)
-
-        view.addSubview(footerView)
         footerView.delegate = self
 
         retryButton.addTarget(self, action: #selector(getDeal), for: .touchUpInside)
         forumButton.addTarget(self, action: #selector(showForum(_:)), for: .touchUpInside)
         storyButton.addTarget(self, action: #selector(showStory(_:)), for: .touchUpInside)
         settingsButton.addTarget(self, action: #selector(showSettings(_:)), for: .touchUpInside)
-
-        setupConstraints()
     }
 
     func setupConstraints() {
