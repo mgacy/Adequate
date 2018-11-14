@@ -11,17 +11,15 @@ import UIKit
 // MARK: - DeepLink
 
 struct DeepLinkURLConstants {
+    static let deal = "deal"
     static let onboarding = "onboarding"
 }
 
 enum DeepLink {
     case onboarding
+    case deal
     case buy(URL)
     case meh
-
-    static func build(with userActivity: NSUserActivity) -> DeepLink? {
-        return nil
-    }
 
     static func build(with dict: [String: AnyObject]?) -> DeepLink? {
         guard let id = dict?["launch_id"] as? String else { return nil }
@@ -30,6 +28,17 @@ enum DeepLink {
         case DeepLinkURLConstants.onboarding: return .onboarding
         default: return nil
         }
+    }
+
+    static func build(with url: URL) -> DeepLink? {
+        switch url.host {
+        case DeepLinkURLConstants.deal: return .deal
+        default: return nil
+        }
+    }
+
+    static func build(with userActivity: NSUserActivity) -> DeepLink? {
+        return nil
     }
 
     //static func build(with notificationResponse: import UserNotifications) -> DeepLink? {}

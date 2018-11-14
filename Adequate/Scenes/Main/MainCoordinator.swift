@@ -32,6 +32,8 @@ class MainCoordinator: BaseCoordinator {
                 router.dismissModule(animated: false, completion: nil)
                 router.popToRootModule(animated: false)
                 showWebPage(with: url, animated: false)
+            case .deal:
+                showDeal()
             case .meh:
                 print("DeepLink: meh")
             default:
