@@ -17,6 +17,7 @@ protocol DealViewControllerDelegate: class {
     func showStory(with: Story)
     func showForum(with: Topic)
     func showSettings()
+    func showHistory()
     //func controller(_ controller: DealViewController, shouldTransitionTo: MainScene)
 }
 

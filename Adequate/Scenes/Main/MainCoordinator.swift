@@ -106,11 +106,27 @@ extension MainCoordinator: DealViewControllerDelegate {
         coordinator.start()
     }
 
+    func showHistory() {
+        let viewController = HistoryViewController(dependencies: dependencies)
+        viewController.delegate = self
+        let navigationController = UINavigationController(rootViewController: viewController)
+        router.present(navigationController, animated: true)
+    }
+
 }
 
 extension MainCoordinator: FullScreenImageDelegate {
 
     func dismissFullScreenImage() {
+        router.dismissModule(animated: true, completion: nil)
+    }
+
+}
+
+// MARK: - VoidDismissalDelegate
+extension MainCoordinator: VoidDismissalDelegate {
+
+    func dismiss() {
         router.dismissModule(animated: true, completion: nil)
     }
 
