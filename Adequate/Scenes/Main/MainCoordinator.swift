@@ -53,7 +53,8 @@ class MainCoordinator: BaseCoordinator {
         let dealViewController = DealViewController(dependencies: dependencies)
         dealViewController.delegate = self
 
-        router.setRootModule(dealViewController, hideBar: true)
+        router.setRootModule(dealViewController, hideBar: false)
+        //router.setRootModule(dealViewController, hideBar: true)
         window.rootViewController = router.toPresent()
         window.makeKeyAndVisible()
     }

@@ -24,6 +24,15 @@ protocol DealViewControllerDelegate: class {
 //protocol MainSceneDelegate: class {
 //    func controller(_ controller: DealViewController, shouldTransitionTo: MainScene)
 //}
+//
+//enum MainScene {
+//    case forum(Topic)
+//    case history
+//    case image(Promise<UIImage>)
+//    case purchase(Deal)
+//    case story(Story)
+//    case settings
+//}
 
 // MARK: - View Controller
 
@@ -81,6 +90,20 @@ class DealViewController: UIViewController {
         button.setTitleColor(.gray, for: .normal)
         button.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: 15.0, bottom: 5.0, right: 15.0)
         button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    // Navigation Bar
+
+    private lazy var historyButton: UIBarButtonItem = {
+        return UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self,
+                               action: #selector(showHistory(_:)))
+    }()
+
+    private lazy var shareButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .action, target: self,
+                                     action: #selector(didPressShare(_:)))
+        button.isEnabled = false
         return button
     }()
 
@@ -192,6 +215,9 @@ class DealViewController: UIViewController {
 
         view.addSubview(footerView)
 
+        navigationItem.leftBarButtonItem = historyButton
+        navigationItem.rightBarButtonItem = shareButton
+
         setupConstraints()
     }
 
@@ -210,6 +236,9 @@ class DealViewController: UIViewController {
 
     func setupView() {
         view.backgroundColor = .white
+        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+        navigationController?.navigationBar.isTranslucent = false
+
         pagedImageView.delegate = self
         footerView.delegate = self
 
@@ -286,6 +315,23 @@ class DealViewController: UIViewController {
         })
     }
 
+    @objc private func didPressShare(_ sender: UIBarButtonItem) {
+        // TODO: is there a better way to handle this; should the button be disabled until we set the deal
+        guard let deal = deal else { return }
+
+        let text = "Check out this deal: \(deal.title)"
+        let url = deal.url
+        // set up activity view controller
+        let textToShare: [Any] = [ text, url ]
+        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+
+        // exclude some activity types from the list (optional)
+        //activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+
+        present(activityViewController, animated: true, completion: nil)
+    }
+
     // MARK: - Navigation
 
     @objc private func showSettings(_ sender: UIBarButtonItem) {
@@ -308,6 +354,11 @@ class DealViewController: UIViewController {
             return
         }
         delegate?.showStory(with: deal.story)
+    }
+
+    // @objc private func didPressHistory(_ sender: UIBarButtonItem) {
+    @objc private func showHistory(_ sender: UIBarButtonItem) {
+        delegate?.showHistory()
     }
 
 }
@@ -360,8 +411,10 @@ extension DealViewController {
             errorMessageLabel.isHidden = true
             retryButton.isHidden = true
             scrollView.isHidden = true
+            shareButton.isEnabled = false
         case .result(let result):
             // Update UI
+            shareButton.isEnabled = true
             titleLabel.text = result.deal.title
             featuresText.markdown = result.deal.features
             // images
@@ -412,6 +465,7 @@ extension DealViewController: Themeable {
         forumButton.backgroundColor = theme.accentColor
 
         // backgroundColor
+        self.navigationController?.navigationBar.barTintColor = theme.backgroundColor
         view.backgroundColor = theme.backgroundColor
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
