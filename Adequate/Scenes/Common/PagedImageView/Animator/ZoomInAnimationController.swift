@@ -41,7 +41,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         containerView.addSubview(toVC.view)
 
         // snapshot
-        let snapshot = fromVC.view.snapshotView(afterScreenUpdates: true)
+        let snapshot = fromNavController.view.snapshotView(afterScreenUpdates: true)
         containerView.addSubview(snapshot!)
 
         // sourceImageCoveringView
