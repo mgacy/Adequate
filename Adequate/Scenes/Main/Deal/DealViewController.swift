@@ -17,7 +17,7 @@ protocol DealViewControllerDelegate: class {
     func showStory(with: Story)
     func showForum(with: Topic)
     func showSettings()
-    func showHistory()
+    func showHistoryList()
     //func controller(_ controller: DealViewController, shouldTransitionTo: MainScene)
 }
 
@@ -358,7 +358,7 @@ class DealViewController: UIViewController {
 
     // @objc private func didPressHistory(_ sender: UIBarButtonItem) {
     @objc private func showHistory(_ sender: UIBarButtonItem) {
-        delegate?.showHistory()
+        delegate?.showHistoryList()
     }
 
 }

@@ -107,7 +107,7 @@ extension MainCoordinator: DealViewControllerDelegate {
         coordinator.start()
     }
 
-    func showHistory() {
+    func showHistoryList() {
         let viewController = HistoryViewController(dependencies: dependencies)
         viewController.delegate = self
         let navigationController = UINavigationController(rootViewController: viewController)
