@@ -59,6 +59,13 @@ final class StoryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func loadView() {
+        super.loadView()
+        view.addSubview(scrollView)
+        scrollView.addSubview(stackView)
+        setupConstraints()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -80,17 +87,12 @@ final class StoryViewController: UIViewController {
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.isTranslucent = false
         view.backgroundColor = .white
-        view.addSubview(scrollView)
-        scrollView.addSubview(stackView)
 
-        titleLabel.text = story.title
-        bodyText.markdown = story.body
+        render(story)
 
         if let theme = themeManager.theme {
             apply(theme: theme)
         }
-
-        setupConstraints()
     }
 
     private func setupConstraints() {
@@ -115,6 +117,14 @@ final class StoryViewController: UIViewController {
         ])
     }
 
+}
+
+// MARK: - A
+extension StoryViewController {
+    func render(_ story: Story) {
+        titleLabel.text = story.title
+        bodyText.markdown = story.body
+    }
 }
 
 // MARK: - Themeable
