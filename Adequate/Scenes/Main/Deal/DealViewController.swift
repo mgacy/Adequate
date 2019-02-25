@@ -16,7 +16,6 @@ protocol DealViewControllerDelegate: class {
     func showPurchase(for: Deal)
     func showForum(with: Topic)
     func showHistoryList()
-    //func controller(_ controller: DealViewController, shouldTransitionTo: MainScene)
 }
 
 //enum MainScene {
@@ -303,10 +302,6 @@ class DealViewController: UIViewController {
     }
 
     // MARK: - Navigation
-
-    @objc private func showImage(_ sender: Any) {
-        //delegate?.showImage()
-    }
 
     @objc private func didPressForum(_ sender: UIButton) {
         guard let deal = deal, let topic = deal.topic else {
