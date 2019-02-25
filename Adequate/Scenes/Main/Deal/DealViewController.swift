@@ -95,7 +95,7 @@ class DealViewController: UIViewController {
 
     private lazy var historyButton: UIBarButtonItem = {
         return UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self,
-                               action: #selector(showHistory(_:)))
+                               action: #selector(didPressHistory(_:)))
     }()
 
     private lazy var shareButton: UIBarButtonItem = {
@@ -215,7 +215,7 @@ class DealViewController: UIViewController {
         footerView.delegate = self
 
         retryButton.addTarget(self, action: #selector(getDeal), for: .touchUpInside)
-        forumButton.addTarget(self, action: #selector(showForum(_:)), for: .touchUpInside)
+        forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
     }
 
     func setupConstraints() {
@@ -308,15 +308,14 @@ class DealViewController: UIViewController {
         //delegate?.showImage()
     }
 
-    @objc private func showForum(_ sender: UIButton) {
+    @objc private func didPressForum(_ sender: UIButton) {
         guard let deal = deal, let topic = deal.topic else {
             return
         }
         delegate?.showForum(with: topic)
     }
 
-    // @objc private func didPressHistory(_ sender: UIBarButtonItem) {
-    @objc private func showHistory(_ sender: UIBarButtonItem) {
+    @objc private func didPressHistory(_ sender: UIBarButtonItem) {
         delegate?.showHistoryList()
     }
 
