@@ -21,10 +21,6 @@ protocol DealViewControllerDelegate: class {
     //func controller(_ controller: DealViewController, shouldTransitionTo: MainScene)
 }
 
-//protocol MainSceneDelegate: class {
-//    func controller(_ controller: DealViewController, shouldTransitionTo: MainScene)
-//}
-//
 //enum MainScene {
 //    case forum(Topic)
 //    case history
@@ -32,6 +28,10 @@ protocol DealViewControllerDelegate: class {
 //    case purchase(Deal)
 //    case story(Story)
 //    case settings
+//}
+//
+//protocol MainSceneDelegate: class {
+//    func controller(_ controller: DealViewController, shouldTransitionTo: MainScene)
 //}
 
 // MARK: - View Controller
