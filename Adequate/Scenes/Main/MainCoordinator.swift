@@ -83,28 +83,8 @@ extension MainCoordinator: DealViewControllerDelegate {
         showWebPage(with: dealURL, animated: true)
     }
 
-    func showStory(with story: Story) {
-        let viewController = StoryViewController(story: story, depenedencies: dependencies)
-        router.push(viewController, animated: true, completion: nil)
-    }
-
     func showForum(with topic: Topic) {
         showWebPage(with: topic.url, animated: true)
-    }
-
-    @objc func showSettings() {
-        let settingsRouter = Router()
-        let coordinator = SettingsCoordinator(router: settingsRouter, dependencies: dependencies)
-        coordinator.onFinishFlow = { [weak self, weak coordinator] result in
-            self?.router.dismissModule(animated: true, completion: nil)
-            if let strongCoordinator = coordinator {
-                self?.free(coordinator: strongCoordinator)
-            }
-        }
-
-        store(coordinator: coordinator)
-        router.present(coordinator, animated: true)
-        coordinator.start()
     }
 
     func showHistoryList() {

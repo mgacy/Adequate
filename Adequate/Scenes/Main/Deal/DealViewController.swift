@@ -14,9 +14,7 @@ import Promise
 protocol DealViewControllerDelegate: class {
     func showImage(_: Promise<UIImage>, animatingFrom: CGRect)
     func showPurchase(for: Deal)
-    func showStory(with: Story)
     func showForum(with: Topic)
-    func showSettings()
     func showHistoryList()
     //func controller(_ controller: DealViewController, shouldTransitionTo: MainScene)
 }
@@ -139,15 +137,6 @@ class DealViewController: UIViewController {
         return label
     }()
 
-    private let storyButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle("Story", for: .normal)
-        button.layer.cornerRadius = 5
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = button.tintColor
-        return button
-    }()
-
     private let forumButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Comments", for: .normal)
@@ -155,23 +144,6 @@ class DealViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = button.tintColor
         return button
-    }()
-
-    private let settingsButton: UIButton = {
-        let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "Settings"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-
-    private lazy var footerButtonStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [storyButton, forumButton, settingsButton])
-        view.axis = .vertical
-        view.alignment = .fill
-        view.distribution = .fillEqually
-        view.spacing = 5.0
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
     }()
 
     // Footer
@@ -202,7 +174,7 @@ class DealViewController: UIViewController {
         scrollView.addSubview(pagedImageView)
         scrollView.addSubview(titleLabel)
         scrollView.addSubview(featuresText)
-        scrollView.addSubview(footerButtonStackView)
+        scrollView.addSubview(forumButton)
 
         view.addSubview(activityIndicator)
         view.addSubview(messageLabel)
@@ -244,8 +216,6 @@ class DealViewController: UIViewController {
 
         retryButton.addTarget(self, action: #selector(getDeal), for: .touchUpInside)
         forumButton.addTarget(self, action: #selector(showForum(_:)), for: .touchUpInside)
-        storyButton.addTarget(self, action: #selector(showStory(_:)), for: .touchUpInside)
-        settingsButton.addTarget(self, action: #selector(showSettings(_:)), for: .touchUpInside)
     }
 
     func setupConstraints() {
@@ -293,11 +263,11 @@ class DealViewController: UIViewController {
             featuresText.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
             featuresText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing),
             featuresText.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
-            // footerButtonStackView
-            footerButtonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            footerButtonStackView.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: spacing),
-            footerButtonStackView.widthAnchor.constraint(equalToConstant: 200.0),
-            footerButtonStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -spacing)
+            // forumButton
+            forumButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: spacing),
+            forumButton.widthAnchor.constraint(equalToConstant: 200.0),
+            forumButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -spacing)
         ])
     }
 
@@ -334,10 +304,6 @@ class DealViewController: UIViewController {
 
     // MARK: - Navigation
 
-    @objc private func showSettings(_ sender: UIBarButtonItem) {
-        delegate?.showSettings()
-    }
-
     @objc private func showImage(_ sender: Any) {
         //delegate?.showImage()
     }
@@ -347,13 +313,6 @@ class DealViewController: UIViewController {
             return
         }
         delegate?.showForum(with: topic)
-    }
-
-    @objc private func showStory(_ sender: UIButton) {
-        guard let deal = deal else {
-            return
-        }
-        delegate?.showStory(with: deal.story)
     }
 
     // @objc private func didPressHistory(_ sender: UIBarButtonItem) {
@@ -461,7 +420,6 @@ extension DealViewController: Themeable {
     func apply(theme: AppTheme) {
         // accentColor
         UIApplication.shared.delegate?.window??.tintColor = theme.accentColor
-        storyButton.backgroundColor = theme.accentColor
         forumButton.backgroundColor = theme.accentColor
 
         // backgroundColor
@@ -470,7 +428,6 @@ extension DealViewController: Themeable {
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
         featuresText.backgroundColor = theme.backgroundColor
-        storyButton.setTitleColor(theme.backgroundColor, for: .normal)
         forumButton.setTitleColor(theme.backgroundColor, for: .normal)
 
         // foreground
