@@ -58,6 +58,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         // image
         let transitionImageView: UIView
         let scaledSize: CGSize
+        // We need to cast fromVC as DealViewController to get .visibleImage
         if let transitionImage = fromVC.visibleImage.value {
             transitionImageView = UIImageView(image: transitionImage)
             transitionImageView.frame = sourceFrame

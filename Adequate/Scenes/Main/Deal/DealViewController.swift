@@ -207,6 +207,8 @@ class DealViewController: UIViewController {
 
     func setupView() {
         view.backgroundColor = .white
+        navigationController?.navigationBar.barTintColor = .white
+        //navigationController?.navigationBar.barTintColor = .clear
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.isTranslucent = false
 

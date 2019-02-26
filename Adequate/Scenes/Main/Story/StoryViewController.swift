@@ -13,9 +13,9 @@ final class StoryViewController: UIViewController {
     typealias Dependencies = HasThemeManager
 
     let story: Story
-    let themeManager: ThemeManagerType
+    private let themeManager: ThemeManagerType
 
-    // MARK: - View
+    // MARK: - Subviews
 
     private let titleLabel: UILabel = {
         let label = UILabel()
