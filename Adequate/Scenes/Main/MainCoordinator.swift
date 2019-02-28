@@ -94,6 +94,11 @@ extension MainCoordinator: DealViewControllerDelegate {
         router.present(navigationController, animated: true)
     }
 
+    func showStory() {
+        print("\(#function)")
+        // ...
+    }
+
 }
 
 extension MainCoordinator: FullScreenImageDelegate {

@@ -16,6 +16,7 @@ protocol DealViewControllerDelegate: class {
     func showPurchase(for: Deal)
     func showForum(with: Topic)
     func showHistoryList()
+    func showStory()
 }
 
 //enum MainScene {
@@ -104,6 +105,13 @@ class DealViewController: UIViewController {
         return button
     }()
 
+    private lazy var storyButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self,
+                                     action: #selector(didPressStory(_:)))
+        button.isEnabled = false
+        return button
+    }()
+
     // ScrollView
 
     private let scrollView: UIScrollView = {
@@ -187,7 +195,7 @@ class DealViewController: UIViewController {
         view.addSubview(footerView)
 
         navigationItem.leftBarButtonItem = historyButton
-        navigationItem.rightBarButtonItem = shareButton
+        navigationItem.rightBarButtonItems = [storyButton, shareButton]
 
         setupConstraints()
     }
@@ -316,6 +324,10 @@ class DealViewController: UIViewController {
         delegate?.showHistoryList()
     }
 
+    @objc private func didPressStory(_ sender: UIBarButtonItem) {
+        delegate?.showStory()
+    }
+
 }
 
 // MARK: - PagedImageViewDelegate
@@ -367,9 +379,11 @@ extension DealViewController {
             retryButton.isHidden = true
             scrollView.isHidden = true
             shareButton.isEnabled = false
+            storyButton.isEnabled = false
         case .result(let result):
             // Update UI
             shareButton.isEnabled = true
+            storyButton.isEnabled = true
             titleLabel.text = result.deal.title
             featuresText.markdown = result.deal.features
             // images
