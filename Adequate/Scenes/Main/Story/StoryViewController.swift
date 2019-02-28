@@ -9,6 +9,14 @@
 import UIKit
 import Down
 
+// MARK: - Delegate
+
+protocol StoryViewControllerDelegate: class {
+    func showDeal()
+}
+
+// MARK: - View Controller
+
 final class StoryViewController: UIViewController {
     typealias Dependencies = HasThemeManager
 
@@ -18,9 +26,17 @@ final class StoryViewController: UIViewController {
         }
     }
 
+    weak var delegate: StoryViewControllerDelegate?
+
     private let themeManager: ThemeManagerType
 
     // MARK: - Subviews
+
+    private lazy var dealButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .rewind, target: self,
+                                     action: #selector(didPressDeal(_:)))
+        return button
+    }()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -68,6 +84,7 @@ final class StoryViewController: UIViewController {
         super.loadView()
         view.addSubview(scrollView)
         scrollView.addSubview(stackView)
+        navigationItem.leftBarButtonItem = dealButton
         setupConstraints()
     }
 
@@ -120,6 +137,12 @@ final class StoryViewController: UIViewController {
             stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0.0),
             stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
+    }
+
+    // MARK: - Navigation
+
+    @objc private func didPressDeal(_ sender: UIBarButtonItem) {
+        delegate?.showDeal()
     }
 
 }
