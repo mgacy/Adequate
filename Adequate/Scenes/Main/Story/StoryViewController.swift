@@ -12,7 +12,12 @@ import Down
 final class StoryViewController: UIViewController {
     typealias Dependencies = HasThemeManager
 
-    let story: Story
+    var viewState: ViewState<Story> {
+        didSet {
+            render(viewState)
+        }
+    }
+
     private let themeManager: ThemeManagerType
 
     // MARK: - Subviews
@@ -49,8 +54,8 @@ final class StoryViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init(story: Story, depenedencies: Dependencies) {
-        self.story = story
+    init(depenedencies: Dependencies) {
+        self.viewState = .empty
         self.themeManager = depenedencies.themeManager
         super.init(nibName: nil, bundle: nil)
     }
@@ -88,7 +93,7 @@ final class StoryViewController: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         view.backgroundColor = .white
 
-        render(story)
+        render(viewState)
 
         if let theme = themeManager.theme {
             apply(theme: theme)
@@ -119,11 +124,20 @@ final class StoryViewController: UIViewController {
 
 }
 
-// MARK: - A
+// MARK: - ViewState
 extension StoryViewController {
-    func render(_ story: Story) {
-        titleLabel.text = story.title
-        bodyText.markdown = story.body
+    func render(_ viewState: ViewState<Story>) {
+        switch viewState {
+        case .empty:
+            print("EMPTY")
+        case .loading:
+            print("LOADING ...")
+        case .result(let story):
+            titleLabel.text = story.title
+            bodyText.markdown = story.body
+        case .error(let error):
+            print("Error: \(error.localizedDescription)")
+        }
     }
 }
 
