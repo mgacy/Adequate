@@ -8,29 +8,61 @@
 
 import UIKit
 import SafariServices
-import Promise
 
-class MainCoordinator: BaseCoordinator {
+final class MainCoordinator: BaseCoordinator {
     typealias Dependencies = HasClient & HasMehService & HasNotificationManager & HasThemeManager & HasUserDefaultsManager
 
     private let window: UIWindow
     private let dependencies: Dependencies
-    private let router: RouterType
+    private let pageViewController: RootPageViewControler
+
+    // MARK: Page Coordinators
+
+    lazy var historyCoordinator: HistoryListCoordinator = {
+        let navigationController = UINavigationController()
+        let router = Router(navigationController: navigationController)
+        let coordinator = HistoryListCoordinator(router: router, dependencies: dependencies)
+        coordinator.onPageSelect = { [weak self] destination, source, animated in
+            self?.goToPage(destination, from: source, animated: animated)
+        }
+        return coordinator
+    }()
+
+    lazy var dealCoordinator: DealCoordinator = {
+        let navigationController = UINavigationController()
+        let router = Router(navigationController: navigationController)
+        let coordinator = DealCoordinator(router: router, dependencies: dependencies)
+        coordinator.onPageSelect = { [weak self] destination, source, animated in
+            self?.goToPage(destination, from: source, animated: animated)
+        }
+        return coordinator
+    }()
+
+    lazy var storyCoordinator: StoryCoordinator = {
+        let navigationController = UINavigationController()
+        let router = Router(navigationController: navigationController)
+        let coordinator = StoryCoordinator(router: router, dependencies: dependencies)
+        coordinator.onPageSelect = { [weak self] destination, source, animated in
+            self?.goToPage(destination, from: source, animated: animated)
+        }
+        return coordinator
+    }()
 
     // MARK: - Lifecycle
 
     init(window: UIWindow, dependencies: Dependencies) {
         self.window = window
         self.dependencies = dependencies
-        self.router = Router(navigationController: UINavigationController())
+        self.pageViewController = RootPageViewControler(transitionStyle: .scroll, navigationOrientation: .horizontal,
+                                                        options: nil)
     }
 
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
             switch deepLink {
             case .buy(let url):
-                router.dismissModule(animated: false, completion: nil)
-                router.popToRootModule(animated: false)
+                pageViewController.dismiss(animated: false, completion: nil)
+                // TODO: go to deal page?
                 showWebPage(with: url, animated: false)
             case .deal:
                 showDeal()
@@ -49,13 +81,17 @@ class MainCoordinator: BaseCoordinator {
 
     // MARK: - Private Methods
 
-    private func showDeal() {
-        let dealViewController = DealViewController(dependencies: dependencies)
-        dealViewController.delegate = self
+    private func setPages(_ coordinators: [Coordinator], animated: Bool = false) {
+        let vcs = coordinators.map { coordinator -> UIViewController in
+            self.coordinate(to: coordinator)
+            return coordinator.toPresent()
+        }
+        pageViewController.setPages(vcs, displayIndex: 1, animated: animated)
+    }
 
-        router.setRootModule(dealViewController, hideBar: false)
-        //router.setRootModule(dealViewController, hideBar: true)
-        window.rootViewController = router.toPresent()
+    private func showDeal() {
+        setPages([historyCoordinator, dealCoordinator, storyCoordinator], animated: false)
+        window.rootViewController = pageViewController
         window.makeKeyAndVisible()
     }
 
@@ -64,56 +100,42 @@ class MainCoordinator: BaseCoordinator {
         configuration.barCollapsingEnabled = false
 
         let viewController = SFSafariViewController(url: url, configuration: configuration)
-        router.present(viewController, animated: animated)
+        pageViewController.present(viewController, animated: animated, completion: nil)
     }
 
 }
 
-// MARK: - DealViewControllerDelegate
-extension MainCoordinator: DealViewControllerDelegate {
+// MARK: - RootNavigationDelegate
+extension MainCoordinator {
+    func goToPage(_ destination: RootViewControllerPage, from source: RootViewControllerPage, animated: Bool = true) {
 
-    func showImage(_ imageSource: Promise<UIImage>, animatingFrom originFrame: CGRect) {
-        let viewController = FullScreenImageViewController(imageSource: imageSource, originFrame: originFrame)
-        viewController.delegate = self
-        router.present(viewController, animated: true)
+        /* Alternatively, we could:
+         * - let currentVC  = pageViewController.viewControllers?.first
+         * - (cast as type conforming to protocol with .rootPage: RootViewControllerPage)?
+         * - let currentIndex = pages.index(of: currentVC)
+         *
+         * also, source could be a property of router or UIPageViewController subclass
+         */
+
+        switch (source, destination) {
+        case (.history, .deal):
+            pageViewController.goToNextPage(animated: animated)
+        case (.deal, .history):
+            pageViewController.goToPreviousPage(animated: animated)
+        case (.deal, .story):
+            pageViewController.goToNextPage(animated: animated)
+        case (.story, .deal):
+            pageViewController.goToPreviousPage(animated: animated)
+        default:
+            fatalError("Invalid transition between root page view controller pages.")
+        }
     }
-
-    func showPurchase(for deal: Deal) {
-        let dealURL = deal.url.appendingPathComponent("checkout")
-        showWebPage(with: dealURL, animated: true)
-    }
-
-    func showForum(with topic: Topic) {
-        showWebPage(with: topic.url, animated: true)
-    }
-
-    func showHistoryList() {
-        let viewController = HistoryViewController(dependencies: dependencies)
-        viewController.delegate = self
-        let navigationController = UINavigationController(rootViewController: viewController)
-        router.present(navigationController, animated: true)
-    }
-
-    func showStory() {
-        print("\(#function)")
-        // ...
-    }
-
 }
 
-extension MainCoordinator: FullScreenImageDelegate {
-
-    func dismissFullScreenImage() {
-        router.dismissModule(animated: true, completion: nil)
+// MARK: - Presentable
+extension MainCoordinator: Presentable {
+    func toPresent() -> UIViewController {
+        return pageViewController
     }
-
 }
 
-// MARK: - VoidDismissalDelegate
-extension MainCoordinator: VoidDismissalDelegate {
-
-    func dismiss() {
-        router.dismissModule(animated: true, completion: nil)
-    }
-
-}
