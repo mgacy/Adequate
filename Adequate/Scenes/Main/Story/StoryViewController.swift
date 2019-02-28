@@ -33,8 +33,7 @@ final class StoryViewController: UIViewController {
     // MARK: - Subviews
 
     private lazy var dealButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .rewind, target: self,
-                                     action: #selector(didPressDeal(_:)))
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "LeftChevronNavBar"), style: .plain, target: self, action: #selector(didPressDeal(_:)))
         return button
     }()
 

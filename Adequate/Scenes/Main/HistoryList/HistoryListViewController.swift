@@ -28,12 +28,11 @@ final class HistoryListViewController: UIViewController {
     // MARK: - Subviews
 
     private lazy var settingsButton: UIBarButtonItem = {
-        return UIBarButtonItem(image: #imageLiteral(resourceName: "Settings"), style: .plain, target: self, action: #selector(didPressSettings(_:)))
+        return UIBarButtonItem(image: #imageLiteral(resourceName: "SettingsNavBar"), style: .plain, target: self, action: #selector(didPressSettings(_:)))
     }()
 
     private lazy var dealButton: UIBarButtonItem = {
-        return UIBarButtonItem(barButtonSystemItem: .fastForward, target: self,
-                               action: #selector(didPressDeal(_:)))
+        return UIBarButtonItem(image: #imageLiteral(resourceName: "RightChevronNavBar"), style: .plain, target: self, action: #selector(didPressDeal(_:)))
     }()
 
     private lazy var showButton: UIButton = {
