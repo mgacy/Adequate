@@ -58,7 +58,7 @@ protocol CoordinatorType: class {
 
 // MARK: - Base Class
 
-class BaseCoordinator: CoordinatorType {
+class BaseCoordinator: NSObject, CoordinatorType {
 
     /// Unique identifier.
     internal let identifier = UUID()
@@ -71,6 +71,7 @@ class BaseCoordinator: CoordinatorType {
 
     /// TODO: accept optional to avoid weak/strong dance in onFinishFlow
     func free(coordinator: CoordinatorType) {
+        // TODO: recursively free children coordinators?
         childCoordinators[coordinator.identifier] = nil
     }
 
@@ -106,4 +107,19 @@ extension BaseCoordinator {
         childCoordinators.forEach { $1.start(with: deepLink) }
     }
 
+}
+
+// MARK: - Coordinator
+class Coordinator: BaseCoordinator {
+    let router: RouterType
+
+    init(router: RouterType) {
+        self.router = router
+    }
+}
+
+extension Coordinator: Presentable {
+    func toPresent() -> UIViewController {
+        return router.toPresent()
+    }
 }
