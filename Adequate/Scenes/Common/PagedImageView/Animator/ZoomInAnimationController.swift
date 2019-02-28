@@ -26,7 +26,8 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         /// TODO: cast fromVC and toVC as protocol to get access to properties
         guard
-            let fromNavController = transitionContext.viewController(forKey: .from) as? UINavigationController,
+            let fromPageController = transitionContext.viewController(forKey: .from) as? UIPageViewController,
+            let fromNavController = fromPageController.viewControllers?.first as? UINavigationController,
             let fromVC = fromNavController.topViewController as? DealViewController,
             let toVC = transitionContext.viewController(forKey: .to) as? FullScreenImageViewController else {
                 fatalError("ERROR: failed to cast as correct view controllers for transition")
