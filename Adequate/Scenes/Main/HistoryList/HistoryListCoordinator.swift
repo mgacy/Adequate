@@ -35,7 +35,7 @@ final class HistoryListCoordinator: Coordinator {
     // MARK: - Private Methods
 
     private func showHistory() {
-        let historyListViewController = HistoryViewController(dependencies: dependencies)
+        let historyListViewController = HistoryListViewController(dependencies: dependencies)
         historyListViewController.delegate = self
         router.setRootModule(historyListViewController, hideBar: false)
     }

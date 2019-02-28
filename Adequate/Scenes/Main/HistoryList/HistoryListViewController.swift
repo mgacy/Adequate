@@ -1,5 +1,5 @@
 //
-//  HistoryViewController.swift
+//  HistoryListViewController.swift
 //  Adequate
 //
 //  Created by Mathew Gacy on 12/13/18.
@@ -18,7 +18,7 @@ protocol HistoryListViewControllerDelegate: class {
 
 // MARK: - View Controller
 
-final class HistoryViewController: UIViewController {
+final class HistoryListViewController: UIViewController {
     typealias Dependencies = HasThemeManager
 
     weak var delegate: HistoryListViewControllerDelegate?
@@ -117,7 +117,7 @@ final class HistoryViewController: UIViewController {
 }
 
 // MARK: - Themeable
-extension HistoryViewController: Themeable {
+extension HistoryListViewController: Themeable {
     func apply(theme: AppTheme) {
         // accentColor
         // ...
