@@ -8,16 +8,43 @@
 
 import UIKit
 
+// MARK: - Delegate
+
+protocol HistoryListViewControllerDelegate: class {
+    func showHistoryDetail()
+    func showSettings()
+    func showDeal()
+}
+
+// MARK: - View Controller
+
 final class HistoryViewController: UIViewController {
     typealias Dependencies = HasThemeManager
 
-    weak var delegate: VoidDismissalDelegate?
+    weak var delegate: HistoryListViewControllerDelegate?
 
     private let themeManager: ThemeManagerType
 
     // MARK: - Subviews
 
-    // ...
+    private lazy var settingsButton: UIBarButtonItem = {
+        return UIBarButtonItem(image: #imageLiteral(resourceName: "Settings"), style: .plain, target: self, action: #selector(didPressSettings(_:)))
+    }()
+
+    private lazy var dealButton: UIBarButtonItem = {
+        return UIBarButtonItem(barButtonSystemItem: .fastForward, target: self,
+                               action: #selector(didPressDeal(_:)))
+    }()
+
+    private lazy var showButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.addTarget(self, action: #selector(didPressDetail), for: .touchUpInside)
+        button.setTitle("Detail", for: .normal)
+        button.layer.cornerRadius = 5
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = button.tintColor
+        return button
+    }()
 
     // MARK: - Lifecycle
 
@@ -33,9 +60,9 @@ final class HistoryViewController: UIViewController {
     override func loadView() {
         super.loadView()
         //let view = UIView()
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self,
-                                                           action: #selector(didPressDismiss(_:)))
+        view.addSubview(showButton)
+        navigationItem.leftBarButtonItem = settingsButton
+        navigationItem.rightBarButtonItem = dealButton
         //self.view = view
         setupConstraints()
     }
@@ -63,19 +90,29 @@ final class HistoryViewController: UIViewController {
     }
 
     func setupConstraints() {
+        /*
         let guide = view.safeAreaLayoutGuide
         let sideMargin: CGFloat = 16.0
-        //NSLayoutConstraint.activate([
-        //])
+        */
+        NSLayoutConstraint.activate([
+            showButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            showButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
 
-    // MARK: - A
+    // MARK: - Navigation
 
-    @objc func didPressDismiss(_ sender: UIBarButtonItem) {
-        delegate?.dismiss()
+    @objc private func didPressDetail() {
+        delegate?.showHistoryDetail()
     }
 
-    // TODO: handle cell selection
+    @objc private func didPressSettings(_ sender: UIBarButtonItem) {
+        delegate?.showSettings()
+    }
+
+    @objc private func didPressDeal(_ sender: UIBarButtonItem) {
+        delegate?.showDeal()
+    }
 
 }
 
