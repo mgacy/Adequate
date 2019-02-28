@@ -14,12 +14,20 @@ import Promise
 protocol DealViewControllerDelegate: class {
     func showImage(_: Promise<UIImage>, animatingFrom: CGRect)
     func showPurchase(for: Deal)
-    func showStory(with: Story)
     func showForum(with: Topic)
-    func showSettings()
-    //func controller(_ controller: DealViewController, shouldTransitionTo: MainScene)
+    func showHistoryList()
+    func showStory()
 }
 
+//enum MainScene {
+//    case forum(Topic)
+//    case history
+//    case image(Promise<UIImage>)
+//    case purchase(Deal)
+//    case story(Story)
+//    case settings
+//}
+//
 //protocol MainSceneDelegate: class {
 //    func controller(_ controller: DealViewController, shouldTransitionTo: MainScene)
 //}
@@ -83,6 +91,26 @@ class DealViewController: UIViewController {
         return button
     }()
 
+    // Navigation Bar
+
+    private lazy var historyButton: UIBarButtonItem = {
+        return UIBarButtonItem(image: #imageLiteral(resourceName: "HistoryNavBar"), style: .plain, target: self, action: #selector(didPressHistory(_:)))
+    }()
+
+    private lazy var shareButton: UIBarButtonItem = {
+        //let button = UIBarButtonItem(barButtonSystemItem: .action, target: self,
+        //                             action: #selector(didPressShare(_:)))
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ShareNavBar"), style: .plain, target: self, action: #selector(didPressShare(_:)))
+        button.isEnabled = false
+        return button
+    }()
+
+    private lazy var storyButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "StoryNavBar"), style: .plain, target: self, action: #selector(didPressStory(_:)))
+        button.isEnabled = false
+        return button
+    }()
+
     // ScrollView
 
     private let scrollView: UIScrollView = {
@@ -115,15 +143,6 @@ class DealViewController: UIViewController {
         return label
     }()
 
-    private let storyButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle("Story", for: .normal)
-        button.layer.cornerRadius = 5
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = button.tintColor
-        return button
-    }()
-
     private let forumButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Comments", for: .normal)
@@ -131,23 +150,6 @@ class DealViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = button.tintColor
         return button
-    }()
-
-    private let settingsButton: UIButton = {
-        let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "Settings"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-
-    private lazy var footerButtonStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [storyButton, forumButton, settingsButton])
-        view.axis = .vertical
-        view.alignment = .fill
-        view.distribution = .fillEqually
-        view.spacing = 5.0
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
     }()
 
     // Footer
@@ -178,7 +180,7 @@ class DealViewController: UIViewController {
         scrollView.addSubview(pagedImageView)
         scrollView.addSubview(titleLabel)
         scrollView.addSubview(featuresText)
-        scrollView.addSubview(footerButtonStackView)
+        scrollView.addSubview(forumButton)
 
         view.addSubview(activityIndicator)
         view.addSubview(messageLabel)
@@ -190,6 +192,9 @@ class DealViewController: UIViewController {
         view.addSubview(retryButton)
 
         view.addSubview(footerView)
+
+        navigationItem.leftBarButtonItem = historyButton
+        navigationItem.rightBarButtonItems = [storyButton, shareButton]
 
         setupConstraints()
     }
@@ -209,13 +214,16 @@ class DealViewController: UIViewController {
 
     func setupView() {
         view.backgroundColor = .white
+        navigationController?.navigationBar.barTintColor = .white
+        //navigationController?.navigationBar.barTintColor = .clear
+        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+        navigationController?.navigationBar.isTranslucent = false
+
         pagedImageView.delegate = self
         footerView.delegate = self
 
         retryButton.addTarget(self, action: #selector(getDeal), for: .touchUpInside)
-        forumButton.addTarget(self, action: #selector(showForum(_:)), for: .touchUpInside)
-        storyButton.addTarget(self, action: #selector(showStory(_:)), for: .touchUpInside)
-        settingsButton.addTarget(self, action: #selector(showSettings(_:)), for: .touchUpInside)
+        forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
     }
 
     func setupConstraints() {
@@ -263,11 +271,11 @@ class DealViewController: UIViewController {
             featuresText.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
             featuresText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing),
             featuresText.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
-            // footerButtonStackView
-            footerButtonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            footerButtonStackView.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: spacing),
-            footerButtonStackView.widthAnchor.constraint(equalToConstant: 200.0),
-            footerButtonStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -spacing)
+            // forumButton
+            forumButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: spacing),
+            forumButton.widthAnchor.constraint(equalToConstant: 200.0),
+            forumButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -spacing)
         ])
     }
 
@@ -285,28 +293,38 @@ class DealViewController: UIViewController {
         })
     }
 
+    @objc private func didPressShare(_ sender: UIBarButtonItem) {
+        // TODO: is there a better way to handle this; should the button be disabled until we set the deal
+        guard let deal = deal else { return }
+
+        let text = "Check out this deal: \(deal.title)"
+        let url = deal.url
+        // set up activity view controller
+        let textToShare: [Any] = [ text, url ]
+        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+
+        // exclude some activity types from the list (optional)
+        //activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+
+        present(activityViewController, animated: true, completion: nil)
+    }
+
     // MARK: - Navigation
 
-    @objc private func showSettings(_ sender: UIBarButtonItem) {
-        delegate?.showSettings()
-    }
-
-    @objc private func showImage(_ sender: Any) {
-        //delegate?.showImage()
-    }
-
-    @objc private func showForum(_ sender: UIButton) {
+    @objc private func didPressForum(_ sender: UIButton) {
         guard let deal = deal, let topic = deal.topic else {
             return
         }
         delegate?.showForum(with: topic)
     }
 
-    @objc private func showStory(_ sender: UIButton) {
-        guard let deal = deal else {
-            return
-        }
-        delegate?.showStory(with: deal.story)
+    @objc private func didPressHistory(_ sender: UIBarButtonItem) {
+        delegate?.showHistoryList()
+    }
+
+    @objc private func didPressStory(_ sender: UIBarButtonItem) {
+        delegate?.showStory()
     }
 
 }
@@ -359,8 +377,12 @@ extension DealViewController {
             errorMessageLabel.isHidden = true
             retryButton.isHidden = true
             scrollView.isHidden = true
+            shareButton.isEnabled = false
+            storyButton.isEnabled = false
         case .result(let result):
             // Update UI
+            shareButton.isEnabled = true
+            storyButton.isEnabled = true
             titleLabel.text = result.deal.title
             featuresText.markdown = result.deal.features
             // images
@@ -407,15 +429,14 @@ extension DealViewController: Themeable {
     func apply(theme: AppTheme) {
         // accentColor
         UIApplication.shared.delegate?.window??.tintColor = theme.accentColor
-        storyButton.backgroundColor = theme.accentColor
         forumButton.backgroundColor = theme.accentColor
 
         // backgroundColor
+        self.navigationController?.navigationBar.barTintColor = theme.backgroundColor
         view.backgroundColor = theme.backgroundColor
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
         featuresText.backgroundColor = theme.backgroundColor
-        storyButton.setTitleColor(theme.backgroundColor, for: .normal)
         forumButton.setTitleColor(theme.backgroundColor, for: .normal)
 
         // foreground

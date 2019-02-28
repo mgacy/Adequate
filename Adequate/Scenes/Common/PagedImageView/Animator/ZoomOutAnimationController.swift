@@ -27,8 +27,9 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
         /// TODO: cast fromVC and toVC as protocol to get access to properties
         guard
             let fromVC = transitionContext.viewController(forKey: .from) as? FullScreenImageViewController,
-            let toVC = transitionContext.viewController(forKey: .to) as? UINavigationController,
-            let dealVC = toVC.topViewController as? DealViewController else {
+            let toVC = transitionContext.viewController(forKey: .to) as? UIPageViewController,
+            let navController = toVC.viewControllers?.first as? UINavigationController,
+            let dealVC = navController.topViewController as? DealViewController else {
                 fatalError("ERROR: failed to cast as correct view controllers for transition")
         }
         let containerView = transitionContext.containerView

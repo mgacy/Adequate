@@ -9,13 +9,33 @@
 import UIKit
 import Down
 
+// MARK: - Delegate
+
+protocol StoryViewControllerDelegate: class {
+    func showDeal()
+}
+
+// MARK: - View Controller
+
 final class StoryViewController: UIViewController {
     typealias Dependencies = HasThemeManager
 
-    let story: Story
-    let themeManager: ThemeManagerType
+    var viewState: ViewState<Story> {
+        didSet {
+            render(viewState)
+        }
+    }
 
-    // MARK: - View
+    weak var delegate: StoryViewControllerDelegate?
+
+    private let themeManager: ThemeManagerType
+
+    // MARK: - Subviews
+
+    private lazy var dealButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "LeftChevronNavBar"), style: .plain, target: self, action: #selector(didPressDeal(_:)))
+        return button
+    }()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -49,8 +69,8 @@ final class StoryViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init(story: Story, depenedencies: Dependencies) {
-        self.story = story
+    init(depenedencies: Dependencies) {
+        self.viewState = .empty
         self.themeManager = depenedencies.themeManager
         super.init(nibName: nil, bundle: nil)
     }
@@ -59,11 +79,19 @@ final class StoryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func loadView() {
+        super.loadView()
+        view.addSubview(scrollView)
+        scrollView.addSubview(stackView)
+        navigationItem.leftBarButtonItem = dealButton
+        setupConstraints()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
     }
-
+    /*
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
@@ -73,24 +101,19 @@ final class StoryViewController: UIViewController {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
-
+    */
     // MARK: - View Methods
 
     private func setupView() {
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.isTranslucent = false
         view.backgroundColor = .white
-        view.addSubview(scrollView)
-        scrollView.addSubview(stackView)
 
-        titleLabel.text = story.title
-        bodyText.markdown = story.body
+        render(viewState)
 
         if let theme = themeManager.theme {
             apply(theme: theme)
         }
-
-        setupConstraints()
     }
 
     private func setupConstraints() {
@@ -115,6 +138,29 @@ final class StoryViewController: UIViewController {
         ])
     }
 
+    // MARK: - Navigation
+
+    @objc private func didPressDeal(_ sender: UIBarButtonItem) {
+        delegate?.showDeal()
+    }
+
+}
+
+// MARK: - ViewState
+extension StoryViewController {
+    func render(_ viewState: ViewState<Story>) {
+        switch viewState {
+        case .empty:
+            print("EMPTY")
+        case .loading:
+            print("LOADING ...")
+        case .result(let story):
+            titleLabel.text = story.title
+            bodyText.markdown = story.body
+        case .error(let error):
+            print("Error: \(error.localizedDescription)")
+        }
+    }
 }
 
 // MARK: - Themeable
