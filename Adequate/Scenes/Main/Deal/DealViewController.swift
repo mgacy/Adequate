@@ -35,13 +35,20 @@ protocol DealViewControllerDelegate: class {
 // MARK: - View Controller
 
 class DealViewController: UIViewController {
-    typealias Dependencies = HasMehService & HasThemeManager
+    typealias Dependencies = HasDataProvider & HasThemeManager
 
     weak var delegate: DealViewControllerDelegate?
 
-    private let mehService: MehServiceType
+    private let dataProvider: DataProviderType
     private let themeManager: ThemeManagerType
-    private var deal: Deal? = nil
+
+    private var observationTokens: [ObservationToken] = []
+    private var viewState: ViewState<Deal> = .empty {
+        didSet {
+            print("\(String(describing: self)) - \(viewState)")
+            render(viewState)
+        }
+    }
 
     /// TODO: make part of a protocol
     var visibleImage: Promise<UIImage> {
@@ -164,7 +171,8 @@ class DealViewController: UIViewController {
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
-        self.mehService = dependencies.mehService
+        //self.viewState = .empty
+        self.dataProvider = dependencies.dataProvider
         self.themeManager = dependencies.themeManager
         super.init(nibName: nil, bundle: nil)
     }
@@ -210,6 +218,8 @@ class DealViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    deinit { observationTokens.forEach { $0.cancel() } }
+
     // MARK: - View Methods
 
     func setupView() {
@@ -224,6 +234,8 @@ class DealViewController: UIViewController {
 
         retryButton.addTarget(self, action: #selector(getDeal), for: .touchUpInside)
         forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
+
+        observationTokens = setupObservations()
     }
 
     func setupConstraints() {
@@ -279,23 +291,22 @@ class DealViewController: UIViewController {
         ])
     }
 
+    private func setupObservations() -> [ObservationToken] {
+        return [dataProvider.addDealObserver(self) { vc, viewState in
+            vc.viewState = viewState
+        }]
+    }
+
     // MARK: - Actions / Navigation
 
     @objc func getDeal() {
-        render(.loading)
-        mehService.getDeal().then({ [weak self] response in
-            /// TODO: differentiate .result from .empty
-            self?.deal = response.deal
-            self?.render(.result(response))
-        }).catch({ [weak self] error in
-            print("Error: \(error)")
-            self?.render(.error(error))
-        })
+        dataProvider.getDeal()
     }
 
     @objc private func didPressShare(_ sender: UIBarButtonItem) {
-        // TODO: is there a better way to handle this; should the button be disabled until we set the deal
-        guard let deal = deal else { return }
+        guard case .result(let deal) = viewState else { 
+            return
+        }
 
         let text = "Check out this deal: \(deal.title)"
         let url = deal.url
@@ -313,7 +324,7 @@ class DealViewController: UIViewController {
     // MARK: - Navigation
 
     @objc private func didPressForum(_ sender: UIButton) {
-        guard let deal = deal, let topic = deal.topic else {
+        guard case .result(let deal) = viewState, let topic = deal.topic else {
             return
         }
         delegate?.showForum(with: topic)
@@ -342,7 +353,7 @@ extension DealViewController: PagedImageViewDelegate {
 extension DealViewController: DealFooterDelegate {
 
     func buy() {
-        guard let deal = deal else {
+        guard case .result(let deal) = viewState else { 
             return
         }
         delegate?.showPurchase(for: deal)
@@ -352,8 +363,7 @@ extension DealViewController: DealFooterDelegate {
 
 // MARK: - ViewState
 extension DealViewController {
-
-    func render(_ viewState: ViewState<MehResponse>) {
+    func render(_ viewState: ViewState<Deal>) {
         switch viewState {
         case .empty:
             activityIndicator.stopAnimating()
@@ -363,7 +373,7 @@ extension DealViewController {
             scrollView.isHidden = true
         case .error(let error):
             activityIndicator.stopAnimating()
-            /// TODO: display error message on messageLabel?
+            // TODO: display error message on messageLabel?
             messageLabel.isHidden = true
             errorMessageLabel.isHidden = false
             errorMessageLabel.text = error.localizedDescription
@@ -379,19 +389,19 @@ extension DealViewController {
             scrollView.isHidden = true
             shareButton.isEnabled = false
             storyButton.isEnabled = false
-        case .result(let result):
+        case .result(let deal):
             // Update UI
             shareButton.isEnabled = true
             storyButton.isEnabled = true
-            titleLabel.text = result.deal.title
-            featuresText.markdown = result.deal.features
+            titleLabel.text = deal.title
+            featuresText.markdown = deal.features
             // images
-            let safePhotoURLs = result.deal.photos.compactMap { $0.secure() }
+            let safePhotoURLs = deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
             // forum
-            renderComments(for: result.deal)
+            renderComments(for: deal)
             // footerView
-            footerView.update(withDeal: result.deal)
+            footerView.update(withDeal: deal)
 
             UIView.animate(withDuration: 0.3, animations: {
                 self.activityIndicator.stopAnimating()
@@ -399,7 +409,7 @@ extension DealViewController {
                 self.errorMessageLabel.isHidden = true
                 self.retryButton.isHidden = true
                 self.scrollView.isHidden = false
-                (self.themeManager.applyTheme >>> self.apply)(result.deal.theme)
+                (self.themeManager.applyTheme >>> self.apply)(deal.theme)
             })
         }
     }
@@ -415,7 +425,7 @@ extension DealViewController {
         forumButton.isHidden = false
         forumButton.isEnabled = true
         if topic.commentCount > 0 {
-            /// TODO: display .commentCount + .replyCount?
+            // TODO: display .commentCount + .replyCount?
             forumButton.setTitle("\(topic.commentCount) Comments", for: .normal)
         } else {
             forumButton.setTitle("Comments", for: .normal)
@@ -440,7 +450,7 @@ extension DealViewController: Themeable {
         forumButton.setTitleColor(theme.backgroundColor, for: .normal)
 
         // foreground
-        /// TODO: set status bar and home indicator color?
+        // TODO: set status bar and home indicator color?
         titleLabel.textColor = theme.foreground.textColor
         featuresText.textColor = theme.foreground.textColor
 
