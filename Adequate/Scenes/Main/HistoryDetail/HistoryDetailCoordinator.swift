@@ -10,7 +10,7 @@ import UIKit
 
 final class HistoryDetailCoordinator: BaseCoordinator {
     typealias CoordinationResult = Void
-    typealias Dependencies = HasThemeManager
+    typealias Dependencies = HasDataProvider & HasThemeManager
 
     private let router: RouterType
     private let dependencies: Dependencies

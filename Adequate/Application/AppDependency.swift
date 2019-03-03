@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct AppDependency: HasClient, HasMehService, HasNotificationManager, HasThemeManager, HasUserDefaultsManager {
+struct AppDependency: HasClient, HasDataProvider, HasMehService, HasNotificationManager, HasThemeManager, HasUserDefaultsManager {
     let client: NetworkClientType
     let mehService: MehServiceType
     /// TODO: should we always carry this, or provide factory method so callers can create / destroy as needed?
@@ -16,6 +16,7 @@ struct AppDependency: HasClient, HasMehService, HasNotificationManager, HasTheme
     let notificationManager: NotificationManagerType
     let themeManager: ThemeManagerType
     let userDefaultsManager: UserDefaultsManagerType
+    let dataProvider: DataProviderType
 
     init() {
         self.client = NetworkClient()
@@ -44,6 +45,7 @@ struct AppDependency: HasClient, HasMehService, HasNotificationManager, HasTheme
         }
 
         self.themeManager = ThemeManager()
+        self.dataProvider = DataProvider(mehService: self.mehService)
     }
 
 }
