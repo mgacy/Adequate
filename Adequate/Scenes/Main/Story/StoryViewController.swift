@@ -18,17 +18,19 @@ protocol StoryViewControllerDelegate: class {
 // MARK: - View Controller
 
 final class StoryViewController: UIViewController {
-    typealias Dependencies = HasThemeManager
+    typealias Dependencies = HasDataProvider & HasThemeManager
 
-    var viewState: ViewState<Story> {
+    weak var delegate: StoryViewControllerDelegate?
+
+    private let dataProvider: DataProviderType
+    private let themeManager: ThemeManagerType
+
+    private var observationTokens: [ObservationToken] = []
+    private var viewState: ViewState<Deal> {
         didSet {
             render(viewState)
         }
     }
-
-    weak var delegate: StoryViewControllerDelegate?
-
-    private let themeManager: ThemeManagerType
 
     // MARK: - Subviews
 
@@ -71,6 +73,7 @@ final class StoryViewController: UIViewController {
 
     init(depenedencies: Dependencies) {
         self.viewState = .empty
+        self.dataProvider = depenedencies.dataProvider
         self.themeManager = depenedencies.themeManager
         super.init(nibName: nil, bundle: nil)
     }
@@ -102,6 +105,9 @@ final class StoryViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     */
+
+    deinit { observationTokens.forEach { $0.cancel() } }
+
     // MARK: - View Methods
 
     private func setupView() {
@@ -109,11 +115,11 @@ final class StoryViewController: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         view.backgroundColor = .white
 
-        render(viewState)
-
         if let theme = themeManager.theme {
             apply(theme: theme)
         }
+
+        observationTokens = setupObservations()
     }
 
     private func setupConstraints() {
@@ -138,6 +144,12 @@ final class StoryViewController: UIViewController {
         ])
     }
 
+    private func setupObservations() -> [ObservationToken] {
+        return [dataProvider.addDealObserver(self) { vc, viewState in
+            vc.viewState = viewState
+        }]
+    }
+
     // MARK: - Navigation
 
     @objc private func didPressDeal(_ sender: UIBarButtonItem) {
@@ -148,15 +160,15 @@ final class StoryViewController: UIViewController {
 
 // MARK: - ViewState
 extension StoryViewController {
-    func render(_ viewState: ViewState<Story>) {
+    func render(_ viewState: ViewState<Deal>) {
         switch viewState {
         case .empty:
             print("EMPTY")
         case .loading:
             print("LOADING ...")
-        case .result(let story):
-            titleLabel.text = story.title
-            bodyText.markdown = story.body
+        case .result(let deal):
+            titleLabel.text = deal.story.title
+            bodyText.markdown = deal.story.body
         case .error(let error):
             print("Error: \(error.localizedDescription)")
         }
