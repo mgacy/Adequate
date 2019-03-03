@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PriceComparison {
+struct PriceComparison: Equatable {
     let price: String
     let store: String
     let url: URL

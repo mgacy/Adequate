@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum ThemeForeground: String, Codable {
+enum ThemeForeground: String, Codable, Equatable {
     case dark
     case light
 
@@ -27,7 +27,7 @@ enum ThemeForeground: String, Codable {
     }
 }
 
-struct Theme: Codable {
+struct Theme: Codable, Equatable {
     let accentColor: String
     let backgroundColor: String
     //let backgroundImage: URL?

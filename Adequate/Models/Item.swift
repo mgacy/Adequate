@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct Item: Codable {
+struct Item: Codable, Equatable {
 
-    struct ItemAttribute: Codable {
+    struct ItemAttribute: Codable, Equatable {
         let key: String
         let value: String
     }

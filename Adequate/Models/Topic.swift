@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Topic: Codable {
+struct Topic: Codable, Equatable {
     let commentCount: Int
     let createdAt: Date
     let id: String

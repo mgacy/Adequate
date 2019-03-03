@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Video: Codable {
+struct Video: Codable, Equatable {
     let id: String
     let startDate: Date
     let title: String
