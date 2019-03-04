@@ -18,4 +18,11 @@ struct AppTheme {
         backgroundColor = UIColor(hexString: theme.backgroundColor)
         foreground = theme.foreground
     }
+
+    init(accentColor: UIColor, backgroundColor: UIColor, foreground: ThemeForeground) {
+        self.accentColor = accentColor
+        self.backgroundColor = backgroundColor
+        self.foreground = foreground
+    }
+
 }
