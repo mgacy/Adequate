@@ -19,11 +19,13 @@ protocol HistoryListViewControllerDelegate: class {
 // MARK: - View Controller
 
 final class HistoryListViewController: UIViewController {
-    typealias Dependencies = HasThemeManager
+    typealias Dependencies = HasDataProvider & HasThemeManager
 
     weak var delegate: HistoryListViewControllerDelegate?
 
     private let themeManager: ThemeManagerType
+    private let dataSource: HistoryListDataSource
+    private var observationTokens: [ObservationToken] = []
 
     // MARK: - Subviews
 
@@ -35,20 +37,19 @@ final class HistoryListViewController: UIViewController {
         return UIBarButtonItem(image: #imageLiteral(resourceName: "RightChevronNavBar"), style: .plain, target: self, action: #selector(didPressDeal(_:)))
     }()
 
-    private lazy var showButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.addTarget(self, action: #selector(didPressDetail), for: .touchUpInside)
-        button.setTitle("Detail", for: .normal)
-        button.layer.cornerRadius = 5
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = button.tintColor
-        return button
+    private lazy var tableView: UITableView = {
+        let tv = UITableView(frame: .zero, style: .plain)
+        tv.backgroundColor = .white
+        tv.tableFooterView = UIView() // Prevent empty rows
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        return tv
     }()
 
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
         self.themeManager = dependencies.themeManager
+        self.dataSource = HistoryListDataSource(dependencies: dependencies)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -59,7 +60,7 @@ final class HistoryListViewController: UIViewController {
     override func loadView() {
         super.loadView()
         //let view = UIView()
-        view.addSubview(showButton)
+        view.addSubview(tableView)
         navigationItem.leftBarButtonItem = settingsButton
         navigationItem.rightBarButtonItem = dealButton
         //self.view = view
@@ -76,6 +77,8 @@ final class HistoryListViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    deinit { observationTokens.forEach { $0.cancel() } }
+
     // MARK: - View Methods
 
     func setupView() {
@@ -86,24 +89,36 @@ final class HistoryListViewController: UIViewController {
         if let theme = themeManager.theme {
             apply(theme: theme)
         }
+        setupTableView()
+        observationTokens = setupObservations()
+        dataSource.getDealHistory(from: Date(), to: Date())
     }
 
     func setupConstraints() {
-        /*
         let guide = view.safeAreaLayoutGuide
-        let sideMargin: CGFloat = 16.0
-        */
         NSLayoutConstraint.activate([
-            showButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            showButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            // TableView
+            tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            tableView.topAnchor.constraint(equalTo: guide.topAnchor),
+            tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor)
         ])
     }
 
-    // MARK: - Navigation
-
-    @objc private func didPressDetail() {
-        delegate?.showHistoryDetail()
+    func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = dataSource
+        tableView.register(cellType: HistoryListCell.self)
     }
+
+    private func setupObservations() -> [ObservationToken] {
+        let historyToken = dataSource.addObserver(self) { vc, state in
+            vc.render(state)
+        }
+        return [historyToken]
+    }
+
+    // MARK: - Navigation
 
     @objc private func didPressSettings(_ sender: UIBarButtonItem) {
         delegate?.showSettings()
@@ -123,8 +138,34 @@ extension HistoryListViewController: Themeable {
 
         // backgroundColor
         view.backgroundColor = theme.backgroundColor
+        tableView.backgroundColor = theme.backgroundColor
 
         // foreground
         // ...
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension HistoryListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let deal = dataSource.objectAtIndexPath(indexPath)
+        delegate?.showHistoryDetail()
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+// MARK: - ViewState
+extension HistoryListViewController {
+    func render(_ viewState: ViewState<Void>) {
+        switch viewState {
+        case .empty:
+            print("Empty")
+        case .loading:
+            print("Loading ...")
+        case .result:
+            tableView.reloadData()
+        case .error(let error):
+            print("ERROR: \(error.localizedDescription)")
+        }
     }
 }
