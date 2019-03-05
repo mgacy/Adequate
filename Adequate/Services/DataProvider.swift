@@ -40,7 +40,7 @@ class DataProvider: DataProviderType {
     // MARK: - A
 
     func getDeal() {
-        // TODO: check dealState != .loading
+        guard dealState != ViewState<Deal>.loading else { return }
         dealState = .loading
         mehService.getDeal().then({ response in
             self.dealState = .result(response.deal)
