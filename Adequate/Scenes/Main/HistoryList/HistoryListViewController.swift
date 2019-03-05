@@ -39,7 +39,6 @@ final class HistoryListViewController: UIViewController {
 
     private lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
-        tv.backgroundColor = .white
         tv.tableFooterView = UIView() // Prevent empty rows
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
@@ -84,11 +83,7 @@ final class HistoryListViewController: UIViewController {
     func setupView() {
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.isTranslucent = false
-        view.backgroundColor = .white
-
-        if let theme = themeManager.theme {
-            apply(theme: theme)
-        }
+        apply(theme: themeManager.theme)
         setupTableView()
         observationTokens = setupObservations()
         dataSource.getDealHistory(from: Date(), to: Date())

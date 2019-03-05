@@ -123,13 +123,10 @@ class HistoryDetailViewController: UIViewController {
     func setupView() {
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.isTranslucent = false
-        view.backgroundColor = .white
         //forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         //storyButton.addTarget(self, action: #selector(didPressStory(_:)), for: .touchUpInside)
 
-        if let theme = themeManager.theme {
-            apply(theme: theme)
-        }
+        apply(theme: themeManager.theme)
         viewState = .result(deal)
     }
 

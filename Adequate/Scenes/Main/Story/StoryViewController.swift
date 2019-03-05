@@ -113,12 +113,7 @@ final class StoryViewController: UIViewController {
     private func setupView() {
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.isTranslucent = false
-        view.backgroundColor = .white
-
-        if let theme = themeManager.theme {
-            apply(theme: theme)
-        }
-
+        apply(theme: themeManager.theme)
         observationTokens = setupObservations()
     }
 

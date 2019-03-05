@@ -223,9 +223,6 @@ class DealViewController: UIViewController {
     // MARK: - View Methods
 
     func setupView() {
-        view.backgroundColor = .white
-        navigationController?.navigationBar.barTintColor = .white
-        //navigationController?.navigationBar.barTintColor = .clear
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.isTranslucent = false
 
@@ -235,6 +232,7 @@ class DealViewController: UIViewController {
         retryButton.addTarget(self, action: #selector(getDeal), for: .touchUpInside)
         forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
 
+        apply(theme: themeManager.theme)
         observationTokens = setupObservations()
     }
 

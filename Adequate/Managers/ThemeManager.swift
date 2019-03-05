@@ -10,14 +10,18 @@ import UIKit
 
 // MARK: - Protocol
 protocol ThemeManagerType {
-    var theme: AppTheme? { get }
+    var theme: AppTheme { get }
     func applyTheme(theme: Theme) -> AppTheme
 }
 
 // MARK: - Implementation
 class ThemeManager: ThemeManagerType {
 
-    var theme: AppTheme?
+    var theme: AppTheme
+
+    init(theme: Theme) {
+        self.theme = AppTheme(theme: theme)
+    }
 
     func applyTheme(theme: Theme) -> AppTheme {
         let appTheme = AppTheme(theme: theme)
