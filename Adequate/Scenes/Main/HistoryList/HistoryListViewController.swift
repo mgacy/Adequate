@@ -97,7 +97,6 @@ final class HistoryListViewController: UIViewController {
     func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            // TableView
             tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             tableView.topAnchor.constraint(equalTo: guide.topAnchor),
             tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),

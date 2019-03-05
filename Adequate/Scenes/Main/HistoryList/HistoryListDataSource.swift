@@ -11,13 +11,6 @@ import UIKit
 final class HistoryListDataSource: NSObject {
     typealias Dependencies = HasDataProvider
 
-//    enum State {
-//        case loading
-//        case empty
-//        case error(Error)
-//        case update
-//    }
-
     private let dataProvider: DataProviderType
     private var deals: [Deal] = []
 
@@ -55,16 +48,6 @@ final class HistoryListDataSource: NSObject {
                 ds.deals = deals
             }
             ds.state = viewState.map { _ in return }
-//            switch viewState {
-//            case .empty:
-//                ds.state = .empty
-//            case .loading:
-//                ds.state = .loading
-//            case .error(let error):
-//                ds.state = .error(error)
-//            case .result:
-//                ds.state = .update
-//            }
         }
         return [historyToken]
     }
@@ -97,34 +80,6 @@ final class HistoryListDataSource: NSObject {
         }
     }
 
-    // MARK: - 2
-    /*
-    private var observations: [UUID: (State) -> Void] = [:]
-
-    func addObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, State) -> Void) -> ObservationToken {
-        let id = UUID()
-        observations[id] = { [weak self, weak observer] state in
-            // If the observer has been deallocated, we can
-            // automatically remove the observation closure.
-            guard let observer = observer else {
-                self?.observations.removeValue(forKey: id)
-                return
-            }
-            closure(observer, state)
-        }
-
-        closure(observer, state)
-        return ObservationToken { [weak self] in
-            self?.observations.removeValue(forKey: id)
-        }
-    }
-
-    private func callObservations(with state: State) {
-        observations.values.forEach { observation in
-            observation(state)
-        }
-    }
-    */
 }
 
 // MARK: - UITableViewDataSouce
@@ -139,15 +94,6 @@ extension HistoryListDataSource: UITableViewDataSource {
         let cell: HistoryListCell = tableView.dequeueReusableCell(for: indexPath)
         cell.configure(with: deal)
         return cell
-    }
-
-}
-
-// MARK: - DataProvider
-extension HistoryListDataSource {
-
-    func getDeals() {
-        dataProvider.getDeal()
     }
 
 }
