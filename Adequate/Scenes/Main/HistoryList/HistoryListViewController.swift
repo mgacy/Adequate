@@ -11,7 +11,7 @@ import UIKit
 // MARK: - Delegate
 
 protocol HistoryListViewControllerDelegate: class {
-    func showHistoryDetail()
+    func showHistoryDetail(with: Deal)
     func showSettings()
     func showDeal()
 }
@@ -149,7 +149,7 @@ extension HistoryListViewController: Themeable {
 extension HistoryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let deal = dataSource.objectAtIndexPath(indexPath)
-        delegate?.showHistoryDetail()
+        delegate?.showHistoryDetail(with: deal)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

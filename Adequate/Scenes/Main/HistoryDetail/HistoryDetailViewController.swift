@@ -13,9 +13,14 @@ class HistoryDetailViewController: UIViewController {
 
     weak var delegate: VoidDismissalDelegate?
 
-    //private let mehService: MehServiceType
     private let themeManager: ThemeManagerType
-    private var deal: Deal? = nil
+    private var deal: Deal
+
+    private var viewState: ViewState<Deal> {
+        didSet {
+            render(viewState)
+        }
+    }
 
     private let panGestureRecognizer = UIPanGestureRecognizer()
     /// TODO: rename `interactionController?
@@ -78,9 +83,10 @@ class HistoryDetailViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init(dependencies: Dependencies) {
-        //self.mehService = dependencies.mehService
+    init(dependencies: Dependencies, deal: Deal) {
         self.themeManager = dependencies.themeManager
+        self.deal = deal
+        self.viewState = .empty
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -124,6 +130,7 @@ class HistoryDetailViewController: UIViewController {
         if let theme = themeManager.theme {
             apply(theme: theme)
         }
+        viewState = .result(deal)
     }
 
     func setupConstraints() {
@@ -135,10 +142,6 @@ class HistoryDetailViewController: UIViewController {
         let widthInset: CGFloat = -2.0 * sideMargin
 
         NSLayoutConstraint.activate([
-            //view.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 0.0),
-            //view.topAnchor.constraint(equalTo: guide.bottomAnchor, constant: 0.0),
-            //view.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: 0.0),
-            //view.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: 0.0)
             // scrollView
             scrollView.leftAnchor.constraint(equalTo: guide.leftAnchor),
             scrollView.topAnchor.constraint(equalTo: guide.topAnchor),
@@ -192,7 +195,22 @@ class HistoryDetailViewController: UIViewController {
 
 // MARK: - ViewState
 extension HistoryDetailViewController {
-    func render() {
+    func render(_ viewState: ViewState<Deal>) {
+        switch viewState {
+        case .empty:
+            return
+        case .error(let error):
+            print("\(error.localizedDescription)")
+        case .loading:
+            return
+        case .result(let deal):
+            titleLabel.text = deal.title
+            featuresText.markdown = deal.features
+            // images
+            let safePhotoURLs = deal.photos.compactMap { $0.secure() }
+            pagedImageView.updateImages(with: safePhotoURLs)
+        }
+    }
 
     }
 }
