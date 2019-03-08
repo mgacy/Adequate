@@ -9,10 +9,11 @@
 import UIKit
 
 class HistoryDetailViewController: UIViewController {
-    typealias Dependencies = HasThemeManager
+    typealias Dependencies = HasDataProvider & HasThemeManager
 
     weak var delegate: VoidDismissalDelegate?
 
+    private let dataProvider: DataProviderType
     private let themeManager: ThemeManagerType
     private var deal: Deal
 
@@ -85,6 +86,7 @@ class HistoryDetailViewController: UIViewController {
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies, deal: Deal) {
+        self.dataProvider = dependencies.dataProvider
         self.themeManager = dependencies.themeManager
         self.deal = deal
         self.viewState = .empty
