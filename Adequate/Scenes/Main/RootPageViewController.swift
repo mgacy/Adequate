@@ -16,14 +16,28 @@ enum RootViewControllerPage {
 }
 
 final class RootPageViewControler: UIPageViewController {
+    typealias Dependencies = HasThemeManager
 
+    private var themeManager: ThemeManagerType
+    private var observationTokens: [ObservationToken] = []
     private var pages = [UIViewController]()
 
     // MARK: - Lifecycle
 
+    init(depenedencies: Dependencies) {
+        self.themeManager = depenedencies.themeManager
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal,
+                   options: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        observationTokens = setupObservations()
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,6 +57,12 @@ final class RootPageViewControler: UIPageViewController {
         pageControl.pageIndicatorTintColor = tintColor?.withAlphaComponent(0.5)
         pageControl.currentPageIndicatorTintColor = tintColor
         */
+    }
+
+    func setupObservations() -> [ObservationToken] {
+        return [themeManager.addObserver(self) { vc, theme in
+            vc.apply(theme: theme)
+        }]
     }
 
     func setPages(_ viewControllers: [UIViewController], displayIndex: Int, animated: Bool = false) {
@@ -141,12 +161,6 @@ extension RootPageViewControler: Themeable {
         view.backgroundColor = theme.backgroundColor
 
         // Apply to children
-//        pages.forEach { viewController in
-//            if let vc = viewController as? Themeable {
-//                vc.apply(theme: theme)
-//            }
-//        }
-        pages.compactMap { $0 as? Themeable }.forEach { $0.apply(theme: theme) }
-
+        //pages.compactMap { $0 as? Themeable }.forEach { $0.apply(theme: theme) }
     }
 }
