@@ -27,3 +27,7 @@ protocol HasUserDefaultsManager {
 protocol HasThemeManager {
     var themeManager: ThemeManagerType { get }
 }
+
+protocol HasDataProvider {
+    var dataProvider: DataProviderType { get }
+}

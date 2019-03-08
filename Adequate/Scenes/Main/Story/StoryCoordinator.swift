@@ -9,7 +9,7 @@
 import UIKit
 
 final class StoryCoordinator: Coordinator {
-    typealias Dependencies = HasThemeManager
+    typealias Dependencies = HasDataProvider & HasThemeManager
 
     private let dependencies: Dependencies
 

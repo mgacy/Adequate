@@ -167,10 +167,7 @@ class SettingsViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
                                                             action: #selector(didPressDone(_:)))
         notificationSwitch.setOn(userDefaultsManager.showNotifications, animated: false)
-
-        if let theme = themeManager.theme {
-            apply(theme: theme)
-        }
+        apply(theme: themeManager.theme)
     }
 
     // MARK: - UITableViewDatasource

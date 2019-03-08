@@ -10,18 +10,20 @@ import UIKit
 
 final class HistoryDetailCoordinator: BaseCoordinator {
     typealias CoordinationResult = Void
-    typealias Dependencies = HasThemeManager
+    typealias Dependencies = HasDataProvider & HasThemeManager
 
     private let router: RouterType
     private let dependencies: Dependencies
+    private let deal: Deal
 
     var onFinishFlow: ((CoordinationResult) -> Void)? = nil
 
     // MARK: - Lifecycle
 
-    init(router: RouterType, dependencies: Dependencies) {
-        self.dependencies = dependencies
+    init(router: RouterType, dependencies: Dependencies, deal: Deal) {
         self.router = router
+        self.dependencies = dependencies
+        self.deal = deal
     }
 
     override func start(with deepLink: DeepLink?) {
@@ -38,7 +40,7 @@ final class HistoryDetailCoordinator: BaseCoordinator {
     // MARK: - Private Methods
 
     private func showDetail() {
-        let viewController = HistoryDetailViewController(dependencies: dependencies)
+        let viewController = HistoryDetailViewController(dependencies: dependencies, deal: deal)
         viewController.delegate = self
         router.setRootModule(viewController, hideBar: false)
     }

@@ -20,6 +20,8 @@
 		C9093CBD221FBE9400C9DA0C /* DealCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CBC221FBE9400C9DA0C /* DealCoordinator.swift */; };
 		C9093CBF2225BC0500C9DA0C /* HistoryDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CBE2225BC0500C9DA0C /* HistoryDetailCoordinator.swift */; };
 		C9093CC1222796FD00C9DA0C /* RootPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CC0222796FD00C9DA0C /* RootPageViewController.swift */; };
+		C9093CC32228A27800C9DA0C /* ObservationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CC22228A27800C9DA0C /* ObservationToken.swift */; };
+		C9093CC52228A76D00C9DA0C /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CC42228A76D00C9DA0C /* DataProvider.swift */; };
 		C9116E5321616CA60084934B /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E5221616CA60084934B /* StoryViewController.swift */; };
 		C9116E562161781F0084934B /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E552161781F0084934B /* Appearance.swift */; };
 		C928547B216DCE44001E5993 /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C928547A216DCE44001E5993 /* AWSManager.swift */; };
@@ -30,6 +32,8 @@
 		C96CA86C2182DCC800C3459E /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CA86B2182DCC800C3459E /* OnboardingPageViewController.swift */; };
 		C96CA86E2182DD1A00C3459E /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CA86D2182DD1A00C3459E /* WelcomeViewController.swift */; };
 		C96CA8702182DD2E00C3459E /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CA86F2182DD2E00C3459E /* NotificationViewController.swift */; };
+		C98B3248222DC1E6003A8669 /* HistoryListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B3247222DC1E6003A8669 /* HistoryListDataSource.swift */; };
+		C98B324A222DC1F0003A8669 /* HistoryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B3249222DC1F0003A8669 /* HistoryListCell.swift */; };
 		C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */; };
 		C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992D1DD216D93F000B373D5 /* Optional+Ext.swift */; };
 		C99DD5DB2182D4C500A38529 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99DD5DA2182D4C500A38529 /* PaddingLabel.swift */; };
@@ -141,6 +145,8 @@
 		C9093CBC221FBE9400C9DA0C /* DealCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealCoordinator.swift; sourceTree = "<group>"; };
 		C9093CBE2225BC0500C9DA0C /* HistoryDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailCoordinator.swift; sourceTree = "<group>"; };
 		C9093CC0222796FD00C9DA0C /* RootPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPageViewController.swift; sourceTree = "<group>"; };
+		C9093CC22228A27800C9DA0C /* ObservationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationToken.swift; sourceTree = "<group>"; };
+		C9093CC42228A76D00C9DA0C /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		C9116E5221616CA60084934B /* StoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
 		C9116E552161781F0084934B /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		C928547A216DCE44001E5993 /* AWSManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSManager.swift; sourceTree = "<group>"; };
@@ -151,6 +157,8 @@
 		C96CA86B2182DCC800C3459E /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		C96CA86D2182DD1A00C3459E /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		C96CA86F2182DD2E00C3459E /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		C98B3247222DC1E6003A8669 /* HistoryListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListDataSource.swift; sourceTree = "<group>"; };
+		C98B3249222DC1F0003A8669 /* HistoryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListCell.swift; sourceTree = "<group>"; };
 		C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSSNS+Promise.swift"; sourceTree = "<group>"; };
 		C992D1DD216D93F000B373D5 /* Optional+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Ext.swift"; sourceTree = "<group>"; };
 		C99DD5DA2182D4C500A38529 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
@@ -435,6 +443,8 @@
 				C9DAC4A621476C8600D6558B /* NetworkClientError.swift */,
 				C9DAC4A421476C5E00D6558B /* ImageService.swift */,
 				C9DAC4A821476C9D00D6558B /* MehService.swift */,
+				C9093CC22228A27800C9DA0C /* ObservationToken.swift */,
+				C9093CC42228A76D00C9DA0C /* DataProvider.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -523,6 +533,8 @@
 			children = (
 				C9093CBA221FBD6E00C9DA0C /* HistoryListCoordinator.swift */,
 				C9E3223821C2F3AE0088AF9E /* HistoryListViewController.swift */,
+				C98B3247222DC1E6003A8669 /* HistoryListDataSource.swift */,
+				C98B3249222DC1F0003A8669 /* HistoryListCell.swift */,
 			);
 			path = HistoryList;
 			sourceTree = "<group>";
@@ -838,6 +850,7 @@
 				C9DAC477214768CF00D6558B /* AppCoordinator.swift in Sources */,
 				C9093CBB221FBD6E00C9DA0C /* HistoryListCoordinator.swift in Sources */,
 				C9DAC4A121476BCD00D6558B /* Video.swift in Sources */,
+				C9093CC52228A76D00C9DA0C /* DataProvider.swift in Sources */,
 				C9116E562161781F0084934B /* Appearance.swift in Sources */,
 				C9DAC475214768C600D6558B /* AppDependency.swift in Sources */,
 				C9DAC4A321476C3A00D6558B /* NetworkClient.swift in Sources */,
@@ -858,16 +871,19 @@
 				C99DD5DB2182D4C500A38529 /* PaddingLabel.swift in Sources */,
 				C96CA86C2182DCC800C3459E /* OnboardingPageViewController.swift in Sources */,
 				C9DAC4AF21476D3F00D6558B /* DealViewController.swift in Sources */,
+				C98B324A222DC1F0003A8669 /* HistoryListCell.swift in Sources */,
 				C9DAC4B1214785DF00D6558B /* BaseCoordinator.swift in Sources */,
 				C9AE54C9217927B500818F11 /* ZoomingImageView.swift in Sources */,
 				C9DAC49721476BA000D6558B /* Poll.swift in Sources */,
 				C9DAC4B52147872700D6558B /* Router.swift in Sources */,
+				C98B3248222DC1E6003A8669 /* HistoryListDataSource.swift in Sources */,
 				C928547B216DCE44001E5993 /* AWSManager.swift in Sources */,
 				C95B83C3218017FD0051B72B /* ThemeManager.swift in Sources */,
 				C9058DEE215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift in Sources */,
 				C9DAC49321476B5100D6558B /* MehResponse.swift in Sources */,
 				C9DAC4B32147864A00D6558B /* ViewState.swift in Sources */,
 				C96CA8702182DD2E00C3459E /* NotificationViewController.swift in Sources */,
+				C9093CC32228A27800C9DA0C /* ObservationToken.swift in Sources */,
 				C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */,
 				C9DAC48D21476AF600D6558B /* UIColor+Ext.swift in Sources */,
 				C9DAC48321476A4000D6558B /* HasProtocols.swift in Sources */,
