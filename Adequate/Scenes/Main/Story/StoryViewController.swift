@@ -140,9 +140,11 @@ final class StoryViewController: UIViewController {
     }
 
     private func setupObservations() -> [ObservationToken] {
-        return [dataProvider.addDealObserver(self) { vc, viewState in
+        let dealToken = dataProvider.addDealObserver(self) { vc, viewState in
             vc.viewState = viewState
-        }]
+        }
+        let themeToken = themeManager.addObserver(self)
+        return [dealToken, themeToken]
     }
 
     // MARK: - Navigation
@@ -153,8 +155,10 @@ final class StoryViewController: UIViewController {
 
 }
 
-// MARK: - ViewState
-extension StoryViewController {
+// MARK: - ViewStateRenderable
+extension StoryViewController: ViewStateRenderable {
+    typealias ResultType = Deal
+
     func render(_ viewState: ViewState<Deal>) {
         switch viewState {
         case .empty:

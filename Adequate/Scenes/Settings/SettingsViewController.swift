@@ -65,6 +65,7 @@ class SettingsViewController: UITableViewController {
     private let notificationManager: NotificationManagerType
     private let themeManager: ThemeManagerType
     private let userDefaultsManager: UserDefaultsManagerType
+    private var observationTokens: [ObservationToken] = []
 
     // MARK: - Interface
 
@@ -161,6 +162,8 @@ class SettingsViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    deinit { observationTokens.forEach { $0.cancel() } }
+
     // MARK: - View Methods
 
     func setupView() {
@@ -168,6 +171,11 @@ class SettingsViewController: UITableViewController {
                                                             action: #selector(didPressDone(_:)))
         notificationSwitch.setOn(userDefaultsManager.showNotifications, animated: false)
         apply(theme: themeManager.theme)
+    }
+
+    private func setupObservations() -> [ObservationToken] {
+        let themeToken = themeManager.addObserver(self)
+        return [themeToken]
     }
 
     // MARK: - UITableViewDatasource

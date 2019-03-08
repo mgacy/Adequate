@@ -210,6 +210,7 @@ class DealViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        observationTokens = setupObservations()
         getDeal()
     }
 
@@ -231,9 +232,6 @@ class DealViewController: UIViewController {
 
         retryButton.addTarget(self, action: #selector(getDeal), for: .touchUpInside)
         forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
-
-        apply(theme: themeManager.theme)
-        observationTokens = setupObservations()
     }
 
     func setupConstraints() {
@@ -290,9 +288,11 @@ class DealViewController: UIViewController {
     }
 
     private func setupObservations() -> [ObservationToken] {
-        return [dataProvider.addDealObserver(self) { vc, viewState in
+        let dealToken = dataProvider.addDealObserver(self) { vc, viewState in
             vc.viewState = viewState
-        }]
+        }
+        let themeToken = themeManager.addObserver(self)
+        return [dealToken, themeToken]
     }
 
     // MARK: - Actions / Navigation
@@ -359,8 +359,10 @@ extension DealViewController: DealFooterDelegate {
 
 }
 
-// MARK: - ViewState
-extension DealViewController {
+// MARK: - ViewStateRenderable
+extension DealViewController: ViewStateRenderable {
+    typealias ResultType = Deal
+
     func render(_ viewState: ViewState<Deal>) {
         switch viewState {
         case .empty:
@@ -369,6 +371,7 @@ extension DealViewController {
             errorMessageLabel.isHidden = true
             retryButton.isHidden = false
             scrollView.isHidden = true
+            footerView.isHidden = true
         case .error(let error):
             activityIndicator.stopAnimating()
             // TODO: display error message on messageLabel?
@@ -401,13 +404,15 @@ extension DealViewController {
             // footerView
             footerView.update(withDeal: deal)
 
+            themeManager.applyTheme(theme: deal.theme)
             UIView.animate(withDuration: 0.3, animations: {
                 self.activityIndicator.stopAnimating()
                 self.messageLabel.isHidden = true
                 self.errorMessageLabel.isHidden = true
                 self.retryButton.isHidden = true
                 self.scrollView.isHidden = false
-                (self.themeManager.applyTheme >>> self.apply)(deal.theme)
+                self.footerView.isHidden = false
+                //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
             })
         }
     }
@@ -441,6 +446,7 @@ extension DealViewController: Themeable {
 
         // backgroundColor
         self.navigationController?.navigationBar.barTintColor = theme.backgroundColor
+        self.navigationController?.navigationBar.layoutIfNeeded() // Animate color change
         view.backgroundColor = theme.backgroundColor
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor

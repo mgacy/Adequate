@@ -109,7 +109,8 @@ final class HistoryListViewController: UIViewController {
         let historyToken = dataSource.addObserver(self) { vc, state in
             vc.render(state)
         }
-        return [historyToken]
+        let themeToken = themeManager.addObserver(self)
+        return [historyToken, themeToken]
     }
 
     // MARK: - Navigation
@@ -148,8 +149,10 @@ extension HistoryListViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - ViewState
-extension HistoryListViewController {
+// MARK: - ViewStateRenderable
+extension HistoryListViewController: ViewStateRenderable {
+    typealias ResultType = Void
+
     func render(_ viewState: ViewState<Void>) {
         switch viewState {
         case .empty:

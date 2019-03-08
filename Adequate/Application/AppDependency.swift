@@ -8,8 +8,7 @@
 
 import Foundation
 
-struct AppDependency: HasClient, HasDataProvider, HasMehService, HasNotificationManager, HasThemeManager, HasUserDefaultsManager {
-    let client: NetworkClientType
+struct AppDependency: HasDataProvider, HasMehService, HasNotificationManager, HasThemeManager, HasUserDefaultsManager {
     let mehService: MehServiceType
     /// TODO: should we always carry this, or provide factory method so callers can create / destroy as needed?
     //func makeNotificationManager() -> NotificationManagerType {}
@@ -19,20 +18,8 @@ struct AppDependency: HasClient, HasDataProvider, HasMehService, HasNotification
     let dataProvider: DataProviderType
 
     init() {
-        self.client = NetworkClient()
-
-        // Configuration
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 8  // seconds
-        configuration.timeoutIntervalForResource = 8 // seconds
-        //configuration.waitsForConnectivity = true    // reachability
-
-        // JSON Decoding
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
-
-        let mehClient = NetworkClient(configuration: configuration, decoder: decoder)
-        self.mehService = MehService(client: mehClient)
+        let networkClient = AppDependency.makeNetworkClient()
+        self.mehService = MehService(client: networkClient)
 
         self.userDefaultsManager = UserDefaultsManager(defaults: .standard)
 
@@ -49,6 +36,22 @@ struct AppDependency: HasClient, HasDataProvider, HasMehService, HasNotification
         let defaultTheme = Theme(accentColor: "#007AFF", backgroundColor: "#ffffff", foreground: .dark)
         self.themeManager = ThemeManager(theme: defaultTheme)
         self.dataProvider = DataProvider(mehService: self.mehService)
+    }
+
+    // MARK: - Factory Functions
+
+    static private func makeNetworkClient() -> NetworkClientType {
+        // Configuration
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 8  // seconds
+        configuration.timeoutIntervalForResource = 8 // seconds
+        //configuration.waitsForConnectivity = true    // reachability
+
+        // JSON Decoding
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+
+        return NetworkClient(configuration: configuration, decoder: decoder)
     }
 
 }

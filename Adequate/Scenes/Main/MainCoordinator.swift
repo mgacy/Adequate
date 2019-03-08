@@ -53,8 +53,7 @@ final class MainCoordinator: BaseCoordinator {
     init(window: UIWindow, dependencies: Dependencies) {
         self.window = window
         self.dependencies = dependencies
-        self.pageViewController = RootPageViewControler(transitionStyle: .scroll, navigationOrientation: .horizontal,
-                                                        options: nil)
+        self.pageViewController = RootPageViewControler(depenedencies: dependencies)
     }
 
     override func start(with deepLink: DeepLink?) {
