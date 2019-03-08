@@ -200,8 +200,10 @@ class HistoryDetailViewController: UIViewController {
 
 }
 
-// MARK: - ViewState
-extension HistoryDetailViewController {
+// MARK: - ViewStateRenderable
+extension HistoryDetailViewController: ViewStateRenderable {
+    typealias ResultType = Deal
+
     func render(_ viewState: ViewState<Deal>) {
         switch viewState {
         case .empty:

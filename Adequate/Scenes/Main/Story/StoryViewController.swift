@@ -157,8 +157,10 @@ final class StoryViewController: UIViewController {
 
 }
 
-// MARK: - ViewState
-extension StoryViewController {
+// MARK: - ViewStateRenderable
+extension StoryViewController: ViewStateRenderable {
+    typealias ResultType = Deal
+
     func render(_ viewState: ViewState<Deal>) {
         switch viewState {
         case .empty:

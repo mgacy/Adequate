@@ -151,8 +151,10 @@ extension HistoryListViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - ViewState
-extension HistoryListViewController {
+// MARK: - ViewStateRenderable
+extension HistoryListViewController: ViewStateRenderable {
+    typealias ResultType = Void
+
     func render(_ viewState: ViewState<Void>) {
         switch viewState {
         case .empty:

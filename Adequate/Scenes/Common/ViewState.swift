@@ -49,8 +49,6 @@ extension ViewState: Equatable where Element: Equatable {
 }
 
 protocol ViewStateRenderable: class {
-    //associatedtype ResultType
-    //func render()
-    //func render(_: ViewState<MehResponse>)
+    associatedtype ResultType
+    func render(_: ViewState<ResultType>)
 }
-

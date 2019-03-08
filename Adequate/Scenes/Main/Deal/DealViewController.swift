@@ -361,8 +361,10 @@ extension DealViewController: DealFooterDelegate {
 
 }
 
-// MARK: - ViewState
-extension DealViewController {
+// MARK: - ViewStateRenderable
+extension DealViewController: ViewStateRenderable {
+    typealias ResultType = Deal
+
     func render(_ viewState: ViewState<Deal>) {
         switch viewState {
         case .empty:
