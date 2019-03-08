@@ -208,8 +208,6 @@ extension HistoryDetailViewController {
             pagedImageView.updateImages(with: safePhotoURLs)
         }
     }
-
-    }
 }
 
 // MARK: - Themeable
