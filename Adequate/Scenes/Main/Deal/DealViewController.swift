@@ -291,9 +291,7 @@ class DealViewController: UIViewController {
         let dealToken = dataProvider.addDealObserver(self) { vc, viewState in
             vc.viewState = viewState
         }
-        let themeToken = themeManager.addObserver(self) { vc, theme in
-            vc.apply(theme: theme)
-        }
+        let themeToken = themeManager.addObserver(self)
         return [dealToken, themeToken]
     }
 

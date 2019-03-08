@@ -172,9 +172,7 @@ class HistoryDetailViewController: UIViewController {
     }
 
     private func setupObservations() -> [ObservationToken] {
-        let themeToken = themeManager.addObserver(self) { vc, theme in
-            vc.apply(theme: theme)
-        }
+        let themeToken = themeManager.addObserver(self)
         return [themeToken]
     }
 

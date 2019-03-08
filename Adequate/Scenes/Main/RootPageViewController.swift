@@ -60,9 +60,7 @@ final class RootPageViewControler: UIPageViewController {
     }
 
     func setupObservations() -> [ObservationToken] {
-        return [themeManager.addObserver(self) { vc, theme in
-            vc.apply(theme: theme)
-        }]
+        return [themeManager.addObserver(self)]
     }
 
     func setPages(_ viewControllers: [UIViewController], displayIndex: Int, animated: Bool = false) {

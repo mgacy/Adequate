@@ -12,7 +12,7 @@ import UIKit
 protocol ThemeManagerType {
     var theme: AppTheme { get }
     func applyTheme(theme: Theme)
-    func addObserver<T: AnyObject>(_: T, closure: @escaping (T, AppTheme) -> Void) -> ObservationToken
+    func addObserver<T: AnyObject & Themeable>(_ observer: T) -> ObservationToken
 }
 
 // MARK: - Implementation
@@ -47,7 +47,7 @@ class ThemeManager: ThemeManagerType {
 
     private var observations: [UUID: (AppTheme) -> Void] = [:]
 
-    func addObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, AppTheme) -> Void) -> ObservationToken {
+    func addObserver<T: AnyObject & Themeable>(_ observer: T) -> ObservationToken {
         let id = UUID()
         observations[id] = { [weak self, weak observer] theme in
             // If the observer has been deallocated, we can
@@ -57,11 +57,11 @@ class ThemeManager: ThemeManagerType {
                 return
             }
             UIView.animate(withDuration: ThemeManager.animationDuration, animations: {
-                closure(observer, theme)
+                observer.apply(theme: theme)
             })
         }
 
-        closure(observer, theme)
+        observer.apply(theme: theme)
 
         return ObservationToken { [weak self] in
             self?.observations.removeValue(forKey: id)
