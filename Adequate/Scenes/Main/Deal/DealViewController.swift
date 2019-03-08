@@ -448,6 +448,7 @@ extension DealViewController: Themeable {
 
         // backgroundColor
         self.navigationController?.navigationBar.barTintColor = theme.backgroundColor
+        self.navigationController?.navigationBar.layoutIfNeeded() // Animate color change
         view.backgroundColor = theme.backgroundColor
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
