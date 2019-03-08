@@ -109,7 +109,10 @@ final class HistoryListViewController: UIViewController {
         let historyToken = dataSource.addObserver(self) { vc, state in
             vc.render(state)
         }
-        return [historyToken]
+        let themeToken = themeManager.addObserver(self) { vc, theme in
+            vc.apply(theme: theme)
+        }
+        return [historyToken, themeToken]
     }
 
     // MARK: - Navigation

@@ -11,19 +11,25 @@ import UIKit
 // MARK: - Protocol
 protocol ThemeManagerType {
     var theme: AppTheme { get }
-    func applyTheme(theme: Theme) -> AppTheme
+    func applyTheme(theme: Theme)
+    func addObserver<T: AnyObject>(_: T, closure: @escaping (T, AppTheme) -> Void) -> ObservationToken
 }
 
 // MARK: - Implementation
 class ThemeManager: ThemeManagerType {
+    private static var animationDuration: TimeInterval = 0.3
 
-    var theme: AppTheme
+    var theme: AppTheme {
+        didSet {
+            callObservations(with: theme)
+        }
+    }
 
     init(theme: Theme) {
         self.theme = AppTheme(theme: theme)
     }
 
-    func applyTheme(theme: Theme) -> AppTheme {
+    func applyTheme(theme: Theme) {
         let appTheme = AppTheme(theme: theme)
         self.theme = AppTheme(theme: theme)
 
@@ -35,8 +41,37 @@ class ThemeManager: ThemeManagerType {
 
         // home indicator
         // https://stackoverflow.com/questions/46194557/how-to-change-home-indicator-background-color-on-iphone-x
+    }
 
-        return appTheme
+    // MARK: - Observation
+
+    private var observations: [UUID: (AppTheme) -> Void] = [:]
+
+    func addObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, AppTheme) -> Void) -> ObservationToken {
+        let id = UUID()
+        observations[id] = { [weak self, weak observer] theme in
+            // If the observer has been deallocated, we can
+            // automatically remove the observation closure.
+            guard let observer = observer else {
+                self?.observations.removeValue(forKey: id)
+                return
+            }
+            UIView.animate(withDuration: ThemeManager.animationDuration, animations: {
+                closure(observer, theme)
+            })
+        }
+
+        closure(observer, theme)
+
+        return ObservationToken { [weak self] in
+            self?.observations.removeValue(forKey: id)
+        }
+    }
+
+    private func callObservations(with theme: AppTheme) {
+        observations.values.forEach { observation in
+            observation(theme)
+        }
     }
 
 }

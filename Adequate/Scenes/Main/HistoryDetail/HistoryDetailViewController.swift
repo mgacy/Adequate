@@ -16,6 +16,7 @@ class HistoryDetailViewController: UIViewController {
     private let themeManager: ThemeManagerType
     private var deal: Deal
 
+    private var observationTokens: [ObservationToken] = []
     private var viewState: ViewState<Deal> {
         didSet {
             render(viewState)
@@ -111,12 +112,15 @@ class HistoryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        observationTokens = setupObservations()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
+    deinit { observationTokens.forEach { $0.cancel() } }
 
     // MARK: - View Methods
 
@@ -126,7 +130,6 @@ class HistoryDetailViewController: UIViewController {
         //forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         //storyButton.addTarget(self, action: #selector(didPressStory(_:)), for: .touchUpInside)
 
-        apply(theme: themeManager.theme)
         viewState = .result(deal)
     }
 
@@ -159,6 +162,13 @@ class HistoryDetailViewController: UIViewController {
             featuresText.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
             featuresText.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -spacing)
             ])
+    }
+
+    private func setupObservations() -> [ObservationToken] {
+        let themeToken = themeManager.addObserver(self) { vc, theme in
+            vc.apply(theme: theme)
+        }
+        return [themeToken]
     }
 
     private func setupTransitionController() {

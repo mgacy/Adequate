@@ -140,9 +140,13 @@ final class StoryViewController: UIViewController {
     }
 
     private func setupObservations() -> [ObservationToken] {
-        return [dataProvider.addDealObserver(self) { vc, viewState in
+        let dealToken = dataProvider.addDealObserver(self) { vc, viewState in
             vc.viewState = viewState
-        }]
+        }
+        let themeToken = themeManager.addObserver(self) { vc, theme in
+            vc.apply(theme: theme)
+        }
+        return [dealToken, themeToken]
     }
 
     // MARK: - Navigation
