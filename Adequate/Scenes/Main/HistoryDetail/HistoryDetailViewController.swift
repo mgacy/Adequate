@@ -103,6 +103,7 @@ class HistoryDetailViewController: UIViewController {
         scrollView.addSubview(pagedImageView)
         scrollView.addSubview(titleLabel)
         scrollView.addSubview(featuresText)
+        scrollView.addSubview(forumButton)
         navigationItem.leftBarButtonItem = dismissButton
 
         self.view = view
@@ -160,8 +161,12 @@ class HistoryDetailViewController: UIViewController {
             featuresText.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
             featuresText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing),
             featuresText.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
-            featuresText.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -spacing)
-            ])
+            // forumButton
+            forumButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: spacing),
+            forumButton.widthAnchor.constraint(equalToConstant: 200.0),
+            forumButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -spacing)
+        ])
     }
 
     private func setupObservations() -> [ObservationToken] {
@@ -218,8 +223,29 @@ extension HistoryDetailViewController: ViewStateRenderable {
             // images
             let safePhotoURLs = deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
+            // forum
+            renderComments(for: deal)
         }
     }
+
+    // MARK: Helper Methods
+
+    private func renderComments(for deal: Deal) {
+        guard let topic = deal.topic else {
+            forumButton.isEnabled = false
+            forumButton.isHidden = true
+            return
+        }
+        forumButton.isHidden = false
+        forumButton.isEnabled = true
+        if topic.commentCount > 0 {
+            // TODO: display .commentCount + .replyCount?
+            forumButton.setTitle("\(topic.commentCount) Comments", for: .normal)
+        } else {
+            forumButton.setTitle("Comments", for: .normal)
+        }
+    }
+
 }
 
 // MARK: - Themeable
