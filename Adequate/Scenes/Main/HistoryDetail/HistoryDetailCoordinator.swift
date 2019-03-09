@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SafariServices
+import Promise
 
 final class HistoryDetailCoordinator: BaseCoordinator {
     typealias CoordinationResult = Void
@@ -45,6 +47,14 @@ final class HistoryDetailCoordinator: BaseCoordinator {
         router.setRootModule(viewController, hideBar: false)
     }
 
+    private func showWebPage(with url: URL, animated: Bool) {
+        let configuration = SFSafariViewController.Configuration()
+        configuration.barCollapsingEnabled = false
+
+        let viewController = SFSafariViewController(url: url, configuration: configuration)
+        router.present(viewController, animated: animated)
+    }
+
 }
 
 // MARK: - Presentable
@@ -58,6 +68,17 @@ extension HistoryDetailCoordinator: Presentable {
 extension HistoryDetailCoordinator: VoidDismissalDelegate {
     func dismiss() {
         onFinishFlow?(())
+    }
+}
+
+// MARK: - HistoryDetailViewControllerDelegate
+extension HistoryDetailCoordinator: HistoryDetailViewControllerDelegate {
+    func showImage(_ imageSource: Promise<UIImage>, animatingFrom originFrame: CGRect) {
+        // ...
+    }
+
+    func showForum(with topic: Topic) {
+        showWebPage(with: topic.url, animated: true)
     }
 }
 

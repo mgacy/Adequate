@@ -7,11 +7,21 @@
 //
 
 import UIKit
+import Promise
+
+// MARK: - Protocol
+
+protocol HistoryDetailViewControllerDelegate: VoidDismissalDelegate {
+    func showForum(with: Topic)
+    func showImage(_: Promise<UIImage>, animatingFrom: CGRect)
+}
+
+// MARK: - View Controller
 
 class HistoryDetailViewController: UIViewController {
     typealias Dependencies = HasDataProvider & HasThemeManager
 
-    weak var delegate: VoidDismissalDelegate?
+    weak var delegate: HistoryDetailViewControllerDelegate?
 
     private let dataProvider: DataProviderType
     private let themeManager: ThemeManagerType
@@ -64,7 +74,7 @@ class HistoryDetailViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    /*
     private let storyButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Story", for: .normal)
@@ -73,7 +83,7 @@ class HistoryDetailViewController: UIViewController {
         button.backgroundColor = button.tintColor
         return button
     }()
-
+    */
     private let forumButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Comments", for: .normal)
@@ -130,7 +140,7 @@ class HistoryDetailViewController: UIViewController {
     func setupView() {
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.isTranslucent = false
-        //forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
+        forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         //storyButton.addTarget(self, action: #selector(didPressStory(_:)), for: .touchUpInside)
 
         viewState = .result(deal)
@@ -182,16 +192,16 @@ class HistoryDetailViewController: UIViewController {
     }
 
     // MARK: - Navigation
-    /*
+
     @objc private func didPressForum(_ sender: UIButton) {
-        guard let deal = deal, let topic = deal.topic else {
+        guard case .result(let deal) = viewState, let topic = deal.topic else {
             return
         }
         delegate?.showForum(with: topic)
     }
-
+    /*
     @objc private func didPressStory(_ sender: UIButton) {
-        guard let deal = deal else {
+        guard case .result(let deal) = viewState, let topic = deal.topic else {
             return
         }
         delegate?.showStory(with: deal.story)
@@ -252,7 +262,7 @@ extension HistoryDetailViewController: ViewStateRenderable {
 extension HistoryDetailViewController: Themeable {
     func apply(theme: AppTheme) {
         // accentColor
-        storyButton.backgroundColor = theme.accentColor
+        //storyButton.backgroundColor = theme.accentColor
         forumButton.backgroundColor = theme.accentColor
 
         // backgroundColor
@@ -260,7 +270,7 @@ extension HistoryDetailViewController: Themeable {
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
         featuresText.backgroundColor = theme.backgroundColor
-        storyButton.setTitleColor(theme.backgroundColor, for: .normal)
+        //storyButton.setTitleColor(theme.backgroundColor, for: .normal)
         forumButton.setTitleColor(theme.backgroundColor, for: .normal)
 
         // foreground
