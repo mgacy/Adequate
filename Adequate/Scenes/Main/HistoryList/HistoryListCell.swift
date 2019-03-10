@@ -30,3 +30,17 @@ extension HistoryListCell {
         detailTextLabel?.text = DateFormatter.yyyyMMdd.string(from: createdAt)
     }
 }
+
+// MARK: - Themeable
+extension HistoryListCell: Themeable {
+    func apply(theme: AppTheme) {
+        // accentColor
+
+        // backgroundColor
+        backgroundColor = theme.backgroundColor
+        contentView.backgroundColor = theme.backgroundColor
+        // foreground
+        textLabel?.textColor = theme.foreground.textColor
+        detailTextLabel?.textColor = theme.foreground.textColor
+    }
+}
