@@ -135,7 +135,7 @@ extension SlideTransitionController: UIViewControllerTransitioningDelegate {
     }
 
     // MARK: New
-    /*
+
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         switch transitionType {
         case .fullscreenImage:
@@ -144,7 +144,7 @@ extension SlideTransitionController: UIViewControllerTransitioningDelegate {
             return SheetPresentationController(presentedViewController: presented, presenting: presenting)
         }
     }
-    */
+
 }
 
 // MARK: - Z
@@ -158,7 +158,7 @@ protocol ImageSource {
 }
 
 // MARK: - A
-/*
+
 // [robertmryan](https://github.com/robertmryan)
 // [robertmryan/SwiftCustomTransitions](https://github.com/robertmryan/SwiftCustomTransitions/tree/rightside)
 // FIXME: the above are under a Creative Commons License
@@ -210,7 +210,7 @@ class SheetPresentationController: UIPresentationController {
     }
 
 }
-*/
+
 // MARK: - B
 
 class PanelAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
