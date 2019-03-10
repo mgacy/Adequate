@@ -10,6 +10,8 @@ import UIKit
 
 final class HistoryListCell: UITableViewCell {
 
+    private var observationToken: ObservationToken?
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         textLabel?.numberOfLines = 2
@@ -17,6 +19,15 @@ final class HistoryListCell: UITableViewCell {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        observationToken?.cancel()
+    }
+
+    deinit {
+        observationToken?.cancel()
     }
 
 }
@@ -28,6 +39,10 @@ extension HistoryListCell {
 
         let createdAt = Date()
         detailTextLabel?.text = DateFormatter.yyyyMMdd.string(from: createdAt)
+    }
+
+    func setupThemeObservation(_ themeManager: ThemeManagerType) {
+        observationToken = themeManager.addObserver(self)
     }
 }
 

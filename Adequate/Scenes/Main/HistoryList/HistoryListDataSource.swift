@@ -9,9 +9,10 @@
 import UIKit
 
 final class HistoryListDataSource: NSObject {
-    typealias Dependencies = HasDataProvider
+    typealias Dependencies = HasDataProvider & HasThemeManager
 
     private let dataProvider: DataProviderType
+    private let themeManager: ThemeManagerType
     private var deals: [Deal] = []
 
     private var observationTokens: [ObservationToken] = []
@@ -23,6 +24,7 @@ final class HistoryListDataSource: NSObject {
 
     init(dependencies: Dependencies) {
         self.dataProvider = dependencies.dataProvider
+        self.themeManager = dependencies.themeManager
         self.state = .empty
         super.init()
         observationTokens = setupObservations()
@@ -93,6 +95,7 @@ extension HistoryListDataSource: UITableViewDataSource {
         let deal = objectAtIndexPath(indexPath)
         let cell: HistoryListCell = tableView.dequeueReusableCell(for: indexPath)
         cell.configure(with: deal)
+        cell.setupThemeObservation(themeManager)
         return cell
     }
 
