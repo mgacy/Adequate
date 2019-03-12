@@ -11,6 +11,7 @@ import UIKit
 // MARK: - Delegate
 
 protocol HistoryListViewControllerDelegate: class {
+    typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
     func showHistoryDetail(with: Deal)
     func showSettings()
     func showDeal()
@@ -20,6 +21,7 @@ protocol HistoryListViewControllerDelegate: class {
 
 final class HistoryListViewController: UIViewController {
     typealias Dependencies = HasDataProvider & HasThemeManager
+    typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     weak var delegate: HistoryListViewControllerDelegate?
 
@@ -86,7 +88,8 @@ final class HistoryListViewController: UIViewController {
         apply(theme: themeManager.theme)
         setupTableView()
         observationTokens = setupObservations()
-        dataSource.getDealHistory(from: Date(), to: Date())
+        let startDate = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
+        dataSource.getDealHistory(from: startDate, to: Date())
     }
 
     func setupConstraints() {

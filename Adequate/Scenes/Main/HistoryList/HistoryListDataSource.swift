@@ -10,6 +10,7 @@ import UIKit
 
 final class HistoryListDataSource: NSObject {
     typealias Dependencies = HasDataProvider & HasThemeManager
+    typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     private let dataProvider: DataProviderType
     private let themeManager: ThemeManagerType

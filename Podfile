@@ -1,4 +1,4 @@
-﻿# Uncomment the next line to define a global platform for your project
+# Uncomment the next line to define a global platform for your project
 platform :ios, '11.0'
 
 # Basic
@@ -7,7 +7,8 @@ def basic_pods
   pod 'Promises'
   # AWS
   pod 'AWSCore'
-  pod 'AWSCognito'
+  pod 'AWSAppSync'
+  pod 'AWSMobileClient'
   pod 'AWSSNS'
 end
 

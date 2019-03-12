@@ -34,6 +34,8 @@ final class HistoryListCell: UITableViewCell {
 
 // MARK: - Configuration
 extension HistoryListCell {
+    typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+
     func configure(with deal: Deal) {
         textLabel?.text = deal.title
 

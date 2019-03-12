@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+/*
 enum ThemeForeground: String, Codable, Equatable {
     case dark
     case light
@@ -26,7 +26,7 @@ enum ThemeForeground: String, Codable, Equatable {
         }
     }
 }
-
+*/
 struct Theme: Codable, Equatable {
     let accentColor: String
     let backgroundColor: String

@@ -12,6 +12,7 @@ import Promise
 // MARK: - Protocol
 
 protocol HistoryDetailViewControllerDelegate: VoidDismissalDelegate {
+    typealias Topic = GetDealQuery.Data.GetDeal.Topic
     func showForum(with: Topic)
     func showImage(_: Promise<UIImage>, animatingFrom: CGRect)
 }
@@ -20,12 +21,16 @@ protocol HistoryDetailViewControllerDelegate: VoidDismissalDelegate {
 
 class HistoryDetailViewController: UIViewController {
     typealias Dependencies = HasDataProvider & HasThemeManager
+    typealias DealFragment = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias Deal = GetDealQuery.Data.GetDeal
+    typealias Topic = GetDealQuery.Data.GetDeal.Topic
+    typealias GraphQLID = String
 
     weak var delegate: HistoryDetailViewControllerDelegate?
 
     private let dataProvider: DataProviderType
     private let themeManager: ThemeManagerType
-    private var deal: Deal
+    private var dealFragment: DealFragment
 
     private var observationTokens: [ObservationToken] = []
     private var viewState: ViewState<Deal> {
@@ -95,10 +100,10 @@ class HistoryDetailViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init(dependencies: Dependencies, deal: Deal) {
+    init(dependencies: Dependencies, deal: DealFragment) {
         self.dataProvider = dependencies.dataProvider
         self.themeManager = dependencies.themeManager
-        self.deal = deal
+        self.dealFragment = deal
         self.viewState = .empty
         super.init(nibName: nil, bundle: nil)
     }
@@ -126,6 +131,7 @@ class HistoryDetailViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         observationTokens = setupObservations()
+        getDeal(withID: dealFragment.id)
     }
 
     override func didReceiveMemoryWarning() {
@@ -142,8 +148,6 @@ class HistoryDetailViewController: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         //storyButton.addTarget(self, action: #selector(didPressStory(_:)), for: .touchUpInside)
-
-        viewState = .result(deal)
     }
 
     func setupConstraints() {
@@ -215,6 +219,19 @@ class HistoryDetailViewController: UIViewController {
 
 }
 
+// MARK: - AppSync
+extension HistoryDetailViewController {
+    func getDeal(withID id: GraphQLID) {
+        viewState = .loading
+        dataProvider.getDeal(withID: id)
+            .andThen { [weak self] deal in
+                self?.viewState = .result(deal)
+            }.catch { [weak self] error in
+                self?.viewState = .error(error)
+        }
+    }
+}
+
 // MARK: - ViewStateRenderable
 extension HistoryDetailViewController: ViewStateRenderable {
     typealias ResultType = Deal
@@ -222,19 +239,24 @@ extension HistoryDetailViewController: ViewStateRenderable {
     func render(_ viewState: ViewState<Deal>) {
         switch viewState {
         case .empty:
-            return
+            scrollView.isHidden = true
         case .error(let error):
             print("\(error.localizedDescription)")
+            scrollView.isHidden = true
         case .loading:
+            scrollView.isHidden = true
             return
         case .result(let deal):
             titleLabel.text = deal.title
             featuresText.markdown = deal.features
             // images
-            let safePhotoURLs = deal.photos.compactMap { $0.secure() }
+            let safePhotoURLs = deal.photos
+                .compactMap { URL(string: $0) }
+                .compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
             // forum
             renderComments(for: deal)
+            scrollView.isHidden = false
         }
     }
 

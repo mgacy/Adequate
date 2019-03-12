@@ -13,6 +13,8 @@ import Promise
 final class HistoryDetailCoordinator: BaseCoordinator {
     typealias CoordinationResult = Void
     typealias Dependencies = HasDataProvider & HasThemeManager
+    typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias Topic = GetDealQuery.Data.GetDeal.Topic
 
     private let router: RouterType
     private let dependencies: Dependencies
@@ -78,7 +80,10 @@ extension HistoryDetailCoordinator: HistoryDetailViewControllerDelegate {
     }
 
     func showForum(with topic: Topic) {
-        showWebPage(with: topic.url, animated: true)
+        guard let topicURL = URL(string: topic.url) else {
+            return
+        }
+        showWebPage(with: topicURL, animated: true)
     }
 }
 
