@@ -33,6 +33,8 @@
 		C96CA86E2182DD1A00C3459E /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CA86D2182DD1A00C3459E /* WelcomeViewController.swift */; };
 		C96CA8702182DD2E00C3459E /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CA86F2182DD2E00C3459E /* NotificationViewController.swift */; };
 		C989E11722330B1C00DEAE89 /* SlideTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */; };
+		C989E119223734A700DEAE89 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = C989E118223734A600DEAE89 /* awsconfiguration.json */; };
+		C989E11B223734C800DEAE89 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11A223734C800DEAE89 /* API.swift */; };
 		C98B3248222DC1E6003A8669 /* HistoryListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B3247222DC1E6003A8669 /* HistoryListDataSource.swift */; };
 		C98B324A222DC1F0003A8669 /* HistoryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B3249222DC1F0003A8669 /* HistoryListCell.swift */; };
 		C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */; };
@@ -159,6 +161,8 @@
 		C96CA86D2182DD1A00C3459E /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		C96CA86F2182DD2E00C3459E /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTransitionController.swift; sourceTree = "<group>"; };
+		C989E118223734A600DEAE89 /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
+		C989E11A223734C800DEAE89 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = SOURCE_ROOT; };
 		C98B3247222DC1E6003A8669 /* HistoryListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListDataSource.swift; sourceTree = "<group>"; };
 		C98B3249222DC1F0003A8669 /* HistoryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListCell.swift; sourceTree = "<group>"; };
 		C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSSNS+Promise.swift"; sourceTree = "<group>"; };
@@ -391,6 +395,7 @@
 				C9DAC474214768C600D6558B /* AppDependency.swift */,
 				C9DAC476214768CF00D6558B /* AppCoordinator.swift */,
 				C9058DE8215C724700FF7B4C /* AppSecrets.generated.swift */,
+				C989E118223734A600DEAE89 /* awsconfiguration.json */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -441,6 +446,7 @@
 		C9DAC47B2147692600D6558B /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				C989E11A223734C800DEAE89 /* API.swift */,
 				C9DAC4A221476C3A00D6558B /* NetworkClient.swift */,
 				C9DAC4A621476C8600D6558B /* NetworkClientError.swift */,
 				C9DAC4A421476C5E00D6558B /* ImageService.swift */,
@@ -684,6 +690,7 @@
 			files = (
 				C9DAC45E2147688500D6558B /* LaunchScreen.storyboard in Resources */,
 				C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */,
+				C989E119223734A700DEAE89 /* awsconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -852,6 +859,7 @@
 				C9DAC49B21476BB500D6558B /* Story.swift in Sources */,
 				C9F92264218A4EB2001C257A /* DismissalDelegate.swift in Sources */,
 				C9DAC4A721476C8600D6558B /* NetworkClientError.swift in Sources */,
+				C989E11B223734C800DEAE89 /* API.swift in Sources */,
 				C9DAC49121476B4700D6558B /* Deal.swift in Sources */,
 				C9DAC49521476B9900D6558B /* Item.swift in Sources */,
 				C9093CBF2225BC0500C9DA0C /* HistoryDetailCoordinator.swift in Sources */,
