@@ -10,6 +10,7 @@ import UIKit
 
 final class HistoryListCoordinator: Coordinator {
     typealias Dependencies = HasDataProvider & HasNotificationManager & HasThemeManager & HasUserDefaultsManager
+    typealias DealFragment = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     private let dependencies: Dependencies
 
@@ -49,7 +50,7 @@ extension HistoryListCoordinator: HistoryListViewControllerDelegate {
         onPageSelect?(.deal, .history, true)
     }
 
-    func showHistoryDetail(with deal: Deal) {
+    func showHistoryDetail(with deal: DealFragment) {
         let detailRouter = Router()
         let coordinator = HistoryDetailCoordinator(router: detailRouter, dependencies: dependencies, deal: deal)
         coordinator.onFinishFlow = { [weak self, weak coordinator] _ in
