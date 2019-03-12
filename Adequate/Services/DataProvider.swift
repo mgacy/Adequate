@@ -6,20 +6,23 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
-import Promise
+import AWSAppSync
 
 // MARK: - Protocol
+// NOTE: uses AWSAppSync's Promise implementation
 
 protocol DataProviderType {
     func getDeal()
+    func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal>
     func getDealHistory(from: Date, to: Date)
     func addDealObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<Deal>) -> Void) -> ObservationToken
-    func addHistoryObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<[Deal]>) -> Void) -> ObservationToken
+    func addHistoryObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<[ListDealsForPeriodQuery.Data.ListDealsForPeriod]>) -> Void) -> ObservationToken
 }
 
 // MARK: - Implementation
 
 class DataProvider: DataProviderType {
+    typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     // TODO: rename `ViewState<T>` as `ResourceState<T>`?
     private var dealState: ViewState<Deal> {
@@ -29,19 +32,21 @@ class DataProvider: DataProviderType {
         }
     }
 
-    private var historyState: ViewState<[Deal]> {
+    private var historyState: ViewState<[DealHistory]> {
         didSet {
             callObservations(with: historyState)
         }
     }
 
+    private let appSyncClient: AWSAppSyncClient
     private let mehService: MehServiceType
     private var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
-    private var historyObservations: [UUID: (ViewState<[Deal]>) -> Void] = [:]
+    private var historyObservations: [UUID: (ViewState<[DealHistory]>) -> Void] = [:]
 
     // MARK: - Lifecycle
 
-    init(mehService: MehServiceType) {
+    init(appSync: AWSAppSyncClient, mehService: MehServiceType) {
+        self.appSyncClient = appSync
         self.mehService = mehService
         self.dealState = .empty
         self.historyState = .empty
@@ -59,14 +64,36 @@ class DataProvider: DataProviderType {
         })
     }
 
+    func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
+        let query = GetDealQuery(id: id)
+        return appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
+            .map { result -> GetDealQuery.Data.GetDeal in
+                guard let deal = result.getDeal else {
+                    throw SyncClientError.myError(message: "Missing result")
+                }
+                return deal
+            }.catch { error in
+                print("ERROR: \(error.localizedDescription)")
+                throw error
+        }
+    }
+
     func getDealHistory(from startDate: Date, to endDate: Date) {
-        guard historyState != ViewState<[Deal]>.loading else { return }
+        //guard historyState != ViewState<[DealHistory]>.loading else { return }
         historyState = .loading
-        mehService.getDeal().then({ response in
-            self.historyState = .result([response.deal, response.deal, response.deal, response.deal])
-        }).catch({ error in
-            self.historyState = .error(error)
-        })
+        let startDateString = DateFormatter.yyyyMMdd.string(from: startDate)
+        let endDateString = DateFormatter.yyyyMMdd.string(from: endDate)
+
+        let query = ListDealsForPeriodQuery(startDate: startDateString, endDate: endDateString)
+        appSyncClient.fetch(query: query, cachePolicy: CachePolicy.fetchIgnoringCacheData)
+            .andThen { [weak self] result in
+                guard let items = result.listDealsForPeriod else {
+                    throw SyncClientError.myError(message: "Missing result")
+                }
+                self?.historyState = .result(items.reversed().compactMap { $0 })
+            }.catch { error in
+                self.historyState = .error(error)
+            }
     }
 
     // MARK: - Observers
@@ -90,7 +117,7 @@ class DataProvider: DataProviderType {
         }
     }
 
-    func addHistoryObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, ViewState<[Deal]>) -> Void) -> ObservationToken {
+    func addHistoryObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, ViewState<[DealHistory]>) -> Void) -> ObservationToken {
         let id = UUID()
         historyObservations[id] = { [weak self, weak observer] state in
             // If the observer has been deallocated, we can
@@ -114,7 +141,7 @@ class DataProvider: DataProviderType {
         }
     }
 
-    private func callObservations(with dealState: ViewState<[Deal]>) {
+    private func callObservations(with dealState: ViewState<[DealHistory]>) {
         historyObservations.values.forEach { observation in
             observation(dealState)
         }

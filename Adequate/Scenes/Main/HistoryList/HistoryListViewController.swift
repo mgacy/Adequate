@@ -20,6 +20,7 @@ protocol HistoryListViewControllerDelegate: class {
 
 final class HistoryListViewController: UIViewController {
     typealias Dependencies = HasDataProvider & HasThemeManager
+    typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     weak var delegate: HistoryListViewControllerDelegate?
 
@@ -145,7 +146,7 @@ extension HistoryListViewController: Themeable {
 extension HistoryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let deal = dataSource.objectAtIndexPath(indexPath)
-        delegate?.showHistoryDetail(with: deal)
+        //delegate?.showHistoryDetail(with: deal)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
