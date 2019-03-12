@@ -7,11 +7,9 @@ def basic_pods
   pod 'Promises'
   # AWS
   pod 'AWSCore'
-  pod 'AWSCognito'
-  pod 'AWSSNS'
-  # AWS (2)
   pod 'AWSAppSync'
   pod 'AWSMobileClient'
+  pod 'AWSSNS'
 end
 
 # Testing
