@@ -8,13 +8,13 @@
 
 import UIKit
 
-extension ThemeForeground {
+extension ThemeForeground: Codable {
 
     var textColor: UIColor {
         switch self {
         case .dark: return .black
         case .light: return .white
-        default: return .yellow
+        case .unknown: return .yellow
         }
     }
 
@@ -22,7 +22,7 @@ extension ThemeForeground {
         switch self {
         case .dark: return .default
         case .light: return .lightContent
-        default: return .default
+        case .unknown: return .default
         }
     }
 
