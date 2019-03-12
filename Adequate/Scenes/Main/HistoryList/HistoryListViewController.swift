@@ -86,7 +86,8 @@ final class HistoryListViewController: UIViewController {
         apply(theme: themeManager.theme)
         setupTableView()
         observationTokens = setupObservations()
-        dataSource.getDealHistory(from: Date(), to: Date())
+        let startDate = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
+        dataSource.getDealHistory(from: startDate, to: Date())
     }
 
     func setupConstraints() {
