@@ -11,11 +11,11 @@ import Foundation
 protocol HasClient {
     var client: NetworkClientType { get }
 }
-*/
+
 protocol HasMehService {
     var mehService: MehServiceType { get }
 }
-
+*/
 protocol HasNotificationManager {
     var notificationManager: NotificationManagerType { get }
 }

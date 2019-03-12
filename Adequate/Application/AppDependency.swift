@@ -8,18 +8,18 @@
 
 import Foundation
 
-struct AppDependency: HasDataProvider, HasMehService, HasNotificationManager, HasThemeManager, HasUserDefaultsManager {
-    let mehService: MehServiceType
+struct AppDependency: HasDataProvider, HasNotificationManager, HasThemeManager, HasUserDefaultsManager {
+    let dataProvider: DataProviderType
     /// TODO: should we always carry this, or provide factory method so callers can create / destroy as needed?
     //func makeNotificationManager() -> NotificationManagerType {}
     let notificationManager: NotificationManagerType
     let themeManager: ThemeManagerType
     let userDefaultsManager: UserDefaultsManagerType
-    let dataProvider: DataProviderType
 
     init() {
         let networkClient = AppDependency.makeNetworkClient()
-        self.mehService = MehService(client: networkClient)
+        let mehService = MehService(client: networkClient)
+        self.dataProvider = DataProvider(mehService: mehService)
 
         self.userDefaultsManager = UserDefaultsManager(defaults: .standard)
 
@@ -35,7 +35,6 @@ struct AppDependency: HasDataProvider, HasMehService, HasNotificationManager, Ha
         // https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/
         let defaultTheme = Theme(accentColor: "#007AFF", backgroundColor: "#ffffff", foreground: .dark)
         self.themeManager = ThemeManager(theme: defaultTheme)
-        self.dataProvider = DataProvider(mehService: self.mehService)
     }
 
     // MARK: - Factory Functions
