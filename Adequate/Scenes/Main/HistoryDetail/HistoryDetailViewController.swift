@@ -222,10 +222,12 @@ extension HistoryDetailViewController: ViewStateRenderable {
     func render(_ viewState: ViewState<Deal>) {
         switch viewState {
         case .empty:
-            return
+            scrollView.isHidden = true
         case .error(let error):
             print("\(error.localizedDescription)")
+            scrollView.isHidden = true
         case .loading:
+            scrollView.isHidden = true
             return
         case .result(let deal):
             titleLabel.text = deal.title
@@ -235,6 +237,7 @@ extension HistoryDetailViewController: ViewStateRenderable {
             pagedImageView.updateImages(with: safePhotoURLs)
             // forum
             renderComments(for: deal)
+            scrollView.isHidden = false
         }
     }
 
