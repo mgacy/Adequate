@@ -12,11 +12,12 @@ import AWSAppSync
 // NOTE: uses AWSAppSync's Promise implementation
 
 protocol DataProviderType {
+    typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
     func getDeal()
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal>
     func getDealHistory(from: Date, to: Date)
     func addDealObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<Deal>) -> Void) -> ObservationToken
-    func addHistoryObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<[ListDealsForPeriodQuery.Data.ListDealsForPeriod]>) -> Void) -> ObservationToken
+    func addHistoryObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<[DealHistory]>) -> Void) -> ObservationToken
 }
 
 // MARK: - Implementation
@@ -75,7 +76,7 @@ class DataProvider: DataProviderType {
             }.catch { error in
                 print("ERROR: \(error.localizedDescription)")
                 throw error
-        }
+            }
     }
 
     func getDealHistory(from startDate: Date, to endDate: Date) {

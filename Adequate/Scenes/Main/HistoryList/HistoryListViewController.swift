@@ -71,6 +71,7 @@ final class HistoryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        getDealHistory()
     }
 
     override func didReceiveMemoryWarning() {
@@ -88,8 +89,6 @@ final class HistoryListViewController: UIViewController {
         apply(theme: themeManager.theme)
         setupTableView()
         observationTokens = setupObservations()
-        let startDate = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
-        dataSource.getDealHistory(from: startDate, to: Date())
     }
 
     func setupConstraints() {
@@ -114,6 +113,13 @@ final class HistoryListViewController: UIViewController {
         }
         let themeToken = themeManager.addObserver(self)
         return [historyToken, themeToken]
+    }
+
+    // MARK: - DataProvider
+
+    private func getDealHistory() {
+        let startDate = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
+        dataSource.getDealHistory(from: startDate, to: Date())
     }
 
     // MARK: - Navigation
@@ -160,12 +166,16 @@ extension HistoryListViewController: ViewStateRenderable {
         switch viewState {
         case .empty:
             print("Empty")
+            tableView.isHidden = true
         case .loading:
             print("Loading ...")
+            tableView.isHidden = true
         case .result:
             tableView.reloadData()
+            tableView.isHidden = false
         case .error(let error):
             print("ERROR: \(error.localizedDescription)")
+            tableView.isHidden = true
         }
     }
 }
