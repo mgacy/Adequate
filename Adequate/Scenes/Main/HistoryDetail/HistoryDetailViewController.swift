@@ -50,6 +50,16 @@ class HistoryDetailViewController: UIViewController {
                                action: #selector(didPressDismiss(_:)))
     }()
 
+    private lazy var stateView: StateView<Deal> = {
+        let view = StateView<Deal>()
+        view.onRetry = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.getDeal(withID: strongSelf.dealFragment.id)
+        }
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -116,6 +126,7 @@ class HistoryDetailViewController: UIViewController {
         //super.loadView()
         let view = UIView()
 
+        view.addSubview(stateView)
         view.addSubview(scrollView)
         scrollView.addSubview(pagedImageView)
         scrollView.addSubview(titleLabel)
@@ -159,6 +170,11 @@ class HistoryDetailViewController: UIViewController {
         let widthInset: CGFloat = -2.0 * sideMargin
 
         NSLayoutConstraint.activate([
+            // stateView
+            stateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stateView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stateView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
+            stateView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
             // scrollView
             scrollView.leftAnchor.constraint(equalTo: guide.leftAnchor),
             scrollView.topAnchor.constraint(equalTo: guide.topAnchor),
@@ -237,16 +253,16 @@ extension HistoryDetailViewController: ViewStateRenderable {
     typealias ResultType = Deal
 
     func render(_ viewState: ViewState<Deal>) {
+        stateView.render(viewState)
         switch viewState {
         case .empty:
-            scrollView.isHidden = true
-        case .error(let error):
-            print("\(error.localizedDescription)")
+            stateView.isHidden = false
             scrollView.isHidden = true
         case .loading:
+            stateView.isHidden = false
             scrollView.isHidden = true
-            return
         case .result(let deal):
+            stateView.isHidden = true
             titleLabel.text = deal.title
             featuresText.markdown = deal.features
             // images
@@ -257,6 +273,9 @@ extension HistoryDetailViewController: ViewStateRenderable {
             // forum
             renderComments(for: deal)
             scrollView.isHidden = false
+        case .error:
+            stateView.isHidden = false
+            scrollView.isHidden = true
         }
     }
 
@@ -302,5 +321,6 @@ extension HistoryDetailViewController: Themeable {
 
         // Subviews
         pagedImageView.apply(theme: theme)
+        stateView.apply(theme: theme)
     }
 }

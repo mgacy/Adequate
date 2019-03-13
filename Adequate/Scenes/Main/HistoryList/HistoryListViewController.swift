@@ -39,6 +39,16 @@ final class HistoryListViewController: UIViewController {
         return UIBarButtonItem(image: #imageLiteral(resourceName: "RightChevronNavBar"), style: .plain, target: self, action: #selector(didPressDeal(_:)))
     }()
 
+    private lazy var stateView: StateView<Void> = {
+        let view = StateView<Void>()
+        view.onRetry = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.getDealHistory()
+        }
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
         tv.tableFooterView = UIView() // Prevent empty rows
@@ -61,6 +71,7 @@ final class HistoryListViewController: UIViewController {
     override func loadView() {
         super.loadView()
         //let view = UIView()
+        view.addSubview(stateView)
         view.addSubview(tableView)
         navigationItem.leftBarButtonItem = settingsButton
         navigationItem.rightBarButtonItem = dealButton
@@ -94,6 +105,11 @@ final class HistoryListViewController: UIViewController {
     func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
+            // stateView
+            stateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stateView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stateView.heightAnchor.constraint(equalToConstant: 100.0),
+            // tableView
             tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             tableView.topAnchor.constraint(equalTo: guide.topAnchor),
             tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
@@ -146,6 +162,8 @@ extension HistoryListViewController: Themeable {
 
         // foreground
         // ...
+
+        stateView.apply(theme: theme)
     }
 }
 
@@ -163,18 +181,20 @@ extension HistoryListViewController: ViewStateRenderable {
     typealias ResultType = Void
 
     func render(_ viewState: ViewState<Void>) {
+        stateView.render(viewState)
         switch viewState {
         case .empty:
-            print("Empty")
+            stateView.isHidden = false
             tableView.isHidden = true
         case .loading:
-            print("Loading ...")
+            stateView.isHidden = false
             tableView.isHidden = true
         case .result:
-            tableView.reloadData()
+            stateView.isHidden = true
             tableView.isHidden = false
-        case .error(let error):
-            print("ERROR: \(error.localizedDescription)")
+            tableView.reloadData()
+        case .error:
+            stateView.isHidden = false
             tableView.isHidden = true
         }
     }
