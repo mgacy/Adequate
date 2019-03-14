@@ -75,8 +75,11 @@ extension HistoryDetailCoordinator: VoidDismissalDelegate {
 
 // MARK: - HistoryDetailViewControllerDelegate
 extension HistoryDetailCoordinator: HistoryDetailViewControllerDelegate {
-    func showImage(_ imageSource: Promise<UIImage>, animatingFrom originFrame: CGRect) {
-        // ...
+    func showImage(animatingFrom pagedImageView: PagedImageView) {
+        let viewController = FullScreenImageViewController(imageSource: pagedImageView.visibleImage)
+        viewController.delegate = self
+        viewController.setupTransitionController(animatingFrom: pagedImageView)
+        router.present(viewController, animated: true)
     }
 
     func showForum(with topic: Topic) {
@@ -84,6 +87,13 @@ extension HistoryDetailCoordinator: HistoryDetailViewControllerDelegate {
             return
         }
         showWebPage(with: topicURL, animated: true)
+    }
+}
+
+// MARK: - FullScreenImageDelegate
+extension HistoryDetailCoordinator: FullScreenImageDelegate {
+    func dismissFullScreenImage() {
+        router.dismissModule(animated: true, completion: nil)
     }
 }
 

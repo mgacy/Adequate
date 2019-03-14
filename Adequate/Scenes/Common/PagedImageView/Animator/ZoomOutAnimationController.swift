@@ -10,10 +10,12 @@ import UIKit
 
 class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
 
-    let sourceFrame: CGRect
+    private let pagedImageView: PagedImageView
+    private let sourceFrame: CGRect
 
-    init(sourceFrame: CGRect) {
-        self.sourceFrame = sourceFrame
+    init(animatingTo pagedImageView: PagedImageView) {
+        self.pagedImageView = pagedImageView
+        self.sourceFrame = pagedImageView.originFrame
         super.init()
     }
 
@@ -24,12 +26,10 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        /// TODO: cast fromVC and toVC as protocol to get access to properties
+        /// TODO: cast fromVC as protocol to get access to properties
         guard
             let fromVC = transitionContext.viewController(forKey: .from) as? FullScreenImageViewController,
-            let toVC = transitionContext.viewController(forKey: .to) as? UIPageViewController,
-            let navController = toVC.viewControllers?.first as? UINavigationController,
-            let dealVC = navController.topViewController as? DealViewController else {
+            let toVC = transitionContext.viewController(forKey: .to) else {
                 fatalError("ERROR: failed to cast as correct view controllers for transition")
         }
         let containerView = transitionContext.containerView
@@ -41,7 +41,7 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
 
         // cover pagedImageView of DealViewController
         let destinationImageCoveringView = UIView(frame: sourceFrame)
-        destinationImageCoveringView.backgroundColor = dealVC.view.backgroundColor
+        destinationImageCoveringView.backgroundColor = toVC.view.backgroundColor
         containerView.addSubview(destinationImageCoveringView)
 
         // background

@@ -14,6 +14,10 @@ class PagedImageView: UIView {
     var currentPage: Int = 0
     var isPaging: Bool = false
 
+    var originFrame: CGRect {
+        return convert(collectionView.frame, to: nil)
+    }
+
     var visibleImage: Promise<UIImage> {
         return dataSource.imageSource(for: IndexPath(item: primaryVisiblePage, section: 0))
     }
@@ -33,7 +37,7 @@ class PagedImageView: UIView {
             pageControl.backgroundColor = backgroundColor
         }
     }
-    private var pageControlHeight: CGFloat = 30.0
+    //private var pageControlHeight: CGFloat = 30.0
 
     // MARK: - Subviews
 
@@ -123,12 +127,7 @@ class PagedImageView: UIView {
     // MARK: Selection
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let delegate = delegate else {
-            return
-        }
-        let imageSource = dataSource.imageSource(for: indexPath)
-        let originFrame = convert(collectionView.frame, to: nil)
-        delegate.displayFullscreenImage(imageSource, animatingFrom: originFrame)
+        delegate?.displayFullscreenImage(animatingFrom: self)
     }
 
     // MARK: - Pages

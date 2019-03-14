@@ -14,7 +14,7 @@ import Promise
 protocol HistoryDetailViewControllerDelegate: VoidDismissalDelegate {
     typealias Topic = GetDealQuery.Data.GetDeal.Topic
     func showForum(with: Topic)
-    func showImage(_: Promise<UIImage>, animatingFrom: CGRect)
+    func showImage(animatingFrom: PagedImageView)
 }
 
 // MARK: - View Controller
@@ -157,6 +157,9 @@ class HistoryDetailViewController: UIViewController {
     func setupView() {
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.isTranslucent = false
+
+        pagedImageView.delegate = self
+
         forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         //storyButton.addTarget(self, action: #selector(didPressStory(_:)), for: .touchUpInside)
     }
@@ -207,7 +210,7 @@ class HistoryDetailViewController: UIViewController {
     }
 
     private func setupTransitionController() {
-        transitionController = SlideTransitionController(transitionType: .panel, viewController: self)
+        transitionController = SlideTransitionController(viewController: self)
         transitioningDelegate = transitionController
     }
 
@@ -233,6 +236,13 @@ class HistoryDetailViewController: UIViewController {
         delegate?.dismiss()
     }
 
+}
+
+// MARK: - PagedImageViewDelegate
+extension HistoryDetailViewController: PagedImageViewDelegate {
+    func displayFullscreenImage(animatingFrom pagedImageView: PagedImageView) {
+        delegate?.showImage(animatingFrom: pagedImageView)
+    }
 }
 
 // MARK: - AppSync
@@ -307,6 +317,7 @@ extension HistoryDetailViewController: Themeable {
         forumButton.backgroundColor = theme.accentColor
 
         // backgroundColor
+        navigationController?.view.backgroundColor = theme.backgroundColor
         view.backgroundColor = theme.backgroundColor
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor

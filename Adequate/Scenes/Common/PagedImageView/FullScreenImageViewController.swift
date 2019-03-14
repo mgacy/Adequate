@@ -13,9 +13,7 @@ class FullScreenImageViewController: UIViewController {
 
     weak var delegate: FullScreenImageDelegate?
     let imageSource: Promise<UIImage>
-    let originFrame: CGRect
 
-    private let panGestureRecognizer = UIPanGestureRecognizer()
     /// TODO: rename `interactionController?
     private var transitionController: FullScreenImageTransitionController?
 
@@ -50,9 +48,8 @@ class FullScreenImageViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init(imageSource: Promise<UIImage>, originFrame: CGRect) {
+    init(imageSource: Promise<UIImage>) {
         self.imageSource = imageSource
-        self.originFrame = originFrame
         super.init(nibName: nil, bundle: nil)
         view.frame = UIScreen.main.bounds
         self.modalPresentationStyle = .custom
@@ -105,7 +102,6 @@ class FullScreenImageViewController: UIViewController {
         view.addSubview(closeButton)
 
         setupConstraints()
-        setupTransitionController()
 
         // image
         if imageSource.isPending {
@@ -139,12 +135,12 @@ class FullScreenImageViewController: UIViewController {
         ])
     }
 
-    private func setupTransitionController() {
-        transitionController = FullScreenImageTransitionController(viewController: self, originFrame: originFrame)
+    // MARK: - B
+
+    func setupTransitionController(animatingFrom pagedImageView: PagedImageView) {
+        transitionController = FullScreenImageTransitionController(viewController: self, pagedImageView: pagedImageView)
         transitioningDelegate = transitionController
     }
-
-    // MARK: - B
 
     @objc private func dismissView(_ sender: UIButton) {
         delegate?.dismissFullScreenImage()

@@ -10,14 +10,6 @@ import UIKit
 
 class SlideTransitionController: NSObject {
 
-    // New
-    enum TransitionType {
-        case fullscreenImage
-        case panel
-    }
-    private var transitionType: TransitionType = .fullscreenImage
-    // /New
-
     //var originFrame: CGRect
     weak var viewController: UIViewController!
     var interacting: Bool = false
@@ -36,10 +28,8 @@ class SlideTransitionController: NSObject {
 
     // MARK: - Lifecycle
 
-    init(transitionType: TransitionType, viewController: UIViewController) {
+    init(viewController: UIViewController) {
         self.viewController = viewController
-        self.transitionType = transitionType
-        //self.originFrame = CGRect(x: 0, y: 0, width: 0, height: 0) // TEMP
         super.init()
         viewController.view.addGestureRecognizer(panGestureRecognizer)
     }
@@ -99,31 +89,11 @@ extension SlideTransitionController: UIGestureRecognizerDelegate {
 extension SlideTransitionController: UIViewControllerTransitioningDelegate {
 
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        //return ZoomInAnimationController(sourceFrame: originFrame)
-        switch transitionType {
-        case .fullscreenImage:
-            // cast as FullScreenImageViewController for now?
-            guard let vc = viewController as? FooAnimating else {
-                fatalError("ERROR: failed to cast as correct view controllers for transition")
-            }
-            return ZoomInAnimationController(sourceFrame: vc.originFrame)
-        case .panel:
-            return PanelAnimationController(transitionType: .presenting)
-        }
+        return PanelAnimationController(transitionType: .presenting)
     }
 
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        //return ZoomOutAnimationController(sourceFrame: originFrame)
-        switch transitionType {
-        case .fullscreenImage:
-            // cast as FullScreenImageViewController for now?
-            guard let vc = viewController as? FooAnimating else {
-                fatalError("ERROR: failed to cast as correct view controllers for transition")
-            }
-            return ZoomInAnimationController(sourceFrame: vc.originFrame)
-        case .panel:
-            return PanelAnimationController(transitionType: .dismissing)
-        }
+        return PanelAnimationController(transitionType: .dismissing)
     }
 
     func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
@@ -134,15 +104,8 @@ extension SlideTransitionController: UIViewControllerTransitioningDelegate {
         return interactionController
     }
 
-    // MARK: New
-
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        switch transitionType {
-        case .fullscreenImage:
-            return nil
-        case .panel:
-            return SheetPresentationController(presentedViewController: presented, presenting: presenting)
-        }
+        return SheetPresentationController(presentedViewController: presented, presenting: presenting)
     }
 
 }
