@@ -39,8 +39,11 @@ extension HistoryListCell {
     func configure(with deal: Deal) {
         textLabel?.text = deal.title
 
-        let createdAt = Date()
-        detailTextLabel?.text = DateFormatter.yyyyMMdd.string(from: createdAt)
+        if let createdAt = DateFormatter.iso8601Full.date(from: deal.createdAt) {
+            detailTextLabel?.text = DateFormatter.yyyyMMdd.string(from: createdAt)
+        } else {
+            detailTextLabel?.text = deal.createdAt
+        }
     }
 
     func setupThemeObservation(_ themeManager: ThemeManagerType) {
