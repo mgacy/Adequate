@@ -69,9 +69,10 @@ extension DealCoordinator: DealViewControllerDelegate {
         showWebPage(with: topic.url, animated: true)
     }
 
-    func showImage(_ imageSource: Promise<UIImage>, animatingFrom originFrame: CGRect) {
-        let viewController = FullScreenImageViewController(imageSource: imageSource, originFrame: originFrame)
+    func showImage(animatingFrom pagedImageView: PagedImageView) {
+        let viewController = FullScreenImageViewController(imageSource: pagedImageView.visibleImage)
         viewController.delegate = self
+        viewController.setupTransitionController(animatingFrom: pagedImageView)
         router.present(viewController, animated: true)
     }
 

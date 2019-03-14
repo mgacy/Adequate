@@ -10,14 +10,15 @@ import UIKit
 
 class FullScreenImageTransitionController: NSObject {
 
-    var originFrame: CGRect
     weak var viewController: FullScreenImageViewController!
+    weak var pagedImageView: PagedImageView!
+
     var interacting: Bool = false
 
     // Pan down transitions back to the presenting view controller
     var interactionController: UIPercentDrivenInteractiveTransition?
 
-    lazy private var panGestureRecognizer: UIPanGestureRecognizer = {
+    private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handleGesture(_:)))
         recognizer.delegate = self
 
@@ -29,9 +30,9 @@ class FullScreenImageTransitionController: NSObject {
     // MARK: - Lifecycle
 
     /// TODO: pass protocol rather than view controller?
-    init(viewController: FullScreenImageViewController, originFrame: CGRect) {
+    init(viewController: FullScreenImageViewController, pagedImageView: PagedImageView) {
         self.viewController = viewController
-        self.originFrame = originFrame
+        self.pagedImageView = pagedImageView
         super.init()
         viewController.view.addGestureRecognizer(panGestureRecognizer)
     }
@@ -91,11 +92,11 @@ extension FullScreenImageTransitionController: UIGestureRecognizerDelegate {
 extension FullScreenImageTransitionController: UIViewControllerTransitioningDelegate {
 
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ZoomInAnimationController(sourceFrame: originFrame)
+        return ZoomInAnimationController(animatingFrom: pagedImageView)
     }
 
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ZoomOutAnimationController(sourceFrame: originFrame)
+        return ZoomOutAnimationController(animatingTo: pagedImageView)
     }
 
     func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {

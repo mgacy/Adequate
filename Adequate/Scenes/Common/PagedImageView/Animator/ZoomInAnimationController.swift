@@ -10,11 +10,12 @@ import UIKit
 
 class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
 
-    let sourceFrame: CGRect
+    private let pagedImageView: PagedImageView!
+    private let sourceFrame: CGRect
 
-    init(sourceFrame: CGRect) {
-        self.sourceFrame = sourceFrame
-        super.init()
+    init(animatingFrom pagedImageView: PagedImageView) {
+        self.pagedImageView = pagedImageView
+        self.sourceFrame = pagedImageView.originFrame
     }
 
     // MARK: - UIViewControllerAnimatedTransitioning
@@ -24,11 +25,8 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        /// TODO: cast fromVC and toVC as protocol to get access to properties
         guard
-            let fromPageController = transitionContext.viewController(forKey: .from) as? UIPageViewController,
-            let fromNavController = fromPageController.viewControllers?.first as? UINavigationController,
-            let fromVC = fromNavController.topViewController as? DealViewController,
+            let fromVC = transitionContext.viewController(forKey: .from),
             let toVC = transitionContext.viewController(forKey: .to) as? FullScreenImageViewController else {
                 fatalError("ERROR: failed to cast as correct view controllers for transition")
         }
@@ -42,7 +40,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         containerView.addSubview(toVC.view)
 
         // snapshot
-        let snapshot = fromNavController.view.snapshotView(afterScreenUpdates: true)
+        let snapshot = fromVC.view.snapshotView(afterScreenUpdates: true)
         containerView.addSubview(snapshot!)
 
         // sourceImageCoveringView
@@ -59,8 +57,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         // image
         let transitionImageView: UIView
         let scaledSize: CGSize
-        // We need to cast fromVC as DealViewController to get .visibleImage
-        if let transitionImage = fromVC.visibleImage.value {
+        if let transitionImage = pagedImageView.visibleImage.value {
             transitionImageView = UIImageView(image: transitionImage)
             transitionImageView.frame = sourceFrame
             transitionImageView.contentMode = .scaleAspectFit

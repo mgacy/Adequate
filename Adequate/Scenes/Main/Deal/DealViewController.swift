@@ -12,7 +12,7 @@ import Promise
 // MARK: - Delegate
 
 protocol DealViewControllerDelegate: class {
-    func showImage(_: Promise<UIImage>, animatingFrom: CGRect)
+    func showImage(animatingFrom: PagedImageView)
     func showPurchase(for: Deal)
     func showForum(with: Topic)
     func showHistoryList()
@@ -341,8 +341,8 @@ class DealViewController: UIViewController {
 // MARK: - PagedImageViewDelegate
 extension DealViewController: PagedImageViewDelegate {
 
-    func displayFullscreenImage(_ imageSource: Promise<UIImage>, animatingFrom originFrame: CGRect) {
-        delegate?.showImage(imageSource, animatingFrom: originFrame)
+    func displayFullscreenImage(animatingFrom pagedImageView: PagedImageView) {
+        delegate?.showImage(animatingFrom: pagedImageView)
     }
 
 }
