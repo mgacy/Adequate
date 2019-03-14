@@ -317,6 +317,7 @@ extension HistoryDetailViewController: Themeable {
         forumButton.backgroundColor = theme.accentColor
 
         // backgroundColor
+        navigationController?.view.backgroundColor = theme.backgroundColor
         view.backgroundColor = theme.backgroundColor
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
