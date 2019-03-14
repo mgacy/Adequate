@@ -207,7 +207,7 @@ class HistoryDetailViewController: UIViewController {
     }
 
     private func setupTransitionController() {
-        transitionController = SlideTransitionController(transitionType: .panel, viewController: self)
+        transitionController = SlideTransitionController(viewController: self)
         transitioningDelegate = transitionController
     }
 
