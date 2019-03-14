@@ -15,7 +15,7 @@ PODS:
     - AWSCognitoIdentityProvider (= 2.8.4)
   - AWSSNS (2.8.4):
     - AWSCore (= 2.8.4)
-  - Down (0.5.2)
+  - Down (0.6.2)
   - Promises (2.0.2)
   - ReachabilitySwift (4.3.0)
   - SQLite.swift (0.11.5):
@@ -52,11 +52,11 @@ SPEC CHECKSUMS:
   AWSCore: 734b0d67c2c77f6edae9e5520431a37310ea4193
   AWSMobileClient: 59072ca49e82706c6d958f7a08e4a285d7197af1
   AWSSNS: 42b39d6628bfb40bf5f9e3c6e4738ce68a323235
-  Down: 587371ad58002b06023d9c602519216862c3acbc
+  Down: 8c59a03cb229ef28dfa774b2132da860f3dee0ac
   Promises: 8edf94cd267665830ba57f7b48be2e6822f1622d
   ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
   SQLite.swift: 6e5356850bb1791459f8c16d6ee9195b28714a2e
 
-PODFILE CHECKSUM: 532775bfd9a4a0f32d11b65164b32f9d18ce0c9f
+PODFILE CHECKSUM: 48aa6887767cbbd8bbde996ced18b17a4457ce70
 
 COCOAPODS: 1.5.3
