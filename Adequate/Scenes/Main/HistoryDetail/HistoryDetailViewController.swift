@@ -14,7 +14,7 @@ import Promise
 protocol HistoryDetailViewControllerDelegate: VoidDismissalDelegate {
     typealias Topic = GetDealQuery.Data.GetDeal.Topic
     func showForum(with: Topic)
-    func showImage(_: Promise<UIImage>, animatingFrom: CGRect)
+    func showImage(animatingFrom: PagedImageView)
 }
 
 // MARK: - View Controller
@@ -157,6 +157,9 @@ class HistoryDetailViewController: UIViewController {
     func setupView() {
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.isTranslucent = false
+
+        pagedImageView.delegate = self
+
         forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         //storyButton.addTarget(self, action: #selector(didPressStory(_:)), for: .touchUpInside)
     }
@@ -233,6 +236,13 @@ class HistoryDetailViewController: UIViewController {
         delegate?.dismiss()
     }
 
+}
+
+// MARK: - PagedImageViewDelegate
+extension HistoryDetailViewController: PagedImageViewDelegate {
+    func displayFullscreenImage(animatingFrom pagedImageView: PagedImageView) {
+        delegate?.showImage(animatingFrom: pagedImageView)
+    }
 }
 
 // MARK: - AppSync
