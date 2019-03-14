@@ -64,7 +64,11 @@ extension HistoryListCoordinator: HistoryListViewControllerDelegate {
     }
 
     func showSettings() {
-        let settingsRouter = Router()
+        let navigationController = UINavigationController()
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            navigationController.modalPresentationStyle = .formSheet
+        }
+        let settingsRouter = Router(navigationController: navigationController)
         let coordinator = SettingsCoordinator(router: settingsRouter, dependencies: dependencies)
         coordinator.onFinishFlow = { [weak self, weak coordinator] _ in
             self?.router.dismissModule(animated: true, completion: nil)
