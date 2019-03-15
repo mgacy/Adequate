@@ -104,11 +104,18 @@ final class HistoryListViewController: UIViewController {
 
     func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
+
+        /// TODO: move these into class property?
+        //let spacing: CGFloat = 8.0
+        let sideMargin: CGFloat = 16.0
+        //let widthInset: CGFloat = -2.0 * sideMargin
+
         NSLayoutConstraint.activate([
             // stateView
             stateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stateView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            stateView.heightAnchor.constraint(equalToConstant: 100.0),
+            stateView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
+            stateView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
             // tableView
             tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             tableView.topAnchor.constraint(equalTo: guide.topAnchor),
