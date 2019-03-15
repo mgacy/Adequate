@@ -47,8 +47,14 @@ final class HistoryListDataSource: NSObject {
 
     private func setupObservations() -> [ObservationToken] {
         let historyToken = dataProvider.addHistoryObserver(self) { ds, viewState in
-            if case .result(let deals) = viewState {
+            switch viewState {
+            case .result(let deals):
                 ds.deals = deals
+            case .empty:
+                ds.deals = []
+            // TODO: what about .loading / .error?
+            default:
+                break
             }
             ds.state = viewState.map { _ in return }
         }
