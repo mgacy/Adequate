@@ -53,6 +53,10 @@
 		C9AE54CF21795D7A00818F11 /* FullScreenImageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54CE21795D7A00818F11 /* FullScreenImageDelegate.swift */; };
 		C9AE54D12179697F00818F11 /* ZoomInAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54D02179697F00818F11 /* ZoomInAnimationController.swift */; };
 		C9AE54D32179733E00818F11 /* ZoomOutAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54D22179733E00818F11 /* ZoomOutAnimationController.swift */; };
+		C9B3FAB2223C39F900B8524A /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B3FAB1223C39F900B8524A /* NotificationCenter.framework */; };
+		C9B3FAB5223C39F900B8524A /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAB4223C39F900B8524A /* TodayViewController.swift */; };
+		C9B3FAB8223C39F900B8524A /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9B3FAB6223C39F900B8524A /* MainInterface.storyboard */; };
+		C9B3FABC223C39F900B8524A /* DealWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9B3FAB0223C39F900B8524A /* DealWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
 		C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45A2147688500D6558B /* Assets.xcassets */; };
 		C9DAC45E2147688500D6558B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45C2147688500D6558B /* LaunchScreen.storyboard */; };
@@ -102,6 +106,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C9B3FABA223C39F900B8524A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9DAC4482147688500D6558B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9B3FAAF223C39F900B8524A;
+			remoteInfo = DealWidget;
+		};
 		C9DAC4652147688500D6558B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C9DAC4482147688500D6558B /* Project object */;
@@ -125,6 +136,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				C9B3FABC223C39F900B8524A /* DealWidget.appex in Embed App Extensions */,
 				C9EF22D3216C616D00D9DD22 /* NotificationService.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -186,6 +198,11 @@
 		C9AE54CE21795D7A00818F11 /* FullScreenImageDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageDelegate.swift; sourceTree = "<group>"; };
 		C9AE54D02179697F00818F11 /* ZoomInAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomInAnimationController.swift; sourceTree = "<group>"; };
 		C9AE54D22179733E00818F11 /* ZoomOutAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomOutAnimationController.swift; sourceTree = "<group>"; };
+		C9B3FAB0223C39F900B8524A /* DealWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DealWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9B3FAB1223C39F900B8524A /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		C9B3FAB4223C39F900B8524A /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		C9B3FAB7223C39F900B8524A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		C9B3FAB9223C39F900B8524A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9DAC4502147688500D6558B /* Adequate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adequate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DAC4532147688500D6558B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9DAC45A2147688500D6558B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -239,6 +256,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C9B3FAAD223C39F900B8524A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9B3FAB2223C39F900B8524A /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C9DAC44D2147688500D6558B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -285,6 +310,7 @@
 				3923F9A8BE9D1D3F77635F44 /* Pods_Adequate.framework */,
 				36632BB1419EBA91A2B6FAD6 /* Pods_AdequateTests.framework */,
 				964B42C53BA009B6A4117732 /* Pods_NotificationService.framework */,
+				C9B3FAB1223C39F900B8524A /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -350,12 +376,23 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
+		C9B3FAB3223C39F900B8524A /* DealWidget */ = {
+			isa = PBXGroup;
+			children = (
+				C9B3FAB4223C39F900B8524A /* TodayViewController.swift */,
+				C9B3FAB6223C39F900B8524A /* MainInterface.storyboard */,
+				C9B3FAB9223C39F900B8524A /* Info.plist */,
+			);
+			path = DealWidget;
+			sourceTree = "<group>";
+		};
 		C9DAC4472147688500D6558B = {
 			isa = PBXGroup;
 			children = (
 				C9DAC4522147688500D6558B /* Adequate */,
 				C9DAC4672147688500D6558B /* AdequateTests */,
 				C9EF22CD216C616D00D9DD22 /* NotificationService */,
+				C9B3FAB3223C39F900B8524A /* DealWidget */,
 				C9DAC4512147688500D6558B /* Products */,
 				2971522F7369A10E345A6B6D /* Pods */,
 				52FFA2E6BBD0A2D7885757EC /* Frameworks */,
@@ -368,6 +405,7 @@
 				C9DAC4502147688500D6558B /* Adequate.app */,
 				C9DAC4642147688500D6558B /* AdequateTests.xctest */,
 				C9EF22CC216C616D00D9DD22 /* NotificationService.appex */,
+				C9B3FAB0223C39F900B8524A /* DealWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -586,6 +624,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C9B3FAAF223C39F900B8524A /* DealWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9B3FABF223C39F900B8524A /* Build configuration list for PBXNativeTarget "DealWidget" */;
+			buildPhases = (
+				C9B3FAAC223C39F900B8524A /* Sources */,
+				C9B3FAAD223C39F900B8524A /* Frameworks */,
+				C9B3FAAE223C39F900B8524A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DealWidget;
+			productName = DealWidget;
+			productReference = C9B3FAB0223C39F900B8524A /* DealWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		C9DAC44F2147688500D6558B /* Adequate */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9DAC46D2147688500D6558B /* Build configuration list for PBXNativeTarget "Adequate" */;
@@ -603,6 +658,7 @@
 			);
 			dependencies = (
 				C9EF22D2216C616D00D9DD22 /* PBXTargetDependency */,
+				C9B3FABB223C39F900B8524A /* PBXTargetDependency */,
 			);
 			name = Adequate;
 			productName = Adequate;
@@ -652,10 +708,14 @@
 		C9DAC4482147688500D6558B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1000;
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "Mathew Gacy";
 				TargetAttributes = {
+					C9B3FAAF223C39F900B8524A = {
+						CreatedOnToolsVersion = 10.1;
+						ProvisioningStyle = Automatic;
+					};
 					C9DAC44F2147688500D6558B = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 1000;
@@ -694,11 +754,20 @@
 				C9DAC44F2147688500D6558B /* Adequate */,
 				C9DAC4632147688500D6558B /* AdequateTests */,
 				C9EF22CB216C616D00D9DD22 /* NotificationService */,
+				C9B3FAAF223C39F900B8524A /* DealWidget */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C9B3FAAE223C39F900B8524A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9B3FAB8223C39F900B8524A /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C9DAC44E2147688500D6558B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -849,6 +918,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C9B3FAAC223C39F900B8524A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9B3FAB5223C39F900B8524A /* TodayViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C9DAC44C2147688500D6558B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -958,6 +1035,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C9B3FABB223C39F900B8524A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9B3FAAF223C39F900B8524A /* DealWidget */;
+			targetProxy = C9B3FABA223C39F900B8524A /* PBXContainerItemProxy */;
+		};
 		C9DAC4662147688500D6558B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C9DAC44F2147688500D6558B /* Adequate */;
@@ -971,6 +1053,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		C9B3FAB6223C39F900B8524A /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9B3FAB7223C39F900B8524A /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		C9DAC45C2147688500D6558B /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -982,6 +1072,43 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		C9B3FABD223C39F900B8524A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2PMX4WLK83;
+				INFOPLIST_FILE = DealWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.DealWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C9B3FABE223C39F900B8524A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2PMX4WLK83;
+				INFOPLIST_FILE = DealWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.DealWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		C9DAC46B2147688500D6558B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1207,6 +1334,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C9B3FABF223C39F900B8524A /* Build configuration list for PBXNativeTarget "DealWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9B3FABD223C39F900B8524A /* Debug */,
+				C9B3FABE223C39F900B8524A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C9DAC44B2147688500D6558B /* Build configuration list for PBXProject "Adequate" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
