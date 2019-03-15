@@ -141,8 +141,12 @@ final class HistoryListViewController: UIViewController {
     // MARK: - DataProvider
 
     private func getDealHistory() {
-        let startDate = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
-        dataSource.getDealHistory(from: startDate, to: Date())
+        // TODO: account for TimeZones
+        let today = Date()
+        // TODO: move startDate / endDate to class properties?
+        let startDate = Calendar.current.date(byAdding: .month, value: -1, to: today)!
+        let endDate = Calendar.current.date(byAdding: .day, value: -1, to: today)!
+        dataSource.getDealHistory(from: startDate, to: endDate)
     }
 
     // MARK: - Navigation
