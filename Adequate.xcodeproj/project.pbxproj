@@ -55,7 +55,6 @@
 		C9AE54D32179733E00818F11 /* ZoomOutAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54D22179733E00818F11 /* ZoomOutAnimationController.swift */; };
 		C9B3FAB2223C39F900B8524A /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B3FAB1223C39F900B8524A /* NotificationCenter.framework */; };
 		C9B3FAB5223C39F900B8524A /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAB4223C39F900B8524A /* TodayViewController.swift */; };
-		C9B3FAB8223C39F900B8524A /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9B3FAB6223C39F900B8524A /* MainInterface.storyboard */; };
 		C9B3FABC223C39F900B8524A /* DealWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9B3FAB0223C39F900B8524A /* DealWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
 		C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45A2147688500D6558B /* Assets.xcassets */; };
@@ -201,7 +200,6 @@
 		C9B3FAB0223C39F900B8524A /* DealWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DealWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B3FAB1223C39F900B8524A /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		C9B3FAB4223C39F900B8524A /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		C9B3FAB7223C39F900B8524A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		C9B3FAB9223C39F900B8524A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9B3FAC0223C4EF500B8524A /* DealWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DealWidget.entitlements; sourceTree = "<group>"; };
 		C9DAC4502147688500D6558B /* Adequate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adequate.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -382,7 +380,6 @@
 			children = (
 				C9B3FAC0223C4EF500B8524A /* DealWidget.entitlements */,
 				C9B3FAB4223C39F900B8524A /* TodayViewController.swift */,
-				C9B3FAB6223C39F900B8524A /* MainInterface.storyboard */,
 				C9B3FAB9223C39F900B8524A /* Info.plist */,
 			);
 			path = DealWidget;
@@ -774,7 +771,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9B3FAB8223C39F900B8524A /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1063,14 +1059,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		C9B3FAB6223C39F900B8524A /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C9B3FAB7223C39F900B8524A /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
 		C9DAC45C2147688500D6558B /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
