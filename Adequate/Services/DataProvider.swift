@@ -51,6 +51,19 @@ class DataProvider: DataProviderType {
         self.mehService = mehService
         self.dealState = .empty
         self.historyState = .empty
+
+        // MARK: - New
+        addDealObserver(self) { dp, viewState in
+            guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
+                return
+            }
+
+            guard let currentDealManager = CurrentDealManager() else {
+                print("ERROR: unable to instantiate Temp")
+                return
+            }
+            currentDealManager.saveDeal(currentDeal)
+        }
     }
 
     // MARK: - A

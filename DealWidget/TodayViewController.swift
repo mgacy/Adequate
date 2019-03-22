@@ -14,6 +14,13 @@ import NotificationCenter
 
 class TodayViewController: UIViewController, NCWidgetProviding {
 
+    //private var currentDealManager: CurrentDealManager?
+    private var viewState: ViewState<CurrentDeal> = .empty {
+        didSet {
+            render(viewState)
+        }
+    }
+
     private var compactConstraints: [NSLayoutConstraint] = []
     private var expandedConstraints: [NSLayoutConstraint] = []
 
@@ -155,8 +162,80 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
-        
-        completionHandler(NCUpdateResult.newData)
+
+        fetchDeal { error in
+            if error == nil {
+                /*
+                // TODO: check if data differs from current?
+                if case .result(let currentDeal) = self.viewState {
+                    print("Current viewState: \(currentDeal)")
+                }
+                */
+                completionHandler(.newData)
+            } else {
+                print("ERROR: \(error!)")
+                completionHandler(.failed)
+            }
+        }
     }
-    
+
+    // MARK: - B
+
+    func fetchDeal(completionHandler: @escaping (Error?) -> Void) {
+        viewState = .loading
+        guard let dealManager = CurrentDealManager() else {
+            viewState = .error(WidgetError.missingManager)
+            return completionHandler(WidgetError.missingManager)
+        }
+        guard let deal = dealManager.readDeal() else {
+            viewState = .error(WidgetError.missingDeal)
+            return completionHandler(WidgetError.missingDeal)
+        }
+
+        //titleLabel.text = deal.title
+        //priceLabel.text = deal.maxPrice != nil ? "$\(deal.minPrice) - \(deal.maxPrice!)" : "$\(deal.minPrice)"
+
+        guard let dealImage = dealManager.readImage() else {
+            viewState = .error(WidgetError.missingImage)
+            return completionHandler(WidgetError.missingImage)
+        }
+
+        imageView.image = dealImage
+
+        viewState = .result(deal)
+    }
+
+}
+
+// MARK: - ViewStateRenderable
+extension TodayViewController: ViewStateRenderable {
+    typealias ResultType = CurrentDeal
+
+    func render(_ viewState: ViewState<CurrentDeal>) {
+        switch viewState {
+        case .empty:
+            print("Empty")
+        case .loading:
+            print("Loading ...")
+            titleLabel.text = "--"
+            priceLabel.text = "--"
+        case .result(let deal):
+            print("Deal: \(deal)")
+            titleLabel.text = deal.title
+            priceLabel.text = deal.maxPrice != nil ? "$\(deal.minPrice) - \(deal.maxPrice!)" : "$\(deal.minPrice)"
+        case .error(let error):
+            print("Error: \(error)")
+            titleLabel.text = "-*-"
+            priceLabel.text = "-*-"
+        }
+    }
+}
+
+// MARK: - A
+
+// TODO: move to CurrentDealManager?
+public enum WidgetError: Error {
+    case missingManager
+    case missingDeal
+    case missingImage
 }
