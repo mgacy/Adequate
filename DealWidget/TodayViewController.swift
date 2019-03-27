@@ -99,7 +99,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         compactConstraints = [
             // imageView
             imageView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -spacing),
-            //imageView.widthAnchor.constraint(equalToConstant: imageView.heightAnchor),
             // stackView
             stackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
             stackView.topAnchor.constraint(equalTo: guide.topAnchor, constant: spacing)
@@ -115,14 +114,19 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         ]
 
         // Shared
+        // TODO: can we always count on 1:1 aspect ratio?
+        // see: https://www.raywenderlich.com/1169-easier-auto-layout-coding-constraints-in-ios-9
+        let imageWidthConstraint = imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
+        imageWidthConstraint.priority = UILayoutPriority(rawValue: 800.0)
+
         NSLayoutConstraint.activate([
             // imageView
             imageView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: spacing),
             imageView.topAnchor.constraint(equalTo: guide.topAnchor, constant: spacing),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
+            imageWidthConstraint,
             // stackView
             stackView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -spacing),
-            stackView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -spacing)
+            //stackView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -spacing)
         ])
 
         switch extensionContext?.widgetActiveDisplayMode {
