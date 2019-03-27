@@ -76,6 +76,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        loadDeal { _ in }
     }
         
     // MARK: - View Setup
@@ -95,23 +96,23 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         //let widthInset: CGFloat = -2.0 * sideMargin
 
         // Compact
-        compactConstraints.append(contentsOf: [
+        compactConstraints = [
             // imageView
             imageView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -spacing),
             //imageView.widthAnchor.constraint(equalToConstant: imageView.heightAnchor),
             // stackView
             stackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
             stackView.topAnchor.constraint(equalTo: guide.topAnchor, constant: spacing)
-        ])
+        ]
 
         // Expanded
-        expandedConstraints.append(contentsOf: [
+        expandedConstraints = [
             // imageView
             imageView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -spacing),
             // stackView
             stackView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: spacing),
             stackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing)
-        ])
+        ]
 
         // Shared
         NSLayoutConstraint.activate([
@@ -151,19 +152,14 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             NSLayoutConstraint.activate(expandedConstraints)
 
             //let height = maxSize.width + spacing + stackView.intrinsicContentSize.height + spacing
+            titleLabel.setNeedsUpdateConstraints()
             let height = maxSize.width + (spacing * 2.0) + titleLabel.intrinsicContentSize.height + priceLabel.intrinsicContentSize.height
             preferredContentSize = CGSize(width: maxSize.width, height: min(height, maxSize.height))
         }
     }
 
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
-        // Perform any setup necessary in order to update the view.
-        
-        // If an error is encountered, use NCUpdateResult.Failed
-        // If there's no update required, use NCUpdateResult.NoData
-        // If there's an update, use NCUpdateResult.NewData
-
-        fetchDeal { error in
+        loadDeal { error in
             if error == nil {
                 /*
                 // TODO: check if data differs from current?
@@ -181,7 +177,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 
     // MARK: - B
 
-    func fetchDeal(completionHandler: @escaping (Error?) -> Void) {
+    func loadDeal(completionHandler: @escaping (Error?) -> Void) {
         viewState = .loading
         guard let dealManager = CurrentDealManager() else {
             viewState = .error(WidgetError.missingManager)
