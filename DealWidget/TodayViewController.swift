@@ -14,7 +14,7 @@ import NotificationCenter
 
 class TodayViewController: UIViewController, NCWidgetProviding {
 
-    //private var currentDealManager: CurrentDealManager?
+    private var currentDealManager: CurrentDealManager!
     private var viewState: ViewState<CurrentDeal> = .empty {
         didSet {
             render(viewState)
@@ -76,6 +76,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        currentDealManager = CurrentDealManager()
         loadDeal { _ in }
     }
         
@@ -181,8 +182,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 
     func loadDeal(completionHandler: @escaping (Error?) -> Void) {
         viewState = .loading
-        let dealManager = CurrentDealManager()
-        guard let deal = dealManager.readDeal() else {
+        guard let deal = currentDealManager.readDeal() else {
             viewState = .error(WidgetError.missingDeal)
             return completionHandler(WidgetError.missingDeal)
         }
@@ -190,7 +190,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         //titleLabel.text = deal.title
         //priceLabel.text = deal.maxPrice != nil ? "$\(deal.minPrice) - \(deal.maxPrice!)" : "$\(deal.minPrice)"
 
-        guard let dealImage = dealManager.readImage() else {
+        guard let dealImage = currentDealManager.readImage() else {
             viewState = .error(WidgetError.missingImage)
             return completionHandler(WidgetError.missingImage)
         }
