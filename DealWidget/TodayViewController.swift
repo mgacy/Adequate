@@ -38,7 +38,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.textColor = .black
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -79,7 +79,24 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         currentDealManager = CurrentDealManager()
         loadDeal { _ in }
     }
-        
+    /*
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // ...
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // ...
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        // ...
+    }
+    */
+    deinit { print("\(#function) - \(String(describing: self))") }
+
     // MARK: - View Setup
 
     func setupView() {
@@ -126,8 +143,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             imageView.topAnchor.constraint(equalTo: guide.topAnchor, constant: spacing),
             imageWidthConstraint,
             // stackView
-            stackView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -spacing),
-            //stackView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -spacing)
+            stackView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -spacing)
         ])
 
         switch extensionContext?.widgetActiveDisplayMode {
