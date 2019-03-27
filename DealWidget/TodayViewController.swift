@@ -148,14 +148,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         case .compact:
             NSLayoutConstraint.deactivate(expandedConstraints)
             NSLayoutConstraint.activate(compactConstraints)
-
-            //preferredContentSize = widgetMaximumSize(for: .compact)
-            preferredContentSize = CGSize(width: maxSize.width, height: 200)
+            titleLabel.preferredMaxLayoutWidth = maxSize.width - maxSize.height - (2.0 * spacing)
+            preferredContentSize = maxSize
         case .expanded:
             NSLayoutConstraint.deactivate(compactConstraints)
             NSLayoutConstraint.activate(expandedConstraints)
-
-            //let height = maxSize.width + spacing + stackView.intrinsicContentSize.height + spacing
+            titleLabel.preferredMaxLayoutWidth = maxSize.width - (2.0 * spacing)
             titleLabel.setNeedsUpdateConstraints()
             let height = maxSize.width + (spacing * 2.0) + titleLabel.intrinsicContentSize.height + priceLabel.intrinsicContentSize.height
             preferredContentSize = CGSize(width: maxSize.width, height: min(height, maxSize.height))
