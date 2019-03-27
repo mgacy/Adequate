@@ -28,7 +28,6 @@ public struct CurrentDeal: Codable {
     //let isSoldOut: Bool
 }
 
-
 public class CurrentDealManager {
 
     //private let defaults: UserDefaults
@@ -37,13 +36,8 @@ public class CurrentDealManager {
     // MARK: - Lifecycle
 
     // TODO: init with groupID?
-    init?(){
-        guard
-            let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: CurrentDealConstants.groupID)
-        //let defaults = UserDefaults(suiteName: CurrentDealConstants.groupID)
-        else {
-            return nil
-        }
+    init(){
+        let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: CurrentDealConstants.groupID)!
         //self.defaults = defaults
         self.sharedContainerURL = url
     }
@@ -123,4 +117,3 @@ fileprivate extension String {
     static let dealLocation = "deal.json"
     static let imageLocation = "dealImage"
 }
-

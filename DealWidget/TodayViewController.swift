@@ -181,10 +181,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 
     func loadDeal(completionHandler: @escaping (Error?) -> Void) {
         viewState = .loading
-        guard let dealManager = CurrentDealManager() else {
-            viewState = .error(WidgetError.missingManager)
-            return completionHandler(WidgetError.missingManager)
-        }
+        let dealManager = CurrentDealManager()
         guard let deal = dealManager.readDeal() else {
             viewState = .error(WidgetError.missingDeal)
             return completionHandler(WidgetError.missingDeal)

@@ -57,11 +57,7 @@ class DataProvider: DataProviderType {
             guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
                 return
             }
-
-            guard let currentDealManager = CurrentDealManager() else {
-                print("ERROR: unable to instantiate Temp")
-                return
-            }
+            let currentDealManager = CurrentDealManager()
             currentDealManager.saveDeal(currentDeal)
         }
     }
