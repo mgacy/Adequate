@@ -203,16 +203,11 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             return completionHandler(WidgetError.missingDeal)
         }
 
-        //titleLabel.text = deal.title
-        //priceLabel.text = deal.maxPrice != nil ? "$\(deal.minPrice) - \(deal.maxPrice!)" : "$\(deal.minPrice)"
-
         guard let dealImage = currentDealManager.readImage() else {
             viewState = .error(WidgetError.missingImage)
             return completionHandler(WidgetError.missingImage)
         }
-
         imageView.image = dealImage
-
         viewState = .result(deal)
     }
 
@@ -225,13 +220,10 @@ extension TodayViewController: ViewStateRenderable {
     func render(_ viewState: ViewState<CurrentDeal>) {
         switch viewState {
         case .empty:
-            print("Empty")
         case .loading:
-            print("Loading ...")
             titleLabel.text = "--"
             priceLabel.text = "--"
         case .result(let deal):
-            print("Deal: \(deal)")
             titleLabel.text = deal.title
             priceLabel.text = deal.maxPrice != nil ? "$\(deal.minPrice) - \(deal.maxPrice!)" : "$\(deal.minPrice)"
         case .error(let error):
@@ -246,7 +238,6 @@ extension TodayViewController: ViewStateRenderable {
 
 // TODO: move to CurrentDealManager?
 public enum WidgetError: Error {
-    case missingManager
     case missingDeal
     case missingImage
 }
