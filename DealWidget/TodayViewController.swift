@@ -199,13 +199,13 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     func loadDeal(completionHandler: @escaping (Error?) -> Void) {
         viewState = .loading
         guard let deal = currentDealManager.readDeal() else {
-            viewState = .error(WidgetError.missingDeal)
-            return completionHandler(WidgetError.missingDeal)
+            viewState = .error(CurrentDealManagerError.missingDeal)
+            return completionHandler(CurrentDealManagerError.missingDeal)
         }
 
         guard let dealImage = currentDealManager.readImage() else {
-            viewState = .error(WidgetError.missingImage)
-            return completionHandler(WidgetError.missingImage)
+            viewState = .error(CurrentDealManagerError.missingImage)
+            return completionHandler(CurrentDealManagerError.missingImage)
         }
         imageView.image = dealImage
         viewState = .result(deal)
@@ -236,8 +236,3 @@ extension TodayViewController: ViewStateRenderable {
 
 // MARK: - A
 
-// TODO: move to CurrentDealManager?
-public enum WidgetError: Error {
-    case missingDeal
-    case missingImage
-}

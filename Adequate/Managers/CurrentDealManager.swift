@@ -15,6 +15,16 @@ enum CurrentDealConstants {
     //static let y = "currentDealTitle"
 }
 
+// MARK: - Error
+
+public enum CurrentDealManagerError: Error {
+    case file(error: Error)
+    case missingDeal
+    case missingImage
+}
+
+// MARK: - Model
+
 public struct CurrentDeal: Codable {
     let id: String
     let title: String
@@ -27,6 +37,8 @@ public struct CurrentDeal: Codable {
     //let priceComparison: String?
     //let isSoldOut: Bool
 }
+
+// MARK: - A
 
 public class CurrentDealManager {
 
