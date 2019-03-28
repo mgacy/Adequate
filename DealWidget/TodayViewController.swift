@@ -15,7 +15,7 @@ import NotificationCenter
 class TodayViewController: UIViewController, NCWidgetProviding {
 
     private var currentDealManager: CurrentDealManager!
-    private var viewState: ViewState<CurrentDeal> = .empty {
+    private var viewState: ViewState<ResultType> = .empty {
         didSet {
             render(viewState)
         }
@@ -202,37 +202,43 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             viewState = .error(CurrentDealManagerError.missingDeal)
             return completionHandler(CurrentDealManagerError.missingDeal)
         }
-
-        guard let dealImage = currentDealManager.readImage() else {
-            viewState = .error(CurrentDealManagerError.missingImage)
-            return completionHandler(CurrentDealManagerError.missingImage)
-        }
-        imageView.image = dealImage
-        viewState = .result(deal)
+        let dealImage = currentDealManager.readImage()
+        viewState = .result(DealWrapper(deal: deal, image: dealImage))
     }
 
 }
 
 // MARK: - ViewStateRenderable
 extension TodayViewController: ViewStateRenderable {
-    typealias ResultType = CurrentDeal
+    typealias ResultType = DealWrapper
 
-    func render(_ viewState: ViewState<CurrentDeal>) {
+    func render(_ viewState: ViewState<ResultType>) {
         switch viewState {
         case .empty:
+            titleLabel.text = ""
+            priceLabel.text = ""
+            imageView.image = nil
         case .loading:
             titleLabel.text = "--"
             priceLabel.text = "--"
-        case .result(let deal):
+            // TODO: what about imageView?
+        case .result(let wrapper):
+            let deal = wrapper.deal
             titleLabel.text = deal.title
             priceLabel.text = deal.maxPrice != nil ? "$\(deal.minPrice) - \(deal.maxPrice!)" : "$\(deal.minPrice)"
+            imageView.image = wrapper.image
         case .error(let error):
             print("Error: \(error)")
             titleLabel.text = "-*-"
             priceLabel.text = "-*-"
+            imageView.image = nil
         }
     }
 }
 
-// MARK: - A
+// MARK: - Model
 
+struct DealWrapper {
+    let deal: CurrentDeal
+    let image: UIImage?
+}
