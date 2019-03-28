@@ -45,7 +45,6 @@ class DealViewController: UIViewController {
     private var observationTokens: [ObservationToken] = []
     private var viewState: ViewState<Deal> = .empty {
         didSet {
-            print("\(String(describing: self)) - \(viewState)")
             render(viewState)
         }
     }

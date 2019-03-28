@@ -67,7 +67,7 @@ class SettingsViewController: UITableViewController {
     private let userDefaultsManager: UserDefaultsManagerType
     private var observationTokens: [ObservationToken] = []
 
-    // MARK: - Interface
+    // MARK: - Subviews
 
     private let notificationHeader: UILabel = {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 32.0, left: 16.0, bottom: 8.0, right: 16.0))
