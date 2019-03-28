@@ -181,6 +181,9 @@ extension PagedImageView: Themeable {
         pageControl.pageIndicatorTintColor = theme.accentColor.withAlphaComponent(0.3)
         // backgroundColor
         self.backgroundColor = theme.backgroundColor
-        /// TODO: set activityIndicator color based on theme.forground? set property on dataSource?
+        // foreground
+
+        // Subviews
+        dataSource.apply(theme: theme)
     }
 }

@@ -110,3 +110,23 @@ class ImageCell: UICollectionViewCell {
 
 }
 
+// MARK: - Themeable
+extension ImageCell: Themeable {
+    func apply(theme: AppTheme) {
+        // accentColor
+        // backgroundColor
+        // foreground
+        switch theme.foreground {
+        case .dark:
+            activityIndicator.style = .gray
+            //retryButton.layer.borderColor = UIColor.gray.cgColor
+            //retryButton.setTitleColor(.gray, for: .normal)
+        case .light:
+            activityIndicator.style = .white
+            //retryButton.layer.borderColor = UIColor.gray.cgColor
+            //retryButton.setTitleColor(.gray, for: .normal)
+        case .unknown:
+            break
+        }
+    }
+}
