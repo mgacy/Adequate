@@ -49,7 +49,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        label.textColor = .secondaryText
+        label.textColor = Style.secondaryTextColor
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -108,27 +108,22 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
 
-        // TODO: move these into class property
-        let spacing: CGFloat = 8.0
-        //let sideMargin: CGFloat = 16.0
-        //let widthInset: CGFloat = -2.0 * sideMargin
-
         // Compact
         compactConstraints = [
             // imageView
-            imageView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -spacing),
+            imageView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -Style.spacing),
             // stackView
-            stackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
-            stackView.topAnchor.constraint(equalTo: guide.topAnchor, constant: spacing)
+            stackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: Style.spacing),
+            stackView.topAnchor.constraint(equalTo: guide.topAnchor, constant: Style.spacing)
         ]
 
         // Expanded
         expandedConstraints = [
             // imageView
-            imageView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -spacing),
+            imageView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -Style.spacing),
             // stackView
-            stackView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: spacing),
-            stackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing)
+            stackView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: Style.spacing),
+            stackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Style.spacing)
         ]
 
         // Shared
@@ -139,11 +134,11 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 
         NSLayoutConstraint.activate([
             // imageView
-            imageView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: spacing),
-            imageView.topAnchor.constraint(equalTo: guide.topAnchor, constant: spacing),
+            imageView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: Style.spacing),
+            imageView.topAnchor.constraint(equalTo: guide.topAnchor, constant: Style.spacing),
             imageWidthConstraint,
             // stackView
-            stackView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -spacing)
+            stackView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -Style.spacing)
         ])
 
         switch extensionContext?.widgetActiveDisplayMode {
@@ -159,20 +154,18 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     // MARK: - NCWidgetProviding
 
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
-        let spacing: CGFloat = 8.0
-
         switch activeDisplayMode {
         case .compact:
             NSLayoutConstraint.deactivate(expandedConstraints)
             NSLayoutConstraint.activate(compactConstraints)
-            titleLabel.preferredMaxLayoutWidth = maxSize.width - maxSize.height - (2.0 * spacing)
+            titleLabel.preferredMaxLayoutWidth = maxSize.width - maxSize.height - (2.0 * Style.spacing)
             preferredContentSize = maxSize
         case .expanded:
             NSLayoutConstraint.deactivate(compactConstraints)
             NSLayoutConstraint.activate(expandedConstraints)
-            titleLabel.preferredMaxLayoutWidth = maxSize.width - (2.0 * spacing)
+            titleLabel.preferredMaxLayoutWidth = maxSize.width - (2.0 * Style.spacing)
             titleLabel.setNeedsUpdateConstraints()
-            let height = maxSize.width + (spacing * 2.0) + titleLabel.intrinsicContentSize.height + priceLabel.intrinsicContentSize.height
+            let height = maxSize.width + (2.0 * Style.spacing) + titleLabel.intrinsicContentSize.height + priceLabel.intrinsicContentSize.height
             preferredContentSize = CGSize(width: maxSize.width, height: min(height, maxSize.height))
         }
     }
@@ -237,16 +230,15 @@ extension TodayViewController: ViewStateRenderable {
 }
 
 // MARK: - Model
-
 struct DealWrapper {
     let deal: CurrentDeal
     let image: UIImage?
 }
 
-// MARK: - Colors
-
-fileprivate extension UIColor {
-    @nonobjc class var secondaryText: UIColor {
-        return UIColor(red: 78/255.0, green: 78/255.0, blue: 78/255.0, alpha: 1.00)
-    }
+// MARK: - Style
+enum Style {
+    // Colors
+    static let secondaryTextColor = UIColor(red: 78/255.0, green: 78/255.0, blue: 78/255.0, alpha: 1.00)
+    // Layout
+    static let spacing: CGFloat = 8.0
 }
