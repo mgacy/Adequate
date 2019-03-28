@@ -57,8 +57,6 @@ public class CurrentDealManager {
     // MARK: - A
 
     public func saveDeal(_ deal: CurrentDeal) {
-        print("Saving CurrentDeal: \(deal) ...")
-
         // TODO: make async
         // Save CurrentDeal
         if let data = try? JSONEncoder().encode(deal) {
@@ -76,26 +74,13 @@ public class CurrentDealManager {
 
         URLSession.shared.downloadTask(with: deal.imageURL) { (fileURL, _, _) in
             guard let fileURL = fileURL else {
-                //return completion(nil)
                 return
             }
 
-            // Try to delete existing image if it exists
-            // ...
-
             do {
-                //print("Deleting item at \(destinationURL)")
-                //try FileManager.default.removeItem(at: destinationURL)
-
-                print("Replacing item at \(destinationURL)")
                 let _ = try FileManager.default.replaceItemAt(destinationURL, withItemAt: fileURL)
-
-                //print("Moving \(fileURL) to \(destinationURL)")
-                //try FileManager.default.moveItem(at: fileURL, to: destinationURL)
-                //completion(destinationUrl)
             } catch let error {
                 print("ERROR: \(error)")
-                //completion(nil)
             }
         }
         .resume()
