@@ -38,6 +38,8 @@ public struct CurrentDeal: Codable {
     //let isSoldOut: Bool
 }
 
+extension CurrentDeal: Equatable {}
+
 // MARK: - A
 
 public class CurrentDealManager {
