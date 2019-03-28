@@ -6,17 +6,30 @@
 //  Copyright © 2018 Mathew Gacy. All rights reserved.
 //
 
-import Foundation
-
-enum ThemeForeground: String, Codable {
+import UIKit
+/*
+enum ThemeForeground: String, Codable, Equatable {
     case dark
     case light
-}
 
-struct Theme: Codable {
+    var textColor: UIColor {
+        switch self {
+        case .dark: return .black
+        case .light: return .white
+        }
+    }
+
+    var statusBarStyle: UIStatusBarStyle {
+        switch self {
+        case .dark: return .default
+        case .light: return .lightContent
+        }
+    }
+}
+*/
+struct Theme: Codable, Equatable {
     let accentColor: String
     let backgroundColor: String
-    let backgroundImage: URL
-    //let foreground: String
+    //let backgroundImage: URL?
     let foreground: ThemeForeground
 }

@@ -1,10 +1,15 @@
-﻿# Uncomment the next line to define a global platform for your project
+# Uncomment the next line to define a global platform for your project
 platform :ios, '11.0'
 
 # Basic
 def basic_pods
   pod 'Down'
   pod 'Promises'
+  # AWS
+  pod 'AWSCore'
+  pod 'AWSAppSync'
+  pod 'AWSMobileClient'
+  pod 'AWSSNS'
 end
 
 # Testing
@@ -18,6 +23,14 @@ target 'Adequate' do
 
   # Pods for Adequate
   basic_pods
+
+  target 'NotificationService' do
+    inherit! :search_paths
+  end
+
+  target 'DealWidget' do
+    inherit! :search_paths
+  end
 
   target 'AdequateTests' do
     inherit! :search_paths

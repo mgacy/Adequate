@@ -7,19 +7,27 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     private var appCoordinator: AppCoordinator!
+    private var notificationServiceManager: NotificationServiceManager?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
 
-        self.appCoordinator = AppCoordinator(window: self.window!)
-        self.appCoordinator.start()
+        UNUserNotificationCenter.current().delegate = self
 
+        // Check if launched from notification
+        let notification = launchOptions?[.remoteNotification] as? [String: AnyObject]
+        let deepLink = DeepLink.build(with: notification)
+
+        /// TODO: create NotificationManager here and inject into AppCoordinator / create delegate protocol?
+        self.appCoordinator = AppCoordinator(window: self.window!)
+        self.appCoordinator.start(with: deepLink)
         return true
     }
 
@@ -43,6 +51,70 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+
+    // MARK: - URL-Specified Resources
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        let deepLink = DeepLink.build(with: url)
+        appCoordinator.start(with: deepLink)
+        return true
+    }
+
+    // MARK: - Notifications
+
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        print("Device Token: \(token)")
+
+        notificationServiceManager = AWSManager(region: .USWest2)
+        notificationServiceManager?.registerDevice(with: token)
+            .then({ [weak self] subscriptionArn in
+                print("subscriptionArn: \(subscriptionArn)")
+                self?.notificationServiceManager = nil
+            })
+            .catch({error in
+                print("ERROR: \(error)")
+            })
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register for remote notifications with error: \(error)")
+    }
+
+}
+
+// MARK: - UNUserNotificationCenterDelegate
+extension AppDelegate: UNUserNotificationCenterDelegate {
+
+    // Called when a notification is delivered to a foreground app.
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        // TODO: refresh DealViewController
+        completionHandler([.alert, .sound])
+    }
+
+    // Called to let your app know which action was selected by the user for a given notification.
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+
+        let userInfo = response.notification.request.content.userInfo
+
+        switch response.actionIdentifier {
+        case NotificationAction.buyAction.rawValue:
+            if let urlString = userInfo[NotificationConstants.dealKey] as? String, let buyURL = URL(string: urlString) {
+                appCoordinator.start(with: .buy(buyURL))
+            } else {
+                print("ERROR: unable to parse \(NotificationConstants.dealKey) from Notification")
+            }
+        case NotificationAction.mehAction.rawValue:
+            appCoordinator.start(with: .meh)
+        default:
+            print("Unknown Action")
+        }
+        completionHandler()
     }
 
 }

@@ -10,12 +10,12 @@ import Foundation
 
 struct Deal: Codable {
 
-    struct PurchaseQuantity: Codable {
+    struct PurchaseQuantity: Codable, Equatable {
         let maximumLimit: Int
         let minimumLimit: Int
     }
 
-    struct Launch: Codable {
+    struct Launch: Codable, Equatable {
         let soldOutAt: String?
     }
 
@@ -30,6 +30,13 @@ struct Deal: Codable {
     let theme: Theme
     let url: URL
     let soldOutAt: Date?
-    let launches: [Launch]
+    let launches: [Launch]?
     let topic: Topic?
+}
+
+// MARK: - Equatable
+extension Deal: Equatable {
+    static func == (lhs: Deal, rhs: Deal) -> Bool {
+        return lhs.id == rhs.id && lhs.soldOutAt == rhs.soldOutAt && lhs.topic == rhs.topic
+    }
 }

@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct Poll: Codable {
+struct Poll: Codable, Equatable {
 
-    struct Answer: Codable {
+    struct Answer: Codable, Equatable {
         let id: String
         let text: String
         let voteCount: Int

@@ -10,7 +10,40 @@ import UIKit
 
 // MARK: - DeepLink
 
-enum DeepLink {}
+struct DeepLinkURLConstants {
+    static let deal = "deal"
+    static let onboarding = "onboarding"
+}
+
+enum DeepLink {
+    case onboarding
+    case deal
+    case buy(URL)
+    case meh
+
+    static func build(with dict: [String: AnyObject]?) -> DeepLink? {
+        guard let id = dict?["launch_id"] as? String else { return nil }
+
+        switch id {
+        case DeepLinkURLConstants.onboarding: return .onboarding
+        default: return nil
+        }
+    }
+
+    static func build(with url: URL) -> DeepLink? {
+        switch url.host {
+        case DeepLinkURLConstants.deal: return .deal
+        default: return nil
+        }
+    }
+
+    static func build(with userActivity: NSUserActivity) -> DeepLink? {
+        return nil
+    }
+
+    //static func build(with notificationResponse: import UserNotifications) -> DeepLink? {}
+
+}
 
 // MARK: - Protocol
 
@@ -25,18 +58,20 @@ protocol CoordinatorType: class {
 
 // MARK: - Base Class
 
-class BaseCoordinator: CoordinatorType {
+class BaseCoordinator: NSObject, CoordinatorType {
 
     /// Unique identifier.
     internal let identifier = UUID()
 
-    private var childCoordinators = [UUID: Any]()
+    private var childCoordinators = [UUID: CoordinatorType]()
 
     func store(coordinator: CoordinatorType) {
         childCoordinators[coordinator.identifier] = coordinator
     }
 
+    /// TODO: accept optional to avoid weak/strong dance in onFinishFlow
     func free(coordinator: CoordinatorType) {
+        // TODO: recursively free children coordinators?
         childCoordinators[coordinator.identifier] = nil
     }
 
@@ -50,6 +85,13 @@ class BaseCoordinator: CoordinatorType {
         // ...
     }
 
+    //deinit { print("\(#function) - \(String(describing: self))") }
+
+}
+
+// MARK: - Helper Methods
+extension BaseCoordinator {
+
     public func coordinate(to coordinator: CoordinatorType) {
         store(coordinator: coordinator)
         coordinator.start()
@@ -61,6 +103,23 @@ class BaseCoordinator: CoordinatorType {
         coordinator.start(with: deepLink)
     }
 
-    //deinit { print("\(#function) - \(String(describing: self))") }
+    public func startChildren(with deepLink: DeepLink) {
+        childCoordinators.forEach { $1.start(with: deepLink) }
+    }
 
+}
+
+// MARK: - Coordinator
+class Coordinator: BaseCoordinator {
+    let router: RouterType
+
+    init(router: RouterType) {
+        self.router = router
+    }
+}
+
+extension Coordinator: Presentable {
+    func toPresent() -> UIViewController {
+        return router.toPresent()
+    }
 }

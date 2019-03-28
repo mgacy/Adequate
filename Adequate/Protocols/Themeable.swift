@@ -9,5 +9,5 @@
 import UIKit
 
 protocol Themeable {
-    func apply(theme: Theme)
+    func apply(theme: AppTheme)
 }

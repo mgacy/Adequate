@@ -34,3 +34,5 @@ Pods
 # Secrets
 env-vars.sh
 AppSecrets.generated.swift
+/awsconfiguration.json
+/API.swift
