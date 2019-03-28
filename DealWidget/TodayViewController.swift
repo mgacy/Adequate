@@ -49,7 +49,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        label.textColor = .gray
+        label.textColor = .secondaryText
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -241,4 +241,12 @@ extension TodayViewController: ViewStateRenderable {
 struct DealWrapper {
     let deal: CurrentDeal
     let image: UIImage?
+}
+
+// MARK: - Colors
+
+fileprivate extension UIColor {
+    @nonobjc class var secondaryText: UIColor {
+        return UIColor(red: 78/255.0, green: 78/255.0, blue: 78/255.0, alpha: 1.00)
+    }
 }
