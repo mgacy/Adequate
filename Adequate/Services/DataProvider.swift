@@ -51,6 +51,15 @@ class DataProvider: DataProviderType {
         self.mehService = mehService
         self.dealState = .empty
         self.historyState = .empty
+
+        // MARK: - New
+        addDealObserver(self) { dp, viewState in
+            guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
+                return
+            }
+            let currentDealManager = CurrentDealManager()
+            currentDealManager.saveDeal(currentDeal)
+        }
     }
 
     // MARK: - A

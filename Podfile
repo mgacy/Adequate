@@ -28,6 +28,10 @@ target 'Adequate' do
     inherit! :search_paths
   end
 
+  target 'DealWidget' do
+    inherit! :search_paths
+  end
+
   target 'AdequateTests' do
     inherit! :search_paths
     # Pods for testing
