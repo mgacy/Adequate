@@ -77,9 +77,9 @@ class ZoomingImageView: UIScrollView {
     @objc private func handleDoubleTap(_ sender: UIGestureRecognizer) {
         if sender.state == .ended {
             if zoomScale == minimumZoomScale {
-                zoomScale = 1.0
+                setZoomScale(1.0, animated: true)
             } else {
-                zoomScale = minimumZoomScale
+                setZoomScale(minimumZoomScale, animated: true)
             }
         }
     }
