@@ -70,8 +70,8 @@ class NotificationManager: NSObject, NotificationManagerType {
     }
 
     func registerForPushNotifications() -> Promise<Void> {
-        return notificationCenter.getNotificationSettings()
-            .ensure({ $0.authorizationStatus == .authorized })
+        return requestAuthorization()
+            .ensure({ $0 })
             .then(on: DispatchQueue.global(), { _ in
                 self.notificationCenter.setNotificationCategories([self.makeCategory(for: .dailyDeal)])
             })
