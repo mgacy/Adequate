@@ -95,6 +95,7 @@ final class HistoryListViewController: UIViewController {
     // MARK: - View Methods
 
     func setupView() {
+        title = Strings.historyListSceneTitle
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.isTranslucent = false
         apply(theme: themeManager.theme)
@@ -208,5 +209,12 @@ extension HistoryListViewController: ViewStateRenderable {
             stateView.isHidden = false
             tableView.isHidden = true
         }
+    }
+}
+
+// MARK: - Strings
+extension HistoryListViewController {
+    private enum Strings {
+        static let historyListSceneTitle = "History"
     }
 }

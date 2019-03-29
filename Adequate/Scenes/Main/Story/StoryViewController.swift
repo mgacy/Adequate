@@ -111,6 +111,7 @@ final class StoryViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
+        title = Strings.storySceneTitle
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.isTranslucent = false
         apply(theme: themeManager.theme)
@@ -188,5 +189,12 @@ extension StoryViewController: Themeable {
         // foreground
         titleLabel.textColor = theme.foreground.textColor
         bodyText.textColor = theme.foreground.textColor
+    }
+}
+
+// MARK: - Strings
+extension StoryViewController {
+    private enum Strings {
+        static let storySceneTitle = "Story"
     }
 }

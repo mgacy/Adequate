@@ -8,31 +8,6 @@
 
 import UIKit
 
-// MARK: - Config
-
-enum SupportAddress: String {
-    case web = "example.com"
-    case email = "support@example.com"
-    case twitter = "@example"
-
-    var url: URL? {
-        switch self {
-        case .web:
-            return URL(string: "https://\(rawValue)")
-        case .email:
-            return URL(string: "mailto:\(rawValue)")
-        case .twitter:
-            let application = UIApplication.shared
-            if let appURL = URL(string: "twitter://user?screen_name=\(rawValue)"), application.canOpenURL(appURL) {
-                return appURL
-            } else {
-                return URL(string: "https://twitter.com/\(rawValue)")
-            }
-        }
-    }
-
-}
-
 // MARK: - Delegate Protocol
 
 protocol SettingsViewControllerDelegate: class {
@@ -44,30 +19,13 @@ protocol SettingsViewControllerDelegate: class {
 class SettingsViewController: UITableViewController {
     typealias Dependencies = HasNotificationManager & HasThemeManager & HasUserDefaultsManager
 
-    private enum Strings {
-        // Section: Notifications
-        static let notificationsHeader = "NOTIFICATIONS"
-        static let notificationsCell = "Daily Notifications"
-        // Section: Support
-        static let supportHeader = "SUPPORT"
-        static let webCell = "Web"
-        static let emailCell = "Email"
-        static let twitterCell = "Twitter"
-        static let supportFooter = "This is an unofficial app. Please direct any issues to the developer, not to Meh."
-        // Alert
-        static let alertTitle = "Title"
-        static let alertBody = "Notifications are disabled. Please allow Adequate to access notifications in Settings."
-        static let alertCancelTitle = "Cancel"
-        static let alertOKTitle = "Settings"
-    }
-
     weak var delegate: SettingsViewControllerDelegate? = nil
     private let notificationManager: NotificationManagerType
     private let themeManager: ThemeManagerType
     private let userDefaultsManager: UserDefaultsManagerType
     private var observationTokens: [ObservationToken] = []
 
-    // MARK: - Interface
+    // MARK: - Subviews
 
     private let notificationHeader: UILabel = {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 32.0, left: 16.0, bottom: 8.0, right: 16.0))
@@ -167,10 +125,26 @@ class SettingsViewController: UITableViewController {
     // MARK: - View Methods
 
     func setupView() {
+        title = Strings.settingsSceneTitle
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
                                                             action: #selector(didPressDone(_:)))
-        notificationSwitch.setOn(userDefaultsManager.showNotifications, animated: false)
+
         apply(theme: themeManager.theme)
+
+        // TODO: move this logic into NotificationManager as `verifyNotificationSetting`?
+        if userDefaultsManager.showNotifications {
+            notificationManager.isAuthorized()
+                .then({ isAuthorized in
+                    if isAuthorized {
+                        self.notificationSwitch.setOn(true, animated: false)
+                    } else {
+                        self.userDefaultsManager.showNotifications = false
+                        self.notificationSwitch.setOn(false, animated: false)
+                    }
+                })
+        } else {
+            notificationSwitch.setOn(false, animated: false)
+        }
     }
 
     private func setupObservations() -> [ObservationToken] {
@@ -361,5 +335,53 @@ extension SettingsViewController: Themeable {
         notificationHeader.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
         supportHeader.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
         supportFooter.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
+    }
+}
+
+// MARK: - Config
+extension SettingsViewController {
+    enum SupportAddress: String {
+        case web = "example.com"
+        case email = "support@example.com"
+        case twitter = "@example"
+
+        var url: URL? {
+            switch self {
+            case .web:
+                return URL(string: "https://\(rawValue)")
+            case .email:
+                return URL(string: "mailto:\(rawValue)")
+            case .twitter:
+                let application = UIApplication.shared
+                if let appURL = URL(string: "twitter://user?screen_name=\(rawValue)"), application.canOpenURL(appURL) {
+                    return appURL
+                } else {
+                    return URL(string: "https://twitter.com/\(rawValue)")
+                }
+            }
+        }
+
+    }
+}
+
+// MARK: - Strings
+extension SettingsViewController {
+    private enum Strings {
+        // Title
+        static let settingsSceneTitle = "Settings"
+        // Section: Notifications
+        static let notificationsHeader = "NOTIFICATIONS"
+        static let notificationsCell = "Daily Notifications"
+        // Section: Support
+        static let supportHeader = "SUPPORT"
+        static let webCell = "Web"
+        static let emailCell = "Email"
+        static let twitterCell = "Twitter"
+        static let supportFooter = "This is an unofficial app. Please direct any issues to the developer, not to Meh."
+        // Alert
+        static let alertTitle = "Error"
+        static let alertBody = "Notifications are disabled. Please allow Adequate to access notifications in Settings."
+        static let alertCancelTitle = "Cancel"
+        static let alertOKTitle = "Settings"
     }
 }
