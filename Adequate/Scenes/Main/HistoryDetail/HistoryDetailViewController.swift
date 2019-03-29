@@ -46,8 +46,7 @@ class HistoryDetailViewController: UIViewController {
     // MARK: - Subviews
 
     private lazy var dismissButton: UIBarButtonItem = {
-        return UIBarButtonItem(barButtonSystemItem: .stop, target: self,
-                               action: #selector(didPressDismiss(_:)))
+        UIBarButtonItem(image: #imageLiteral(resourceName: "CloseNavBar"), style: .plain, target: self, action: #selector(didPressDismiss(_:)))
     }()
 
     private lazy var stateView: StateView<Deal> = {
