@@ -48,7 +48,7 @@ class StateView<Element>: UIView {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
-        label.text = loadingMessageText
+        label.text = Strings.loadingMessage
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
