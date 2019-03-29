@@ -298,11 +298,13 @@ extension HistoryDetailViewController: ViewStateRenderable {
         }
         forumButton.isHidden = false
         forumButton.isEnabled = true
-        if topic.commentCount > 0 {
-            // TODO: display .commentCount + .replyCount?
-            forumButton.setTitle("\(topic.commentCount) Comments", for: .normal)
-        } else {
-            forumButton.setTitle("Comments", for: .normal)
+        switch topic.commentCount {
+        case 0:
+            forumButton.setTitle(Strings.commentsButtonEmpty, for: .normal)
+        case 1:
+            forumButton.setTitle("\(topic.commentCount) \(Strings.commentsButtonSingular)", for: .normal)
+        default:
+            forumButton.setTitle("\(topic.commentCount) \(Strings.commentsButtonPlural)", for: .normal)
         }
     }
 

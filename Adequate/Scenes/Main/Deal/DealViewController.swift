@@ -104,8 +104,6 @@ class DealViewController: UIViewController {
     }()
 
     private lazy var shareButton: UIBarButtonItem = {
-        //let button = UIBarButtonItem(barButtonSystemItem: .action, target: self,
-        //                             action: #selector(didPressShare(_:)))
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ShareNavBar"), style: .plain, target: self, action: #selector(didPressShare(_:)))
         button.isEnabled = false
         return button
@@ -431,6 +429,7 @@ extension DealViewController: ViewStateRenderable {
 
     // MARK: Helper Methods
 
+    // TODO: move into extension on Topic?
     private func renderComments(for deal: Deal) {
         guard let topic = deal.topic else {
             forumButton.isEnabled = false
@@ -439,11 +438,13 @@ extension DealViewController: ViewStateRenderable {
         }
         forumButton.isHidden = false
         forumButton.isEnabled = true
-        if topic.commentCount > 0 {
-            // TODO: display .commentCount + .replyCount?
-            forumButton.setTitle("\(topic.commentCount) Comments", for: .normal)
-        } else {
-            forumButton.setTitle("Comments", for: .normal)
+        switch topic.commentCount {
+        case 0:
+            forumButton.setTitle(Strings.commentsButtonEmpty, for: .normal)
+        case 1:
+            forumButton.setTitle("\(topic.commentCount) \(Strings.commentsButtonSingular)", for: .normal)
+        default:
+            forumButton.setTitle("\(topic.commentCount) \(Strings.commentsButtonPlural)", for: .normal)
         }
     }
 
