@@ -65,12 +65,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        print("Device Token: \(token)")
-
         notificationServiceManager = AWSManager(region: .USWest2)
         notificationServiceManager?.registerDevice(with: token)
             .then({ [weak self] subscriptionArn in
-                print("subscriptionArn: \(subscriptionArn)")
                 self?.notificationServiceManager = nil
             })
             .catch({error in
