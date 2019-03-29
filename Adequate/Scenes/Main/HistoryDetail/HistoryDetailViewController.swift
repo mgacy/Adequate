@@ -282,6 +282,7 @@ extension HistoryDetailViewController: ViewStateRenderable {
             // forum
             renderComments(for: deal)
             scrollView.isHidden = false
+            apply(theme: themeManager.theme)
         case .error:
             stateView.isHidden = false
             scrollView.isHidden = true
