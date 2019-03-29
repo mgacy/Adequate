@@ -8,31 +8,6 @@
 
 import UIKit
 
-// MARK: - Config
-
-enum SupportAddress: String {
-    case web = "example.com"
-    case email = "support@example.com"
-    case twitter = "@example"
-
-    var url: URL? {
-        switch self {
-        case .web:
-            return URL(string: "https://\(rawValue)")
-        case .email:
-            return URL(string: "mailto:\(rawValue)")
-        case .twitter:
-            let application = UIApplication.shared
-            if let appURL = URL(string: "twitter://user?screen_name=\(rawValue)"), application.canOpenURL(appURL) {
-                return appURL
-            } else {
-                return URL(string: "https://twitter.com/\(rawValue)")
-            }
-        }
-    }
-
-}
-
 // MARK: - Delegate Protocol
 
 protocol SettingsViewControllerDelegate: class {
@@ -43,23 +18,6 @@ protocol SettingsViewControllerDelegate: class {
 
 class SettingsViewController: UITableViewController {
     typealias Dependencies = HasNotificationManager & HasThemeManager & HasUserDefaultsManager
-
-    private enum Strings {
-        // Section: Notifications
-        static let notificationsHeader = "NOTIFICATIONS"
-        static let notificationsCell = "Daily Notifications"
-        // Section: Support
-        static let supportHeader = "SUPPORT"
-        static let webCell = "Web"
-        static let emailCell = "Email"
-        static let twitterCell = "Twitter"
-        static let supportFooter = "This is an unofficial app. Please direct any issues to the developer, not to Meh."
-        // Alert
-        static let alertTitle = "Error"
-        static let alertBody = "Notifications are disabled. Please allow Adequate to access notifications in Settings."
-        static let alertCancelTitle = "Cancel"
-        static let alertOKTitle = "Settings"
-    }
 
     weak var delegate: SettingsViewControllerDelegate? = nil
     private let notificationManager: NotificationManagerType
@@ -361,5 +319,51 @@ extension SettingsViewController: Themeable {
         notificationHeader.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
         supportHeader.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
         supportFooter.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
+    }
+}
+
+// MARK: - Config
+extension SettingsViewController {
+    enum SupportAddress: String {
+        case web = "example.com"
+        case email = "support@example.com"
+        case twitter = "@example"
+
+        var url: URL? {
+            switch self {
+            case .web:
+                return URL(string: "https://\(rawValue)")
+            case .email:
+                return URL(string: "mailto:\(rawValue)")
+            case .twitter:
+                let application = UIApplication.shared
+                if let appURL = URL(string: "twitter://user?screen_name=\(rawValue)"), application.canOpenURL(appURL) {
+                    return appURL
+                } else {
+                    return URL(string: "https://twitter.com/\(rawValue)")
+                }
+            }
+        }
+
+    }
+}
+
+// MARK: - Strings
+extension SettingsViewController {
+    private enum Strings {
+        // Section: Notifications
+        static let notificationsHeader = "NOTIFICATIONS"
+        static let notificationsCell = "Daily Notifications"
+        // Section: Support
+        static let supportHeader = "SUPPORT"
+        static let webCell = "Web"
+        static let emailCell = "Email"
+        static let twitterCell = "Twitter"
+        static let supportFooter = "This is an unofficial app. Please direct any issues to the developer, not to Meh."
+        // Alert
+        static let alertTitle = "Error"
+        static let alertBody = "Notifications are disabled. Please allow Adequate to access notifications in Settings."
+        static let alertCancelTitle = "Cancel"
+        static let alertOKTitle = "Settings"
     }
 }
