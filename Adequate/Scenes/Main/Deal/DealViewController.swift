@@ -218,6 +218,19 @@ class DealViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        let currentPage = pagedImageView.primaryVisiblePage
+        coordinator.animate(
+            alongsideTransition: { [weak self] (context) -> Void in
+                self?.pagedImageView.beginRotation()
+            },
+            completion: { [weak self] (context) -> Void in
+                self?.pagedImageView.completeRotation(page: currentPage)
+            }
+        )
+    }
+
     deinit { observationTokens.forEach { $0.cancel() } }
 
     // MARK: - View Methods

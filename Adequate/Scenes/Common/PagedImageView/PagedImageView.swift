@@ -44,7 +44,6 @@ class PagedImageView: UIView {
     let flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: 90, height: 120)
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
@@ -140,6 +139,17 @@ class PagedImageView: UIView {
     }
 
     // MARK: - Appearance / Sizing
+
+    public func beginRotation() {
+        collectionView.isHidden = true
+        flowLayout.invalidateLayout()
+    }
+
+    public func completeRotation(page currentPage: Int) {
+        collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally,
+                                    animated: false)
+        collectionView.isHidden = false
+    }
 
     private func updatePageControl() {
         pageControl.numberOfPages = collectionView.numberOfItems(inSection: 0)
