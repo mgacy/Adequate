@@ -125,6 +125,7 @@ class SettingsViewController: UITableViewController {
     // MARK: - View Methods
 
     func setupView() {
+        title = Strings.settingsSceneTitle
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
                                                             action: #selector(didPressDone(_:)))
         notificationSwitch.setOn(userDefaultsManager.showNotifications, animated: false)
@@ -351,6 +352,8 @@ extension SettingsViewController {
 // MARK: - Strings
 extension SettingsViewController {
     private enum Strings {
+        // Title
+        static let settingsSceneTitle = "Settings"
         // Section: Notifications
         static let notificationsHeader = "NOTIFICATIONS"
         static let notificationsCell = "Daily Notifications"
