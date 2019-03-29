@@ -128,8 +128,23 @@ class SettingsViewController: UITableViewController {
         title = Strings.settingsSceneTitle
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
                                                             action: #selector(didPressDone(_:)))
-        notificationSwitch.setOn(userDefaultsManager.showNotifications, animated: false)
+
         apply(theme: themeManager.theme)
+
+        // TODO: move this logic into NotificationManager as `verifyNotificationSetting`?
+        if userDefaultsManager.showNotifications {
+            notificationManager.isAuthorized()
+                .then({ isAuthorized in
+                    if isAuthorized {
+                        self.notificationSwitch.setOn(true, animated: false)
+                    } else {
+                        self.userDefaultsManager.showNotifications = false
+                        self.notificationSwitch.setOn(false, animated: false)
+                    }
+                })
+        } else {
+            notificationSwitch.setOn(false, animated: false)
+        }
     }
 
     private func setupObservations() -> [ObservationToken] {
