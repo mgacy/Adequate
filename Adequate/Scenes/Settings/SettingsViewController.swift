@@ -55,7 +55,7 @@ class SettingsViewController: UITableViewController {
         static let twitterCell = "Twitter"
         static let supportFooter = "This is an unofficial app. Please direct any issues to the developer, not to Meh."
         // Alert
-        static let alertTitle = "Title"
+        static let alertTitle = "Error"
         static let alertBody = "Notifications are disabled. Please allow Adequate to access notifications in Settings."
         static let alertCancelTitle = "Cancel"
         static let alertOKTitle = "Settings"
