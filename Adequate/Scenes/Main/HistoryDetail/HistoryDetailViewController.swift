@@ -100,7 +100,7 @@ class HistoryDetailViewController: UIViewController {
     */
     private let forumButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("Comments", for: .normal)
+        button.setTitle(Strings.commentsButtonPlural, for: .normal)
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = button.tintColor
@@ -332,5 +332,15 @@ extension HistoryDetailViewController: Themeable {
         // Subviews
         pagedImageView.apply(theme: theme)
         stateView.apply(theme: theme)
+    }
+}
+
+// MARK: - Strings
+extension HistoryDetailViewController {
+    private enum Strings {
+        // Buttons (Duplicates DealViewController.Strings)
+        static let commentsButtonEmpty = "Forum"
+        static let commentsButtonSingular = "Comment"
+        static let commentsButtonPlural = "Comments"
     }
 }

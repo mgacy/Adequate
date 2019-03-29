@@ -68,7 +68,7 @@ class DealViewController: UIViewController {
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
         label.textColor = .gray
-        label.text = "LOADING"
+        label.text = Strings.loadingMessage
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -86,7 +86,7 @@ class DealViewController: UIViewController {
 
     private let retryButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("Retry", for: .normal)
+        button.setTitle(Strings.retryButton, for: .normal)
         button.layer.cornerRadius = 5.0
         button.layer.borderWidth = 1.0
         button.layer.borderColor = UIColor.gray.cgColor
@@ -151,7 +151,7 @@ class DealViewController: UIViewController {
 
     private let forumButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("Comments", for: .normal)
+        button.setTitle(Strings.commentsButtonPlural, for: .normal)
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = button.tintColor
@@ -318,7 +318,7 @@ class DealViewController: UIViewController {
             return
         }
 
-        let text = "Check out this deal: \(deal.title)"
+        let text = "\(Strings.sharingActivityText): \(deal.title)"
         let url = deal.url
         // set up activity view controller
         let textToShare: [Any] = [ text, url ]
@@ -379,7 +379,7 @@ extension DealViewController: ViewStateRenderable {
         switch viewState {
         case .empty:
             activityIndicator.stopAnimating()
-            messageLabel.text = "There was no data"
+            messageLabel.text = Strings.emptyMessage
             errorMessageLabel.isHidden = true
             retryButton.isHidden = false
             scrollView.isHidden = true
@@ -395,7 +395,7 @@ extension DealViewController: ViewStateRenderable {
             //displayError(error: error)
         case .loading:
             activityIndicator.startAnimating()
-            messageLabel.text = "LOADING"
+            messageLabel.text = Strings.loadingMessage
             messageLabel.isHidden = false
             errorMessageLabel.isHidden = true
             retryButton.isHidden = true
@@ -473,5 +473,21 @@ extension DealViewController: Themeable {
         // Subviews
         pagedImageView.apply(theme: theme)
         footerView.apply(theme: theme)
+    }
+}
+
+// MARK: - Strings
+extension DealViewController {
+    private enum Strings {
+        // Buttons
+        static let commentsButtonEmpty = "Forum"
+        static let commentsButtonSingular = "Comment"
+        static let commentsButtonPlural = "Comments"
+        static let retryButton = "Retry"
+        // Message Labels
+        static let emptyMessage = "There was no data"
+        static let loadingMessage = "LOADING"
+        // Sharing Activity
+        static let sharingActivityText = "Check out this deal"
     }
 }
