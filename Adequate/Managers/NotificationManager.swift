@@ -12,6 +12,7 @@ import Promise
 // MARK: - Protocol
 
 protocol NotificationManagerType {
+    func isAuthorized() -> Promise<Bool>
     func requestAuthorization() -> Promise<Bool>
     func registerForPushNotifications() -> Promise<Void>
     func unregisterForRemoteNotifications()
@@ -64,14 +65,25 @@ class NotificationManager: NSObject, NotificationManagerType {
 
     // MARK: - NotificationManagerType
 
+    func isAuthorized() -> Promise<Bool> {
+        return notificationCenter.getNotificationSettings().then({ settings -> Bool in
+            switch settings.authorizationStatus {
+            case .authorized:
+                return true
+            default:
+                return false
+            }
+        })
+    }
+
     func requestAuthorization() -> Promise<Bool> {
         let options: UNAuthorizationOptions = [.alert, .sound]
         return notificationCenter.requestAuthorization(options: options)
     }
 
     func registerForPushNotifications() -> Promise<Void> {
-        return notificationCenter.getNotificationSettings()
-            .ensure({ $0.authorizationStatus == .authorized })
+        return requestAuthorization()
+            .ensure({ $0 })
             .then(on: DispatchQueue.global(), { _ in
                 self.notificationCenter.setNotificationCategories([self.makeCategory(for: .dailyDeal)])
             })

@@ -11,8 +11,7 @@ import UIKit
 class StateView<Element>: UIView {
 
     var onRetry: (() -> Void)?
-    var emptyMessageText: String = "There was no data"
-    var loadingMessageText: String = "LOADING"
+    var emptyMessageText: String = Strings.emptyMessage
 
     // MARK: - Appearance
 
@@ -49,7 +48,7 @@ class StateView<Element>: UIView {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
-        label.text = loadingMessageText
+        label.text = Strings.loadingMessage
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -68,7 +67,7 @@ class StateView<Element>: UIView {
 
     private let retryButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("Retry", for: .normal)
+        button.setTitle(Strings.retryButton, for: .normal)
         button.layer.cornerRadius = 5.0
         button.layer.borderWidth = 1.0
         button.backgroundColor = .clear
@@ -168,7 +167,7 @@ extension StateView: ViewStateRenderable {
         case .loading:
             //isHidden = false
             activityIndicator.startAnimating()
-            activityMessageLabel.text = loadingMessageText
+            activityMessageLabel.text = Strings.loadingMessage
             activityMessageLabel.isHidden = false
             messageLabel.isHidden = true
             retryButton.isHidden = true
@@ -199,4 +198,13 @@ extension StateView: Themeable {
         // foreground
         foreground = theme.foreground
     }
+}
+
+// MARK: - Strings
+fileprivate enum Strings {
+    // Buttons
+    static let retryButton = "Retry"
+    // Message Labels
+    static let emptyMessage = "There was no data"
+    static let loadingMessage = "LOADING"
 }

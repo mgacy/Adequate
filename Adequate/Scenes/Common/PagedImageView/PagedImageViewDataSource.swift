@@ -27,6 +27,7 @@ class PagedImageViewDataSource: NSObject, UICollectionViewDataSource {
         return service
     }()
 
+    private var theme: AppTheme?
     private var urls: [URL] = [URL]()
 
     // MARK: - A
@@ -57,6 +58,9 @@ class PagedImageViewDataSource: NSObject, UICollectionViewDataSource {
         let imageURL = urls[indexPath.row]
 
         cell.imageURL = imageURL
+        if let theme = theme {
+            cell.apply(theme: theme)
+        }
         //cell.delegate = self
 
         if let cachedImage = imageService.fetchedImage(for: imageURL) {
@@ -67,4 +71,11 @@ class PagedImageViewDataSource: NSObject, UICollectionViewDataSource {
         return cell
     }
 
+}
+
+// MARK: - Themeable
+extension PagedImageViewDataSource: Themeable {
+    func apply(theme: AppTheme) {
+        self.theme = theme
+    }
 }

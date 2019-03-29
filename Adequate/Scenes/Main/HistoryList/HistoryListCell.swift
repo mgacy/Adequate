@@ -14,6 +14,8 @@ final class HistoryListCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        selectedBackgroundView = UIView()
+        //selectedBackgroundView?.backgroundColor = .gray
         textLabel?.numberOfLines = 2
     }
 
@@ -29,6 +31,12 @@ final class HistoryListCell: UITableViewCell {
     deinit {
         observationToken?.cancel()
     }
+
+    // MARK: - Selection / Highlight
+
+    //override func setSelected(_ selected: Bool, animated: Bool) {}
+
+    //override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
 
 }
 
@@ -55,7 +63,7 @@ extension HistoryListCell {
 extension HistoryListCell: Themeable {
     func apply(theme: AppTheme) {
         // accentColor
-
+        selectedBackgroundView?.backgroundColor = theme.accentColor
         // backgroundColor
         backgroundColor = theme.backgroundColor
         contentView.backgroundColor = theme.backgroundColor

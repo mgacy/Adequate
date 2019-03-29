@@ -46,8 +46,7 @@ class HistoryDetailViewController: UIViewController {
     // MARK: - Subviews
 
     private lazy var dismissButton: UIBarButtonItem = {
-        return UIBarButtonItem(barButtonSystemItem: .stop, target: self,
-                               action: #selector(didPressDismiss(_:)))
+        UIBarButtonItem(image: #imageLiteral(resourceName: "CloseNavBar"), style: .plain, target: self, action: #selector(didPressDismiss(_:)))
     }()
 
     private lazy var stateView: StateView<Deal> = {
@@ -101,7 +100,7 @@ class HistoryDetailViewController: UIViewController {
     */
     private let forumButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("Comments", for: .normal)
+        button.setTitle(Strings.commentsButtonPlural, for: .normal)
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = button.tintColor
@@ -283,6 +282,7 @@ extension HistoryDetailViewController: ViewStateRenderable {
             // forum
             renderComments(for: deal)
             scrollView.isHidden = false
+            apply(theme: themeManager.theme)
         case .error:
             stateView.isHidden = false
             scrollView.isHidden = true
@@ -299,11 +299,13 @@ extension HistoryDetailViewController: ViewStateRenderable {
         }
         forumButton.isHidden = false
         forumButton.isEnabled = true
-        if topic.commentCount > 0 {
-            // TODO: display .commentCount + .replyCount?
-            forumButton.setTitle("\(topic.commentCount) Comments", for: .normal)
-        } else {
-            forumButton.setTitle("Comments", for: .normal)
+        switch topic.commentCount {
+        case 0:
+            forumButton.setTitle(Strings.commentsButtonEmpty, for: .normal)
+        case 1:
+            forumButton.setTitle("\(topic.commentCount) \(Strings.commentsButtonSingular)", for: .normal)
+        default:
+            forumButton.setTitle("\(topic.commentCount) \(Strings.commentsButtonPlural)", for: .normal)
         }
     }
 
@@ -333,5 +335,15 @@ extension HistoryDetailViewController: Themeable {
         // Subviews
         pagedImageView.apply(theme: theme)
         stateView.apply(theme: theme)
+    }
+}
+
+// MARK: - Strings
+extension HistoryDetailViewController {
+    private enum Strings {
+        // Buttons (Duplicates DealViewController.Strings)
+        static let commentsButtonEmpty = "Forum"
+        static let commentsButtonSingular = "Comment"
+        static let commentsButtonPlural = "Comments"
     }
 }
