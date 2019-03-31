@@ -22,6 +22,9 @@
 		C9093CC1222796FD00C9DA0C /* RootPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CC0222796FD00C9DA0C /* RootPageViewController.swift */; };
 		C9093CC32228A27800C9DA0C /* ObservationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CC22228A27800C9DA0C /* ObservationToken.swift */; };
 		C9093CC52228A76D00C9DA0C /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CC42228A76D00C9DA0C /* DataProvider.swift */; };
+		C9102F96224FED1900B06679 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9102F95224FED1900B06679 /* AboutViewController.swift */; };
+		C9102F98224FF04000B06679 /* AcknowledgementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9102F97224FF04000B06679 /* AcknowledgementsViewController.swift */; };
+		C9102F9A224FFC1D00B06679 /* Pods-Adequate-acknowledgements.markdown in Resources */ = {isa = PBXBuildFile; fileRef = C9102F99224FFC1D00B06679 /* Pods-Adequate-acknowledgements.markdown */; };
 		C9116E5321616CA60084934B /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E5221616CA60084934B /* StoryViewController.swift */; };
 		C9116E562161781F0084934B /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E552161781F0084934B /* Appearance.swift */; };
 		C928547B216DCE44001E5993 /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C928547A216DCE44001E5993 /* AWSManager.swift */; };
@@ -170,6 +173,9 @@
 		C9093CC0222796FD00C9DA0C /* RootPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPageViewController.swift; sourceTree = "<group>"; };
 		C9093CC22228A27800C9DA0C /* ObservationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationToken.swift; sourceTree = "<group>"; };
 		C9093CC42228A76D00C9DA0C /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		C9102F95224FED1900B06679 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		C9102F97224FF04000B06679 /* AcknowledgementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcknowledgementsViewController.swift; sourceTree = "<group>"; };
+		C9102F99224FFC1D00B06679 /* Pods-Adequate-acknowledgements.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = "Pods-Adequate-acknowledgements.markdown"; path = "Pods/Target Support Files/Pods-Adequate/Pods-Adequate-acknowledgements.markdown"; sourceTree = SOURCE_ROOT; };
 		C9116E5221616CA60084934B /* StoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
 		C9116E552161781F0084934B /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		C928547A216DCE44001E5993 /* AWSManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSManager.swift; sourceTree = "<group>"; };
@@ -326,6 +332,8 @@
 				C9058DF0215C7CB600FF7B4C /* SettingsCoordinator.swift */,
 				C9058DF2215C7CC400FF7B4C /* SettingsViewController.swift */,
 				C99DD5DA2182D4C500A38529 /* PaddingLabel.swift */,
+				C9102F95224FED1900B06679 /* AboutViewController.swift */,
+				C9102F97224FF04000B06679 /* AcknowledgementsViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -546,6 +554,7 @@
 			children = (
 				C9DAC45A2147688500D6558B /* Assets.xcassets */,
 				C9DAC45C2147688500D6558B /* LaunchScreen.storyboard */,
+				C9102F99224FFC1D00B06679 /* Pods-Adequate-acknowledgements.markdown */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -787,6 +796,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9DAC45E2147688500D6558B /* LaunchScreen.storyboard in Resources */,
+				C9102F9A224FFC1D00B06679 /* Pods-Adequate-acknowledgements.markdown in Resources */,
 				C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */,
 				C989E119223734A700DEAE89 /* awsconfiguration.json in Resources */,
 			);
@@ -987,6 +997,7 @@
 				C9DAC475214768C600D6558B /* AppDependency.swift in Sources */,
 				C9DAC4A321476C3A00D6558B /* NetworkClient.swift in Sources */,
 				C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */,
+				C9102F98224FF04000B06679 /* AcknowledgementsViewController.swift in Sources */,
 				C9AE54D12179697F00818F11 /* ZoomInAnimationController.swift in Sources */,
 				C9EF5ACB215CA82F00B5D2EC /* Operators.swift in Sources */,
 				C9DAC4AC21476CEA00D6558B /* MainCoordinator.swift in Sources */,
@@ -1002,6 +1013,7 @@
 				C928547D21704C73001E5993 /* ImageCell.swift in Sources */,
 				C989E11F223742C100DEAE89 /* AWSAppSyncClient+Promise.swift in Sources */,
 				C99DD5DB2182D4C500A38529 /* PaddingLabel.swift in Sources */,
+				C9102F96224FED1900B06679 /* AboutViewController.swift in Sources */,
 				C96CA86C2182DCC800C3459E /* OnboardingPageViewController.swift in Sources */,
 				C9DAC4AF21476D3F00D6558B /* DealViewController.swift in Sources */,
 				C98B324A222DC1F0003A8669 /* HistoryListCell.swift in Sources */,

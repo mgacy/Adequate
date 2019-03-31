@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class SettingsCoordinator: BaseCoordinator {
     typealias CoordinationResult = Void
@@ -46,7 +47,54 @@ extension SettingsCoordinator: Presentable {
 
 // MARK: - SettingsViewControllerDelegate
 extension SettingsCoordinator: SettingsViewControllerDelegate {
+
+    func showAbout() {
+        let viewController = AboutViewController(dependencies: dependencies)
+        viewController.delegate = self
+        router.push(viewController, animated: true, completion: nil)
+    }
+
+    func showReview() {
+        let productURL = URL(string: Constants.productURLString)!
+        var components = URLComponents(url: productURL, resolvingAgainstBaseURL: false)
+        components?.queryItems = [URLQueryItem(name: "action", value: "write-review")]
+    
+        guard let writeReviewURL = components?.url else {
+            return
+        }
+        UIApplication.shared.open(writeReviewURL)
+    }
+
     func dismiss(_ result: CoordinationResult) {
         onFinishFlow?(result)
+    }
+}
+
+// MARK: - AboutViewControllerDelegate
+extension SettingsCoordinator: AboutViewControllerDelegate {
+
+    func showAcknowledgements() {
+        let viewController = AcknowledgementsViewController(dependencies: dependencies)
+        router.push(viewController, animated: true, completion: nil)
+    }
+
+    func showPrivacyPolicy() {
+        let privacyPolicyURL = URL(string: Constants.privacyPolicyURLString)!
+
+        let configuration = SFSafariViewController.Configuration()
+        configuration.barCollapsingEnabled = false
+
+        let viewController = SFSafariViewController(url: privacyPolicyURL, configuration: configuration)
+        router.present(viewController, animated: true)
+    }
+
+}
+
+// TODO: Move to better location
+extension SettingsCoordinator {
+    private enum Constants {
+        static let privacyPolicyURLString = "https://mgacy.github.io/Adequate/privacy"
+        // FIXME: replace with actual URL
+        static let productURLString = "https://example.com"
     }
 }
