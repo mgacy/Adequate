@@ -229,7 +229,6 @@ class HistoryDetailViewController: UIViewController {
         delegate?.showStory(with: deal.story)
     }
     */
-    // ...
 
     @objc private func didPressDismiss(_ sender: UIBarButtonItem) {
         delegate?.dismiss()

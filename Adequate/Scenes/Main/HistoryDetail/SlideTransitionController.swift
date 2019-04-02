@@ -36,7 +36,7 @@ class SlideTransitionController: NSObject {
 
     deinit { print("\(#function) - \(self.description)") }
 
-    // MARK: - A
+    // MARK: - Gestures
 
     @objc func handleGesture(_ gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: gesture.view)
@@ -108,16 +108,6 @@ extension SlideTransitionController: UIViewControllerTransitioningDelegate {
         return SheetPresentationController(presentedViewController: presented, presenting: presenting)
     }
 
-}
-
-// MARK: - Z
-
-protocol FooAnimating {
-    var originFrame: CGRect { get }
-}
-
-protocol ImageSource {
-    //var visibleImage:
 }
 
 // MARK: - A
@@ -242,7 +232,8 @@ class PanelAnimationController: NSObject, UIViewControllerAnimatedTransitioning 
             withDuration: transitionDuration(using: transitionContext),
             animations: {
                 fromVC.view.frame = initialFrame.offsetBy(dx: 0.0, dy: dy)
-        }, completion: { _ in transitionContext.completeTransition(!transitionContext.transitionWasCancelled) }
+            },
+            completion: { _ in transitionContext.completeTransition(!transitionContext.transitionWasCancelled) }
         )
     }
 
