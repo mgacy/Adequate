@@ -105,61 +105,7 @@ extension SlideTransitionController: UIViewControllerTransitioningDelegate {
     }
 
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return SheetPresentationController(presentedViewController: presented, presenting: presenting)
-    }
-
-}
-
-// MARK: - A
-
-// [robertmryan](https://github.com/robertmryan)
-// [robertmryan/SwiftCustomTransitions](https://github.com/robertmryan/SwiftCustomTransitions/tree/rightside)
-// FIXME: the above are under a Creative Commons License
-// https://stackoverflow.com/a/42213998/4472195
-class SheetPresentationController: UIPresentationController {
-    override var shouldRemovePresentersView: Bool { return false }
-
-    var dimmerView: UIView!
-    //private var dimmerAlphaComponent: Float = 0.2
-    //private var dimmerBackgroundColor: UIColor = black.withAlphaComponent(0.2)
-
-    override func presentationTransitionWillBegin() {
-        guard
-            let transitionCoordinator = presentingViewController.transitionCoordinator,
-            let `containerView` = containerView else {
-                //log.error("\(#function) FAILED : unable get transitionCoordinator or containerView"); return
-                print("\(#function) FAILED : unable get transitionCoordinator or containerView"); return
-
-        }
-
-        dimmerView = UIView(frame: containerView.bounds)
-        dimmerView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
-        dimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        dimmerView.alpha = 0
-        containerView.addSubview(dimmerView)
-        transitionCoordinator.animate(alongsideTransition: { _ in self.dimmerView.alpha = 1 }, completion: nil)
-    }
-
-    override func presentationTransitionDidEnd(_ completed: Bool) {
-        if !completed {
-            dimmerView.removeFromSuperview()
-            dimmerView = nil
-        }
-    }
-
-    override func dismissalTransitionWillBegin() {
-        guard let transitionCoordinator = presentingViewController.transitionCoordinator else {
-            //log.error("\(#function) FAILED : unable get transitionCoordinator"); return
-            print("\(#function) FAILED : unable get transitionCoordinator"); return
-        }
-        transitionCoordinator.animate(alongsideTransition: { _ in self.dimmerView.alpha = 0 }, completion: nil)
-    }
-
-    override func dismissalTransitionDidEnd(_ completed: Bool) {
-        if completed {
-            dimmerView.removeFromSuperview()
-            dimmerView = nil
-        }
+        return DimmingPresentationController(presentedViewController: presented, presenting: presenting)
     }
 
 }
