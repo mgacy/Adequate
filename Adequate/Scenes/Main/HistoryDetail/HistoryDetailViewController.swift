@@ -39,7 +39,6 @@ class HistoryDetailViewController: UIViewController {
         }
     }
 
-    private let panGestureRecognizer = UIPanGestureRecognizer()
     /// TODO: rename `interactionController?
     private var transitionController: SlideTransitionController?
 
@@ -208,11 +207,6 @@ class HistoryDetailViewController: UIViewController {
         return [themeToken]
     }
 
-    private func setupTransitionController() {
-        transitionController = SlideTransitionController(viewController: self)
-        transitioningDelegate = transitionController
-    }
-
     // MARK: - Navigation
 
     @objc private func didPressForum(_ sender: UIButton) {
@@ -229,7 +223,6 @@ class HistoryDetailViewController: UIViewController {
         delegate?.showStory(with: deal.story)
     }
     */
-
     @objc private func didPressDismiss(_ sender: UIBarButtonItem) {
         delegate?.dismiss()
     }

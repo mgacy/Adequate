@@ -10,7 +10,6 @@ import UIKit
 
 class SlideTransitionController: NSObject {
 
-    //var originFrame: CGRect
     weak var viewController: UIViewController!
     var interacting: Bool = false
 
