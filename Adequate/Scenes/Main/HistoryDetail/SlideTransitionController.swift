@@ -8,16 +8,26 @@
 
 import UIKit
 
-class SlideTransitionController: NSObject {
+// MARK: - Protocol
 
-    weak var viewController: UIViewController!
+protocol SwipeDismissable: class {
+    var shouldDismiss: Bool { get }
+    var transitionController: UIViewControllerTransitioningDelegate? { get set }
+}
+
+// MARK: - Transition Controller
+
+class SlideTransitionController: NSObject {
+    typealias ViewControllerType = UIViewController & SwipeDismissable
+
+    weak var viewController: ViewControllerType!
     var interacting: Bool = false
 
     // Pan down transitions back to the presenting view controller
     var interactionController: UIPercentDrivenInteractiveTransition?
 
     lazy private var panGestureRecognizer: UIPanGestureRecognizer = {
-        let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handleGesture(_:)))
+        let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
         recognizer.delegate = self
 
         // Avoid unexpected behavior when touch event occurs near edge of screen
@@ -27,7 +37,7 @@ class SlideTransitionController: NSObject {
 
     // MARK: - Lifecycle
 
-    init(viewController: UIViewController) {
+    init(viewController: ViewControllerType) {
         self.viewController = viewController
         super.init()
         viewController.view.addGestureRecognizer(panGestureRecognizer)
@@ -37,7 +47,7 @@ class SlideTransitionController: NSObject {
 
     // MARK: - Gestures
 
-    @objc func handleGesture(_ gesture: UIPanGestureRecognizer) {
+    @objc func handlePan(_ gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: gesture.view)
         let percent = translation.y / gesture.view!.bounds.size.height
 
@@ -80,6 +90,17 @@ extension SlideTransitionController: UIGestureRecognizerDelegate {
             return abs(angle - .pi / 2.0) < (.pi / 8.0)
         }
         return false
+    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard gestureRecognizer is UIPanGestureRecognizer else {
+            return false
+        }
+        // Dismiss only if the scroll view is at the top
+        if viewController.shouldDismiss {
+            return false
+        }
+        return true
     }
 
 }

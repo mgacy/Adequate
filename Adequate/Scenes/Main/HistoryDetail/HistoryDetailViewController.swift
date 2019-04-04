@@ -19,7 +19,7 @@ protocol HistoryDetailViewControllerDelegate: VoidDismissalDelegate {
 
 // MARK: - View Controller
 
-class HistoryDetailViewController: UIViewController {
+class HistoryDetailViewController: UIViewController, SwipeDismissable {
     typealias Dependencies = HasDataProvider & HasThemeManager
     typealias DealFragment = ListDealsForPeriodQuery.Data.ListDealsForPeriod
     typealias Deal = GetDealQuery.Data.GetDeal
@@ -27,6 +27,14 @@ class HistoryDetailViewController: UIViewController {
     typealias GraphQLID = String
 
     weak var delegate: HistoryDetailViewControllerDelegate?
+
+    var shouldDismiss: Bool {
+        return scrollView.contentOffset.y > 0
+    }
+
+    /// TODO: rename `interactionController?
+    //var transitionController: SlideTransitionController?
+    var transitionController: UIViewControllerTransitioningDelegate?
 
     private let dataProvider: DataProviderType
     private let themeManager: ThemeManagerType
@@ -38,9 +46,6 @@ class HistoryDetailViewController: UIViewController {
             render(viewState)
         }
     }
-
-    /// TODO: rename `interactionController?
-    private var transitionController: SlideTransitionController?
 
     // MARK: - Subviews
 
