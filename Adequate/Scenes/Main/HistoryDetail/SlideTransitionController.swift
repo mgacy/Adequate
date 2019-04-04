@@ -21,7 +21,7 @@ class SlideTransitionController: NSObject {
     typealias ViewControllerType = UIViewController & SwipeDismissable
 
     weak var viewController: ViewControllerType!
-    var interacting: Bool = false
+    //var isInteracting: Bool = false
 
     // Pan down transitions back to the presenting view controller
     var interactionController: UIPercentDrivenInteractiveTransition?
@@ -41,6 +41,8 @@ class SlideTransitionController: NSObject {
         self.viewController = viewController
         super.init()
         viewController.view.addGestureRecognizer(panGestureRecognizer)
+        // TODO: go ahead and set .transitionController here?
+        // TODO: go ahead and set .transitioningDelegate (on .navigationController / .viewController) here?
     }
 
     deinit { print("\(#function) - \(self.description)") }
@@ -53,7 +55,9 @@ class SlideTransitionController: NSObject {
 
         switch gesture.state {
         case .began:
+            //isInteracting = true
             interactionController = UIPercentDrivenInteractiveTransition()
+            // TODO: use completion handler on .dismiss(animated:, completion:) to call didDismiss delegate method
             viewController.dismiss(animated: true)
 
             /// https://stackoverflow.com/a/50238562/4472195
@@ -62,7 +66,11 @@ class SlideTransitionController: NSObject {
             }
         case .changed:
             interactionController?.update(percent)
+        case .cancelled:
+            //isInteracting = false
+            interactionController = nil
         case .ended:
+            //isInteracting = false
             let velocity = gesture.velocity(in: gesture.view)
             /// https://stackoverflow.com/a/42972283/1271826
             interactionController?.completionSpeed = 0.999
@@ -121,6 +129,7 @@ extension SlideTransitionController: UIViewControllerTransitioningDelegate {
     }
 
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        //return isInteracting ? interactionController : nil
         return interactionController
     }
 
