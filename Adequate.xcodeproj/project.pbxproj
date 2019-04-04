@@ -38,6 +38,7 @@
 		C96CA86C2182DCC800C3459E /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CA86B2182DCC800C3459E /* OnboardingPageViewController.swift */; };
 		C96CA86E2182DD1A00C3459E /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CA86D2182DD1A00C3459E /* WelcomeViewController.swift */; };
 		C96CA8702182DD2E00C3459E /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CA86F2182DD2E00C3459E /* NotificationViewController.swift */; };
+		C9725D5F2255A7EE0043C4FC /* UINavigationController+NavBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9725D5E2255A7EE0043C4FC /* UINavigationController+NavBarStyle.swift */; };
 		C989E11722330B1C00DEAE89 /* SlideTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */; };
 		C989E119223734A700DEAE89 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = C989E118223734A600DEAE89 /* awsconfiguration.json */; };
 		C989E11B223734C800DEAE89 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11A223734C800DEAE89 /* API.swift */; };
@@ -191,6 +192,7 @@
 		C96CA86B2182DCC800C3459E /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		C96CA86D2182DD1A00C3459E /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		C96CA86F2182DD2E00C3459E /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		C9725D5E2255A7EE0043C4FC /* UINavigationController+NavBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+NavBarStyle.swift"; sourceTree = "<group>"; };
 		C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTransitionController.swift; sourceTree = "<group>"; };
 		C989E118223734A600DEAE89 /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
 		C989E11A223734C800DEAE89 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = SOURCE_ROOT; };
@@ -477,6 +479,7 @@
 				C992D1DD216D93F000B373D5 /* Optional+Ext.swift */,
 				C9DAC48A21476ADA00D6558B /* String+Ext.swift */,
 				C9DAC48C21476AF600D6558B /* UIColor+Ext.swift */,
+				C9725D5E2255A7EE0043C4FC /* UINavigationController+NavBarStyle.swift */,
 				C9058DED215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift */,
 				C9DAC48E21476B2400D6558B /* URL+Ext.swift */,
 			);
@@ -996,6 +999,7 @@
 				C9AE54C72179270C00818F11 /* FullScreenImageViewController.swift in Sources */,
 				C9B3FAC3224479B200B8524A /* CurrentDealManager.swift in Sources */,
 				C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */,
+				C9725D5F2255A7EE0043C4FC /* UINavigationController+NavBarStyle.swift in Sources */,
 				C9DAC477214768CF00D6558B /* AppCoordinator.swift in Sources */,
 				C9093CBB221FBD6E00C9DA0C /* HistoryListCoordinator.swift in Sources */,
 				C9DAC4A121476BCD00D6558B /* Video.swift in Sources */,
