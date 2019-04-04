@@ -20,6 +20,9 @@ protocol SwipeDismissable: class {
 class SlideTransitionController: NSObject {
     typealias ViewControllerType = UIViewController & SwipeDismissable
 
+    // TODO: replace with delegate protocol?
+    var onFinishDismissal: (() -> Void)? = nil
+
     weak var viewController: ViewControllerType!
     //var isInteracting: Bool = false
 
@@ -76,6 +79,7 @@ class SlideTransitionController: NSObject {
             interactionController?.completionSpeed = 0.999
             if (percent > 0.5 && velocity.y >= 0) || velocity.y > 0 {
                 interactionController?.finish()
+                onFinishDismissal?()
             } else {
                 interactionController?.cancel()
             }
