@@ -34,6 +34,7 @@ public protocol RouterType: Presentable {
     func popModule(animated: Bool)
     func dismissModule(animated: Bool, completion: (() -> Void)?)
     func setRootModule(_ module: Presentable, hideBar: Bool)
+    func setRootModule(_ module: Presentable, navBarStyle: NavBarStyle)
     func popToRootModule(animated: Bool)
 }
 
@@ -96,6 +97,13 @@ final public class Router: NSObject, RouterType, UINavigationControllerDelegate 
         completions.forEach { $0.value() }
         navigationController.setViewControllers([module.toPresent()], animated: false)
         navigationController.isNavigationBarHidden = hideBar
+    }
+
+    public func setRootModule(_ module: Presentable, navBarStyle: NavBarStyle = .normal) {
+        // Call all completions so all coordinators can be deallocated
+        completions.forEach { $0.value() }
+        navigationController.setViewControllers([module.toPresent()], animated: false)
+        navigationController.applyStyle(navBarStyle)
     }
 
     public func popToRootModule(animated: Bool) {
