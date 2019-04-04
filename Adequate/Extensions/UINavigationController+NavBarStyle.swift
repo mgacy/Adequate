@@ -16,7 +16,8 @@ public enum NavBarStyle {
 }
 
 extension UINavigationController {
-    func appleStyle(_ navBarStyle: NavBarStyle) {
+    // rename `apply(navBarStyle:)`?
+    func applyStyle(_ navBarStyle: NavBarStyle) {
         switch navBarStyle {
         case .hiddenBar:
             isNavigationBarHidden = true
