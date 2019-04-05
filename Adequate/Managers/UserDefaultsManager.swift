@@ -12,6 +12,10 @@ import Foundation
 enum UserDefaultsKey: String {
     case hasShownOnboarding = "hasShownOnboarding"
     case showNotifications = "showNotifications"
+    // AWS SNS
+    case SNSEndpoint = "endpointArnForSNS"
+    case SNSToken = "deviceTokenForSNS"
+    case SNSSubscription = "subscriptionArnForSNS"
 }
 
 // MARK: - Protocol
