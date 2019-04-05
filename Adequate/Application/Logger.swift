@@ -6,8 +6,10 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
-class Logger: LoggingType {
+import SwiftyBeaver
 
+class Logger: LoggingType {
+    /*
     enum Level: Int, CustomStringConvertible {
         case verbose = 0
         case debug = 1
@@ -25,6 +27,41 @@ class Logger: LoggingType {
             }
         }
     }
+    */
+    private static var loggerLoaded = false
+
+    private static func setupLogger() {
+        let console = ConsoleDestination()
+        //let file = FileDestination()
+
+        // use custom format and set console output to short time, log level & message
+        //console.format = "$DHH:mm:ss$d $L $M"
+        // or use this for JSON output: console.format = "$J"
+
+        // Filters
+
+        #if !(arch(i386) || arch(x86_64)) && os(iOS)
+        let platform = SBPlatformDestination(appID: AppSecrets.loggerAppID,
+                                             appSecret: AppSecrets.loggerAppSecret,
+                                             encryptionKey: AppSecrets.loggerEncryptionKey)
+        //platform.analyticsUserName = "userName"
+        /// TODO: try to get minLevel from defaults (so user can set verbose logging)
+        platform.minLevel = .debug
+        SwiftyBeaver.addDestination(platform)
+        #endif
+
+        SwiftyBeaver.addDestination(console)
+        //SwiftyBeaver.addDestination(file)
+        loggerLoaded = true
+    }
+
+    private static func checkIfLoggerIsLoaded() {
+        if !loggerLoaded {
+            self.setupLogger()
+        }
+    }
+
+    // MARK: - A
 
     static func verbose(_ string: String) {
         custom(level: .verbose, message: string)
@@ -46,7 +83,8 @@ class Logger: LoggingType {
         custom(level: .error, message: string)
     }
 
-    class func custom(level: Level, message: String) {
-        print("\(level): \(message)")
+    private static func custom(level: SwiftyBeaver.Level, message: String) {
+        checkIfLoggerIsLoaded()
+        SwiftyBeaver.custom(level: level, message: message)
     }
 }
