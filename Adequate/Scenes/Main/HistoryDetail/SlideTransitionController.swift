@@ -13,6 +13,26 @@ import UIKit
 protocol SwipeDismissable: class {
     var shouldDismiss: Bool { get }
     var transitionController: UIViewControllerTransitioningDelegate? { get set }
+    func attachTransitionController(onFinishDismissal: (() -> Void)?)
+}
+
+extension SwipeDismissable where Self: UIViewController {
+
+    /// NOTE: when used with a view controller in a navigation controller, this must be called
+    /// after the view controller is embedded in the navigation controller
+    func attachTransitionController(onFinishDismissal: (() -> Void)?) {
+        let transitionController = SlideTransitionController(viewController: self)
+        transitionController.onFinishDismissal = onFinishDismissal
+
+        self.transitionController = transitionController
+        if let navigationController = self.navigationController {
+            navigationController.transitioningDelegate = transitionController
+            navigationController.modalPresentationStyle = .custom
+        } else {
+            transitioningDelegate = transitionController
+            modalPresentationStyle = .custom
+        }
+    }
 }
 
 // MARK: - Transition Controller
