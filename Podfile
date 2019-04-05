@@ -5,6 +5,7 @@ platform :ios, '11.0'
 def basic_pods
   pod 'Down'
   pod 'Promises'
+  pod 'SwiftyBeaver'
   # AWS
   pod 'AWSCore'
   pod 'AWSAppSync'

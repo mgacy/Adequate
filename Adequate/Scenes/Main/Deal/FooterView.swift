@@ -144,7 +144,7 @@ class FooterView: UIView {
             priceComparisonLabel.text = "\(priceComparison.price) at \(priceComparison.store)"
             priceComparisonLabel.isHidden = false
         } else {
-            print("ERROR : unable to parse price comparison")
+            log.debug("Unable to parse price comparison")
             priceComparisonLabel.isHidden = true
         }
 

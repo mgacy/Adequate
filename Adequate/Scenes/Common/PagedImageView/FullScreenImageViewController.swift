@@ -110,7 +110,7 @@ class FullScreenImageViewController: UIViewController {
         imageSource.then({ [weak self] image in
             self?.zoomingImageView.updateImageView(with: image)
         }).catch({ error in
-            print("ERROR: \(error)")
+            log.error("\(#function): \(error)")
         }).always({ [weak self] in
             self?.activityIndicator.stopAnimating()
         })

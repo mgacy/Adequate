@@ -233,14 +233,14 @@ class SettingsViewController: UITableViewController {
         switch (indexPath.section, indexPath.row) {
         case (1, 0):
             guard let webURL = URL(string: "https://\(SupportAddress.web.rawValue)") else {
-                print("ERROR: bad web support address")
+                log.error("Bad web support address")
                 return
             }
             application.open(webURL)
         case (1, 1):
             /// TODO: open email or email composer?
             guard let emailURL = URL(string: "mailto:\(SupportAddress.email.rawValue)") else {
-                print("ERROR: bad email support address")
+                log.error("Bad email support address")
                 return
             }
             application.open(emailURL)
@@ -248,7 +248,7 @@ class SettingsViewController: UITableViewController {
             guard
                 let appURL = URL(string: "twitter://user?screen_name=\(SupportAddress.twitter.rawValue)"),
                 let webURL = URL(string: "https://twitter.com/\(SupportAddress.twitter.rawValue)") else {
-                    print("ERROR: bad twitter support address")
+                    log.error("Bad twitter support address")
                     return
             }
             if application.canOpenURL(appURL) {
@@ -278,7 +278,7 @@ class SettingsViewController: UITableViewController {
             notificationManager.registerForPushNotifications().then({ [weak self] _ in
                 self?.userDefaultsManager.showNotifications = true
             }).catch({ [weak self] error in
-                print("ERROR: \(error.localizedDescription)")
+                log.error("\(#function): \(error.localizedDescription)")
                 self?.notificationSwitch.setOn(false, animated: true)
                 self?.showOpenSettingsAlert()
             })
