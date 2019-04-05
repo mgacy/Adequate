@@ -102,7 +102,7 @@ class AcknowledgementsViewController: UIViewController {
         guard
             let path = Bundle.main.path(forResource: "Pods-Adequate-acknowledgements", ofType: "markdown"),
             let content = try? String(contentsOfFile: path, encoding: String.Encoding.utf8) else {
-                print("Error getting Acknowledgements")
+                log.error("Error getting Acknowledgements")
                 return nil
         }
         let down = Down(markdownString: content)

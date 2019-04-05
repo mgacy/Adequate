@@ -170,7 +170,7 @@ extension StoryViewController: ViewStateRenderable {
             titleLabel.text = deal.story.title
             bodyText.markdown = deal.story.body
         case .error(let error):
-            print("Error: \(error.localizedDescription)")
+            log.error("\(#function): \(error.localizedDescription)")
         }
     }
 }

@@ -31,7 +31,7 @@ class StateView<Element>: UIView {
                 retryButton.layer.borderColor = UIColor.gray.cgColor
                 retryButton.setTitleColor(.gray, for: .normal)
             case .unknown(let rawValue):
-                print("rawValue: \(rawValue)")
+                log.warning("\(#function) - rawValue: \(rawValue)")
             }
         }
     }

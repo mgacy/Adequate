@@ -9,6 +9,8 @@
 import UIKit
 import UserNotifications
 
+let log = Logger.self
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -71,12 +73,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self?.notificationServiceManager = nil
             })
             .catch({error in
-                print("ERROR: \(error)")
+                log.error("ERROR: \(error)")
             })
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Failed to register for remote notifications with error: \(error)")
+        log.error("Failed to register for remote notifications with error: \(error)")
     }
 
 }
@@ -104,12 +106,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             if let urlString = userInfo[NotificationConstants.dealKey] as? String, let buyURL = URL(string: urlString) {
                 appCoordinator.start(with: .buy(buyURL))
             } else {
-                print("ERROR: unable to parse \(NotificationConstants.dealKey) from Notification")
+                log.error("ERROR: unable to parse \(NotificationConstants.dealKey) from Notification")
             }
         case NotificationAction.mehAction.rawValue:
             appCoordinator.start(with: .meh)
         default:
-            print("Unknown Action")
+            log.warning("\(#function) - unknown action: \(response.actionIdentifier)")
         }
         completionHandler()
     }

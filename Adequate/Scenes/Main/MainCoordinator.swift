@@ -66,9 +66,9 @@ final class MainCoordinator: BaseCoordinator {
             case .deal:
                 showDeal()
             case .meh:
-                print("DeepLink: meh")
+                log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
             default:
-                print("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+                log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
                 startChildren(with: deepLink)
             }
         } else {

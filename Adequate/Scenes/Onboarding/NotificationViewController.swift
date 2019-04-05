@@ -162,7 +162,7 @@ final class NotificationViewController: UIViewController {
                 return self.notificationManager.registerForPushNotifications()
             })
             .catch({ error in
-                print("ERROR: \(error)")
+                log.error("\(#function): \(error)")
                 self.userDefaultsManager.showNotifications = false
             })
             .always({

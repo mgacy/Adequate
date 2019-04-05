@@ -83,7 +83,7 @@ class DataProvider: DataProviderType {
                 }
                 return deal
             }.catch { error in
-                print("ERROR: \(error.localizedDescription)")
+                log.error("\(#function): \(error.localizedDescription)")
                 throw error
             }
     }
