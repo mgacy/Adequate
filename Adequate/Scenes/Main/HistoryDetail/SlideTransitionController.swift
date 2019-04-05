@@ -109,10 +109,7 @@ extension SlideTransitionController: UIGestureRecognizerDelegate {
             return false
         }
         // Dismiss only if the scroll view is at the top
-        if viewController.shouldDismiss {
-            return false
-        }
-        return true
+        return viewController.shouldDismiss ? true : false
     }
 
 }

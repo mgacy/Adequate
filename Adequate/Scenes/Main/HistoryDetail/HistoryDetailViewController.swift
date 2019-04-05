@@ -29,7 +29,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     weak var delegate: HistoryDetailViewControllerDelegate?
 
     var shouldDismiss: Bool {
-        return scrollView.contentOffset.y > 0
+        return scrollView.contentOffset.y <= 0
     }
 
     /// TODO: rename `interactionController?
