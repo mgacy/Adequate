@@ -11,6 +11,8 @@ import UIKit
 // MARK: - Delegate Protocol
 
 protocol SettingsViewControllerDelegate: class {
+    func showAbout()
+    func showReview()
     func dismiss(_: Void)
 }
 
@@ -84,6 +86,20 @@ class SettingsViewController: UITableViewController {
         return view
     }()
 
+    private lazy var aboutCell: UITableViewCell = {
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
+        cell.textLabel?.text = Strings.aboutCell
+        cell.accessoryType = .disclosureIndicator
+        return cell
+    }()
+
+    private lazy var reviewCell: UITableViewCell = {
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
+        cell.textLabel?.text = Strings.reviewCell
+        cell.accessoryType = .disclosureIndicator
+        return cell
+    }()
+
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
@@ -126,7 +142,7 @@ class SettingsViewController: UITableViewController {
 
     func setupView() {
         title = Strings.settingsSceneTitle
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
                                                             action: #selector(didPressDone(_:)))
 
         apply(theme: themeManager.theme)
@@ -155,13 +171,14 @@ class SettingsViewController: UITableViewController {
     // MARK: - UITableViewDatasource
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0: return 1
         case 1: return 3
+        case 2: return 2
         default: fatalError("Unknown number of sections in \(description)")
         }
     }
@@ -179,6 +196,12 @@ class SettingsViewController: UITableViewController {
             case 1: return emailCell
             case 2: return twitterCell
             default: fatalError("Unknown row in section 1 of \(description)")
+            }
+        case 2:
+            switch indexPath.row {
+            case 0: return aboutCell
+            case 1: return reviewCell
+            default: fatalError("Unknown row in section 2 of \(description)")
             }
         default: fatalError("Unknown section in \(description)")
         }
@@ -210,22 +233,22 @@ class SettingsViewController: UITableViewController {
         switch (indexPath.section, indexPath.row) {
         case (1, 0):
             guard let webURL = URL(string: "https://\(SupportAddress.web.rawValue)") else {
-                print("ERROR: bad web support address")
+                log.error("Bad web support address")
                 return
             }
             application.open(webURL)
-        case (1,1):
+        case (1, 1):
             /// TODO: open email or email composer?
             guard let emailURL = URL(string: "mailto:\(SupportAddress.email.rawValue)") else {
-                print("ERROR: bad email support address")
+                log.error("Bad email support address")
                 return
             }
             application.open(emailURL)
-        case (1,2):
+        case (1, 2):
             guard
                 let appURL = URL(string: "twitter://user?screen_name=\(SupportAddress.twitter.rawValue)"),
                 let webURL = URL(string: "https://twitter.com/\(SupportAddress.twitter.rawValue)") else {
-                    print("ERROR: bad twitter support address")
+                    log.error("Bad twitter support address")
                     return
             }
             if application.canOpenURL(appURL) {
@@ -233,6 +256,11 @@ class SettingsViewController: UITableViewController {
             } else {
                 application.open(webURL)
             }
+        case (2, 0):
+            delegate?.showAbout()
+        case (2, 1):
+            //delegate?.showReview()
+            showDisabledReviewAlert()
         default:
             return
         }
@@ -250,7 +278,7 @@ class SettingsViewController: UITableViewController {
             notificationManager.registerForPushNotifications().then({ [weak self] _ in
                 self?.userDefaultsManager.showNotifications = true
             }).catch({ [weak self] error in
-                print("ERROR: \(error.localizedDescription)")
+                log.error("\(#function): \(error.localizedDescription)")
                 self?.notificationSwitch.setOn(false, animated: true)
                 self?.showOpenSettingsAlert()
             })
@@ -279,6 +307,18 @@ class SettingsViewController: UITableViewController {
         present(alertController, animated: true, completion: nil)
     }
 
+    /// Temporary method while testing
+    private func showDisabledReviewAlert() {
+        let alertTitle = "Oops"
+        let alertBody = "Thank you, but reviews will not be possible until Adequate is released on the AppStore."
+
+        let alertController = UIAlertController(title: alertTitle, message: alertBody, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(action)
+
+        present(alertController, animated: true, completion: nil)
+    }
+
 }
 
 extension SettingsViewController {
@@ -287,6 +327,7 @@ extension SettingsViewController {
         switch section {
         case 0: return notificationHeader.intrinsicContentSize.height
         case 1: return supportHeader.intrinsicContentSize.height
+        case 2: return 24.0
         default: fatalError("Unknown section in \(description)")
         }
     }
@@ -295,6 +336,7 @@ extension SettingsViewController {
         switch section {
         case 0: return notificationHeader
         case 1: return supportHeader
+        case 2: return nil
         default: fatalError("Unknown section in \(description)")
         }
     }
@@ -303,6 +345,7 @@ extension SettingsViewController {
         switch section {
         case 0: return nil
         case 1: return supportFooter
+        case 2: return nil
         default: fatalError("Unknown section in \(description)")
         }
     }
@@ -317,6 +360,8 @@ extension SettingsViewController: Themeable {
         webCell.backgroundColor = theme.accentColor
         emailCell.backgroundColor = theme.accentColor
         twitterCell.backgroundColor = theme.accentColor
+        aboutCell.backgroundColor = theme.accentColor
+        reviewCell.backgroundColor = theme.accentColor
 
         // backgroundColor
         view.backgroundColor = theme.backgroundColor
@@ -331,6 +376,8 @@ extension SettingsViewController: Themeable {
         emailCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
         twitterCell.textLabel?.textColor = theme.backgroundColor
         twitterCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
+        aboutCell.textLabel?.textColor = theme.backgroundColor
+        reviewCell.textLabel?.textColor = theme.backgroundColor
 
         notificationHeader.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
         supportHeader.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
@@ -378,6 +425,9 @@ extension SettingsViewController {
         static let emailCell = "Email"
         static let twitterCell = "Twitter"
         static let supportFooter = "This is an unofficial app. Please direct any issues to the developer, not to Meh."
+        // Section: Bottom
+        static let aboutCell = "About"
+        static let reviewCell = "Rate Adequate"
         // Alert
         static let alertTitle = "Error"
         static let alertBody = "Notifications are disabled. Please allow Adequate to access notifications in Settings."

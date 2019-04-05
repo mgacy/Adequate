@@ -62,7 +62,7 @@ class DataProvider: DataProviderType {
         }
     }
 
-    // MARK: - A
+    // MARK: - Get
 
     func getDeal() {
         guard dealState != ViewState<Deal>.loading else { return }
@@ -70,6 +70,7 @@ class DataProvider: DataProviderType {
         mehService.getDeal().then({ response in
             self.dealState = .result(response.deal)
         }).catch({ error in
+            log.error("\(#function): \(error.localizedDescription)")
             self.dealState = .error(error)
         })
     }
@@ -83,7 +84,7 @@ class DataProvider: DataProviderType {
                 }
                 return deal
             }.catch { error in
-                print("ERROR: \(error.localizedDescription)")
+                log.error("\(#function): \(error.localizedDescription)")
                 throw error
             }
     }
@@ -102,6 +103,7 @@ class DataProvider: DataProviderType {
                 }
                 self?.historyState = .result(items.reversed().compactMap { $0 })
             }.catch { error in
+                log.error("\(#function): \(error.localizedDescription)")
                 self.historyState = .error(error)
             }
     }

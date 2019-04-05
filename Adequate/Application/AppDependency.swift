@@ -20,7 +20,7 @@ struct AppDependency: HasDataProvider, HasNotificationManager, HasThemeManager, 
     init() {
         // Initialize client for auth
         AWSMobileClient.sharedInstance().initialize().catch { error in
-            print("ERROR: \(error.localizedDescription)")
+            log.error("Unable to initialize AWSMobileClient: \(error.localizedDescription)")
         }
         guard let appSyncClient = AppDependency.makeAppSyncClient(cacheKey: "id") else {
             fatalError("Unable to initialize AppSyncClient")
@@ -35,7 +35,7 @@ struct AppDependency: HasDataProvider, HasNotificationManager, HasThemeManager, 
         self.notificationManager = NotificationManager()
         if userDefaultsManager.showNotifications {
             notificationManager.registerForPushNotifications().catch({ error in
-                print("ERROR: \(error)")
+                log.error("Unable to register for push notifications: \(error)")
             })
         }
 
@@ -73,7 +73,7 @@ struct AppDependency: HasDataProvider, HasNotificationManager, HasThemeManager, 
             client.apolloClient?.cacheKeyForObject = { $0[cacheKey] }
             return client
         } catch {
-            print("Error initializing appsync client. \(error)")
+            log.error("Unable to initialize appsync client: \(error)")
         }
         return nil
     }

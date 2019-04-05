@@ -32,7 +32,7 @@ final class HistoryDetailCoordinator: BaseCoordinator {
 
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
-            print("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+            log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
             startChildren(with: deepLink)
         } else {
             showDetail()
@@ -46,7 +46,8 @@ final class HistoryDetailCoordinator: BaseCoordinator {
     private func showDetail() {
         let viewController = HistoryDetailViewController(dependencies: dependencies, deal: deal)
         viewController.delegate = self
-        router.setRootModule(viewController, hideBar: false)
+        router.setRootModule(viewController, navBarStyle: .hiddenSeparator)
+        viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
     }
 
     private func showWebPage(with url: URL, animated: Bool) {

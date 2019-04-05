@@ -101,7 +101,7 @@ class ImageCell: UICollectionViewCell {
         promise.then(on: invalidatableQueue, { [weak self] image in
             self?.imageView.image = image
         }).catch({ error in
-            print("IMAGE ERROR: \(error)")
+            log.warning("IMAGE ERROR: \(error)")
             /// TODO: display errorView
         }).always ({ [weak self] in
             self?.activityIndicator.stopAnimating()

@@ -21,6 +21,7 @@ PODS:
   - SQLite.swift (0.11.5):
     - SQLite.swift/standard (= 0.11.5)
   - SQLite.swift/standard (0.11.5)
+  - SwiftyBeaver (1.6.2)
 
 DEPENDENCIES:
   - AWSAppSync
@@ -29,6 +30,7 @@ DEPENDENCIES:
   - AWSSNS
   - Down
   - Promises
+  - SwiftyBeaver
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -43,6 +45,7 @@ SPEC REPOS:
     - Promises
     - ReachabilitySwift
     - SQLite.swift
+    - SwiftyBeaver
 
 SPEC CHECKSUMS:
   AWSAppSync: 791a9916d06df4eb682e1265ebc57eb083832d6b
@@ -56,7 +59,8 @@ SPEC CHECKSUMS:
   Promises: 8edf94cd267665830ba57f7b48be2e6822f1622d
   ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
   SQLite.swift: 6e5356850bb1791459f8c16d6ee9195b28714a2e
+  SwiftyBeaver: 8e67ab3cd94389cbbb7a9c7cc02748d98bfee68e
 
-PODFILE CHECKSUM: 48aa6887767cbbd8bbde996ced18b17a4457ce70
+PODFILE CHECKSUM: a463583b305d0c7527c6dcda62f9974e7b925328
 
 COCOAPODS: 1.5.3

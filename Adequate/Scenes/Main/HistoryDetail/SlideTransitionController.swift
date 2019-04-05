@@ -8,17 +8,50 @@
 
 import UIKit
 
-class SlideTransitionController: NSObject {
+// MARK: - Protocol
 
-    //var originFrame: CGRect
-    weak var viewController: UIViewController!
-    var interacting: Bool = false
+protocol SwipeDismissable: class {
+    //var scrollView: UIScrollView { get }
+    var shouldDismiss: Bool { get }
+    var transitionController: UIViewControllerTransitioningDelegate? { get set }
+    func attachTransitionController(onFinishDismissal: (() -> Void)?)
+}
+
+extension SwipeDismissable where Self: UIViewController {
+
+    /// NOTE: when used with a view controller in a navigation controller, this must be called
+    /// after the view controller is embedded in the navigation controller
+    func attachTransitionController(onFinishDismissal: (() -> Void)?) {
+        let transitionController = SlideTransitionController(viewController: self)
+        transitionController.onFinishDismissal = onFinishDismissal
+
+        self.transitionController = transitionController
+        if let navigationController = self.navigationController {
+            navigationController.transitioningDelegate = transitionController
+            navigationController.modalPresentationStyle = .custom
+        } else {
+            transitioningDelegate = transitionController
+            modalPresentationStyle = .custom
+        }
+    }
+}
+
+// MARK: - Transition Controller
+
+class SlideTransitionController: NSObject {
+    typealias ViewControllerType = UIViewController & SwipeDismissable
+
+    // TODO: replace with delegate protocol?
+    var onFinishDismissal: (() -> Void)? = nil
+
+    weak var viewController: ViewControllerType!
+    //var isInteracting: Bool = false
 
     // Pan down transitions back to the presenting view controller
     var interactionController: UIPercentDrivenInteractiveTransition?
 
     lazy private var panGestureRecognizer: UIPanGestureRecognizer = {
-        let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handleGesture(_:)))
+        let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
         recognizer.delegate = self
 
         // Avoid unexpected behavior when touch event occurs near edge of screen
@@ -28,41 +61,60 @@ class SlideTransitionController: NSObject {
 
     // MARK: - Lifecycle
 
-    init(viewController: UIViewController) {
+    init(viewController: ViewControllerType) {
         self.viewController = viewController
         super.init()
         viewController.view.addGestureRecognizer(panGestureRecognizer)
+        // TODO: go ahead and set .transitionController here?
+        // TODO: go ahead and set .transitioningDelegate (on .navigationController / .viewController) here?
     }
 
     deinit { print("\(#function) - \(self.description)") }
 
-    // MARK: - A
+    // MARK: - Gestures
 
-    @objc func handleGesture(_ gesture: UIPanGestureRecognizer) {
+    @objc func handlePan(_ gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: gesture.view)
         let percent = translation.y / gesture.view!.bounds.size.height
 
         switch gesture.state {
         case .began:
+            //isInteracting = true
             interactionController = UIPercentDrivenInteractiveTransition()
             viewController.dismiss(animated: true)
-
+            /*
+            viewController.scrollView.isScrollEnabled = false
+            viewController.dismiss(animated: true) { [weak self] in
+                print("\(#function)")
+                // TODO: call didDismiss delegate method?
+                self?.viewController.scrollView.isScrollEnabled = true
+                //DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                //    self?.viewController.scrollView.isScrollEnabled = true
+                //}
+            }
+            */
             /// https://stackoverflow.com/a/50238562/4472195
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
                 self.interactionController?.update(percent)
             }
         case .changed:
             interactionController?.update(percent)
+        case .cancelled:
+            //isInteracting = false
+            interactionController = nil
         case .ended:
+            //isInteracting = false
             let velocity = gesture.velocity(in: gesture.view)
             /// https://stackoverflow.com/a/42972283/1271826
             interactionController?.completionSpeed = 0.999
             if (percent > 0.5 && velocity.y >= 0) || velocity.y > 0 {
                 interactionController?.finish()
+                onFinishDismissal?()
             } else {
                 interactionController?.cancel()
             }
             interactionController = nil
+            //viewController.scrollView.isScrollEnabled = true
         default:
             return
         }
@@ -83,167 +135,34 @@ extension SlideTransitionController: UIGestureRecognizerDelegate {
         return false
     }
 
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard gestureRecognizer is UIPanGestureRecognizer else {
+            return false
+        }
+        // Dismiss only if the scroll view is at the top
+        return viewController.shouldDismiss ? true : false
+    }
+
 }
 
 // MARK: - UIViewControllerTransitioningDelegate
 extension SlideTransitionController: UIViewControllerTransitioningDelegate {
 
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return PanelAnimationController(transitionType: .presenting)
+        return SlideAnimationController(transitionType: .presenting)
     }
 
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return PanelAnimationController(transitionType: .dismissing)
-    }
-
-    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactionController
+        return SlideAnimationController(transitionType: .dismissing)
     }
 
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        //return isInteracting ? interactionController : nil
         return interactionController
     }
 
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return SheetPresentationController(presentedViewController: presented, presenting: presenting)
-    }
-
-}
-
-// MARK: - Z
-
-protocol FooAnimating {
-    var originFrame: CGRect { get }
-}
-
-protocol ImageSource {
-    //var visibleImage:
-}
-
-// MARK: - A
-
-// [robertmryan](https://github.com/robertmryan)
-// [robertmryan/SwiftCustomTransitions](https://github.com/robertmryan/SwiftCustomTransitions/tree/rightside)
-// FIXME: the above are under a Creative Commons License
-// https://stackoverflow.com/a/42213998/4472195
-class SheetPresentationController: UIPresentationController {
-    override var shouldRemovePresentersView: Bool { return false }
-
-    var dimmerView: UIView!
-    //private var dimmerAlphaComponent: Float = 0.2
-    //private var dimmerBackgroundColor: UIColor = black.withAlphaComponent(0.2)
-
-    override func presentationTransitionWillBegin() {
-        guard
-            let transitionCoordinator = presentingViewController.transitionCoordinator,
-            let `containerView` = containerView else {
-                //log.error("\(#function) FAILED : unable get transitionCoordinator or containerView"); return
-                print("\(#function) FAILED : unable get transitionCoordinator or containerView"); return
-
-        }
-
-        dimmerView = UIView(frame: containerView.bounds)
-        dimmerView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
-        dimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        dimmerView.alpha = 0
-        containerView.addSubview(dimmerView)
-        transitionCoordinator.animate(alongsideTransition: { _ in self.dimmerView.alpha = 1 }, completion: nil)
-    }
-
-    override func presentationTransitionDidEnd(_ completed: Bool) {
-        if !completed {
-            dimmerView.removeFromSuperview()
-            dimmerView = nil
-        }
-    }
-
-    override func dismissalTransitionWillBegin() {
-        guard let transitionCoordinator = presentingViewController.transitionCoordinator else {
-            //log.error("\(#function) FAILED : unable get transitionCoordinator"); return
-            print("\(#function) FAILED : unable get transitionCoordinator"); return
-        }
-        transitionCoordinator.animate(alongsideTransition: { _ in self.dimmerView.alpha = 0 }, completion: nil)
-    }
-
-    override func dismissalTransitionDidEnd(_ completed: Bool) {
-        if completed {
-            dimmerView.removeFromSuperview()
-            dimmerView = nil
-        }
-    }
-
-}
-
-// MARK: - B
-
-class PanelAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
-
-    enum TransitionType {
-        case presenting
-        case dismissing
-    }
-
-    let transitionType: TransitionType
-
-    init(transitionType: TransitionType) {
-        self.transitionType = transitionType
-        super.init()
-    }
-
-    // MARK: - UIViewControllerAnimatedTransitioning
-
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.3
-    }
-
-    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard
-            let fromVC = transitionContext.viewController(forKey: .from),
-            let toVC = transitionContext.viewController(forKey: .to) else {
-                return
-        }
-        switch transitionType {
-        case .presenting:
-            animatePresentation(from: fromVC, to: toVC, using: transitionContext)
-        case .dismissing:
-            animateDismissal(from: fromVC, to: toVC, using: transitionContext)
-        }
-    }
-
-    // MARK: - Present / Dismiss
-
-    private func animatePresentation(from fromVC: UIViewController, to toVC: UIViewController, using transitionContext: UIViewControllerContextTransitioning) {
-        let containerView = transitionContext.containerView
-        // TODO
-        let dy = containerView.frame.size.height
-        let finalFrame = transitionContext.finalFrame(for: toVC)
-
-        //log.debug("\(#function): \(fromVC) -> \(toVC) in \(containerView)")
-
-        toVC.view.frame = finalFrame.offsetBy(dx: 0.0, dy: dy)
-        containerView.addSubview(toVC.view)
-
-        UIView.animate(
-            withDuration: transitionDuration(using: transitionContext), delay: 0,
-            options: [ UIView.AnimationOptions.curveEaseOut ],
-            animations: {
-                toVC.view.frame = finalFrame
-        },
-            completion: { _ in transitionContext.completeTransition(!transitionContext.transitionWasCancelled) }
-        )
-    }
-
-    private func animateDismissal(from fromVC: UIViewController, to toVC: UIViewController, using transitionContext: UIViewControllerContextTransitioning) {
-        let containerView = transitionContext.containerView
-        let dy = containerView.frame.size.height
-        let initialFrame = fromVC.view.frame
-
-        UIView.animate(
-            withDuration: transitionDuration(using: transitionContext),
-            animations: {
-                fromVC.view.frame = initialFrame.offsetBy(dx: 0.0, dy: dy)
-        }, completion: { _ in transitionContext.completeTransition(!transitionContext.transitionWasCancelled) }
-        )
+        return DimmingPresentationController(presentedViewController: presented, presenting: presenting)
     }
 
 }
