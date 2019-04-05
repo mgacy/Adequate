@@ -197,7 +197,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
         // FIXME: actually load image
         //let dealImage = currentDealManager.readImage()
-        let dealImage = nil
+        let dealImage: UIImage? = nil
         viewState = .result(DealWrapper(deal: deal, image: dealImage))
     }
 
