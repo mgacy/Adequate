@@ -46,7 +46,8 @@ final class HistoryDetailCoordinator: BaseCoordinator {
     private func showDetail() {
         let viewController = HistoryDetailViewController(dependencies: dependencies, deal: deal)
         viewController.delegate = self
-        router.setRootModule(viewController, hideBar: false)
+        router.setRootModule(viewController, navBarStyle: .hiddenSeparator)
+        viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
     }
 
     private func showWebPage(with url: URL, animated: Bool) {
