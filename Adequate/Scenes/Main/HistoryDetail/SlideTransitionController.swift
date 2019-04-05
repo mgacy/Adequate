@@ -145,10 +145,6 @@ extension SlideTransitionController: UIViewControllerTransitioningDelegate {
         return SlideAnimationController(transitionType: .dismissing)
     }
 
-    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactionController
-    }
-
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         //return isInteracting ? interactionController : nil
         return interactionController
