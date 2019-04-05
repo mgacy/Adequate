@@ -11,6 +11,7 @@ import UIKit
 // MARK: - Protocol
 
 protocol SwipeDismissable: class {
+    //var scrollView: UIScrollView { get }
     var shouldDismiss: Bool { get }
     var transitionController: UIViewControllerTransitioningDelegate? { get set }
     func attachTransitionController(onFinishDismissal: (() -> Void)?)
@@ -80,9 +81,18 @@ class SlideTransitionController: NSObject {
         case .began:
             //isInteracting = true
             interactionController = UIPercentDrivenInteractiveTransition()
-            // TODO: use completion handler on .dismiss(animated:, completion:) to call didDismiss delegate method
             viewController.dismiss(animated: true)
-
+            /*
+            viewController.scrollView.isScrollEnabled = false
+            viewController.dismiss(animated: true) { [weak self] in
+                print("\(#function)")
+                // TODO: call didDismiss delegate method?
+                self?.viewController.scrollView.isScrollEnabled = true
+                //DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                //    self?.viewController.scrollView.isScrollEnabled = true
+                //}
+            }
+            */
             /// https://stackoverflow.com/a/50238562/4472195
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
                 self.interactionController?.update(percent)
@@ -104,6 +114,7 @@ class SlideTransitionController: NSObject {
                 interactionController?.cancel()
             }
             interactionController = nil
+            //viewController.scrollView.isScrollEnabled = true
         default:
             return
         }
