@@ -141,13 +141,17 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             stackView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -Style.spacing)
         ])
 
-        switch extensionContext?.widgetActiveDisplayMode {
-        case .compact?:
-            NSLayoutConstraint.activate(compactConstraints)
-        case .expanded?:
-            NSLayoutConstraint.activate(expandedConstraints)
-        case .none:
+
+        guard let activeDisplayMode = extensionContext?.widgetActiveDisplayMode else {
             fatalError("Unable to get extensionContext")
+        }
+        switch activeDisplayMode {
+        case .compact:
+            NSLayoutConstraint.activate(compactConstraints)
+        case .expanded:
+            NSLayoutConstraint.activate(expandedConstraints)
+        @unknown default:
+            fatalError("Unrecognized activeDisplayMode")
         }
     }
 
@@ -167,6 +171,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             titleLabel.setNeedsUpdateConstraints()
             let height = maxSize.width + (2.0 * Style.spacing) + titleLabel.intrinsicContentSize.height + priceLabel.intrinsicContentSize.height
             preferredContentSize = CGSize(width: maxSize.width, height: min(height, maxSize.height))
+        @unknown default:
+            fatalError("Unrecognized activeDisplayMode")
         }
     }
 
