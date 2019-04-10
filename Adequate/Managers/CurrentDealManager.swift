@@ -56,7 +56,9 @@ public class CurrentDealManager {
         self.sharedContainerURL = url
     }
 
-    // MARK: - A
+    deinit { print("\(#function) - CurrentDealManager") }
+
+    // MARK: - Write
 
     public func saveDeal(_ deal: CurrentDeal) {
         // TODO: make async
@@ -88,7 +90,7 @@ public class CurrentDealManager {
         .resume()
     }
 
-    // MARK: - B
+    // MARK: - Read
 
     public func readDeal() -> CurrentDeal? {
         let dealURL = sharedContainerURL.appendingPathComponent(.dealLocation)
