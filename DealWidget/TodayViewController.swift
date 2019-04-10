@@ -201,9 +201,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             viewState = .error(CurrentDealManagerError.missingDeal)
             return completionHandler(CurrentDealManagerError.missingDeal)
         }
-        // FIXME: actually load image
-        //let dealImage = currentDealManager.readImage()
-        let dealImage: UIImage? = nil
+        let dealImage = currentDealManager.readImage()
         viewState = .result(DealWrapper(deal: deal, image: dealImage))
     }
 
