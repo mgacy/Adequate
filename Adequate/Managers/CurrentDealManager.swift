@@ -114,7 +114,24 @@ public class CurrentDealManager {
 
 }
 
+// MARK: - String Constants
 fileprivate extension String {
     static let dealLocation = "deal.json"
     static let imageLocation = "dealImage"
+}
+
+// MARK: - UIImage+scaled
+fileprivate extension UIImage {
+    // https://stackoverflow.com/a/54380286/4472195
+    func scaled(to maxSize: CGFloat) -> UIImage? {
+        let aspectRatio: CGFloat = min(maxSize / size.width, maxSize / size.height)
+        let newSize = CGSize(width: size.width * aspectRatio, height: size.height * aspectRatio)
+
+        let renderFormat = UIGraphicsImageRendererFormat.default()
+        renderFormat.opaque = false // enable transparency
+        let renderer = UIGraphicsImageRenderer(size: newSize, format: renderFormat)
+        return renderer.image { context in
+            draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: newSize))
+        }
+    }
 }
