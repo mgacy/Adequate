@@ -100,9 +100,11 @@ final class HistoryListViewController: UIViewController {
 
     func setupView() {
         title = Strings.historyListSceneTitle
-        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        navigationController?.navigationBar.isTranslucent = false
-        apply(theme: themeManager.theme)
+        navigationController?.navigationBar.barTintColor = .white
+        stateView.foreground = .dark
+        view.backgroundColor = .white
+        tableView.backgroundColor = .white
+
         setupTableView()
         observationTokens = setupObservations()
     }
@@ -140,8 +142,7 @@ final class HistoryListViewController: UIViewController {
         let historyToken = dataSource.addObserver(self) { vc, state in
             vc.render(state)
         }
-        let themeToken = themeManager.addObserver(self)
-        return [historyToken, themeToken]
+        return [historyToken]
     }
 
     // MARK: - DataProvider
@@ -165,23 +166,6 @@ final class HistoryListViewController: UIViewController {
         delegate?.showDeal()
     }
 
-}
-
-// MARK: - Themeable
-extension HistoryListViewController: Themeable {
-    func apply(theme: AppTheme) {
-        // accentColor
-        // ...
-
-        // backgroundColor
-        view.backgroundColor = theme.backgroundColor
-        tableView.backgroundColor = theme.backgroundColor
-
-        // foreground
-        // ...
-
-        stateView.apply(theme: theme)
-    }
 }
 
 // MARK: - UITableViewDelegate
