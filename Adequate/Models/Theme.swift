@@ -27,7 +27,7 @@ enum ThemeForeground: String, Codable, Equatable {
     }
 }
 */
-struct Theme: Codable, Equatable {
+struct Theme: Codable, Equatable, ThemeType {
     let accentColor: String
     let backgroundColor: String
     //let backgroundImage: URL?

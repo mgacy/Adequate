@@ -148,6 +148,11 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         getDeal(withID: dealFragment.id)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        apply(theme: AppTheme(theme: dealFragment.theme))
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -258,7 +263,7 @@ extension HistoryDetailViewController {
 extension HistoryDetailViewController: ViewStateRenderable {
     typealias ResultType = Deal
 
-    func render(_ viewState: ViewState<Deal>) {
+    func render(_ viewState: ViewState<ResultType>) {
         stateView.render(viewState)
         switch viewState {
         case .empty:
@@ -279,7 +284,6 @@ extension HistoryDetailViewController: ViewStateRenderable {
             // forum
             renderComments(for: deal)
             scrollView.isHidden = false
-            apply(theme: themeManager.theme)
         case .error:
             stateView.isHidden = false
             scrollView.isHidden = true
@@ -305,7 +309,6 @@ extension HistoryDetailViewController: ViewStateRenderable {
             forumButton.setTitle("\(topic.commentCount) \(Strings.commentsButtonPlural)", for: .normal)
         }
     }
-
 }
 
 // MARK: - Themeable
@@ -313,10 +316,12 @@ extension HistoryDetailViewController: Themeable {
     func apply(theme: AppTheme) {
         // accentColor
         //storyButton.backgroundColor = theme.accentColor
+        dismissButton.tintColor = theme.accentColor
         forumButton.backgroundColor = theme.accentColor
 
         // backgroundColor
         navigationController?.view.backgroundColor = theme.backgroundColor
+        navigationController?.navigationBar.barTintColor = theme.backgroundColor
         view.backgroundColor = theme.backgroundColor
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor

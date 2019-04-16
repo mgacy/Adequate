@@ -10,13 +10,49 @@ import UIKit
 
 final class HistoryListCell: UITableViewCell {
 
-    private var observationToken: ObservationToken?
+    //var deal: Deal?
+
+    // MARK: - Subivews
+
+    private let cardView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 5.0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+     private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        label.font = UIFont.preferredFont(forTextStyle: .headline)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+     }()
+
+    private let dateLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 1
+        label.font = UIFont.preferredFont(forTextStyle: .caption2)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private lazy var stackView: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [titleLabel, dateLabel])
+        view.axis = .vertical
+        view.alignment = .leading
+        view.distribution = .fill
+        //view.spacing = 4.0 // FIXME: use constant
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    // MARK: - Lifecycle
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
-        selectedBackgroundView = UIView()
-        //selectedBackgroundView?.backgroundColor = .gray
-        textLabel?.numberOfLines = 2
+        super.init(style: .default, reuseIdentifier: reuseIdentifier)
+        setupView()
+        setupConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -25,18 +61,37 @@ final class HistoryListCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        observationToken?.cancel()
+        // TODO: reset theme?
     }
 
-    deinit {
-        observationToken?.cancel()
+    // MARK: - View Configuration
+
+    func setupView() {
+        selectedBackgroundView = UIView()
+        contentView.addSubview(cardView)
+        cardView.addSubview(stackView)
     }
 
-    // MARK: - Selection / Highlight
+    func setupConstraints() {
+        let guide = contentView.safeAreaLayoutGuide
 
-    //override func setSelected(_ selected: Bool, animated: Bool) {}
+        /// TODO: move these into class property?
+        let spacing: CGFloat = 8.0
+        //let sideMargin: CGFloat = 16.0
 
-    //override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
+        NSLayoutConstraint.activate([
+            // cardView
+            cardView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: spacing),
+            cardView.topAnchor.constraint(equalTo: guide.topAnchor, constant: spacing / 2.0),
+            cardView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -spacing),
+            cardView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -spacing / 2.0),
+            // stackView
+            stackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: spacing),
+            stackView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: spacing),
+            stackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -spacing),
+            stackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -spacing)
+        ])
+    }
 
 }
 
@@ -45,17 +100,13 @@ extension HistoryListCell {
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     func configure(with deal: Deal) {
-        textLabel?.text = deal.title
-
+        apply(theme: AppTheme(theme: deal.theme))
+        titleLabel.text = deal.title
         if let createdAt = DateFormatter.iso8601Full.date(from: deal.createdAt) {
-            detailTextLabel?.text = DateFormatter.yyyyMMdd.string(from: createdAt)
+            dateLabel.text = DateFormatter.yyyyMMdd.string(from: createdAt)
         } else {
-            detailTextLabel?.text = deal.createdAt
+            dateLabel.text = deal.createdAt
         }
-    }
-
-    func setupThemeObservation(_ themeManager: ThemeManagerType) {
-        observationToken = themeManager.addObserver(self)
     }
 }
 
@@ -65,10 +116,20 @@ extension HistoryListCell: Themeable {
         // accentColor
         selectedBackgroundView?.backgroundColor = theme.accentColor
         // backgroundColor
-        backgroundColor = theme.backgroundColor
-        contentView.backgroundColor = theme.backgroundColor
+        cardView.backgroundColor = theme.backgroundColor
         // foreground
-        textLabel?.textColor = theme.foreground.textColor
-        detailTextLabel?.textColor = theme.foreground.textColor
+        titleLabel.textColor = theme.foreground.textColor
+        dateLabel.textColor = theme.foreground.textColor
+
+        switch theme.foreground {
+        case .dark:
+            titleLabel.highlightedTextColor = ThemeForeground.light.textColor
+            dateLabel.highlightedTextColor = ThemeForeground.light.textColor
+        case .light:
+            titleLabel.highlightedTextColor = ThemeForeground.dark.textColor
+            dateLabel.highlightedTextColor = ThemeForeground.dark.textColor
+        default:
+            return
+        }
     }
 }

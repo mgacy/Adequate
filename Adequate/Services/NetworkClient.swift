@@ -55,6 +55,7 @@ extension HTTPURLResponse: StatusCodeValidating {
         /// TODO: throw if staus is invalid?
         /// TODO: return Error?
         /// TODO: return ValidationResult enum like Alamofire?
+        //guard (200...299).contains(statusCode) else { return }
         print("Status Code: \(self.statusCode)")
     }
 }

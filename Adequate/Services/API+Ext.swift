@@ -27,3 +27,5 @@ extension ThemeForeground: Codable {
     }
 
 }
+
+extension ListDealsForPeriodQuery.Data.ListDealsForPeriod.Theme: ThemeType {}
