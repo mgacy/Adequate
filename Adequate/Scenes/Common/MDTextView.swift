@@ -23,6 +23,7 @@ class MDTextView: UIView {
             }
             _markdown = newValue
             textView.attributedText = attributedString
+            textView.textColor = textColor
         }
         get { return _markdown }
     }
@@ -49,9 +50,13 @@ class MDTextView: UIView {
         get { return textView.font }
     }
 
+    private var _textColor: UIColor? = .black
     var textColor: UIColor? {
-        set { textView.textColor = newValue }
-        get { return textView.textColor }
+        set {
+            _textColor = newValue
+            textView.textColor = newValue
+        }
+        get { return _textColor }
     }
 
     // MARK: - Interface Elements
@@ -66,14 +71,14 @@ class MDTextView: UIView {
 
     // MARK: - Lifecycle
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.configure()
-    }
-
     convenience init(stylesheet: String?) {
         self.init(frame: CGRect.zero)
         self.stylesheet = stylesheet
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.configure()
     }
 
     required init?(coder aDecoder: NSCoder) {
