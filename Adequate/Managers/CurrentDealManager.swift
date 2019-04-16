@@ -75,20 +75,63 @@ public class CurrentDealManager {
         // Save Image
         let destinationURL = sharedContainerURL
             .appendingPathComponent(.imageLocation)
-            //.appendingPathExtension(deal.imageURL.pathExtension)
-
         URLSession.shared.downloadTask(with: deal.imageURL) { (fileURL, _, _) in
             guard let fileURL = fileURL else {
                 return
             }
 
             do {
-                let _ = try FileManager.default.replaceItemAt(destinationURL, withItemAt: fileURL)
+                if let localImageURL = try FileManager.default.replaceItemAt(destinationURL, withItemAt: fileURL) {
+                    self.saveScaledImage(from: localImageURL)
+                }
+
             } catch let error {
                 print("ERROR: \(error)")
             }
         }
         .resume()
+    }
+
+    private func saveScaledImage(from url: URL) {
+        do {
+            let data = try Data(contentsOf: url)
+            guard let originalImage = UIImage(data: data) else {
+                print("Error downloading image")
+                throw CurrentDealManagerError.missingImage
+            }
+
+            guard let scaledImage = originalImage.scaled(to: 150.0) else {
+                print("Error rescaling image")
+                throw CurrentDealManagerError.missingImage
+            }
+            self.saveImage(image: scaledImage)
+        } catch let error {
+            print("ERROR: \(error)")
+        }
+    }
+
+    // https://stackoverflow.com/a/53894441/4472195
+    private func saveImage(image: UIImage) {
+        let fileURL = sharedContainerURL.appendingPathComponent(.imageLocation)
+        guard let data = image.pngData() else {
+            print("Error getting pngData from image")
+            return
+        }
+
+        // Check if file exists and remove it if so.
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            do {
+                try FileManager.default.removeItem(atPath: fileURL.path)
+            } catch let removeError {
+                print("Error removing image file:", removeError)
+            }
+        }
+
+        do {
+            try data.write(to: fileURL)
+        } catch let error {
+            print("Error saving file:", error)
+        }
     }
 
     // MARK: - Read
