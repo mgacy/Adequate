@@ -141,10 +141,10 @@ class DealViewController: UIViewController {
     }()
 
     private let featuresText: MDTextView = {
-        let label = MDTextView(stylesheet: Appearance.stylesheet)
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+        let view = MDTextView(stylesheet: Appearance.stylesheet)
+        view.font = UIFont.preferredFont(forTextStyle: .body)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
     private let forumButton: UIButton = {
