@@ -20,7 +20,7 @@ struct AppTheme {
     let backgroundColor: UIColor
     let foreground: ThemeForeground
 
-    init(theme: Theme) {
+    init(theme: ThemeType) {
         accentColor = UIColor(hexString: theme.accentColor)
         backgroundColor = UIColor(hexString: theme.backgroundColor)
         foreground = theme.foreground
@@ -32,4 +32,10 @@ struct AppTheme {
         self.foreground = foreground
     }
 
+}
+
+protocol ThemeType {
+    var accentColor: String { get }
+    var backgroundColor: String { get }
+    var foreground: ThemeForeground { get }
 }
