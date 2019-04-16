@@ -61,13 +61,14 @@ public class CurrentDealManager {
     // MARK: - Write
 
     public func saveDeal(_ deal: CurrentDeal) {
-        // TODO: make async
         // Save CurrentDeal
-        if let data = try? JSONEncoder().encode(deal) {
-            do {
-                try data.write(to: sharedContainerURL.appendingPathComponent(.dealLocation))
-            } catch {
-                print("Error writing data to file")
+        DispatchQueue.global().async {
+            if let data = try? JSONEncoder().encode(deal) {
+                do {
+                    try data.write(to: self.sharedContainerURL.appendingPathComponent(.dealLocation))
+                } catch {
+                    print("Error writing data to file")
+                }
             }
         }
 
