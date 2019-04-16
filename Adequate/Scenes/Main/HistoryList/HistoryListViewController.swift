@@ -56,6 +56,10 @@ final class HistoryListViewController: UIViewController {
         return tv
     }()
 
+    private lazy var tableHeaderView: UIView = {
+        return UIView()
+    }()
+
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
@@ -128,6 +132,7 @@ final class HistoryListViewController: UIViewController {
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = dataSource
+        tableView.separatorStyle = .none
         tableView.register(cellType: HistoryListCell.self)
     }
 
@@ -185,6 +190,14 @@ extension HistoryListViewController: UITableViewDelegate {
         let deal = dataSource.objectAtIndexPath(indexPath)
         delegate?.showHistoryDetail(with: deal)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 4.0
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return tableHeaderView
     }
 }
 
