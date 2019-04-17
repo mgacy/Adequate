@@ -454,7 +454,9 @@ extension DealViewController: ViewStateRenderable {
 extension DealViewController: Themeable {
     func apply(theme: AppTheme) {
         // accentColor
-        UIApplication.shared.delegate?.window??.tintColor = theme.accentColor
+        historyButton.tintColor = theme.accentColor
+        shareButton.tintColor = theme.accentColor
+        storyButton.tintColor = theme.accentColor
         forumButton.backgroundColor = theme.accentColor
 
         // backgroundColor

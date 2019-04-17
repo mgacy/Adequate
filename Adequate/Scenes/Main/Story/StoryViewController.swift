@@ -179,7 +179,7 @@ extension StoryViewController: ViewStateRenderable {
 extension StoryViewController: Themeable {
     func apply(theme: AppTheme) {
         // accentColor
-        // ...
+        dealButton.tintColor = theme.accentColor
 
         // backgroundColor
         view.backgroundColor = theme.backgroundColor
