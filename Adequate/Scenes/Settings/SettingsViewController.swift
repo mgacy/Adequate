@@ -310,7 +310,7 @@ class SettingsViewController: UITableViewController {
     /// Temporary method while testing
     private func showDisabledReviewAlert() {
         let alertTitle = "Oops"
-        let alertBody = "Thank you, but reviews will not be possible until Adequate is released on the AppStore."
+        let alertBody = "Thank you, but reviews will not be possible until Adequate is released on the App Store."
 
         let alertController = UIAlertController(title: alertTitle, message: alertBody, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
