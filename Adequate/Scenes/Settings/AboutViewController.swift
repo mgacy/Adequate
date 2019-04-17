@@ -18,11 +18,11 @@ protocol AboutViewControllerDelegate: class {
 // MARK: - View
 
 class AboutViewController: UITableViewController {
-    typealias Dependencies = HasThemeManager
+    //typealias Dependencies = HasThemeManager
 
     weak var delegate: AboutViewControllerDelegate? = nil
-    private let themeManager: ThemeManagerType
-    private var observationTokens: [ObservationToken] = []
+    //private let themeManager: ThemeManagerType
+    //private var observationTokens: [ObservationToken] = []
 
     // MARK: - Subviews
 
@@ -47,8 +47,8 @@ class AboutViewController: UITableViewController {
 
     // MARK: - Lifecycle
 
-    init(dependencies: Dependencies) {
-        self.themeManager = dependencies.themeManager
+    init() {
+        //self.themeManager = dependencies.themeManager
         super.init(style: .grouped)
     }
 
@@ -66,22 +66,22 @@ class AboutViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    deinit { observationTokens.forEach { $0.cancel() } }
+    //deinit { observationTokens.forEach { $0.cancel() } }
 
     // MARK: - View Methods
 
     func setupView() {
-        apply(theme: themeManager.theme)
+        //apply(theme: themeManager.theme)
         let versionNumber = Bundle.main.releaseVersionNumber ?? "X"
         let buildNumber = Bundle.main.buildVersionNumber ?? "X"
         versionCell.textLabel?.text = "v\(versionNumber) (\(buildNumber))"
     }
-
+    /*
     private func setupObservations() -> [ObservationToken] {
         let themeToken = themeManager.addObserver(self)
         return [themeToken]
     }
-
+    */
     // MARK: - UITableViewDatasource
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -126,7 +126,7 @@ class AboutViewController: UITableViewController {
     }
 
 }
-
+/*
 // MARK: - Themeable
 extension AboutViewController: Themeable {
     func apply(theme: AppTheme) {
@@ -147,7 +147,7 @@ extension AboutViewController: Themeable {
         acknowledgementsCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
     }
 }
-
+*/
 // MARK: - Strings
 extension AboutViewController {
     private enum Strings {

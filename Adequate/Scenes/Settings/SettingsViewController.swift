@@ -19,13 +19,13 @@ protocol SettingsViewControllerDelegate: class {
 // MARK: - View
 
 class SettingsViewController: UITableViewController {
-    typealias Dependencies = HasNotificationManager & HasThemeManager & HasUserDefaultsManager
+    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
 
     weak var delegate: SettingsViewControllerDelegate? = nil
     private let notificationManager: NotificationManagerType
-    private let themeManager: ThemeManagerType
+    //private let themeManager: ThemeManagerType
     private let userDefaultsManager: UserDefaultsManagerType
-    private var observationTokens: [ObservationToken] = []
+    //private var observationTokens: [ObservationToken] = []
 
     // MARK: - Subviews
 
@@ -104,7 +104,7 @@ class SettingsViewController: UITableViewController {
 
     init(dependencies: Dependencies) {
         self.notificationManager = dependencies.notificationManager
-        self.themeManager = dependencies.themeManager
+        //self.themeManager = dependencies.themeManager
         self.userDefaultsManager = dependencies.userDefaultsManager
         super.init(style: .grouped)
     }
@@ -136,7 +136,7 @@ class SettingsViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    deinit { observationTokens.forEach { $0.cancel() } }
+    //deinit { observationTokens.forEach { $0.cancel() } }
 
     // MARK: - View Methods
 
@@ -145,7 +145,7 @@ class SettingsViewController: UITableViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
                                                             action: #selector(didPressDone(_:)))
 
-        apply(theme: themeManager.theme)
+        //apply(theme: themeManager.theme)
 
         // TODO: move this logic into NotificationManager as `verifyNotificationSetting`?
         if userDefaultsManager.showNotifications {
@@ -162,12 +162,12 @@ class SettingsViewController: UITableViewController {
             notificationSwitch.setOn(false, animated: false)
         }
     }
-
+    /*
     private func setupObservations() -> [ObservationToken] {
         let themeToken = themeManager.addObserver(self)
         return [themeToken]
     }
-
+    */
     // MARK: - UITableViewDatasource
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -351,7 +351,7 @@ extension SettingsViewController {
     }
 
 }
-
+/*
 // MARK: - Themeable
 extension SettingsViewController: Themeable {
     func apply(theme: AppTheme) {
@@ -384,7 +384,7 @@ extension SettingsViewController: Themeable {
         supportFooter.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
     }
 }
-
+*/
 // MARK: - Config
 extension SettingsViewController {
     enum SupportAddress: String {

@@ -20,12 +20,12 @@ protocol HistoryListViewControllerDelegate: class {
 // MARK: - View Controller
 
 final class HistoryListViewController: UIViewController {
-    typealias Dependencies = HasDataProvider & HasThemeManager
+    typealias Dependencies = HasDataProvider
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     weak var delegate: HistoryListViewControllerDelegate?
 
-    private let themeManager: ThemeManagerType
+    //private let themeManager: ThemeManagerType
     private let dataSource: HistoryListDataSource
     private var observationTokens: [ObservationToken] = []
 
@@ -63,7 +63,7 @@ final class HistoryListViewController: UIViewController {
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
-        self.themeManager = dependencies.themeManager
+        //self.themeManager = dependencies.themeManager
         self.dataSource = HistoryListDataSource(dependencies: dependencies)
         super.init(nibName: nil, bundle: nil)
     }
