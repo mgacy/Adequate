@@ -42,7 +42,7 @@ final class HistoryListCell: UITableViewCell {
         view.axis = .vertical
         view.alignment = .leading
         view.distribution = .fill
-        //view.spacing = 4.0 // FIXME: use constant
+        view.spacing = 2.0 // FIXME: use constant
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -77,13 +77,13 @@ final class HistoryListCell: UITableViewCell {
 
         /// TODO: move these into class property?
         let spacing: CGFloat = 8.0
-        //let sideMargin: CGFloat = 16.0
+        let sideMargin: CGFloat = 12.0
 
         NSLayoutConstraint.activate([
             // cardView
-            cardView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: spacing),
+            cardView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
             cardView.topAnchor.constraint(equalTo: guide.topAnchor, constant: spacing / 2.0),
-            cardView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -spacing),
+            cardView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
             cardView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -spacing / 2.0),
             // stackView
             stackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: spacing),
