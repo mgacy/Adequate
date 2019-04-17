@@ -103,7 +103,7 @@ extension HistoryListCell {
         apply(theme: AppTheme(theme: deal.theme))
         titleLabel.text = deal.title
         if let createdAt = DateFormatter.iso8601Full.date(from: deal.createdAt) {
-            dateLabel.text = DateFormatter.yyyyMMdd.string(from: createdAt)
+            dateLabel.text = DateFormatter.veryShort.string(from: createdAt)
         } else {
             dateLabel.text = deal.createdAt
         }
@@ -119,15 +119,15 @@ extension HistoryListCell: Themeable {
         cardView.backgroundColor = theme.backgroundColor
         // foreground
         titleLabel.textColor = theme.foreground.textColor
-        dateLabel.textColor = theme.foreground.textColor
+        dateLabel.textColor = theme.foreground.textColor.withAlphaComponent(0.8)
 
         switch theme.foreground {
         case .dark:
             titleLabel.highlightedTextColor = ThemeForeground.light.textColor
-            dateLabel.highlightedTextColor = ThemeForeground.light.textColor
+            dateLabel.highlightedTextColor = ThemeForeground.light.textColor.withAlphaComponent(0.8)
         case .light:
             titleLabel.highlightedTextColor = ThemeForeground.dark.textColor
-            dateLabel.highlightedTextColor = ThemeForeground.dark.textColor
+            dateLabel.highlightedTextColor = ThemeForeground.dark.textColor.withAlphaComponent(0.8)
         default:
             return
         }

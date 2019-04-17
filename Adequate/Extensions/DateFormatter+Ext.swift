@@ -29,4 +29,11 @@ extension DateFormatter {
         return formatter
     }()
 
+    static let veryShort: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.setLocalizedDateFormatFromTemplate("M/d")
+        return formatter
+    }()
+
 }
