@@ -187,6 +187,7 @@ extension StoryViewController: Themeable {
         navigationController?.navigationBar.barTintColor = theme.backgroundColor
 
         // foreground
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: theme.foreground.textColor]
         titleLabel.textColor = theme.foreground.textColor
         bodyText.textColor = theme.foreground.textColor
     }
