@@ -11,7 +11,7 @@ import UIKit
 class DimmingPresentationController: UIPresentationController {
 
     private let dimmmingColor: UIColor = .black
-    private let dimmimgAlpha: CGFloat = 0.2
+    private let dimmingAlpha: CGFloat = 0.5
     private var dimmingView: UIView!
 
     override func presentationTransitionWillBegin() {
@@ -22,7 +22,7 @@ class DimmingPresentationController: UIPresentationController {
         }
 
         dimmingView = UIView(frame: containerView.bounds)
-        dimmingView.backgroundColor = dimmmingColor.withAlphaComponent(dimmimgAlpha)
+        dimmingView.backgroundColor = dimmmingColor.withAlphaComponent(dimmingAlpha)
         dimmingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         dimmingView.alpha = 0.0
         containerView.addSubview(dimmingView)
