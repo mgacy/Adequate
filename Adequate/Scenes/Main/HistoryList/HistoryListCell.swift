@@ -133,3 +133,18 @@ extension HistoryListCell: Themeable {
         }
     }
 }
+/*
+// MARK: - Config
+extension HistoryListCell {
+    fileprivate enum ViewConfig {
+        // X
+        static let cardCornerRadius: CGFloat = 5.0
+        // Spacing
+        static let spacing: CGFloat = 8.0
+        static let sideMargin: CGFloat = 12.0
+        static let labelSpacing: CGFloat = 2.0
+        // Color
+        static let dateLabelAlpha: CGFloat = 0.8
+    }
+}
+*/
