@@ -101,6 +101,8 @@ final class HistoryListViewController: UIViewController {
     func setupView() {
         title = Strings.historyListSceneTitle
         navigationController?.navigationBar.barTintColor = .white
+        settingsButton.tintColor = .black
+        dealButton.tintColor = .black
         stateView.foreground = .dark
         view.backgroundColor = .white
         tableView.backgroundColor = .white
