@@ -65,6 +65,7 @@ class MDTextView: UIView {
         let view = UITextView()
         view.isScrollEnabled = false
         view.isEditable = false
+        view.textContainerInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
