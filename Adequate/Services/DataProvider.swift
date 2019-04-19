@@ -7,9 +7,9 @@
 //
 
 import AWSAppSync
+import class Promise.Promise // import class to avoid name collision with AWSAppSync.Promise
 
 // MARK: - Protocol
-// NOTE: uses AWSAppSync's Promise implementation
 
 protocol DataProviderType {
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
@@ -78,15 +78,15 @@ class DataProvider: DataProviderType {
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
         let query = GetDealQuery(id: id)
         return appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
-            .map { result -> GetDealQuery.Data.GetDeal in
+            .then({ result -> GetDealQuery.Data.GetDeal in
                 guard let deal = result.getDeal else {
                     throw SyncClientError.myError(message: "Missing result")
                 }
                 return deal
-            }.catch { error in
+            }).recover({ error in
                 log.error("\(#function): \(error.localizedDescription)")
                 throw error
-            }
+            })
     }
 
     func getDealHistory(from startDate: Date, to endDate: Date) {

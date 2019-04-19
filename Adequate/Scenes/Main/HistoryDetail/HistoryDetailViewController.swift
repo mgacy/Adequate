@@ -253,11 +253,11 @@ extension HistoryDetailViewController {
     func getDeal(withID id: GraphQLID) {
         viewState = .loading
         dataProvider.getDeal(withID: id)
-            .andThen { [weak self] deal in
+            .then({ [weak self] deal in
                 self?.viewState = .result(deal)
-            }.catch { [weak self] error in
+            }).catch({ [weak self] error in
                 self?.viewState = .error(error)
-        }
+            })
     }
 }
 

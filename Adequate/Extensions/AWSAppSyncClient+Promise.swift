@@ -7,10 +7,8 @@
 //
 
 import AWSAppSync
+import class Promise.Promise // import class to avoid name collision with AWSAppSync.Promise
 
-// NOTE: AWSAppSync includes its own implementation of Promise in `Promise.swift`
-
-// MARK: - A
 extension AWSAppSyncClient {
 
     // public typealias OperationResultHandler<Operation: GraphQLOperation> = (_ result: GraphQLResult<Operation.Data>?, _ error: Error?) -> Void

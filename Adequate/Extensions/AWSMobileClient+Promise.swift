@@ -6,10 +6,8 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
-import AWSAppSync
 import AWSMobileClient
-
-// NOTE: AWSAppSync includes its own implementation of Promise in `Promise.swift`
+import Promise
 
 extension AWSMobileClient {
 
