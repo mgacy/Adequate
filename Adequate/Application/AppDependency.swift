@@ -9,8 +9,9 @@
 import AWSAppSync
 import AWSMobileClient
 
-struct AppDependency: HasDataProvider, HasNotificationManager, HasThemeManager, HasUserDefaultsManager {
+class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, HasThemeManager, HasUserDefaultsManager {
     let dataProvider: DataProviderType
+    let imageService: ImageServiceType
     /// TODO: should we always carry this, or provide factory method so callers can create / destroy as needed?
     //func makeNotificationManager() -> NotificationManagerType {}
     let notificationManager: NotificationManagerType
@@ -28,6 +29,7 @@ struct AppDependency: HasDataProvider, HasNotificationManager, HasThemeManager, 
         let networkClient = AppDependency.makeNetworkClient()
         let mehService = MehService(client: networkClient)
         self.dataProvider = DataProvider(appSync: appSyncClient, mehService: mehService)
+        self.imageService = ImageService(client: networkClient)
 
         self.userDefaultsManager = UserDefaultsManager(defaults: .standard)
 

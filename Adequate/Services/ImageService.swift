@@ -31,11 +31,17 @@ class ImageCache: ImageCaching {
 
 }
 
-// MARK: - Image Service
+// MARK: - Protocol
 
-//public protocol ImageServiceType {}
+public protocol ImageServiceType {
+    func fetchImage(for url: URL) -> Promise<UIImage>
+    func fetchedImage(for url: URL) -> UIImage?
+    //func cancelFetch(_ url: URL)
+}
 
-public class ImageService {
+// MARK: - Implementation
+
+public class ImageService: ImageServiceType {
     private let cache = ImageCache()
     private let client: NetworkClientType
 

@@ -11,24 +11,16 @@ import Promise
 
 class PagedImageViewDataSource: NSObject, UICollectionViewDataSource {
 
-    lazy var imageService: ImageService = {
-        // Configuration
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 20  // seconds
-        configuration.timeoutIntervalForResource = 20 // seconds
-        configuration.waitsForConnectivity = true     // reachability
-
-        // JSON Decoding
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
-
-        let client = NetworkClient(configuration: configuration, decoder: decoder)
-        let service = ImageService(client: client)
-        return service
-    }()
+    private let imageService: ImageServiceType
 
     private var theme: AppTheme?
     private var urls: [URL] = [URL]()
+
+    // MARK: - Lifecycle
+
+    init(imageService: ImageServiceType) {
+        self.imageService = imageService
+    }
 
     // MARK: - A
 

@@ -10,7 +10,7 @@ import UIKit
 import SafariServices
 
 final class MainCoordinator: BaseCoordinator {
-    typealias Dependencies = HasDataProvider & HasNotificationManager & HasThemeManager & HasUserDefaultsManager
+    typealias Dependencies = HasDataProvider & HasImageService & HasNotificationManager & HasThemeManager & HasUserDefaultsManager
 
     private let window: UIWindow
     private let dependencies: Dependencies

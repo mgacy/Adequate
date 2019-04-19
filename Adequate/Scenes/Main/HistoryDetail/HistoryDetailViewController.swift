@@ -20,7 +20,7 @@ protocol HistoryDetailViewControllerDelegate: VoidDismissalDelegate {
 // MARK: - View Controller
 
 class HistoryDetailViewController: UIViewController, SwipeDismissable {
-    typealias Dependencies = HasDataProvider & HasThemeManager
+    typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
     typealias DealFragment = ListDealsForPeriodQuery.Data.ListDealsForPeriod
     typealias Deal = GetDealQuery.Data.GetDeal
     typealias Topic = GetDealQuery.Data.GetDeal.Topic
@@ -37,6 +37,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     var transitionController: UIViewControllerTransitioningDelegate?
 
     private let dataProvider: DataProviderType
+    private let imageService: ImageServiceType
     private let themeManager: ThemeManagerType
     private var dealFragment: DealFragment
 
@@ -70,8 +71,8 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         return view
     }()
 
-    private let pagedImageView: PagedImageView = {
-        let view = PagedImageView()
+    private lazy var pagedImageView: PagedImageView = {
+        let view = PagedImageView(imageService: self.imageService)
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -115,6 +116,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
     init(dependencies: Dependencies, deal: DealFragment) {
         self.dataProvider = dependencies.dataProvider
+        self.imageService = dependencies.imageService
         self.themeManager = dependencies.themeManager
         self.dealFragment = deal
         self.viewState = .empty

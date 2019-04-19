@@ -35,11 +35,12 @@ protocol DealViewControllerDelegate: class {
 // MARK: - View Controller
 
 class DealViewController: UIViewController {
-    typealias Dependencies = HasDataProvider & HasThemeManager
+    typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
 
     weak var delegate: DealViewControllerDelegate?
 
     private let dataProvider: DataProviderType
+    private let imageService: ImageServiceType
     private let themeManager: ThemeManagerType
 
     private var observationTokens: [ObservationToken] = []
@@ -124,8 +125,8 @@ class DealViewController: UIViewController {
         return view
     }()
 
-    private let pagedImageView: PagedImageView = {
-        let view = PagedImageView()
+    private lazy var pagedImageView: PagedImageView = {
+        let view = PagedImageView(imageService: self.imageService)
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -170,6 +171,7 @@ class DealViewController: UIViewController {
     init(dependencies: Dependencies) {
         //self.viewState = .empty
         self.dataProvider = dependencies.dataProvider
+        self.imageService = dependencies.imageService
         self.themeManager = dependencies.themeManager
         super.init(nibName: nil, bundle: nil)
     }
