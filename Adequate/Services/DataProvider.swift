@@ -13,9 +13,11 @@ import class Promise.Promise // import class to avoid name collision with AWSApp
 
 protocol DataProviderType {
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    // Get
     func getDeal()
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal>
     func getDealHistory(from: Date, to: Date)
+    // Observers
     func addDealObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<Deal>) -> Void) -> ObservationToken
     func addHistoryObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<[DealHistory]>) -> Void) -> ObservationToken
 }
@@ -52,7 +54,6 @@ class DataProvider: DataProviderType {
         self.dealState = .empty
         self.historyState = .empty
 
-        // MARK: - New
         addDealObserver(self) { dp, viewState in
             guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
                 return
@@ -96,8 +97,10 @@ class DataProvider: DataProviderType {
         let endDateString = DateFormatter.yyyyMMdd.string(from: endDate)
 
         let query = ListDealsForPeriodQuery(startDate: startDateString, endDate: endDateString)
-        appSyncClient.fetch(query: query, cachePolicy: CachePolicy.fetchIgnoringCacheData)
-            .andThen { [weak self] result in
+        // TODO: replace with `appSyncClient.watch(query:, cachePolicy:, queue:, resultHandler:)`
+        // FIXME: decide on CachePolicy: .fetchIgnoringCacheData / .returnCacheDataAndFetch
+        appSyncClient.fetch(query: query, cachePolicy: CachePolicy.returnCacheDataAndFetch)
+            .then { [weak self] result in
                 guard let items = result.listDealsForPeriod else {
                     throw SyncClientError.myError(message: "Missing result")
                 }

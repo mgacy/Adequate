@@ -67,6 +67,7 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
         do {
             // Initialize the AWS AppSync configuration
             // https://aws-amplify.github.io/docs/ios/api#iam
+            // https://github.com/aws-samples/aws-mobile-appsync-events-starter-ios/blob/master/EventsApp/AppDelegate.swift
             let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                                   credentialsProvider: AWSMobileClient.sharedInstance(),
                                                                   cacheConfiguration: AWSAppSyncCacheConfiguration())

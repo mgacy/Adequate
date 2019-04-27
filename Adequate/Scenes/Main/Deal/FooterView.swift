@@ -127,6 +127,7 @@ class FooterView: UIView {
 
     // MARK: - Update View
 
+    // FIXME: shouldn't really have model communicating directly with view
     public func update(withDeal deal: Deal) {
         buyButton.isHidden = false
         guard deal.soldOutAt == nil else {
