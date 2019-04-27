@@ -41,7 +41,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     private let themeManager: ThemeManagerType
     private var dealFragment: DealFragment
 
-    private var observationTokens: [ObservationToken] = []
+    //private var observationTokens: [ObservationToken] = []
     private var viewState: ViewState<Deal> {
         didSet {
             render(viewState)
@@ -146,7 +146,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        observationTokens = setupObservations()
+        //observationTokens = setupObservations()
         getDeal(withID: dealFragment.id)
     }
 
@@ -160,7 +160,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         // Dispose of any resources that can be recreated.
     }
 
-    deinit { observationTokens.forEach { $0.cancel() } }
+    //deinit { observationTokens.forEach { $0.cancel() } }
 
     // MARK: - View Methods
 
@@ -213,12 +213,12 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
             forumButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -spacing)
         ])
     }
-
+    /*
     private func setupObservations() -> [ObservationToken] {
         let themeToken = themeManager.addObserver(self)
         return [themeToken]
     }
-
+    */
     // MARK: - Navigation
 
     @objc private func didPressForum(_ sender: UIButton) {
