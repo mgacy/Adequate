@@ -46,6 +46,7 @@ public class CurrentDealManager {
 
     //private let defaults: UserDefaults
     private let sharedContainerURL: URL
+    private let session: URLSession = URLSession.shared
 
     // MARK: - Lifecycle
 
@@ -75,7 +76,7 @@ public class CurrentDealManager {
         // Save Image
         let destinationURL = sharedContainerURL
             .appendingPathComponent(.imageLocation)
-        URLSession.shared.downloadTask(with: deal.imageURL) { (fileURL, _, _) in
+        session.downloadTask(with: deal.imageURL) { (fileURL, _, _) in
             guard let fileURL = fileURL else {
                 return
             }
@@ -160,6 +161,7 @@ public class CurrentDealManager {
 
 // MARK: - String Constants
 fileprivate extension String {
+    // Filenames
     static let dealLocation = "deal.json"
     static let imageLocation = "dealImage"
 }
