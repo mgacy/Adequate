@@ -314,7 +314,7 @@ class DealViewController: UIViewController {
     }
 
     @objc private func didPressShare(_ sender: UIBarButtonItem) {
-        guard case .result(let deal) = viewState else { 
+        guard case .result(let deal) = viewState else {
             return
         }
 
@@ -356,19 +356,17 @@ extension DealViewController: PagedImageViewDelegate {
     func displayFullscreenImage(animatingFrom pagedImageView: PagedImageView) {
         delegate?.showImage(animatingFrom: pagedImageView)
     }
-
 }
 
 // MARK: - DealFooterDelegate
 extension DealViewController: DealFooterDelegate {
 
     func buy() {
-        guard case .result(let deal) = viewState else { 
+        guard case .result(let deal) = viewState else {
             return
         }
         delegate?.showPurchase(for: deal)
     }
-
 }
 
 // MARK: - ViewStateRenderable

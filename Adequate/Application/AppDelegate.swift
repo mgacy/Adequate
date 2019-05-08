@@ -91,6 +91,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         // TODO: refresh DealViewController
+        // TODO: prepare for other `response.notification.request.content.categoryIdentifier`
         completionHandler([.alert, .sound])
     }
 
@@ -101,6 +102,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
         let userInfo = response.notification.request.content.userInfo
 
+        // TODO: prepare for other `response.notification.request.content.categoryIdentifier`
         switch response.actionIdentifier {
         case NotificationAction.buyAction.rawValue:
             if let urlString = userInfo[NotificationConstants.dealKey] as? String, let buyURL = URL(string: urlString) {
@@ -110,6 +112,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             }
         case NotificationAction.mehAction.rawValue:
             appCoordinator.start(with: .meh)
+        case UNNotificationDefaultActionIdentifier, UNNotificationDismissActionIdentifier:
+            // TODO: how to handle?
+            log.info("\(#function) - DefaultActionIdentifier / DismissActionIdentifier")
         default:
             log.warning("\(#function) - unknown action: \(response.actionIdentifier)")
         }
