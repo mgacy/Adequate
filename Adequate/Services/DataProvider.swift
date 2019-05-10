@@ -116,7 +116,7 @@ class DataProvider: DataProviderType {
         let query = ListDealsForPeriodQuery(startDate: startDateString, endDate: endDateString)
         // TODO: replace with `appSyncClient.watch(query:, cachePolicy:, queue:, resultHandler:)`
         // FIXME: decide on CachePolicy: .fetchIgnoringCacheData / .returnCacheDataAndFetch
-        appSyncClient.fetch(query: query, cachePolicy: CachePolicy.returnCacheDataAndFetch)
+        appSyncClient.fetch(query: query, cachePolicy: CachePolicy.fetchIgnoringCacheData)
             .then { [weak self] result in
                 guard let items = result.listDealsForPeriod else {
                     throw SyncClientError.myError(message: "Missing result")
