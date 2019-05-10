@@ -52,8 +52,8 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
     static private func makeNetworkClient() -> NetworkClientType {
         // Configuration
         let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 8  // seconds
-        configuration.timeoutIntervalForResource = 8 // seconds
+        //configuration.timeoutIntervalForRequest = 8  // seconds
+        //configuration.timeoutIntervalForResource = 8 // seconds
         //configuration.waitsForConnectivity = true    // reachability
 
         // JSON Decoding
