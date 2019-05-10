@@ -389,7 +389,7 @@ extension SettingsViewController: Themeable {
 extension SettingsViewController {
     enum SupportAddress: String {
         case web = "example.com"
-        case email = "support@example.com"
+        case email = "app@mgacy.com"
         case twitter = "@example"
 
         var url: URL? {
