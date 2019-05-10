@@ -72,5 +72,16 @@ class AppCoordinator: BaseCoordinator {
         store(coordinator: mainCoordinator)
         mainCoordinator.start(with: deepLink)
     }
+}
 
+// MARK: - Refresh
+extension AppCoordinator {
+
+    func refreshDeal(showLoading: Bool) {
+        dependencies.dataProvider.refreshDeal(showLoading: showLoading)
+    }
+
+    func refreshDealInBackground(completion: @escaping (UIBackgroundFetchResult) -> Void) {
+        dependencies.dataProvider.refreshDealInBackground(fetchCompletionHandler: completion)
+    }
 }

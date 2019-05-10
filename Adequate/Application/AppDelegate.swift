@@ -81,6 +81,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         log.error("Failed to register for remote notifications with error: \(error)")
     }
 
+    // MARK: - Background App Refresh
+
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // Called for silent notifications.
+        appCoordinator.refreshDealInBackground(completion: completionHandler)
+    }
 }
 
 // MARK: - UNUserNotificationCenterDelegate

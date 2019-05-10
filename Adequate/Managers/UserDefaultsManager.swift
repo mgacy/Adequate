@@ -16,6 +16,8 @@ enum UserDefaultsKey: String {
     case SNSEndpoint = "endpointArnForSNS"
     case SNSToken = "deviceTokenForSNS"
     case SNSSubscription = "subscriptionArnForSNS"
+    // DataProvider
+    case lastDealUpdate = "lastDealUpdate"
 }
 
 // MARK: - Protocol

@@ -17,6 +17,9 @@ protocol DataProviderType {
     func getDeal()
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal>
     func getDealHistory(from: Date, to: Date)
+    // Refresh
+    func refreshDeal(showLoading: Bool)
+    func refreshDealInBackground(fetchCompletionHandler: @escaping (UIBackgroundFetchResult) -> Void)
     // Observers
     func addDealObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<Deal>) -> Void) -> ObservationToken
     func addHistoryObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<[DealHistory]>) -> Void) -> ObservationToken
@@ -26,6 +29,19 @@ protocol DataProviderType {
 
 class DataProvider: DataProviderType {
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+
+    // TODO: initialize with UserDefaultsManager; use AppGroup
+    var lastDealUpdate: Date {
+        get {
+            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealUpdate.rawValue) as? Date ?? Date(
+                timeIntervalSince1970: 0)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealUpdate.rawValue)
+        }
+    }
+
+    private let minimumRefreshInterval: TimeInterval = -60
 
     // TODO: rename `ViewState<T>` as `ResourceState<T>`?
     private var dealState: ViewState<Deal> {
@@ -69,6 +85,7 @@ class DataProvider: DataProviderType {
         guard dealState != ViewState<Deal>.loading else { return }
         dealState = .loading
         mehService.getDeal().then({ response in
+            self.lastDealUpdate = Date()
             self.dealState = .result(response.deal)
         }).catch({ error in
             log.error("\(#function): \(error.localizedDescription)")
@@ -109,6 +126,76 @@ class DataProvider: DataProviderType {
                 log.error("\(#function): \(error.localizedDescription)")
                 self.historyState = .error(error)
             }
+    }
+
+    // MARK: - Refresh
+
+    func refreshDeal(showLoading: Bool = false) {
+        guard dealState != ViewState<Deal>.loading else {
+            return
+        }
+        guard lastDealUpdate.timeIntervalSinceNow < minimumRefreshInterval else {
+            log.verbose("Skipping Refresh - lastDealUpdate: \(lastDealUpdate.timeIntervalSinceNow)")
+            return
+        }
+
+        if showLoading {
+            dealState = .loading
+        }
+
+        // TODO: use Constants
+        let query = GetDealQuery(id: "current_deal")
+        appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
+            .then({ result in
+                guard let deal = Deal(result.getDeal) else {
+                    throw SyncClientError.myError(message: "Missing result")
+                }
+                self.lastDealUpdate = Date()
+                if case .result(let oldDeal) = self.dealState {
+                    if oldDeal != deal {
+                        self.dealState = .result(deal)
+                    }
+                } else {
+                    self.dealState = .result(deal)
+                }
+            }).catch({ error in
+                log.error("\(#function): \(error.localizedDescription)")
+                //if showOtherViewStates {
+                //self.dealState = .error(error)
+                //}
+            })
+    }
+
+    func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        guard dealState != ViewState<Deal>.loading else {
+            return
+        }
+        let query = GetDealQuery(id: "current_deal")
+        appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
+            .then({ result in
+                guard let newDeal = Deal(result.getDeal) else {
+                    throw SyncClientError.myError(message: "Missing result")
+                }
+                self.lastDealUpdate = Date()
+                if case .result(let oldDeal) = self.dealState {
+                    if oldDeal != newDeal {
+                        //log.info("BACKGROUND_APP_REFRESH: newData")
+                        self.dealState = .result(newDeal)
+                        completionHandler(.newData)
+                    } else {
+                        //log.info("BACKGROUND_APP_REFRESH: noData")
+                        completionHandler(.noData)
+                    }
+                } else {
+                    //log.info("BACKGROUND_APP_REFRESH: newData")
+                    self.dealState = .result(newDeal)
+                    completionHandler(.newData)
+                }
+            }).catch({ error in
+                log.error("\(#function): \(error.localizedDescription)")
+                //self.dealState = .error(error)
+                completionHandler(.failed)
+            })
     }
 
     // MARK: - Observers
