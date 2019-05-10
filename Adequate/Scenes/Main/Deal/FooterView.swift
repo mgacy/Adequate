@@ -144,9 +144,13 @@ class FooterView: UIView {
             /// TODO: handle localization (including price conversion?)
             priceComparisonLabel.text = "\(priceComparison.price) at \(priceComparison.store)"
             priceComparisonLabel.isHidden = false
+            //stackView.alignment = .center
+            priceLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         } else {
             log.debug("Unable to parse price comparison")
             priceComparisonLabel.isHidden = true
+            //stackView.alignment = .firstBaseline
+            priceLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         }
 
         // Price
