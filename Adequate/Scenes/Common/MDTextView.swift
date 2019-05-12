@@ -65,7 +65,14 @@ class MDTextView: UIView {
         let view = UITextView()
         view.isScrollEnabled = false
         view.isEditable = false
-        view.textContainerInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
+
+        // https://kenb.us/uilabel-vs-uitextview
+        view.contentInset = .zero
+        view.contentInsetAdjustmentBehavior = .never
+        view.textContainerInset = .zero // UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
+        view.textContainer.lineFragmentPadding = 0
+        view.layoutManager.usesFontLeading = false
+
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
