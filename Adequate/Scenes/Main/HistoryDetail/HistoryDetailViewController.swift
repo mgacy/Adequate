@@ -54,8 +54,8 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         UIBarButtonItem(image: #imageLiteral(resourceName: "CloseNavBar"), style: .plain, target: self, action: #selector(didPressDismiss(_:)))
     }()
 
-    private lazy var stateView: StateView<Deal> = {
-        let view = StateView<Deal>()
+    private lazy var stateView: StateView = {
+        let view = StateView()
         view.onRetry = { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.getDeal(withID: strongSelf.dealFragment.id)

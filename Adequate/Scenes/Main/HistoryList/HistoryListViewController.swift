@@ -39,8 +39,8 @@ final class HistoryListViewController: UIViewController {
         return UIBarButtonItem(image: #imageLiteral(resourceName: "RightChevronNavBar"), style: .plain, target: self, action: #selector(didPressDeal(_:)))
     }()
 
-    private lazy var stateView: StateView<Void> = {
-        let view = StateView<Void>()
+    private lazy var stateView: StateView = {
+        let view = StateView()
         view.onRetry = { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.getDealHistory()

@@ -8,10 +8,11 @@
 
 import UIKit
 
-class StateView<Element>: UIView {
+class StateView: UIView {
 
     var onRetry: (() -> Void)?
     var emptyMessageText: String = Strings.emptyMessage
+    // TODO: add property to show / hide .activityMessageLabel?
 
     // MARK: - Appearance
 
@@ -146,9 +147,8 @@ class StateView<Element>: UIView {
 
 }
 
-// MARK: - ViewStateRenderable
-extension StateView: ViewStateRenderable {
-    func render(_ viewState: ViewState<Element>) {
+extension StateView {
+    func render<T>(_ viewState: ViewState<T>) {
         switch viewState {
         case .empty:
             //isHidden = false
