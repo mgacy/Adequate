@@ -42,7 +42,7 @@ final class StoryViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -135,7 +135,7 @@ final class StoryViewController: UIViewController {
             // stackView
             stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
             stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
-            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 2.0 * spacing),
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: spacing * 2.0),
             stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
     }
