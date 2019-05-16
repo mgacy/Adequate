@@ -9,9 +9,18 @@
 import UIKit
 import Promise
 
+// MARK: - Delegate
+
+protocol ImageCellDelegate: class {
+    func retry(imageURL: URL) -> Promise<UIImage>
+}
+
+// MARK: - Cell
+
 class ImageCell: UICollectionViewCell {
 
     // MARK: - A
+    weak var delegate: ImageCellDelegate?
     var imageURL: URL!
     var invalidatableQueue = InvalidatableQueue()
 
@@ -66,6 +75,7 @@ class ImageCell: UICollectionViewCell {
         addSubview(imageView)
         addSubview(activityIndicator)
         addSubview(retryButton)
+        retryButton.addTarget(self, action: #selector(didPressRetry(_:)), for: .touchUpInside)
         retryButton.isHidden = true
         configureConstraints()
     }
@@ -84,6 +94,28 @@ class ImageCell: UICollectionViewCell {
             retryButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             retryButton.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
+    }
+
+    // MARK: - Actions
+
+    @objc private func didPressRetry(_ sender: UIButton) {
+        // FIXME: this doesn't look right
+        guard delegate != nil else {
+            return
+        }
+        activityIndicator.startAnimating()
+        //state = .loading
+        delegate?.retry(imageURL: imageURL)
+            .then(on: invalidatableQueue, { [weak self] image in
+                self?.imageView.image = image
+                //self?.state = .result(image)
+            }).catch({ error in
+                log.warning("IMAGE ERROR: \(error)")
+                /// TODO: display errorView
+                //self?.state = .error(error)
+            }).always ({ [weak self] in
+                self?.activityIndicator.stopAnimating()
+            })
     }
 
     // MARK: - Configuration
