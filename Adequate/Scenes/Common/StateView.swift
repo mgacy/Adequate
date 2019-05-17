@@ -12,7 +12,11 @@ class StateView: UIView {
 
     var onRetry: (() -> Void)?
     var emptyMessageText: String = Strings.emptyMessage
-    // TODO: add property to show / hide .activityMessageLabel?
+    var loadingMessageText: String? = Strings.loadingMessage {
+        didSet {
+            activityMessageLabel.text = loadingMessageText
+        }
+    }
 
     // MARK: - Appearance
 
@@ -49,7 +53,7 @@ class StateView: UIView {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
-        label.text = Strings.loadingMessage
+        label.text = loadingMessageText
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -76,8 +80,6 @@ class StateView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
-    /// TODO: UIStackView?
 
     override var intrinsicContentSize: CGSize {
         return CGSize(width: 300.0, height: 100.0)
@@ -167,7 +169,6 @@ extension StateView {
         case .loading:
             //isHidden = false
             activityIndicator.startAnimating()
-            activityMessageLabel.text = Strings.loadingMessage
             activityMessageLabel.isHidden = false
             messageLabel.isHidden = true
             retryButton.isHidden = true
