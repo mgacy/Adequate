@@ -9,7 +9,16 @@
 import UIKit
 import Promise
 
-class PagedImageViewDataSource: NSObject, UICollectionViewDataSource {
+// MARK: - Protocol
+
+protocol PagedImageViewDataSourceType: UICollectionViewDataSource, Themeable {
+    func updateImages(with urls: [URL])
+    func imageSource(for indexPath: IndexPath) -> Promise<UIImage>
+}
+
+// MARK: - Implementation
+
+class PagedImageViewDataSource: NSObject, PagedImageViewDataSourceType {
 
     private let imageService: ImageServiceType
 
@@ -22,7 +31,7 @@ class PagedImageViewDataSource: NSObject, UICollectionViewDataSource {
         self.imageService = imageService
     }
 
-    // MARK: - A
+    // MARK: - PagedImageViewDataSourceType
 
     func updateImages(with urls: [URL]) {
         self.urls = urls

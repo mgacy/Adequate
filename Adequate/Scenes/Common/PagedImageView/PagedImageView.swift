@@ -26,7 +26,7 @@ class PagedImageView: UIView {
         return collectionView.frame.size.width > 0 ? Int(collectionView.contentOffset.x + collectionView.frame.size.width / 2) / Int(collectionView.frame.size.width) : 0
     }
 
-    private let dataSource: PagedImageViewDataSource
+    private let dataSource: PagedImageViewDataSourceType
     weak var delegate: PagedImageViewDelegate?
 
     // MARK: - Appearance
