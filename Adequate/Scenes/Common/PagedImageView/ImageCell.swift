@@ -22,9 +22,14 @@ class ImageCell: UICollectionViewCell {
     // MARK: - A
     weak var delegate: ImageCellDelegate?
     var imageURL: URL!
-    var invalidatableQueue = InvalidatableQueue()
+    private var invalidatableQueue = InvalidatableQueue()
+    private var viewState: ViewState<UIImage> {
+        didSet {
+            render(viewState)
+        }
+    }
 
-    // MARK: - Interface
+    // MARK: - Subviews
 
     let activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
@@ -53,6 +58,7 @@ class ImageCell: UICollectionViewCell {
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
+        viewState = .empty
         super.init(frame: frame)
         configure()
     }
@@ -65,8 +71,7 @@ class ImageCell: UICollectionViewCell {
         super.prepareForReuse()
         invalidatableQueue.invalidate()
         invalidatableQueue = InvalidatableQueue()
-        imageView.image = nil
-        activityIndicator.stopAnimating()
+        viewState = .empty
     }
 
     // MARK: - Configuration
@@ -103,43 +108,62 @@ class ImageCell: UICollectionViewCell {
         guard delegate != nil else {
             return
         }
-        activityIndicator.startAnimating()
-        //state = .loading
+        viewState = .loading
         delegate?.retry(imageURL: imageURL)
             .then(on: invalidatableQueue, { [weak self] image in
-                self?.imageView.image = image
-                //self?.state = .result(image)
-            }).catch({ error in
+                self?.viewState = .result(image)
+            }).catch({ [weak self] error in
                 log.warning("IMAGE ERROR: \(error)")
-                /// TODO: display errorView
-                //self?.state = .error(error)
-            }).always ({ [weak self] in
-                self?.activityIndicator.stopAnimating()
+                self?.viewState = .error(error)
             })
     }
 
     // MARK: - Configuration
 
     func configure(with image: UIImage) {
-        imageView.image = image
+        viewState = .result(image)
     }
 
     func configure(with promise: Promise<UIImage>) {
-        if let image = promise.value {
-            imageView.image = image
+        if let imageValue = promise.value {
+            viewState = .result(imageValue)
             return
         }
-        activityIndicator.startAnimating()
+        viewState = .loading
         promise.then(on: invalidatableQueue, { [weak self] image in
-            self?.imageView.image = image
-        }).catch({ error in
+            self?.viewState = .result(image)
+        }).catch({ [weak self] error in
             log.warning("IMAGE ERROR: \(error)")
-            /// TODO: display errorView
-        }).always ({ [weak self] in
-            self?.activityIndicator.stopAnimating()
+            self?.viewState = .error(error)
         })
     }
 
+}
+
+// MARK: - ViewStateRenderable
+extension ImageCell: ViewStateRenderable {
+    typealias ResultType = UIImage
+
+    func render(_ viewState: ViewState<ResultType>) {
+        switch viewState {
+        case .empty:
+            activityIndicator.stopAnimating()
+            imageView.image = nil
+            retryButton.isHidden = true
+        case .loading:
+            activityIndicator.startAnimating()
+            //imageView.image = nil
+            retryButton.isHidden = true
+        case .result(let image):
+            activityIndicator.stopAnimating()
+            imageView.image = image
+            //retryButton.isHidden = true
+        case .error:
+            activityIndicator.stopAnimating()
+            //imageView.image = nil
+            retryButton.isHidden = false
+        }
+    }
 }
 
 // MARK: - Themeable
