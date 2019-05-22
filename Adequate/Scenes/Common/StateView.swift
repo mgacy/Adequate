@@ -153,28 +153,28 @@ extension StateView {
     func render<T>(_ viewState: ViewState<T>) {
         switch viewState {
         case .empty:
-            //isHidden = false
+            isHidden = false
             activityIndicator.stopAnimating()
             activityMessageLabel.isHidden = true
             messageLabel.isHidden = false
             messageLabel.text = emptyMessageText
             retryButton.isHidden = true
         case .error(let error):
-            //isHidden = false
+            isHidden = false
             activityIndicator.stopAnimating()
             activityMessageLabel.isHidden = true
             messageLabel.isHidden = false
             messageLabel.text = error.localizedDescription
             retryButton.isHidden = false
         case .loading:
-            //isHidden = false
+            isHidden = false
             activityIndicator.startAnimating()
             activityMessageLabel.isHidden = false
             messageLabel.isHidden = true
             retryButton.isHidden = true
         case .result:
             activityIndicator.stopAnimating()
-            //isHidden = true
+            isHidden = true
             /*
             /// TODO: animate here or in caller?
             UIView.animate(withDuration: 0.3, animations: {

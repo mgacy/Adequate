@@ -269,13 +269,13 @@ extension HistoryDetailViewController: ViewStateRenderable {
         stateView.render(viewState)
         switch viewState {
         case .empty:
-            stateView.isHidden = false
+            //stateView.isHidden = false
             scrollView.isHidden = true
         case .loading:
-            stateView.isHidden = false
+            //stateView.isHidden = false
             scrollView.isHidden = true
         case .result(let deal):
-            stateView.isHidden = true
+            //stateView.isHidden = true
             titleLabel.text = deal.title
             featuresText.markdown = deal.features
             // images
@@ -287,7 +287,7 @@ extension HistoryDetailViewController: ViewStateRenderable {
             renderComments(for: deal)
             scrollView.isHidden = false
         case .error:
-            stateView.isHidden = false
+            //stateView.isHidden = false
             scrollView.isHidden = true
         }
     }
