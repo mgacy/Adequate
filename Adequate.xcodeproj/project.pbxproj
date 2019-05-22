@@ -195,6 +195,7 @@
 		C943E5AF2238695C00DE0675 /* StateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
 		C95B83C2218017FD0051B72B /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		C95B83C421811DFA0051B72B /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		C963AB022295EFB700E335D9 /* NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationService.entitlements; sourceTree = "<group>"; };
 		C96CA8692182DB2500C3459E /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		C96CA86B2182DCC800C3459E /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		C96CA86D2182DD1A00C3459E /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -640,6 +641,7 @@
 		C9EF22CD216C616D00D9DD22 /* NotificationService */ = {
 			isa = PBXGroup;
 			children = (
+				C963AB022295EFB700E335D9 /* NotificationService.entitlements */,
 				C9EF22DA216D195600D9DD22 /* Constants.swift */,
 				C9EF22D8216C67C600D9DD22 /* FileDownloader.swift */,
 				C9EF22CE216C616D00D9DD22 /* NotificationService.swift */,
@@ -788,6 +790,11 @@
 						CreatedOnToolsVersion = 10.0;
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1377,6 +1384,7 @@
 			baseConfigurationReference = A267B246777B1E0E92C7B3CE /* Pods-NotificationService.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -1397,6 +1405,7 @@
 			baseConfigurationReference = 83BFE8054DF717C54FBD5EBC /* Pods-NotificationService.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = NotificationService/Info.plist;
