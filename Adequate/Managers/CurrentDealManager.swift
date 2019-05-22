@@ -54,6 +54,7 @@ public class CurrentDealManager {
     init(){
         let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: CurrentDealConstants.groupID)!
         //self.defaults = defaults
+        //self.session = Self.makeSession()
         self.sharedContainerURL = url
     }
 
@@ -135,6 +136,27 @@ public class CurrentDealManager {
         }
     }
 
+    // MARK: - Alt
+    /*
+    private func scaleImage(from url: URL) -> UIImage? {
+        do {
+            let data = try Data(contentsOf: url)
+            guard let originalImage = UIImage(data: data) else {
+                print("Error downloading image")
+                throw CurrentDealManagerError.missingImage
+            }
+
+            guard let scaledImage = originalImage.scaled(to: 150.0) else {
+                print("Error rescaling image")
+                throw CurrentDealManagerError.missingImage
+            }
+            return scaledImage
+        } catch let error {
+            print("ERROR: \(error)")
+            return nil
+        }
+    }
+    */
     // MARK: - Read
 
     public func readDeal() -> CurrentDeal? {
@@ -157,6 +179,18 @@ public class CurrentDealManager {
         return UIImage(data: imageData)
     }
 
+    // MARK: Configuration
+    /*
+    private static func makeSession() -> URLSession {
+        //let configuration = URLSessionConfiguration.background(withIdentifier: .sessionConfigID)
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 20  // seconds
+        configuration.timeoutIntervalForResource = 20 // seconds
+        configuration.waitsForConnectivity = true     // reachability
+
+        return URLSession(configuration: configuration)
+    }
+    */
 }
 
 // MARK: - String Constants
@@ -164,6 +198,9 @@ fileprivate extension String {
     // Filenames
     static let dealLocation = "deal.json"
     static let imageLocation = "dealImage"
+    //static let scaledImageLocation = "scaledDealImage"
+    // URLSessionConfiguration
+    //static let sessionConfigID = "com.mgacy.adequate.current-deal-manager"
 }
 
 // MARK: - UIImage+scaled

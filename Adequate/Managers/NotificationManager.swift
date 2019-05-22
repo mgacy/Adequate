@@ -35,6 +35,7 @@ fileprivate enum CategoryIdentifier: String {
 enum NotificationAction: String {
     case buyAction = "MGBuyAction"
     case mehAction = "MGMehAction"
+    //case viewAction = "MGViewAction"
 
     /// TODO: what about localization?
     var title: String {
@@ -57,6 +58,7 @@ struct NotificationConstants {
 class NotificationManager: NSObject, NotificationManagerType {
 
     private let notificationCenter: UNUserNotificationCenter
+    //private let requestedNotificationOptions: UNAuthorizationOptions = [.alert, .sound]
 
     override init() {
         self.notificationCenter = .current()
