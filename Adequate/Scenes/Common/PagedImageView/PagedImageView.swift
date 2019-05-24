@@ -116,6 +116,7 @@ class PagedImageView: UIView {
     public func updateImages(with urls: [URL]) {
         dataSource.updateImages(with: urls)
         collectionView.reloadData()
+        collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: false)
         updatePageControl()
     }
 
