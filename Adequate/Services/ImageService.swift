@@ -44,13 +44,13 @@ public protocol ImageServiceType {
 public class ImageService: ImageServiceType {
     private let cache = ImageCache()
     private let client: NetworkClientType
-
+    /*
     struct Task {
         let promise: Promise<UIImage>
         /// TODO: initialize with background queue?
         let queue = InvalidatableQueue()
     }
-
+    */
     /// TODO: do we need to handle cacheing or removal of pending tasks on a lockQueue?
     //private let lockQueue = DispatchQueue(label: "image_service_lock_queue", qos: .userInitiated)
     private var pendingTasks = Dictionary<String, Promise<UIImage>>()

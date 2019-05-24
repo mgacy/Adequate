@@ -138,7 +138,7 @@ public class CurrentDealManager {
 
     // MARK: - Alt
     /*
-    private func scaleImage(from url: URL) -> UIImage? {
+    private func scaleImage(from url: URL, toSize scaledSize: CGFloat = 150.0) -> UIImage? {
         do {
             let data = try Data(contentsOf: url)
             guard let originalImage = UIImage(data: data) else {
@@ -146,7 +146,7 @@ public class CurrentDealManager {
                 throw CurrentDealManagerError.missingImage
             }
 
-            guard let scaledImage = originalImage.scaled(to: 150.0) else {
+            guard let scaledImage = originalImage.scaled(to: scaledSize) else {
                 print("Error rescaling image")
                 throw CurrentDealManagerError.missingImage
             }
