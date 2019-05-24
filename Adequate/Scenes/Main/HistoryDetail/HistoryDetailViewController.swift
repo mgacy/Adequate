@@ -192,7 +192,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
             scrollView.leftAnchor.constraint(equalTo: guide.leftAnchor),
             scrollView.topAnchor.constraint(equalTo: guide.topAnchor),
             scrollView.rightAnchor.constraint(equalTo: guide.rightAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             // pagedImageView
             pagedImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
             pagedImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: spacing),
