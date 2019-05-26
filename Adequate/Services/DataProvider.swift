@@ -33,15 +33,14 @@ class DataProvider: DataProviderType {
     // TODO: initialize with UserDefaultsManager; use AppGroup
     var lastDealUpdate: Date {
         get {
-            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealUpdate.rawValue) as? Date ?? Date(
-                timeIntervalSince1970: 0)
+            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealUpdate.rawValue) as? Date ?? Date.distantPast
         }
         set {
             UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealUpdate.rawValue)
         }
     }
 
-    private let minimumRefreshInterval: TimeInterval = -60
+    private let minimumRefreshInterval: TimeInterval = 60
 
     // TODO: rename `ViewState<T>` as `ResourceState<T>`?
     private var dealState: ViewState<Deal> {
@@ -76,6 +75,7 @@ class DataProvider: DataProviderType {
             }
             let currentDealManager = CurrentDealManager()
             currentDealManager.saveDeal(currentDeal)
+            // TODO: call getDealHistory(from:, to:)?
         }
     }
 
@@ -134,7 +134,7 @@ class DataProvider: DataProviderType {
         guard dealState != ViewState<Deal>.loading else {
             return
         }
-        guard lastDealUpdate.timeIntervalSinceNow < minimumRefreshInterval else {
+        guard abs(lastDealUpdate.timeIntervalSinceNow) > minimumRefreshInterval else {
             log.verbose("Skipping Refresh - lastDealUpdate: \(lastDealUpdate.timeIntervalSinceNow)")
             return
         }
@@ -143,7 +143,7 @@ class DataProvider: DataProviderType {
             dealState = .loading
         }
 
-        // TODO: use Constants
+        // TODO: use Constants for currentDealID
         let query = GetDealQuery(id: "current_deal")
         appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
             .then({ result in
