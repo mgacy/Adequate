@@ -335,6 +335,8 @@ extension HistoryDetailViewController: Themeable {
         /// TODO: set status bar and home indicator color?
         titleLabel.textColor = theme.foreground.textColor
         featuresText.textColor = theme.foreground.textColor
+        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
+        setNeedsStatusBarAppearanceUpdate()
 
         // Subviews
         pagedImageView.apply(theme: theme)

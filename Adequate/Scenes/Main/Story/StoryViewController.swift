@@ -190,6 +190,8 @@ extension StoryViewController: Themeable {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: theme.foreground.textColor]
         titleLabel.textColor = theme.foreground.textColor
         bodyText.textColor = theme.foreground.textColor
+        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
+        //setNeedsStatusBarAppearanceUpdate()
     }
 }
 

@@ -24,6 +24,10 @@ final class RootPageViewControler: UIPageViewController {
     private var observationTokens: [ObservationToken] = []
     private var pages = [UIViewController]()
 
+    override var childForStatusBarStyle: UIViewController? {
+        return pages[currentIndex]
+    }
+
     // MARK: - Lifecycle
 
     init(depenedencies: Dependencies) {
@@ -139,6 +143,7 @@ extension RootPageViewControler: UIPageViewControllerDelegate {
                     fatalError("Can't prevent bounce if there's not an index")
             }
             currentIndex = index
+            setNeedsStatusBarAppearanceUpdate()
         }
     }
 }

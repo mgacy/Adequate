@@ -29,6 +29,7 @@ extension SwipeDismissable where Self: UIViewController {
         if let navigationController = self.navigationController {
             navigationController.transitioningDelegate = transitionController
             navigationController.modalPresentationStyle = .custom
+            navigationController.modalPresentationCapturesStatusBarAppearance = true
         } else {
             transitioningDelegate = transitionController
             modalPresentationStyle = .custom

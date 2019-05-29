@@ -26,6 +26,14 @@ extension ThemeForeground: Codable {
         }
     }
 
+    var navigationBarStyle: UIBarStyle {
+        switch self {
+        case .dark: return .default
+        case .light: return .black
+        case .unknown: return .default
+        }
+    }
+
 }
 
 extension ListDealsForPeriodQuery.Data.ListDealsForPeriod.Theme: ThemeType {}
