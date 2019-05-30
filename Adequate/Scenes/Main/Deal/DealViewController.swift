@@ -144,6 +144,7 @@ class DealViewController: UIViewController {
     private let featuresText: MDTextView = {
         let view = MDTextView(stylesheet: Appearance.stylesheet)
         view.font = UIFont.preferredFont(forTextStyle: .body)
+        view.paragraphStyle = .list
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
