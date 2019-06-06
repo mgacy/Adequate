@@ -10,18 +10,21 @@ import Foundation
 
 class FileDownloader {
 
-    //private let fileManager: FileManager = .default
-    private var fileDirectory: URL {
-        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        return URL(fileURLWithPath: path)
+    private let session: URLSession = .shared
+    private let containerURL: URL
+
+    init(appGroupID: String){
+        let appGroupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupID)!
+        self.containerURL = appGroupURL //.appendingPathComponent("images", isDirectory: true)
     }
 
     func downloadFile(from url: URL, as fileName: String, completion: @escaping (URL?) -> Void) {
-        let destinationUrl = fileDirectory
+        // TODO: let destinationUrl = containerURL.appendingPathComponent(url.lastPathComponent)?
+        let destinationUrl = containerURL
             .appendingPathComponent(fileName)
             .appendingPathExtension(url.pathExtension)
 
-        URLSession.shared.downloadTask(with: url) { (fileUrl, _, _) in
+        session.downloadTask(with: url) { (fileUrl, _, _) in
             guard let fileUrl = fileUrl else {
                 return completion(nil)
             }
@@ -36,5 +39,4 @@ class FileDownloader {
         }
         .resume()
     }
-
 }
