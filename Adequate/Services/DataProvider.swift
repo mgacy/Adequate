@@ -73,7 +73,7 @@ class DataProvider: DataProviderType {
             }
             let currentDealManager = CurrentDealManager()
             currentDealManager.saveDeal(currentDeal)
-            // TODO: call getDealHistory(from:, to:)?
+            dp.getDealHistory()
         }
     }
 
@@ -111,15 +111,32 @@ class DataProvider: DataProviderType {
     }
 
     func getDealHistory(from startDate: Date, to endDate: Date) {
+        // FIXME: decide on CachePolicy: .fetchIgnoringCacheData / .returnCacheDataAndFetch
+        getDealHistory(from: startDate, to: endDate, showLoading: true, cachePolicy: .returnCacheDataAndFetch)
+    }
+
+    /// Convenience method
+    private func getDealHistory() {
+        // TODO: account for TimeZones; do so at level of Calendar or DateFormatter?
+        let today = Date()
+        // TODO: move startDate / endDate to class properties?
+        let startDate = Calendar.current.date(byAdding: .month, value: -1, to: today)!
+        let endDate = Calendar.current.date(byAdding: .day, value: -1, to: today)!
+        getDealHistory(from: startDate, to: endDate, showLoading: false, cachePolicy: .fetchIgnoringCacheData)
+    }
+
+    private func getDealHistory(from startDate: Date, to endDate: Date, showLoading: Bool, cachePolicy: CachePolicy) {
         //guard historyState != ViewState<[DealHistory]>.loading else { return }
-        historyState = .loading
+        if showLoading {
+            historyState = .loading
+        }
+
         let startDateString = DateFormatter.yyyyMMdd.string(from: startDate)
         let endDateString = DateFormatter.yyyyMMdd.string(from: endDate)
 
         let query = ListDealsForPeriodQuery(startDate: startDateString, endDate: endDateString)
         // TODO: replace with `appSyncClient.watch(query:, cachePolicy:, queue:, resultHandler:)`
-        // FIXME: decide on CachePolicy: .fetchIgnoringCacheData / .returnCacheDataAndFetch
-        appSyncClient.fetch(query: query, cachePolicy: CachePolicy.fetchIgnoringCacheData)
+        appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
             .then { [weak self] result in
                 guard let items = result.listDealsForPeriod else {
                     throw SyncClientError.myError(message: "Missing result")
@@ -127,7 +144,10 @@ class DataProvider: DataProviderType {
                 self?.historyState = .result(items.reversed().compactMap { $0 })
             }.catch { error in
                 log.error("\(#function): \(error.localizedDescription)")
+                // TODO: still show .error if !showLoading?
+                //if showLoading {
                 self.historyState = .error(error)
+                //}
             }
     }
 
