@@ -35,7 +35,7 @@ class ImageCache: ImageCaching {
 
 public protocol ImageServiceType {
     func fetchImage(for url: URL) -> Promise<UIImage>
-    func fetchedImage(for url: URL) -> UIImage?
+    func fetchedImage(for url: URL, tryingSecondary: Bool) -> UIImage?
     //func cancelFetch(_ url: URL)
 }
 
@@ -43,6 +43,7 @@ public protocol ImageServiceType {
 
 public class ImageService: ImageServiceType {
     private let cache = ImageCache()
+    private let secondaryCache: FileCache
     private let client: NetworkClientType
     /*
     struct Task {
@@ -58,6 +59,7 @@ public class ImageService: ImageServiceType {
 
     public init(client: NetworkClientType) {
         self.client = client
+        self.secondaryCache = FileCache(appGroupID: "group.mgacy.com.currentDeal")
     }
 
     /*
@@ -85,8 +87,17 @@ public class ImageService: ImageServiceType {
         }
     }
 
-    public func fetchedImage(for url: URL) -> UIImage? {
-        return cache.imageFromCache(for: url)
+    public func fetchedImage(for url: URL, tryingSecondary: Bool = false) -> UIImage? {
+        if let result = cache.imageFromCache(for: url) {
+            //log.debug("Primary Cache")
+            return result
+        } else if tryingSecondary, let file = secondaryCache.imageFromCache(for: url) {
+            //log.debug("Secondary Cache")
+            cache.saveImageToCache(image: file, url: url)
+            return file
+        } else {
+            return nil
+        }
     }
 
     public func cancelFetch(_ url: URL) {
@@ -96,5 +107,4 @@ public class ImageService: ImageServiceType {
         //task.queue.invalidate()
         //pendingTasks[url.absoluteString] = nil
     }
-
 }

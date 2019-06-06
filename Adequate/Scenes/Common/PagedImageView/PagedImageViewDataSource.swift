@@ -40,7 +40,7 @@ class PagedImageViewDataSource: NSObject, PagedImageViewDataSourceType {
     func imageSource(for indexPath: IndexPath) -> Promise<UIImage> {
         let imageURL = urls[indexPath.row]
         let imageSource: Promise<UIImage>
-        if let cachedImage = imageService.fetchedImage(for: imageURL) {
+        if let cachedImage = imageService.fetchedImage(for: imageURL, tryingSecondary: indexPath.row == 0) {
             imageSource = Promise<UIImage>(value: cachedImage)
         } else {
             imageSource = imageService.fetchImage(for: imageURL)
@@ -64,8 +64,8 @@ class PagedImageViewDataSource: NSObject, PagedImageViewDataSourceType {
         }
         cell.delegate = self
 
-        if let cachedImage = imageService.fetchedImage(for: imageURL) {
-            cell.configure(with: cachedImage)
+        if let cachedImage = imageService.fetchedImage(for: imageURL, tryingSecondary: indexPath.row == 0) {
+            cell.configure(with: Promise<UIImage>(value: cachedImage))
         } else {
             cell.configure(with: imageService.fetchImage(for: imageURL))
         }
