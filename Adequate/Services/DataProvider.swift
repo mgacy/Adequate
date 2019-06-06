@@ -134,9 +134,14 @@ class DataProvider: DataProviderType {
         guard dealState != ViewState<Deal>.loading else {
             return
         }
-        guard abs(lastDealUpdate.timeIntervalSinceNow) > minimumRefreshInterval else {
-            log.verbose("Skipping Refresh - lastDealUpdate: \(lastDealUpdate.timeIntervalSinceNow)")
-            return
+
+        var cachePolicy: CachePolicy
+        if abs(lastDealUpdate.timeIntervalSinceNow) < minimumRefreshInterval {
+            /// Always fetch results from the server.
+            cachePolicy = .fetchIgnoringCacheData
+        } else {
+            /// Return data from the cache if available, and always fetch results from the server.
+            cachePolicy = .returnCacheDataAndFetch
         }
 
         if showLoading {
@@ -145,7 +150,7 @@ class DataProvider: DataProviderType {
 
         // TODO: use Constants for currentDealID
         let query = GetDealQuery(id: "current_deal")
-        appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
+        appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
             .then({ result in
                 guard let deal = Deal(result.getDeal) else {
                     throw SyncClientError.myError(message: "Missing result")
