@@ -13,6 +13,7 @@ class NotificationService: UNNotificationServiceExtension {
     var contentHandler: ((UNNotificationContent) -> Void)?
     var bestAttemptContent: UNMutableNotificationContent?
     private let downloader = FileDownloader(appGroupID: "group.mgacy.com.currentDeal")
+    private let fileCache = FileCache(appGroupID: "group.mgacy.com.currentDeal")
 
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
         self.contentHandler = contentHandler
@@ -38,6 +39,10 @@ class NotificationService: UNNotificationServiceExtension {
                         return
                 }
                 bestAttemptContent.attachments.append(attachment)
+
+                let fileName = url.lastPathComponent
+                self.fileCache.storeFile(at: url, as: fileName)
+
                 contentHandler(bestAttemptContent)
             }
         }
