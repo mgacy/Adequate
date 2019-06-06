@@ -21,6 +21,10 @@ class FullScreenImageViewController: UIViewController {
 
     var backgroundColor: UIColor = .black
 
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+
     // MARK: - Subviews
 
     private var closeButton: UIButton = {
@@ -55,6 +59,7 @@ class FullScreenImageViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         view.frame = UIScreen.main.bounds
         self.modalPresentationStyle = .custom
+        self.modalPresentationCapturesStatusBarAppearance = true
     }
 
     required init?(coder aDecoder: NSCoder) {
