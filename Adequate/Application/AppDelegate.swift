@@ -96,8 +96,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // TODO: refresh DealViewController
         // TODO: prepare for other `response.notification.request.content.categoryIdentifier`
+        appCoordinator.refreshDeal(showLoading: true)
+
         completionHandler([.alert, .sound])
     }
 
