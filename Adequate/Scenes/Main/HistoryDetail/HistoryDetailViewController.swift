@@ -66,8 +66,15 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
+        view.contentInsetAdjustmentBehavior = .always
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
+        return view
+    }()
+
+    private let contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
@@ -133,10 +140,11 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
         view.addSubview(stateView)
         view.addSubview(scrollView)
-        scrollView.addSubview(pagedImageView)
-        scrollView.addSubview(titleLabel)
-        scrollView.addSubview(featuresText)
-        scrollView.addSubview(forumButton)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(pagedImageView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(featuresText)
+        contentView.addSubview(forumButton)
         navigationItem.leftBarButtonItem = dismissButton
 
         self.view = view
@@ -166,7 +174,8 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
     func setupView() {
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.isTranslucent = true
 
         pagedImageView.delegate = self
 
@@ -189,28 +198,34 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
             stateView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
             stateView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
             // scrollView
-            scrollView.leftAnchor.constraint(equalTo: guide.leftAnchor),
-            scrollView.topAnchor.constraint(equalTo: guide.topAnchor),
-            scrollView.rightAnchor.constraint(equalTo: guide.rightAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            // contentView
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
             // pagedImageView
-            pagedImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
-            pagedImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: spacing),
-            pagedImageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
-            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor, constant: 32.0),
+            pagedImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideMargin),
+            pagedImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
+            pagedImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: widthInset),
+            pagedImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor, constant: 32.0),
             // titleLabel
-            titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideMargin),
             titleLabel.topAnchor.constraint(equalTo: pagedImageView.bottomAnchor, constant: spacing),
-            titleLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
+            titleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: widthInset),
             // featuresLabel
-            featuresText.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
+            featuresText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideMargin),
             featuresText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing * 2.0),
-            featuresText.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
+            featuresText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: widthInset),
             // forumButton
-            forumButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            forumButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: spacing),
             forumButton.widthAnchor.constraint(equalToConstant: 200.0),
-            forumButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -spacing)
+            forumButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing)
         ])
     }
     /*
@@ -327,6 +342,7 @@ extension HistoryDetailViewController: Themeable {
         view.backgroundColor = theme.backgroundColor
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
+        contentView.backgroundColor = theme.backgroundColor
         featuresText.backgroundColor = theme.backgroundColor
         //storyButton.setTitleColor(theme.backgroundColor, for: .normal)
         forumButton.setTitleColor(theme.backgroundColor, for: .normal)

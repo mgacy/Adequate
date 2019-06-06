@@ -125,6 +125,13 @@ class DealViewController: UIViewController {
         return view
     }()
 
+    private let contentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
         view.backgroundColor = .white
@@ -185,15 +192,16 @@ class DealViewController: UIViewController {
         super.loadView()
 
         view.addSubview(scrollView)
-        scrollView.addSubview(pagedImageView)
-        scrollView.addSubview(titleLabel)
-        scrollView.addSubview(featuresText)
-        scrollView.addSubview(forumButton)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(pagedImageView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(featuresText)
+        contentView.addSubview(forumButton)
 
         view.addSubview(activityIndicator)
         view.addSubview(messageLabel)
 
-        /// TODO: consolidate in dedicated UIView subclass
+        // TODO: consolidate in dedicated UIView subclass
         view.addSubview(activityIndicator)
         view.addSubview(messageLabel)
         view.addSubview(errorMessageLabel)
@@ -238,7 +246,8 @@ class DealViewController: UIViewController {
 
     func setupView() {
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.isTranslucent = true
 
         pagedImageView.delegate = self
         footerView.delegate = self
@@ -275,28 +284,34 @@ class DealViewController: UIViewController {
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             // scrollView
-            scrollView.leftAnchor.constraint(equalTo: guide.leftAnchor),
-            scrollView.topAnchor.constraint(equalTo: guide.topAnchor),
-            scrollView.rightAnchor.constraint(equalTo: guide.rightAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: footerView.topAnchor),
+            // contentView
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
             // pagedImageView
-            pagedImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
-            pagedImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: spacing),
-            pagedImageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
-            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor, constant: 32.0),
+            pagedImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideMargin),
+            pagedImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
+            pagedImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: widthInset),
+            pagedImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor, constant: 32.0),
             // titleLabel
-            titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideMargin),
             titleLabel.topAnchor.constraint(equalTo: pagedImageView.bottomAnchor, constant: spacing),
-            titleLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
+            titleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: widthInset),
             // featuresLabel
-            featuresText.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
-            featuresText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing),
-            featuresText.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
+            featuresText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideMargin),
+            featuresText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing * 2.0),
+            featuresText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: widthInset),
             // forumButton
-            forumButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            forumButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: spacing),
             forumButton.widthAnchor.constraint(equalToConstant: 200.0),
-            forumButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -spacing)
+            forumButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing)
         ])
     }
 
@@ -466,11 +481,13 @@ extension DealViewController: Themeable {
         view.backgroundColor = theme.backgroundColor
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
+        contentView.backgroundColor = theme.backgroundColor
         featuresText.backgroundColor = theme.backgroundColor
         forumButton.setTitleColor(theme.backgroundColor, for: .normal)
 
         // foreground
         // TODO: set status bar and home indicator color?
+        // TODO: set activityIndicator color
         titleLabel.textColor = theme.foreground.textColor
         featuresText.textColor = theme.foreground.textColor
         navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
