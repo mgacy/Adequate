@@ -120,7 +120,8 @@ class StateView: UIView {
 
         /// TODO: move these into class property?
         let spacing: CGFloat = 8.0
-        let sideMargin: CGFloat = 16.0
+        //let sideMargin: CGFloat = 16.0
+        let sideMargin: CGFloat = 0.0
         //let widthInset: CGFloat = -2.0 * sideMargin
 
         NSLayoutConstraint.activate([
@@ -178,6 +179,7 @@ extension StateView {
             /*
             /// TODO: animate here or in caller?
             UIView.animate(withDuration: 0.3, animations: {
+                self.isHidden = true
                 self.activityIndicator.stopAnimating()
                 self.activityMessageLabel.isHidden = true
                 self.messageLabel.isHidden = true
