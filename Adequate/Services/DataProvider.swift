@@ -14,7 +14,7 @@ import class Promise.Promise // import class to avoid name collision with AWSApp
 protocol DataProviderType {
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
     // Get
-    func getDeal()
+    func getCurrentDeal()
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal>
     func getDealHistory(from: Date, to: Date)
     // Refresh
@@ -57,15 +57,13 @@ class DataProvider: DataProviderType {
     }
 
     private let appSyncClient: AWSAppSyncClient
-    private let mehService: MehServiceType
     private var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
     private var historyObservations: [UUID: (ViewState<[DealHistory]>) -> Void] = [:]
 
     // MARK: - Lifecycle
 
-    init(appSync: AWSAppSyncClient, mehService: MehServiceType) {
+    init(appSync: AWSAppSyncClient) {
         self.appSyncClient = appSync
-        self.mehService = mehService
         self.dealState = .empty
         self.historyState = .empty
 
@@ -81,16 +79,21 @@ class DataProvider: DataProviderType {
 
     // MARK: - Get
 
-    func getDeal() {
+    func getCurrentDeal() {
         guard dealState != ViewState<Deal>.loading else { return }
         dealState = .loading
-        mehService.getDeal().then({ response in
-            self.lastDealUpdate = Date()
-            self.dealState = .result(response.deal)
-        }).catch({ error in
-            log.error("\(#function): \(error.localizedDescription)")
-            self.dealState = .error(error)
-        })
+        let query = GetDealQuery(id: "current_deal")
+        appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
+            .then({ result in
+                guard let deal = Deal(result.getDeal) else {
+                    throw SyncClientError.myError(message: "Missing result")
+                }
+                self.lastDealUpdate = Date()
+                self.dealState = .result(deal)
+            }).catch({ error in
+                log.error("\(#function): \(error.localizedDescription)")
+                self.dealState = .error(error)
+            })
     }
 
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {

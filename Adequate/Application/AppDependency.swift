@@ -27,8 +27,7 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
             fatalError("Unable to initialize AppSyncClient")
         }
         let networkClient = AppDependency.makeNetworkClient()
-        let mehService = MehService(client: networkClient)
-        self.dataProvider = DataProvider(appSync: appSyncClient, mehService: mehService)
+        self.dataProvider = DataProvider(appSync: appSyncClient)
         self.imageService = ImageService(client: networkClient)
 
         self.userDefaultsManager = UserDefaultsManager(defaults: .standard)

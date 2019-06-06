@@ -350,7 +350,7 @@ class DealViewController: UIViewController {
     // MARK: - Actions / Navigation
 
     @objc func getDeal() {
-        dataProvider.getDeal()
+        dataProvider.getCurrentDeal()
     }
 
     @objc private func didPressShare(_ sender: UIBarButtonItem) {
