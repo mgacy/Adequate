@@ -17,8 +17,8 @@ class FileCache {
 
     // MARK: - Lifecycle
 
-    init(appGroupID: String){
-        let appGroupURL = fileManager.containerURL(forSecurityApplicationGroupIdentifier: appGroupID)!
+    init(appGroupID: AppGroupID){
+        let appGroupURL = fileManager.containerURL(forSecurityApplicationGroupIdentifier: appGroupID.rawValue)!
         self.containerURL = appGroupURL.appendingPathComponent("Library/Caches", isDirectory: true)
     }
 
