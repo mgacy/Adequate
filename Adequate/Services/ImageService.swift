@@ -51,7 +51,7 @@ public class ImageService: ImageServiceType {
         let queue = InvalidatableQueue()
     }
     */
-    /// TODO: do we need to handle cacheing or removal of pending tasks on a lockQueue?
+    // TODO: do we need to handle cacheing or removal of pending tasks on a lockQueue?
     //private let lockQueue = DispatchQueue(label: "image_service_lock_queue", qos: .userInitiated)
     private var pendingTasks = Dictionary<String, Promise<UIImage>>()
     //private var pendingTasks = Dictionary<String, Task>()
@@ -74,7 +74,7 @@ public class ImageService: ImageServiceType {
         if let pendingFetch = pendingTasks[url.absoluteString] {
             return pendingFetch
         } else {
-            /// TODO: do this on background thread / lockQueue?
+            // TODO: do this on background thread / lockQueue?
             let promise: Promise<UIImage> = client.request(url).then({ [weak self] image in
                 self?.cache.saveImageToCache(image: image, url: url)
             }).always({ [weak self] in
@@ -90,8 +90,8 @@ public class ImageService: ImageServiceType {
     }
 
     public func cancelFetch(_ url: URL) {
-        /// TODO: does any of this need to be performed on the lockQueue?
-        /// TODO: add guard?
+        // TODO: does any of this need to be performed on the lockQueue?
+        // TODO: add guard?
         //let task = pendingTasks[url.absoluteString]
         //task.queue.invalidate()
         //pendingTasks[url.absoluteString] = nil
