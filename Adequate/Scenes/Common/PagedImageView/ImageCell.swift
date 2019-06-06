@@ -31,29 +31,21 @@ class ImageCell: UICollectionViewCell {
 
     // MARK: - Subviews
 
-    let activityIndicator: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView()
-        view.style = .gray
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
     let imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    let retryButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Retry", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+    private lazy var stateView: StateView = {
+        let view = StateView()
+        view.emptyMessageText = ""
+        view.loadingMessageText = nil
+        view.onRetry = { [weak self] in
+            self?.didPressRetry()
+        }
+        return view
     }()
-
-    /// TOODO: errorView
 
     // MARK: - Lifecycle
 
@@ -74,36 +66,28 @@ class ImageCell: UICollectionViewCell {
         viewState = .empty
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        imageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+
+        // TODO: move these into class property?
+        let spacing: CGFloat = 8.0
+        // TODO: should there be a max width?
+        let stateViewWidth = frame.width - spacing * 2.0
+        let stateViewHeight = frame.height - spacing * 2.0
+        stateView.frame = CGRect(x: spacing, y: spacing, width: stateViewWidth, height: stateViewHeight)
+    }
+
     // MARK: - Configuration
 
     private func configure() {
         addSubview(imageView)
-        addSubview(activityIndicator)
-        addSubview(retryButton)
-        retryButton.addTarget(self, action: #selector(didPressRetry(_:)), for: .touchUpInside)
-        retryButton.isHidden = true
-        configureConstraints()
-    }
-
-    private func configureConstraints() {
-        NSLayoutConstraint.activate([
-            // imageView
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            // activityIndicator
-            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
-            // retryButton
-            retryButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            retryButton.centerYAnchor.constraint(equalTo: centerYAnchor)
-        ])
+        addSubview(stateView)
     }
 
     // MARK: - Actions
 
-    @objc private func didPressRetry(_ sender: UIButton) {
+    private func didPressRetry() {
         // FIXME: this doesn't look right
         guard delegate != nil else {
             return
@@ -137,7 +121,6 @@ class ImageCell: UICollectionViewCell {
             self?.viewState = .error(error)
         })
     }
-
 }
 
 // MARK: - ViewStateRenderable
@@ -145,23 +128,15 @@ extension ImageCell: ViewStateRenderable {
     typealias ResultType = UIImage
 
     func render(_ viewState: ViewState<ResultType>) {
-        switch viewState {
-        case .empty:
-            activityIndicator.stopAnimating()
+        stateView.render(viewState)
+        if case .result(let image) = viewState {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.stateView.isHidden = true
+                self.imageView.image = image
+            })
+        } else {
+            stateView.isHidden = false
             imageView.image = nil
-            retryButton.isHidden = true
-        case .loading:
-            activityIndicator.startAnimating()
-            //imageView.image = nil
-            retryButton.isHidden = true
-        case .result(let image):
-            activityIndicator.stopAnimating()
-            imageView.image = image
-            //retryButton.isHidden = true
-        case .error:
-            activityIndicator.stopAnimating()
-            //imageView.image = nil
-            retryButton.isHidden = false
         }
     }
 }
@@ -169,20 +144,6 @@ extension ImageCell: ViewStateRenderable {
 // MARK: - Themeable
 extension ImageCell: Themeable {
     func apply(theme: AppTheme) {
-        // accentColor
-        // backgroundColor
-        // foreground
-        switch theme.foreground {
-        case .dark:
-            activityIndicator.style = .gray
-            //retryButton.layer.borderColor = UIColor.gray.cgColor
-            //retryButton.setTitleColor(.gray, for: .normal)
-        case .light:
-            activityIndicator.style = .white
-            //retryButton.layer.borderColor = UIColor.gray.cgColor
-            //retryButton.setTitleColor(.gray, for: .normal)
-        case .unknown:
-            break
-        }
+        stateView.apply(theme: theme)
     }
 }
