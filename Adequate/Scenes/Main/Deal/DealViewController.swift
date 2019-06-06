@@ -118,8 +118,8 @@ class DealViewController: UIViewController {
 
     // ScrollView
 
-    private let scrollView: UIScrollView = {
-        let view = UIScrollView()
+    private let scrollView: ParallaxScrollView = {
+        let view = ParallaxScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         return view
@@ -128,6 +128,12 @@ class DealViewController: UIViewController {
     private let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    private let barBackingView: ParallaxBarView = {
+        let view = ParallaxBarView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -192,8 +198,8 @@ class DealViewController: UIViewController {
         super.loadView()
 
         view.addSubview(scrollView)
+        scrollView.headerView = pagedImageView
         scrollView.addSubview(contentView)
-        contentView.addSubview(pagedImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(featuresText)
         contentView.addSubview(forumButton)
@@ -207,6 +213,7 @@ class DealViewController: UIViewController {
         view.addSubview(errorMessageLabel)
         view.addSubview(retryButton)
 
+        view.addSubview(barBackingView)
         view.addSubview(footerView)
 
         navigationItem.leftBarButtonItem = historyButton
@@ -254,6 +261,23 @@ class DealViewController: UIViewController {
 
         retryButton.addTarget(self, action: #selector(getDeal), for: .touchUpInside)
         forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
+        setupParallaxScrollView()
+    }
+
+    func setupParallaxScrollView() {
+
+        // barBackingView
+        let statusBarHeight = UIApplication.shared.isStatusBarHidden ? CGFloat(0) : UIApplication.shared.statusBarFrame.height
+        barBackingView.coordinateOffset = 8.0
+        barBackingView.inset = statusBarHeight
+
+        // scrollView
+        let parallaxHeight: CGFloat = view.frame.width + 24.0 // Add height of PagedImageView pageControl
+        scrollView.headerHeight = parallaxHeight
+
+        scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
+            barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
+        }
     }
 
     func setupConstraints() {
@@ -283,6 +307,11 @@ class DealViewController: UIViewController {
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            // barBackingView
+            barBackingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
+            barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor),
             // scrollView
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -294,14 +323,9 @@ class DealViewController: UIViewController {
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            // pagedImageView
-            pagedImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideMargin),
-            pagedImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
-            pagedImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: widthInset),
-            pagedImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor, constant: 32.0),
             // titleLabel
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideMargin),
-            titleLabel.topAnchor.constraint(equalTo: pagedImageView.bottomAnchor, constant: spacing),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
             titleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: widthInset),
             // featuresLabel
             featuresText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideMargin),
@@ -421,6 +445,7 @@ extension DealViewController: ViewStateRenderable {
             shareButton.isEnabled = true
             storyButton.isEnabled = true
             titleLabel.text = deal.title
+            barBackingView.text = deal.title
             featuresText.markdown = deal.features
             // images
             let safePhotoURLs = deal.photos.compactMap { $0.secure() }
@@ -495,6 +520,7 @@ extension DealViewController: Themeable {
 
         // Subviews
         pagedImageView.apply(theme: theme)
+        barBackingView.apply(theme: theme)
         footerView.apply(theme: theme)
     }
 }

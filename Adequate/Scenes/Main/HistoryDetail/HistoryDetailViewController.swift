@@ -64,8 +64,8 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         return view
     }()
 
-    private let scrollView: UIScrollView = {
-        let view = UIScrollView()
+    private let scrollView: ParallaxScrollView = {
+        let view = ParallaxScrollView()
         view.contentInsetAdjustmentBehavior = .always
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
@@ -74,6 +74,12 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
     private let contentView: UIView = {
         let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    private let barBackingView: ParallaxBarView = {
+        let view = ParallaxBarView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -135,19 +141,17 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     }
 
     override func loadView() {
-        //super.loadView()
-        let view = UIView()
-
+        super.loadView()
         view.addSubview(stateView)
         view.addSubview(scrollView)
+        view.addSubview(barBackingView)
+        scrollView.headerView = pagedImageView
         scrollView.addSubview(contentView)
-        contentView.addSubview(pagedImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(featuresText)
         contentView.addSubview(forumButton)
         navigationItem.leftBarButtonItem = dismissButton
 
-        self.view = view
         setupConstraints()
     }
 
@@ -181,6 +185,23 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
         forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         //storyButton.addTarget(self, action: #selector(didPressStory(_:)), for: .touchUpInside)
+        setupParallaxScrollView()
+    }
+
+    func setupParallaxScrollView() {
+
+        // barBackingView
+        let statusBarHeight = UIApplication.shared.isStatusBarHidden ? CGFloat(0) : UIApplication.shared.statusBarFrame.height
+        barBackingView.coordinateOffset = 8.0 // spacing
+        barBackingView.inset = statusBarHeight
+
+        // scrollView
+        let parallaxHeight: CGFloat = view.frame.width + 24.0 // Add height of PagedImageView.pageControl
+        scrollView.headerHeight = parallaxHeight
+
+        scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
+            barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
+        }
     }
 
     func setupConstraints() {
@@ -197,6 +218,11 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
             stateView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             stateView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
             stateView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
+            // barBackingView
+            barBackingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
+            barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor),
             // scrollView
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -208,14 +234,9 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            // pagedImageView
-            pagedImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideMargin),
-            pagedImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
-            pagedImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: widthInset),
-            pagedImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor, constant: 32.0),
             // titleLabel
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideMargin),
-            titleLabel.topAnchor.constraint(equalTo: pagedImageView.bottomAnchor, constant: spacing),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
             titleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: widthInset),
             // featuresLabel
             featuresText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideMargin),
@@ -291,6 +312,7 @@ extension HistoryDetailViewController: ViewStateRenderable {
             scrollView.isHidden = true
         case .result(let deal):
             //stateView.isHidden = true
+            barBackingView.text = deal.title
             titleLabel.text = deal.title
             featuresText.markdown = deal.features
             // images
@@ -356,6 +378,7 @@ extension HistoryDetailViewController: Themeable {
 
         // Subviews
         pagedImageView.apply(theme: theme)
+        barBackingView.apply(theme: theme)
         stateView.apply(theme: theme)
     }
 }
