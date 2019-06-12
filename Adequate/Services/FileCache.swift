@@ -80,11 +80,13 @@ class FileCache {
         do {
             imageData = try Data(contentsOf: sharedContainerURL.appendingPathComponent(fileName))
         } catch {
+            guard (error as NSError).code != NSFileReadNoSuchFileError else { return nil }
             log.error("Error reading image data: \(error)")
         }
         guard let data = imageData else {
             return nil
         }
+        // TODO: make more generic; just return Data and have other components handle UIImage
         return UIImage(data: data)
     }
 
