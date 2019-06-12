@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let notification = launchOptions?[.remoteNotification] as? [String: AnyObject]
         let deepLink = DeepLink.build(with: notification)
 
-        /// TODO: create NotificationManager here and inject into AppCoordinator / create delegate protocol?
+        // TODO: create NotificationManager here and inject into AppCoordinator / create delegate protocol?
         self.appCoordinator = AppCoordinator(window: self.window!)
         self.appCoordinator.start(with: deepLink)
         return true
@@ -100,6 +100,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         appCoordinator.refreshDeal(showLoading: true)
 
         completionHandler([.alert, .sound])
+        //completionHandler(UNNotificationPresentationOptions(rawValue: 0))  // skip notification
     }
 
     // Called to let your app know which action was selected by the user for a given notification.
