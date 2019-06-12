@@ -76,29 +76,8 @@ extension Deal {
     }
 }
 
-extension Item {
-    init?(_ item: GetDealQuery.Data.GetDeal.Item) {
-        guard let photo = URL(string: item.photo) else { return nil }
-        self.attributes = [] // FIXME: implement
-        self.condition = item.condition
-        self.id = item.id
-        self.price = item.price
-        self.photo = photo
-    }
-}
-/*
-extension Item.ItemAttribute {
-    init(_ itemAttribute: GetDealQuery.Data.GetDeal.Item.ItemAttribute) {
-        self.key = itemAttribute.key
-        self.value = itemAttribute.value
-    }
+// MARK: - Initializers
 
-    init?(_ itemAttribute: GetDealQuery.Data.GetDeal.Item.ItemAttribute?) {
-        guard let itemAttribute = itemAttribute else { return nil }
-        self.init(itemAttribute)
-    }
-}
-*/
 extension Deal.Launch {
     init(_ launch: GetDealQuery.Data.GetDeal.Launch) {
         soldOutAt = launch.soldOutAt
@@ -110,56 +89,25 @@ extension Deal.Launch {
     }
 }
 
+extension Deal.Launch {
+    init(_ launch: LaunchType) {
+        soldOutAt = launch.soldOutAt
+    }
+
+    init?(_ launch: LaunchType?) {
+        guard let launch = launch else { return nil }
+        self.init(launch)
+    }
+}
+
 extension Deal.PurchaseQuantity {
-    init(_ purchaseQuantity: GetDealQuery.Data.GetDeal.PurchaseQuantity) {
+    init(_ purchaseQuantity: PurchaseQuantityType) {
         self.minimumLimit = purchaseQuantity.minimumLimit
         self.maximumLimit = purchaseQuantity.maximumLimit
     }
 
-    init?(_ purchaseQuantity: GetDealQuery.Data.GetDeal.PurchaseQuantity?) {
+    init?(_ purchaseQuantity: PurchaseQuantityType?) {
         guard let purchaseQuantity = purchaseQuantity else { return nil }
         self.init(purchaseQuantity)
-    }
-}
-
-extension Story {
-    init(_ story: GetDealQuery.Data.GetDeal.Story) {
-        self.title = story.title
-        self.body = story.body
-    }
-
-    init?(_ story: GetDealQuery.Data.GetDeal.Story?) {
-        guard let story = story else { return nil }
-        self.init(story)
-    }
-}
-
-extension Theme {
-    init(_ theme: GetDealQuery.Data.GetDeal.Theme) {
-        self.accentColor = theme.accentColor
-        self.backgroundColor = theme.backgroundColor
-        self.foreground = theme.foreground
-    }
-}
-
-extension Topic {
-    init?(_ topic: GetDealQuery.Data.GetDeal.Topic) {
-        guard
-            let createdAt = DateFormatter.iso8601Full.date(from: topic.createdAt),
-            let url = URL(string: topic.url) else {
-                return nil
-        }
-
-        self.commentCount = topic.commentCount
-        self.createdAt = createdAt
-        self.id = topic.id
-        self.replyCount = topic.replyCount
-        self.url = url
-        self.voteCount = topic.voteCount
-    }
-
-    init?(_ topic: GetDealQuery.Data.GetDeal.Topic?) {
-        guard let topic = topic else { return nil }
-        self.init(topic)
     }
 }

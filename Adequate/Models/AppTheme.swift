@@ -31,11 +31,4 @@ struct AppTheme {
         self.backgroundColor = backgroundColor
         self.foreground = foreground
     }
-
-}
-
-protocol ThemeType {
-    var accentColor: String { get }
-    var backgroundColor: String { get }
-    var foreground: ThemeForeground { get }
 }

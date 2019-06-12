@@ -16,3 +16,27 @@ struct Topic: Codable, Equatable {
     let url: URL
     let voteCount: Int
 }
+
+// MARK: - Initializers
+
+extension Topic {
+    init?(_ topic: TopicType) {
+        guard
+            let createdAt = DateFormatter.iso8601Full.date(from: topic.createdAt),
+            let url = URL(string: topic.url) else {
+                return nil
+        }
+
+        self.commentCount = topic.commentCount
+        self.createdAt = createdAt
+        self.id = topic.id
+        self.replyCount = topic.replyCount
+        self.url = url
+        self.voteCount = topic.voteCount
+    }
+
+    init?(_ topic: TopicType?) {
+        guard let topic = topic else { return nil }
+        self.init(topic)
+    }
+}

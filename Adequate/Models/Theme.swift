@@ -33,3 +33,13 @@ struct Theme: Codable, Equatable, ThemeType {
     //let backgroundImage: URL?
     let foreground: ThemeForeground
 }
+
+// MARK: - Initializers
+
+extension Theme {
+    init(_ theme: ThemeType) {
+        self.accentColor = theme.accentColor
+        self.backgroundColor = theme.backgroundColor
+        self.foreground = theme.foreground
+    }
+}

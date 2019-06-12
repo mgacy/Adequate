@@ -36,4 +36,20 @@ extension ThemeForeground: Codable {
 
 }
 
+// MARK: - GetDealQuery + Model Protocols
+
+extension GetDealQuery.Data.GetDeal.Item: ItemType {}
+
+extension GetDealQuery.Data.GetDeal.Launch: LaunchType {}
+
+extension GetDealQuery.Data.GetDeal.PurchaseQuantity: PurchaseQuantityType {}
+
+extension GetDealQuery.Data.GetDeal.Story: StoryType {}
+
+extension GetDealQuery.Data.GetDeal.Theme: ThemeType {}
+
+extension GetDealQuery.Data.GetDeal.Topic: TopicType {}
+
+// MARK: - ListDealsForPeriodQuery + Model Protocols
+
 extension ListDealsForPeriodQuery.Data.ListDealsForPeriod.Theme: ThemeType {}
