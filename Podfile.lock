@@ -1,8 +1,8 @@
 PODS:
-  - AWSAppSync (2.10.3):
+  - AWSAppSync (2.13.1):
     - AWSCore (~> 2.9.0)
-    - ReachabilitySwift (~> 4.3.0)
-    - SQLite.swift (= 0.11.5)
+    - ReachabilitySwift (= 4.3.0)
+    - SQLite.swift (= 0.11.6)
   - AWSAuthCore (2.9.8):
     - AWSCore (= 2.9.8)
   - AWSCognitoIdentityProvider (2.9.8):
@@ -17,10 +17,10 @@ PODS:
     - AWSCore (= 2.9.8)
   - Down (0.8.2)
   - Promises (2.0.2)
-  - ReachabilitySwift (4.3.1)
-  - SQLite.swift (0.11.5):
-    - SQLite.swift/standard (= 0.11.5)
-  - SQLite.swift/standard (0.11.5)
+  - ReachabilitySwift (4.3.0)
+  - SQLite.swift (0.11.6):
+    - SQLite.swift/standard (= 0.11.6)
+  - SQLite.swift/standard (0.11.6)
   - SwiftyBeaver (1.7.0)
 
 DEPENDENCIES:
@@ -48,7 +48,7 @@ SPEC REPOS:
     - SwiftyBeaver
 
 SPEC CHECKSUMS:
-  AWSAppSync: cc5e6716f712cf9a9bdc176e471027516ac5087d
+  AWSAppSync: 6dd42e4c25ff01cfa652392bdc080bb9ec2b6d5f
   AWSAuthCore: 7ebbe523f28149a1706e7ec1736203cdaaeba380
   AWSCognitoIdentityProvider: 738b488930eca71cbaa91ac53764b146e90a6650
   AWSCognitoIdentityProviderASF: f94f1a502e72ef3d0a1de93e10bf7a79c8698118
@@ -57,8 +57,8 @@ SPEC CHECKSUMS:
   AWSSNS: 19a224e89c5c74a45f7bfeeb6bec5578bb8d2d5f
   Down: 8babe0cafe145de188d2efa76ea938a11a5fdc6f
   Promises: 8edf94cd267665830ba57f7b48be2e6822f1622d
-  ReachabilitySwift: 4032e2f59586e11e3b0ebe15b167abdd587a388b
-  SQLite.swift: 6e5356850bb1791459f8c16d6ee9195b28714a2e
+  ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
+  SQLite.swift: 46d890be8601964454bd3392527f863d1b802d45
   SwiftyBeaver: 4cc0080d2e23f980652e28978db11a5c9da39165
 
 PODFILE CHECKSUM: a463583b305d0c7527c6dcda62f9974e7b925328
