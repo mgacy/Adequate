@@ -31,6 +31,8 @@ extension DateFormatter {
         return formatter
     }()
 
+    // MARK: - Eastern Time Zone
+
     static let veryShortEDT: DateFormatter = {
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone(abbreviation: "EDT")
