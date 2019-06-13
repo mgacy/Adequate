@@ -18,7 +18,7 @@ struct Item: Codable, Equatable {
     let attributes: [ItemAttribute]
     let condition: String
     let id: String
-    let price: Int
+    let price: Double
     let photo: URL
 }
 

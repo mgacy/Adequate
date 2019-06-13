@@ -9,6 +9,6 @@
 protocol ItemType {
     var condition: String { get }
     var id: String { get }
-    var price: Int { get }
+    var price: Double { get }
     var photo: String { get }
 }
