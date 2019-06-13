@@ -9,12 +9,12 @@
 import UIKit
 
 struct AppTheme {
-    /*
+
     // Basic Layout
-    let spacing: CGFloat = 8.0
-    let sideMargin: CGFloat = 16.0
-    let widthInset: CGFloat = -32.0
-    */
+    static let spacing: CGFloat = 8.0
+    static let sideMargin: CGFloat = 16.0
+    static let widthInset: CGFloat = -32.0
+
     // Meh
     let accentColor: UIColor
     let backgroundColor: UIColor
