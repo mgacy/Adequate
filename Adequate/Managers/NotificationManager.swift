@@ -27,7 +27,7 @@ enum NotificationManagerError: Error {
 
 // MARK: - Configuration
 
-/// TODO: Rename NotificationCategory to mirror NotificationAction?
+// TODO: Rename NotificationCategory to mirror NotificationAction?
 fileprivate enum CategoryIdentifier: String {
     case dailyDeal = "MGDailyDealCategory"
 }
@@ -37,7 +37,7 @@ enum NotificationAction: String {
     case mehAction = "MGMehAction"
     //case viewAction = "MGViewAction"
 
-    /// TODO: what about localization?
+    // TODO: handle localization
     var title: String {
         switch self {
         case .buyAction:
@@ -90,7 +90,7 @@ class NotificationManager: NSObject, NotificationManagerType {
                 self.notificationCenter.setNotificationCategories([self.makeCategory(for: .dailyDeal)])
             })
             .then({ settings in
-                /// must register on main thread
+                // must register on main thread
                 UIApplication.shared.registerForRemoteNotifications()
             })
     }
