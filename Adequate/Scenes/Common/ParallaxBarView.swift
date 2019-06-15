@@ -17,6 +17,7 @@ class ParallaxBarView: UIView {
     var inset: CGFloat = 0.0
 
     /// Insets for titleLabel.
+    // TODO: use enum with cases for number of bar button items?
     var leftLabelInset: CGFloat = 56.0
     var rightLabelInset: CGFloat = 110.0
 
@@ -50,7 +51,7 @@ class ParallaxBarView: UIView {
 
     // MARK: - Subviews
 
-    private var labelConstraint: NSLayoutConstraint!
+    private var titleTopConstraint: NSLayoutConstraint!
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -80,9 +81,9 @@ class ParallaxBarView: UIView {
     }
 
     private func configureConstraints() {
-        labelConstraint = titleLabel.topAnchor.constraint(equalTo: bottomAnchor, constant: 0.0)
+        titleTopConstraint = titleLabel.topAnchor.constraint(equalTo: bottomAnchor, constant: 0.0)
         NSLayoutConstraint.activate([
-            labelConstraint,
+            titleTopConstraint,
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leftLabelInset),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -rightLabelInset)
         ])
@@ -112,7 +113,7 @@ class ParallaxBarView: UIView {
 
     // MARK: - B
 
-    func updateLabel(for progress: CGFloat) {
+    private func updateLabel(for progress: CGFloat) {
         let labelHeight = titleLabel.intrinsicContentSize.height
 
         /// space between bottom of label and bottom of view in final position
@@ -120,10 +121,10 @@ class ParallaxBarView: UIView {
         /// space between top of label  and bottom of view in final position
         let yOffset = bottomPadding + labelHeight
 
-        labelConstraint.constant = -(progress * yOffset)
+        titleTopConstraint.constant = -(progress * yOffset)
     }
 
-    func updateAlpha(for progress: CGFloat) {
+    private func updateAlpha(for progress: CGFloat) {
         let bgColor = (backgroundColor ?? .red).withAlphaComponent(progress)
         backgroundColor = bgColor
     }
