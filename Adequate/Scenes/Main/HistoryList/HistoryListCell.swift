@@ -103,7 +103,7 @@ extension HistoryListCell {
         apply(theme: AppTheme(theme: deal.theme))
         titleLabel.text = deal.title
         if let createdAt = DateFormatter.iso8601Full.date(from: deal.createdAt) {
-            dateLabel.text = DateFormatter.veryShortEDT.string(from: createdAt)
+            dateLabel.text = DateFormatter.veryShortEST.string(from: createdAt)
         } else {
             dateLabel.text = deal.createdAt
         }

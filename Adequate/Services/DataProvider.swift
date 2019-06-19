@@ -131,9 +131,8 @@ class DataProvider: DataProviderType {
             historyState = .loading
         }
 
-        let startDateString = DateFormatter.yyyyMMdd.string(from: startDate)
-        let endDateString = DateFormatter.yyyyMMdd.string(from: endDate)
-
+        let startDateString = DateFormatter.yyyyMMddEST.string(from: startDate)
+        let endDateString = DateFormatter.yyyyMMddEST.string(from: endDate)
         let query = ListDealsForPeriodQuery(startDate: startDateString, endDate: endDateString)
         // TODO: replace with `appSyncClient.watch(query:, cachePolicy:, queue:, resultHandler:)`
         appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
