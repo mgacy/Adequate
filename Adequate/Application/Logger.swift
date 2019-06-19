@@ -46,7 +46,7 @@ class Logger: LoggingType {
                                              encryptionKey: AppSecrets.loggerEncryptionKey)
         //platform.analyticsUserName = "userName"
         // TODO: try to get minLevel from defaults (so user can set verbose logging)
-        platform.minLevel = .debug
+        platform.minLevel = .verbose
         SwiftyBeaver.addDestination(platform)
         #endif
 
