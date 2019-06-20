@@ -36,3 +36,4 @@ env-vars.sh
 AppSecrets.generated.swift
 /awsconfiguration.json
 /API.swift
+/fastlane/Appfile
