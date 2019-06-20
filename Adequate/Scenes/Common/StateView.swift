@@ -59,7 +59,7 @@ class StateView: UIView {
         return label
     }()
 
-    /// TODO: UIStackView?
+    // TODO: UIStackView?
 
     private let messageLabel: UILabel = {
         let label = UILabel()
@@ -173,7 +173,7 @@ extension StateView {
             activityIndicator.stopAnimating()
             isHidden = true
             /*
-            /// TODO: animate here or in caller?
+            // TODO: animate here or in caller?
             UIView.animate(withDuration: 0.3, animations: {
                 self.isHidden = true
                 self.activityIndicator.stopAnimating()

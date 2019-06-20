@@ -12,7 +12,7 @@ import AWSMobileClient
 class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, HasThemeManager, HasUserDefaultsManager {
     let dataProvider: DataProviderType
     let imageService: ImageServiceType
-    /// TODO: should we always carry this, or provide factory method so callers can create / destroy as needed?
+    // TODO: should we always carry this, or provide factory method so callers can create / destroy as needed?
     //func makeNotificationManager() -> NotificationManagerType {}
     let notificationManager: NotificationManagerType
     let themeManager: ThemeManagerType

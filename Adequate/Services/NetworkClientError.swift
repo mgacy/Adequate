@@ -22,7 +22,7 @@ public enum NetworkClientError: Error {
     case myError(message: String)
 }
 
-/// TODO: add static method on mapping status
+// TODO: add static method on mapping status
 
 extension NetworkClientError: LocalizedError {
     public var errorDescription: String? {

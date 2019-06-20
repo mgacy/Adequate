@@ -238,7 +238,7 @@ class SettingsViewController: UITableViewController {
             }
             application.open(webURL)
         case (1, 1):
-            /// TODO: open email or email composer?
+            // TODO: open email or email composer?
             guard let emailURL = URL(string: "mailto:\(SupportAddress.email.rawValue)") else {
                 log.error("Bad email support address")
                 return

@@ -50,7 +50,7 @@ class DealViewController: UIViewController {
         }
     }
 
-    /// TODO: make part of a protocol
+    // TODO: make part of a protocol
     var visibleImage: Promise<UIImage> {
         return pagedImageView.visibleImage
     }

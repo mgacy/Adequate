@@ -69,7 +69,7 @@ class BaseCoordinator: NSObject, CoordinatorType {
         childCoordinators[coordinator.identifier] = coordinator
     }
 
-    /// TODO: accept optional to avoid weak/strong dance in onFinishFlow
+    // TODO: accept optional to avoid weak/strong dance in onFinishFlow
     func free(coordinator: CoordinatorType) {
         // TODO: recursively free children coordinators?
         childCoordinators[coordinator.identifier] = nil
@@ -98,7 +98,7 @@ extension BaseCoordinator {
     }
 
     public func coordinate(to coordinator: CoordinatorType, with deepLink: DeepLink? = nil) {
-        /// TODO: set onFinishFlow on coordinator
+        // TODO: set onFinishFlow on coordinator
         store(coordinator: coordinator)
         coordinator.start(with: deepLink)
     }

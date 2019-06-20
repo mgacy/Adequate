@@ -109,7 +109,7 @@ class MDTextView: UIView {
         ])
     }
 
-    /// TODO: make throwing?
+    // TODO: make throwing?
     private func attributedString(from markdownString: String) -> NSAttributedString? {
         let down = Down(markdownString: markdownString)
         //return try? down.toAttributedString(.smart, stylesheet: stylesheet)

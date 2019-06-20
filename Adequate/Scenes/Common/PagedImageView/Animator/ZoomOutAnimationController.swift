@@ -26,7 +26,7 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        /// TODO: cast fromVC as protocol to get access to properties
+        // TODO: cast fromVC as protocol to get access to properties
         guard
             let fromVC = transitionContext.viewController(forKey: .from) as? FullScreenImageViewController,
             let toVC = transitionContext.viewController(forKey: .to) else {
@@ -35,7 +35,7 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
         let containerView = transitionContext.containerView
         //let finalFrame = transitionContext.finalFrame(for: toVC)
 
-        /// TODO: is fromVC displaying image / activityIndicator (/ error?)
+        // TODO: is fromVC displaying image / activityIndicator (/ error?)
 
         fromVC.view.isHidden = true
 
@@ -58,7 +58,7 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
         } else {
             transitionImageView = UIView(frame: fromVC.view.frame)
             transitionImageView.backgroundColor = .red
-            /// TODO: set a different destinationFrame?
+            // TODO: set a different destinationFrame?
         }
         containerView.addSubview(transitionImageView)
 

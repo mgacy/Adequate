@@ -32,7 +32,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         return scrollView.contentOffset.y <= 0
     }
 
-    /// TODO: rename `interactionController?
+    // TODO: rename `interactionController?
     //var transitionController: SlideTransitionController?
     var transitionController: UIViewControllerTransitioningDelegate?
 
@@ -364,7 +364,7 @@ extension HistoryDetailViewController: Themeable {
         forumButton.setTitleColor(theme.backgroundColor, for: .normal)
 
         // foreground
-        /// TODO: set status bar and home indicator color?
+        // TODO: set home indicator color?
         titleLabel.textColor = theme.foreground.textColor
         featuresText.textColor = theme.foreground.textColor
         navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
