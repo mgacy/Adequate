@@ -63,6 +63,7 @@ class MDTextView: UIView {
 
     private let textView: UITextView = {
         let view = UITextView()
+        view.adjustsFontForContentSizeCategory = true
         view.isScrollEnabled = false
         view.isEditable = false
 
