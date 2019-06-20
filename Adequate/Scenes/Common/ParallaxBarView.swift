@@ -17,18 +17,9 @@ class ParallaxBarView: UIView {
     var inset: CGFloat = 0.0
 
     /// Insets for titleLabel.
+    // TODO: use enum with cases for number of bar button items?
     var leftLabelInset: CGFloat = 56.0
     var rightLabelInset: CGFloat = 110.0
-
-    private(set) var progress: CGFloat = 0.0 {
-        didSet {
-            guard progress != oldValue else {
-                return
-            }
-            updateLabel(for: progress)
-            updateAlpha(for: progress)
-        }
-    }
 
     var text: String = "" {
         didSet {
@@ -48,9 +39,20 @@ class ParallaxBarView: UIView {
         }
     }
 
+    private(set) var progress: CGFloat = 0.0 {
+        didSet {
+            guard progress != oldValue else {
+                return
+            }
+            updateLabel(for: progress)
+            updateAlpha(for: progress)
+        }
+    }
+
     // MARK: - Subviews
 
-    private var labelConstraint: NSLayoutConstraint!
+    private var titleTopConstraint: NSLayoutConstraint!
+    private var backgroundHeightConstraint: NSLayoutConstraint!
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -59,6 +61,12 @@ class ParallaxBarView: UIView {
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+
+    private let backgroundView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
     // MARK: - Lifecycle
@@ -74,15 +82,23 @@ class ParallaxBarView: UIView {
 
     private func configure() {
         clipsToBounds = true
+        addSubview(backgroundView)
         addSubview(titleLabel)
         isUserInteractionEnabled = false
         configureConstraints()
     }
 
     private func configureConstraints() {
-        labelConstraint = titleLabel.topAnchor.constraint(equalTo: bottomAnchor, constant: 0.0)
+        backgroundHeightConstraint = backgroundView.heightAnchor.constraint(equalToConstant: 0.0)
+        titleTopConstraint = titleLabel.topAnchor.constraint(equalTo: bottomAnchor, constant: 0.0)
         NSLayoutConstraint.activate([
-            labelConstraint,
+            // backgroundView
+            backgroundHeightConstraint,
+            backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            // titleLabel
+            titleTopConstraint,
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leftLabelInset),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -rightLabelInset)
         ])
@@ -96,23 +112,27 @@ class ParallaxBarView: UIView {
     func updateProgress(yOffset: CGFloat) {
         let relativeHeight = -yOffset + coordinateOffset
         if relativeHeight >= frame.height {
+            backgroundHeightConstraint.constant = 0
             progress = 0.0
         } else if relativeHeight <= inset {
+            backgroundHeightConstraint.constant = frame.height
             progress = 1.0
         } else {
             // calculate progress
             guard frame.height > 0 else {
+                backgroundHeightConstraint.constant = 0
                 progress = 0.0
                 return
             }
             let distance = frame.height - relativeHeight
+            backgroundHeightConstraint.constant = distance
             progress = distance / (frame.height - inset)
         }
     }
 
     // MARK: - B
 
-    func updateLabel(for progress: CGFloat) {
+    private func updateLabel(for progress: CGFloat) {
         let labelHeight = titleLabel.intrinsicContentSize.height
 
         /// space between bottom of label and bottom of view in final position
@@ -120,10 +140,10 @@ class ParallaxBarView: UIView {
         /// space between top of label  and bottom of view in final position
         let yOffset = bottomPadding + labelHeight
 
-        labelConstraint.constant = -(progress * yOffset)
+        titleTopConstraint.constant = -(progress * yOffset)
     }
 
-    func updateAlpha(for progress: CGFloat) {
+    private func updateAlpha(for progress: CGFloat) {
         let bgColor = (backgroundColor ?? .red).withAlphaComponent(progress)
         backgroundColor = bgColor
     }
@@ -135,6 +155,7 @@ extension ParallaxBarView: Themeable {
         // accentColor
         // backgroundColor
         backgroundColor = theme.backgroundColor.withAlphaComponent(0.0)
+        backgroundView.backgroundColor = theme.backgroundColor
         // foreground
         titleLabel.textColor = theme.foreground.textColor
     }

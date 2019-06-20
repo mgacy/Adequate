@@ -33,7 +33,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         let containerView = transitionContext.containerView
         let finalFrame = transitionContext.finalFrame(for: toVC)
 
-        /// TODO: is fromVC displaying image / activityIndicator (/ error?)
+        // TODO: is fromVC displaying image / activityIndicator (/ error?)
 
         toVC.view.isHidden = true
         toVC.view.frame = finalFrame

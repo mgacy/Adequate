@@ -14,7 +14,7 @@ class FullScreenImageViewController: UIViewController {
     weak var delegate: FullScreenImageDelegate?
     let imageSource: Promise<UIImage>
 
-    /// TODO: rename `interactionController?
+    // TODO: rename `interactionController?
     private var transitionController: FullScreenImageTransitionController?
 
     // MARK: - Appearance

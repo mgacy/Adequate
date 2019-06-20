@@ -73,7 +73,7 @@ class DataProvider: DataProviderType {
             }
             let currentDealManager = CurrentDealManager()
             currentDealManager.saveDeal(currentDeal)
-            dp.getDealHistory()
+            //dp.getDealHistory()
         }
     }
 
@@ -131,9 +131,8 @@ class DataProvider: DataProviderType {
             historyState = .loading
         }
 
-        let startDateString = DateFormatter.yyyyMMdd.string(from: startDate)
-        let endDateString = DateFormatter.yyyyMMdd.string(from: endDate)
-
+        let startDateString = DateFormatter.yyyyMMddEST.string(from: startDate)
+        let endDateString = DateFormatter.yyyyMMddEST.string(from: endDate)
         let query = ListDealsForPeriodQuery(startDate: startDateString, endDate: endDateString)
         // TODO: replace with `appSyncClient.watch(query:, cachePolicy:, queue:, resultHandler:)`
         appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
@@ -154,16 +153,18 @@ class DataProvider: DataProviderType {
     // MARK: - Refresh
 
     func refreshDeal(showLoading: Bool = false) {
+        log.debug("\(#function)")
         guard dealState != ViewState<Deal>.loading else {
+            log.debug("\(#function) - already loading; will bail")
             return
         }
 
         var cachePolicy: CachePolicy
         if abs(lastDealUpdate.timeIntervalSinceNow) < minimumRefreshInterval {
-            /// Always fetch results from the server.
+            // Always fetch results from the server.
             cachePolicy = .fetchIgnoringCacheData
         } else {
-            /// Return data from the cache if available, and always fetch results from the server.
+            // Return data from the cache if available, and always fetch results from the server.
             cachePolicy = .returnCacheDataAndFetch
         }
 
@@ -195,7 +196,9 @@ class DataProvider: DataProviderType {
     }
 
     func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        log.debug("\(#function)")
         guard dealState != ViewState<Deal>.loading else {
+            log.debug("Already fetching Deal; bailing from refreshDealInBackground")
             return
         }
         let query = GetDealQuery(id: "current_deal")
@@ -207,15 +210,15 @@ class DataProvider: DataProviderType {
                 self.lastDealUpdate = Date()
                 if case .result(let oldDeal) = self.dealState {
                     if oldDeal != newDeal {
-                        //log.info("BACKGROUND_APP_REFRESH: newData")
+                        log.info("BACKGROUND_APP_REFRESH: newData")
                         self.dealState = .result(newDeal)
                         completionHandler(.newData)
                     } else {
-                        //log.info("BACKGROUND_APP_REFRESH: noData")
+                        log.info("BACKGROUND_APP_REFRESH: noData")
                         completionHandler(.noData)
                     }
                 } else {
-                    //log.info("BACKGROUND_APP_REFRESH: newData")
+                    log.info("BACKGROUND_APP_REFRESH: newData")
                     self.dealState = .result(newDeal)
                     completionHandler(.newData)
                 }

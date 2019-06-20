@@ -19,7 +19,7 @@ final class OnboardingPageViewController: UIPageViewController {
 
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
-        /// TODO: create dataSource here?
+        // TODO: create dataSource here?
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     }
 

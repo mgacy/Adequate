@@ -29,7 +29,7 @@ class FullScreenImageTransitionController: NSObject {
 
     // MARK: - Lifecycle
 
-    /// TODO: pass protocol rather than view controller?
+    // TODO: pass protocol rather than view controller?
     init(viewController: FullScreenImageViewController, pagedImageView: PagedImageView) {
         self.viewController = viewController
         self.pagedImageView = pagedImageView

@@ -12,7 +12,7 @@ import Promise
 final class NotificationViewController: UIViewController {
     typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
 
-    /// TODO: improve handling of .init
+    // TODO: improve handling of .init
     let notificationManager: NotificationManagerType
     let userDefaultsManager: UserDefaultsManagerType
     weak var delegate: VoidDismissalDelegate?
@@ -95,7 +95,7 @@ final class NotificationViewController: UIViewController {
         return view
     }()
 
-    /// TODO: stackView?
+    // TODO: stackView?
 
     // MARK: - Lifecycle
 

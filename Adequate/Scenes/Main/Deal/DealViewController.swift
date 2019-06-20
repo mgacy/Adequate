@@ -50,7 +50,7 @@ class DealViewController: UIViewController {
         }
     }
 
-    /// TODO: make part of a protocol
+    // TODO: make part of a protocol
     var visibleImage: Promise<UIImage> {
         return pagedImageView.visibleImage
     }
@@ -171,6 +171,20 @@ class DealViewController: UIViewController {
         return button
     }()
 
+    private let specsText: MDTextView = {
+        let stylesheet = """
+        * { font: -apple-system-body; }
+        h1, h2, h3, h4, h5, h6, strong { font-weight: bold; }
+        em { font-style: italic; }
+        h5 { font-style: italic; }
+        """
+        let view = MDTextView(stylesheet: stylesheet)
+        view.font = UIFont.preferredFont(forTextStyle: .body)
+        view.paragraphStyle = .list
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     // Footer
 
     private lazy var footerView: FooterView = {
@@ -203,6 +217,7 @@ class DealViewController: UIViewController {
         contentView.addSubview(titleLabel)
         contentView.addSubview(featuresText)
         contentView.addSubview(forumButton)
+        contentView.addSubview(specsText)
 
         view.addSubview(activityIndicator)
         view.addSubview(messageLabel)
@@ -335,7 +350,11 @@ class DealViewController: UIViewController {
             forumButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: spacing),
             forumButton.widthAnchor.constraint(equalToConstant: 200.0),
-            forumButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing)
+            // specsText
+            specsText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideMargin),
+            specsText.topAnchor.constraint(equalTo: forumButton.bottomAnchor, constant: spacing * 2.0),
+            specsText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: widthInset),
+            specsText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing)
         ])
     }
 
@@ -447,6 +466,7 @@ extension DealViewController: ViewStateRenderable {
             titleLabel.text = deal.title
             barBackingView.text = deal.title
             featuresText.markdown = deal.features
+            specsText.markdown = deal.specifications
             // images
             let safePhotoURLs = deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
@@ -509,12 +529,14 @@ extension DealViewController: Themeable {
         contentView.backgroundColor = theme.backgroundColor
         featuresText.backgroundColor = theme.backgroundColor
         forumButton.setTitleColor(theme.backgroundColor, for: .normal)
+        specsText.backgroundColor = theme.backgroundColor
 
         // foreground
         // TODO: set status bar and home indicator color?
         // TODO: set activityIndicator color
         titleLabel.textColor = theme.foreground.textColor
         featuresText.textColor = theme.foreground.textColor
+        specsText.textColor = theme.foreground.textColor
         navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
         setNeedsStatusBarAppearanceUpdate()
 

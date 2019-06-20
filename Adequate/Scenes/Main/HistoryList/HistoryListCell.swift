@@ -74,22 +74,17 @@ final class HistoryListCell: UITableViewCell {
 
     func setupConstraints() {
         let guide = contentView.safeAreaLayoutGuide
-
-        /// TODO: move these into class property?
-        let spacing: CGFloat = 8.0
-        let sideMargin: CGFloat = 12.0
-
         NSLayoutConstraint.activate([
             // cardView
-            cardView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
-            cardView.topAnchor.constraint(equalTo: guide.topAnchor, constant: spacing / 2.0),
-            cardView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
-            cardView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -spacing / 2.0),
+            cardView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: AppTheme.sideMargin),
+            cardView.topAnchor.constraint(equalTo: guide.topAnchor, constant: AppTheme.spacing / 2.0),
+            cardView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -AppTheme.sideMargin),
+            cardView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -AppTheme.spacing / 2.0),
             // stackView
-            stackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: spacing),
-            stackView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: spacing),
-            stackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -spacing),
-            stackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -spacing)
+            stackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: AppTheme.spacing),
+            stackView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: AppTheme.spacing),
+            stackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -AppTheme.spacing),
+            stackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -AppTheme.spacing)
         ])
     }
 
@@ -103,7 +98,7 @@ extension HistoryListCell {
         apply(theme: AppTheme(theme: deal.theme))
         titleLabel.text = deal.title
         if let createdAt = DateFormatter.iso8601Full.date(from: deal.createdAt) {
-            dateLabel.text = DateFormatter.veryShortEDT.string(from: createdAt)
+            dateLabel.text = DateFormatter.veryShortEST.string(from: createdAt)
         } else {
             dateLabel.text = deal.createdAt
         }

@@ -32,8 +32,8 @@ public struct CurrentDeal: Codable {
     //let updatedAt: Date
     //let imageName: String
     let imageURL: URL // should this be optional?
-    let minPrice: Int
-    let maxPrice: Int?
+    let minPrice: Double
+    let maxPrice: Double?
     //let priceComparison: String?
     //let isSoldOut: Bool
 }

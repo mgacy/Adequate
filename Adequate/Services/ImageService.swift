@@ -48,7 +48,7 @@ public class ImageService: ImageServiceType {
     /*
     struct Task {
         let promise: Promise<UIImage>
-        /// TODO: initialize with background queue?
+        // TODO: initialize with background queue?
         let queue = InvalidatableQueue()
     }
     */
@@ -70,7 +70,7 @@ public class ImageService: ImageServiceType {
      pending state forever, preventing resources from being released.
      */
 
-    /// TODO: pass InvalidatableQueue as well?
+    // TODO: pass InvalidatableQueue as well?
     //@discardableResult
     public func fetchImage(for url: URL) -> Promise<UIImage> {
         if let pendingFetch = pendingTasks[url.absoluteString] {

@@ -120,12 +120,6 @@ final class StoryViewController: UIViewController {
 
     private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
-
-        /// TODO: move these into class property?
-        let spacing: CGFloat = 8.0
-        let sideMargin: CGFloat = 16.0
-        let widthInset: CGFloat = -2.0 * sideMargin
-
         NSLayoutConstraint.activate([
             // scrollView
             scrollView.leftAnchor.constraint(equalTo: guide.leftAnchor),
@@ -133,9 +127,9 @@ final class StoryViewController: UIViewController {
             scrollView.rightAnchor.constraint(equalTo: guide.rightAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             // stackView
-            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
-            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
-            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: spacing * 2.0),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: AppTheme.sideMargin),
+            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: AppTheme.widthInset),
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: AppTheme.spacing * 2.0),
             stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
     }

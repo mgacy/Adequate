@@ -15,8 +15,7 @@ extension DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
         formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.timeZone = TimeZone(secondsFromGMT: 0) // FIXME: change to TimeZone(identifier: "UTC")
-        //formatter.timeZone = TimeZone(identifier: "UTC")
+        formatter.timeZone = TimeZone(identifier: "UTC")
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter
     }()
@@ -25,17 +24,25 @@ extension DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.timeZone = TimeZone(secondsFromGMT: 0) // FIXME: change to TimeZone(identifier: "UTC")
-        //formatter.timeZone = TimeZone(identifier: "UTC")
+        formatter.timeZone = TimeZone(identifier: "UTC")
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter
     }()
 
     // MARK: - Eastern Time Zone
 
-    static let veryShortEDT: DateFormatter = {
+    static let yyyyMMddEST: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.timeZone = TimeZone(abbreviation: "EDT")
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.timeZone = TimeZone(abbreviation: "EST")
+        formatter.locale = Locale(identifier: "en_US_POSIX") // TODO: how do TimeZone and Locale interact?
+        return formatter
+    }()
+
+    static let veryShortEST: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone(abbreviation: "EST")
         formatter.locale = Locale.current
         formatter.setLocalizedDateFormatFromTemplate("M/d")
         return formatter

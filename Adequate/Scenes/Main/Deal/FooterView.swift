@@ -19,6 +19,14 @@ protocol DealFooterDelegate: class {
 class FooterView: UIView {
 
     weak var delegate: DealFooterDelegate?
+    private lazy var formatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.roundingMode = .halfUp
+        formatter.maximumFractionDigits = 2
+        // TODO: handle locale?
+        return formatter
+    }()
 
     // MARK: - Appearance
 
@@ -132,7 +140,7 @@ class FooterView: UIView {
         buyButton.isHidden = false
         guard deal.soldOutAt == nil else {
             buyButton.isEnabled = false
-            /// TODO: hide or change color?
+            // TODO: hide or change color?
             priceLabel.isHidden = true
             priceComparisonLabel.isHidden = true
             return
@@ -141,7 +149,7 @@ class FooterView: UIView {
 
         // Price Comparison
         if let priceComparison = parsePriceComparison(from: deal.specifications) {
-            /// TODO: handle localization (including price conversion?)
+            // TODO: handle localization (including price conversion?)
             priceComparisonLabel.text = "\(priceComparison.price) at \(priceComparison.store)"
             priceComparisonLabel.isHidden = false
             //stackView.alignment = .center
@@ -154,20 +162,18 @@ class FooterView: UIView {
         }
 
         // Price
+        let priceRange = parsePriceRange(for: deal)
         let priceText: String
-        switch deal.items.count {
-        case 0:
+        switch priceRange {
+        case .none:
             priceText = "ERROR: missing price"
-        case 1:
-            priceText = "$\(deal.items[0].price)"
-        default:
-            let prices = deal.items.map { $0.price }
-            if let minPrice = prices.min(), let maxPrice = prices.max() {
-                /// TODO: handle case where minPrice == maxPrice
-                priceText = minPrice == maxPrice ? "$\(minPrice)" : "$\(minPrice) - $\(maxPrice)"
-            } else {
-                priceText = "ERROR"
-            }
+        case .single(let price):
+            let formattedMinPrice = formatter.string(from: price as NSNumber) ?? "\(price)"
+            priceText = "$\(formattedMinPrice)"
+        case .range(let minPrice, let maxPrice):
+            let formattedMinPrice = formatter.string(from: minPrice as NSNumber) ?? "\(minPrice)"
+            let formattedMaxPrice = formatter.string(from: maxPrice as NSNumber) ?? "\(maxPrice)"
+            priceText =  "$\(formattedMinPrice) - $\(formattedMaxPrice)"
         }
         priceLabel.text = priceText
         priceLabel.isHidden = false
@@ -175,13 +181,26 @@ class FooterView: UIView {
 
     // MARK: Helpers
 
+    private func parsePriceRange(for deal: Deal) -> PriceRange {
+        let minQuantity = Double(deal.purchaseQuantity?.minimumLimit ?? 1)
+        let prices = deal.items.map { $0.price * minQuantity }
+        guard let minPrice = prices.min(), let maxPrice = prices.max() else {
+            return .none
+        }
+        if minPrice == maxPrice {
+            return .single(minPrice)
+        } else {
+            return .range(min: minPrice, max: maxPrice)
+        }
+    }
+
     private func parsePriceComparison(from text: String) -> PriceComparison? {
-        /// TODO: relocate pattern to PriceComparisonParser object
+        // TODO: relocate pattern to PriceComparisonParser object
         let pattern = "\\[\\\\(?<price>\\$[0-9.]*)\\s.*at\\s(?<store>.*)\\]\\((?<link>https://w{3}\\..*)\\)"
         guard let regex = try? NSRegularExpression(pattern: pattern) else {
             return nil
         }
-        /// TODO: use .flatMap or .map?
+        // TODO: use .flatMap or .map?
         return regex.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)).flatMap { match in
             guard
                 let priceSubString = text.substring(with: match.range(withName: "price")),

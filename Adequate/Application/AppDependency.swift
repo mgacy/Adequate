@@ -12,7 +12,7 @@ import AWSMobileClient
 class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, HasThemeManager, HasUserDefaultsManager {
     let dataProvider: DataProviderType
     let imageService: ImageServiceType
-    /// TODO: should we always carry this, or provide factory method so callers can create / destroy as needed?
+    // TODO: should we always carry this, or provide factory method so callers can create / destroy as needed?
     //func makeNotificationManager() -> NotificationManagerType {}
     let notificationManager: NotificationManagerType
     let themeManager: ThemeManagerType
@@ -69,7 +69,9 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
             // https://github.com/aws-samples/aws-mobile-appsync-events-starter-ios/blob/master/EventsApp/AppDelegate.swift
             let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                                   credentialsProvider: AWSMobileClient.sharedInstance(),
-                                                                  cacheConfiguration: AWSAppSyncCacheConfiguration())
+                                                                  cacheConfiguration: AWSAppSyncCacheConfiguration(),
+                                                                  connectionStateChangeHandler: nil,
+                                                                  retryStrategy: .exponential)
 
             let client = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
             client.apolloClient?.cacheKeyForObject = { $0[cacheKey] }

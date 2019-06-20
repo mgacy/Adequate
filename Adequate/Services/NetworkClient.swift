@@ -40,7 +40,7 @@ extension URLSession: SessionProtocol {
 
 // MARK: - HTTPURLResponse
 
-/// TODO: - create protocol + add extension to validate .statusCode
+// TODO: - create protocol + add extension to validate .statusCode
 /// See Alamofire: Validation.swift for ideas
 
 /// var acceptableStatusCodes: [Int] { return Array(200..<300) }
@@ -52,9 +52,9 @@ protocol StatusCodeValidating {
 
 extension HTTPURLResponse: StatusCodeValidating {
     func validateStatus() {
-        /// TODO: throw if staus is invalid?
-        /// TODO: return Error?
-        /// TODO: return ValidationResult enum like Alamofire?
+        // TODO: throw if staus is invalid?
+        // TODO: return Error?
+        // TODO: return ValidationResult enum like Alamofire?
         //guard (200...299).contains(statusCode) else { return }
         print("Status Code: \(self.statusCode)")
     }

@@ -13,6 +13,6 @@ struct PriceComparison: Equatable {
     let store: String
     let url: URL
 
-    /// TODO: add failable init accepting `specifications: String`?
+    // TODO: add failable init accepting `specifications: String`?
 
 }
