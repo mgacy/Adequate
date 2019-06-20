@@ -70,11 +70,9 @@ class ImageCell: UICollectionViewCell {
         super.layoutSubviews()
         imageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
 
-        // TODO: move these into class property?
-        let spacing: CGFloat = 8.0
         // TODO: should there be a max width?
-        let stateViewWidth = frame.width - spacing * 2.0
-        let stateViewHeight = frame.height - spacing * 2.0
+        let stateViewWidth = frame.width - AppTheme.spacing * 2.0
+        let stateViewHeight = frame.height - AppTheme.spacing * 2.0
         stateView.frame = CGRect(x: spacing, y: spacing, width: stateViewWidth, height: stateViewHeight)
     }
 

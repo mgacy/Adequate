@@ -118,12 +118,8 @@ class StateView: UIView {
     private func setupConstraints() {
         let guide = safeAreaLayoutGuide
 
-        /// TODO: move these into class property?
-        let spacing: CGFloat = 8.0
         //let sideMargin: CGFloat = 16.0
         let sideMargin: CGFloat = 0.0
-        //let widthInset: CGFloat = -2.0 * sideMargin
-
         NSLayoutConstraint.activate([
             // activityIndicator
             activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
@@ -135,10 +131,10 @@ class StateView: UIView {
             // messageLabel
             messageLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
             messageLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
-            messageLabel.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: spacing * -2.0),
+            messageLabel.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: AppTheme.spacing * -2.0),
             // retryButton
             retryButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            retryButton.topAnchor.constraint(equalTo: centerYAnchor, constant: spacing),
+            retryButton.topAnchor.constraint(equalTo: centerYAnchor, constant: AppTheme.spacing),
         ])
     }
 

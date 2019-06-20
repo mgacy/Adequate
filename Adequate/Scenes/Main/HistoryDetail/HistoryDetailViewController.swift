@@ -206,18 +206,12 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
     func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
-
-        /// TODO: move these into class property?
-        let spacing: CGFloat = 8.0
-        let sideMargin: CGFloat = 16.0
-        let widthInset: CGFloat = -2.0 * sideMargin
-
         NSLayoutConstraint.activate([
             // stateView
             stateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stateView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            stateView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
-            stateView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
+            stateView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: AppTheme.sideMargin),
+            stateView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -AppTheme.sideMargin),
             // barBackingView
             barBackingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -235,18 +229,18 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
             // titleLabel
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideMargin),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
-            titleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: widthInset),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: AppTheme.spacing),
+            titleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
             // featuresLabel
-            featuresText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideMargin),
-            featuresText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing * 2.0),
-            featuresText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: widthInset),
+            featuresText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
+            featuresText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: AppTheme.spacing * 2.0),
+            featuresText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
             // forumButton
             forumButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: spacing),
+            forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: AppTheme.spacing),
             forumButton.widthAnchor.constraint(equalToConstant: 200.0),
-            forumButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing)
+            forumButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -AppTheme.spacing)
         ])
     }
     /*
