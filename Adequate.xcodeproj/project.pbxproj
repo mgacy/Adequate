@@ -64,6 +64,7 @@
 		C995C07522A8E01C00C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07422A8E01C00C2289F /* FileCache.swift */; };
 		C995C07722A8F9E600C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07622A8F9E600C2289F /* FileCache.swift */; };
 		C99DD5DB2182D4C500A38529 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99DD5DA2182D4C500A38529 /* PaddingLabel.swift */; };
+		C99EF3B122BB695500BF4410 /* AdequateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EF3B022BB695500BF4410 /* AdequateUITests.swift */; };
 		C9AE54C521791E4200818F11 /* PagedImageViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */; };
 		C9AE54C72179270C00818F11 /* FullScreenImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */; };
 		C9AE54C9217927B500818F11 /* ZoomingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C8217927B500818F11 /* ZoomingImageView.swift */; };
@@ -130,6 +131,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C99EF3B322BB695500BF4410 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9DAC4482147688500D6558B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9DAC44F2147688500D6558B;
+			remoteInfo = Adequate;
+		};
 		C9B3FABA223C39F900B8524A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C9DAC4482147688500D6558B /* Project object */;
@@ -235,6 +243,9 @@
 		C995C07422A8E01C00C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		C995C07622A8F9E600C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		C99DD5DA2182D4C500A38529 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
+		C99EF3AE22BB695500BF4410 /* AdequateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdequateUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C99EF3B022BB695500BF4410 /* AdequateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdequateUITests.swift; sourceTree = "<group>"; };
+		C99EF3B222BB695500BF4410 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageViewDelegate.swift; sourceTree = "<group>"; };
 		C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageViewController.swift; sourceTree = "<group>"; };
 		C9AE54C8217927B500818F11 /* ZoomingImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomingImageView.swift; sourceTree = "<group>"; };
@@ -306,6 +317,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C99EF3AB22BB695500BF4410 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C9B3FAAD223C39F900B8524A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -448,6 +466,15 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
+		C99EF3AF22BB695500BF4410 /* AdequateUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C99EF3B022BB695500BF4410 /* AdequateUITests.swift */,
+				C99EF3B222BB695500BF4410 /* Info.plist */,
+			);
+			path = AdequateUITests;
+			sourceTree = "<group>";
+		};
 		C9B3FAB3223C39F900B8524A /* DealWidget */ = {
 			isa = PBXGroup;
 			children = (
@@ -465,6 +492,7 @@
 				C9DAC4672147688500D6558B /* AdequateTests */,
 				C9EF22CD216C616D00D9DD22 /* NotificationService */,
 				C9B3FAB3223C39F900B8524A /* DealWidget */,
+				C99EF3AF22BB695500BF4410 /* AdequateUITests */,
 				C9DAC4512147688500D6558B /* Products */,
 				2971522F7369A10E345A6B6D /* Pods */,
 				52FFA2E6BBD0A2D7885757EC /* Frameworks */,
@@ -478,6 +506,7 @@
 				C9DAC4642147688500D6558B /* AdequateTests.xctest */,
 				C9EF22CC216C616D00D9DD22 /* NotificationService.appex */,
 				C9B3FAB0223C39F900B8524A /* DealWidget.appex */,
+				C99EF3AE22BB695500BF4410 /* AdequateUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -709,6 +738,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C99EF3AD22BB695500BF4410 /* AdequateUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C99EF3B722BB695500BF4410 /* Build configuration list for PBXNativeTarget "AdequateUITests" */;
+			buildPhases = (
+				C99EF3AA22BB695500BF4410 /* Sources */,
+				C99EF3AB22BB695500BF4410 /* Frameworks */,
+				C99EF3AC22BB695500BF4410 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C99EF3B422BB695500BF4410 /* PBXTargetDependency */,
+			);
+			name = AdequateUITests;
+			productName = AdequateUITests;
+			productReference = C99EF3AE22BB695500BF4410 /* AdequateUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		C9B3FAAF223C39F900B8524A /* DealWidget */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9B3FABF223C39F900B8524A /* Build configuration list for PBXNativeTarget "DealWidget" */;
@@ -794,10 +841,15 @@
 		C9DAC4482147688500D6558B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1010;
+				LastSwiftUpdateCheck = 1100;
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "Mathew Gacy";
 				TargetAttributes = {
+					C99EF3AD22BB695500BF4410 = {
+						CreatedOnToolsVersion = 11.0;
+						ProvisioningStyle = Automatic;
+						TestTargetID = C9DAC44F2147688500D6558B;
+					};
 					C9B3FAAF223C39F900B8524A = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1020;
@@ -859,11 +911,19 @@
 				C9DAC4632147688500D6558B /* AdequateTests */,
 				C9EF22CB216C616D00D9DD22 /* NotificationService */,
 				C9B3FAAF223C39F900B8524A /* DealWidget */,
+				C99EF3AD22BB695500BF4410 /* AdequateUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C99EF3AC22BB695500BF4410 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C9B3FAAE223C39F900B8524A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1042,6 +1102,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C99EF3AA22BB695500BF4410 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C99EF3B122BB695500BF4410 /* AdequateUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C9B3FAAC223C39F900B8524A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1182,6 +1250,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C99EF3B422BB695500BF4410 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9DAC44F2147688500D6558B /* Adequate */;
+			targetProxy = C99EF3B322BB695500BF4410 /* PBXContainerItemProxy */;
+		};
 		C9B3FABB223C39F900B8524A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C9B3FAAF223C39F900B8524A /* DealWidget */;
@@ -1211,6 +1284,43 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		C99EF3B522BB695500BF4410 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2PMX4WLK83;
+				INFOPLIST_FILE = AdequateUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Adequate;
+			};
+			name = Debug;
+		};
+		C99EF3B622BB695500BF4410 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2PMX4WLK83;
+				INFOPLIST_FILE = AdequateUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Adequate;
+			};
+			name = Release;
+		};
 		C9B3FABD223C39F900B8524A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B6249C47E49B4FA7B4EF4FAD /* Pods-DealWidget.debug.xcconfig */;
@@ -1479,6 +1589,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C99EF3B722BB695500BF4410 /* Build configuration list for PBXNativeTarget "AdequateUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C99EF3B522BB695500BF4410 /* Debug */,
+				C99EF3B622BB695500BF4410 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C9B3FABF223C39F900B8524A /* Build configuration list for PBXNativeTarget "DealWidget" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
