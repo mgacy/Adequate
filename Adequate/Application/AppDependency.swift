@@ -69,7 +69,9 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
             // https://github.com/aws-samples/aws-mobile-appsync-events-starter-ios/blob/master/EventsApp/AppDelegate.swift
             let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                                   credentialsProvider: AWSMobileClient.sharedInstance(),
-                                                                  cacheConfiguration: AWSAppSyncCacheConfiguration())
+                                                                  cacheConfiguration: AWSAppSyncCacheConfiguration(),
+                                                                  connectionStateChangeHandler: nil,
+                                                                  retryStrategy: .exponential)
 
             let client = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
             client.apolloClient?.cacheKeyForObject = { $0[cacheKey] }
