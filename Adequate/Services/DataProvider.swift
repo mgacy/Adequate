@@ -73,7 +73,7 @@ class DataProvider: DataProviderType {
             }
             let currentDealManager = CurrentDealManager()
             currentDealManager.saveDeal(currentDeal)
-            dp.getDealHistory()
+            //dp.getDealHistory()
         }
     }
 
