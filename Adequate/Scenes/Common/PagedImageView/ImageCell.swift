@@ -73,7 +73,8 @@ class ImageCell: UICollectionViewCell {
         // TODO: should there be a max width?
         let stateViewWidth = frame.width - AppTheme.spacing * 2.0
         let stateViewHeight = frame.height - AppTheme.spacing * 2.0
-        stateView.frame = CGRect(x: spacing, y: spacing, width: stateViewWidth, height: stateViewHeight)
+        stateView.frame = CGRect(x: AppTheme.spacing, y: AppTheme.spacing,
+                                 width: stateViewWidth, height: stateViewHeight)
     }
 
     // MARK: - Configuration
