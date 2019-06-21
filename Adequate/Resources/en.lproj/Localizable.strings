@@ -1,0 +1,52 @@
+/* 
+  Localizable.strings
+  Adequate
+
+  Created by Mathew Gacy on 6/20/19.
+  Copyright © 2019 Mathew Gacy. All rights reserved.
+*/
+"about" = "About";
+"acknowledgements" = "Acknowledgements";
+"app_name" = "Adequate";
+"buy" = "Buy";
+"cancel" = "Cancel";
+"daily_notifications" = "Daily Notifications";
+"email" = "Email";
+"empty_message" = "There was no data";
+"error" = "Error";
+"forum" = "Forum";
+"history" = "History";
+"loading_message" = "LOADING";
+"notifications" = "Notifications";
+"now_now" = "Not Now";
+"ok" = "OK";
+"privacy_policy" = "Privacy Policy";
+"review_app" = "Rate Adequate";
+"retry" = "Retry";
+"settings" = "Settings";
+"sharing_activity_text" = "Check out this deal";
+"sold_out" = "Sold Out";
+"story" = "Story";
+"support" = "Support";
+"twitter" = "Twitter";
+"unofficial_app_disclaimer" = "This is an unofficial app. Please direct any issues to the developer, not to Meh.";
+"web" = "Web";
+"welcome_message" = "An app to see the crap meh is trying to sell you today.";
+
+/* Alerts */
+"disabled_notification_alert_body" = "Notifications are disabled. Please allow Adequate to access notifications in Settings.";
+
+/* Welcome - Notifications Scene */
+"welcome_notifications_body" = "Enable notifications so Adequate can alert you when meh offers a new daily deal.";
+"welcome_notifications_title" = "Enable Notifications?";
+
+/* Pluralization */
+"comments.count" = "%d Comment(s)";
+
+/* Accessibility Labels */
+"accessibility.buy_button" = "Buy";
+"accessibility.deal_button" = "Show Deal";
+"accessibility.history_button" = "Show History";
+"accessibility.share_button" = "Share Deal";
+"accessibility.story_button" = "Show Story";
+/*"accessibility." = "";*/
