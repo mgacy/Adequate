@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .available:
             // TESTING:
             //appCoordinator.refreshDeal(showLoading: false)
-            return
+            break
         @unknown default:
             fatalError("Unknown UIBackgroundRefreshStatus: \(application.backgroundRefreshStatus)")
         }
