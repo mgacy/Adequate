@@ -333,14 +333,7 @@ extension HistoryDetailViewController: ViewStateRenderable {
         }
         forumButton.isHidden = false
         forumButton.isEnabled = true
-        switch topic.commentCount {
-        case 0:
-            forumButton.setTitle(Strings.commentsButtonEmpty, for: .normal)
-        case 1:
-            forumButton.setTitle("\(topic.commentCount) \(Strings.commentsButtonSingular)", for: .normal)
-        default:
-            forumButton.setTitle("\(topic.commentCount) \(Strings.commentsButtonPlural)", for: .normal)
-        }
+        forumButton.setTitle(L10n.Comments.count(topic.commentCount), for: .normal)
     }
 }
 
@@ -374,15 +367,5 @@ extension HistoryDetailViewController: Themeable {
         pagedImageView.apply(theme: theme)
         barBackingView.apply(theme: theme)
         stateView.apply(theme: theme)
-    }
-}
-
-// MARK: - Strings
-extension HistoryDetailViewController {
-    private enum Strings {
-        // Buttons (Duplicates DealViewController.Strings)
-        static let commentsButtonEmpty = "Forum"
-        static let commentsButtonSingular = "Comment"
-        static let commentsButtonPlural = "Comments"
     }
 }

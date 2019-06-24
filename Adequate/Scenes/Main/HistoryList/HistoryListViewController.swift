@@ -99,7 +99,7 @@ final class HistoryListViewController: UIViewController {
     // MARK: - View Methods
 
     func setupView() {
-        title = Strings.historyListSceneTitle
+        title = L10n.history
         navigationController?.navigationBar.barTintColor = .white
         settingsButton.tintColor = .black
         dealButton.tintColor = .black
@@ -202,12 +202,5 @@ extension HistoryListViewController: ViewStateRenderable {
             stateView.isHidden = false
             tableView.isHidden = true
         }
-    }
-}
-
-// MARK: - Strings
-extension HistoryListViewController {
-    private enum Strings {
-        static let historyListSceneTitle = "History"
     }
 }

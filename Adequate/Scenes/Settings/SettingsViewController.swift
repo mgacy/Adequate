@@ -33,7 +33,7 @@ class SettingsViewController: UITableViewController {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 32.0, left: 16.0, bottom: 8.0, right: 16.0))
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
         view.textColor = .gray
-        view.text = Strings.notificationsHeader
+        view.text = L10n.notifications.uppercased()
         return view
     }()
 
@@ -49,13 +49,13 @@ class SettingsViewController: UITableViewController {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 24.0, left: 16.0, bottom: 8.0, right: 16.0))
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
         view.textColor = .gray
-        view.text = Strings.supportHeader
+        view.text = L10n.support.uppercased()
         return view
     }()
 
     private lazy var webCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        cell.textLabel?.text = Strings.webCell
+        cell.textLabel?.text = L10n.web
         cell.detailTextLabel?.text = SupportAddress.web.rawValue
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -63,7 +63,7 @@ class SettingsViewController: UITableViewController {
 
     private lazy var emailCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        cell.textLabel?.text = Strings.emailCell
+        cell.textLabel?.text = L10n.email
         cell.detailTextLabel?.text = SupportAddress.email.rawValue
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -71,7 +71,7 @@ class SettingsViewController: UITableViewController {
 
     private lazy var twitterCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        cell.textLabel?.text = Strings.twitterCell
+        cell.textLabel?.text = L10n.twitter
         cell.detailTextLabel?.text = SupportAddress.twitter.rawValue
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -82,20 +82,20 @@ class SettingsViewController: UITableViewController {
         view.numberOfLines = 0
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
         view.textColor = .gray
-        view.text = Strings.supportFooter
+        view.text = L10n.unofficialAppDisclaimer
         return view
     }()
 
     private lazy var aboutCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        cell.textLabel?.text = Strings.aboutCell
+        cell.textLabel?.text = L10n.about
         cell.accessoryType = .disclosureIndicator
         return cell
     }()
 
     private lazy var reviewCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        cell.textLabel?.text = Strings.reviewCell
+        cell.textLabel?.text = L10n.reviewApp
         cell.accessoryType = .disclosureIndicator
         return cell
     }()
@@ -117,7 +117,7 @@ class SettingsViewController: UITableViewController {
         super.loadView()
 
         // Section 1
-        notificationCell.textLabel?.text = Strings.notificationsCell
+        notificationCell.textLabel?.text = L10n.dailyNotifications
         notificationCell.accessoryView = notificationSwitch
         notificationCell.selectionStyle = .none
         notificationSwitch.addTarget(self, action: #selector(tappedSwitch(_:)), for: .touchUpInside)
@@ -141,7 +141,7 @@ class SettingsViewController: UITableViewController {
     // MARK: - View Methods
 
     func setupView() {
-        title = Strings.settingsSceneTitle
+        title = L10n.settings
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
                                                             action: #selector(didPressDone(_:)))
 
@@ -289,12 +289,12 @@ class SettingsViewController: UITableViewController {
     }
 
     private func showOpenSettingsAlert() {
-        let alertController = UIAlertController (title: Strings.alertTitle, message: Strings.alertBody, preferredStyle: .alert)
+        let alertController = UIAlertController (title: L10n.error, message: L10n.disabledNotificationAlertBody, preferredStyle: .alert)
 
-        let cancelAction = UIAlertAction(title: Strings.alertCancelTitle, style: .default, handler: nil)
+        let cancelAction = UIAlertAction(title: L10n.cancel, style: .default, handler: nil)
         alertController.addAction(cancelAction)
 
-        let settingsAction = UIAlertAction(title: Strings.alertOKTitle, style: .default) { (_) -> Void in
+        let settingsAction = UIAlertAction(title: L10n.settings, style: .default) { (_) -> Void in
             guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
                 return
             }
@@ -306,19 +306,6 @@ class SettingsViewController: UITableViewController {
 
         present(alertController, animated: true, completion: nil)
     }
-
-    /// Temporary method while testing
-    private func showDisabledReviewAlert() {
-        let alertTitle = "Oops"
-        let alertBody = "Thank you, but reviews will not be possible until Adequate is released on the App Store."
-
-        let alertController = UIAlertController(title: alertTitle, message: alertBody, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(action)
-
-        present(alertController, animated: true, completion: nil)
-    }
-
 }
 
 extension SettingsViewController {
@@ -351,6 +338,21 @@ extension SettingsViewController {
     }
 
 }
+
+// MARK: - Temporary method while testing
+extension SettingsViewController {
+    private func showDisabledReviewAlert() {
+        let alertTitle = "Oops"
+        let alertBody = "Thank you, but reviews will not be possible until Adequate is released on the App Store."
+
+        let alertController = UIAlertController(title: alertTitle, message: alertBody, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(action)
+
+        present(alertController, animated: true, completion: nil)
+    }
+}
+
 /*
 // MARK: - Themeable
 extension SettingsViewController: Themeable {
@@ -408,30 +410,5 @@ extension SettingsViewController {
             }
         }
 
-    }
-}
-
-// MARK: - Strings
-extension SettingsViewController {
-    private enum Strings {
-        // Title
-        static let settingsSceneTitle = "Settings"
-        // Section: Notifications
-        static let notificationsHeader = "NOTIFICATIONS"
-        static let notificationsCell = "Daily Notifications"
-        // Section: Support
-        static let supportHeader = "SUPPORT"
-        static let webCell = "Web"
-        static let emailCell = "Email"
-        static let twitterCell = "Twitter"
-        static let supportFooter = "This is an unofficial app. Please direct any issues to the developer, not to Meh."
-        // Section: Bottom
-        static let aboutCell = "About"
-        static let reviewCell = "Rate Adequate"
-        // Alert
-        static let alertTitle = "Error"
-        static let alertBody = "Notifications are disabled. Please allow Adequate to access notifications in Settings."
-        static let alertCancelTitle = "Cancel"
-        static let alertOKTitle = "Settings"
     }
 }
