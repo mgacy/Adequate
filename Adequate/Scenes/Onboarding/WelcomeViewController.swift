@@ -10,17 +10,12 @@ import UIKit
 
 final class WelcomeViewController: UIViewController {
 
-    private enum Strings {
-        static let title = "Adequate"
-        static let body = "An app to see the crap meh is trying to sell you today."
-    }
-
     // MARK: - Subviews
 
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
-        label.text = Strings.title
+        label.text = L10n.appName
         //label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -30,7 +25,7 @@ final class WelcomeViewController: UIViewController {
     private let bodyLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = Strings.body
+        label.text = L10n.welcomeMessage
         label.textColor = .gray
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false

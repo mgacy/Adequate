@@ -69,7 +69,7 @@ class DealViewController: UIViewController {
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
         label.textColor = .gray
-        label.text = Strings.loadingMessage
+        label.text = L10n.loadingMessage
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -87,7 +87,7 @@ class DealViewController: UIViewController {
 
     private let retryButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle(Strings.retryButton, for: .normal)
+        button.setTitle(L10n.retry, for: .normal)
         button.layer.cornerRadius = 5.0
         button.layer.borderWidth = 1.0
         button.layer.borderColor = UIColor.gray.cgColor
@@ -381,7 +381,7 @@ class DealViewController: UIViewController {
             return
         }
 
-        let text = "\(Strings.sharingActivityText): \(deal.title)"
+        let text = "\(L10n.sharingActivityText): \(deal.title)"
         let url = deal.url
         // set up activity view controller
         let textToShare: [Any] = [ text, url ]
@@ -440,7 +440,7 @@ extension DealViewController: ViewStateRenderable {
         switch viewState {
         case .empty:
             activityIndicator.stopAnimating()
-            messageLabel.text = Strings.emptyMessage
+            messageLabel.text = L10n.emptyMessage
             errorMessageLabel.isHidden = true
             retryButton.isHidden = false
             scrollView.isHidden = true
@@ -456,7 +456,7 @@ extension DealViewController: ViewStateRenderable {
             //displayError(error: error)
         case .loading:
             activityIndicator.startAnimating()
-            messageLabel.text = Strings.loadingMessage
+            messageLabel.text = L10n.loadingMessage
             messageLabel.isHidden = false
             errorMessageLabel.isHidden = true
             retryButton.isHidden = true
@@ -503,14 +503,7 @@ extension DealViewController: ViewStateRenderable {
         }
         forumButton.isHidden = false
         forumButton.isEnabled = true
-        switch topic.commentCount {
-        case 0:
-            forumButton.setTitle(Strings.commentsButtonEmpty, for: .normal)
-        case 1:
-            forumButton.setTitle("\(topic.commentCount) \(Strings.commentsButtonSingular)", for: .normal)
-        default:
-            forumButton.setTitle("\(topic.commentCount) \(Strings.commentsButtonPlural)", for: .normal)
-        }
+        forumButton.setTitle(L10n.Comments.count(topic.commentCount), for: .normal)
     }
 
 }
@@ -548,21 +541,5 @@ extension DealViewController: Themeable {
         pagedImageView.apply(theme: theme)
         barBackingView.apply(theme: theme)
         footerView.apply(theme: theme)
-    }
-}
-
-// MARK: - Strings
-extension DealViewController {
-    private enum Strings {
-        // Buttons
-        static let commentsButtonEmpty = "Forum"
-        static let commentsButtonSingular = "Comment"
-        static let commentsButtonPlural = "Comments"
-        static let retryButton = "Retry"
-        // Message Labels
-        static let emptyMessage = "There was no data"
-        static let loadingMessage = "LOADING"
-        // Sharing Activity
-        static let sharingActivityText = "Check out this deal"
     }
 }

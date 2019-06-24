@@ -67,8 +67,8 @@ class FooterView: UIView {
 
     private let buyButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle(Strings.buyButtonNormal, for: .normal)
-        button.setTitle(Strings.buyButtonDisabled, for: .disabled)
+        button.setTitle(L10n.buy, for: .normal)
+        button.setTitle(L10n.soldOut, for: .disabled)
         button.setTitleColor(button.tintColor, for: .normal)
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -231,14 +231,5 @@ extension FooterView: Themeable {
 
         // foreground
         //priceLabel.textColor = theme.foreground.textColor
-    }
-}
-
-// MARK: - Strings
-extension FooterView {
-    private enum Strings {
-        // Buttons
-        static let buyButtonNormal = "Buy"
-        static let buyButtonDisabled = "Sold Out"
     }
 }

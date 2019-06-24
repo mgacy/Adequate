@@ -33,14 +33,14 @@ class AboutViewController: UITableViewController {
 
     private lazy var privacyPolicyCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        cell.textLabel?.text = Strings.privacyPolicyCell
+        cell.textLabel?.text = L10n.privacyPolicy
         cell.accessoryType = .disclosureIndicator
         return cell
     }()
 
     private lazy var acknowledgementsCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        cell.textLabel?.text = Strings.acknowledgementsCell
+        cell.textLabel?.text = L10n.acknowledgements
         cell.accessoryType = .disclosureIndicator
         return cell
     }()
@@ -148,13 +148,6 @@ extension AboutViewController: Themeable {
     }
 }
 */
-// MARK: - Strings
-extension AboutViewController {
-    private enum Strings {
-        static let privacyPolicyCell = "Privacy Policy"
-        static let acknowledgementsCell = "Acknowledgements"
-    }
-}
 
 // MARK: - Bundle Extensions
 extension Bundle {
