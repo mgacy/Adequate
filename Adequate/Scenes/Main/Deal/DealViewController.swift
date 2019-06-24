@@ -101,18 +101,22 @@ class DealViewController: UIViewController {
     // Navigation Bar
 
     private lazy var historyButton: UIBarButtonItem = {
-        return UIBarButtonItem(image: #imageLiteral(resourceName: "HistoryNavBar"), style: .plain, target: self, action: #selector(didPressHistory(_:)))
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "HistoryNavBar"), style: .plain, target: self, action: #selector(didPressHistory(_:)))
+        button.accessibilityLabel = L10n.Accessibility.historyButton
+        return button
     }()
 
     private lazy var shareButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ShareNavBar"), style: .plain, target: self, action: #selector(didPressShare(_:)))
         button.isEnabled = false
+        button.accessibilityLabel = L10n.Accessibility.shareButton
         return button
     }()
 
     private lazy var storyButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "StoryNavBar"), style: .plain, target: self, action: #selector(didPressStory(_:)))
         button.isEnabled = false
+        button.accessibilityLabel = L10n.Accessibility.storyButton
         return button
     }()
 

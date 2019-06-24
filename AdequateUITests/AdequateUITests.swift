@@ -43,14 +43,14 @@ class AdequateUITests: XCTestCase {
         let adequateDealviewNavigationBar = elementsQuery.navigationBars["Adequate.DealView"]
 
         // Show Story
-        adequateDealviewNavigationBar.buttons["StoryNavBar"].tap()
+        adequateDealviewNavigationBar.buttons[L10n.Accessibility.storyButton].tap()
         snapshot("02Story")
 
         // Back to Deal
         elementsQuery.navigationBars["Story"].buttons["LeftChevronNavBar"].tap()
 
         // Show History
-        adequateDealviewNavigationBar.buttons["HistoryNavBar"].tap()
+        adequateDealviewNavigationBar.buttons[L10n.Accessibility.historyButton].tap()
         snapshot("03History")
 
         // Show Settings
