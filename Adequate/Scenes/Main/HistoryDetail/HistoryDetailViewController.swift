@@ -118,7 +118,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     */
     private let forumButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle(Strings.commentsButtonPlural, for: .normal)
+        button.setTitle(L10n.Comments.count(0), for: .normal)
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = button.tintColor
