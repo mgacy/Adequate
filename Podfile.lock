@@ -16,7 +16,7 @@ PODS:
   - AWSSNS (2.9.9):
     - AWSCore (= 2.9.9)
   - Down (0.8.5)
-  - Promises (2.0.2)
+  - Promises (2.0.4)
   - ReachabilitySwift (4.3.0)
   - SQLite.swift (0.11.6):
     - SQLite.swift/standard (= 0.11.6)
@@ -56,7 +56,7 @@ SPEC CHECKSUMS:
   AWSMobileClient: f290953e3554a3b0a27eace67297b5f39775ed48
   AWSSNS: 40751aab59f88792ef3c1266eb23753565af8afa
   Down: d2554b5006cf45bdb2bc6f19d91ca4fec6a45b31
-  Promises: 8edf94cd267665830ba57f7b48be2e6822f1622d
+  Promises: fcb83dc6be43294a8d30c343636ed1a45a8d2e0a
   ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
   SQLite.swift: 46d890be8601964454bd3392527f863d1b802d45
   SwiftyBeaver: 4cc0080d2e23f980652e28978db11a5c9da39165
