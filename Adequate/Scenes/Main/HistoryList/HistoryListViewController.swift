@@ -130,6 +130,7 @@ final class HistoryListViewController: UIViewController {
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = dataSource
+        tableView.estimatedRowHeight = 100.0
         tableView.separatorStyle = .none
         tableView.register(cellType: HistoryListCell.self)
     }
