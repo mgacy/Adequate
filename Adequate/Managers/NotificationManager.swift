@@ -37,13 +37,12 @@ enum NotificationAction: String {
     case mehAction = "MGMehAction"
     //case viewAction = "MGViewAction"
 
-    // TODO: handle localization
     var title: String {
         switch self {
         case .buyAction:
-            return "Buy"
+            return L10n.buy
         case .mehAction:
-            return "Meh"
+            return L10n.meh
         }
     }
 }

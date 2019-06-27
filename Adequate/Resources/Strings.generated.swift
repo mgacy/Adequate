@@ -37,6 +37,8 @@ internal enum L10n {
   internal static let history = L10n.tr("Localizable", "history")
   /// LOADING
   internal static let loadingMessage = L10n.tr("Localizable", "loading_message")
+  /// Meh
+  internal static let meh = L10n.tr("Localizable", "meh")
   /// Notifications
   internal static let notifications = L10n.tr("Localizable", "notifications")
   /// Not Now
