@@ -31,6 +31,7 @@ struct Deal: Codable {
     let url: URL
     let soldOutAt: Date?
     let launches: [Launch]?
+    let launchStatus: LaunchStatus?
     let topic: Topic?
 }
 
@@ -67,6 +68,7 @@ extension Deal {
             self.soldOutAt = nil
         }
         self.launches = deal.launches?.compactMap { Launch($0) }
+        self.launchStatus = deal.launchStatus
         self.topic = Topic(deal.topic)
     }
 
