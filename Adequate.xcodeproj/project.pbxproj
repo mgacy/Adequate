@@ -28,6 +28,7 @@
 		C9102F9A224FFC1D00B06679 /* Pods-Adequate-acknowledgements.markdown in Resources */ = {isa = PBXBuildFile; fileRef = C9102F99224FFC1D00B06679 /* Pods-Adequate-acknowledgements.markdown */; };
 		C9116E5321616CA60084934B /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E5221616CA60084934B /* StoryViewController.swift */; };
 		C9116E562161781F0084934B /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E552161781F0084934B /* Appearance.swift */; };
+		C913919822CD91F2006C2E19 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C913919722CD91F2006C2E19 /* UILabel+Ext.swift */; };
 		C9221565225453920001FF3F /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9221564225453920001FF3F /* DimmingPresentationController.swift */; };
 		C92215672254632D0001FF3F /* SlideAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92215662254632D0001FF3F /* SlideAnimationController.swift */; };
 		C923838A22B1B427003BB1DA /* ItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C923838922B1B427003BB1DA /* ItemType.swift */; };
@@ -212,6 +213,7 @@
 		C9102F99224FFC1D00B06679 /* Pods-Adequate-acknowledgements.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = "Pods-Adequate-acknowledgements.markdown"; path = "Pods/Target Support Files/Pods-Adequate/Pods-Adequate-acknowledgements.markdown"; sourceTree = SOURCE_ROOT; };
 		C9116E5221616CA60084934B /* StoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
 		C9116E552161781F0084934B /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
+		C913919722CD91F2006C2E19 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
 		C9221564225453920001FF3F /* DimmingPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
 		C92215662254632D0001FF3F /* SlideAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideAnimationController.swift; sourceTree = "<group>"; };
 		C923838922B1B427003BB1DA /* ItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemType.swift; sourceTree = "<group>"; };
@@ -571,6 +573,7 @@
 				C992D1DD216D93F000B373D5 /* Optional+Ext.swift */,
 				C9DAC48A21476ADA00D6558B /* String+Ext.swift */,
 				C9DAC48C21476AF600D6558B /* UIColor+Ext.swift */,
+				C913919722CD91F2006C2E19 /* UILabel+Ext.swift */,
 				C9725D5E2255A7EE0043C4FC /* UINavigationController+NavBarStyle.swift */,
 				C9058DED215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift */,
 				C9DAC48E21476B2400D6558B /* URL+Ext.swift */,
@@ -1207,6 +1210,7 @@
 				C9DAC48121476A2900D6558B /* ErrorAlertDisplayable.swift in Sources */,
 				C9E3223921C2F3AE0088AF9E /* HistoryListViewController.swift in Sources */,
 				C95B83C521811DFA0051B72B /* AppTheme.swift in Sources */,
+				C913919822CD91F2006C2E19 /* UILabel+Ext.swift in Sources */,
 				C928547D21704C73001E5993 /* ImageCell.swift in Sources */,
 				C989E11F223742C100DEAE89 /* AWSAppSyncClient+Promise.swift in Sources */,
 				C99DD5DB2182D4C500A38529 /* PaddingLabel.swift in Sources */,

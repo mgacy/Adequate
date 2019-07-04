@@ -27,6 +27,7 @@ class FooterView: UIView {
         // TODO: handle locale?
         return formatter
     }()
+    //private var priceText: String = ""
 
     // MARK: - Appearance
 
@@ -138,14 +139,6 @@ class FooterView: UIView {
     // FIXME: shouldn't really have model communicating directly with view
     public func update(withDeal deal: Deal) {
         buyButton.isHidden = false
-        guard deal.soldOutAt == nil else {
-            buyButton.isEnabled = false
-            // TODO: hide or change color?
-            priceLabel.isHidden = true
-            priceComparisonLabel.isHidden = true
-            return
-        }
-        buyButton.isEnabled = true
 
         // Price Comparison
         if let priceComparison = parsePriceComparison(from: deal.specifications) {
@@ -177,9 +170,49 @@ class FooterView: UIView {
         }
         priceLabel.text = priceText
         priceLabel.isHidden = false
+
+        // LaunchStatus
+        guard let launchStatus = deal.launchStatus else {
+            log.error("Missing launchStatus: \(deal)")
+
+            // Handle soldOut in case launchStatus is not implemented
+            if deal.soldOutAt == nil {
+                updateStatus(launchStatus: .launch, priceText: priceText)
+            } else {
+                updateStatus(launchStatus: .soldOut, priceText: priceText)
+            }
+            return
+        }
+        updateStatus(launchStatus: launchStatus, priceText: priceText)
     }
 
     // MARK: Helpers
+
+    private func updateStatus(launchStatus: LaunchStatus, priceText: String) {
+        buyButton.isHidden = false
+
+        switch launchStatus {
+        case .launch, .relaunch:
+            buyButton.isEnabled = true
+            priceLabel.isHidden = false
+            priceLabel.text = priceText
+            //priceComparisonLabel.isHidden = false
+        case .launchSoldOut:
+            buyButton.isEnabled = false
+            priceLabel.setStrikethrough(text: priceText)
+            // TODO: show button to schedule reminder for when relaunch occurs
+        case .relaunchSoldOut:
+            buyButton.isEnabled = false
+            priceLabel.setStrikethrough(text: priceText)
+        case .soldOut:
+            buyButton.isEnabled = false
+            priceLabel.setStrikethrough(text: priceText)
+        case .expired:
+            break
+        case .unknown(_):
+            log.error("Unknown LaunchStatus: \(launchStatus)")
+        }
+    }
 
     private func parsePriceRange(for deal: Deal) -> PriceRange {
         let minQuantity = Double(deal.purchaseQuantity?.minimumLimit ?? 1)
