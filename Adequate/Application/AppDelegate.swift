@@ -107,7 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // Called for silent notifications.
         log.debug("\(#function) - \(userInfo)")
-        appCoordinator.refreshDealInBackground(completion: completionHandler)
+        appCoordinator.refreshDealInBackground(userInfo: userInfo, completion: completionHandler)
     }
 }
 

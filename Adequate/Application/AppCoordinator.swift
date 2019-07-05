@@ -76,12 +76,13 @@ class AppCoordinator: BaseCoordinator {
 
 // MARK: - Refresh
 extension AppCoordinator {
+    typealias FetchCompletionHandler = (UIBackgroundFetchResult) -> Void
 
     func refreshDeal(showLoading: Bool) {
         dependencies.dataProvider.refreshDeal(showLoading: showLoading)
     }
 
-    func refreshDealInBackground(completion: @escaping (UIBackgroundFetchResult) -> Void) {
+    func refreshDealInBackground(userInfo: [AnyHashable : Any], completion: @escaping FetchCompletionHandler) {
         dependencies.dataProvider.refreshDealInBackground(fetchCompletionHandler: completion)
     }
 }
