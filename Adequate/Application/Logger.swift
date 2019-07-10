@@ -32,7 +32,7 @@ class Logger: LoggingType {
 
     private static func setupLogger() {
         let console = ConsoleDestination()
-        //let file = FileDestination()
+        let file = FileDestination()
 
         // use custom format and set console output to short time, log level & message
         //console.format = "$DHH:mm:ss$d $L $M"
@@ -51,7 +51,7 @@ class Logger: LoggingType {
         #endif
 
         SwiftyBeaver.addDestination(console)
-        //SwiftyBeaver.addDestination(file)
+        SwiftyBeaver.addDestination(file)
         loggerLoaded = true
     }
 
