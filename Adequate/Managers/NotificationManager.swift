@@ -35,7 +35,6 @@ fileprivate enum CategoryIdentifier: String {
 enum NotificationAction: String {
     case buyAction = "MGBuyAction"
     case mehAction = "MGMehAction"
-    //case viewAction = "MGViewAction"
 
     // TODO: handle localization
     var title: String {
@@ -49,6 +48,7 @@ enum NotificationAction: String {
 }
 
 struct NotificationConstants {
+    // NOTE: in Apple's examples, they use ALL_CAPS for keys in notifications
     static let dealKey = "adequate-deal-url"
     static let imageKey = "adequate-image-url"
 }
@@ -113,7 +113,6 @@ class NotificationManager: NSObject, NotificationManagerType {
         case .dailyDeal:
             let buyAction = UNNotificationAction(identifier: NotificationAction.buyAction.rawValue,
                                                  title: NotificationAction.buyAction.title, options: [.foreground])
-            //let viewAction = ...
             let mehAction = UNNotificationAction(identifier: NotificationAction.mehAction.rawValue,
                                                  title: NotificationAction.mehAction.title, options: [.foreground])
             actions = [buyAction, mehAction]
