@@ -30,6 +30,21 @@ extension ViewState {
     }
 }
 
+extension ViewState: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .empty:
+            return "Empty"
+        case .loading:
+            return "Loading"
+        case .result(let element):
+            return "Result: \(element)"
+        case .error(let error):
+            return "Error: \(error.localizedDescription)"
+        }
+    }
+}
+
 extension ViewState: Equatable where Element: Equatable {
     static func == (lhs: ViewState<Element>, rhs: ViewState<Element>) -> Bool {
         switch(lhs, rhs) {
