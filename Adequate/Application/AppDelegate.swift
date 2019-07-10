@@ -143,9 +143,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             }
         case NotificationAction.mehAction.rawValue:
             appCoordinator.start(with: .meh)
-        case UNNotificationDefaultActionIdentifier, UNNotificationDismissActionIdentifier:
+        case UNNotificationDefaultActionIdentifier:
             // TODO: how to handle?
-            log.info("\(#function) - DefaultActionIdentifier / DismissActionIdentifier")
+            log.info("\(#function) - DefaultActionIdentifier")
+        case UNNotificationDismissActionIdentifier:
+            // TODO: how to handle?
+            log.info("\(#function) - DismissActionIdentifier")
         default:
             log.warning("\(#function) - unknown action: \(response.actionIdentifier)")
         }
