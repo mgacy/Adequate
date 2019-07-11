@@ -59,10 +59,17 @@ final class MainCoordinator: BaseCoordinator {
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
             switch deepLink {
-            case .buy(let url):
-                pageViewController.dismiss(animated: false, completion: nil)
-                // TODO: go to deal page?
-                showWebPage(with: url, animated: false)
+            case .buy:
+                // TODO: improve handling
+                switch pageViewController.currentIndex {
+                case 0:
+                    goToPage(.deal, from: .history, animated: false)
+                case 2:
+                    goToPage(.deal, from: .story, animated: false)
+                default:
+                    break
+                }
+                startChildren(with: deepLink)
             case .deal:
                 showDeal()
             //case .meh:
@@ -104,15 +111,6 @@ final class MainCoordinator: BaseCoordinator {
         window.rootViewController = pageViewController
         window.makeKeyAndVisible()
     }
-
-    private func showWebPage(with url: URL, animated: Bool) {
-        let configuration = SFSafariViewController.Configuration()
-        configuration.barCollapsingEnabled = false
-
-        let viewController = SFSafariViewController(url: url, configuration: configuration)
-        pageViewController.present(viewController, animated: animated, completion: nil)
-    }
-
 }
 
 // MARK: - RootNavigationDelegate

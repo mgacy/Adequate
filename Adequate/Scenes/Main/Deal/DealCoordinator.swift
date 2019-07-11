@@ -27,6 +27,8 @@ final class DealCoordinator: Coordinator {
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
             switch deepLink {
+            case let .buy(url):
+                showWebPage(with: url, animated: false)
             case let .share(title, url):
                 shareDeal(title: title, url: url)
             default:
@@ -59,6 +61,7 @@ final class DealCoordinator: Coordinator {
     }
 
     private func showWebPage(with url: URL, animated: Bool) {
+        router.dismissModule(animated: false, completion: nil)
         let configuration = SFSafariViewController.Configuration()
         configuration.barCollapsingEnabled = false
 
