@@ -82,10 +82,17 @@ class DataProvider: DataProviderType {
     // MARK: - Get
 
     func getCurrentDeal() {
+        // If background fetch is enabled, can we we just check the difference between 
+        // .lastDealCheck and .lastDealUpdate to determine cachePolicy?
+        // What about fetch initiated at startup?
+        getCurrentDeal(cachePolicy: .fetchIgnoringCacheData)
+    }
+
+    private func getCurrentDeal(cachePolicy: CachePolicy) {
         guard dealState != ViewState<Deal>.loading else { return }
         dealState = .loading
         let query = GetDealQuery(id: "current_deal")
-        appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
+        appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
             .then({ result in
                 guard let deal = Deal(result.getDeal) else {
                     throw SyncClientError.myError(message: "Missing result")
@@ -163,6 +170,7 @@ class DataProvider: DataProviderType {
         }
 
         var cachePolicy: CachePolicy
+        // if Date().timeIntervalSince(lastDealUpdate) < minimumRefreshInterval {
         if abs(lastDealUpdate.timeIntervalSinceNow) < minimumRefreshInterval {
             // Always fetch results from the server.
             cachePolicy = .fetchIgnoringCacheData
