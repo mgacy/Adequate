@@ -40,6 +40,8 @@ class AppCoordinator: BaseCoordinator {
                 showOnboarding()
             case .deal:
                 showMain(with: deepLink)
+            case .share:
+                startChildren(with: deepLink)
             default:
                 startChildren(with: deepLink)
             }

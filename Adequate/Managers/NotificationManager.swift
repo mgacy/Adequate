@@ -34,15 +34,18 @@ fileprivate enum CategoryIdentifier: String {
 
 enum NotificationAction: String {
     case buyAction = "MGBuyAction"
-    case mehAction = "MGMehAction"
+    //case mehAction = "MGMehAction"
+    case shareAction = "MGShareAction"
 
     // TODO: handle localization
     var title: String {
         switch self {
         case .buyAction:
             return "Buy"
-        case .mehAction:
-            return "Meh"
+        //case .mehAction:
+        //    return "Meh"
+        case .shareAction:
+            return "Share"
         }
     }
 }
@@ -113,9 +116,9 @@ class NotificationManager: NSObject, NotificationManagerType {
         case .dailyDeal:
             let buyAction = UNNotificationAction(identifier: NotificationAction.buyAction.rawValue,
                                                  title: NotificationAction.buyAction.title, options: [.foreground])
-            let mehAction = UNNotificationAction(identifier: NotificationAction.mehAction.rawValue,
-                                                 title: NotificationAction.mehAction.title, options: [.foreground])
-            actions = [buyAction, mehAction]
+            let shareAction = UNNotificationAction(identifier: NotificationAction.shareAction.rawValue,
+                                                   title: NotificationAction.shareAction.title, options: [.foreground])
+            actions = [buyAction, shareAction]
         }
         return actions
     }

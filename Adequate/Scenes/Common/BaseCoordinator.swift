@@ -19,6 +19,7 @@ enum DeepLink {
     case onboarding
     case deal
     case buy(URL)
+    case share(title: String, url: URL)
     case meh
 
     static func build(with dict: [String: AnyObject]?) -> DeepLink? {

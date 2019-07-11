@@ -141,8 +141,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             } else {
                 log.error("ERROR: unable to parse \(NotificationConstants.dealKey) from Notification")
             }
-        case NotificationAction.mehAction.rawValue:
-            appCoordinator.start(with: .meh)
+        case NotificationAction.shareAction.rawValue:
+            if let urlString = userInfo[NotificationConstants.dealKey] as? String, let dealURL = URL(string: urlString)?.deletingLastPathComponent() {
+                let title = response.notification.request.content.body
+                appCoordinator.start(with: .share(title: title, url: dealURL))
+            } else {
+                log.error("ERROR: unable to parse \(NotificationConstants.dealKey) from Notification")
+            }
         case UNNotificationDefaultActionIdentifier:
             // TODO: how to handle?
             log.info("\(#function) - DefaultActionIdentifier")
