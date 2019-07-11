@@ -34,20 +34,23 @@ fileprivate enum CategoryIdentifier: String {
 
 enum NotificationAction: String {
     case buyAction = "MGBuyAction"
-    case mehAction = "MGMehAction"
-    //case viewAction = "MGViewAction"
+    //case mehAction = "MGMehAction"
+    case shareAction = "MGShareAction"
 
     var title: String {
         switch self {
         case .buyAction:
             return L10n.buy
-        case .mehAction:
-            return L10n.meh
+        //case .mehAction:
+        //    return L10n.meh
+        case .shareAction:
+            return "Share"
         }
     }
 }
 
 struct NotificationConstants {
+    // NOTE: in Apple's examples, they use ALL_CAPS for keys in notifications
     static let dealKey = "adequate-deal-url"
     static let imageKey = "adequate-image-url"
 }
@@ -112,10 +115,9 @@ class NotificationManager: NSObject, NotificationManagerType {
         case .dailyDeal:
             let buyAction = UNNotificationAction(identifier: NotificationAction.buyAction.rawValue,
                                                  title: NotificationAction.buyAction.title, options: [.foreground])
-            //let viewAction = ...
-            let mehAction = UNNotificationAction(identifier: NotificationAction.mehAction.rawValue,
-                                                 title: NotificationAction.mehAction.title, options: [.foreground])
-            actions = [buyAction, mehAction]
+            let shareAction = UNNotificationAction(identifier: NotificationAction.shareAction.rawValue,
+                                                   title: NotificationAction.shareAction.title, options: [.foreground])
+            actions = [buyAction, shareAction]
         }
         return actions
     }

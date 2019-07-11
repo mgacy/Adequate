@@ -59,9 +59,11 @@ class DataProvider: DataProviderType {
     private let appSyncClient: AWSAppSyncClient
     private var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
     private var historyObservations: [UUID: (ViewState<[DealHistory]>) -> Void] = [:]
+    // TODO: use a queue for fetches?
 
     // MARK: - Lifecycle
 
+    // TODO: init with Config and use that to create client?
     init(appSync: AWSAppSyncClient) {
         self.appSyncClient = appSync
         self.dealState = .empty
@@ -80,10 +82,17 @@ class DataProvider: DataProviderType {
     // MARK: - Get
 
     func getCurrentDeal() {
+        // If background fetch is enabled, can we we just check the difference between 
+        // .lastDealCheck and .lastDealUpdate to determine cachePolicy?
+        // What about fetch initiated at startup?
+        getCurrentDeal(cachePolicy: .fetchIgnoringCacheData)
+    }
+
+    private func getCurrentDeal(cachePolicy: CachePolicy) {
         guard dealState != ViewState<Deal>.loading else { return }
         dealState = .loading
         let query = GetDealQuery(id: "current_deal")
-        appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
+        appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
             .then({ result in
                 guard let deal = Deal(result.getDeal) else {
                     throw SyncClientError.myError(message: "Missing result")
@@ -97,6 +106,7 @@ class DataProvider: DataProviderType {
     }
 
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
+        // TODO: if id != 'current_deal', we should be able to use `.returnCacheDataElseFetch`
         let query = GetDealQuery(id: id)
         return appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
             .then({ result -> GetDealQuery.Data.GetDeal in
@@ -160,6 +170,7 @@ class DataProvider: DataProviderType {
         }
 
         var cachePolicy: CachePolicy
+        // if Date().timeIntervalSince(lastDealUpdate) < minimumRefreshInterval {
         if abs(lastDealUpdate.timeIntervalSinceNow) < minimumRefreshInterval {
             // Always fetch results from the server.
             cachePolicy = .fetchIgnoringCacheData
@@ -189,8 +200,8 @@ class DataProvider: DataProviderType {
                 }
             }).catch({ error in
                 log.error("\(#function): \(error.localizedDescription)")
-                //if showOtherViewStates {
-                //self.dealState = .error(error)
+                //if showLoading {
+                //    self.dealState = .error(error)
                 //}
             })
     }

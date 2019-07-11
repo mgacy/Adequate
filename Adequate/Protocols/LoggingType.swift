@@ -10,27 +10,27 @@ protocol LoggingType {
 
     /// Log something generally unimportant (lowest priority)
     ///
-    /// - Parameter string: The data to be logged as string.
-    static func verbose(_ string: String)
+    /// - Parameter message: The data to be logged as string.
+    static func verbose(_ message: String, file: String, function: String, line: Int)
 
     /// Log something which help during debugging (low priority)
     ///
-    /// - Parameter string: The data to be logged as string.
-    static func debug(_ string: String)
+    /// - Parameter message: The data to be logged as string.
+    static func debug(_ message: String, file: String, function: String, line: Int)
 
     /// Log something which you are really interested but which is not an issue or error (normal priority)
     ///
-    /// - Parameter string: The data to be logged as string.
-    static func info(_ string: String)
+    /// - Parameter message: The data to be logged as string.
+    static func info(_ message: String, file: String, function: String, line: Int)
 
     /// Log something which may cause big trouble soon (high priority)
     ///
-    /// - Parameter string: The data to be logged as string.
-    static func warning(_ string: String)
+    /// - Parameter message: The data to be logged as string.
+    static func warning(_ message: String, file: String, function: String, line: Int)
 
     /// Log something which will keep you awake at night (highest priority)
     ///
-    /// - Parameter string: The data to be logged as string.
-    static func error(_ string: String)
+    /// - Parameter message: The data to be logged as string.
+    static func error(_ message: String, file: String, function: String, line: Int)
 
 }

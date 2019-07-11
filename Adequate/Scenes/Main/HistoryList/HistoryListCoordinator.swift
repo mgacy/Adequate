@@ -25,7 +25,13 @@ final class HistoryListCoordinator: Coordinator {
 
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
-            log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+            // TODO: just call `startChildren(with:)` for all cases?
+            switch deepLink {
+            case .buy, .share:
+                startChildren(with: deepLink)
+            default:
+                log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+            }
         } else {
             showHistory()
         }

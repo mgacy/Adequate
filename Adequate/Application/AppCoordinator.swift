@@ -36,10 +36,12 @@ class AppCoordinator: BaseCoordinator {
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
             switch deepLink {
-            case .deal:
-                showMain(with: deepLink)
             case .onboarding:
                 showOnboarding()
+            case .deal:
+                showMain(with: deepLink)
+            case .share:
+                startChildren(with: deepLink)
             default:
                 startChildren(with: deepLink)
             }
