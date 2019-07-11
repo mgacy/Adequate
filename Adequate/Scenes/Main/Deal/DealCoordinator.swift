@@ -26,7 +26,12 @@ final class DealCoordinator: Coordinator {
 
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
-            log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+            switch deepLink {
+            case let .share(title, url):
+                shareDeal(title: title, url: url)
+            default:
+                log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+            }
         } else {
             showDeal()
         }
@@ -40,6 +45,17 @@ final class DealCoordinator: Coordinator {
         let dealViewController = DealViewController(dependencies: dependencies)
         dealViewController.delegate = self
         router.setRootModule(dealViewController, hideBar: false)
+    }
+
+    private func shareDeal(title: String, url: URL) {
+        //router.popToRootModule(animated: false) // not currently necessary
+        guard let dealViewController = router.rootViewController as? DealViewController else {
+            log.error("Unable to get dealViewController")
+            return
+        }
+        router.dismissModule(animated: false, completion: nil)
+        // TODO: make coordinator responsible for showing share sheet?
+        dealViewController.shareDeal(title: title, url: url)
     }
 
     private func showWebPage(with url: URL, animated: Bool) {
