@@ -31,15 +31,26 @@ class DataProvider: DataProviderType {
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     // TODO: initialize with UserDefaultsManager; use AppGroup
-    var lastDealUpdate: Date {
+
+    /// The last time we tried to fetch the current Deal (in response to Notification)
+    var lastDealRequest: Date {
         get {
-            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealUpdate.rawValue) as? Date ?? Date.distantPast
+            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealRequest.rawValue) as? Date ?? Date.distantPast
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealUpdate.rawValue)
+            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealRequest.rawValue)
         }
     }
 
+    /// The last time we succeeded in fetching the current Deal
+    var lastDealResponse: Date {
+        get {
+            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealResponse.rawValue) as? Date ?? Date.distantPast
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealResponse.rawValue)
+        }
+    }
     private let minimumRefreshInterval: TimeInterval = 60
 
     // TODO: rename `ViewState<T>` as `ResourceState<T>`?
@@ -97,7 +108,7 @@ class DataProvider: DataProviderType {
                 guard let deal = Deal(result.getDeal) else {
                     throw SyncClientError.myError(message: "Missing result")
                 }
-                self.lastDealUpdate = Date()
+                self.lastDealResponse = Date()
                 self.dealState = .result(deal)
             }).catch({ error in
                 log.error("\(#function): \(error.localizedDescription)")
@@ -171,7 +182,7 @@ class DataProvider: DataProviderType {
 
         var cachePolicy: CachePolicy
         // if Date().timeIntervalSince(lastDealUpdate) < minimumRefreshInterval {
-        if abs(lastDealUpdate.timeIntervalSinceNow) < minimumRefreshInterval {
+        if abs(lastDealResponse.timeIntervalSinceNow) < minimumRefreshInterval {
             // Always fetch results from the server.
             cachePolicy = .fetchIgnoringCacheData
         } else {
@@ -190,7 +201,7 @@ class DataProvider: DataProviderType {
                 guard let deal = Deal(result.getDeal) else {
                     throw SyncClientError.myError(message: "Missing result")
                 }
-                self.lastDealUpdate = Date()
+                self.lastDealResponse = Date()
                 if case .result(let oldDeal) = self.dealState {
                     if oldDeal != deal {
                         self.dealState = .result(deal)
@@ -210,6 +221,7 @@ class DataProvider: DataProviderType {
 
     func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.debug("\(#function)")
+        self.lastDealRequest = Date()
         guard dealState != ViewState<Deal>.loading else {
             log.debug("Already fetching Deal; setting .wrappedHandler")
             let observer = CompletionWrapper(wrapping: completionHandler) { [weak self] in
@@ -237,7 +249,7 @@ class DataProvider: DataProviderType {
                 guard let newDeal = Deal(result.getDeal) else {
                     throw SyncClientError.myError(message: "Missing result")
                 }
-                self.lastDealUpdate = Date()
+                self.lastDealResponse = Date()
                 if case .result(let oldDeal) = self.dealState {
                     if oldDeal != newDeal {
                         log.info("BACKGROUND_APP_REFRESH: newData")
