@@ -65,8 +65,12 @@ final class MainCoordinator: BaseCoordinator {
                 showWebPage(with: url, animated: false)
             case .deal:
                 showDeal()
-            case .meh:
-                log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+            //case .meh:
+            //    log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+            case .share:
+                // TODO: ensure that pageViewController.currentIndex == 1
+                // TODO: filter childCoordinators.values to get dealCoordinator?
+                dealCoordinator.start(with: deepLink)
             default:
                 log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
                 startChildren(with: deepLink)

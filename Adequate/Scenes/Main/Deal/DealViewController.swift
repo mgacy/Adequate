@@ -380,9 +380,15 @@ class DealViewController: UIViewController {
         guard case .result(let deal) = viewState else {
             return
         }
+        shareDeal(title: deal.title, url: deal.url)
+    }
 
-        let text = "\(L10n.sharingActivityText): \(deal.title)"
-        let url = deal.url
+    func shareDeal(title: String, url: URL) {
+        log.debug("\(#function) ...")
+
+        // TODO: add price to text?
+        let text = "\(L10n.sharingActivityText): \(title)"
+
         // set up activity view controller
         let textToShare: [Any] = [ text, url ]
         let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
