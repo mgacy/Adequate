@@ -44,7 +44,7 @@ enum NotificationAction: String {
         //case .mehAction:
         //    return L10n.meh
         case .shareAction:
-            return "Share"
+            return L10n.share
         }
     }
 }

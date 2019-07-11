@@ -53,6 +53,8 @@ internal enum L10n {
   internal static let reviewApp = L10n.tr("Localizable", "review_app")
   /// Settings
   internal static let settings = L10n.tr("Localizable", "settings")
+  /// Share
+  internal static let share = L10n.tr("Localizable", "share")
   /// Check out this deal
   internal static let sharingActivityText = L10n.tr("Localizable", "sharing_activity_text")
   /// Sold Out
