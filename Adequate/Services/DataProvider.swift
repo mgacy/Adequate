@@ -206,10 +206,29 @@ class DataProvider: DataProviderType {
             })
     }
 
+    private var wrappedHandler: CompletionWrapper<UIBackgroundFetchResult>?
+
     func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.debug("\(#function)")
         guard dealState != ViewState<Deal>.loading else {
-            log.debug("Already fetching Deal; bailing from refreshDealInBackground")
+            log.debug("Already fetching Deal; setting .wrappedHandler")
+            let observer = CompletionWrapper(wrapping: completionHandler) { [weak self] in
+                self?.wrappedHandler = nil
+            }
+            observer.observationToken = addDealObserver(observer) { wrapper, viewState in
+                switch viewState {
+                case .result:
+                    wrapper.complete(with: .newData)
+                case .error:
+                    wrapper.complete(with: .failed)
+                case .empty:
+                    wrapper.complete(with: .noData)
+                case .loading:
+                    // This is called immediately; ignore it
+                    break
+                }
+            }
+            wrappedHandler = observer
             return
         }
         let query = GetDealQuery(id: "current_deal")
