@@ -49,26 +49,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
         log.verbose("WILL_ENTER_FOREGROUND")
-
-        // TODO: move all of this into `RefreshManager` object
-        // TODO: handle case where background app refresh failed
-        switch application.backgroundRefreshStatus {
-        case .denied, .restricted:
-            log.debug("backgroundRefreshStatus: \(application.backgroundRefreshStatus) - calling refreshDeal(showLoading:)")
-            appCoordinator.refreshDeal(showLoading: false)
-        case .available:
-            // TESTING:
-            //appCoordinator.refreshDeal(showLoading: false)
-            break
-        @unknown default:
-            fatalError("Unknown UIBackgroundRefreshStatus: \(application.backgroundRefreshStatus)")
-        }
+        appCoordinator.refreshDeal(for: .foreground)
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         log.verbose("DID_BECOME_ACTIVE")
-        //appCoordinator.refreshDeal()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -118,9 +104,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        log.debug("\(#function)")
+        log.debug("\(#function) - \(notification)")
         // TODO: prepare for other `response.notification.request.content.categoryIdentifier`
-        appCoordinator.refreshDeal(showLoading: true)
+        appCoordinator.refreshDeal(for: .foregroundNotification)
 
         completionHandler([.alert, .sound])
         //completionHandler(UNNotificationPresentationOptions(rawValue: 0))  // skip notification

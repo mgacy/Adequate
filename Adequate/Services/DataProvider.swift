@@ -14,11 +14,10 @@ import class Promise.Promise // import class to avoid name collision with AWSApp
 protocol DataProviderType {
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
     // Get
-    func getCurrentDeal()
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal>
     func getDealHistory(from: Date, to: Date)
     // Refresh
-    func refreshDeal(showLoading: Bool)
+    func refreshDeal(for: RefreshEvent)
     func refreshDealInBackground(fetchCompletionHandler: @escaping (UIBackgroundFetchResult) -> Void)
     // Observers
     func addDealObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<Deal>) -> Void) -> ObservationToken
@@ -92,30 +91,6 @@ class DataProvider: DataProviderType {
 
     // MARK: - Get
 
-    func getCurrentDeal() {
-        // If background fetch is enabled, can we we just check the difference between 
-        // .lastDealCheck and .lastDealUpdate to determine cachePolicy?
-        // What about fetch initiated at startup?
-        getCurrentDeal(cachePolicy: .fetchIgnoringCacheData)
-    }
-
-    private func getCurrentDeal(cachePolicy: CachePolicy) {
-        guard dealState != ViewState<Deal>.loading else { return }
-        dealState = .loading
-        let query = GetDealQuery(id: "current_deal")
-        appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
-            .then({ result in
-                guard let deal = Deal(result.getDeal) else {
-                    throw SyncClientError.myError(message: "Missing result")
-                }
-                self.lastDealResponse = Date()
-                self.dealState = .result(deal)
-            }).catch({ error in
-                log.error("\(#function): \(error.localizedDescription)")
-                self.dealState = .error(error)
-            })
-    }
-
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
         // TODO: if id != 'current_deal', we should be able to use `.returnCacheDataElseFetch`
         let query = GetDealQuery(id: id)
@@ -173,21 +148,54 @@ class DataProvider: DataProviderType {
 
     // MARK: - Refresh
 
-    func refreshDeal(showLoading: Bool = false) {
-        log.debug("\(#function)")
+    func refreshDeal(for event: RefreshEvent) {
+        log.debug("\(#function) - \(event)")
+        switch event {
+        case .manual:
+            refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
+        // App State
+        case .launch:
+            var cachePolicy: CachePolicy = .fetchIgnoringCacheData
+
+            // Can we rely on the cache?
+            if case .available = UIApplication.shared.backgroundRefreshStatus {
+                if lastDealResponse.timeIntervalSince(lastDealRequest) >= 0 {
+                    // Our last request succeeded
+                    cachePolicy = .returnCacheDataAndFetch // or .returnCacheDataElseFetch?
+                } else {
+                    // Our last request failed
+                    cachePolicy = .fetchIgnoringCacheData
+                }
+            } else {
+                log.debug("backgroundRefreshStatus: \(UIApplication.shared.backgroundRefreshStatus)")
+                cachePolicy = .fetchIgnoringCacheData
+            }
+            refreshDeal(showLoading: true, cachePolicy: cachePolicy)
+        case .foreground:
+            if case .available = UIApplication.shared.backgroundRefreshStatus {
+                if lastDealResponse.timeIntervalSince(lastDealRequest) < 0 {
+                    // Last request failed
+                    refreshDeal(showLoading: false, cachePolicy: .fetchIgnoringCacheData)
+                } else {
+                    return
+                }
+            } else {
+                log.debug("backgroundRefreshStatus: \(UIApplication.shared.backgroundRefreshStatus)")
+                refreshDeal(showLoading: false, cachePolicy: .fetchIgnoringCacheData)
+            }
+        // Notifications
+        case .foregroundNotification:
+            refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
+        case .silentNotification(let completionHandler):
+            refreshDealInBackground(fetchCompletionHandler: completionHandler)
+        }
+    }
+
+    private func refreshDeal(showLoading: Bool, cachePolicy: CachePolicy) {
+        log.debug("\(#function) - \(cachePolicy)")
         guard dealState != ViewState<Deal>.loading else {
             log.debug("\(#function) - already loading; will bail")
             return
-        }
-
-        var cachePolicy: CachePolicy
-        // if Date().timeIntervalSince(lastDealUpdate) < minimumRefreshInterval {
-        if abs(lastDealResponse.timeIntervalSinceNow) < minimumRefreshInterval {
-            // Always fetch results from the server.
-            cachePolicy = .fetchIgnoringCacheData
-        } else {
-            // Return data from the cache if available, and always fetch results from the server.
-            cachePolicy = .returnCacheDataAndFetch
         }
 
         if showLoading {
@@ -211,9 +219,10 @@ class DataProvider: DataProviderType {
                 }
             }).catch({ error in
                 log.error("\(#function): \(error.localizedDescription)")
-                //if showLoading {
-                //    self.dealState = .error(error)
-                //}
+                // TODO: is this check sufficient to cover desired behavior?
+                if showLoading {
+                    self.dealState = .error(error)
+                }
             })
     }
 

@@ -70,6 +70,8 @@ class AppCoordinator: BaseCoordinator {
     }
 
     private func showMain(with deepLink: DeepLink? = nil) {
+        // TODO: handle DeepLink from notification
+        dependencies.dataProvider.refreshDeal(for: .launch)
         let mainCoordinator = MainCoordinator(window: window, dependencies: dependencies)
         store(coordinator: mainCoordinator)
         mainCoordinator.start(with: deepLink)
@@ -80,8 +82,8 @@ class AppCoordinator: BaseCoordinator {
 extension AppCoordinator {
     typealias FetchCompletionHandler = (UIBackgroundFetchResult) -> Void
 
-    func refreshDeal(showLoading: Bool) {
-        dependencies.dataProvider.refreshDeal(showLoading: showLoading)
+    func refreshDeal(for event: RefreshEvent) {
+        dependencies.dataProvider.refreshDeal(for: event)
     }
 
     func refreshDealInBackground(userInfo: [AnyHashable : Any], completion: @escaping FetchCompletionHandler) {
