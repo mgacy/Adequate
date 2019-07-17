@@ -135,7 +135,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                 log.error("ERROR: unable to parse \(NotificationConstants.dealKey) from Notification")
             }
         case UNNotificationDefaultActionIdentifier:
-            // TODO: how to handle?
+            // TODO: switch to deal view
             log.info("\(#function) - DefaultActionIdentifier")
         case UNNotificationDismissActionIdentifier:
             // TODO: how to handle?

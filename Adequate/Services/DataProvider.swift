@@ -93,8 +93,12 @@ class DataProvider: DataProviderType {
 
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
         // TODO: if id != 'current_deal', we should be able to use `.returnCacheDataElseFetch`
+        getDeal(withID: id, cachePolicy: .fetchIgnoringCacheData)
+    }
+
+    private func getDeal(withID id: GraphQLID, cachePolicy: CachePolicy = .fetchIgnoringCacheData) -> Promise<GetDealQuery.Data.GetDeal> {
         let query = GetDealQuery(id: id)
-        return appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
+        return appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
             .then({ result -> GetDealQuery.Data.GetDeal in
                 guard let deal = result.getDeal else {
                     throw SyncClientError.myError(message: "Missing result")
@@ -149,7 +153,7 @@ class DataProvider: DataProviderType {
     // MARK: - Refresh
 
     func refreshDeal(for event: RefreshEvent) {
-        log.debug("\(#function) - \(event)")
+        log.debug("Event: \(event)")
         switch event {
         case .manual:
             refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
@@ -192,9 +196,10 @@ class DataProvider: DataProviderType {
     }
 
     private func refreshDeal(showLoading: Bool, cachePolicy: CachePolicy) {
-        log.debug("\(#function) - \(cachePolicy)")
+        log.debug("CachePolicy: \(cachePolicy)")
         guard dealState != ViewState<Deal>.loading else {
-            log.debug("\(#function) - already loading; will bail")
+            // FIXME: what if cachePolicy differs from that of current request?
+            log.debug("Already loading Deal; will bail")
             return
         }
 

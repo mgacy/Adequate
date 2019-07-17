@@ -42,7 +42,9 @@ extension Deal: Equatable {
     }
 }
 
-// MARK: - GetDealQuery.Data.GetDeal
+// MARK: - Initializers
+
+// MARK: GetDealQuery.Data.GetDeal
 extension Deal {
     init?(_ deal: GetDealQuery.Data.GetDeal) {
         guard
@@ -78,8 +80,6 @@ extension Deal {
     }
 }
 
-// MARK: - Initializers
-
 extension Deal.Launch {
     init(_ launch: GetDealQuery.Data.GetDeal.Launch) {
         soldOutAt = launch.soldOutAt
@@ -91,6 +91,7 @@ extension Deal.Launch {
     }
 }
 
+// MARK: Model Protocols
 extension Deal.Launch {
     init(_ launch: LaunchType) {
         soldOutAt = launch.soldOutAt
