@@ -30,6 +30,30 @@ enum NotificationManagerError: Error {
 // TODO: Rename NotificationCategory to mirror NotificationAction?
 fileprivate enum CategoryIdentifier: String {
     case dailyDeal = "MGDailyDealCategory"
+
+    // The actions to display when a notification of this type is presented.
+    var actions: [NotificationAction] {
+        switch self {
+        case .dailyDeal:
+            return [.buyAction, .shareAction]
+        }
+    }
+
+    /// The intents related to notifications of this category.
+    var intentIdentifiers: [String] {
+        switch self {
+        case .dailyDeal:
+            return []
+        }
+    }
+
+    /// Options for how to handle notifications of this type.
+    var options: UNNotificationCategoryOptions {
+        switch self {
+        case .dailyDeal:
+            return []
+        }
+    }
 }
 
 enum NotificationAction: String {
@@ -45,6 +69,15 @@ enum NotificationAction: String {
         //    return L10n.meh
         case .shareAction:
             return L10n.share
+        }
+    }
+
+    var options: UNNotificationActionOptions {
+        switch self {
+        case .buyAction:
+            return [.foreground]
+        case .shareAction:
+            return [.foreground]
         }
     }
 }
@@ -106,7 +139,9 @@ class NotificationManager: NSObject, NotificationManagerType {
     private func makeCategory(for categoryID: CategoryIdentifier) -> UNNotificationCategory {
         let actions = makeActions(for: categoryID)
         return UNNotificationCategory(identifier: categoryID.rawValue,
-                                      actions: actions, intentIdentifiers: [], options: [])
+                                      actions: actions,
+                                      intentIdentifiers: categoryID.intentIdentifiers,
+                                      options: categoryID.options)
     }
 
     private func makeActions(for categoryID: CategoryIdentifier) -> [UNNotificationAction] {
@@ -114,9 +149,11 @@ class NotificationManager: NSObject, NotificationManagerType {
         switch categoryID {
         case .dailyDeal:
             let buyAction = UNNotificationAction(identifier: NotificationAction.buyAction.rawValue,
-                                                 title: NotificationAction.buyAction.title, options: [.foreground])
+                                                 title: NotificationAction.buyAction.title,
+                                                 options: NotificationAction.buyAction.options)
             let shareAction = UNNotificationAction(identifier: NotificationAction.shareAction.rawValue,
-                                                   title: NotificationAction.shareAction.title, options: [.foreground])
+                                                   title: NotificationAction.shareAction.title,
+                                                   options: NotificationAction.shareAction.options)
             actions = [buyAction, shareAction]
         }
         return actions
