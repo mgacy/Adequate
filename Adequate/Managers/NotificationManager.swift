@@ -27,8 +27,7 @@ enum NotificationManagerError: Error {
 
 // MARK: - Configuration
 
-// TODO: Rename NotificationCategory to mirror NotificationAction?
-fileprivate enum CategoryIdentifier: String {
+enum NotificationCategoryIdentifier: String {
     case dailyDeal = "MGDailyDealCategory"
 
     // The actions to display when a notification of this type is presented.
@@ -136,7 +135,7 @@ class NotificationManager: NSObject, NotificationManagerType {
 
     // MARK: - Helper Factory Methods
 
-    private func makeCategory(for categoryID: CategoryIdentifier) -> UNNotificationCategory {
+    private func makeCategory(for categoryID: NotificationCategoryIdentifier) -> UNNotificationCategory {
         let actions = makeActions(for: categoryID)
         return UNNotificationCategory(identifier: categoryID.rawValue,
                                       actions: actions,
@@ -144,7 +143,7 @@ class NotificationManager: NSObject, NotificationManagerType {
                                       options: categoryID.options)
     }
 
-    private func makeActions(for categoryID: CategoryIdentifier) -> [UNNotificationAction] {
+    private func makeActions(for categoryID: NotificationCategoryIdentifier) -> [UNNotificationAction] {
         let actions: [UNNotificationAction]
         switch categoryID {
         case .dailyDeal:
