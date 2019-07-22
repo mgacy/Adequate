@@ -20,7 +20,6 @@ enum DeepLink {
     case deal
     case buy(URL)
     case share(title: String, url: URL)
-    case meh
 
     static func build(with dict: [String: AnyObject]?) -> DeepLink? {
         guard let id = dict?["launch_id"] as? String else { return nil }
