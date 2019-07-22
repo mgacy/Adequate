@@ -29,6 +29,8 @@ final class DealCoordinator: Coordinator {
             switch deepLink {
             case let .buy(url):
                 showWebPage(with: url, animated: false)
+            case .deal:
+                router.dismissModule(animated: false, completion: nil)
             case let .share(title, url):
                 shareDeal(title: title, url: url)
             default:

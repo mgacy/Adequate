@@ -59,11 +59,9 @@ final class MainCoordinator: BaseCoordinator {
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
             switch deepLink {
-            case .buy, .share:
+            case .buy, .deal, .share:
                 goToDealPage()
                 startChildren(with: deepLink)
-            case .deal:
-                showDeal()
             default:
                 log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
                 startChildren(with: deepLink)

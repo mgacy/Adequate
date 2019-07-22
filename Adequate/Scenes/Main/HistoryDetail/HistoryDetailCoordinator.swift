@@ -33,7 +33,7 @@ final class HistoryDetailCoordinator: BaseCoordinator {
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
             switch deepLink {
-            case .buy, .share:
+            case .buy, .deal, .share:
                 onFinishFlow?(())
             default:
                 log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
