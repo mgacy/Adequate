@@ -38,8 +38,6 @@ class AppCoordinator: BaseCoordinator {
             switch deepLink {
             case .onboarding:
                 showOnboarding()
-            case .share:
-                startChildren(with: deepLink)
             default:
                 startChildren(with: deepLink)
             }
