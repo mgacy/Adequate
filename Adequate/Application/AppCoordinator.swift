@@ -57,7 +57,7 @@ class AppCoordinator: BaseCoordinator {
 
     // MARK: - Flows
 
-    private func showOnboarding(with deepLink: DeepLink? = nil) {
+    private func showOnboarding() {
         let coordinator = OnboardingCoordinator(window: window, dependencies: dependencies)
         coordinator.onFinishFlow = { [weak self, weak coordinator] result in
             if let strongCoordinator = coordinator {
@@ -66,15 +66,15 @@ class AppCoordinator: BaseCoordinator {
             self?.showMain()
         }
         store(coordinator: coordinator)
-        coordinator.start(with: deepLink)
+        coordinator.start()
     }
 
-    private func showMain(with deepLink: DeepLink? = nil) {
+    private func showMain() {
         // TODO: handle DeepLink from notification
         dependencies.dataProvider.refreshDeal(for: .launch)
         let mainCoordinator = MainCoordinator(window: window, dependencies: dependencies)
         store(coordinator: mainCoordinator)
-        mainCoordinator.start(with: deepLink)
+        mainCoordinator.start()
     }
 }
 
