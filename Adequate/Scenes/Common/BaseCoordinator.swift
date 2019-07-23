@@ -41,7 +41,47 @@ enum DeepLink {
         return nil
     }
 
-    //static func build(with notificationResponse: import UserNotifications) -> DeepLink? {}
+    static func build(with notificationResponse: UNNotificationResponse) -> DeepLink? {
+        let userInfo = notificationResponse.notification.request.content.userInfo
+        switch notificationResponse.notification.request.content.categoryIdentifier {
+
+        // dailyDeal
+        case NotificationCategoryIdentifier.dailyDeal.rawValue:
+            switch notificationResponse.actionIdentifier {
+            case NotificationAction.buyAction.rawValue:
+                guard
+                    let urlString = userInfo[NotificationConstants.dealKey] as? String,
+                    let buyURL = URL(string: urlString) else {
+                        log.error("ERROR: unable to parse \(NotificationConstants.dealKey) from Notification")
+                        return nil
+                }
+                return .buy(buyURL)
+            case NotificationAction.shareAction.rawValue:
+                guard
+                    let urlString = userInfo[NotificationConstants.dealKey] as? String,
+                    let dealURL = URL(string: urlString)?.deletingLastPathComponent() else {
+                        log.error("ERROR: unable to parse \(NotificationConstants.dealKey) from Notification")
+                        return nil
+                }
+                let title = notificationResponse.notification.request.content.body
+                return .share(title: title, url: dealURL)
+            case UNNotificationDefaultActionIdentifier:
+                log.info("\(#function) - DefaultActionIdentifier")
+                return deal
+            case UNNotificationDismissActionIdentifier:
+                // TODO: how to handle?
+                log.info("\(#function) - DismissActionIdentifier")
+                return nil
+            default:
+                log.warning("\(#function) - unknown action: \(notificationResponse.actionIdentifier)")
+                return nil
+            }
+        default:
+            let categoryID = notificationResponse.notification.request.content.categoryIdentifier
+            log.warning("\(#function) - unknown category: \(categoryID)")
+            return nil
+        }
+    }
 
 }
 

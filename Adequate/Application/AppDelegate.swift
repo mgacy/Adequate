@@ -117,32 +117,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         log.debug("\(#function) - \(response)")
-        let userInfo = response.notification.request.content.userInfo
 
-        // TODO: prepare for other `response.notification.request.content.categoryIdentifier`
-        switch response.actionIdentifier {
-        case NotificationAction.buyAction.rawValue:
-            if let urlString = userInfo[NotificationConstants.dealKey] as? String, let buyURL = URL(string: urlString) {
-                appCoordinator.start(with: .buy(buyURL))
-            } else {
-                log.error("ERROR: unable to parse \(NotificationConstants.dealKey) from Notification")
-            }
-        case NotificationAction.shareAction.rawValue:
-            if let urlString = userInfo[NotificationConstants.dealKey] as? String, let dealURL = URL(string: urlString)?.deletingLastPathComponent() {
-                let title = response.notification.request.content.body
-                appCoordinator.start(with: .share(title: title, url: dealURL))
-            } else {
-                log.error("ERROR: unable to parse \(NotificationConstants.dealKey) from Notification")
-            }
-        case UNNotificationDefaultActionIdentifier:
-            // TODO: switch to deal view
-            log.info("\(#function) - DefaultActionIdentifier")
-        case UNNotificationDismissActionIdentifier:
-            // TODO: how to handle?
-            log.info("\(#function) - DismissActionIdentifier")
-        default:
-            log.warning("\(#function) - unknown action: \(response.actionIdentifier)")
-        }
+        let deepLink = DeepLink.build(with: response)
+        appCoordinator.start(with: deepLink)
         completionHandler()
     }
 
