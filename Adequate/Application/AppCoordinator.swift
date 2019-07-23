@@ -38,6 +38,8 @@ class AppCoordinator: BaseCoordinator {
             switch deepLink {
             case .onboarding:
                 showOnboarding()
+            case .remoteNotification:
+                showMain()
             default:
                 startChildren(with: deepLink)
             }

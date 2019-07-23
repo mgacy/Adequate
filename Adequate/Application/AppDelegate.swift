@@ -24,9 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         UNUserNotificationCenter.current().delegate = self
 
-        // Check if launched from notification
-        let notification = launchOptions?[.remoteNotification] as? [String: AnyObject]
-        let deepLink = DeepLink.build(with: notification)
+        let deepLink = DeepLink.build(with: launchOptions)
 
         // TODO: create NotificationManager here and inject into AppCoordinator / create delegate protocol?
         self.appCoordinator = AppCoordinator(window: self.window!)

@@ -16,9 +16,15 @@ struct DeepLinkURLConstants {
 }
 
 enum DeepLink {
+    /// Show onboarding scene.
     case onboarding
+    /// Respond to launch from remote notification.
+    case remoteNotification([String : AnyObject])
+    /// Show current deal scene.
     case deal
+    /// Show purchase page for current deal.
     case buy(URL)
+    /// Show share sheet from current deal scene.
     case share(title: String, url: URL)
 
     static func build(with dict: [String: AnyObject]?) -> DeepLink? {
@@ -28,6 +34,14 @@ enum DeepLink {
         case DeepLinkURLConstants.onboarding: return .onboarding
         default: return nil
         }
+    }
+
+    static func build(with launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> DeepLink? {
+        guard let notification = launchOptions?[.remoteNotification] as? [String: AnyObject] else {
+            return nil
+        }
+        // TODO: perform any further verifications of structure?
+        return .remoteNotification(notification)
     }
 
     static func build(with url: URL) -> DeepLink? {
