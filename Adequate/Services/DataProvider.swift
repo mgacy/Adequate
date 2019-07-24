@@ -69,7 +69,7 @@ class DataProvider: DataProviderType {
     private let appSyncClient: AWSAppSyncClient
     private var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
     private var historyObservations: [UUID: (ViewState<[DealHistory]>) -> Void] = [:]
-    // TODO: use a queue for fetches?
+    // TODO: use a task queue for RefreshEvents / fetches?
 
     // MARK: - Lifecycle
 
@@ -153,7 +153,7 @@ class DataProvider: DataProviderType {
     // MARK: - Refresh
 
     func refreshDeal(for event: RefreshEvent) {
-        log.debug("Event: \(event)")
+        log.verbose("\(#function) - \(event)")
         switch event {
         case .manual:
             refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
@@ -176,6 +176,7 @@ class DataProvider: DataProviderType {
             }
             refreshDeal(showLoading: true, cachePolicy: cachePolicy)
         case .foreground:
+            // TODO: send notification to PagedImageViewDataSource to reload any views with .error ViewState?
             if case .available = UIApplication.shared.backgroundRefreshStatus {
                 if lastDealResponse.timeIntervalSince(lastDealRequest) < 0 {
                     // Last request failed
@@ -189,6 +190,7 @@ class DataProvider: DataProviderType {
             }
         // Notifications
         case .foregroundNotification:
+            // TODO: still refresh if backgroundRefreshStatus == .available?
             refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
         case .silentNotification(let completionHandler):
             refreshDealInBackground(fetchCompletionHandler: completionHandler)
@@ -196,7 +198,7 @@ class DataProvider: DataProviderType {
     }
 
     private func refreshDeal(showLoading: Bool, cachePolicy: CachePolicy) {
-        log.debug("CachePolicy: \(cachePolicy)")
+        log.verbose("\(#function) - \(cachePolicy)")
         guard dealState != ViewState<Deal>.loading else {
             // FIXME: what if cachePolicy differs from that of current request?
             log.debug("Already loading Deal; will bail")
@@ -209,11 +211,13 @@ class DataProvider: DataProviderType {
 
         // TODO: use Constants for currentDealID
         let query = GetDealQuery(id: "current_deal")
+        // TODO: specify queue?
         appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
             .then({ result in
                 guard let deal = Deal(result.getDeal) else {
                     throw SyncClientError.myError(message: "Missing result")
                 }
+                // TODO: don't set .lastDealResponse if cachePolicy == .returnCacheDataDontFetch / returnCacheDataElseFetch?
                 self.lastDealResponse = Date()
                 if case .result(let oldDeal) = self.dealState {
                     if oldDeal != deal {
@@ -234,7 +238,7 @@ class DataProvider: DataProviderType {
     private var wrappedHandler: CompletionWrapper<UIBackgroundFetchResult>?
 
     func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        log.debug("\(#function)")
+        log.verbose("\(#function)")
         self.lastDealRequest = Date()
         guard dealState != ViewState<Deal>.loading else {
             log.debug("Already fetching Deal; setting .wrappedHandler")
@@ -244,10 +248,13 @@ class DataProvider: DataProviderType {
             observer.observationToken = addDealObserver(observer) { wrapper, viewState in
                 switch viewState {
                 case .result:
+                    log.debug("BACKGROUND_APP_REFRESH: newData")
                     wrapper.complete(with: .newData)
                 case .error:
+                    log.debug("BACKGROUND_APP_REFRESH: failed")
                     wrapper.complete(with: .failed)
                 case .empty:
+                    log.debug("BACKGROUND_APP_REFRESH: noData")
                     wrapper.complete(with: .noData)
                 case .loading:
                     // This is called immediately; ignore it
@@ -266,15 +273,16 @@ class DataProvider: DataProviderType {
                 self.lastDealResponse = Date()
                 if case .result(let oldDeal) = self.dealState {
                     if oldDeal != newDeal {
-                        log.info("BACKGROUND_APP_REFRESH: newData")
+                        log.debug("BACKGROUND_APP_REFRESH: newData")
+                        // TODO: start background task to download image
                         self.dealState = .result(newDeal)
                         completionHandler(.newData)
                     } else {
-                        log.info("BACKGROUND_APP_REFRESH: noData")
+                        log.debug("BACKGROUND_APP_REFRESH: noData")
                         completionHandler(.noData)
                     }
                 } else {
-                    log.info("BACKGROUND_APP_REFRESH: newData")
+                    log.debug("BACKGROUND_APP_REFRESH: newData")
                     self.dealState = .result(newDeal)
                     completionHandler(.newData)
                 }
