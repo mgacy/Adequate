@@ -51,6 +51,17 @@ class DataProvider: DataProviderType {
             UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealResponse.rawValue)
         }
     }
+    /*
+    /// The .createdAt of last Deal fetched from server
+    var lastDealCreatedAt: Date {
+        get {
+            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealCreatedAt.rawValue) as? Date ?? Date.distantPast
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealCreatedAt.rawValue)
+        }
+    }
+    */
     private let minimumRefreshInterval: TimeInterval = 60
 
     // TODO: rename `ViewState<T>` as `ResourceState<T>`?
@@ -166,6 +177,7 @@ class DataProvider: DataProviderType {
             if case .available = UIApplication.shared.backgroundRefreshStatus {
                 if lastDealResponse.timeIntervalSince(lastDealRequest) >= 0 {
                     // Our last request succeeded
+                    // TODO: verify that Date().timeIntervalSince(lastDealCreatedAt) < 24 hours
                     cachePolicy = .returnCacheDataAndFetch // or .returnCacheDataElseFetch?
                 } else {
                     // Our last request failed
@@ -180,6 +192,7 @@ class DataProvider: DataProviderType {
             // TODO: improve handling
             refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
         case .foreground:
+            // TODO: showLoading and fetch if Date().timeIntervalSince(lastDealCreatedAt) >= 24 hours
             // TODO: send notification to PagedImageViewDataSource to reload any views with .error ViewState?
             if case .available = UIApplication.shared.backgroundRefreshStatus {
                 if lastDealResponse.timeIntervalSince(lastDealRequest) < 0 {
@@ -224,6 +237,7 @@ class DataProvider: DataProviderType {
                 }
                 // TODO: don't set .lastDealResponse if cachePolicy == .returnCacheDataDontFetch / returnCacheDataElseFetch?
                 self.lastDealResponse = Date()
+                //self.lastDealCreatedAt = DateFormatter.iso8601Full.date(from: deal.createdAt)
                 if case .result(let oldDeal) = self.dealState {
                     if oldDeal != deal {
                         self.dealState = .result(deal)
@@ -276,6 +290,7 @@ class DataProvider: DataProviderType {
                     throw SyncClientError.myError(message: "Missing result")
                 }
                 self.lastDealResponse = Date()
+                //self.lastDealCreatedAt = DateFormatter.iso8601Full.date(from: deal.createdAt)
                 if case .result(let oldDeal) = self.dealState {
                     if oldDeal != newDeal {
                         log.debug("BACKGROUND_APP_REFRESH: newData")

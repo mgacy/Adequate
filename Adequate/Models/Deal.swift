@@ -29,6 +29,7 @@ struct Deal: Codable {
     let story: Story
     let theme: Theme
     let url: URL
+    //let createdAt: Date
     let soldOutAt: Date?
     let launches: [Launch]?
     let launchStatus: LaunchStatus?
@@ -64,6 +65,7 @@ extension Deal {
         self.story = story
         self.theme = Theme(deal.theme)
         self.url = url
+        //self.createdAt = DateFormatter.iso8601Full.date(from: deal.createdAt)
         if let soldOutAt = deal.soldOutAt {
             self.soldOutAt = DateFormatter.iso8601Full.date(from: soldOutAt)
         } else {

@@ -28,6 +28,7 @@ class CompletionWrapper<T> {
     // MARK: Public
 
     func complete(with value: T) {
+        //log.debug("Completing with: \(value)")
         defer { onCompletion() }
         wrappedHandler(value)
     }
