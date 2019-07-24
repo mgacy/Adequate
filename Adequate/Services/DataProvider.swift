@@ -18,7 +18,8 @@ protocol DataProviderType {
     func getDealHistory(from: Date, to: Date)
     // Refresh
     func refreshDeal(for: RefreshEvent)
-    func refreshDealInBackground(fetchCompletionHandler: @escaping (UIBackgroundFetchResult) -> Void)
+    // Update
+    func updateDealInBackground(_: DealDelta, fetchCompletionHandler: @escaping (UIBackgroundFetchResult) -> Void)
     // Observers
     func addDealObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<Deal>) -> Void) -> ObservationToken
     func addHistoryObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<[DealHistory]>) -> Void) -> ObservationToken
@@ -185,6 +186,7 @@ class DataProvider: DataProviderType {
                     // Last request failed
                     refreshDeal(showLoading: false, cachePolicy: .fetchIgnoringCacheData)
                 } else {
+                    log.debug("Skipping refresh")
                     return
                 }
             } else {
@@ -240,7 +242,7 @@ class DataProvider: DataProviderType {
 
     private var wrappedHandler: CompletionWrapper<UIBackgroundFetchResult>?
 
-    func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    private func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.verbose("\(#function)")
         self.lastDealRequest = Date()
         guard dealState != ViewState<Deal>.loading else {
@@ -294,6 +296,54 @@ class DataProvider: DataProviderType {
                 //self.dealState = .error(error)
                 completionHandler(.failed)
             })
+    }
+
+    // MARK: - Update
+
+    func updateDealInBackground(_ delta: DealDelta, fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        log.verbose("\(#function) - \(delta)")
+        guard case .result(let currentDeal) = dealState else {
+            // TODO: is this the correct response?
+            // TODO: make use of CompletionWrapper?
+            log.info("\(#function) - already fetching Deal; setting .wrappedHandler")
+            completionHandler(.failed)
+            return
+        }
+
+        switch delta {
+        case .newDeal:
+            refreshDealInBackground(fetchCompletionHandler: completionHandler)
+        case .launchStatus(let newStatus):
+            if currentDeal.launchStatus != newStatus {
+                let launchStatusLens = Deal.lens.launchStatus
+                let updatedDeal = launchStatusLens.set(newStatus)(currentDeal)
+                dealState = .result(updatedDeal)
+                // TODO: update cache
+                completionHandler(.newData)
+            } else {
+                completionHandler(.noData)
+            }
+        case .commentCount(let newCount):
+            if let currentTopic = currentDeal.topic {
+                if currentTopic.commentCount != newCount {
+                    let dealAffine = Deal.lens.topic.toAffine()
+                    let topicPrism = Optional<Topic>.prism.toAffine()
+                    let topicAffine = Topic.lens.commentCount.toAffine()
+                    let composed = dealAffine.then(topicPrism).then(topicAffine)
+
+                    guard let updatedDeal = composed.trySet(newCount)(currentDeal) else {
+                        fatalError("Problem with Affine composition for Deal.topic.commentCount")
+                    }
+                    dealState = .result(updatedDeal)
+                    // TODO: update cache
+                    completionHandler(.newData)
+                } else {
+                    completionHandler(.noData)
+                }
+            } else {
+                refreshDealInBackground(fetchCompletionHandler: completionHandler)
+            }
+        }
     }
 
     // MARK: - Observers

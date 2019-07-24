@@ -84,7 +84,8 @@ extension AppCoordinator {
         dependencies.dataProvider.refreshDeal(for: event)
     }
 
-    func refreshDealInBackground(userInfo: [AnyHashable : Any], completion: @escaping FetchCompletionHandler) {
-        dependencies.dataProvider.refreshDealInBackground(fetchCompletionHandler: completion)
+    func updateDealInBackground(userInfo: [AnyHashable : Any], completion: @escaping FetchCompletionHandler) {
+        let delta = DealDelta(userInfo: userInfo) ?? .newDeal
+        dependencies.dataProvider.updateDealInBackground(delta, fetchCompletionHandler: completion)
     }
 }
