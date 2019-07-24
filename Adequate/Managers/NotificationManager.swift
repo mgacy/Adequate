@@ -29,6 +29,7 @@ enum NotificationManagerError: Error {
 
 enum NotificationCategoryIdentifier: String {
     case dailyDeal = "MGDailyDealCategory"
+    //case launchStatus = "MGLaunchStatus"
 
     // The actions to display when a notification of this type is presented.
     var actions: [NotificationAction] {
@@ -83,8 +84,12 @@ enum NotificationAction: String {
 
 struct NotificationConstants {
     // NOTE: in Apple's examples, they use ALL_CAPS for keys in notifications
+    // New Deal
     static let dealKey = "adequate-deal-url"
     static let imageKey = "adequate-image-url"
+    // Deal Delta
+    static let deltaTypeKey = "adequate-delta-type"
+    static let deltaValueKey = "adequate-delta-value"
 }
 
 // MARK: - Implementation
