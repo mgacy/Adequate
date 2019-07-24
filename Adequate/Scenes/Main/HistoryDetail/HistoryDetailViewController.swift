@@ -125,6 +125,20 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         return button
     }()
 
+    private let specsText: MDTextView = {
+        let stylesheet = """
+        * { font: -apple-system-body; }
+        h1, h2, h3, h4, h5, h6, strong { font-weight: bold; }
+        em { font-style: italic; }
+        h5 { font-style: italic; }
+        """
+        let view = MDTextView(stylesheet: stylesheet)
+        view.font = UIFont.preferredFont(forTextStyle: .body)
+        view.paragraphStyle = .list
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies, deal: DealFragment) {
@@ -150,6 +164,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         contentView.addSubview(titleLabel)
         contentView.addSubview(featuresText)
         contentView.addSubview(forumButton)
+        contentView.addSubview(specsText)
         navigationItem.leftBarButtonItem = dismissButton
 
         setupConstraints()
@@ -240,7 +255,11 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
             forumButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: AppTheme.spacing),
             forumButton.widthAnchor.constraint(equalToConstant: 200.0),
-            forumButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -AppTheme.spacing)
+            // specsText
+            specsText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
+            specsText.topAnchor.constraint(equalTo: forumButton.bottomAnchor, constant: AppTheme.spacing * 2.0),
+            specsText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
+            specsText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -AppTheme.spacing)
         ])
     }
     /*
@@ -309,6 +328,7 @@ extension HistoryDetailViewController: ViewStateRenderable {
             barBackingView.text = deal.title
             titleLabel.text = deal.title
             featuresText.markdown = deal.features
+            specsText.markdown = deal.specifications
             // images
             let safePhotoURLs = deal.photos
                 .compactMap { URL(string: $0) }
@@ -353,13 +373,15 @@ extension HistoryDetailViewController: Themeable {
         scrollView.backgroundColor = theme.backgroundColor
         contentView.backgroundColor = theme.backgroundColor
         featuresText.backgroundColor = theme.backgroundColor
-        //storyButton.setTitleColor(theme.backgroundColor, for: .normal)
         forumButton.setTitleColor(theme.backgroundColor, for: .normal)
+        specsText.backgroundColor = theme.backgroundColor
+        //storyButton.setTitleColor(theme.backgroundColor, for: .normal)
 
         // foreground
         // TODO: set home indicator color?
         titleLabel.textColor = theme.foreground.textColor
         featuresText.textColor = theme.foreground.textColor
+        specsText.textColor = theme.foreground.textColor
         navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
         setNeedsStatusBarAppearanceUpdate()
 
