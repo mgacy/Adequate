@@ -27,7 +27,7 @@ final class HistoryListCoordinator: Coordinator {
         if let deepLink = deepLink {
             // TODO: just call `startChildren(with:)` for all cases?
             switch deepLink {
-            case .buy, .share:
+            case .buy, .deal, .share:
                 startChildren(with: deepLink)
             default:
                 log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")

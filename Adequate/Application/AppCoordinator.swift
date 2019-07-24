@@ -38,10 +38,8 @@ class AppCoordinator: BaseCoordinator {
             switch deepLink {
             case .onboarding:
                 showOnboarding()
-            case .deal:
-                showMain(with: deepLink)
-            case .share:
-                startChildren(with: deepLink)
+            case .remoteNotification(let payload):
+                showMain(notificationPayload: payload)
             default:
                 startChildren(with: deepLink)
             }
@@ -57,7 +55,7 @@ class AppCoordinator: BaseCoordinator {
 
     // MARK: - Flows
 
-    private func showOnboarding(with deepLink: DeepLink? = nil) {
+    private func showOnboarding() {
         let coordinator = OnboardingCoordinator(window: window, dependencies: dependencies)
         coordinator.onFinishFlow = { [weak self, weak coordinator] result in
             if let strongCoordinator = coordinator {
@@ -66,24 +64,28 @@ class AppCoordinator: BaseCoordinator {
             self?.showMain()
         }
         store(coordinator: coordinator)
-        coordinator.start(with: deepLink)
+        coordinator.start()
     }
 
-    private func showMain(with deepLink: DeepLink? = nil) {
+    private func showMain(notificationPayload payload: [String : AnyObject]? = nil) {
+        let refreshEvent: RefreshEvent = payload != nil ? .launchFromNotification(payload!) : .launch
+        refreshDeal(for: refreshEvent)
         let mainCoordinator = MainCoordinator(window: window, dependencies: dependencies)
         store(coordinator: mainCoordinator)
-        mainCoordinator.start(with: deepLink)
+        mainCoordinator.start()
     }
 }
 
 // MARK: - Refresh
 extension AppCoordinator {
+    typealias FetchCompletionHandler = (UIBackgroundFetchResult) -> Void
 
-    func refreshDeal(showLoading: Bool) {
-        dependencies.dataProvider.refreshDeal(showLoading: showLoading)
+    func refreshDeal(for event: RefreshEvent) {
+        dependencies.dataProvider.refreshDeal(for: event)
     }
 
-    func refreshDealInBackground(completion: @escaping (UIBackgroundFetchResult) -> Void) {
-        dependencies.dataProvider.refreshDealInBackground(fetchCompletionHandler: completion)
+    func updateDealInBackground(userInfo: [AnyHashable : Any], completion: @escaping FetchCompletionHandler) {
+        let delta = DealDelta(userInfo: userInfo) ?? .newDeal
+        dependencies.dataProvider.updateDealInBackground(delta, fetchCompletionHandler: completion)
     }
 }

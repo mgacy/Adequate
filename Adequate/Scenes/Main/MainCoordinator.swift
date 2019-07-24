@@ -48,7 +48,7 @@ final class MainCoordinator: BaseCoordinator {
         return coordinator
     }()
 
-    // MARK: - Lifecycle
+    // MARK: Lifecycle
 
     init(window: UIWindow, dependencies: Dependencies) {
         self.window = window
@@ -59,31 +59,8 @@ final class MainCoordinator: BaseCoordinator {
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
             switch deepLink {
-            case .buy:
-                // TODO: improve handling
-                switch pageViewController.currentIndex {
-                case 0:
-                    goToPage(.deal, from: .history, animated: false)
-                case 2:
-                    goToPage(.deal, from: .story, animated: false)
-                default:
-                    break
-                }
-                startChildren(with: deepLink)
-            case .deal:
-                showDeal()
-            //case .meh:
-            //    log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
-            case .share:
-                // TODO: improve handling
-                switch pageViewController.currentIndex {
-                case 0:
-                    goToPage(.deal, from: .history, animated: false)
-                case 2:
-                    goToPage(.deal, from: .story, animated: false)
-                default:
-                    break
-                }
+            case .buy, .deal, .share:
+                goToDealPage()
                 startChildren(with: deepLink)
             default:
                 log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
@@ -96,7 +73,15 @@ final class MainCoordinator: BaseCoordinator {
 
     deinit { print("\(#function) - \(String(describing: self))") }
 
-    // MARK: - Private Methods
+    // MARK: Flows
+
+    private func showDeal() {
+        setPages([historyCoordinator, dealCoordinator, storyCoordinator], animated: false)
+        window.rootViewController = pageViewController
+        window.makeKeyAndVisible()
+    }
+
+    // MARK: Configuration and Navigation
 
     private func setPages(_ coordinators: [Coordinator], animated: Bool = false) {
         let vcs = coordinators.map { coordinator -> UIViewController in
@@ -106,10 +91,16 @@ final class MainCoordinator: BaseCoordinator {
         pageViewController.setPages(vcs, displayIndex: 1, animated: animated)
     }
 
-    private func showDeal() {
-        setPages([historyCoordinator, dealCoordinator, storyCoordinator], animated: false)
-        window.rootViewController = pageViewController
-        window.makeKeyAndVisible()
+    private func goToDealPage() {
+        // TODO: improve handling
+        switch pageViewController.currentIndex {
+        case 0:
+            goToPage(.deal, from: .history, animated: false)
+        case 2:
+            goToPage(.deal, from: .story, animated: false)
+        default:
+            break
+        }
     }
 }
 

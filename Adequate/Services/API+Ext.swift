@@ -8,6 +8,8 @@
 
 import UIKit
 
+extension LaunchStatus: Codable {}
+
 extension ThemeForeground: Codable {
 
     var textColor: UIColor {

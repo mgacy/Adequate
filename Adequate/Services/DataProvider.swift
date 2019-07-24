@@ -14,12 +14,12 @@ import class Promise.Promise // import class to avoid name collision with AWSApp
 protocol DataProviderType {
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
     // Get
-    func getCurrentDeal()
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal>
     func getDealHistory(from: Date, to: Date)
     // Refresh
-    func refreshDeal(showLoading: Bool)
-    func refreshDealInBackground(fetchCompletionHandler: @escaping (UIBackgroundFetchResult) -> Void)
+    func refreshDeal(for: RefreshEvent)
+    // Update
+    func updateDealInBackground(_: DealDelta, fetchCompletionHandler: @escaping (UIBackgroundFetchResult) -> Void)
     // Observers
     func addDealObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<Deal>) -> Void) -> ObservationToken
     func addHistoryObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<[DealHistory]>) -> Void) -> ObservationToken
@@ -31,15 +31,26 @@ class DataProvider: DataProviderType {
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     // TODO: initialize with UserDefaultsManager; use AppGroup
-    var lastDealUpdate: Date {
+
+    /// The last time we tried to fetch the current Deal (in response to Notification)
+    var lastDealRequest: Date {
         get {
-            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealUpdate.rawValue) as? Date ?? Date.distantPast
+            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealRequest.rawValue) as? Date ?? Date.distantPast
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealUpdate.rawValue)
+            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealRequest.rawValue)
         }
     }
 
+    /// The last time we succeeded in fetching the current Deal
+    var lastDealResponse: Date {
+        get {
+            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealResponse.rawValue) as? Date ?? Date.distantPast
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealResponse.rawValue)
+        }
+    }
     private let minimumRefreshInterval: TimeInterval = 60
 
     // TODO: rename `ViewState<T>` as `ResourceState<T>`?
@@ -59,7 +70,7 @@ class DataProvider: DataProviderType {
     private let appSyncClient: AWSAppSyncClient
     private var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
     private var historyObservations: [UUID: (ViewState<[DealHistory]>) -> Void] = [:]
-    // TODO: use a queue for fetches?
+    // TODO: use a task queue for RefreshEvents / fetches?
 
     // MARK: - Lifecycle
 
@@ -81,34 +92,14 @@ class DataProvider: DataProviderType {
 
     // MARK: - Get
 
-    func getCurrentDeal() {
-        // If background fetch is enabled, can we we just check the difference between 
-        // .lastDealCheck and .lastDealUpdate to determine cachePolicy?
-        // What about fetch initiated at startup?
-        getCurrentDeal(cachePolicy: .fetchIgnoringCacheData)
-    }
-
-    private func getCurrentDeal(cachePolicy: CachePolicy) {
-        guard dealState != ViewState<Deal>.loading else { return }
-        dealState = .loading
-        let query = GetDealQuery(id: "current_deal")
-        appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
-            .then({ result in
-                guard let deal = Deal(result.getDeal) else {
-                    throw SyncClientError.myError(message: "Missing result")
-                }
-                self.lastDealUpdate = Date()
-                self.dealState = .result(deal)
-            }).catch({ error in
-                log.error("\(#function): \(error.localizedDescription)")
-                self.dealState = .error(error)
-            })
-    }
-
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
         // TODO: if id != 'current_deal', we should be able to use `.returnCacheDataElseFetch`
+        getDeal(withID: id, cachePolicy: .fetchIgnoringCacheData)
+    }
+
+    private func getDeal(withID id: GraphQLID, cachePolicy: CachePolicy = .fetchIgnoringCacheData) -> Promise<GetDealQuery.Data.GetDeal> {
         let query = GetDealQuery(id: id)
-        return appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
+        return appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
             .then({ result -> GetDealQuery.Data.GetDeal in
                 guard let deal = result.getDeal else {
                     throw SyncClientError.myError(message: "Missing result")
@@ -162,21 +153,61 @@ class DataProvider: DataProviderType {
 
     // MARK: - Refresh
 
-    func refreshDeal(showLoading: Bool = false) {
-        log.debug("\(#function)")
-        guard dealState != ViewState<Deal>.loading else {
-            log.debug("\(#function) - already loading; will bail")
-            return
-        }
+    func refreshDeal(for event: RefreshEvent) {
+        log.verbose("\(#function) - \(event)")
+        switch event {
+        case .manual:
+            refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
+        // App State
+        case .launch:
+            var cachePolicy: CachePolicy = .fetchIgnoringCacheData
 
-        var cachePolicy: CachePolicy
-        // if Date().timeIntervalSince(lastDealUpdate) < minimumRefreshInterval {
-        if abs(lastDealUpdate.timeIntervalSinceNow) < minimumRefreshInterval {
-            // Always fetch results from the server.
-            cachePolicy = .fetchIgnoringCacheData
-        } else {
-            // Return data from the cache if available, and always fetch results from the server.
-            cachePolicy = .returnCacheDataAndFetch
+            // Can we rely on the cache?
+            if case .available = UIApplication.shared.backgroundRefreshStatus {
+                if lastDealResponse.timeIntervalSince(lastDealRequest) >= 0 {
+                    // Our last request succeeded
+                    cachePolicy = .returnCacheDataAndFetch // or .returnCacheDataElseFetch?
+                } else {
+                    // Our last request failed
+                    cachePolicy = .fetchIgnoringCacheData
+                }
+            } else {
+                log.debug("backgroundRefreshStatus: \(UIApplication.shared.backgroundRefreshStatus)")
+                cachePolicy = .fetchIgnoringCacheData
+            }
+            refreshDeal(showLoading: true, cachePolicy: cachePolicy)
+        case .launchFromNotification:
+            // TODO: improve handling
+            refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
+        case .foreground:
+            // TODO: send notification to PagedImageViewDataSource to reload any views with .error ViewState?
+            if case .available = UIApplication.shared.backgroundRefreshStatus {
+                if lastDealResponse.timeIntervalSince(lastDealRequest) < 0 {
+                    // Last request failed
+                    refreshDeal(showLoading: false, cachePolicy: .fetchIgnoringCacheData)
+                } else {
+                    log.debug("Skipping refresh")
+                    return
+                }
+            } else {
+                log.debug("backgroundRefreshStatus: \(UIApplication.shared.backgroundRefreshStatus)")
+                refreshDeal(showLoading: false, cachePolicy: .fetchIgnoringCacheData)
+            }
+        // Notifications
+        case .foregroundNotification:
+            // TODO: still refresh if backgroundRefreshStatus == .available?
+            refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
+        case .silentNotification(let completionHandler):
+            refreshDealInBackground(fetchCompletionHandler: completionHandler)
+        }
+    }
+
+    private func refreshDeal(showLoading: Bool, cachePolicy: CachePolicy) {
+        log.verbose("\(#function) - \(cachePolicy)")
+        guard dealState != ViewState<Deal>.loading else {
+            // FIXME: what if cachePolicy differs from that of current request?
+            log.debug("Already loading Deal; will bail")
+            return
         }
 
         if showLoading {
@@ -185,12 +216,14 @@ class DataProvider: DataProviderType {
 
         // TODO: use Constants for currentDealID
         let query = GetDealQuery(id: "current_deal")
+        // TODO: specify queue?
         appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
             .then({ result in
                 guard let deal = Deal(result.getDeal) else {
                     throw SyncClientError.myError(message: "Missing result")
                 }
-                self.lastDealUpdate = Date()
+                // TODO: don't set .lastDealResponse if cachePolicy == .returnCacheDataDontFetch / returnCacheDataElseFetch?
+                self.lastDealResponse = Date()
                 if case .result(let oldDeal) = self.dealState {
                     if oldDeal != deal {
                         self.dealState = .result(deal)
@@ -200,16 +233,40 @@ class DataProvider: DataProviderType {
                 }
             }).catch({ error in
                 log.error("\(#function): \(error.localizedDescription)")
-                //if showLoading {
-                //    self.dealState = .error(error)
-                //}
+                // TODO: is this check sufficient to cover desired behavior?
+                if showLoading {
+                    self.dealState = .error(error)
+                }
             })
     }
 
-    func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        log.debug("\(#function)")
+    private var wrappedHandler: CompletionWrapper<UIBackgroundFetchResult>?
+
+    private func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        log.verbose("\(#function)")
+        self.lastDealRequest = Date()
         guard dealState != ViewState<Deal>.loading else {
-            log.debug("Already fetching Deal; bailing from refreshDealInBackground")
+            log.debug("Already fetching Deal; setting .wrappedHandler")
+            let observer = CompletionWrapper(wrapping: completionHandler) { [weak self] in
+                self?.wrappedHandler = nil
+            }
+            observer.observationToken = addDealObserver(observer) { wrapper, viewState in
+                switch viewState {
+                case .result:
+                    log.debug("BACKGROUND_APP_REFRESH: newData")
+                    wrapper.complete(with: .newData)
+                case .error:
+                    log.debug("BACKGROUND_APP_REFRESH: failed")
+                    wrapper.complete(with: .failed)
+                case .empty:
+                    log.debug("BACKGROUND_APP_REFRESH: noData")
+                    wrapper.complete(with: .noData)
+                case .loading:
+                    // This is called immediately; ignore it
+                    break
+                }
+            }
+            wrappedHandler = observer
             return
         }
         let query = GetDealQuery(id: "current_deal")
@@ -218,18 +275,19 @@ class DataProvider: DataProviderType {
                 guard let newDeal = Deal(result.getDeal) else {
                     throw SyncClientError.myError(message: "Missing result")
                 }
-                self.lastDealUpdate = Date()
+                self.lastDealResponse = Date()
                 if case .result(let oldDeal) = self.dealState {
                     if oldDeal != newDeal {
-                        log.info("BACKGROUND_APP_REFRESH: newData")
+                        log.debug("BACKGROUND_APP_REFRESH: newData")
+                        // TODO: start background task to download image
                         self.dealState = .result(newDeal)
                         completionHandler(.newData)
                     } else {
-                        log.info("BACKGROUND_APP_REFRESH: noData")
+                        log.debug("BACKGROUND_APP_REFRESH: noData")
                         completionHandler(.noData)
                     }
                 } else {
-                    log.info("BACKGROUND_APP_REFRESH: newData")
+                    log.debug("BACKGROUND_APP_REFRESH: newData")
                     self.dealState = .result(newDeal)
                     completionHandler(.newData)
                 }
@@ -238,6 +296,54 @@ class DataProvider: DataProviderType {
                 //self.dealState = .error(error)
                 completionHandler(.failed)
             })
+    }
+
+    // MARK: - Update
+
+    func updateDealInBackground(_ delta: DealDelta, fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        log.verbose("\(#function) - \(delta)")
+        guard case .result(let currentDeal) = dealState else {
+            // TODO: is this the correct response?
+            // TODO: make use of CompletionWrapper?
+            log.info("\(#function) - already fetching Deal; setting .wrappedHandler")
+            completionHandler(.failed)
+            return
+        }
+
+        switch delta {
+        case .newDeal:
+            refreshDealInBackground(fetchCompletionHandler: completionHandler)
+        case .launchStatus(let newStatus):
+            if currentDeal.launchStatus != newStatus {
+                let launchStatusLens = Deal.lens.launchStatus
+                let updatedDeal = launchStatusLens.set(newStatus)(currentDeal)
+                dealState = .result(updatedDeal)
+                // TODO: update cache
+                completionHandler(.newData)
+            } else {
+                completionHandler(.noData)
+            }
+        case .commentCount(let newCount):
+            if let currentTopic = currentDeal.topic {
+                if currentTopic.commentCount != newCount {
+                    let dealAffine = Deal.lens.topic.toAffine()
+                    let topicPrism = Optional<Topic>.prism.toAffine()
+                    let topicAffine = Topic.lens.commentCount.toAffine()
+                    let composed = dealAffine.then(topicPrism).then(topicAffine)
+
+                    guard let updatedDeal = composed.trySet(newCount)(currentDeal) else {
+                        fatalError("Problem with Affine composition for Deal.topic.commentCount")
+                    }
+                    dealState = .result(updatedDeal)
+                    // TODO: update cache
+                    completionHandler(.newData)
+                } else {
+                    completionHandler(.noData)
+                }
+            } else {
+                refreshDealInBackground(fetchCompletionHandler: completionHandler)
+            }
+        }
     }
 
     // MARK: - Observers

@@ -245,7 +245,6 @@ class DealViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         observationTokens = setupObservations()
-        getDeal()
     }
 
     override func didReceiveMemoryWarning() {
@@ -373,7 +372,7 @@ class DealViewController: UIViewController {
     // MARK: - Actions / Navigation
 
     @objc func getDeal() {
-        dataProvider.getCurrentDeal()
+        dataProvider.refreshDeal(for: .manual)
     }
 
     @objc private func didPressShare(_ sender: UIBarButtonItem) {
