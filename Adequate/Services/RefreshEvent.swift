@@ -9,23 +9,18 @@
 import UIKit
 
 enum RefreshEvent {
-
-    /// Manual refresh
-    case manual
-
-    // MARK: App State
-
-    /// Application did finish launching
+    /// Application did finish launching.
     case launch
-
-    /// Application will enter foreground
+    /// Application did finish launching from notification.
+    case launchFromNotification([String: AnyObject])
+    /// Application will enter foreground.
     case foreground
 
-    // MARK: Notification
-
-    /// Application received foreground notification
+    /// Application received foreground notification.
     case foregroundNotification
 
-    /// Application received silent notification
+    /// Application received silent notification.
     case silentNotification((UIBackgroundFetchResult) -> Void)
+    /// Manual refresh.
+    case manual
 }

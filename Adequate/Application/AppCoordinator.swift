@@ -38,8 +38,8 @@ class AppCoordinator: BaseCoordinator {
             switch deepLink {
             case .onboarding:
                 showOnboarding()
-            case .remoteNotification:
-                showMain()
+            case .remoteNotification(let payload):
+                showMain(notificationPayload: payload)
             default:
                 startChildren(with: deepLink)
             }
@@ -67,9 +67,9 @@ class AppCoordinator: BaseCoordinator {
         coordinator.start()
     }
 
-    private func showMain() {
-        // TODO: handle DeepLink from notification
-        dependencies.dataProvider.refreshDeal(for: .launch)
+    private func showMain(notificationPayload payload: [String : AnyObject]? = nil) {
+        let refreshEvent: RefreshEvent = payload != nil ? .launchFromNotification(payload!) : .launch
+        refreshDeal(for: refreshEvent)
         let mainCoordinator = MainCoordinator(window: window, dependencies: dependencies)
         store(coordinator: mainCoordinator)
         mainCoordinator.start()

@@ -175,6 +175,9 @@ class DataProvider: DataProviderType {
                 cachePolicy = .fetchIgnoringCacheData
             }
             refreshDeal(showLoading: true, cachePolicy: cachePolicy)
+        case .launchFromNotification:
+            // TODO: improve handling
+            refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
         case .foreground:
             // TODO: send notification to PagedImageViewDataSource to reload any views with .error ViewState?
             if case .available = UIApplication.shared.backgroundRefreshStatus {
