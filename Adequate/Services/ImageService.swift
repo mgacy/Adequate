@@ -14,6 +14,7 @@ import Promise
 public protocol ImageCaching {
     func saveImageToCache(image: UIImage?, url: URL)
     func imageFromCache(for: URL) -> UIImage?
+    func clearCache()
 }
 
 class ImageCache: ImageCaching {
@@ -29,6 +30,9 @@ class ImageCache: ImageCaching {
         return cache[url.absoluteString]
     }
 
+    func clearCache() {
+        cache.removeAll()
+    }
 }
 
 // MARK: - Protocol
@@ -37,11 +41,13 @@ public protocol ImageServiceType {
     func fetchImage(for url: URL) -> Promise<UIImage>
     func fetchedImage(for url: URL, tryingSecondary: Bool) -> UIImage?
     //func cancelFetch(_ url: URL)
+    func clearCache()
 }
 
 // MARK: - Implementation
 
 public class ImageService: ImageServiceType {
+    // TODO: rename memoryCache and diskCache
     private let cache = ImageCache()
     private let secondaryCache: FileCache
     private let client: NetworkClientType
@@ -88,14 +94,16 @@ public class ImageService: ImageServiceType {
     }
 
     public func fetchedImage(for url: URL, tryingSecondary: Bool = false) -> UIImage? {
+        //log.debug("url: \(url) - secondary: \(tryingSecondary)")
         if let result = cache.imageFromCache(for: url) {
-            //log.debug("Primary Cache")
+            //log.verbose("Primary Cache")
             return result
         } else if tryingSecondary, let file = secondaryCache.imageFromCache(for: url) {
-            //log.debug("Secondary Cache")
+            //log.verbose("Secondary Cache")
             cache.saveImageToCache(image: file, url: url)
             return file
         } else {
+            //log.verbose("Neither Cache")
             return nil
         }
     }
@@ -106,5 +114,9 @@ public class ImageService: ImageServiceType {
         //let task = pendingTasks[url.absoluteString]
         //task.queue.invalidate()
         //pendingTasks[url.absoluteString] = nil
+    }
+    
+    public func clearCache() {
+        cache.clearCache()
     }
 }
