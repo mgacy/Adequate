@@ -68,7 +68,7 @@ final class HistoryListCell: UITableViewCell {
     }
 
     // MARK: - View Configuration
-
+    /*
     func setupView() {
         selectedBackgroundView = UIView()
         contentView.addSubview(cardView)
@@ -88,6 +88,35 @@ final class HistoryListCell: UITableViewCell {
             stackView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: AppTheme.spacing),
             stackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -AppTheme.spacing),
             stackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -AppTheme.spacing)
+        ])
+    }
+    */
+    // NEW
+    func setupView() {
+        selectedBackgroundView = UIView()
+        contentView.addSubview(cardView)
+        cardView.addSubview(titleLabel)
+        cardView.addSubview(dateLabel)
+    }
+
+    func setupConstraints() {
+        let guide = contentView.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            // cardView
+            cardView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: AppTheme.sideMargin),
+            cardView.topAnchor.constraint(equalTo: guide.topAnchor, constant: AppTheme.spacing / 2.0),
+            cardView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -AppTheme.sideMargin),
+            cardView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -AppTheme.spacing / 2.0),
+            cardView.heightAnchor.constraint(greaterThanOrEqualToConstant: 80.0),
+            // titleLabel
+            titleLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: AppTheme.spacing),
+            titleLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: AppTheme.spacing),
+            titleLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -AppTheme.spacing),
+            // dateLabel
+            dateLabel.topAnchor.constraint(greaterThanOrEqualTo: titleLabel.bottomAnchor, constant: AppTheme.spacing),
+            dateLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: AppTheme.spacing),
+            dateLabel.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -AppTheme.spacing),
+            dateLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -AppTheme.spacing)
         ])
     }
 
