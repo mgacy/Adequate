@@ -155,7 +155,7 @@ extension StateView {
             activityMessageLabel.isHidden = true
             messageLabel.isHidden = false
             messageLabel.text = L10n.emptyMessage
-            retryButton.isHidden = true
+            retryButton.isHidden = true // ?
         case .error(let error):
             isHidden = false
             activityIndicator.stopAnimating()

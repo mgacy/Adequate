@@ -201,10 +201,10 @@ class DealViewController: UIViewController {
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
-        //self.viewState = .empty
         self.dataProvider = dependencies.dataProvider
         self.imageService = dependencies.imageService
         self.themeManager = dependencies.themeManager
+        //self.viewState = .empty
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -214,7 +214,6 @@ class DealViewController: UIViewController {
 
     override func loadView() {
         super.loadView()
-
         view.addSubview(scrollView)
         scrollView.headerView = pagedImageView
         scrollView.addSubview(contentView)
@@ -234,7 +233,7 @@ class DealViewController: UIViewController {
 
         view.addSubview(barBackingView)
         view.addSubview(footerView)
-
+        // Navigation bar
         navigationItem.leftBarButtonItem = historyButton
         navigationItem.rightBarButtonItems = [storyButton, shareButton]
 
@@ -290,7 +289,7 @@ class DealViewController: UIViewController {
         barBackingView.inset = statusBarHeight
 
         // scrollView
-        let parallaxHeight: CGFloat = view.frame.width + 24.0 // Add height of PagedImageView pageControl
+        let parallaxHeight: CGFloat = view.frame.width + 24.0 // Add height of PagedImageView.pageControl
         scrollView.headerHeight = parallaxHeight
 
         scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in

@@ -101,10 +101,11 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     }()
 
     private let featuresText: MDTextView = {
-        let label = MDTextView(stylesheet: Appearance.stylesheet)
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+        let view = MDTextView(stylesheet: Appearance.stylesheet)
+        view.font = UIFont.preferredFont(forTextStyle: .body)
+        view.paragraphStyle = .list
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     /*
     private let storyButton: UIButton = {
@@ -165,6 +166,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         contentView.addSubview(featuresText)
         contentView.addSubview(forumButton)
         contentView.addSubview(specsText)
+        // Navigation bar
         navigationItem.leftBarButtonItem = dismissButton
 
         setupConstraints()

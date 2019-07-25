@@ -35,6 +35,7 @@ class AppCoordinator: BaseCoordinator {
 
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
+            log.debug("\(#function) - \(deepLink)")
             switch deepLink {
             case .onboarding:
                 showOnboarding()
