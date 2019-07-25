@@ -93,8 +93,10 @@ class DataProvider: DataProviderType {
 
         addDealObserver(self) { dp, viewState in
             guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
+                log.verbose("New ViewState: \(viewState)")
                 return
             }
+            log.verbose("New ViewState: Result: Deal(title: \(deal.title), launchStatus: \(String(describing: deal.launchStatus)))")
             let currentDealManager = CurrentDealManager()
             currentDealManager.saveDeal(currentDeal)
             //dp.getDealHistory()
