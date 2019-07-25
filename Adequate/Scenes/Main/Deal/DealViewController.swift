@@ -57,45 +57,14 @@ class DealViewController: UIViewController {
 
     // MARK: - Subviews
 
-    private let activityIndicator: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView()
-        view.style = .gray
+    private lazy var stateView: StateView = {
+        let view = StateView()
+        view.onRetry = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.getDeal()
+        }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
-    }()
-
-    private let messageLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
-        label.font = UIFont.preferredFont(forTextStyle: .caption2)
-        label.textColor = .gray
-        label.text = L10n.loadingMessage
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let errorMessageLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.textColor = .gray
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let retryButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle(L10n.retry, for: .normal)
-        button.layer.cornerRadius = 5.0
-        button.layer.borderWidth = 1.0
-        button.layer.borderColor = UIColor.gray.cgColor
-        button.backgroundColor = .clear
-        button.setTitleColor(.gray, for: .normal)
-        button.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: 15.0, bottom: 5.0, right: 15.0)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
     }()
 
     // Navigation Bar
@@ -124,6 +93,7 @@ class DealViewController: UIViewController {
 
     private let scrollView: ParallaxScrollView = {
         let view = ParallaxScrollView()
+        view.contentInsetAdjustmentBehavior = .always
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         return view
@@ -214,24 +184,15 @@ class DealViewController: UIViewController {
 
     override func loadView() {
         super.loadView()
+        view.addSubview(stateView)
         view.addSubview(scrollView)
+        view.addSubview(barBackingView)
         scrollView.headerView = pagedImageView
         scrollView.addSubview(contentView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(featuresText)
         contentView.addSubview(forumButton)
         contentView.addSubview(specsText)
-
-        view.addSubview(activityIndicator)
-        view.addSubview(messageLabel)
-
-        // TODO: consolidate in dedicated UIView subclass
-        view.addSubview(activityIndicator)
-        view.addSubview(messageLabel)
-        view.addSubview(errorMessageLabel)
-        view.addSubview(retryButton)
-
-        view.addSubview(barBackingView)
         view.addSubview(footerView)
         // Navigation bar
         navigationItem.leftBarButtonItem = historyButton
@@ -276,7 +237,6 @@ class DealViewController: UIViewController {
         pagedImageView.delegate = self
         footerView.delegate = self
 
-        retryButton.addTarget(self, action: #selector(getDeal), for: .touchUpInside)
         forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupParallaxScrollView()
     }
@@ -300,20 +260,11 @@ class DealViewController: UIViewController {
     func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            // activityIndicator
-            activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
-            activityIndicator.topAnchor.constraint(equalTo: view.centerYAnchor),
-            // messageLabel
-            messageLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: AppTheme.sideMargin),
-            messageLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -AppTheme.sideMargin),
-            messageLabel.topAnchor.constraint(equalTo: activityIndicator.bottomAnchor, constant: 4.0),
-            // errorMessageLabel
-            errorMessageLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: AppTheme.sideMargin),
-            errorMessageLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -AppTheme.sideMargin),
-            errorMessageLabel.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: AppTheme.spacing * -2.0),
-            // retryButton
-            retryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            retryButton.topAnchor.constraint(equalTo: view.centerYAnchor, constant: AppTheme.spacing),
+            // stateView
+            stateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stateView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stateView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: AppTheme.sideMargin),
+            stateView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -AppTheme.sideMargin),
             // footerView
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -435,30 +386,19 @@ extension DealViewController: ViewStateRenderable {
     typealias ResultType = Deal
 
     func render(_ viewState: ViewState<Deal>) {
+        //stateView.render(viewState)
         switch viewState {
         case .empty:
-            activityIndicator.stopAnimating()
-            messageLabel.text = L10n.emptyMessage
-            errorMessageLabel.isHidden = true
-            retryButton.isHidden = false
+            stateView.render(viewState)
             scrollView.isHidden = true
             footerView.isHidden = true
-        case .error(let error):
-            activityIndicator.stopAnimating()
-            // TODO: display error message on messageLabel?
-            messageLabel.isHidden = true
-            errorMessageLabel.isHidden = false
-            errorMessageLabel.text = error.localizedDescription
-            retryButton.isHidden = false
+        case .error:
+            stateView.render(viewState)
             scrollView.isHidden = true
-            //displayError(error: error)
         case .loading:
-            activityIndicator.startAnimating()
-            messageLabel.text = L10n.loadingMessage
-            messageLabel.isHidden = false
-            errorMessageLabel.isHidden = true
-            retryButton.isHidden = true
+            stateView.render(viewState)
             scrollView.isHidden = true
+            footerView.isHidden = true
             shareButton.isEnabled = false
             storyButton.isEnabled = false
         case .result(let deal):
@@ -479,10 +419,11 @@ extension DealViewController: ViewStateRenderable {
 
             themeManager.applyTheme(theme: deal.theme)
             UIView.animate(withDuration: 0.3, animations: {
-                self.activityIndicator.stopAnimating()
-                self.messageLabel.isHidden = true
-                self.errorMessageLabel.isHidden = true
-                self.retryButton.isHidden = true
+                //self.activityIndicator.stopAnimating()
+                //self.messageLabel.isHidden = true
+                //self.errorMessageLabel.isHidden = true
+                //self.retryButton.isHidden = true
+                self.stateView.render(viewState)
                 self.scrollView.isHidden = false
                 self.footerView.isHidden = false
                 //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
@@ -538,6 +479,7 @@ extension DealViewController: Themeable {
         // Subviews
         pagedImageView.apply(theme: theme)
         barBackingView.apply(theme: theme)
+        stateView.apply(theme: theme)
         footerView.apply(theme: theme)
     }
 }
