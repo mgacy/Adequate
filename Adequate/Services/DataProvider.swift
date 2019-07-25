@@ -321,10 +321,31 @@ class DataProvider: DataProviderType {
     func updateDealInBackground(_ delta: DealDelta, fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.verbose("\(#function) - \(delta)")
         guard case .result(let currentDeal) = dealState else {
-            // TODO: is this the correct response?
-            // TODO: make use of CompletionWrapper?
             log.info("\(#function) - already fetching Deal; setting .wrappedHandler")
-            completionHandler(.failed)
+
+            if wrappedHandler != nil {
+                log.error("Replacing existing wrappedHandler")
+            }
+            let observer = CompletionWrapper(wrapping: completionHandler) { [weak self] in
+                self?.wrappedHandler = nil
+            }
+            observer.observationToken = addDealObserver(observer) { wrapper, viewState in
+                switch viewState {
+                case .result:
+                    log.debug("BACKGROUND_APP_REFRESH: newData")
+                    wrapper.complete(with: .newData)
+                case .error:
+                    log.debug("BACKGROUND_APP_REFRESH: failed")
+                    wrapper.complete(with: .failed)
+                case .empty:
+                    log.debug("BACKGROUND_APP_REFRESH: noData")
+                    wrapper.complete(with: .noData)
+                case .loading:
+                    // This is called immediately; ignore it
+                    break
+                }
+            }
+            wrappedHandler = observer
             return
         }
 
