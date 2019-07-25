@@ -261,6 +261,9 @@ class DataProvider: DataProviderType {
         self.lastDealRequest = Date()
         guard dealState != ViewState<Deal>.loading else {
             log.debug("Already fetching Deal; setting .wrappedHandler")
+            if wrappedHandler != nil {
+                log.error("Replacing existing wrappedHandler")
+            }
             let observer = CompletionWrapper(wrapping: completionHandler) { [weak self] in
                 self?.wrappedHandler = nil
             }
