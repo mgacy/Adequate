@@ -84,8 +84,10 @@ class FileCache {
             log.error("Error reading image data: \(error)")
         }
         guard let data = imageData else {
+            log.verbose("Failed to retrieve image for \(url)")
             return nil
         }
+        log.verbose("Succeeded in retrieving image for \(url)")
         // TODO: make more generic; just return Data and have other components handle UIImage
         return UIImage(data: data)
     }
