@@ -11,7 +11,7 @@ import SafariServices
 
 class SettingsCoordinator: BaseCoordinator {
     typealias CoordinationResult = Void
-    typealias Dependencies = HasNotificationManager & HasThemeManager & HasUserDefaultsManager
+    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
 
     private let router: RouterType
     private let dependencies: Dependencies
@@ -49,7 +49,7 @@ extension SettingsCoordinator: Presentable {
 extension SettingsCoordinator: SettingsViewControllerDelegate {
 
     func showAbout() {
-        let viewController = AboutViewController(dependencies: dependencies)
+        let viewController = AboutViewController()
         viewController.delegate = self
         router.push(viewController, animated: true, completion: nil)
     }
@@ -74,7 +74,7 @@ extension SettingsCoordinator: SettingsViewControllerDelegate {
 extension SettingsCoordinator: AboutViewControllerDelegate {
 
     func showAcknowledgements() {
-        let viewController = AcknowledgementsViewController(dependencies: dependencies)
+        let viewController = AcknowledgementsViewController()
         router.push(viewController, animated: true, completion: nil)
     }
 

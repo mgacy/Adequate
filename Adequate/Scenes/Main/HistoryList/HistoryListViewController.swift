@@ -20,12 +20,12 @@ protocol HistoryListViewControllerDelegate: class {
 // MARK: - View Controller
 
 final class HistoryListViewController: UIViewController {
-    typealias Dependencies = HasDataProvider & HasThemeManager
+    typealias Dependencies = HasDataProvider
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     weak var delegate: HistoryListViewControllerDelegate?
 
-    private let themeManager: ThemeManagerType
+    //private let themeManager: ThemeManagerType
     private let dataSource: HistoryListDataSource
     private var observationTokens: [ObservationToken] = []
 
@@ -39,8 +39,8 @@ final class HistoryListViewController: UIViewController {
         return UIBarButtonItem(image: #imageLiteral(resourceName: "RightChevronNavBar"), style: .plain, target: self, action: #selector(didPressDeal(_:)))
     }()
 
-    private lazy var stateView: StateView<Void> = {
-        let view = StateView<Void>()
+    private lazy var stateView: StateView = {
+        let view = StateView()
         view.onRetry = { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.getDealHistory()
@@ -63,7 +63,7 @@ final class HistoryListViewController: UIViewController {
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
-        self.themeManager = dependencies.themeManager
+        //self.themeManager = dependencies.themeManager
         self.dataSource = HistoryListDataSource(dependencies: dependencies)
         super.init(nibName: nil, bundle: nil)
     }
@@ -99,8 +99,10 @@ final class HistoryListViewController: UIViewController {
     // MARK: - View Methods
 
     func setupView() {
-        title = Strings.historyListSceneTitle
+        title = L10n.history
         navigationController?.navigationBar.barTintColor = .white
+        settingsButton.tintColor = .black
+        dealButton.tintColor = .black
         stateView.foreground = .dark
         view.backgroundColor = .white
         tableView.backgroundColor = .white
@@ -111,18 +113,12 @@ final class HistoryListViewController: UIViewController {
 
     func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
-
-        /// TODO: move these into class property?
-        //let spacing: CGFloat = 8.0
-        let sideMargin: CGFloat = 16.0
-        //let widthInset: CGFloat = -2.0 * sideMargin
-
         NSLayoutConstraint.activate([
             // stateView
             stateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stateView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            stateView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
-            stateView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
+            stateView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: AppTheme.sideMargin),
+            stateView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -AppTheme.sideMargin),
             // tableView
             tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             tableView.topAnchor.constraint(equalTo: guide.topAnchor),
@@ -134,6 +130,7 @@ final class HistoryListViewController: UIViewController {
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = dataSource
+        tableView.estimatedRowHeight = 100.0
         tableView.separatorStyle = .none
         tableView.register(cellType: HistoryListCell.self)
     }
@@ -206,12 +203,5 @@ extension HistoryListViewController: ViewStateRenderable {
             stateView.isHidden = false
             tableView.isHidden = true
         }
-    }
-}
-
-// MARK: - Strings
-extension HistoryListViewController {
-    private enum Strings {
-        static let historyListSceneTitle = "History"
     }
 }

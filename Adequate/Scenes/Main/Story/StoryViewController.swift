@@ -42,7 +42,7 @@ final class StoryViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -111,7 +111,7 @@ final class StoryViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        title = Strings.storySceneTitle
+        title = L10n.story
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.isTranslucent = false
         apply(theme: themeManager.theme)
@@ -120,12 +120,6 @@ final class StoryViewController: UIViewController {
 
     private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
-
-        /// TODO: move these into class property?
-        let spacing: CGFloat = 8.0
-        let sideMargin: CGFloat = 16.0
-        let widthInset: CGFloat = -2.0 * sideMargin
-
         NSLayoutConstraint.activate([
             // scrollView
             scrollView.leftAnchor.constraint(equalTo: guide.leftAnchor),
@@ -133,9 +127,9 @@ final class StoryViewController: UIViewController {
             scrollView.rightAnchor.constraint(equalTo: guide.rightAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             // stackView
-            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
-            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
-            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 2.0 * spacing),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: AppTheme.sideMargin),
+            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: AppTheme.widthInset),
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: AppTheme.spacing * 2.0),
             stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
     }
@@ -179,7 +173,7 @@ extension StoryViewController: ViewStateRenderable {
 extension StoryViewController: Themeable {
     func apply(theme: AppTheme) {
         // accentColor
-        // ...
+        dealButton.tintColor = theme.accentColor
 
         // backgroundColor
         view.backgroundColor = theme.backgroundColor
@@ -187,14 +181,10 @@ extension StoryViewController: Themeable {
         navigationController?.navigationBar.barTintColor = theme.backgroundColor
 
         // foreground
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: theme.foreground.textColor]
         titleLabel.textColor = theme.foreground.textColor
         bodyText.textColor = theme.foreground.textColor
-    }
-}
-
-// MARK: - Strings
-extension StoryViewController {
-    private enum Strings {
-        static let storySceneTitle = "Story"
+        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
+        //setNeedsStatusBarAppearanceUpdate()
     }
 }

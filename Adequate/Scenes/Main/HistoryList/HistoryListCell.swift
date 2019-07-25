@@ -25,6 +25,7 @@ final class HistoryListCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 2
         label.font = UIFont.preferredFont(forTextStyle: .headline)
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
      }()
@@ -33,6 +34,7 @@ final class HistoryListCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -42,7 +44,7 @@ final class HistoryListCell: UITableViewCell {
         view.axis = .vertical
         view.alignment = .leading
         view.distribution = .fill
-        //view.spacing = 4.0 // FIXME: use constant
+        view.spacing = 2.0 // FIXME: use constant
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -51,6 +53,7 @@ final class HistoryListCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
+        //self.selectionStyle = .none
         setupView()
         setupConstraints()
     }
@@ -65,7 +68,7 @@ final class HistoryListCell: UITableViewCell {
     }
 
     // MARK: - View Configuration
-
+    /*
     func setupView() {
         selectedBackgroundView = UIView()
         contentView.addSubview(cardView)
@@ -74,22 +77,46 @@ final class HistoryListCell: UITableViewCell {
 
     func setupConstraints() {
         let guide = contentView.safeAreaLayoutGuide
-
-        /// TODO: move these into class property?
-        let spacing: CGFloat = 8.0
-        //let sideMargin: CGFloat = 16.0
-
         NSLayoutConstraint.activate([
             // cardView
-            cardView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: spacing),
-            cardView.topAnchor.constraint(equalTo: guide.topAnchor, constant: spacing / 2.0),
-            cardView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -spacing),
-            cardView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -spacing / 2.0),
+            cardView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: AppTheme.sideMargin),
+            cardView.topAnchor.constraint(equalTo: guide.topAnchor, constant: AppTheme.spacing / 2.0),
+            cardView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -AppTheme.sideMargin),
+            cardView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -AppTheme.spacing / 2.0),
             // stackView
-            stackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: spacing),
-            stackView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: spacing),
-            stackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -spacing),
-            stackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -spacing)
+            stackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: AppTheme.spacing),
+            stackView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: AppTheme.spacing),
+            stackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -AppTheme.spacing),
+            stackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -AppTheme.spacing)
+        ])
+    }
+    */
+    // NEW
+    func setupView() {
+        selectedBackgroundView = UIView()
+        contentView.addSubview(cardView)
+        cardView.addSubview(titleLabel)
+        cardView.addSubview(dateLabel)
+    }
+
+    func setupConstraints() {
+        let guide = contentView.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            // cardView
+            cardView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: AppTheme.sideMargin),
+            cardView.topAnchor.constraint(equalTo: guide.topAnchor, constant: AppTheme.spacing / 2.0),
+            cardView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -AppTheme.sideMargin),
+            cardView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -AppTheme.spacing / 2.0),
+            cardView.heightAnchor.constraint(greaterThanOrEqualToConstant: 80.0),
+            // titleLabel
+            titleLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: AppTheme.spacing),
+            titleLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: AppTheme.spacing),
+            titleLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -AppTheme.spacing),
+            // dateLabel
+            dateLabel.topAnchor.constraint(greaterThanOrEqualTo: titleLabel.bottomAnchor, constant: AppTheme.spacing),
+            dateLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: AppTheme.spacing),
+            dateLabel.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -AppTheme.spacing),
+            dateLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -AppTheme.spacing)
         ])
     }
 
@@ -103,7 +130,7 @@ extension HistoryListCell {
         apply(theme: AppTheme(theme: deal.theme))
         titleLabel.text = deal.title
         if let createdAt = DateFormatter.iso8601Full.date(from: deal.createdAt) {
-            dateLabel.text = DateFormatter.yyyyMMdd.string(from: createdAt)
+            dateLabel.text = DateFormatter.veryShortEST.string(from: createdAt)
         } else {
             dateLabel.text = deal.createdAt
         }
@@ -119,17 +146,32 @@ extension HistoryListCell: Themeable {
         cardView.backgroundColor = theme.backgroundColor
         // foreground
         titleLabel.textColor = theme.foreground.textColor
-        dateLabel.textColor = theme.foreground.textColor
+        dateLabel.textColor = theme.foreground.textColor.withAlphaComponent(0.8)
 
         switch theme.foreground {
         case .dark:
             titleLabel.highlightedTextColor = ThemeForeground.light.textColor
-            dateLabel.highlightedTextColor = ThemeForeground.light.textColor
+            dateLabel.highlightedTextColor = ThemeForeground.light.textColor.withAlphaComponent(0.8)
         case .light:
             titleLabel.highlightedTextColor = ThemeForeground.dark.textColor
-            dateLabel.highlightedTextColor = ThemeForeground.dark.textColor
+            dateLabel.highlightedTextColor = ThemeForeground.dark.textColor.withAlphaComponent(0.8)
         default:
             return
         }
     }
 }
+/*
+// MARK: - Config
+extension HistoryListCell {
+    fileprivate enum ViewConfig {
+        // X
+        static let cardCornerRadius: CGFloat = 5.0
+        // Spacing
+        static let spacing: CGFloat = 8.0
+        static let sideMargin: CGFloat = 12.0
+        static let labelSpacing: CGFloat = 2.0
+        // Color
+        static let dateLabelAlpha: CGFloat = 0.8
+    }
+}
+*/

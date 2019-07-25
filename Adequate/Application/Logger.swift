@@ -32,7 +32,7 @@ class Logger: LoggingType {
 
     private static func setupLogger() {
         let console = ConsoleDestination()
-        //let file = FileDestination()
+        let file = FileDestination()
 
         // use custom format and set console output to short time, log level & message
         //console.format = "$DHH:mm:ss$d $L $M"
@@ -45,13 +45,13 @@ class Logger: LoggingType {
                                              appSecret: AppSecrets.loggerAppSecret,
                                              encryptionKey: AppSecrets.loggerEncryptionKey)
         //platform.analyticsUserName = "userName"
-        /// TODO: try to get minLevel from defaults (so user can set verbose logging)
-        platform.minLevel = .debug
+        // TODO: try to get minLevel from defaults (so user can set verbose logging)
+        platform.minLevel = .verbose
         SwiftyBeaver.addDestination(platform)
         #endif
 
         SwiftyBeaver.addDestination(console)
-        //SwiftyBeaver.addDestination(file)
+        SwiftyBeaver.addDestination(file)
         loggerLoaded = true
     }
 
@@ -61,30 +61,30 @@ class Logger: LoggingType {
         }
     }
 
-    // MARK: - A
+    // MARK: Public
 
-    static func verbose(_ string: String) {
-        custom(level: .verbose, message: string)
+    static func verbose(_ message: String, file: String = #file, function: String = #function, line: Int = #line) {
+        custom(level: .verbose, message: message, file: file, function: function, line: line)
     }
 
-    static func debug(_ string: String) {
-        custom(level: .debug, message: string)
+    static func debug(_ message: String, file: String = #file, function: String = #function, line: Int = #line) {
+        custom(level: .debug, message: message, file: file, function: function, line: line)
     }
 
-    static func info(_ string: String) {
-        custom(level: .info, message: string)
+    static func info(_ message: String, file: String = #file, function: String = #function, line: Int = #line) {
+        custom(level: .info, message: message, file: file, function: function, line: line)
     }
 
-    static func warning(_ string: String) {
-        custom(level: .warning, message: string)
+    static func warning(_ message: String, file: String = #file, function: String = #function, line: Int = #line) {
+        custom(level: .warning, message: message, file: file, function: function, line: line)
     }
 
-    static func error(_ string: String) {
-        custom(level: .error, message: string)
+    static func error(_ message: String, file: String = #file, function: String = #function, line: Int = #line) {
+        custom(level: .error, message: message, file: file, function: function, line: line)
     }
 
-    private static func custom(level: SwiftyBeaver.Level, message: String) {
+    private static func custom(level: SwiftyBeaver.Level, message: String, file: String, function: String, line: Int) {
         checkIfLoggerIsLoaded()
-        SwiftyBeaver.custom(level: level, message: message)
+        SwiftyBeaver.custom(level: level, message: message, file: file, function: function, line: line)
     }
 }

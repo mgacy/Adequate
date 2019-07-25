@@ -12,7 +12,8 @@ class NotificationService: UNNotificationServiceExtension {
 
     var contentHandler: ((UNNotificationContent) -> Void)?
     var bestAttemptContent: UNMutableNotificationContent?
-    private let downloader = FileDownloader()
+    private let downloader = FileDownloader(appGroupID: .currentDeal)
+    private let fileCache = FileCache(appGroupID: .currentDeal)
 
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
         self.contentHandler = contentHandler
@@ -27,7 +28,7 @@ class NotificationService: UNNotificationServiceExtension {
                     return contentHandler(request.content)
             }
 
-            /// TODO: make NotificationConstants an enum and define attachmentID as property of it?
+            // TODO: make NotificationConstants an enum and define attachmentID as property of it?
             let attachmentID = "image"
 
             // Download image and modify notification content
@@ -38,6 +39,10 @@ class NotificationService: UNNotificationServiceExtension {
                         return
                 }
                 bestAttemptContent.attachments.append(attachment)
+
+                let fileName = url.lastPathComponent
+                self.fileCache.storeFile(at: url, as: fileName)
+
                 contentHandler(bestAttemptContent)
             }
         }

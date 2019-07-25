@@ -14,6 +14,7 @@ import Promise
 public protocol ImageCaching {
     func saveImageToCache(image: UIImage?, url: URL)
     func imageFromCache(for: URL) -> UIImage?
+    func clearCache()
 }
 
 class ImageCache: ImageCaching {
@@ -29,29 +30,42 @@ class ImageCache: ImageCaching {
         return cache[url.absoluteString]
     }
 
+    func clearCache() {
+        cache.removeAll()
+    }
 }
 
-// MARK: - Image Service
+// MARK: - Protocol
 
-//public protocol ImageServiceType {}
+public protocol ImageServiceType {
+    func fetchImage(for url: URL) -> Promise<UIImage>
+    func fetchedImage(for url: URL, tryingSecondary: Bool) -> UIImage?
+    //func cancelFetch(_ url: URL)
+    func clearCache()
+}
 
-public class ImageService {
+// MARK: - Implementation
+
+public class ImageService: ImageServiceType {
+    // TODO: rename memoryCache and diskCache
     private let cache = ImageCache()
+    private let secondaryCache: FileCache
     private let client: NetworkClientType
-
+    /*
     struct Task {
         let promise: Promise<UIImage>
-        /// TODO: initialize with background queue?
+        // TODO: initialize with background queue?
         let queue = InvalidatableQueue()
     }
-
-    /// TODO: do we need to handle cacheing or removal of pending tasks on a lockQueue?
+    */
+    // TODO: do we need to handle cacheing or removal of pending tasks on a lockQueue?
     //private let lockQueue = DispatchQueue(label: "image_service_lock_queue", qos: .userInitiated)
     private var pendingTasks = Dictionary<String, Promise<UIImage>>()
     //private var pendingTasks = Dictionary<String, Task>()
 
     public init(client: NetworkClientType) {
         self.client = client
+        self.secondaryCache = FileCache(appGroupID: "group.mgacy.com.currentDeal")
     }
 
     /*
@@ -62,13 +76,13 @@ public class ImageService {
      pending state forever, preventing resources from being released.
      */
 
-    /// TODO: pass InvalidatableQueue as well?
+    // TODO: pass InvalidatableQueue as well?
     //@discardableResult
     public func fetchImage(for url: URL) -> Promise<UIImage> {
         if let pendingFetch = pendingTasks[url.absoluteString] {
             return pendingFetch
         } else {
-            /// TODO: do this on background thread / lockQueue?
+            // TODO: do this on background thread / lockQueue?
             let promise: Promise<UIImage> = client.request(url).then({ [weak self] image in
                 self?.cache.saveImageToCache(image: image, url: url)
             }).always({ [weak self] in
@@ -79,16 +93,30 @@ public class ImageService {
         }
     }
 
-    public func fetchedImage(for url: URL) -> UIImage? {
-        return cache.imageFromCache(for: url)
+    public func fetchedImage(for url: URL, tryingSecondary: Bool = false) -> UIImage? {
+        //log.debug("url: \(url) - secondary: \(tryingSecondary)")
+        if let result = cache.imageFromCache(for: url) {
+            //log.verbose("Primary Cache")
+            return result
+        } else if tryingSecondary, let file = secondaryCache.imageFromCache(for: url) {
+            //log.verbose("Secondary Cache")
+            cache.saveImageToCache(image: file, url: url)
+            return file
+        } else {
+            //log.verbose("Neither Cache")
+            return nil
+        }
     }
 
     public func cancelFetch(_ url: URL) {
-        /// TODO: does any of this need to be performed on the lockQueue?
-        /// TODO: add guard?
+        // TODO: does any of this need to be performed on the lockQueue?
+        // TODO: add guard?
         //let task = pendingTasks[url.absoluteString]
         //task.queue.invalidate()
         //pendingTasks[url.absoluteString] = nil
     }
-
+    
+    public func clearCache() {
+        cache.clearCache()
+    }
 }

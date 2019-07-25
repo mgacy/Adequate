@@ -9,7 +9,7 @@
 import UIKit
 
 final class HistoryListCoordinator: Coordinator {
-    typealias Dependencies = HasDataProvider & HasNotificationManager & HasThemeManager & HasUserDefaultsManager
+    typealias Dependencies = HasDataProvider & HasImageService & HasNotificationManager & HasThemeManager & HasUserDefaultsManager
     typealias DealFragment = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     private let dependencies: Dependencies
@@ -25,7 +25,13 @@ final class HistoryListCoordinator: Coordinator {
 
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
-            log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+            // TODO: just call `startChildren(with:)` for all cases?
+            switch deepLink {
+            case .buy, .deal, .share:
+                startChildren(with: deepLink)
+            default:
+                log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+            }
         } else {
             showHistory()
         }

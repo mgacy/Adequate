@@ -8,10 +8,15 @@
 
 import UIKit
 
-class StateView<Element>: UIView {
+class StateView: UIView {
 
     var onRetry: (() -> Void)?
-    var emptyMessageText: String = Strings.emptyMessage
+    var emptyMessageText: String = L10n.emptyMessage
+    var loadingMessageText: String? = L10n.loadingMessage {
+        didSet {
+            activityMessageLabel.text = loadingMessageText
+        }
+    }
 
     // MARK: - Appearance
 
@@ -48,13 +53,13 @@ class StateView<Element>: UIView {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
-        label.text = Strings.loadingMessage
+        label.text = L10n.loadingMessage
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    /// TODO: UIStackView?
+    // TODO: UIStackView?
 
     private let messageLabel: UILabel = {
         let label = UILabel()
@@ -67,7 +72,7 @@ class StateView<Element>: UIView {
 
     private let retryButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle(Strings.retryButton, for: .normal)
+        button.setTitle(L10n.retry, for: .normal)
         button.layer.cornerRadius = 5.0
         button.layer.borderWidth = 1.0
         button.backgroundColor = .clear
@@ -75,8 +80,6 @@ class StateView<Element>: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
-    /// TODO: UIStackView?
 
     override var intrinsicContentSize: CGSize {
         return CGSize(width: 300.0, height: 100.0)
@@ -115,11 +118,8 @@ class StateView<Element>: UIView {
     private func setupConstraints() {
         let guide = safeAreaLayoutGuide
 
-        /// TODO: move these into class property?
-        let spacing: CGFloat = 8.0
-        let sideMargin: CGFloat = 16.0
-        //let widthInset: CGFloat = -2.0 * sideMargin
-
+        //let sideMargin: CGFloat = 16.0
+        let sideMargin: CGFloat = 0.0
         NSLayoutConstraint.activate([
             // activityIndicator
             activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
@@ -131,10 +131,10 @@ class StateView<Element>: UIView {
             // messageLabel
             messageLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
             messageLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
-            messageLabel.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: spacing * -2.0),
+            messageLabel.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: AppTheme.spacing * -2.0),
             // retryButton
             retryButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            retryButton.topAnchor.constraint(equalTo: centerYAnchor, constant: spacing),
+            retryButton.topAnchor.constraint(equalTo: centerYAnchor, constant: AppTheme.spacing),
         ])
     }
 
@@ -146,37 +146,36 @@ class StateView<Element>: UIView {
 
 }
 
-// MARK: - ViewStateRenderable
-extension StateView: ViewStateRenderable {
-    func render(_ viewState: ViewState<Element>) {
+extension StateView {
+    func render<T>(_ viewState: ViewState<T>) {
         switch viewState {
         case .empty:
-            //isHidden = false
+            isHidden = false
             activityIndicator.stopAnimating()
             activityMessageLabel.isHidden = true
             messageLabel.isHidden = false
-            messageLabel.text = emptyMessageText
-            retryButton.isHidden = true
+            messageLabel.text = L10n.emptyMessage
+            retryButton.isHidden = true // ?
         case .error(let error):
-            //isHidden = false
+            isHidden = false
             activityIndicator.stopAnimating()
             activityMessageLabel.isHidden = true
             messageLabel.isHidden = false
             messageLabel.text = error.localizedDescription
             retryButton.isHidden = false
         case .loading:
-            //isHidden = false
+            isHidden = false
             activityIndicator.startAnimating()
-            activityMessageLabel.text = Strings.loadingMessage
             activityMessageLabel.isHidden = false
             messageLabel.isHidden = true
             retryButton.isHidden = true
         case .result:
             activityIndicator.stopAnimating()
-            //isHidden = true
+            isHidden = true
             /*
-            /// TODO: animate here or in caller?
+            // TODO: animate here or in caller?
             UIView.animate(withDuration: 0.3, animations: {
+                self.isHidden = true
                 self.activityIndicator.stopAnimating()
                 self.activityMessageLabel.isHidden = true
                 self.messageLabel.isHidden = true
@@ -198,13 +197,4 @@ extension StateView: Themeable {
         // foreground
         foreground = theme.foreground
     }
-}
-
-// MARK: - Strings
-fileprivate enum Strings {
-    // Buttons
-    static let retryButton = "Retry"
-    // Message Labels
-    static let emptyMessage = "There was no data"
-    static let loadingMessage = "LOADING"
 }

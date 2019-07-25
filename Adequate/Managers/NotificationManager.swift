@@ -27,29 +27,69 @@ enum NotificationManagerError: Error {
 
 // MARK: - Configuration
 
-/// TODO: Rename NotificationCategory to mirror NotificationAction?
-fileprivate enum CategoryIdentifier: String {
+enum NotificationCategoryIdentifier: String {
     case dailyDeal = "MGDailyDealCategory"
+    //case launchStatus = "MGLaunchStatus"
+
+    // The actions to display when a notification of this type is presented.
+    var actions: [NotificationAction] {
+        switch self {
+        case .dailyDeal:
+            return [.buyAction, .shareAction]
+        }
+    }
+
+    /// The intents related to notifications of this category.
+    var intentIdentifiers: [String] {
+        switch self {
+        case .dailyDeal:
+            return []
+        }
+    }
+
+    /// Options for how to handle notifications of this type.
+    var options: UNNotificationCategoryOptions {
+        switch self {
+        case .dailyDeal:
+            return []
+        }
+    }
 }
 
 enum NotificationAction: String {
     case buyAction = "MGBuyAction"
-    case mehAction = "MGMehAction"
+    //case mehAction = "MGMehAction"
+    case shareAction = "MGShareAction"
 
-    /// TODO: what about localization?
     var title: String {
         switch self {
         case .buyAction:
-            return "Buy"
-        case .mehAction:
-            return "Meh"
+            return L10n.buy
+        //case .mehAction:
+        //    return L10n.meh
+        case .shareAction:
+            return L10n.share
+        }
+    }
+
+    var options: UNNotificationActionOptions {
+        switch self {
+        case .buyAction:
+            return [.foreground]
+        case .shareAction:
+            return [.foreground]
         }
     }
 }
 
 struct NotificationConstants {
+    // NOTE: in Apple's examples, they use ALL_CAPS for keys in notifications
+    // New Deal
     static let dealKey = "adequate-deal-url"
     static let imageKey = "adequate-image-url"
+    // Deal Delta
+    static let deltaTypeKey = "adequate-delta-type"
+    static let deltaValueKey = "adequate-delta-value"
 }
 
 // MARK: - Implementation
@@ -57,6 +97,7 @@ struct NotificationConstants {
 class NotificationManager: NSObject, NotificationManagerType {
 
     private let notificationCenter: UNUserNotificationCenter
+    //private let requestedNotificationOptions: UNAuthorizationOptions = [.alert, .sound]
 
     override init() {
         self.notificationCenter = .current()
@@ -88,7 +129,7 @@ class NotificationManager: NSObject, NotificationManagerType {
                 self.notificationCenter.setNotificationCategories([self.makeCategory(for: .dailyDeal)])
             })
             .then({ settings in
-                /// must register on main thread
+                // must register on main thread
                 UIApplication.shared.registerForRemoteNotifications()
             })
     }
@@ -99,22 +140,25 @@ class NotificationManager: NSObject, NotificationManagerType {
 
     // MARK: - Helper Factory Methods
 
-    private func makeCategory(for categoryID: CategoryIdentifier) -> UNNotificationCategory {
+    private func makeCategory(for categoryID: NotificationCategoryIdentifier) -> UNNotificationCategory {
         let actions = makeActions(for: categoryID)
         return UNNotificationCategory(identifier: categoryID.rawValue,
-                                      actions: actions, intentIdentifiers: [], options: [])
+                                      actions: actions,
+                                      intentIdentifiers: categoryID.intentIdentifiers,
+                                      options: categoryID.options)
     }
 
-    private func makeActions(for categoryID: CategoryIdentifier) -> [UNNotificationAction] {
+    private func makeActions(for categoryID: NotificationCategoryIdentifier) -> [UNNotificationAction] {
         let actions: [UNNotificationAction]
         switch categoryID {
         case .dailyDeal:
             let buyAction = UNNotificationAction(identifier: NotificationAction.buyAction.rawValue,
-                                                 title: NotificationAction.buyAction.title, options: [.foreground])
-            //let viewAction = ...
-            let mehAction = UNNotificationAction(identifier: NotificationAction.mehAction.rawValue,
-                                                 title: NotificationAction.mehAction.title, options: [.foreground])
-            actions = [buyAction, mehAction]
+                                                 title: NotificationAction.buyAction.title,
+                                                 options: NotificationAction.buyAction.options)
+            let shareAction = UNNotificationAction(identifier: NotificationAction.shareAction.rawValue,
+                                                   title: NotificationAction.shareAction.title,
+                                                   options: NotificationAction.shareAction.options)
+            actions = [buyAction, shareAction]
         }
         return actions
     }

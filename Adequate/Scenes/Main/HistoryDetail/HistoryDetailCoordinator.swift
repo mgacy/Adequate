@@ -12,7 +12,7 @@ import Promise
 
 final class HistoryDetailCoordinator: BaseCoordinator {
     typealias CoordinationResult = Void
-    typealias Dependencies = HasDataProvider & HasThemeManager
+    typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
     typealias Topic = GetDealQuery.Data.GetDeal.Topic
 
@@ -32,8 +32,13 @@ final class HistoryDetailCoordinator: BaseCoordinator {
 
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
-            log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
-            startChildren(with: deepLink)
+            switch deepLink {
+            case .buy, .deal, .share:
+                onFinishFlow?(())
+            default:
+                log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+                startChildren(with: deepLink)
+            }
         } else {
             showDetail()
         }

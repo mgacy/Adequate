@@ -11,7 +11,7 @@ import SafariServices
 import Promise
 
 final class DealCoordinator: Coordinator {
-    typealias Dependencies = HasDataProvider & HasThemeManager
+    typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
 
     private let dependencies: Dependencies
 
@@ -26,7 +26,16 @@ final class DealCoordinator: Coordinator {
 
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
-            log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+            switch deepLink {
+            case let .buy(url):
+                showWebPage(with: url, animated: false)
+            case .deal:
+                router.dismissModule(animated: false, completion: nil)
+            case let .share(title, url):
+                shareDeal(title: title, url: url)
+            default:
+                log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+            }
         } else {
             showDeal()
         }
@@ -42,7 +51,19 @@ final class DealCoordinator: Coordinator {
         router.setRootModule(dealViewController, hideBar: false)
     }
 
+    private func shareDeal(title: String, url: URL) {
+        //router.popToRootModule(animated: false) // not currently necessary
+        guard let dealViewController = router.rootViewController as? DealViewController else {
+            log.error("Unable to get dealViewController")
+            return
+        }
+        router.dismissModule(animated: false, completion: nil)
+        // TODO: make coordinator responsible for showing share sheet?
+        dealViewController.shareDeal(title: title, url: url)
+    }
+
     private func showWebPage(with url: URL, animated: Bool) {
+        router.dismissModule(animated: false, completion: nil)
         let configuration = SFSafariViewController.Configuration()
         configuration.barCollapsingEnabled = false
 

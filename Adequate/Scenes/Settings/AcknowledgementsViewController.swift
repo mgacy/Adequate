@@ -10,10 +10,10 @@ import UIKit
 import Down
 
 class AcknowledgementsViewController: UIViewController {
-    typealias Dependencies = HasThemeManager
+    //typealias Dependencies = HasThemeManager
 
-    private let themeManager: ThemeManagerType
-    private var observationTokens: [ObservationToken] = []
+    //private let themeManager: ThemeManagerType
+    //private var observationTokens: [ObservationToken] = []
 
     // TODO: use Style instead
     private let VerticalMargin: CGFloat = 16.0
@@ -34,8 +34,7 @@ class AcknowledgementsViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init(dependencies: Dependencies) {
-        self.themeManager = dependencies.themeManager
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -72,13 +71,13 @@ class AcknowledgementsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    deinit { observationTokens.forEach { $0.cancel() } }
+    //deinit { observationTokens.forEach { $0.cancel() } }
 
     // MARK: - View Methods
 
     func setupView() {
         view.backgroundColor = .white
-        observationTokens = setupObservations()
+        //observationTokens = setupObservations()
     }
 
     func setupConstraints() {
@@ -90,12 +89,12 @@ class AcknowledgementsViewController: UIViewController {
             textView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: 0.0)
         ])
     }
-
+    /*
     private func setupObservations() -> [ObservationToken] {
         let themeToken = themeManager.addObserver(self)
         return [themeToken]
     }
-
+    */
     // MARK: - A
 
     private func loadAcknowledgements() -> NSAttributedString? {
@@ -110,7 +109,7 @@ class AcknowledgementsViewController: UIViewController {
     }
 
 }
-
+/*
 // MARK: - Themeable
 extension AcknowledgementsViewController: Themeable {
     func apply(theme: AppTheme) {
@@ -122,3 +121,4 @@ extension AcknowledgementsViewController: Themeable {
         textView.textColor = theme.foreground.textColor
     }
 }
+*/

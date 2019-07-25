@@ -32,8 +32,8 @@ public struct CurrentDeal: Codable {
     //let updatedAt: Date
     //let imageName: String
     let imageURL: URL // should this be optional?
-    let minPrice: Int
-    let maxPrice: Int?
+    let minPrice: Double
+    let maxPrice: Double?
     //let priceComparison: String?
     //let isSoldOut: Bool
 }
@@ -46,6 +46,7 @@ public class CurrentDealManager {
 
     //private let defaults: UserDefaults
     private let sharedContainerURL: URL
+    private let session: URLSession = URLSession.shared
 
     // MARK: - Lifecycle
 
@@ -53,6 +54,7 @@ public class CurrentDealManager {
     init(){
         let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: CurrentDealConstants.groupID)!
         //self.defaults = defaults
+        //self.session = Self.makeSession()
         self.sharedContainerURL = url
     }
 
@@ -75,7 +77,7 @@ public class CurrentDealManager {
         // Save Image
         let destinationURL = sharedContainerURL
             .appendingPathComponent(.imageLocation)
-        URLSession.shared.downloadTask(with: deal.imageURL) { (fileURL, _, _) in
+        session.downloadTask(with: deal.imageURL) { (fileURL, _, _) in
             guard let fileURL = fileURL else {
                 return
             }
@@ -134,6 +136,27 @@ public class CurrentDealManager {
         }
     }
 
+    // MARK: - Alt
+    /*
+    private func scaleImage(from url: URL, toSize scaledSize: CGFloat = 150.0) -> UIImage? {
+        do {
+            let data = try Data(contentsOf: url)
+            guard let originalImage = UIImage(data: data) else {
+                print("Error downloading image")
+                throw CurrentDealManagerError.missingImage
+            }
+
+            guard let scaledImage = originalImage.scaled(to: scaledSize) else {
+                print("Error rescaling image")
+                throw CurrentDealManagerError.missingImage
+            }
+            return scaledImage
+        } catch let error {
+            print("ERROR: \(error)")
+            return nil
+        }
+    }
+    */
     // MARK: - Read
 
     public func readDeal() -> CurrentDeal? {
@@ -156,12 +179,28 @@ public class CurrentDealManager {
         return UIImage(data: imageData)
     }
 
+    // MARK: Configuration
+    /*
+    private static func makeSession() -> URLSession {
+        //let configuration = URLSessionConfiguration.background(withIdentifier: .sessionConfigID)
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 20  // seconds
+        configuration.timeoutIntervalForResource = 20 // seconds
+        configuration.waitsForConnectivity = true     // reachability
+
+        return URLSession(configuration: configuration)
+    }
+    */
 }
 
 // MARK: - String Constants
 fileprivate extension String {
+    // Filenames
     static let dealLocation = "deal.json"
     static let imageLocation = "dealImage"
+    //static let scaledImageLocation = "scaledDealImage"
+    // URLSessionConfiguration
+    //static let sessionConfigID = "com.mgacy.adequate.current-deal-manager"
 }
 
 // MARK: - UIImage+scaled

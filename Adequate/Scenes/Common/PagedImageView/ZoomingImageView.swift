@@ -97,7 +97,7 @@ class ZoomingImageView: UIScrollView {
         zoomScale = minScale
     }
 
-    /// TODO: pass CGSize?
+    // TODO: pass CGSize?
     private func updateOffsetForSize() {
         //let imageSize = imageView.image?.size ?? CGSize(width: 1, height: 1)
         let viewSize = bounds.size

@@ -1,0 +1,5 @@
+﻿strings:
+  inputs: Adequate/Resources/en.lproj/Localizable.strings
+  outputs:
+    templateName: structured-swift4
+    output: Adequate/Resources/Strings.generated.swift

@@ -35,11 +35,12 @@ protocol DealViewControllerDelegate: class {
 // MARK: - View Controller
 
 class DealViewController: UIViewController {
-    typealias Dependencies = HasDataProvider & HasThemeManager
+    typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
 
     weak var delegate: DealViewControllerDelegate?
 
     private let dataProvider: DataProviderType
+    private let imageService: ImageServiceType
     private let themeManager: ThemeManagerType
 
     private var observationTokens: [ObservationToken] = []
@@ -49,83 +50,70 @@ class DealViewController: UIViewController {
         }
     }
 
-    /// TODO: make part of a protocol
+    // TODO: make part of a protocol
     var visibleImage: Promise<UIImage> {
         return pagedImageView.visibleImage
     }
 
     // MARK: - Subviews
 
-    private let activityIndicator: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView()
-        view.style = .gray
+    private lazy var stateView: StateView = {
+        let view = StateView()
+        view.onRetry = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.getDeal()
+        }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
-    }()
-
-    private let messageLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
-        label.font = UIFont.preferredFont(forTextStyle: .caption2)
-        label.textColor = .gray
-        label.text = Strings.loadingMessage
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let errorMessageLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.textColor = .gray
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let retryButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle(Strings.retryButton, for: .normal)
-        button.layer.cornerRadius = 5.0
-        button.layer.borderWidth = 1.0
-        button.layer.borderColor = UIColor.gray.cgColor
-        button.backgroundColor = .clear
-        button.setTitleColor(.gray, for: .normal)
-        button.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: 15.0, bottom: 5.0, right: 15.0)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
     }()
 
     // Navigation Bar
 
     private lazy var historyButton: UIBarButtonItem = {
-        return UIBarButtonItem(image: #imageLiteral(resourceName: "HistoryNavBar"), style: .plain, target: self, action: #selector(didPressHistory(_:)))
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "HistoryNavBar"), style: .plain, target: self, action: #selector(didPressHistory(_:)))
+        button.accessibilityLabel = L10n.Accessibility.historyButton
+        return button
     }()
 
     private lazy var shareButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ShareNavBar"), style: .plain, target: self, action: #selector(didPressShare(_:)))
         button.isEnabled = false
+        button.accessibilityLabel = L10n.Accessibility.shareButton
         return button
     }()
 
     private lazy var storyButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "StoryNavBar"), style: .plain, target: self, action: #selector(didPressStory(_:)))
         button.isEnabled = false
+        button.accessibilityLabel = L10n.Accessibility.storyButton
         return button
     }()
 
     // ScrollView
 
-    private let scrollView: UIScrollView = {
-        let view = UIScrollView()
+    private let scrollView: ParallaxScrollView = {
+        let view = ParallaxScrollView()
+        view.contentInsetAdjustmentBehavior = .always
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         return view
     }()
 
-    private let pagedImageView: PagedImageView = {
-        let view = PagedImageView()
+    private let contentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    private let barBackingView: ParallaxBarView = {
+        let view = ParallaxBarView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    private lazy var pagedImageView: PagedImageView = {
+        let view = PagedImageView(imageService: self.imageService)
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -134,7 +122,7 @@ class DealViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         //label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -143,17 +131,32 @@ class DealViewController: UIViewController {
     private let featuresText: MDTextView = {
         let view = MDTextView(stylesheet: Appearance.stylesheet)
         view.font = UIFont.preferredFont(forTextStyle: .body)
+        view.paragraphStyle = .list
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     private let forumButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle(Strings.commentsButtonPlural, for: .normal)
+        button.setTitle(L10n.Comments.count(0), for: .normal)
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = button.tintColor
         return button
+    }()
+
+    private let specsText: MDTextView = {
+        let stylesheet = """
+        * { font: -apple-system-body; }
+        h1, h2, h3, h4, h5, h6, strong { font-weight: bold; }
+        em { font-style: italic; }
+        h5 { font-style: italic; }
+        """
+        let view = MDTextView(stylesheet: stylesheet)
+        view.font = UIFont.preferredFont(forTextStyle: .body)
+        view.paragraphStyle = .list
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
     // Footer
@@ -168,9 +171,10 @@ class DealViewController: UIViewController {
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
-        //self.viewState = .empty
         self.dataProvider = dependencies.dataProvider
+        self.imageService = dependencies.imageService
         self.themeManager = dependencies.themeManager
+        //self.viewState = .empty
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -180,24 +184,17 @@ class DealViewController: UIViewController {
 
     override func loadView() {
         super.loadView()
-
+        view.addSubview(stateView)
         view.addSubview(scrollView)
-        scrollView.addSubview(pagedImageView)
-        scrollView.addSubview(titleLabel)
-        scrollView.addSubview(featuresText)
-        scrollView.addSubview(forumButton)
-
-        view.addSubview(activityIndicator)
-        view.addSubview(messageLabel)
-
-        /// TODO: consolidate in dedicated UIView subclass
-        view.addSubview(activityIndicator)
-        view.addSubview(messageLabel)
-        view.addSubview(errorMessageLabel)
-        view.addSubview(retryButton)
-
+        view.addSubview(barBackingView)
+        scrollView.headerView = pagedImageView
+        scrollView.addSubview(contentView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(featuresText)
+        contentView.addSubview(forumButton)
+        contentView.addSubview(specsText)
         view.addSubview(footerView)
-
+        // Navigation bar
         navigationItem.leftBarButtonItem = historyButton
         navigationItem.rightBarButtonItems = [storyButton, shareButton]
 
@@ -208,7 +205,6 @@ class DealViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         observationTokens = setupObservations()
-        getDeal()
     }
 
     override func didReceiveMemoryWarning() {
@@ -235,65 +231,77 @@ class DealViewController: UIViewController {
 
     func setupView() {
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.isTranslucent = true
 
         pagedImageView.delegate = self
         footerView.delegate = self
 
-        retryButton.addTarget(self, action: #selector(getDeal), for: .touchUpInside)
         forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
+        setupParallaxScrollView()
+    }
+
+    func setupParallaxScrollView() {
+
+        // barBackingView
+        let statusBarHeight = UIApplication.shared.isStatusBarHidden ? CGFloat(0) : UIApplication.shared.statusBarFrame.height
+        barBackingView.coordinateOffset = 8.0
+        barBackingView.inset = statusBarHeight
+
+        // scrollView
+        let parallaxHeight: CGFloat = view.frame.width + 24.0 // Add height of PagedImageView.pageControl
+        scrollView.headerHeight = parallaxHeight
+
+        scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
+            barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
+        }
     }
 
     func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
-
-        /// TODO: move these into class property?
-        let spacing: CGFloat = 8.0
-        let sideMargin: CGFloat = 16.0
-        let widthInset: CGFloat = -2.0 * sideMargin
-
         NSLayoutConstraint.activate([
-            // activityIndicator
-            activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
-            activityIndicator.topAnchor.constraint(equalTo: view.centerYAnchor),
-            // messageLabel
-            messageLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
-            messageLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
-            messageLabel.topAnchor.constraint(equalTo: activityIndicator.bottomAnchor, constant: 4.0),
-            // errorMessageLabel
-            errorMessageLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
-            errorMessageLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
-            errorMessageLabel.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: spacing * -2.0),
-            // retryButton
-            retryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            retryButton.topAnchor.constraint(equalTo: view.centerYAnchor, constant: spacing),
+            // stateView
+            stateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stateView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stateView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: AppTheme.sideMargin),
+            stateView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -AppTheme.sideMargin),
             // footerView
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            // barBackingView
+            barBackingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
+            barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor),
             // scrollView
-            scrollView.leftAnchor.constraint(equalTo: guide.leftAnchor),
-            scrollView.topAnchor.constraint(equalTo: guide.topAnchor),
-            scrollView.rightAnchor.constraint(equalTo: guide.rightAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: footerView.topAnchor),
-            // pagedImageView
-            pagedImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
-            pagedImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: spacing),
-            pagedImageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
-            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor, constant: 32.0),
+            // contentView
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
             // titleLabel
-            titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
-            titleLabel.topAnchor.constraint(equalTo: pagedImageView.bottomAnchor, constant: spacing),
-            titleLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: AppTheme.spacing),
+            titleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
             // featuresLabel
-            featuresText.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: sideMargin),
-            featuresText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing),
-            featuresText.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: widthInset),
+            featuresText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
+            featuresText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: AppTheme.spacing * 2.0),
+            featuresText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
             // forumButton
-            forumButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: spacing),
+            forumButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: AppTheme.spacing),
             forumButton.widthAnchor.constraint(equalToConstant: 200.0),
-            forumButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -spacing)
+            // specsText
+            specsText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
+            specsText.topAnchor.constraint(equalTo: forumButton.bottomAnchor, constant: AppTheme.spacing * 2.0),
+            specsText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
+            specsText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -AppTheme.spacing)
         ])
     }
 
@@ -308,16 +316,22 @@ class DealViewController: UIViewController {
     // MARK: - Actions / Navigation
 
     @objc func getDeal() {
-        dataProvider.getDeal()
+        dataProvider.refreshDeal(for: .manual)
     }
 
     @objc private func didPressShare(_ sender: UIBarButtonItem) {
-        guard case .result(let deal) = viewState else { 
+        guard case .result(let deal) = viewState else {
             return
         }
+        shareDeal(title: deal.title, url: deal.url)
+    }
 
-        let text = "\(Strings.sharingActivityText): \(deal.title)"
-        let url = deal.url
+    func shareDeal(title: String, url: URL) {
+        log.debug("\(#function) ...")
+
+        // TODO: add price to text?
+        let text = "\(L10n.sharingActivityText): \(title)"
+
         // set up activity view controller
         let textToShare: [Any] = [ text, url ]
         let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
@@ -354,19 +368,17 @@ extension DealViewController: PagedImageViewDelegate {
     func displayFullscreenImage(animatingFrom pagedImageView: PagedImageView) {
         delegate?.showImage(animatingFrom: pagedImageView)
     }
-
 }
 
 // MARK: - DealFooterDelegate
 extension DealViewController: DealFooterDelegate {
 
     func buy() {
-        guard case .result(let deal) = viewState else { 
+        guard case .result(let deal) = viewState else {
             return
         }
         delegate?.showPurchase(for: deal)
     }
-
 }
 
 // MARK: - ViewStateRenderable
@@ -374,30 +386,19 @@ extension DealViewController: ViewStateRenderable {
     typealias ResultType = Deal
 
     func render(_ viewState: ViewState<Deal>) {
+        //stateView.render(viewState)
         switch viewState {
         case .empty:
-            activityIndicator.stopAnimating()
-            messageLabel.text = Strings.emptyMessage
-            errorMessageLabel.isHidden = true
-            retryButton.isHidden = false
+            stateView.render(viewState)
             scrollView.isHidden = true
             footerView.isHidden = true
-        case .error(let error):
-            activityIndicator.stopAnimating()
-            // TODO: display error message on messageLabel?
-            messageLabel.isHidden = true
-            errorMessageLabel.isHidden = false
-            errorMessageLabel.text = error.localizedDescription
-            retryButton.isHidden = false
+        case .error:
+            stateView.render(viewState)
             scrollView.isHidden = true
-            //displayError(error: error)
         case .loading:
-            activityIndicator.startAnimating()
-            messageLabel.text = Strings.loadingMessage
-            messageLabel.isHidden = false
-            errorMessageLabel.isHidden = true
-            retryButton.isHidden = true
+            stateView.render(viewState)
             scrollView.isHidden = true
+            footerView.isHidden = true
             shareButton.isEnabled = false
             storyButton.isEnabled = false
         case .result(let deal):
@@ -405,7 +406,9 @@ extension DealViewController: ViewStateRenderable {
             shareButton.isEnabled = true
             storyButton.isEnabled = true
             titleLabel.text = deal.title
+            barBackingView.text = deal.title
             featuresText.markdown = deal.features
+            specsText.markdown = deal.specifications
             // images
             let safePhotoURLs = deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
@@ -416,10 +419,11 @@ extension DealViewController: ViewStateRenderable {
 
             themeManager.applyTheme(theme: deal.theme)
             UIView.animate(withDuration: 0.3, animations: {
-                self.activityIndicator.stopAnimating()
-                self.messageLabel.isHidden = true
-                self.errorMessageLabel.isHidden = true
-                self.retryButton.isHidden = true
+                //self.activityIndicator.stopAnimating()
+                //self.messageLabel.isHidden = true
+                //self.errorMessageLabel.isHidden = true
+                //self.retryButton.isHidden = true
+                self.stateView.render(viewState)
                 self.scrollView.isHidden = false
                 self.footerView.isHidden = false
                 //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
@@ -438,14 +442,7 @@ extension DealViewController: ViewStateRenderable {
         }
         forumButton.isHidden = false
         forumButton.isEnabled = true
-        switch topic.commentCount {
-        case 0:
-            forumButton.setTitle(Strings.commentsButtonEmpty, for: .normal)
-        case 1:
-            forumButton.setTitle("\(topic.commentCount) \(Strings.commentsButtonSingular)", for: .normal)
-        default:
-            forumButton.setTitle("\(topic.commentCount) \(Strings.commentsButtonPlural)", for: .normal)
-        }
+        forumButton.setTitle(L10n.Comments.count(topic.commentCount), for: .normal)
     }
 
 }
@@ -454,7 +451,9 @@ extension DealViewController: ViewStateRenderable {
 extension DealViewController: Themeable {
     func apply(theme: AppTheme) {
         // accentColor
-        UIApplication.shared.delegate?.window??.tintColor = theme.accentColor
+        historyButton.tintColor = theme.accentColor
+        shareButton.tintColor = theme.accentColor
+        storyButton.tintColor = theme.accentColor
         forumButton.backgroundColor = theme.accentColor
 
         // backgroundColor
@@ -463,32 +462,24 @@ extension DealViewController: Themeable {
         view.backgroundColor = theme.backgroundColor
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
+        contentView.backgroundColor = theme.backgroundColor
         featuresText.backgroundColor = theme.backgroundColor
         forumButton.setTitleColor(theme.backgroundColor, for: .normal)
+        specsText.backgroundColor = theme.backgroundColor
 
         // foreground
         // TODO: set status bar and home indicator color?
+        // TODO: set activityIndicator color
         titleLabel.textColor = theme.foreground.textColor
         featuresText.textColor = theme.foreground.textColor
+        specsText.textColor = theme.foreground.textColor
+        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
+        setNeedsStatusBarAppearanceUpdate()
 
         // Subviews
         pagedImageView.apply(theme: theme)
+        barBackingView.apply(theme: theme)
+        stateView.apply(theme: theme)
         footerView.apply(theme: theme)
-    }
-}
-
-// MARK: - Strings
-extension DealViewController {
-    private enum Strings {
-        // Buttons
-        static let commentsButtonEmpty = "Forum"
-        static let commentsButtonSingular = "Comment"
-        static let commentsButtonPlural = "Comments"
-        static let retryButton = "Retry"
-        // Message Labels
-        static let emptyMessage = "There was no data"
-        static let loadingMessage = "LOADING"
-        // Sharing Activity
-        static let sharingActivityText = "Check out this deal"
     }
 }

@@ -14,21 +14,27 @@ class FullScreenImageViewController: UIViewController {
     weak var delegate: FullScreenImageDelegate?
     let imageSource: Promise<UIImage>
 
-    /// TODO: rename `interactionController?
+    // TODO: rename `interactionController?
     private var transitionController: FullScreenImageTransitionController?
 
     // MARK: - Appearance
 
     var backgroundColor: UIColor = .black
 
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+
     // MARK: - Subviews
 
     private var closeButton: UIButton = {
         //let button = UIButton(frame: CGRect(x: 30.0, y: 30.0, width: 30.0, height: 30.0))
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "CloseGlyph"), for: .normal)
-        button.layer.cornerRadius = 15.0
-        button.backgroundColor = .gray
+        button.setImage(#imageLiteral(resourceName: "CloseNavBar"), for: .normal)
+        button.layer.cornerRadius = 14.0
+        button.imageEdgeInsets = UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0)
+        button.tintColor = .white
+        button.backgroundColor = ColorPalette.darkGray
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -53,6 +59,7 @@ class FullScreenImageViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         view.frame = UIScreen.main.bounds
         self.modalPresentationStyle = .custom
+        self.modalPresentationCapturesStatusBarAppearance = true
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -120,10 +127,10 @@ class FullScreenImageViewController: UIViewController {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             // closeButton
-            closeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30.0),
-            closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30.0),
-            closeButton.widthAnchor.constraint(equalToConstant: 30.0),
-            closeButton.heightAnchor.constraint(equalToConstant: 30.0),
+            closeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28.0),
+            closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 28.0),
+            closeButton.widthAnchor.constraint(equalToConstant: 28.0),
+            closeButton.heightAnchor.constraint(equalToConstant: 28.0),
             // zoomingImageView
             zoomingImageView.leftAnchor.constraint(equalTo: view.leftAnchor),
             zoomingImageView.topAnchor.constraint(equalTo: view.topAnchor),

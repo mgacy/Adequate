@@ -30,11 +30,11 @@ class ThemeManager: ThemeManagerType {
     }
 
     func applyTheme(theme: Theme) {
-        let appTheme = AppTheme(theme: theme)
+        //let appTheme = AppTheme(theme: theme)
         self.theme = AppTheme(theme: theme)
 
-        UIApplication.shared.delegate?.window??.tintColor = appTheme.accentColor
-        UINavigationBar.appearance().barTintColor = appTheme.backgroundColor
+        //UIApplication.shared.delegate?.window??.tintColor = appTheme.accentColor
+        //UINavigationBar.appearance().barTintColor = appTheme.backgroundColor
 
         // status bar
         // https://stackoverflow.com/a/47749921/4472195

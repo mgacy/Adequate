@@ -9,9 +9,10 @@
 import AWSAppSync
 import AWSMobileClient
 
-struct AppDependency: HasDataProvider, HasNotificationManager, HasThemeManager, HasUserDefaultsManager {
+class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, HasThemeManager, HasUserDefaultsManager {
     let dataProvider: DataProviderType
-    /// TODO: should we always carry this, or provide factory method so callers can create / destroy as needed?
+    let imageService: ImageServiceType
+    // TODO: should we always carry this, or provide factory method so callers can create / destroy as needed?
     //func makeNotificationManager() -> NotificationManagerType {}
     let notificationManager: NotificationManagerType
     let themeManager: ThemeManagerType
@@ -26,8 +27,8 @@ struct AppDependency: HasDataProvider, HasNotificationManager, HasThemeManager, 
             fatalError("Unable to initialize AppSyncClient")
         }
         let networkClient = AppDependency.makeNetworkClient()
-        let mehService = MehService(client: networkClient)
-        self.dataProvider = DataProvider(appSync: appSyncClient, mehService: mehService)
+        self.dataProvider = DataProvider(appSync: appSyncClient)
+        self.imageService = ImageService(client: networkClient)
 
         self.userDefaultsManager = UserDefaultsManager(defaults: .standard)
 
@@ -50,8 +51,8 @@ struct AppDependency: HasDataProvider, HasNotificationManager, HasThemeManager, 
     static private func makeNetworkClient() -> NetworkClientType {
         // Configuration
         let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 8  // seconds
-        configuration.timeoutIntervalForResource = 8 // seconds
+        //configuration.timeoutIntervalForRequest = 8  // seconds
+        //configuration.timeoutIntervalForResource = 8 // seconds
         //configuration.waitsForConnectivity = true    // reachability
 
         // JSON Decoding
@@ -65,9 +66,12 @@ struct AppDependency: HasDataProvider, HasNotificationManager, HasThemeManager, 
         do {
             // Initialize the AWS AppSync configuration
             // https://aws-amplify.github.io/docs/ios/api#iam
+            // https://github.com/aws-samples/aws-mobile-appsync-events-starter-ios/blob/master/EventsApp/AppDelegate.swift
             let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                                   credentialsProvider: AWSMobileClient.sharedInstance(),
-                                                                  cacheConfiguration: AWSAppSyncCacheConfiguration())
+                                                                  cacheConfiguration: AWSAppSyncCacheConfiguration(),
+                                                                  connectionStateChangeHandler: nil,
+                                                                  retryStrategy: .exponential)
 
             let client = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
             client.apolloClient?.cacheKeyForObject = { $0[cacheKey] }

@@ -9,41 +9,48 @@
 import UIKit
 import Promise
 
+// MARK: - Delegate
+
+protocol ImageCellDelegate: class {
+    func retry(imageURL: URL) -> Promise<UIImage>
+}
+
+// MARK: - Cell
+
 class ImageCell: UICollectionViewCell {
 
     // MARK: - A
+    weak var delegate: ImageCellDelegate?
     var imageURL: URL!
-    var invalidatableQueue = InvalidatableQueue()
+    private var invalidatableQueue = InvalidatableQueue()
+    private var viewState: ViewState<UIImage> {
+        didSet {
+            render(viewState)
+        }
+    }
 
-    // MARK: - Interface
-
-    let activityIndicator: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView()
-        view.style = .gray
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    // MARK: - Subviews
 
     let imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    let retryButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Retry", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+    private lazy var stateView: StateView = {
+        let view = StateView()
+        view.emptyMessageText = ""
+        view.loadingMessageText = nil
+        view.onRetry = { [weak self] in
+            self?.didPressRetry()
+        }
+        return view
     }()
-
-    /// TOODO: errorView
 
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
+        viewState = .empty
         super.init(frame: frame)
         configure()
     }
@@ -56,77 +63,86 @@ class ImageCell: UICollectionViewCell {
         super.prepareForReuse()
         invalidatableQueue.invalidate()
         invalidatableQueue = InvalidatableQueue()
-        imageView.image = nil
-        activityIndicator.stopAnimating()
+        viewState = .empty
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        imageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+
+        // TODO: should there be a max width?
+        let stateViewWidth = frame.width - AppTheme.spacing * 2.0
+        let stateViewHeight = frame.height - AppTheme.spacing * 2.0
+        stateView.frame = CGRect(x: AppTheme.spacing, y: AppTheme.spacing,
+                                 width: stateViewWidth, height: stateViewHeight)
     }
 
     // MARK: - Configuration
 
     private func configure() {
         addSubview(imageView)
-        addSubview(activityIndicator)
-        addSubview(retryButton)
-        retryButton.isHidden = true
-        configureConstraints()
+        addSubview(stateView)
     }
 
-    private func configureConstraints() {
-        NSLayoutConstraint.activate([
-            // imageView
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            // activityIndicator
-            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
-            // retryButton
-            retryButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            retryButton.centerYAnchor.constraint(equalTo: centerYAnchor)
-        ])
+    // MARK: - Actions
+
+    private func didPressRetry() {
+        // FIXME: this doesn't look right
+        guard delegate != nil else {
+            return
+        }
+        viewState = .loading
+        delegate?.retry(imageURL: imageURL)
+            .then(on: invalidatableQueue, { [weak self] image in
+                self?.viewState = .result(image)
+            }).catch({ [weak self] error in
+                log.warning("IMAGE ERROR: \(error)")
+                self?.viewState = .error(error)
+            })
     }
 
     // MARK: - Configuration
 
     func configure(with image: UIImage) {
-        imageView.image = image
+        viewState = .result(image)
     }
 
     func configure(with promise: Promise<UIImage>) {
-        if let image = promise.value {
-            imageView.image = image
+        if let imageValue = promise.value {
+            viewState = .result(imageValue)
             return
         }
-        activityIndicator.startAnimating()
+        viewState = .loading
         promise.then(on: invalidatableQueue, { [weak self] image in
-            self?.imageView.image = image
-        }).catch({ error in
+            self?.viewState = .result(image)
+        }).catch({ [weak self] error in
             log.warning("IMAGE ERROR: \(error)")
-            /// TODO: display errorView
-        }).always ({ [weak self] in
-            self?.activityIndicator.stopAnimating()
+            self?.viewState = .error(error)
         })
     }
+}
 
+// MARK: - ViewStateRenderable
+extension ImageCell: ViewStateRenderable {
+    typealias ResultType = UIImage
+
+    func render(_ viewState: ViewState<ResultType>) {
+        stateView.render(viewState)
+        if case .result(let image) = viewState {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.stateView.isHidden = true
+                self.imageView.image = image
+            })
+        } else {
+            stateView.isHidden = false
+            imageView.image = nil
+        }
+    }
 }
 
 // MARK: - Themeable
 extension ImageCell: Themeable {
     func apply(theme: AppTheme) {
-        // accentColor
-        // backgroundColor
-        // foreground
-        switch theme.foreground {
-        case .dark:
-            activityIndicator.style = .gray
-            //retryButton.layer.borderColor = UIColor.gray.cgColor
-            //retryButton.setTitleColor(.gray, for: .normal)
-        case .light:
-            activityIndicator.style = .white
-            //retryButton.layer.borderColor = UIColor.gray.cgColor
-            //retryButton.setTitleColor(.gray, for: .normal)
-        case .unknown:
-            break
-        }
+        stateView.apply(theme: theme)
     }
 }

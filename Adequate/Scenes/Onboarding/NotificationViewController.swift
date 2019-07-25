@@ -12,24 +12,17 @@ import Promise
 final class NotificationViewController: UIViewController {
     typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
 
-    /// TODO: improve handling of .init
+    // TODO: improve handling of .init
     let notificationManager: NotificationManagerType
     let userDefaultsManager: UserDefaultsManagerType
     weak var delegate: VoidDismissalDelegate?
-
-    private enum Strings {
-        static let title = "Enable Notifications?"
-        static let body = "Enable notifications so Adequate can alert you when meh offers a new daily deal."
-        static let cancel = "Not Now"
-        static let ok = "OK"
-    }
 
     // MARK: - Subviews
 
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
-        label.text = Strings.title
+        label.text = L10n.welcomeNotificationsTitle
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -38,7 +31,7 @@ final class NotificationViewController: UIViewController {
     private let bodyLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = Strings.body
+        label.text = L10n.welcomeNotificationsBody
         label.textColor = .gray
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -57,7 +50,7 @@ final class NotificationViewController: UIViewController {
 
     private let notNowButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle(Strings.cancel, for: .normal)
+        button.setTitle(L10n.nowNow, for: .normal)
         button.layer.cornerRadius = 5
         button.layer.borderWidth = 1
         button.layer.borderColor = button.tintColor.cgColor
@@ -71,7 +64,7 @@ final class NotificationViewController: UIViewController {
 
     private let okButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle(Strings.ok, for: .normal)
+        button.setTitle(L10n.ok, for: .normal)
         button.layer.cornerRadius = 5
         //button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -95,7 +88,7 @@ final class NotificationViewController: UIViewController {
         return view
     }()
 
-    /// TODO: stackView?
+    // TODO: stackView?
 
     // MARK: - Lifecycle
 

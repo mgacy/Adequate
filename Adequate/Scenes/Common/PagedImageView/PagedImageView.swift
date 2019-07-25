@@ -9,6 +9,7 @@
 import UIKit
 import Promise
 
+// TODO: subclass UIViewController
 class PagedImageView: UIView {
 
     var currentPage: Int = 0
@@ -26,7 +27,7 @@ class PagedImageView: UIView {
         return collectionView.frame.size.width > 0 ? Int(collectionView.contentOffset.x + collectionView.frame.size.width / 2) / Int(collectionView.frame.size.width) : 0
     }
 
-    private let dataSource = PagedImageViewDataSource()
+    private let dataSource: PagedImageViewDataSourceType
     weak var delegate: PagedImageViewDelegate?
 
     // MARK: - Appearance
@@ -69,18 +70,14 @@ class PagedImageView: UIView {
 
     // MARK: - Lifecycle
 
-    convenience init() {
-        self.init(frame: CGRect.zero)
-    }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(imageService: ImageServiceType) {
+        self.dataSource = PagedImageViewDataSource(imageService: imageService)
+        super.init(frame: CGRect.zero)
         self.configure()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        self.configure()
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Configuration
@@ -120,6 +117,7 @@ class PagedImageView: UIView {
     public func updateImages(with urls: [URL]) {
         dataSource.updateImages(with: urls)
         collectionView.reloadData()
+        collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: false)
         updatePageControl()
     }
 

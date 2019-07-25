@@ -9,28 +9,29 @@
 import UIKit
 import Promise
 
-class PagedImageViewDataSource: NSObject, UICollectionViewDataSource {
+// MARK: - Protocol
 
-    lazy var imageService: ImageService = {
-        // Configuration
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 20  // seconds
-        configuration.timeoutIntervalForResource = 20 // seconds
-        configuration.waitsForConnectivity = true     // reachability
+protocol PagedImageViewDataSourceType: UICollectionViewDataSource, Themeable {
+    func updateImages(with urls: [URL])
+    func imageSource(for indexPath: IndexPath) -> Promise<UIImage>
+}
 
-        // JSON Decoding
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+// MARK: - Implementation
 
-        let client = NetworkClient(configuration: configuration, decoder: decoder)
-        let service = ImageService(client: client)
-        return service
-    }()
+class PagedImageViewDataSource: NSObject, PagedImageViewDataSourceType {
+
+    private let imageService: ImageServiceType
 
     private var theme: AppTheme?
     private var urls: [URL] = [URL]()
 
-    // MARK: - A
+    // MARK: - Lifecycle
+
+    init(imageService: ImageServiceType) {
+        self.imageService = imageService
+    }
+
+    // MARK: - PagedImageViewDataSourceType
 
     func updateImages(with urls: [URL]) {
         self.urls = urls
@@ -39,7 +40,7 @@ class PagedImageViewDataSource: NSObject, UICollectionViewDataSource {
     func imageSource(for indexPath: IndexPath) -> Promise<UIImage> {
         let imageURL = urls[indexPath.row]
         let imageSource: Promise<UIImage>
-        if let cachedImage = imageService.fetchedImage(for: imageURL) {
+        if let cachedImage = imageService.fetchedImage(for: imageURL, tryingSecondary: indexPath.row == 0) {
             imageSource = Promise<UIImage>(value: cachedImage)
         } else {
             imageSource = imageService.fetchImage(for: imageURL)
@@ -61,16 +62,23 @@ class PagedImageViewDataSource: NSObject, UICollectionViewDataSource {
         if let theme = theme {
             cell.apply(theme: theme)
         }
-        //cell.delegate = self
+        cell.delegate = self
 
-        if let cachedImage = imageService.fetchedImage(for: imageURL) {
-            cell.configure(with: cachedImage)
+        if let cachedImage = imageService.fetchedImage(for: imageURL, tryingSecondary: indexPath.row == 0) {
+            cell.configure(with: Promise<UIImage>(value: cachedImage))
         } else {
             cell.configure(with: imageService.fetchImage(for: imageURL))
         }
         return cell
     }
 
+}
+
+// MARK: - ImageCellDelegate
+extension PagedImageViewDataSource: ImageCellDelegate {
+    func retry(imageURL: URL) -> Promise<UIImage> {
+       return imageService.fetchImage(for: imageURL)
+    }
 }
 
 // MARK: - Themeable

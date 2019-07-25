@@ -15,6 +15,15 @@ import NotificationCenter
 class TodayViewController: UIViewController, NCWidgetProviding {
 
     private var currentDealManager: CurrentDealManager!
+    private lazy var formatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.roundingMode = .halfUp
+        formatter.maximumFractionDigits = 2
+        // TODO: handle locale?
+        return formatter
+    }()
+
     private var viewState: ViewState<ResultType> = .empty {
         didSet {
             render(viewState)
@@ -224,7 +233,13 @@ extension TodayViewController: ViewStateRenderable {
         case .result(let wrapper):
             let deal = wrapper.deal
             titleLabel.text = deal.title
-            priceLabel.text = deal.maxPrice != nil ? "$\(deal.minPrice) - \(deal.maxPrice!)" : "$\(deal.minPrice)"
+            let formattedMinPrice = formatter.string(from: deal.minPrice as NSNumber) ?? "\(deal.minPrice)"
+            if let maxPrice = deal.maxPrice {
+                let formattedMaxPrice = formatter.string(from: maxPrice as NSNumber) ?? "\(maxPrice)"
+                priceLabel.text = "$\(formattedMinPrice) - \(formattedMaxPrice)"
+            } else {
+                priceLabel.text = "$\(formattedMinPrice)"
+            }
             imageView.image = wrapper.image
         case .error(let error):
             print("Error: \(error)")
