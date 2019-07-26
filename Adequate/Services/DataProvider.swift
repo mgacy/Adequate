@@ -107,7 +107,7 @@ class DataProvider: DataProviderType {
 
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
         // TODO: if id != 'current_deal', we should be able to use `.returnCacheDataElseFetch`
-        getDeal(withID: id, cachePolicy: .fetchIgnoringCacheData)
+        return getDeal(withID: id, cachePolicy: .fetchIgnoringCacheData)
     }
 
     private func getDeal(withID id: GraphQLID, cachePolicy: CachePolicy = .fetchIgnoringCacheData) -> Promise<GetDealQuery.Data.GetDeal> {
