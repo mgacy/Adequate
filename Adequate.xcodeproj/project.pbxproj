@@ -1032,7 +1032,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Adequate/Pods-Adequate-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Adequate/Pods-Adequate-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AWSAppSync/AWSAppSync.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSAuthCore/AWSAuthCore.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSCognitoIdentityProvider/AWSCognitoIdentityProvider.framework",
@@ -1063,7 +1063,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Adequate/Pods-Adequate-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Adequate/Pods-Adequate-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5128A41952E1581EE7015267 /* [CP] Check Pods Manifest.lock */ = {
