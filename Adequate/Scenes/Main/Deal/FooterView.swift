@@ -229,11 +229,23 @@ class FooterView: UIView {
 
     private func parsePriceComparison(from text: String) -> PriceComparison? {
         // TODO: relocate pattern to PriceComparisonParser object
-        let pattern = "\\[\\\\(?<price>\\$[0-9.]*)\\s.*at\\s(?<store>.*)\\]\\((?<link>https://w{3}\\..*)\\)"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else {
+        // TODO: handle `$29.97 (for 3) at Amazon`, etc
+        let pattern = """
+        \\[
+        (\\\\)? # Older specs looked like `[\\$199 at Walmart]`
+        (?<price>\\$[0-9.]*)
+        \\s.*at\\s
+        (?<store>.*)
+        \\]
+        \\(
+        (?<link>https://w{3}\\..*)
+        \\)
+        """
+
+        let regexOptions: NSRegularExpression.Options = [.allowCommentsAndWhitespace]
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: regexOptions) else {
             return nil
         }
-        // TODO: use .flatMap or .map?
         return regex.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)).flatMap { match in
             guard
                 let priceSubString = text.substring(with: match.range(withName: "price")),
