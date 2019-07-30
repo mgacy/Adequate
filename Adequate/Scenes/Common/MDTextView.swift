@@ -9,8 +9,8 @@
 import UIKit
 import Down
 
-/// Wrapper around UITextView to support embedding in UIScrollView with Markdown support.
-class MDTextView: UIView {
+
+class MDTextView: UITextView {
 
     var paragraphStyle: MDParagraphStyle = .normal
     var stylesheet: String? = "* {font-family: Helvetica } code, pre { font-family: Menlo }"
@@ -18,65 +18,17 @@ class MDTextView: UIView {
     private var _markdown: String!
     var markdown: String! {
         set {
+            let currentTextColor = textColor
             guard let attributedString = attributedString(from: newValue) else {
                 return
             }
             _markdown = newValue
-            textView.attributedText = attributedString
-            textView.textColor = textColor
+            attributedText = attributedString
+            // TODO: specify color in stylesheet
+            textColor = currentTextColor
         }
         get { return _markdown }
     }
-
-    override var backgroundColor: UIColor? {
-        didSet {
-            textView.backgroundColor = backgroundColor
-        }
-    }
-
-    // UITextView Properties
-    var text: String! {
-        set { textView.text = newValue }
-        get { return textView.text }
-    }
-
-    var attributedText: NSAttributedString! {
-        set { textView.attributedText = newValue }
-        get { return textView.attributedText }
-    }
-
-    var font: UIFont? {
-        set { textView.font = newValue }
-        get { return textView.font }
-    }
-
-    private var _textColor: UIColor? = .black
-    var textColor: UIColor? {
-        set {
-            _textColor = newValue
-            textView.textColor = newValue
-        }
-        get { return _textColor }
-    }
-
-    // MARK: - Interface Elements
-
-    private let textView: UITextView = {
-        let view = UITextView()
-        view.adjustsFontForContentSizeCategory = true
-        view.isScrollEnabled = false
-        view.isEditable = false
-
-        // https://kenb.us/uilabel-vs-uitextview
-        view.contentInset = .zero
-        view.contentInsetAdjustmentBehavior = .never
-        view.textContainerInset = .zero // UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
-        view.textContainer.lineFragmentPadding = 0
-        view.layoutManager.usesFontLeading = false
-
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
 
     // MARK: - Lifecycle
 
@@ -85,28 +37,28 @@ class MDTextView: UIView {
         self.stylesheet = stylesheet
     }
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(frame: CGRect, textContainer: NSTextContainer?) {
+        super.init(frame: frame, textContainer: textContainer)
         self.configure()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        self.configure()
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Configuration
 
     private func configure() {
-        //textView.delegate = self
-        addSubview(textView)
+        adjustsFontForContentSizeCategory = true
+        isScrollEnabled = false
+        isEditable = false
 
-        NSLayoutConstraint.activate([
-            textView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            textView.topAnchor.constraint(equalTo: self.topAnchor),
-            textView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            textView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        ])
+        // https://kenb.us/uilabel-vs-uitextview
+        contentInset = .zero
+        contentInsetAdjustmentBehavior = .never
+        textContainerInset = .zero // UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
+        textContainer.lineFragmentPadding = 0
+        layoutManager.usesFontLeading = false
     }
 
     // TODO: make throwing?
@@ -173,7 +125,6 @@ class MDTextView: UIView {
 
         return paragraphStyle
     }
-
 }
 
 // MARK: - Add Paragraph Styling
