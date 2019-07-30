@@ -23,7 +23,7 @@ class ImageCell: UICollectionViewCell {
     weak var delegate: ImageCellDelegate?
     var imageURL: URL!
     private var invalidatableQueue = InvalidatableQueue()
-    private var viewState: ViewState<UIImage> {
+    private(set) var viewState: ViewState<UIImage> {
         didSet {
             render(viewState)
         }
