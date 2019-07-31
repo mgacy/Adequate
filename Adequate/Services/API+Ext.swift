@@ -55,3 +55,35 @@ extension GetDealQuery.Data.GetDeal.Topic: TopicType {}
 // MARK: - ListDealsForPeriodQuery + Model Protocols
 
 extension ListDealsForPeriodQuery.Data.ListDealsForPeriod.Theme: ThemeType {}
+
+// MARK: - ListDealsForPeriodQuery + Equatable
+
+extension ListDealsForPeriodQuery.Data.ListDealsForPeriod.Theme: Equatable {
+    public static func == (lhs: ListDealsForPeriodQuery.Data.ListDealsForPeriod.Theme, rhs: ListDealsForPeriodQuery.Data.ListDealsForPeriod.Theme) -> Bool {
+        return lhs.accentColor == rhs.accentColor
+            && lhs.backgroundColor == rhs.backgroundColor
+            && lhs.foreground == rhs.foreground
+    }
+}
+
+extension ListDealsForPeriodQuery.Data.ListDealsForPeriod.Item: Equatable {
+    public static func == (lhs: ListDealsForPeriodQuery.Data.ListDealsForPeriod.Item, rhs: ListDealsForPeriodQuery.Data.ListDealsForPeriod.Item) -> Bool {
+        return lhs.id == rhs.id
+            //&& lhs.condition == rhs.condition
+            //&& lhs.photo == rhs.photo
+            //&& lhs.price == rhs.price
+    }
+}
+
+extension ListDealsForPeriodQuery.Data.ListDealsForPeriod: Equatable {
+    public static func == (lhs: ListDealsForPeriodQuery.Data.ListDealsForPeriod, rhs: ListDealsForPeriodQuery.Data.ListDealsForPeriod) -> Bool {
+        return lhs.id == rhs.id
+            //&& lhs.title == rhs.title
+            //&& lhs.createdAt == rhs.createdAt
+            //&& lhs.dealYear == rhs.dealYear
+            //&& lhs.monthDay == rhs.monthDay
+            //&& lhs.items == rhs.items
+            //&& lhs.photos == rhs.photos
+            //&& lhs.theme == rhs.theme
+    }
+}
