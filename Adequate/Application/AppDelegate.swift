@@ -60,6 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         log.debug("WILL_TERMINATE")
     }
 
+    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
+        log.warning("Memory Warning")
+        // TODO: clear cache on ImageService
+    }
+
     // MARK: - URL-Specified Resources
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
