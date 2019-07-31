@@ -39,7 +39,9 @@ struct Deal: Codable {
 // MARK: - Equatable
 extension Deal: Equatable {
     static func == (lhs: Deal, rhs: Deal) -> Bool {
-        return lhs.id == rhs.id && lhs.soldOutAt == rhs.soldOutAt && lhs.topic == rhs.topic
+        return lhs.id == rhs.id
+            && lhs.soldOutAt == rhs.soldOutAt
+            && lhs.topic == rhs.topic
     }
 }
 
