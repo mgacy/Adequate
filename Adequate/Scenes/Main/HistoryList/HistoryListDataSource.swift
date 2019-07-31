@@ -11,12 +11,13 @@ import UIKit
 final class HistoryListDataSource: NSObject {
     typealias Dependencies = HasDataProvider
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias ResultType = Void
 
     private let dataProvider: DataProviderType
     private var deals: [Deal] = []
 
     private var observationTokens: [ObservationToken] = []
-    private var state: ViewState<Void> {
+    private var state: ViewState<ResultType> {
         didSet {
             callObservations(with: state)
         }
@@ -61,9 +62,9 @@ final class HistoryListDataSource: NSObject {
 
     // MARK: - Observable
 
-    private var observations: [UUID: (ViewState<Void>) -> Void] = [:]
+    private var observations: [UUID: (ViewState<ResultType>) -> Void] = [:]
 
-    func addObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, ViewState<Void>) -> Void) -> ObservationToken {
+    func addObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, ViewState<ResultType>) -> Void) -> ObservationToken {
         let id = UUID()
         observations[id] = { [weak self, weak observer] state in
             // If the observer has been deallocated, we can
@@ -81,7 +82,7 @@ final class HistoryListDataSource: NSObject {
         }
     }
 
-    private func callObservations(with state: ViewState<Void>) {
+    private func callObservations(with state: ViewState<ResultType>) {
         observations.values.forEach { observation in
             observation(state)
         }
