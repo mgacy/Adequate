@@ -115,6 +115,7 @@ class PagedImageView: UIView {
     // MARK: - Images
 
     public func updateImages(with urls: [URL]) {
+        // TODO: dataSource should verify that new URLs differ from old; use difference(from:) and .performBatchUpdates() instead of .reloadData()?
         dataSource.updateImages(with: urls)
         collectionView.reloadData()
         collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: false)
@@ -192,6 +193,7 @@ extension PagedImageView: Themeable {
         // foreground
 
         // Subviews
+        // TODO: apply theme to all visible cells as well; use self.visibleCells?
         dataSource.apply(theme: theme)
     }
 }
