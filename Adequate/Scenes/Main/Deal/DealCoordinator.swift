@@ -41,7 +41,7 @@ final class DealCoordinator: Coordinator {
         }
     }
 
-    deinit { print("\(#function) - \(String(describing: self))") }
+    //deinit { print("\(#function) - \(String(describing: self))") }
 
     // MARK: - Private Methods
 

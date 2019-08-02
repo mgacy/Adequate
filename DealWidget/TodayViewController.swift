@@ -104,7 +104,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         // ...
     }
     */
-    deinit { print("\(#function) - \(String(describing: self))") }
+    //deinit { print("\(#function) - \(String(describing: self))") }
 
     // MARK: - View Setup
 

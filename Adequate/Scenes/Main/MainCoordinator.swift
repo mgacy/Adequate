@@ -71,7 +71,7 @@ final class MainCoordinator: BaseCoordinator {
         }
     }
 
-    deinit { print("\(#function) - \(String(describing: self))") }
+    //deinit { print("\(#function) - \(String(describing: self))") }
 
     // MARK: Flows
 
