@@ -25,6 +25,8 @@ internal enum L10n {
   internal static let dailyNotifications = L10n.tr("Localizable", "daily_notifications")
   /// Notifications are disabled. Please allow Adequate to access notifications in Settings.
   internal static let disabledNotificationAlertBody = L10n.tr("Localizable", "disabled_notification_alert_body")
+  /// Dismiss
+  internal static let dismiss = L10n.tr("Localizable", "dismiss")
   /// Email
   internal static let email = L10n.tr("Localizable", "email")
   /// There was no data

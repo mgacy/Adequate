@@ -11,6 +11,7 @@
 "buy" = "Buy";
 "cancel" = "Cancel";
 "daily_notifications" = "Daily Notifications";
+"dismiss" = "Dismiss";
 "email" = "Email";
 "empty_message" = "There was no data";
 "error" = "Error";

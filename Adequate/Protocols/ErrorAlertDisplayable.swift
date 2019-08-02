@@ -15,8 +15,8 @@ protocol ErrorAlertDisplayable {
 extension UIViewController: ErrorAlertDisplayable {
 
     func displayError(error: Error, completion: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-        let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+        let alert = UIAlertController(title: L10n.error, message: error.localizedDescription, preferredStyle: .alert)
+        let action = UIAlertAction(title: L10n.dismiss, style: .cancel, handler: nil)
         alert.addAction(action)
         present(alert, animated: true, completion: completion)
     }
