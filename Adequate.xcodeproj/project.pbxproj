@@ -49,6 +49,8 @@
 		C943E5B02238695C00DE0675 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C943E5AF2238695C00DE0675 /* StateView.swift */; };
 		C95B83C3218017FD0051B72B /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B83C2218017FD0051B72B /* ThemeManager.swift */; };
 		C95B83C521811DFA0051B72B /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B83C421811DFA0051B72B /* AppTheme.swift */; };
+		C961F35822F3DE1E00405CA3 /* MailComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C961F35722F3DE1E00405CA3 /* MailComposer.swift */; };
+		C961F35A22F4CF0E00405CA3 /* UIDevice+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C961F35922F4CF0D00405CA3 /* UIDevice+Ext.swift */; };
 		C96CA86A2182DB2500C3459E /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CA8692182DB2500C3459E /* OnboardingCoordinator.swift */; };
 		C96CA86C2182DCC800C3459E /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CA86B2182DCC800C3459E /* OnboardingPageViewController.swift */; };
 		C96CA86E2182DD1A00C3459E /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CA86D2182DD1A00C3459E /* WelcomeViewController.swift */; };
@@ -241,6 +243,8 @@
 		C943E5AF2238695C00DE0675 /* StateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
 		C95B83C2218017FD0051B72B /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		C95B83C421811DFA0051B72B /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		C961F35722F3DE1E00405CA3 /* MailComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailComposer.swift; sourceTree = "<group>"; };
+		C961F35922F4CF0D00405CA3 /* UIDevice+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Ext.swift"; sourceTree = "<group>"; };
 		C963AB022295EFB700E335D9 /* NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationService.entitlements; sourceTree = "<group>"; };
 		C96CA8692182DB2500C3459E /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		C96CA86B2182DCC800C3459E /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
@@ -419,6 +423,7 @@
 				C9058DF0215C7CB600FF7B4C /* SettingsCoordinator.swift */,
 				C9058DF2215C7CC400FF7B4C /* SettingsViewController.swift */,
 				C99DD5DA2182D4C500A38529 /* PaddingLabel.swift */,
+				C961F35722F3DE1E00405CA3 /* MailComposer.swift */,
 				C9102F95224FED1900B06679 /* AboutViewController.swift */,
 				C9102F97224FF04000B06679 /* AcknowledgementsViewController.swift */,
 			);
@@ -598,6 +603,7 @@
 				C992D1DD216D93F000B373D5 /* Optional+Ext.swift */,
 				C9DAC48A21476ADA00D6558B /* String+Ext.swift */,
 				C9DAC48C21476AF600D6558B /* UIColor+Ext.swift */,
+				C961F35922F4CF0D00405CA3 /* UIDevice+Ext.swift */,
 				C913919722CD91F2006C2E19 /* UILabel+Ext.swift */,
 				C9725D5E2255A7EE0043C4FC /* UINavigationController+NavBarStyle.swift */,
 				C9058DED215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift */,
@@ -1187,6 +1193,7 @@
 				C9DAC48721476AA100D6558B /* Themeable.swift in Sources */,
 				C9DAC49F21476BC500D6558B /* Topic.swift in Sources */,
 				C9DDB20121643F9E004D7957 /* MDTextView.swift in Sources */,
+				C961F35822F3DE1E00405CA3 /* MailComposer.swift in Sources */,
 				C9093CB9221FBD1E00C9DA0C /* StoryCoordinator.swift in Sources */,
 				C989E11722330B1C00DEAE89 /* SlideTransitionController.swift in Sources */,
 				C9AE54CF21795D7A00818F11 /* FullScreenImageDelegate.swift in Sources */,
@@ -1266,6 +1273,7 @@
 				C95B83C3218017FD0051B72B /* ThemeManager.swift in Sources */,
 				C9058DEE215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift in Sources */,
 				C923839222B1B4EA003BB1DA /* TopicType.swift in Sources */,
+				C961F35A22F4CF0E00405CA3 /* UIDevice+Ext.swift in Sources */,
 				C9C2109822D8FFA300C4F66F /* Lens.swift in Sources */,
 				C9DAC49321476B5100D6558B /* MehResponse.swift in Sources */,
 				C9221565225453920001FF3F /* DimmingPresentationController.swift in Sources */,

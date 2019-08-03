@@ -225,8 +225,11 @@ class SettingsViewController: UITableViewController {
     */
     // MARK: - UITableViewDelegate
 
+    private var mailComposer: MailComposer?
+
     // Configure the row selection code for any cells that you want to customize the row selection
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // TODO: defer {}?
         tableView.deselectRow(at: indexPath, animated: false)
 
         let application = UIApplication.shared
@@ -238,12 +241,19 @@ class SettingsViewController: UITableViewController {
             }
             application.open(webURL)
         case (1, 1):
-            // TODO: open email or email composer?
-            guard let emailURL = URL(string: "mailto:\(SupportAddress.email.rawValue)") else {
-                log.error("Bad email support address")
-                return
+            // TODO: move this into coordinator?
+            // TODO: add logs as attachment?
+            let composer = MailComposer()
+            guard let mailController = composer.configuredMailComposeViewController(
+                recipients: [SupportAddress.email.rawValue],
+                subject: SupportEmailMessage.subject,
+                message: SupportEmailMessage.message,
+                completionHandler: { [weak self] _ in self?.mailComposer = nil }) else {
+                    displayError(message: L10n.disabledEmailAlertBody)
+                    return
             }
-            application.open(emailURL)
+            mailComposer = composer
+            present(mailController, animated: true)
         case (1, 2):
             guard
                 let appURL = URL(string: "twitter://user?screen_name=\(SupportAddress.twitter.rawValue)"),
@@ -259,6 +269,7 @@ class SettingsViewController: UITableViewController {
         case (2, 0):
             delegate?.showAbout()
         case (2, 1):
+            // FIXME: enable
             //delegate?.showReview()
             showDisabledReviewAlert()
         default:
@@ -409,6 +420,31 @@ extension SettingsViewController {
                 }
             }
         }
+    }
 
+    enum SupportEmailMessage {
+        static var subject: String {
+            return "Support Request: Adequate"
+        }
+
+        static var message: String {
+            let versionNumber = Bundle.main.releaseVersionNumber ?? "X"
+            let buildNumber = Bundle.main.buildVersionNumber ?? "X"
+
+            var message = """
+
+            --
+            Support is only available in English.
+
+            \(UIDevice.current.modelIdentifier)
+            \(UIDevice.current.systemVersion)
+            \(versionNumber) (\(buildNumber))
+            """
+
+            if let identifier = UIDevice.current.identifierForVendor {
+                message += "\n\(identifier)"
+            }
+            return message
+        }
     }
 }
