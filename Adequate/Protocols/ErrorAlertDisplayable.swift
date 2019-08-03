@@ -10,6 +10,7 @@ import UIKit
 
 protocol ErrorAlertDisplayable {
     func displayError(error: Error, completion: (() -> Void)?)
+    func displayError(message: String, completion: (() -> Void)?)
 }
 
 extension UIViewController: ErrorAlertDisplayable {
@@ -21,4 +22,10 @@ extension UIViewController: ErrorAlertDisplayable {
         present(alert, animated: true, completion: completion)
     }
 
+    func displayError(message: String, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: L10n.error, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: L10n.dismiss, style: .cancel, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: completion)
+    }
 }
