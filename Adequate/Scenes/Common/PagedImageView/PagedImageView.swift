@@ -38,7 +38,8 @@ class PagedImageView: UIView {
             pageControl.backgroundColor = backgroundColor
         }
     }
-    //private var pageControlHeight: CGFloat = 30.0
+
+    let pageControlHeight: CGFloat = 24.0
 
     // MARK: - Subviews
 
@@ -108,7 +109,7 @@ class PagedImageView: UIView {
             pageControl.leadingAnchor.constraint(equalTo: leadingAnchor),
             pageControl.bottomAnchor.constraint(equalTo: bottomAnchor),
             pageControl.trailingAnchor.constraint(equalTo: trailingAnchor),
-            pageControl.heightAnchor.constraint(equalToConstant: 24.0)
+            pageControl.heightAnchor.constraint(equalToConstant: pageControlHeight)
         ])
     }
 

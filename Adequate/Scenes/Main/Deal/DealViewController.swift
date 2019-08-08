@@ -249,7 +249,7 @@ class DealViewController: UIViewController {
         barBackingView.inset = statusBarHeight
 
         // scrollView
-        let parallaxHeight: CGFloat = view.frame.width + 24.0 // Add height of PagedImageView.pageControl
+        let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
         scrollView.headerHeight = parallaxHeight
 
         scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
