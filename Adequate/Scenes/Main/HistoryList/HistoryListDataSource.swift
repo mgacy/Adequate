@@ -11,7 +11,7 @@ import UIKit
 final class HistoryListDataSource: NSObject {
     typealias Dependencies = HasDataProvider
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
-    typealias ResultType = Void
+    typealias ResultType = TableViewDiff
 
     private let dataProvider: DataProviderType
     private var deals: [Deal] = []
@@ -47,15 +47,39 @@ final class HistoryListDataSource: NSObject {
     private func setupObservations() -> [ObservationToken] {
         let historyToken = dataProvider.addHistoryObserver(self) { ds, viewState in
             switch viewState {
-            case .result(let deals):
-                ds.deals = deals
+            case .result(let newDeals):
+                let result: TableViewDiff
+                if #available(iOS 9999, *) { // Swift 5.1 returns true
+                    var deletedIndexPaths = [IndexPath]()
+                    var insertedIndexPaths = [IndexPath]()
+                    let diff = newDeals.difference(from: ds.deals)
+
+                    for change in diff {
+                        switch change {
+                        case let .remove(offset, _, _):
+                            deletedIndexPaths.append(IndexPath(row: offset, section: 0))
+                        case let .insert(offset, _, _):
+                            insertedIndexPaths.append(IndexPath(row: offset, section: 0))
+                        }
+                    }
+                    result = TableViewDiff(deletedIndexPaths: deletedIndexPaths,
+                                           insertedIndexPaths: insertedIndexPaths)
+                } else {
+                    result = TableViewDiff(deletedIndexPaths: [], insertedIndexPaths: [])
+                    log.warning(".difference(from:) is unavailable")
+                }
+
+                ds.deals = newDeals
+                ds.state = viewState.map { _ in return result }
             case .empty:
                 ds.deals = []
-            // TODO: what about .loading / .error?
-            default:
-                break
+                ds.state = .empty
+            case .loading:
+                ds.state = .loading
+            case .error(let error):
+                // TODO: what about ds.deals?
+                ds.state = .error(error)
             }
-            ds.state = viewState.map { _ in return }
         }
         return [historyToken]
     }

@@ -184,7 +184,7 @@ extension HistoryListViewController: UITableViewDelegate {
 
 // MARK: - ViewStateRenderable
 extension HistoryListViewController: ViewStateRenderable {
-    typealias ResultType = Void
+    typealias ResultType = TableViewDiff
 
     func render(_ viewState: ViewState<ResultType>) {
         stateView.render(viewState)
@@ -195,10 +195,22 @@ extension HistoryListViewController: ViewStateRenderable {
         case .loading:
             stateView.isHidden = false
             tableView.isHidden = true
-        case .result:
+        case .result(let diff):
             stateView.isHidden = true
             tableView.isHidden = false
-            tableView.reloadData()
+
+            if #available(iOS 9999, *) { // Swift 5.1 returns true
+                log.debug("\(#function) - \(diff)")
+                tableView.performBatchUpdates({
+                    tableView.deleteRows(at: diff.deletedIndexPaths, with: .fade)
+                    tableView.insertRows(at: diff.insertedIndexPaths, with: .right)
+                }, completion: { completed in
+                    log.debug("All done updating!")
+                })
+            } else {
+                log.debug("Performing simple data reload")
+                tableView.reloadData()
+            }
         case .error:
             stateView.isHidden = false
             tableView.isHidden = true
