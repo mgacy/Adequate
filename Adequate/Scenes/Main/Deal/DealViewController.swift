@@ -42,6 +42,7 @@ class DealViewController: UIViewController {
     private let dataProvider: DataProviderType
     private let imageService: ImageServiceType
     private let themeManager: ThemeManagerType
+    private let selectionFeedback = UISelectionFeedbackGenerator()
 
     private var observationTokens: [ObservationToken] = []
     private var viewState: ViewState<Deal> = .empty {
@@ -377,6 +378,8 @@ extension DealViewController: DealFooterDelegate {
         guard case .result(let deal) = viewState else {
             return
         }
+        selectionFeedback.prepare()
+        selectionFeedback.selectionChanged()
         delegate?.showPurchase(for: deal)
     }
 }
