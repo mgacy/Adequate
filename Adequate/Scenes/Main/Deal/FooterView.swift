@@ -42,6 +42,7 @@ class FooterView: UIView {
         label.numberOfLines = 1
         label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -52,6 +53,7 @@ class FooterView: UIView {
         label.numberOfLines = 1
         label.textColor = UIColor(red:0.28, green:0.25, blue:0.19, alpha:1.00)
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
+        label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
