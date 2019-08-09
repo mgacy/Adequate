@@ -32,6 +32,7 @@ class SettingsViewController: UITableViewController {
     private let notificationHeader: UILabel = {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 32.0, left: 16.0, bottom: 8.0, right: 16.0))
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
+        view.adjustsFontForContentSizeCategory = true
         view.textColor = .gray
         view.text = L10n.notifications.uppercased()
         return view
@@ -48,6 +49,7 @@ class SettingsViewController: UITableViewController {
     private let supportHeader: UILabel = {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 24.0, left: 16.0, bottom: 8.0, right: 16.0))
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
+        view.adjustsFontForContentSizeCategory = true
         view.textColor = .gray
         view.text = L10n.support.uppercased()
         return view
@@ -81,6 +83,7 @@ class SettingsViewController: UITableViewController {
         let view = PaddingLabel()
         view.numberOfLines = 0
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
+        view.adjustsFontForContentSizeCategory = true
         view.textColor = .gray
         view.text = L10n.unofficialAppDisclaimer
         return view
