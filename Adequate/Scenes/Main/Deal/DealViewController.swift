@@ -240,6 +240,10 @@ class DealViewController: UIViewController {
 
         forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupParallaxScrollView()
+
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(ensureVisibleImageLoaded),
+                                       name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
     func setupParallaxScrollView() {
@@ -342,6 +346,15 @@ class DealViewController: UIViewController {
         //activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
 
         present(activityViewController, animated: true, completion: nil)
+    }
+
+    @objc func ensureVisibleImageLoaded(){
+        guard let imageViewState = pagedImageView.visibleImageState else {
+            return
+        }
+        if case .error = imageViewState {
+            pagedImageView.reloadVisibleImage()
+        }
     }
 
     // MARK: - Navigation
