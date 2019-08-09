@@ -23,6 +23,13 @@ class PagedImageView: UIView {
         return dataSource.imageSource(for: IndexPath(item: primaryVisiblePage, section: 0))
     }
 
+    var visibleImageState: ViewState<UIImage>? {
+        guard let firstImageCell = collectionView.visibleCells.first as? ImageCell else {
+            return nil
+        }
+        return firstImageCell.viewState
+    }
+
     var primaryVisiblePage: Int {
         return collectionView.frame.size.width > 0 ? Int(collectionView.contentOffset.x + collectionView.frame.size.width / 2) / Int(collectionView.frame.size.width) : 0
     }
@@ -121,6 +128,17 @@ class PagedImageView: UIView {
         collectionView.reloadData()
         collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: false)
         updatePageControl()
+    }
+
+    public func reloadVisibleImage() {
+        guard
+            let firstImageCell = collectionView.visibleCells.first as? ImageCell,
+            firstImageCell.viewState != .loading else {
+                log.warning("Visible image is already loading")
+                return
+        }
+        let promise = dataSource.imageSource(for: IndexPath(row: primaryVisiblePage, section: 0))
+        firstImageCell.configure(with: promise)
     }
 
     // MARK: Selection
