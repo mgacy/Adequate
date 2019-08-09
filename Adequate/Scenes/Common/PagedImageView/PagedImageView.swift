@@ -212,7 +212,14 @@ extension PagedImageView: Themeable {
         // foreground
 
         // Subviews
-        // TODO: apply theme to all visible cells as well; use self.visibleCells?
         dataSource.apply(theme: theme)
+        /*
+        // TODO: apply theme to all visible cells as well; use self.visibleCells?
+        collectionView.visibleCells.forEach { cell in
+            if let imageCell = cell as? ImageCell {
+                imageCell.apply(theme: theme)
+            }
+        }
+        */
     }
 }
