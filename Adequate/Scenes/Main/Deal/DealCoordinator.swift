@@ -99,6 +99,9 @@ extension DealCoordinator: DealViewControllerDelegate {
 
     func showPurchase(for deal: Deal) {
         let dealURL = deal.url.appendingPathComponent("checkout")
+        // TODO: pass to PurchaseManager
+        // show web page / open Safari
+        // increment purchase count in user defaults
         showWebPage(with: dealURL, animated: true)
     }
 

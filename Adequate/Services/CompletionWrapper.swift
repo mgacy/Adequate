@@ -8,7 +8,6 @@
 
 import Foundation
 
-// TODO: is this essentially a Future?
 class CompletionWrapper<T> {
     private let wrappedHandler: (T) -> Void
     private let onCompletion: () -> Void

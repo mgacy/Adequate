@@ -99,7 +99,6 @@ class DataProvider: DataProviderType {
             log.verbose("New ViewState: Result: Deal(title: \(deal.title), launchStatus: \(String(describing: deal.launchStatus)))")
             let currentDealManager = CurrentDealManager()
             currentDealManager.saveDeal(currentDeal)
-            //dp.getDealHistory()
         }
     }
 
@@ -140,6 +139,7 @@ class DataProvider: DataProviderType {
     }
 
     private func getDealHistory(from startDate: Date, to endDate: Date, showLoading: Bool, cachePolicy: CachePolicy) {
+        log.debug("\(#function) - \(startDate) - \(endDate) - \(cachePolicy)")
         //guard historyState != ViewState<[DealHistory]>.loading else { return }
         if showLoading {
             historyState = .loading

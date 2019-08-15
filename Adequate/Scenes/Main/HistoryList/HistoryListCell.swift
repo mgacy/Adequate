@@ -66,6 +66,8 @@ final class HistoryListCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         theme = nil
+        //titleLabel.text = nil
+        //dateLabel.text = nil
     }
 
     // MARK: - View Configuration

@@ -74,7 +74,7 @@ class Logger: LoggingType {
         custom(level: .verbose, message: message, file: file, function: function, line: line)
     }
 
-    /// Log something which help during debugging (low priority)
+    /// Log something which helps during debugging (low priority)
     ///
     /// - Parameters:
     ///   - message: the message to be logged
