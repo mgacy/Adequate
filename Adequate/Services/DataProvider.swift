@@ -166,6 +166,8 @@ class DataProvider: DataProviderType {
 
     // MARK: - Refresh
 
+    private var refreshHistoryObserver: CompletionWrapper<Void>?
+
     func refreshDeal(for event: RefreshEvent) {
         log.verbose("\(#function) - \(event)")
         switch event {
@@ -189,6 +191,33 @@ class DataProvider: DataProviderType {
                 log.debug("backgroundRefreshStatus: \(UIApplication.shared.backgroundRefreshStatus)")
                 cachePolicy = .fetchIgnoringCacheData
             }
+
+            // Update Deal history after fetching current Deal
+            let completion: () -> Void = {  }
+            let observer: CompletionWrapper<Void> = CompletionWrapper(wrapping: completion) { [weak self] in
+                self?.refreshHistoryObserver = nil
+            }
+
+            observer.observationToken = addDealObserver(observer) { [weak self] wrapper, viewState in
+                switch viewState {
+                case .result:
+                    log.debug("refreshHistoryObserver - observation: result")
+                    self?.getDealHistory()
+                    wrapper.complete(with: ())
+                case .error:
+                    log.debug("refreshHistoryObserver - observation: error")
+                    // TODO: should we complete, or wait for another successful refresh?
+                    wrapper.complete(with: ())
+                case .empty:
+                    log.debug("refreshHistoryObserver - observation: empty")
+                    // TODO: should we complete, or wait for another successful refresh?
+                    wrapper.complete(with: ())
+                case .loading:
+                    break
+                }
+            }
+            refreshHistoryObserver = observer
+
             refreshDeal(showLoading: true, cachePolicy: cachePolicy)
         case .launchFromNotification:
             // TODO: improve handling
