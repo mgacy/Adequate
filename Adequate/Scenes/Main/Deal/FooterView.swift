@@ -41,7 +41,7 @@ class FooterView: UIView {
         let label = UILabel()
         label.numberOfLines = 1
         label.textColor = .white
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.font = FontBook.compactFooter
         label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -70,6 +70,8 @@ class FooterView: UIView {
 
     private let buyButton: UIButton = {
         let button = UIButton(type: .custom)
+        button.titleLabel?.font = FontBook.boldButton
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.setTitle(L10n.buy, for: .normal)
         button.setTitle(L10n.soldOut, for: .disabled)
         button.setTitleColor(button.tintColor, for: .normal)
@@ -148,12 +150,12 @@ class FooterView: UIView {
             priceComparisonLabel.text = "\(priceComparison.price) at \(priceComparison.store)"
             priceComparisonLabel.isHidden = false
             //stackView.alignment = .center
-            priceLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+            priceLabel.font = FontBook.compactFooter
         } else {
             log.debug("Unable to parse price comparison")
             priceComparisonLabel.isHidden = true
             //stackView.alignment = .firstBaseline
-            priceLabel.font = UIFont.preferredFont(forTextStyle: .title2)
+            priceLabel.font = FontBook.expandedFooter
         }
 
         // Price

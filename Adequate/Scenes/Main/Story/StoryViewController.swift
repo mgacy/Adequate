@@ -39,17 +39,22 @@ final class StoryViewController: UIViewController {
         return button
     }()
 
+    // TODO: add `StateView`?
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.font = FontBook.mainTitle
         label.textAlignment = .left
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let bodyText: MDTextView = {
-        let view = MDTextView(stylesheet: Appearance.stylesheet)
+        let styler = MDStyler()
+        let view = MDTextView(styler: styler)
+        view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -157,12 +162,12 @@ extension StoryViewController: ViewStateRenderable {
     func render(_ viewState: ViewState<Deal>) {
         switch viewState {
         case .empty:
-            print("EMPTY")
+            break
         case .loading:
-            print("LOADING ...")
+            break
         case .result(let deal):
             titleLabel.text = deal.story.title
-            bodyText.markdown = deal.story.body
+            bodyText.text = deal.story.body
         case .error(let error):
             log.error("\(#function): \(error.localizedDescription)")
         }

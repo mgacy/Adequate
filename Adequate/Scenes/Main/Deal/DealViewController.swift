@@ -123,16 +123,16 @@ class DealViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        //label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.font = FontBook.mainTitle
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let featuresText: MDTextView = {
-        let view = MDTextView(stylesheet: Appearance.stylesheet)
-        view.font = UIFont.preferredFont(forTextStyle: .body)
-        view.paragraphStyle = .list
+        let styler = MDStyler()
+        let view = MDTextView(styler: styler)
+        view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -142,20 +142,15 @@ class DealViewController: UIViewController {
         button.setTitle(L10n.Comments.count(0), for: .normal)
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.backgroundColor = button.tintColor
         return button
     }()
 
     private let specsText: MDTextView = {
-        let stylesheet = """
-        * { font: -apple-system-body; }
-        h1, h2, h3, h4, h5, h6, strong { font-weight: bold; }
-        em { font-style: italic; }
-        h5 { font-style: italic; }
-        """
-        let view = MDTextView(stylesheet: stylesheet)
-        view.font = UIFont.preferredFont(forTextStyle: .body)
-        view.paragraphStyle = .list
+        let styler = MDStyler()
+        let view = MDTextView(styler: styler)
+        view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -222,6 +217,8 @@ class DealViewController: UIViewController {
             },
             completion: { [weak self] (context) -> Void in
                 self?.pagedImageView.completeRotation(page: currentPage)
+                let parallaxHeight: CGFloat = size.width + 24.0 // Add height of PagedImageView.pageControl
+                self?.scrollView.headerHeight = parallaxHeight
             }
         )
     }
@@ -423,8 +420,8 @@ extension DealViewController: ViewStateRenderable {
             storyButton.isEnabled = true
             titleLabel.text = deal.title
             barBackingView.text = deal.title
-            featuresText.markdown = deal.features
-            specsText.markdown = deal.specifications
+            featuresText.text = deal.features
+            specsText.text = deal.specifications
             // images
             let safePhotoURLs = deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
