@@ -557,6 +557,7 @@
 			children = (
 				C9C0C0C9230730E30011EFB4 /* DownStylerConfiguration.swift */,
 				C9C0C0B823063D230011EFB4 /* MDStyler.swift */,
+				C9DDB20021643F9E004D7957 /* MDTextView.swift */,
 				C9C0C0C223072F6A0011EFB4 /* Attribute Collections */,
 				C9C0C0C123072F530011EFB4 /* Extensions */,
 			);
@@ -744,7 +745,6 @@
 				C9DAC4B42147872700D6558B /* Router.swift */,
 				C943E5AF2238695C00DE0675 /* StateView.swift */,
 				C9DAC4B22147864A00D6558B /* ViewState.swift */,
-				C9DDB20021643F9E004D7957 /* MDTextView.swift */,
 				C995C07222A8B63600C2289F /* ParallaxBarView.swift */,
 				C9B90D0222837D140070ADE9 /* ParallaxScrollView.swift */,
 			);
