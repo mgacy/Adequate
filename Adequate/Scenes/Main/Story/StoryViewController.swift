@@ -42,8 +42,9 @@ final class StoryViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.font = FontBook.mainTitle
         label.textAlignment = .left
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
