@@ -39,6 +39,8 @@ final class StoryViewController: UIViewController {
         return button
     }()
 
+    // TODO: add `StateView`?
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -160,9 +162,9 @@ extension StoryViewController: ViewStateRenderable {
     func render(_ viewState: ViewState<Deal>) {
         switch viewState {
         case .empty:
-            print("EMPTY")
+            break
         case .loading:
-            print("LOADING ...")
+            break
         case .result(let deal):
             titleLabel.text = deal.story.title
             bodyText.text = deal.story.body
