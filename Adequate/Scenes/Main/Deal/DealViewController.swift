@@ -142,6 +142,7 @@ class DealViewController: UIViewController {
         button.setTitle(L10n.Comments.count(0), for: .normal)
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.backgroundColor = button.tintColor
         return button
     }()
@@ -216,6 +217,8 @@ class DealViewController: UIViewController {
             },
             completion: { [weak self] (context) -> Void in
                 self?.pagedImageView.completeRotation(page: currentPage)
+                let parallaxHeight: CGFloat = size.width + 24.0 // Add height of PagedImageView.pageControl
+                self?.scrollView.headerHeight = parallaxHeight
             }
         )
     }

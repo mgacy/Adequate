@@ -55,6 +55,7 @@ class StateView: UIView {
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
         label.text = L10n.loadingMessage
         label.textAlignment = .center
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -66,6 +67,7 @@ class StateView: UIView {
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textAlignment = .center
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
