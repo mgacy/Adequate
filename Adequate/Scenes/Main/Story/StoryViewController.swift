@@ -50,7 +50,9 @@ final class StoryViewController: UIViewController {
     }()
 
     private let bodyText: MDTextView = {
-        let view = MDTextView(stylesheet: Appearance.stylesheet)
+        let styler = MDStyler()
+        let view = MDTextView(styler: styler)
+        view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -163,7 +165,7 @@ extension StoryViewController: ViewStateRenderable {
             print("LOADING ...")
         case .result(let deal):
             titleLabel.text = deal.story.title
-            bodyText.markdown = deal.story.body
+            bodyText.text = deal.story.body
         case .error(let error):
             log.error("\(#function): \(error.localizedDescription)")
         }

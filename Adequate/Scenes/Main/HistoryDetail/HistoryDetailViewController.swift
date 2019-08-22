@@ -101,9 +101,9 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     }()
 
     private let featuresText: MDTextView = {
-        let view = MDTextView(stylesheet: Appearance.stylesheet)
-        view.font = UIFont.preferredFont(forTextStyle: .body)
-        view.paragraphStyle = .list
+        let styler = MDStyler()
+        let view = MDTextView(styler: styler)
+        view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -127,15 +127,9 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     }()
 
     private let specsText: MDTextView = {
-        let stylesheet = """
-        * { font: -apple-system-body; }
-        h1, h2, h3, h4, h5, h6, strong { font-weight: bold; }
-        em { font-style: italic; }
-        h5 { font-style: italic; }
-        """
-        let view = MDTextView(stylesheet: stylesheet)
-        view.font = UIFont.preferredFont(forTextStyle: .body)
-        view.paragraphStyle = .list
+        let styler = MDStyler()
+        let view = MDTextView(styler: styler)
+        view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -329,8 +323,8 @@ extension HistoryDetailViewController: ViewStateRenderable {
             //stateView.isHidden = true
             barBackingView.text = deal.title
             titleLabel.text = deal.title
-            featuresText.markdown = deal.features
-            specsText.markdown = deal.specifications
+            featuresText.text = deal.features
+            specsText.text = deal.specifications
             // images
             let safePhotoURLs = deal.photos
                 .compactMap { URL(string: $0) }
