@@ -22,6 +22,9 @@ class TableBackgroundView: UIView {
         }
     }
 
+    // TODO: replace `titleColor` and `messageColor` with `foreground: ThemeForeground`? See `StateView`
+    // TODO: add `retryButton` and `var onRetry: (() -> Void)?`?
+
     public var titleColor: UIColor {
         get {
             return titleLabel.textColor
@@ -159,5 +162,20 @@ extension UITableView {
         } else {
             backgroundView = nil
         }
+    }
+}
+
+// MARK: - Themeable
+extension TableBackgroundView: Themeable {
+    func apply(theme: AppTheme) {
+        // accentColor
+
+        // backgroundColor
+        backgroundColor = theme.backgroundColor
+
+        // foreground
+        //foreground = theme.foreground
+        titleLabel.textColor = theme.foreground.textColor
+        // TODO: how to color messageLabel?
     }
 }
