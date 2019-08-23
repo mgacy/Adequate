@@ -29,6 +29,8 @@ final class HistoryListDataSource: NSObject {
         }
     }
 
+    // MARK: - Lifecycle
+
     init(dependencies: Dependencies) {
         self.dataProvider = dependencies.dataProvider
         self.state = .empty
@@ -38,7 +40,7 @@ final class HistoryListDataSource: NSObject {
 
     deinit { observationTokens.forEach { $0.cancel() } }
 
-    // MARK: A
+    // MARK: - Additional
 
     func getDealHistory(from startDate: Date, to endDate: Date) {
         dataProvider.getDealHistory(from: startDate, to: endDate)
@@ -48,7 +50,7 @@ final class HistoryListDataSource: NSObject {
         return deals[indexPath.row]
     }
 
-    // MARK: - TEMP
+    // MARK: - Observations
 
     private func setupObservations() -> [ObservationToken] {
         let historyToken = dataProvider.addHistoryObserver(self) { ds, viewState in
