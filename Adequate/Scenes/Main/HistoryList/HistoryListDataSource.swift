@@ -13,6 +13,12 @@ final class HistoryListDataSource: NSObject {
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
     typealias ResultType = TableViewDiff
 
+    // MARK: - Properties
+
+    var isEmpty: Bool {
+        return deals.isEmpty
+    }
+
     private let dataProvider: DataProviderType
     private var deals: [Deal] = []
 
@@ -23,6 +29,8 @@ final class HistoryListDataSource: NSObject {
         }
     }
 
+    // MARK: - Lifecycle
+
     init(dependencies: Dependencies) {
         self.dataProvider = dependencies.dataProvider
         self.state = .empty
@@ -32,7 +40,7 @@ final class HistoryListDataSource: NSObject {
 
     deinit { observationTokens.forEach { $0.cancel() } }
 
-    // MARK: A
+    // MARK: - Additional
 
     func getDealHistory(from startDate: Date, to endDate: Date) {
         dataProvider.getDealHistory(from: startDate, to: endDate)
@@ -42,7 +50,7 @@ final class HistoryListDataSource: NSObject {
         return deals[indexPath.row]
     }
 
-    // MARK: - TEMP
+    // MARK: - Observations
 
     private func setupObservations() -> [ObservationToken] {
         let historyToken = dataProvider.addHistoryObserver(self) { ds, viewState in
@@ -66,7 +74,6 @@ final class HistoryListDataSource: NSObject {
                                            insertedIndexPaths: insertedIndexPaths)
                 } else {
                     result = TableViewDiff(deletedIndexPaths: [], insertedIndexPaths: [])
-                    log.warning(".difference(from:) is unavailable")
                 }
 
                 ds.deals = newDeals
