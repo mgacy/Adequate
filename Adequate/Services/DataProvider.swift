@@ -128,16 +128,6 @@ class DataProvider: DataProviderType {
         getDealHistory(from: startDate, to: endDate, showLoading: true, cachePolicy: .returnCacheDataAndFetch)
     }
 
-    /// Convenience method
-    private func getDealHistory() {
-        // TODO: account for TimeZones; do so at level of Calendar or DateFormatter?
-        let today = Date()
-        // TODO: move startDate / endDate to class properties?
-        let startDate = Calendar.current.date(byAdding: .month, value: -1, to: today)!
-        let endDate = Calendar.current.date(byAdding: .day, value: -1, to: today)!
-        getDealHistory(from: startDate, to: endDate, showLoading: false, cachePolicy: .fetchIgnoringCacheData)
-    }
-
     private func getDealHistory(from startDate: Date, to endDate: Date, showLoading: Bool, cachePolicy: CachePolicy) {
         log.debug("\(#function) - \(startDate) - \(endDate) - \(cachePolicy)")
         //guard historyState != ViewState<[DealHistory]>.loading else { return }
@@ -197,7 +187,8 @@ class DataProvider: DataProviderType {
             }
 
             // Update Deal history after fetching current Deal
-            refreshHistoryObserver = makeRefreshHistoryObserver()
+            // TODO: use cachePolicy
+            refreshHistoryObserver = makeRefreshHistoryObserver(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
 
             refreshDeal(showLoading: true, cachePolicy: cachePolicy)
         case .launchFromNotification:
@@ -266,6 +257,7 @@ class DataProvider: DataProviderType {
             })
     }
 
+    // TODO: rename `fetchCompletionObserver`?
     private var wrappedHandler: CompletionWrapper<UIBackgroundFetchResult>?
 
     private func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -437,7 +429,7 @@ extension DataProvider {
         return observer
     }
 
-    private func makeRefreshHistoryObserver() -> CompletionWrapper<Void> {
+    private func makeRefreshHistoryObserver(showLoading: Bool, cachePolicy: CachePolicy) -> CompletionWrapper<Void> {
         let observer: CompletionWrapper<Void> = CompletionWrapper(wrapping: { }) { [weak self] in
             self?.refreshHistoryObserver = nil
         }
@@ -445,7 +437,12 @@ extension DataProvider {
             //log.debug("refreshHistoryObserver: \(viewState)")
             switch viewState {
             case .result:
-                getDealHistory()
+                // TODO: account for TimeZones; do so at level of Calendar or DateFormatter?
+                let today = Date()
+                // TODO: move startDate / endDate to class properties?
+                let startDate = Calendar.current.date(byAdding: .month, value: -1, to: today)!
+                let endDate = Calendar.current.date(byAdding: .day, value: -1, to: today)!
+                self?.getDealHistory(from: startDate, to: endDate, showLoading: showLoading, cachePolicy: cachePolicy)
                 wrapper.complete(with: ())
             case .error:
                 // TODO: should we complete, or wait for another successful refresh?
