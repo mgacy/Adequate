@@ -154,7 +154,11 @@ class DataProvider: DataProviderType {
                 guard let items = result.listDealsForPeriod else {
                     throw SyncClientError.myError(message: "Missing result")
                 }
-                self?.historyState = .result(items.reversed().compactMap { $0 })
+                if items.isEmpty {
+                    self?.historyState = .empty
+                } else {
+                    self?.historyState = .result(items.reversed().compactMap { $0 })
+                }
             }.catch { error in
                 log.error("\(#function): \(error.localizedDescription)")
                 // TODO: still show .error if !showLoading?
