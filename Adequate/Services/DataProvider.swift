@@ -197,30 +197,7 @@ class DataProvider: DataProviderType {
             }
 
             // Update Deal history after fetching current Deal
-            let completion: () -> Void = {  }
-            let observer: CompletionWrapper<Void> = CompletionWrapper(wrapping: completion) { [weak self] in
-                self?.refreshHistoryObserver = nil
-            }
-
-            observer.observationToken = addDealObserver(observer) { [weak self] wrapper, viewState in
-                switch viewState {
-                case .result:
-                    log.debug("refreshHistoryObserver - observation: result")
-                    self?.getDealHistory()
-                    wrapper.complete(with: ())
-                case .error:
-                    log.debug("refreshHistoryObserver - observation: error")
-                    // TODO: should we complete, or wait for another successful refresh?
-                    wrapper.complete(with: ())
-                case .empty:
-                    log.debug("refreshHistoryObserver - observation: empty")
-                    // TODO: should we complete, or wait for another successful refresh?
-                    wrapper.complete(with: ())
-                case .loading:
-                    break
-                }
-            }
-            refreshHistoryObserver = observer
+            refreshHistoryObserver = makeRefreshHistoryObserver()
 
             refreshDeal(showLoading: true, cachePolicy: cachePolicy)
         case .launchFromNotification:
@@ -299,26 +276,7 @@ class DataProvider: DataProviderType {
             if wrappedHandler != nil {
                 log.error("Replacing existing wrappedHandler")
             }
-            let observer = CompletionWrapper(wrapping: completionHandler) { [weak self] in
-                self?.wrappedHandler = nil
-            }
-            observer.observationToken = addDealObserver(observer) { wrapper, viewState in
-                switch viewState {
-                case .result:
-                    log.debug("BACKGROUND_APP_REFRESH: newData")
-                    wrapper.complete(with: .newData)
-                case .error:
-                    log.debug("BACKGROUND_APP_REFRESH: failed")
-                    wrapper.complete(with: .failed)
-                case .empty:
-                    log.debug("BACKGROUND_APP_REFRESH: noData")
-                    wrapper.complete(with: .noData)
-                case .loading:
-                    // This is called immediately; ignore it
-                    break
-                }
-            }
-            wrappedHandler = observer
+            wrappedHandler = makeBackgroundFetchObserver(completionHandler: completionHandler)
             return
         }
         let query = GetDealQuery(id: "current_deal")
@@ -357,30 +315,10 @@ class DataProvider: DataProviderType {
         log.verbose("\(#function) - \(delta)")
         guard case .result(let currentDeal) = dealState else {
             log.info("\(#function) - already fetching Deal; setting .wrappedHandler")
-
             if wrappedHandler != nil {
                 log.error("Replacing existing wrappedHandler")
             }
-            let observer = CompletionWrapper(wrapping: completionHandler) { [weak self] in
-                self?.wrappedHandler = nil
-            }
-            observer.observationToken = addDealObserver(observer) { wrapper, viewState in
-                switch viewState {
-                case .result:
-                    log.debug("BACKGROUND_APP_REFRESH: newData")
-                    wrapper.complete(with: .newData)
-                case .error:
-                    log.debug("BACKGROUND_APP_REFRESH: failed")
-                    wrapper.complete(with: .failed)
-                case .empty:
-                    log.debug("BACKGROUND_APP_REFRESH: noData")
-                    wrapper.complete(with: .noData)
-                case .loading:
-                    // This is called immediately; ignore it
-                    break
-                }
-            }
-            wrappedHandler = observer
+            wrappedHandler = makeBackgroundFetchObserver(completionHandler: completionHandler)
             return
         }
 
@@ -471,4 +409,51 @@ class DataProvider: DataProviderType {
         }
     }
 
+}
+
+// MARK: - Refresh Observer Factory
+extension DataProvider {
+
+    private func makeBackgroundFetchObserver(completionHandler: @escaping (UIBackgroundFetchResult) -> Void) -> CompletionWrapper<UIBackgroundFetchResult> {
+        let observer = CompletionWrapper(wrapping: completionHandler) { [weak self] in
+            self?.wrappedHandler = nil
+        }
+        observer.observationToken = addDealObserver(observer) { wrapper, viewState in
+            switch viewState {
+            case .result:
+                log.debug("BACKGROUND_APP_REFRESH: newData")
+                wrapper.complete(with: .newData)
+            case .error:
+                log.debug("BACKGROUND_APP_REFRESH: failed")
+                wrapper.complete(with: .failed)
+            case .empty:
+                log.debug("BACKGROUND_APP_REFRESH: noData")
+                wrapper.complete(with: .noData)
+            case .loading:
+                // This is called immediately; ignore it
+                break
+            }
+        }
+        return observer
+    }
+
+    private func makeRefreshHistoryObserver() -> CompletionWrapper<Void> {
+        let observer: CompletionWrapper<Void> = CompletionWrapper(wrapping: { }) { [weak self] in
+            self?.refreshHistoryObserver = nil
+        }
+        observer.observationToken = addDealObserver(observer) { [weak self] wrapper, viewState in
+            //log.debug("refreshHistoryObserver: \(viewState)")
+            switch viewState {
+            case .result:
+                getDealHistory()
+                wrapper.complete(with: ())
+            case .error:
+                // TODO: should we complete, or wait for another successful refresh?
+                wrapper.complete(with: ())
+            default:
+                break
+            }
+        }
+        return observer
+    }
 }
