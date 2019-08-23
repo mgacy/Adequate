@@ -74,7 +74,6 @@ final class HistoryListDataSource: NSObject {
                                            insertedIndexPaths: insertedIndexPaths)
                 } else {
                     result = TableViewDiff(deletedIndexPaths: [], insertedIndexPaths: [])
-                    log.warning(".difference(from:) is unavailable")
                 }
 
                 ds.deals = newDeals
