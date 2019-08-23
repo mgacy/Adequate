@@ -195,16 +195,13 @@ extension HistoryListViewController: ViewStateRenderable {
         case .result(let diff):
             // TODO: ensure tableView.backgroundView == nil?
             if #available(iOS 9999, *) { // Swift 5.1 returns true
-                log.debug("\(#function) - \(diff)")
                 tableView.performBatchUpdates({
                     tableView.deleteRows(at: diff.deletedIndexPaths, with: .fade)
                     tableView.insertRows(at: diff.insertedIndexPaths, with: .right)
                 }, completion: { completed in
-                    log.debug("All done updating!")
                     self.refreshControl.endRefreshing()
                 })
             } else {
-                log.debug("Performing simple data reload")
                 tableView.reloadData()
                 refreshControl.endRefreshing()
             }
