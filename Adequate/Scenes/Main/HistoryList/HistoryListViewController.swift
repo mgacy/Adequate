@@ -49,6 +49,12 @@ final class HistoryListViewController: UIViewController {
         return view
     }()
 
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlDidChange(_:)), for: .valueChanged)
+        return refreshControl
+    }()
+
     private lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
         tv.tableFooterView = UIView() // Prevent empty rows
@@ -131,6 +137,7 @@ final class HistoryListViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = dataSource
         tableView.estimatedRowHeight = 88.0
+        tableView.refreshControl = refreshControl
         tableView.separatorStyle = .none
         tableView.register(cellType: HistoryListCell.self)
     }
@@ -163,6 +170,10 @@ final class HistoryListViewController: UIViewController {
         delegate?.showDeal()
     }
 
+    @objc func refreshControlDidChange(_ sender: UIRefreshControl) {
+        getDealHistory()
+    }
+
 }
 
 // MARK: - UITableViewDelegate
@@ -192,9 +203,15 @@ extension HistoryListViewController: ViewStateRenderable {
         case .empty:
             stateView.isHidden = false
             tableView.isHidden = true
+            if refreshControl.isRefreshing {
+                refreshControl.endRefreshing()
+            }
         case .loading:
             stateView.isHidden = false
             tableView.isHidden = true
+            tableView.setContentOffset(CGPoint(x: 0, y: tableView.contentOffset.y - refreshControl.frame.size.height),
+                                       animated: true)
+            refreshControl.beginRefreshing()
         case .result(let diff):
             stateView.isHidden = true
             tableView.isHidden = false
@@ -206,14 +223,19 @@ extension HistoryListViewController: ViewStateRenderable {
                     tableView.insertRows(at: diff.insertedIndexPaths, with: .right)
                 }, completion: { completed in
                     log.debug("All done updating!")
+                    self.refreshControl.endRefreshing()
                 })
             } else {
                 log.debug("Performing simple data reload")
                 tableView.reloadData()
+                refreshControl.endRefreshing()
             }
         case .error:
             stateView.isHidden = false
             tableView.isHidden = true
+            if refreshControl.isRefreshing {
+                refreshControl.endRefreshing()
+            }
         }
     }
 }
