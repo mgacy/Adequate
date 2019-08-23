@@ -13,6 +13,12 @@ final class HistoryListDataSource: NSObject {
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
     typealias ResultType = TableViewDiff
 
+    // MARK: - Properties
+
+    var isEmpty: Bool {
+        return deals.isEmpty
+    }
+
     private let dataProvider: DataProviderType
     private var deals: [Deal] = []
 
