@@ -81,7 +81,7 @@ final class HistoryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        getDealHistory()
+        //getDealHistory()
     }
 
     override func didReceiveMemoryWarning() {
@@ -96,6 +96,12 @@ final class HistoryListViewController: UIViewController {
     func setupView() {
         title = L10n.history
         navigationController?.navigationBar.barTintColor = .white
+        //navigationController?.navigationBar.prefersLargeTitles = true
+
+        // Try to fix UIRefreshControl issues
+        edgesForExtendedLayout = [.all] // [.top]?
+        extendedLayoutIncludesOpaqueBars = true
+
         settingsButton.tintColor = .black
         dealButton.tintColor = .black
         view.backgroundColor = .white
