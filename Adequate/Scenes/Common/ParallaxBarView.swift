@@ -71,6 +71,8 @@ class ParallaxBarView: UIView {
 
     // MARK: - Lifecycle
 
+    // TODO: init(leftBarItems: Int, rightBarItems: Int) { ... }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.configure()
