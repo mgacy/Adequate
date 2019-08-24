@@ -47,6 +47,7 @@ class MDTextView: UITextView {
         adjustsFontForContentSizeCategory = true
         isScrollEnabled = false
         isEditable = false
+        isSelectable = false
 
         // https://kenb.us/uilabel-vs-uitextview
         contentInset = .zero
