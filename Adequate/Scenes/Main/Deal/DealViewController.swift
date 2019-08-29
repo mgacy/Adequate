@@ -365,12 +365,11 @@ extension DealViewController: ViewStateRenderable {
             barBackingView.text = deal.title
             contentView.title = deal.title
             contentView.features = deal.features
+            contentView.commentCount = deal.topic?.commentCount
             contentView.specifications = deal.specifications
             // images
             let safePhotoURLs = deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
-            // forum
-            renderComments(for: deal)
             // footerView
             footerView.update(withDeal: deal)
 
@@ -387,21 +386,6 @@ extension DealViewController: ViewStateRenderable {
             })
         }
     }
-
-    // MARK: Helper Methods
-
-    // TODO: move into extension on Topic?
-    private func renderComments(for deal: Deal) {
-        guard let topic = deal.topic else {
-            contentView.forumButton.isEnabled = false
-            contentView.forumButton.isHidden = true
-            return
-        }
-        contentView.forumButton.isHidden = false
-        contentView.forumButton.isEnabled = true
-        contentView.forumButton.setTitle(L10n.Comments.count(topic.commentCount), for: .normal)
-    }
-
 }
 
 // MARK: - Themeable

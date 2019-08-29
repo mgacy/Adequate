@@ -25,6 +25,19 @@ class DealContentView: UIView {
         }
     }
 
+    var commentCount: Int? {
+        didSet {
+            if let count = commentCount {
+                forumButton.isHidden = false
+                forumButton.isEnabled = true
+                forumButton.setTitle(L10n.Comments.count(count), for: .normal)
+            } else {
+                forumButton.isEnabled = false
+                forumButton.isHidden = true
+            }
+        }
+    }
+
     var specifications: String? {
         didSet {
             guard specifications != oldValue else {
