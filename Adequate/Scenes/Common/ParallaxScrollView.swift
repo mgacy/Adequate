@@ -28,8 +28,7 @@ class ParallaxScrollView: UIScrollView {
             guard _headerView != view else {
                 return
             }
-            addSubview(contentView)
-            //insertSubview(contentView, at: 0)
+            insertSubview(contentView, at: 0)
             _headerView = view
             updateHeaderConstraints()
         }
