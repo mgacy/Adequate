@@ -142,7 +142,7 @@ class DealContentView: UIView {
             featuresText.widthAnchor.constraint(equalTo: widthAnchor, constant: AppTheme.widthInset),
             // forumButton
             forumButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: AppTheme.spacing),
+            forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: AppTheme.spacing * 2.0),
             forumButton.widthAnchor.constraint(equalToConstant: buttonWidth),
             // specsText
             specsText.leadingAnchor.constraint(equalTo: leadingAnchor, constant: AppTheme.sideMargin),
