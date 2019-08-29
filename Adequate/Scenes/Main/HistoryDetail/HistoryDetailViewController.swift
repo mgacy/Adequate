@@ -175,7 +175,9 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        apply(theme: AppTheme(theme: dealFragment.theme))
+        // Ensure correct navigation bar style after aborted dismissal
+        navigationController?.navigationBar.barStyle = dealFragment.theme.foreground.navigationBarStyle
+        setNeedsStatusBarAppearanceUpdate()
     }
 
     override func didReceiveMemoryWarning() {
@@ -197,6 +199,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         //storyButton.addTarget(self, action: #selector(didPressStory(_:)), for: .touchUpInside)
         setupParallaxScrollView()
+        apply(theme: AppTheme(theme: dealFragment.theme))
     }
 
     func setupParallaxScrollView() {
