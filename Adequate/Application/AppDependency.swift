@@ -24,6 +24,7 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
             log.error("Unable to initialize AWSMobileClient: \(error.localizedDescription)")
         }
         guard let appSyncClient = AppDependency.makeAppSyncClient(cacheKey: "id") else {
+            log.error("Unable to initialize AppSyncClient")
             fatalError("Unable to initialize AppSyncClient")
         }
         let networkClient = AppDependency.makeNetworkClient()

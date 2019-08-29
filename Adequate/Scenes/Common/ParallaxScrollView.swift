@@ -74,7 +74,7 @@ class ParallaxScrollView: UIScrollView {
                 return
             }
             _progress = progress
-            //print("Progress: \(progress)")
+            //log.verbose("Progress: \(progress)")
             parallaxHeaderDidScrollHandler?(self)
         }
     }
