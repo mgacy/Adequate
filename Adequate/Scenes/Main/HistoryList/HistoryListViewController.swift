@@ -81,7 +81,10 @@ final class HistoryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        //getDealHistory()
+        // TODO: refresh on viewDidLoad() or on viewWillAppear(_:)?
+        if case .empty = dataSource.state {
+            getDealHistory()
+        }
     }
 
     override func didReceiveMemoryWarning() {

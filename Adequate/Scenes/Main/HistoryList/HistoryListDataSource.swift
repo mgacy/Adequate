@@ -23,7 +23,7 @@ final class HistoryListDataSource: NSObject {
     private var deals: [Deal] = []
 
     private var observationTokens: [ObservationToken] = []
-    private var state: ViewState<ResultType> {
+    private(set) var state: ViewState<ResultType> {
         didSet {
             callObservations(with: state)
         }
