@@ -68,12 +68,26 @@ class DataProvider: DataProviderType {
     private var dealState: ViewState<Deal> {
         didSet {
             // TODO: check that viewState != oldValue before calling completions?
+
+            if case .result(let deal) = dealState {
+                log.verbose("New dealState: Result: Deal(title: \(deal.title), launchStatus: \(String(describing: deal.launchStatus)))")
+            } else {
+                log.verbose("New dealState: \(dealState)")
+            }
+
             callObservations(with: dealState)
         }
     }
 
     private var historyState: ViewState<[DealHistory]> {
         didSet {
+
+            if case .result = historyState {
+                log.verbose("New historyState: RESULT")
+            } else {
+                log.verbose("New historyState: \(historyState)")
+            }
+
             callObservations(with: historyState)
         }
     }
@@ -93,10 +107,8 @@ class DataProvider: DataProviderType {
 
         addDealObserver(self) { dp, viewState in
             guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
-                log.verbose("New ViewState: \(viewState)")
                 return
             }
-            log.verbose("New ViewState: Result: Deal(title: \(deal.title), launchStatus: \(String(describing: deal.launchStatus)))")
             let currentDealManager = CurrentDealManager()
             currentDealManager.saveDeal(currentDeal)
         }
@@ -219,7 +231,7 @@ class DataProvider: DataProviderType {
     }
 
     private func refreshDeal(showLoading: Bool, cachePolicy: CachePolicy) {
-        log.verbose("\(#function) - \(cachePolicy)")
+        log.verbose("\(#function) - \(showLoading) - \(cachePolicy)")
         guard dealState != ViewState<Deal>.loading else {
             // FIXME: what if cachePolicy differs from that of current request?
             log.debug("Already loading Deal; will bail")
@@ -266,7 +278,7 @@ class DataProvider: DataProviderType {
         guard dealState != ViewState<Deal>.loading else {
             log.debug("Already fetching Deal; setting .wrappedHandler")
             if wrappedHandler != nil {
-                log.error("Replacing existing wrappedHandler")
+                log.error("Replacing existing .wrappedHandler")
             }
             wrappedHandler = makeBackgroundFetchObserver(completionHandler: completionHandler)
             return
@@ -308,7 +320,7 @@ class DataProvider: DataProviderType {
         guard case .result(let currentDeal) = dealState else {
             log.info("\(#function) - already fetching Deal; setting .wrappedHandler")
             if wrappedHandler != nil {
-                log.error("Replacing existing wrappedHandler")
+                log.error("Replacing existing .wrappedHandler")
             }
             wrappedHandler = makeBackgroundFetchObserver(completionHandler: completionHandler)
             return

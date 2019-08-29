@@ -28,8 +28,7 @@ class ParallaxScrollView: UIScrollView {
             guard _headerView != view else {
                 return
             }
-            addSubview(contentView)
-            //insertSubview(contentView, at: 0) // TODO: used this in `Adequate-iPad`
+            insertSubview(contentView, at: 0)
             _headerView = view
             updateHeaderConstraints()
         }
@@ -74,8 +73,7 @@ class ParallaxScrollView: UIScrollView {
                 return
             }
             _progress = progress
-            //print("Progress: \(progress)")
-            parallaxHeaderDidScrollHandler?(self)
+            //log.verbose("Progress: \(progress)")
         }
     }
 
@@ -190,6 +188,6 @@ class ParallaxScrollView: UIScrollView {
 extension ParallaxScrollView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         layoutContentView()
-        // TODO: just call `parallaxHeaderDidScrollHandler(self)` here?
+        parallaxHeaderDidScrollHandler?(self)
     }
 }
