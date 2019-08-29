@@ -100,8 +100,8 @@ class DealViewController: UIViewController {
         return view
     }()
 
-    private let contentView: UIView = {
-        let view = UIView()
+    private let contentView: DealContentView = {
+        let view = DealContentView()
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -116,41 +116,6 @@ class DealViewController: UIViewController {
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
         view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = FontBook.mainTitle
-        label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let featuresText: MDTextView = {
-        let styler = MDStyler()
-        let view = MDTextView(styler: styler)
-        view.adjustsFontForContentSizeCategory = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private let forumButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle(L10n.Comments.count(0), for: .normal)
-        button.layer.cornerRadius = 5
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
-        button.backgroundColor = button.tintColor
-        return button
-    }()
-
-    private let specsText: MDTextView = {
-        let styler = MDStyler()
-        let view = MDTextView(styler: styler)
-        view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -185,10 +150,6 @@ class DealViewController: UIViewController {
         view.addSubview(barBackingView)
         scrollView.headerView = pagedImageView
         scrollView.addSubview(contentView)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(featuresText)
-        contentView.addSubview(forumButton)
-        contentView.addSubview(specsText)
         view.addSubview(footerView)
         // Navigation bar
         navigationItem.leftBarButtonItem = historyButton
@@ -235,7 +196,7 @@ class DealViewController: UIViewController {
         pagedImageView.delegate = self
         footerView.delegate = self
 
-        forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
+        contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupParallaxScrollView()
 
         let notificationCenter = NotificationCenter.default
@@ -286,24 +247,7 @@ class DealViewController: UIViewController {
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            // titleLabel
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: AppTheme.spacing),
-            titleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
-            // featuresLabel
-            featuresText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
-            featuresText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: AppTheme.spacing * 2.0),
-            featuresText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
-            // forumButton
-            forumButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: AppTheme.spacing),
-            forumButton.widthAnchor.constraint(equalToConstant: 200.0),
-            // specsText
-            specsText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
-            specsText.topAnchor.constraint(equalTo: forumButton.bottomAnchor, constant: AppTheme.spacing * 2.0),
-            specsText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
-            specsText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -AppTheme.spacing)
+            contentView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
     }
 
@@ -418,10 +362,10 @@ extension DealViewController: ViewStateRenderable {
             // Update UI
             shareButton.isEnabled = true
             storyButton.isEnabled = true
-            titleLabel.text = deal.title
             barBackingView.text = deal.title
-            featuresText.text = deal.features
-            specsText.text = deal.specifications
+            contentView.title = deal.title
+            contentView.features = deal.features
+            contentView.specifications = deal.specifications
             // images
             let safePhotoURLs = deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
@@ -449,13 +393,13 @@ extension DealViewController: ViewStateRenderable {
     // TODO: move into extension on Topic?
     private func renderComments(for deal: Deal) {
         guard let topic = deal.topic else {
-            forumButton.isEnabled = false
-            forumButton.isHidden = true
+            contentView.forumButton.isEnabled = false
+            contentView.forumButton.isHidden = true
             return
         }
-        forumButton.isHidden = false
-        forumButton.isEnabled = true
-        forumButton.setTitle(L10n.Comments.count(topic.commentCount), for: .normal)
+        contentView.forumButton.isHidden = false
+        contentView.forumButton.isEnabled = true
+        contentView.forumButton.setTitle(L10n.Comments.count(topic.commentCount), for: .normal)
     }
 
 }
@@ -467,7 +411,6 @@ extension DealViewController: Themeable {
         historyButton.tintColor = theme.accentColor
         shareButton.tintColor = theme.accentColor
         storyButton.tintColor = theme.accentColor
-        forumButton.backgroundColor = theme.accentColor
 
         // backgroundColor
         self.navigationController?.navigationBar.barTintColor = theme.backgroundColor
@@ -476,21 +419,15 @@ extension DealViewController: Themeable {
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
         contentView.backgroundColor = theme.backgroundColor
-        featuresText.backgroundColor = theme.backgroundColor
-        forumButton.setTitleColor(theme.backgroundColor, for: .normal)
-        specsText.backgroundColor = theme.backgroundColor
 
         // foreground
-        // TODO: set status bar and home indicator color?
-        // TODO: set activityIndicator color
-        titleLabel.textColor = theme.foreground.textColor
-        featuresText.textColor = theme.foreground.textColor
-        specsText.textColor = theme.foreground.textColor
+        // TODO: set home indicator color?
         navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
         setNeedsStatusBarAppearanceUpdate()
 
         // Subviews
         pagedImageView.apply(theme: theme)
+        contentView.apply(theme: theme)
         barBackingView.apply(theme: theme)
         stateView.apply(theme: theme)
         footerView.apply(theme: theme)
