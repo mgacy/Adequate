@@ -75,7 +75,6 @@ class ParallaxScrollView: UIScrollView {
             }
             _progress = progress
             //log.verbose("Progress: \(progress)")
-            parallaxHeaderDidScrollHandler?(self)
         }
     }
 
@@ -190,6 +189,6 @@ class ParallaxScrollView: UIScrollView {
 extension ParallaxScrollView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         layoutContentView()
-        // TODO: just call `parallaxHeaderDidScrollHandler(self)` here?
+        parallaxHeaderDidScrollHandler?(self)
     }
 }
