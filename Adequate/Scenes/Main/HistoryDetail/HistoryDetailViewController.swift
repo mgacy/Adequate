@@ -371,16 +371,12 @@ extension HistoryDetailViewController: Themeable {
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
         contentView.backgroundColor = theme.backgroundColor
-        featuresText.backgroundColor = theme.backgroundColor
         forumButton.setTitleColor(theme.backgroundColor, for: .normal)
-        specsText.backgroundColor = theme.backgroundColor
         //storyButton.setTitleColor(theme.backgroundColor, for: .normal)
 
         // foreground
         // TODO: set home indicator color?
         titleLabel.textColor = theme.foreground.textColor
-        featuresText.textColor = theme.foreground.textColor
-        specsText.textColor = theme.foreground.textColor
         navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
         setNeedsStatusBarAppearanceUpdate()
 
@@ -388,5 +384,7 @@ extension HistoryDetailViewController: Themeable {
         pagedImageView.apply(theme: theme)
         barBackingView.apply(theme: theme)
         stateView.apply(theme: theme)
+        featuresText.apply(theme: theme)
+        specsText.apply(theme: theme)
     }
 }

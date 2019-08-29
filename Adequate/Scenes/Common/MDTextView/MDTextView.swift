@@ -64,3 +64,18 @@ class MDTextView: UITextView {
         //textColor = currentTextColor
     }
 }
+
+// MARK: - Themeable
+extension MDTextView: Themeable {
+    func apply(theme: AppTheme) {
+        guard let mdStyler = styler as? MDStyler else {
+            log.error("Unable to apply theme to \(self.description) without MDStyler")
+            return
+        }
+        mdStyler.colors = ColorCollection(theme: theme)
+        backgroundColor = theme.backgroundColor
+        if text != "" {
+            try? render()
+        }
+    }
+}
