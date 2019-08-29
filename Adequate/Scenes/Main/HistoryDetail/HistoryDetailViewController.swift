@@ -210,7 +210,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         barBackingView.inset = statusBarHeight
 
         // scrollView
-        let parallaxHeight: CGFloat = view.frame.width + 24.0 // Add height of PagedImageView.pageControl
+        let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
         scrollView.headerHeight = parallaxHeight
 
         scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
@@ -252,7 +252,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
             featuresText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
             // forumButton
             forumButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: AppTheme.spacing),
+            forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: AppTheme.spacing * 2.0),
             forumButton.widthAnchor.constraint(equalToConstant: 200.0),
             // specsText
             specsText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
