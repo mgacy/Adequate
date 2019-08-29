@@ -111,7 +111,7 @@ class PagedImageView: UIView {
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.topAnchor.constraint(equalTo: topAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: pageControl.topAnchor, constant: -8.0),
+            collectionView.bottomAnchor.constraint(equalTo: pageControl.topAnchor, constant: -0.0),
             // pageController
             pageControl.leadingAnchor.constraint(equalTo: leadingAnchor),
             pageControl.bottomAnchor.constraint(equalTo: bottomAnchor),

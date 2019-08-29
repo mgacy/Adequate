@@ -45,8 +45,9 @@ class MDTextView: UITextView {
 
     private func configure() {
         adjustsFontForContentSizeCategory = true
-        isScrollEnabled = false
         isEditable = false
+        isScrollEnabled = false
+        //isSelectable = false
 
         // https://kenb.us/uilabel-vs-uitextview
         contentInset = .zero
@@ -61,5 +62,20 @@ class MDTextView: UITextView {
         let down = Down(markdownString: text)
         attributedText = try down.toAttributedString(styler: styler)
         //textColor = currentTextColor
+    }
+}
+
+// MARK: - Themeable
+extension MDTextView: Themeable {
+    func apply(theme: AppTheme) {
+        guard let mdStyler = styler as? MDStyler else {
+            log.error("Unable to apply theme to \(self.description) without MDStyler")
+            return
+        }
+        mdStyler.colors = ColorCollection(theme: theme)
+        backgroundColor = theme.backgroundColor
+        if text != "" {
+            try? render()
+        }
     }
 }
