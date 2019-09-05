@@ -135,6 +135,7 @@ class StateView: UIView {
             messageLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
             messageLabel.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: AppTheme.spacing * -2.0),
             // retryButton
+            // TODO: allow messageLabel to push retryButton down?
             retryButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             retryButton.topAnchor.constraint(equalTo: centerYAnchor, constant: AppTheme.spacing),
         ])

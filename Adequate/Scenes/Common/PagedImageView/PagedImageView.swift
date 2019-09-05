@@ -20,6 +20,7 @@ class PagedImageView: UIView {
     }
 
     var visibleImage: Promise<UIImage> {
+        // FIXME: this can cause a crash when dataSource.urls == []
         return dataSource.imageSource(for: IndexPath(item: primaryVisiblePage, section: 0))
     }
 
