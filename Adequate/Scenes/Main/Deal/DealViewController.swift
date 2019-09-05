@@ -9,31 +9,6 @@
 import UIKit
 import Promise
 
-// MARK: - Delegate
-
-protocol DealViewControllerDelegate: class {
-    func showImage(animatingFrom: PagedImageView)
-    func showPurchase(for: Deal)
-    func showForum(with: Topic)
-    func showHistoryList()
-    func showStory()
-}
-
-//enum MainScene {
-//    case forum(Topic)
-//    case history
-//    case image(Promise<UIImage>)
-//    case purchase(Deal)
-//    case story(Story)
-//    case settings
-//}
-//
-//protocol MainSceneDelegate: class {
-//    func controller(_ controller: DealViewController, shouldTransitionTo: MainScene)
-//}
-
-// MARK: - View Controller
-
 class DealViewController: UIViewController {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
 
