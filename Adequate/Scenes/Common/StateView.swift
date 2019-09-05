@@ -177,6 +177,8 @@ extension StateView {
             /*
             // TODO: animate here or in caller?
             UIView.animate(withDuration: 0.3, animations: {
+                // FIXME: can't animate `isHidden`
+                // see: https://stackoverflow.com/a/29080894
                 self.isHidden = true
                 self.activityIndicator.stopAnimating()
                 self.activityMessageLabel.isHidden = true

@@ -350,11 +350,9 @@ extension DealViewController: ViewStateRenderable {
 
             themeManager.applyTheme(theme: deal.theme)
             UIView.animate(withDuration: 0.3, animations: {
-                //self.activityIndicator.stopAnimating()
-                //self.messageLabel.isHidden = true
-                //self.errorMessageLabel.isHidden = true
-                //self.retryButton.isHidden = true
                 self.stateView.render(viewState)
+                // FIXME: can't animate `isHidden`
+                // see: https://stackoverflow.com/a/29080894
                 self.scrollView.isHidden = false
                 self.footerView.isHidden = false
                 //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
