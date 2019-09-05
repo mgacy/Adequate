@@ -41,8 +41,6 @@ final class OnboardingCoordinator: BaseCoordinator {
         let viewController = OnboardingPageViewController(dependencies: dependencies)
         viewController.dismissalDelegate = self
         router.setRootModule(viewController, hideBar: true)
-
-        router.setRootModule(viewController, hideBar: true)
         window.rootViewController = router.toPresent()
         window.makeKeyAndVisible()
     }
