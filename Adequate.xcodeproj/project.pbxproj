@@ -46,6 +46,7 @@
 		C93BD90422B1B38100FAD8AA /* ItemAttributeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD90322B1B38100FAD8AA /* ItemAttributeType.swift */; };
 		C93CBEDA2320C8C70033DCD0 /* DebugCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CBED92320C8C70033DCD0 /* DebugCoordinator.swift */; };
 		C93CBEDC2320C8D80033DCD0 /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CBEDB2320C8D80033DCD0 /* DebugViewController.swift */; };
+		C93CBEDE2320CCA40033DCD0 /* MockDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CBEDD2320CCA40033DCD0 /* MockDataProvider.swift */; };
 		C93F79042256EBE8004B4DD6 /* LoggingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F79032256EBE8004B4DD6 /* LoggingType.swift */; };
 		C93F79062256FCBD004B4DD6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F79052256FCBD004B4DD6 /* Logger.swift */; };
 		C943E5B02238695C00DE0675 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C943E5AF2238695C00DE0675 /* StateView.swift */; };
@@ -261,6 +262,7 @@
 		C93BD90322B1B38100FAD8AA /* ItemAttributeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAttributeType.swift; sourceTree = "<group>"; };
 		C93CBED92320C8C70033DCD0 /* DebugCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugCoordinator.swift; sourceTree = "<group>"; };
 		C93CBEDB2320C8D80033DCD0 /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
+		C93CBEDD2320CCA40033DCD0 /* MockDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataProvider.swift; sourceTree = "<group>"; };
 		C93F79032256EBE8004B4DD6 /* LoggingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingType.swift; sourceTree = "<group>"; };
 		C93F79052256FCBD004B4DD6 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		C943E5AF2238695C00DE0675 /* StateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
@@ -524,6 +526,7 @@
 			children = (
 				C93CBED92320C8C70033DCD0 /* DebugCoordinator.swift */,
 				C93CBEDB2320C8D80033DCD0 /* DebugViewController.swift */,
+				C93CBEDD2320CCA40033DCD0 /* MockDataProvider.swift */,
 			);
 			path = Debug;
 			sourceTree = "<group>";
@@ -1341,6 +1344,7 @@
 				C9DAC48521476A7A00D6558B /* Reusable.swift in Sources */,
 				C923839422B1B921003BB1DA /* ThemeType.swift in Sources */,
 				C9AE54CB21792ABC00818F11 /* ZoomingImageViewDelegate.swift in Sources */,
+				C93CBEDE2320CCA40033DCD0 /* MockDataProvider.swift in Sources */,
 				C9093CC1222796FD00C9DA0C /* RootPageViewController.swift in Sources */,
 				C9AE54C72179270C00818F11 /* FullScreenImageViewController.swift in Sources */,
 				C9B3FAC3224479B200B8524A /* CurrentDealManager.swift in Sources */,
