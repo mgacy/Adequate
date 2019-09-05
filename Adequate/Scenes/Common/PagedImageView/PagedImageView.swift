@@ -160,10 +160,11 @@ class PagedImageView: UIView {
 
     public func beginRotation() {
         collectionView.isHidden = true
-        flowLayout.invalidateLayout()
     }
 
     public func completeRotation(page currentPage: Int) {
+        layoutIfNeeded()
+        flowLayout.invalidateLayout()
         collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally,
                                     animated: false)
         collectionView.isHidden = false
