@@ -24,7 +24,7 @@ final class StoryCoordinator: Coordinator {
 
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
-            log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
+            startChildren(with: deepLink)
         } else {
             showStory()
         }
