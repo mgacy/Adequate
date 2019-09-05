@@ -93,7 +93,9 @@ enum DeepLink {
 }
 
 // MARK: - Constants
-struct DeepLinkURLConstants {
-    static let deal = "deal"
-    static let onboarding = "onboarding"
+extension DeepLink {
+    struct DeepLinkURLConstants {
+        static let deal = "deal"
+        static let onboarding = "onboarding"
+    }
 }
