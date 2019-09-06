@@ -99,7 +99,12 @@ class DataProvider: DataProviderType {
 
     // MARK: - Lifecycle
 
-    // TODO: init with Config and use that to create client?
+    convenience init(appSyncConfig: AWSAppSyncClientConfiguration) throws {
+        let appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+        appSyncClient.apolloClient?.cacheKeyForObject = { $0["id"] }
+        self.init(appSync: appSyncClient)
+    }
+
     init(appSync: AWSAppSyncClient) {
         self.appSyncClient = appSync
         self.dealState = .empty
