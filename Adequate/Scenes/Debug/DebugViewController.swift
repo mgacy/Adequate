@@ -16,25 +16,33 @@ class DebugViewController: UIViewController {
 
     private var observationTokens: [ObservationToken] = []
 
+    // Navigation bar actions
+    var button1Action: (() -> Void)?
+    var button2Action: (() -> Void)?
+    var button3Action: (() -> Void)?
+    var button4Action: (() -> Void)?
+
     // MARK: - Subviews
 
+    // Navigation Bar
+
     private lazy var button1: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "HistoryNavBar"), style: .plain, target: self, action: #selector(didPressButton1(_:)))
+        let button = UIBarButtonItem(title: "1", style: .plain, target: self, action: #selector(didPressButton1(_:)))
         return button
     }()
 
     private lazy var button2: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "HistoryNavBar"), style: .plain, target: self, action: #selector(didPressButton2(_:)))
+        let button = UIBarButtonItem(title: "2", style: .plain, target: self, action: #selector(didPressButton2(_:)))
         return button
     }()
 
     private lazy var button3: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "HistoryNavBar"), style: .plain, target: self, action: #selector(didPressButton3(_:)))
+        let button = UIBarButtonItem(title: "3", style: .plain, target: self, action: #selector(didPressButton3(_:)))
         return button
     }()
 
     private lazy var button4: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "HistoryNavBar"), style: .plain, target: self, action: #selector(didPressButton4(_:)))
+        let button = UIBarButtonItem(title: "4", style: .plain, target: self, action: #selector(didPressButton4(_:)))
         return button
     }()
 
@@ -56,6 +64,7 @@ class DebugViewController: UIViewController {
 
         // ...
 
+        // Navigation bar
         navigationItem.leftBarButtonItems = [button1, button2]
         navigationItem.rightBarButtonItems = [button4, button3]
         self.view = view
@@ -77,13 +86,13 @@ class DebugViewController: UIViewController {
 
     // MARK: - View Methods
 
-    func setupView() {
+    private func setupView() {
         view.backgroundColor = .white
         title = "Debug"
         // ...
     }
 
-    func setupConstraints() {
+    private func setupConstraints() {
         //let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             //view.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 0.0),
@@ -97,26 +106,28 @@ class DebugViewController: UIViewController {
         return []
     }
 
-    // MARK: - Actions
+    // MARK: - Actions - Nav Bar
 
     @objc private func didPressButton1(_ sender: UIBarButtonItem) {
-        print("\(#function)")
-        // ...
+        button1Action?()
     }
 
     @objc private func didPressButton2(_ sender: UIBarButtonItem) {
-        print("\(#function)")
-        // ...
+        button2Action?()
     }
 
     @objc private func didPressButton3(_ sender: UIBarButtonItem) {
-        print("\(#function)")
-        // ...
+        button3Action?()
     }
 
     @objc private func didPressButton4(_ sender: UIBarButtonItem) {
-        print("\(#function)")
-        // ...
+        button4Action?()
+    }
+
+    // MARK: - Actions
+
+    @objc private func didPressDismiss(_ sender: UIButton) {
+        dismissalDelegate?.dismiss()
     }
 
 }
