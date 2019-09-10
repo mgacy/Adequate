@@ -12,13 +12,13 @@ import class Promise.Promise // import class to avoid name collision with AWSApp
 class MockDataProvider: DataProviderType {
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
-    private var dealState: ViewState<Deal> {
+    var dealState: ViewState<Deal> {
         didSet {
             callObservations(with: dealState)
         }
     }
 
-    private var historyState: ViewState<[DealHistory]> {
+    var historyState: ViewState<[DealHistory]> {
         didSet {
             callObservations(with: historyState)
         }
