@@ -43,6 +43,7 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
             })
         }
 
+        // FIXME: handle this better; move into static method on `ThemeManager?
         // Accent color from HIG:
         // https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/
         let defaultTheme = Theme(accentColor: "#007AFF", backgroundColor: "#ffffff", foreground: .dark)

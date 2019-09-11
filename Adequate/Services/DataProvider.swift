@@ -243,7 +243,6 @@ class DataProvider: DataProviderType {
             refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
         case .foreground:
             // TODO: showLoading and fetch if Date().timeIntervalSince(lastDealCreatedAt) >= 24 hours
-            // TODO: send notification to PagedImageViewDataSource to reload any views with .error ViewState?
             if case .available = UIApplication.shared.backgroundRefreshStatus {
                 if lastDealResponse.timeIntervalSince(lastDealRequest) < 0 {
                     // Last request failed
@@ -357,7 +356,7 @@ class DataProvider: DataProviderType {
     func updateDealInBackground(_ delta: DealDelta, fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.verbose("\(#function) - \(delta)")
         guard case .result(let currentDeal) = dealState else {
-            log.info("\(#function) - already fetching Deal; setting .wrappedHandler")
+            log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
             if fetchCompletionObserver != nil {
                 log.error("Replacing existing .fetchCompletionObserver")
             }
