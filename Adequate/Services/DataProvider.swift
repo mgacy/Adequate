@@ -31,34 +31,35 @@ class DataProvider: DataProviderType {
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     // TODO: initialize with UserDefaultsManager; use AppGroup
+    private let defaults: UserDefaults = .standard
 
     /// The last time we tried to fetch the current Deal (in response to Notification)
     var lastDealRequest: Date {
         get {
-            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealRequest.rawValue) as? Date ?? Date.distantPast
+            return defaults.object(forKey: UserDefaultsKey.lastDealRequest.rawValue) as? Date ?? Date.distantPast
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealRequest.rawValue)
+            defaults.set(newValue, forKey: UserDefaultsKey.lastDealRequest.rawValue)
         }
     }
 
     /// The last time we succeeded in fetching the current Deal
     var lastDealResponse: Date {
         get {
-            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealResponse.rawValue) as? Date ?? Date.distantPast
+            return defaults.object(forKey: UserDefaultsKey.lastDealResponse.rawValue) as? Date ?? Date.distantPast
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealResponse.rawValue)
+            defaults.set(newValue, forKey: UserDefaultsKey.lastDealResponse.rawValue)
         }
     }
     /*
     /// The .createdAt of last Deal fetched from server
     var lastDealCreatedAt: Date {
         get {
-            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealCreatedAt.rawValue) as? Date ?? Date.distantPast
+            return defaults.object(forKey: UserDefaultsKey.lastDealCreatedAt.rawValue) as? Date ?? Date.distantPast
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealCreatedAt.rawValue)
+            defaults.set(newValue, forKey: UserDefaultsKey.lastDealCreatedAt.rawValue)
         }
     }
     */
