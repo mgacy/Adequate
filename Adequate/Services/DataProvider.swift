@@ -97,6 +97,9 @@ class DataProvider: DataProviderType {
     private var historyObservations: [UUID: (ViewState<[DealHistory]>) -> Void] = [:]
     // TODO: use a task queue for RefreshEvents / fetches?
 
+    private var fetchCompletionObserver: CompletionWrapper<UIBackgroundFetchResult>?
+    private var refreshHistoryObserver: CompletionWrapper<Void>?
+
     // MARK: - Lifecycle
 
     convenience init(appSyncConfig: AWSAppSyncClientConfiguration) throws {
@@ -176,8 +179,6 @@ class DataProvider: DataProviderType {
     }
 
     // MARK: - Refresh
-
-    private var refreshHistoryObserver: CompletionWrapper<Void>?
 
     func refreshDeal(for event: RefreshEvent) {
         log.verbose("\(#function) - \(event)")
@@ -274,18 +275,15 @@ class DataProvider: DataProviderType {
             })
     }
 
-    // TODO: rename `fetchCompletionObserver`?
-    private var wrappedHandler: CompletionWrapper<UIBackgroundFetchResult>?
-
     private func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.verbose("\(#function)")
         self.lastDealRequest = Date()
         guard dealState != ViewState<Deal>.loading else {
-            log.debug("Already fetching Deal; setting .wrappedHandler")
-            if wrappedHandler != nil {
-                log.error("Replacing existing .wrappedHandler")
+            log.debug("Already fetching Deal; setting .fetchCompletionObserver")
+            if fetchCompletionObserver != nil {
+                log.error("Replacing existing .fetchCompletionObserver")
             }
-            wrappedHandler = makeBackgroundFetchObserver(completionHandler: completionHandler)
+            fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
             return
         }
         let query = GetDealQuery(id: "current_deal")
@@ -324,10 +322,10 @@ class DataProvider: DataProviderType {
         log.verbose("\(#function) - \(delta)")
         guard case .result(let currentDeal) = dealState else {
             log.info("\(#function) - already fetching Deal; setting .wrappedHandler")
-            if wrappedHandler != nil {
-                log.error("Replacing existing .wrappedHandler")
+            if fetchCompletionObserver != nil {
+                log.error("Replacing existing .fetchCompletionObserver")
             }
-            wrappedHandler = makeBackgroundFetchObserver(completionHandler: completionHandler)
+            fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
             return
         }
 
@@ -425,7 +423,7 @@ extension DataProvider {
 
     private func makeBackgroundFetchObserver(completionHandler: @escaping (UIBackgroundFetchResult) -> Void) -> CompletionWrapper<UIBackgroundFetchResult> {
         let observer = CompletionWrapper(wrapping: completionHandler) { [weak self] in
-            self?.wrappedHandler = nil
+            self?.fetchCompletionObserver = nil
         }
         observer.observationToken = addDealObserver(observer) { wrapper, viewState in
             switch viewState {
