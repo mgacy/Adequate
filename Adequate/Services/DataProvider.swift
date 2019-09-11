@@ -7,6 +7,7 @@
 //
 
 import AWSAppSync
+import AWSMobileClient
 import class Promise.Promise // import class to avoid name collision with AWSAppSync.Promise
 
 // MARK: - Protocol
@@ -96,23 +97,23 @@ class DataProvider: DataProviderType {
     private let appSyncClient: AWSAppSyncClient
     private var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
     private var historyObservations: [UUID: (ViewState<[DealHistory]>) -> Void] = [:]
-    // TODO: use a task queue for RefreshEvents / fetches?
 
     private var fetchCompletionObserver: CompletionWrapper<UIBackgroundFetchResult>?
     private var refreshHistoryObserver: CompletionWrapper<Void>?
 
+    // TODO: use a task queue (`OperationQueue`) for RefreshEvents / fetches? See `AWSPerformMutationQueue`
+    private var pendingRefreshEvent: RefreshEvent?
+    private var credentialsProviderIsInitialized: Bool = false
+
     // MARK: - Lifecycle
 
-    convenience init(appSyncConfig: AWSAppSyncClientConfiguration) throws {
-        let appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
-        appSyncClient.apolloClient?.cacheKeyForObject = { $0["id"] }
-        self.init(appSync: appSyncClient)
-    }
-
-    init(appSync: AWSAppSyncClient) {
-        self.appSyncClient = appSync
+    init(credentialsProvider: AWSMobileClient) throws {
         self.dealState = .empty
         self.historyState = .empty
+
+        let appSyncConfig = try DataProvider.makeClientConfiguration(credentialsProvider: credentialsProvider)
+        self.appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+        appSyncClient.apolloClient?.cacheKeyForObject = { $0["id"] }
 
         addDealObserver(self) { dp, viewState in
             guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
@@ -121,6 +122,20 @@ class DataProvider: DataProviderType {
             let currentDealManager = CurrentDealManager()
             currentDealManager.saveDeal(currentDeal)
         }
+
+        credentialsProvider.initialize()
+            .then { [weak self] userState in
+                guard case .guest = userState else {
+                    throw SyncClientError.myError(message: "AWSMobileClient.currentUserState after initialization: \(userState)")
+                }
+                self?.credentialsProviderIsInitialized = true
+                if let refreshEvent = self?.pendingRefreshEvent {
+                    self?.refreshDeal(for: refreshEvent)
+                    self?.pendingRefreshEvent = nil
+                }
+            }.catch { error in
+                log.error("Unable to initialize credentialsProvider: \(error)")
+            }
     }
 
     // MARK: - Get
@@ -183,6 +198,19 @@ class DataProvider: DataProviderType {
 
     func refreshDeal(for event: RefreshEvent) {
         log.verbose("\(#function) - \(event)")
+
+        guard credentialsProviderIsInitialized else {
+            if let currentPendingRefreshEvent = pendingRefreshEvent {
+                log.warning("AWSMobileClient not initialized - deferring RefreshEvent: \(event) - replacing: \(currentPendingRefreshEvent)")
+                // TODO: add logic to determine whether the new event should replace the current one
+                pendingRefreshEvent = event
+            } else {
+                log.warning("AWSMobileClient not initialized - deferring RefreshEvent: \(event)")
+                pendingRefreshEvent = event
+            }
+            return
+        }
+
         switch event {
         case .manual:
             refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
@@ -278,6 +306,13 @@ class DataProvider: DataProviderType {
 
     private func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.verbose("\(#function)")
+        if !credentialsProviderIsInitialized {
+            log.error("Trying to refresh Deal before initializing credentials provider")
+            // TODO: check if we are replacing existing pendingRefreshEvent
+            pendingRefreshEvent = .silentNotification(completionHandler)
+            return
+        }
+
         self.lastDealRequest = Date()
         guard dealState != ViewState<Deal>.loading else {
             log.debug("Already fetching Deal; setting .fetchCompletionObserver")
@@ -468,5 +503,22 @@ extension DataProvider {
             }
         }
         return observer
+    }
+}
+
+// MARK: - Configuration Factory
+extension DataProvider {
+    static func makeClientConfiguration(credentialsProvider: AWSCredentialsProvider, connectionStateChangeHandler: ConnectionStateChangeHandler? = nil) throws -> AWSAppSyncClientConfiguration {
+        let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+        let retryStrategy: AWSAppSyncRetryStrategy = .aggressive  // OPTIONS: .aggressive, .exponential
+
+        // https://aws-amplify.github.io/docs/ios/api#iam
+        // https://github.com/aws-samples/aws-mobile-appsync-events-starter-ios/blob/master/EventsApp/AppDelegate.swift
+        return try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
+                                                 credentialsProvider: credentialsProvider,
+                                                 urlSessionConfiguration: URLSessionConfiguration.default,
+                                                 cacheConfiguration: cacheConfiguration,
+                                                 connectionStateChangeHandler: connectionStateChangeHandler,
+                                                 retryStrategy: retryStrategy)
     }
 }
