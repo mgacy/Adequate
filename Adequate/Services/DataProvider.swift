@@ -125,9 +125,6 @@ class DataProvider: DataProviderType {
 
         credentialsProvider.initialize()
             .then { [weak self] userState in
-                guard case .guest = userState else {
-                    throw SyncClientError.myError(message: "AWSMobileClient.currentUserState after initialization: \(userState)")
-                }
                 self?.credentialsProviderIsInitialized = true
                 if let refreshEvent = self?.pendingRefreshEvent {
                     self?.refreshDeal(for: refreshEvent)
