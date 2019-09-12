@@ -20,7 +20,8 @@ extension AWSMobileClient {
                 } else if let userState = userState {
                     fulfill(userState)
                 } else {
-                    fatalError("Something has gone horribly wrong.")
+                    //fatalError("Something has gone horribly wrong.")
+                    reject(AWSMobileClientError.unknown(message: "Neither result nor error"))
                 }
             }
         }
