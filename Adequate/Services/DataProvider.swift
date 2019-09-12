@@ -113,7 +113,7 @@ class DataProvider: DataProviderType {
 
         let appSyncConfig = try DataProvider.makeClientConfiguration(credentialsProvider: credentialsProvider)
         self.appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
-        appSyncClient.apolloClient?.cacheKeyForObject = { $0["id"] }
+        appSyncClient.apolloClient?.cacheKeyForObject = { $0[Constants.cacheKey] }
 
         addDealObserver(self) { dp, viewState in
             guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
@@ -138,7 +138,7 @@ class DataProvider: DataProviderType {
     // MARK: - Get
 
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
-        // TODO: if id != 'current_deal', we should be able to use `.returnCacheDataElseFetch`
+        // TODO: if id != Constants.currentDealID, we should be able to use `.returnCacheDataElseFetch`
         return getDeal(withID: id, cachePolicy: .fetchIgnoringCacheData)
     }
 
@@ -273,8 +273,7 @@ class DataProvider: DataProviderType {
             dealState = .loading
         }
 
-        // TODO: use Constants for currentDealID
-        let query = GetDealQuery(id: "current_deal")
+        let query = GetDealQuery(id: Constants.currentDealID)
         // TODO: specify queue?
         appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
             .then({ result in
@@ -318,7 +317,7 @@ class DataProvider: DataProviderType {
             fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
             return
         }
-        let query = GetDealQuery(id: "current_deal")
+        let query = GetDealQuery(id: Constants.currentDealID)
         appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
             .then({ result in
                 guard let newDeal = Deal(result.getDeal) else {
@@ -370,6 +369,7 @@ class DataProvider: DataProviderType {
                 let updatedDeal = launchStatusLens.set(newStatus)(currentDeal)
                 dealState = .result(updatedDeal)
                 // TODO: update cache
+                // TODO: update `lastDealResponse`?
                 completionHandler(.newData)
             } else {
                 completionHandler(.noData)
@@ -387,6 +387,7 @@ class DataProvider: DataProviderType {
                     }
                     dealState = .result(updatedDeal)
                     // TODO: update cache
+                    // TODO: update `lastDealResponse`?
                     completionHandler(.newData)
                 } else {
                     completionHandler(.noData)
@@ -516,5 +517,13 @@ extension DataProvider {
                                                  cacheConfiguration: cacheConfiguration,
                                                  connectionStateChangeHandler: connectionStateChangeHandler,
                                                  retryStrategy: retryStrategy)
+    }
+}
+
+// MARK: - Constants
+extension DataProvider {
+    private enum Constants {
+        static var cacheKey: String { return "id" }
+        static var currentDealID: String { return "current_deal" }
     }
 }
