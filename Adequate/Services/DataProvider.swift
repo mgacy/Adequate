@@ -150,7 +150,7 @@ class DataProvider: DataProviderType {
         return appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
             .then({ result -> GetDealQuery.Data.GetDeal in
                 guard let deal = result.getDeal else {
-                    throw SyncClientError.myError(message: "Missing result")
+                    throw SyncClientError.missingData(data: result)
                 }
                 return deal
             }).recover({ error in
@@ -178,7 +178,7 @@ class DataProvider: DataProviderType {
         appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
             .then { [weak self] result in
                 guard let items = result.listDealsForPeriod else {
-                    throw SyncClientError.myError(message: "Missing result")
+                    throw SyncClientError.missingData(data: result)
                 }
                 if items.isEmpty {
                     self?.historyState = .empty
@@ -282,7 +282,7 @@ class DataProvider: DataProviderType {
         appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
             .then({ result in
                 guard let deal = Deal(result.getDeal) else {
-                    throw SyncClientError.myError(message: "Missing result")
+                    throw SyncClientError.missingData(data: result)
                 }
                 // TODO: don't set .lastDealResponse if cachePolicy == .returnCacheDataDontFetch / returnCacheDataElseFetch?
                 self.lastDealResponse = Date()
@@ -325,7 +325,7 @@ class DataProvider: DataProviderType {
         appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
             .then({ result in
                 guard let newDeal = Deal(result.getDeal) else {
-                    throw SyncClientError.myError(message: "Missing result")
+                    throw SyncClientError.missingData(data: result)
                 }
                 self.lastDealResponse = Date()
                 //self.lastDealCreatedAt = DateFormatter.iso8601Full.date(from: deal.createdAt)
