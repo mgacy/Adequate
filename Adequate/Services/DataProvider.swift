@@ -282,8 +282,16 @@ class DataProvider: DataProviderType {
                 guard let deal = Deal(result.getDeal) else {
                     throw SyncClientError.missingData(data: result)
                 }
-                // TODO: don't set .lastDealResponse if cachePolicy == .returnCacheDataDontFetch / returnCacheDataElseFetch?
-                self.lastDealResponse = Date()
+                // TODO: place cacheQuery and showLoading (and dealState?) in capture list?
+                switch cachePolicy {
+                case .fetchIgnoringCacheData:
+                    self.lastDealResponse = Date()
+                case .returnCacheDataAndFetch:
+                    // FIXME: this will be inaccurate if the fetch fails
+                    self.lastDealResponse = Date()
+                case .returnCacheDataDontFetch, .returnCacheDataElseFetch:
+                    break
+                }
                 //self.lastDealCreatedAt = DateFormatter.iso8601Full.date(from: deal.createdAt)
                 if case .result(let oldDeal) = self.dealState {
                     if oldDeal != deal {
