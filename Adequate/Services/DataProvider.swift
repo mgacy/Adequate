@@ -380,7 +380,7 @@ class DataProvider: DataProviderType {
                 let launchStatusLens = Deal.lens.launchStatus
                 let updatedDeal = launchStatusLens.set(newStatus)(currentDeal)
                 dealState = .result(updatedDeal)
-                // TODO: update cache
+                updateCache(for: updatedDeal, delta: delta)
                 // TODO: update `lastDealResponse`?
                 completionHandler(.newData)
             } else {
@@ -398,7 +398,7 @@ class DataProvider: DataProviderType {
                         fatalError("Problem with Affine composition for Deal.topic.commentCount")
                     }
                     dealState = .result(updatedDeal)
-                    // TODO: update cache
+                    updateCache(for: updatedDeal, delta: delta)
                     // TODO: update `lastDealResponse`?
                     completionHandler(.newData)
                 } else {
@@ -408,6 +408,35 @@ class DataProvider: DataProviderType {
                 refreshDealInBackground(fetchCompletionHandler: completionHandler)
             }
         }
+    }
+
+    private func updateCache(for deal: Deal, delta: DealDelta) {
+        // TODO: improve handling / reporting of cases below
+        guard let store = appSyncClient.store else {
+            log.error("Unable to get store")
+            return
+        }
+        if case .newDeal = delta {
+            log.error("Unable to update cache for \(delta)")
+            return
+        }
+
+        // NOTE: this uses AWSAppSync.Promise (from Apollo)
+        store.withinReadWriteTransaction { transaction in
+            let query = GetDealQuery(id: deal.id)
+            try transaction.update(query: query) { (data: inout GetDealQuery.Data) in
+                switch delta {
+                case .commentCount(let newCount):
+                    data.getDeal?.topic?.commentCount = newCount
+                case .launchStatus(let newStatus):
+                    data.getDeal?.launchStatus = newStatus
+                default:
+                    break
+                }
+            }
+        }.catch({ error in
+            log.error("\(error.localizedDescription)")
+        })
     }
 
     // MARK: - Observers
