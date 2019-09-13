@@ -46,11 +46,28 @@ class DebugViewController: UIViewController {
         return button
     }()
 
-    // TODO: add scrollView and contentView?
+    // ScrollView
+
+    private let scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.contentInsetAdjustmentBehavior = .always
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        return view
+    }()
+
+    var contentView: UIView
 
     // MARK: - Lifecycle
 
+    init(dependencies: Dependencies, contentView: UIView) {
+        self.contentView = contentView
+        self.dependencies = dependencies
+        super.init(nibName: nil, bundle: nil)
+    }
+
     init(dependencies: Dependencies) {
+        self.contentView = UIView()
         self.dependencies = dependencies
         super.init(nibName: nil, bundle: nil)
     }
@@ -61,9 +78,8 @@ class DebugViewController: UIViewController {
 
     override func loadView() {
         let view = UIView()
-
-        // ...
-
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
         // Navigation bar
         navigationItem.leftBarButtonItems = [button1, button2]
         navigationItem.rightBarButtonItems = [button4, button3]
@@ -94,16 +110,41 @@ class DebugViewController: UIViewController {
 
     private func setupConstraints() {
         //let guide = view.safeAreaLayoutGuide
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            //view.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 0.0),
-            //view.topAnchor.constraint(equalTo: guide.bottomAnchor, constant: 0.0),
-            //view.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: 0.0),
-            //view.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: 0.0)
+            // scrollView
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            // contentView
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
     }
 
     private func setupObservations() -> [ObservationToken] {
         return []
+    }
+
+    // MARK: - Configuration
+
+    public func addContentView(_ newContentView: UIView) {
+        contentView.removeFromSuperview()
+
+        contentView = newContentView
+        newContentView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(newContentView)
+        NSLayoutConstraint.activate([
+            newContentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            newContentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            newContentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            newContentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            newContentView.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ])
     }
 
     // MARK: - Actions - Nav Bar
