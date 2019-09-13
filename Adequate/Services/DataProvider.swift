@@ -263,6 +263,8 @@ class DataProvider: DataProviderType {
 
     private func refreshDeal(showLoading: Bool, cachePolicy: CachePolicy) {
         log.verbose("\(#function) - \(showLoading) - \(cachePolicy)")
+        // FIXME: we currently rely on `refreshDeal(for:)` to ensure that `credentialsProviderIsInitialized` == `true`
+        // FIXME: this does not necessarily ensure we are not already fetching the current deal, since we may have called `refreshDeal(showLoading: false, cachePolicy:)`
         guard dealState != ViewState<Deal>.loading else {
             // FIXME: what if cachePolicy differs from that of current request?
             log.debug("Already loading Deal; will bail")
@@ -309,6 +311,7 @@ class DataProvider: DataProviderType {
         }
 
         self.lastDealRequest = Date()
+        // FIXME: this does not necessarily ensure we are not already fetching the current deal, since we may have called `refreshDeal(showLoading: false, cachePolicy:)`
         guard dealState != ViewState<Deal>.loading else {
             log.debug("Already fetching Deal; setting .fetchCompletionObserver")
             if fetchCompletionObserver != nil {
@@ -352,6 +355,7 @@ class DataProvider: DataProviderType {
     func updateDealInBackground(_ delta: DealDelta, fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.verbose("\(#function) - \(delta)")
         guard case .result(let currentDeal) = dealState else {
+            // TODO: for `launchStatus` and `commentCount`, verify that the delta applies to currentDeal
             log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
             if fetchCompletionObserver != nil {
                 log.error("Replacing existing .fetchCompletionObserver")
