@@ -155,6 +155,7 @@
 		C9DDB20421644C01004D7957 /* PagedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20321644C01004D7957 /* PagedImageView.swift */; };
 		C9DDB20821644E71004D7957 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20721644E71004D7957 /* FooterView.swift */; };
 		C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20921653AA5004D7957 /* PagedImageViewDataSource.swift */; };
+		C9E07FD0232C32B700CA2F8E /* DebugButtonComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E07FCF232C32B600CA2F8E /* DebugButtonComponentView.swift */; };
 		C9E3223921C2F3AE0088AF9E /* HistoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E3223821C2F3AE0088AF9E /* HistoryListViewController.swift */; };
 		C9EF22CF216C616D00D9DD22 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF22CE216C616D00D9DD22 /* NotificationService.swift */; };
 		C9EF22D3216C616D00D9DD22 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9EF22CC216C616D00D9DD22 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -376,6 +377,7 @@
 		C9DDB20321644C01004D7957 /* PagedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageView.swift; sourceTree = "<group>"; };
 		C9DDB20721644E71004D7957 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		C9DDB20921653AA5004D7957 /* PagedImageViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageViewDataSource.swift; sourceTree = "<group>"; };
+		C9E07FCF232C32B600CA2F8E /* DebugButtonComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugButtonComponentView.swift; sourceTree = "<group>"; };
 		C9E3223821C2F3AE0088AF9E /* HistoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListViewController.swift; sourceTree = "<group>"; };
 		C9EF22CC216C616D00D9DD22 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EF22CE216C616D00D9DD22 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -526,6 +528,7 @@
 			children = (
 				C93CBED92320C8C70033DCD0 /* DebugCoordinator.swift */,
 				C93CBEDB2320C8D80033DCD0 /* DebugViewController.swift */,
+				C9E07FCF232C32B600CA2F8E /* DebugButtonComponentView.swift */,
 				C93CBEDD2320CCA40033DCD0 /* MockDataProvider.swift */,
 			);
 			path = Debug;
@@ -1401,6 +1404,7 @@
 				C9AE54C9217927B500818F11 /* ZoomingImageView.swift in Sources */,
 				C93BD90422B1B38100FAD8AA /* ItemAttributeType.swift in Sources */,
 				C9DAC49721476BA000D6558B /* Poll.swift in Sources */,
+				C9E07FD0232C32B700CA2F8E /* DebugButtonComponentView.swift in Sources */,
 				C9DAC4B52147872700D6558B /* Router.swift in Sources */,
 				C98B3248222DC1E6003A8669 /* HistoryListDataSource.swift in Sources */,
 				C928547B216DCE44001E5993 /* AWSManager.swift in Sources */,
