@@ -72,6 +72,7 @@ class AppCoordinator: BaseCoordinator {
 
     private func showMain(notificationPayload payload: [String : AnyObject]? = nil) {
         let refreshEvent: RefreshEvent = payload != nil ? .launchFromNotification(payload!) : .launch
+        // TODO: skip `refreshDeal(for:) if `launchFromNotification` and wait for `AppDelegate` methods?
         refreshDeal(for: refreshEvent)
         let mainCoordinator = MainCoordinator(window: window, dependencies: dependencies)
         store(coordinator: mainCoordinator)

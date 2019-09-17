@@ -378,6 +378,7 @@ class DataProvider: DataProviderType {
 
     func updateDealInBackground(_ delta: DealDelta, fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.verbose("\(#function) - \(delta)")
+        // FIXME: this prevents fetch if there was an error last time
         guard case .result(let currentDeal) = dealState else {
             // TODO: for `launchStatus` and `commentCount`, verify that the delta applies to currentDeal
             log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
