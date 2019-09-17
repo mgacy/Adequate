@@ -42,7 +42,7 @@ class MockDataProvider: DataProviderType {
     // MARK: - Get
 
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
-        return Promise(error: SyncClientError.missingClient)
+        return Promise(error: SyncClientError.myError(message: "Missing AWSAppSyncClient"))
     }
 
     func getDealHistory(from: Date, to: Date) {}
