@@ -135,6 +135,22 @@ class DataProvider: DataProviderType {
             }
     }
 
+    init(appSync: AWSAppSyncClient) {
+        self.appSyncClient = appSync
+        self.dealState = .empty
+        self.historyState = .empty
+        // CAUTION: `AWSAppSyncClient.httpTransport` is internal, so we cannot verify that it has been initialized
+        credentialsProviderIsInitialized = true
+
+        addDealObserver(self) { dp, viewState in
+            guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
+                return
+            }
+            let currentDealManager = CurrentDealManager()
+            currentDealManager.saveDeal(currentDeal)
+        }
+    }
+
     // MARK: - Get
 
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
