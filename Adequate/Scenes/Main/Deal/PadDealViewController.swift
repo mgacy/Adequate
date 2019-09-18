@@ -80,7 +80,16 @@ class PadDealViewController: UIViewController {
         return button
     }()
 
-    // ScrollView
+    // Primary Column
+
+    // TODO: rename
+    private lazy var columnContainerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    // Secondary Column
 
     private let scrollView: ParallaxScrollView = {
         let view = ParallaxScrollView()
@@ -102,6 +111,8 @@ class PadDealViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+
+    // PagedImageView
 
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
@@ -150,7 +161,9 @@ class PadDealViewController: UIViewController {
         case .compact:
             setupParallaxScrollView()
         case .regular:
-            view.addSubview(pagedImageView)
+            // TODO: move into `setupRegularView()` method?
+            view.addSubview(columnContainerView)
+            columnContainerView.addSubview(pagedImageView)
             setupRegularConstraints()
         case .unspecified:
             log.error("Unspecified horizontalSizeClass")
@@ -249,14 +262,21 @@ class PadDealViewController: UIViewController {
     }
 
     private func setupRegularConstraints() {
-        // TODO: set `pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor ...)` with higher priority?
 
         // Common
         // TODO: adjust constant on centerYAnchor to ensure placement below nav bar?
         pagedImageViewConstraints = [
-            pagedImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: pagedImageViewMargin),
-            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor, constant: pagedImageView.pageControlHeight),
-            pagedImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            // columnContainerView
+            columnContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            columnContainerView.topAnchor.constraint(equalTo: view.topAnchor),
+            columnContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            // pagedImageView
+            pagedImageView.centerYAnchor.constraint(equalTo: columnContainerView.centerYAnchor, constant: 0.0),
+            pagedImageView.centerXAnchor.constraint(equalTo: columnContainerView.centerXAnchor, constant: 0.0),
+            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
+                                                   constant: pagedImageView.pageControlHeight),
+            pagedImageView.widthAnchor.constraint(equalTo: columnContainerView.widthAnchor,
+                                                  constant: -2.0 * pagedImageViewMargin)
         ]
 
         // TODO: simply constrain width of footerView, barBackingView and contentView to that of scrollView?
@@ -264,8 +284,7 @@ class PadDealViewController: UIViewController {
         // Portrait
         let portraitMultiplier: CGFloat = 1.0 - portraitWidthMultiplier
         portraitConstraints = [
-            pagedImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: portraitWidthMultiplier,
-                                                  constant: -2.0 * pagedImageViewMargin),
+            columnContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: portraitWidthMultiplier),
             footerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: portraitMultiplier),
             barBackingView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: portraitMultiplier),
             scrollView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: portraitMultiplier),
@@ -275,8 +294,7 @@ class PadDealViewController: UIViewController {
         // Landscape
         let landscapeMultiplier = 1.0 - landscapeWidthMultiplier
         landscapeConstraints = [
-            pagedImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: landscapeWidthMultiplier,
-                                                  constant: -2.0 * pagedImageViewMargin),
+            columnContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: landscapeWidthMultiplier),
             footerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: landscapeMultiplier),
             barBackingView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: landscapeMultiplier),
             scrollView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: landscapeMultiplier),
@@ -410,6 +428,7 @@ class PadDealViewController: UIViewController {
         NSLayoutConstraint.deactivate(pagedImageViewConstraints)
 
         // remove pagedImageView
+        columnContainerView.removeFromSuperview()
         pagedImageView.removeFromSuperview()
 
         // add PagedImageView
@@ -431,7 +450,8 @@ class PadDealViewController: UIViewController {
         scrollView.removeHeaderView()
 
         // add PagedImageView
-        view.addSubview(pagedImageView)
+        view.addSubview(columnContainerView)
+        columnContainerView.addSubview(pagedImageView)
 
         // reset scrollView
         scrollView.headerHeight = 0
@@ -543,13 +563,17 @@ extension PadDealViewController: ViewStateRenderable {
         switch viewState {
         case .empty:
             stateView.render(viewState)
+            columnContainerView.isHidden = true
             scrollView.isHidden = true
             footerView.isHidden = true
         case .error:
             stateView.render(viewState)
+            columnContainerView.isHidden = true
             scrollView.isHidden = true
+            // TODO: hide footerView as well?
         case .loading:
             stateView.render(viewState)
+            columnContainerView.isHidden = true
             scrollView.isHidden = true
             footerView.isHidden = true
             shareButton.isEnabled = false
@@ -574,6 +598,7 @@ extension PadDealViewController: ViewStateRenderable {
                 // FIXME: can't animate `isHidden`
                 // see: https://stackoverflow.com/a/29080894
                 self.stateView.render(viewState)
+                self.columnContainerView.isHidden = false
                 self.scrollView.isHidden = false
                 self.footerView.isHidden = false
                 //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
