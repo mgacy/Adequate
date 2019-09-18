@@ -35,11 +35,19 @@ struct Theme: Codable, Equatable, ThemeType {
 }
 
 // MARK: - Initializers
-
 extension Theme {
     init(_ theme: ThemeType) {
         self.accentColor = theme.accentColor
         self.backgroundColor = theme.backgroundColor
         self.foreground = theme.foreground
+    }
+}
+
+// MARK: - Default
+extension Theme {
+    static var lightSystem: Theme {
+        // Accent color from HIG:
+        // https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/
+        return Theme(accentColor: "#007AFF", backgroundColor: "#ffffff", foreground: .dark)
     }
 }
