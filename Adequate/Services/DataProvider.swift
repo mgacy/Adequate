@@ -7,6 +7,7 @@
 //
 
 import AWSAppSync
+import AWSMobileClient
 import class Promise.Promise // import class to avoid name collision with AWSAppSync.Promise
 
 // MARK: - Protocol
@@ -31,34 +32,35 @@ class DataProvider: DataProviderType {
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     // TODO: initialize with UserDefaultsManager; use AppGroup
+    private let defaults: UserDefaults = .standard
 
     /// The last time we tried to fetch the current Deal (in response to Notification)
     var lastDealRequest: Date {
         get {
-            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealRequest.rawValue) as? Date ?? Date.distantPast
+            return defaults.object(forKey: UserDefaultsKey.lastDealRequest.rawValue) as? Date ?? Date.distantPast
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealRequest.rawValue)
+            defaults.set(newValue, forKey: UserDefaultsKey.lastDealRequest.rawValue)
         }
     }
 
     /// The last time we succeeded in fetching the current Deal
     var lastDealResponse: Date {
         get {
-            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealResponse.rawValue) as? Date ?? Date.distantPast
+            return defaults.object(forKey: UserDefaultsKey.lastDealResponse.rawValue) as? Date ?? Date.distantPast
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealResponse.rawValue)
+            defaults.set(newValue, forKey: UserDefaultsKey.lastDealResponse.rawValue)
         }
     }
     /*
     /// The .createdAt of last Deal fetched from server
     var lastDealCreatedAt: Date {
         get {
-            return UserDefaults.standard.object(forKey: UserDefaultsKey.lastDealCreatedAt.rawValue) as? Date ?? Date.distantPast
+            return defaults.object(forKey: UserDefaultsKey.lastDealCreatedAt.rawValue) as? Date ?? Date.distantPast
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.lastDealCreatedAt.rawValue)
+            defaults.set(newValue, forKey: UserDefaultsKey.lastDealCreatedAt.rawValue)
         }
     }
     */
@@ -95,15 +97,50 @@ class DataProvider: DataProviderType {
     private let appSyncClient: AWSAppSyncClient
     private var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
     private var historyObservations: [UUID: (ViewState<[DealHistory]>) -> Void] = [:]
-    // TODO: use a task queue for RefreshEvents / fetches?
+
+    private var fetchCompletionObserver: CompletionWrapper<UIBackgroundFetchResult>?
+    private var refreshHistoryObserver: CompletionWrapper<Void>?
+
+    // TODO: use a task queue (`OperationQueue`) for RefreshEvents / fetches? See `AWSPerformMutationQueue`
+    private var pendingRefreshEvent: RefreshEvent?
+    private var credentialsProviderIsInitialized: Bool = false
 
     // MARK: - Lifecycle
 
-    // TODO: init with Config and use that to create client?
+    init(credentialsProvider: AWSMobileClient) throws {
+        self.dealState = .empty
+        self.historyState = .empty
+
+        let appSyncConfig = try DataProvider.makeClientConfiguration(credentialsProvider: credentialsProvider)
+        self.appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+        appSyncClient.apolloClient?.cacheKeyForObject = { $0[Constants.cacheKey] }
+
+        addDealObserver(self) { dp, viewState in
+            guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
+                return
+            }
+            let currentDealManager = CurrentDealManager()
+            currentDealManager.saveDeal(currentDeal)
+        }
+
+        credentialsProvider.initialize()
+            .then { [weak self] userState in
+                self?.credentialsProviderIsInitialized = true
+                if let refreshEvent = self?.pendingRefreshEvent {
+                    self?.refreshDeal(for: refreshEvent)
+                    self?.pendingRefreshEvent = nil
+                }
+            }.catch { error in
+                log.error("Unable to initialize credentialsProvider: \(error)")
+            }
+    }
+
     init(appSync: AWSAppSyncClient) {
         self.appSyncClient = appSync
         self.dealState = .empty
         self.historyState = .empty
+        // CAUTION: `AWSAppSyncClient.httpTransport` is internal, so we cannot verify that it has been initialized
+        credentialsProviderIsInitialized = true
 
         addDealObserver(self) { dp, viewState in
             guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
@@ -117,7 +154,7 @@ class DataProvider: DataProviderType {
     // MARK: - Get
 
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
-        // TODO: if id != 'current_deal', we should be able to use `.returnCacheDataElseFetch`
+        // TODO: if id != Constants.currentDealID, we should be able to use `.returnCacheDataElseFetch`
         return getDeal(withID: id, cachePolicy: .fetchIgnoringCacheData)
     }
 
@@ -126,7 +163,7 @@ class DataProvider: DataProviderType {
         return appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
             .then({ result -> GetDealQuery.Data.GetDeal in
                 guard let deal = result.getDeal else {
-                    throw SyncClientError.myError(message: "Missing result")
+                    throw SyncClientError.missingData(data: result)
                 }
                 return deal
             }).recover({ error in
@@ -154,7 +191,7 @@ class DataProvider: DataProviderType {
         appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
             .then { [weak self] result in
                 guard let items = result.listDealsForPeriod else {
-                    throw SyncClientError.myError(message: "Missing result")
+                    throw SyncClientError.missingData(data: result)
                 }
                 if items.isEmpty {
                     self?.historyState = .empty
@@ -172,10 +209,21 @@ class DataProvider: DataProviderType {
 
     // MARK: - Refresh
 
-    private var refreshHistoryObserver: CompletionWrapper<Void>?
-
     func refreshDeal(for event: RefreshEvent) {
         log.verbose("\(#function) - \(event)")
+
+        guard credentialsProviderIsInitialized else {
+            if let currentPendingRefreshEvent = pendingRefreshEvent {
+                log.warning("AWSMobileClient not initialized - deferring RefreshEvent: \(event) - replacing: \(currentPendingRefreshEvent)")
+                // TODO: add logic to determine whether the new event should replace the current one
+                pendingRefreshEvent = event
+            } else {
+                log.warning("AWSMobileClient not initialized - deferring RefreshEvent: \(event)")
+                pendingRefreshEvent = event
+            }
+            return
+        }
+
         switch event {
         case .manual:
             refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
@@ -208,7 +256,6 @@ class DataProvider: DataProviderType {
             refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
         case .foreground:
             // TODO: showLoading and fetch if Date().timeIntervalSince(lastDealCreatedAt) >= 24 hours
-            // TODO: send notification to PagedImageViewDataSource to reload any views with .error ViewState?
             if case .available = UIApplication.shared.backgroundRefreshStatus {
                 if lastDealResponse.timeIntervalSince(lastDealRequest) < 0 {
                     // Last request failed
@@ -232,6 +279,8 @@ class DataProvider: DataProviderType {
 
     private func refreshDeal(showLoading: Bool, cachePolicy: CachePolicy) {
         log.verbose("\(#function) - \(showLoading) - \(cachePolicy)")
+        // FIXME: we currently rely on `refreshDeal(for:)` to ensure that `credentialsProviderIsInitialized` == `true`
+        // FIXME: this does not necessarily ensure we are not already fetching the current deal, since we may have called `refreshDeal(showLoading: false, cachePolicy:)`
         guard dealState != ViewState<Deal>.loading else {
             // FIXME: what if cachePolicy differs from that of current request?
             log.debug("Already loading Deal; will bail")
@@ -242,16 +291,23 @@ class DataProvider: DataProviderType {
             dealState = .loading
         }
 
-        // TODO: use Constants for currentDealID
-        let query = GetDealQuery(id: "current_deal")
+        let query = GetDealQuery(id: Constants.currentDealID)
         // TODO: specify queue?
         appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
             .then({ result in
                 guard let deal = Deal(result.getDeal) else {
-                    throw SyncClientError.myError(message: "Missing result")
+                    throw SyncClientError.missingData(data: result)
                 }
-                // TODO: don't set .lastDealResponse if cachePolicy == .returnCacheDataDontFetch / returnCacheDataElseFetch?
-                self.lastDealResponse = Date()
+                // TODO: place cacheQuery and showLoading (and dealState?) in capture list?
+                switch cachePolicy {
+                case .fetchIgnoringCacheData:
+                    self.lastDealResponse = Date()
+                case .returnCacheDataAndFetch:
+                    // FIXME: this will be inaccurate if the fetch fails
+                    self.lastDealResponse = Date()
+                case .returnCacheDataDontFetch, .returnCacheDataElseFetch:
+                    break
+                }
                 //self.lastDealCreatedAt = DateFormatter.iso8601Full.date(from: deal.createdAt)
                 if case .result(let oldDeal) = self.dealState {
                     if oldDeal != deal {
@@ -269,25 +325,30 @@ class DataProvider: DataProviderType {
             })
     }
 
-    // TODO: rename `fetchCompletionObserver`?
-    private var wrappedHandler: CompletionWrapper<UIBackgroundFetchResult>?
-
     private func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.verbose("\(#function)")
-        self.lastDealRequest = Date()
-        guard dealState != ViewState<Deal>.loading else {
-            log.debug("Already fetching Deal; setting .wrappedHandler")
-            if wrappedHandler != nil {
-                log.error("Replacing existing .wrappedHandler")
-            }
-            wrappedHandler = makeBackgroundFetchObserver(completionHandler: completionHandler)
+        if !credentialsProviderIsInitialized {
+            log.error("Trying to refresh Deal before initializing credentials provider")
+            // TODO: check if we are replacing existing pendingRefreshEvent
+            pendingRefreshEvent = .silentNotification(completionHandler)
             return
         }
-        let query = GetDealQuery(id: "current_deal")
+
+        self.lastDealRequest = Date()
+        // FIXME: this does not necessarily ensure we are not already fetching the current deal, since we may have called `refreshDeal(showLoading: false, cachePolicy:)`
+        guard dealState != ViewState<Deal>.loading else {
+            log.debug("Already fetching Deal; setting .fetchCompletionObserver")
+            if fetchCompletionObserver != nil {
+                log.error("Replacing existing .fetchCompletionObserver")
+            }
+            fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
+            return
+        }
+        let query = GetDealQuery(id: Constants.currentDealID)
         appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
             .then({ result in
                 guard let newDeal = Deal(result.getDeal) else {
-                    throw SyncClientError.myError(message: "Missing result")
+                    throw SyncClientError.missingData(data: result)
                 }
                 self.lastDealResponse = Date()
                 //self.lastDealCreatedAt = DateFormatter.iso8601Full.date(from: deal.createdAt)
@@ -317,12 +378,14 @@ class DataProvider: DataProviderType {
 
     func updateDealInBackground(_ delta: DealDelta, fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.verbose("\(#function) - \(delta)")
+        // FIXME: this prevents fetch if there was an error last time
         guard case .result(let currentDeal) = dealState else {
-            log.info("\(#function) - already fetching Deal; setting .wrappedHandler")
-            if wrappedHandler != nil {
-                log.error("Replacing existing .wrappedHandler")
+            // TODO: for `launchStatus` and `commentCount`, verify that the delta applies to currentDeal
+            log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
+            if fetchCompletionObserver != nil {
+                log.error("Replacing existing .fetchCompletionObserver")
             }
-            wrappedHandler = makeBackgroundFetchObserver(completionHandler: completionHandler)
+            fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
             return
         }
 
@@ -334,7 +397,8 @@ class DataProvider: DataProviderType {
                 let launchStatusLens = Deal.lens.launchStatus
                 let updatedDeal = launchStatusLens.set(newStatus)(currentDeal)
                 dealState = .result(updatedDeal)
-                // TODO: update cache
+                updateCache(for: updatedDeal, delta: delta)
+                // TODO: update `lastDealResponse`?
                 completionHandler(.newData)
             } else {
                 completionHandler(.noData)
@@ -351,7 +415,8 @@ class DataProvider: DataProviderType {
                         fatalError("Problem with Affine composition for Deal.topic.commentCount")
                     }
                     dealState = .result(updatedDeal)
-                    // TODO: update cache
+                    updateCache(for: updatedDeal, delta: delta)
+                    // TODO: update `lastDealResponse`?
                     completionHandler(.newData)
                 } else {
                     completionHandler(.noData)
@@ -360,6 +425,35 @@ class DataProvider: DataProviderType {
                 refreshDealInBackground(fetchCompletionHandler: completionHandler)
             }
         }
+    }
+
+    private func updateCache(for deal: Deal, delta: DealDelta) {
+        // TODO: improve handling / reporting of cases below
+        guard let store = appSyncClient.store else {
+            log.error("Unable to get store")
+            return
+        }
+        if case .newDeal = delta {
+            log.error("Unable to update cache for \(delta)")
+            return
+        }
+
+        // NOTE: this uses AWSAppSync.Promise (from Apollo)
+        store.withinReadWriteTransaction { transaction in
+            let query = GetDealQuery(id: deal.id)
+            try transaction.update(query: query) { (data: inout GetDealQuery.Data) in
+                switch delta {
+                case .commentCount(let newCount):
+                    data.getDeal?.topic?.commentCount = newCount
+                case .launchStatus(let newStatus):
+                    data.getDeal?.launchStatus = newStatus
+                default:
+                    break
+                }
+            }
+        }.catch({ error in
+            log.error("\(error.localizedDescription)")
+        })
     }
 
     // MARK: - Observers
@@ -420,7 +514,7 @@ extension DataProvider {
 
     private func makeBackgroundFetchObserver(completionHandler: @escaping (UIBackgroundFetchResult) -> Void) -> CompletionWrapper<UIBackgroundFetchResult> {
         let observer = CompletionWrapper(wrapping: completionHandler) { [weak self] in
-            self?.wrappedHandler = nil
+            self?.fetchCompletionObserver = nil
         }
         observer.observationToken = addDealObserver(observer) { wrapper, viewState in
             switch viewState {
@@ -464,5 +558,30 @@ extension DataProvider {
             }
         }
         return observer
+    }
+}
+
+// MARK: - Configuration Factory
+extension DataProvider {
+    static func makeClientConfiguration(credentialsProvider: AWSCredentialsProvider, connectionStateChangeHandler: ConnectionStateChangeHandler? = nil) throws -> AWSAppSyncClientConfiguration {
+        let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+        let retryStrategy: AWSAppSyncRetryStrategy = .aggressive  // OPTIONS: .aggressive, .exponential
+
+        // https://aws-amplify.github.io/docs/ios/api#iam
+        // https://github.com/aws-samples/aws-mobile-appsync-events-starter-ios/blob/master/EventsApp/AppDelegate.swift
+        return try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
+                                                 credentialsProvider: credentialsProvider,
+                                                 urlSessionConfiguration: URLSessionConfiguration.default,
+                                                 cacheConfiguration: cacheConfiguration,
+                                                 connectionStateChangeHandler: connectionStateChangeHandler,
+                                                 retryStrategy: retryStrategy)
+    }
+}
+
+// MARK: - Constants
+extension DataProvider {
+    private enum Constants {
+        static var cacheKey: String { return "id" }
+        static var currentDealID: String { return "current_deal" }
     }
 }

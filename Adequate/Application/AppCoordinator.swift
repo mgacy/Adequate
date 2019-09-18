@@ -41,6 +41,8 @@ class AppCoordinator: BaseCoordinator {
                 showOnboarding()
             case .remoteNotification(let payload):
                 showMain(notificationPayload: payload)
+            case .debug:
+                showDebug()
             default:
                 startChildren(with: deepLink)
             }
@@ -70,10 +72,23 @@ class AppCoordinator: BaseCoordinator {
 
     private func showMain(notificationPayload payload: [String : AnyObject]? = nil) {
         let refreshEvent: RefreshEvent = payload != nil ? .launchFromNotification(payload!) : .launch
+        // TODO: skip `refreshDeal(for:) if `launchFromNotification` and wait for `AppDelegate` methods?
         refreshDeal(for: refreshEvent)
         let mainCoordinator = MainCoordinator(window: window, dependencies: dependencies)
         store(coordinator: mainCoordinator)
         mainCoordinator.start()
+    }
+
+    private func showDebug() {
+        let coordinator = DebugCoordinator(window: window, dependencies: dependencies)
+        coordinator.onFinishFlow = { [weak self, weak coordinator] result in
+            if let strongCoordinator = coordinator {
+                self?.free(coordinator: strongCoordinator)
+            }
+            self?.showMain()
+        }
+        store(coordinator: coordinator)
+        coordinator.start()
     }
 }
 
