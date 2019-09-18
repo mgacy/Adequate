@@ -224,8 +224,6 @@ class PadDealViewController: UIViewController {
 
         // iPhone
         compactConstraints = [
-            footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            barBackingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
         ]
@@ -239,10 +237,12 @@ class PadDealViewController: UIViewController {
             // footerView
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            footerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             // barBackingView
             barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
             barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor),
+            barBackingView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             // scrollView
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -277,17 +277,14 @@ class PadDealViewController: UIViewController {
                                                    constant: pagedImageView.pageControlHeight),
             pagedImageView.widthAnchor.constraint(equalTo: columnContainerView.widthAnchor,
                                                   constant: -2.0 * pagedImageViewMargin)
+            // scrollView
+            scrollView.leadingAnchor.constraint(equalTo: columnContainerView.trailingAnchor)
         ]
-
-        // TODO: simply constrain width of footerView, barBackingView and contentView to that of scrollView?
 
         // Portrait
         let portraitMultiplier: CGFloat = 1.0 - portraitWidthMultiplier
         portraitConstraints = [
             columnContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: portraitWidthMultiplier),
-            footerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: portraitMultiplier),
-            barBackingView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: portraitMultiplier),
-            scrollView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: portraitMultiplier),
             contentView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: portraitMultiplier)
         ]
 
@@ -295,9 +292,6 @@ class PadDealViewController: UIViewController {
         let landscapeMultiplier = 1.0 - landscapeWidthMultiplier
         landscapeConstraints = [
             columnContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: landscapeWidthMultiplier),
-            footerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: landscapeMultiplier),
-            barBackingView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: landscapeMultiplier),
-            scrollView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: landscapeMultiplier),
             contentView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: landscapeMultiplier)
         ]
 
