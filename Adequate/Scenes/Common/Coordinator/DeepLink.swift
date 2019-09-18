@@ -19,6 +19,8 @@ enum DeepLink {
     case buy(URL)
     /// Show share sheet from current deal scene.
     case share(title: String, url: URL)
+    /// Show debug view.
+    case debug
 
     static func build(with dict: [String: AnyObject]?) -> DeepLink? {
         guard let id = dict?["launch_id"] as? String else { return nil }
@@ -93,7 +95,9 @@ enum DeepLink {
 }
 
 // MARK: - Constants
-struct DeepLinkURLConstants {
-    static let deal = "deal"
-    static let onboarding = "onboarding"
+extension DeepLink {
+    struct DeepLinkURLConstants {
+        static let deal = "deal"
+        static let onboarding = "onboarding"
+    }
 }

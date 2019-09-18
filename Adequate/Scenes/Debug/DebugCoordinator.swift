@@ -1,16 +1,16 @@
 //
-//  OnboardingCoordinator.swift
+//  DebugCoordinator.swift
 //  Adequate
 //
-//  Created by Mathew Gacy on 10/25/18.
-//  Copyright © 2018 Mathew Gacy. All rights reserved.
+//  Created by Mathew Gacy on 9/4/19.
+//  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
 import UIKit
 
-final class OnboardingCoordinator: BaseCoordinator {
+final class DebugCoordinator: BaseCoordinator {
     typealias CoordinationResult = Void
-    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
+    typealias Dependencies = AppDependency
 
     private let window: UIWindow
     private let dependencies: Dependencies
@@ -26,10 +26,9 @@ final class OnboardingCoordinator: BaseCoordinator {
 
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
-            log.debug("\(String(describing: self)) is unable to handle DeepLink: \(deepLink)")
             startChildren(with: deepLink)
         } else {
-            showOnboarding()
+            showDebug()
         }
     }
 
@@ -37,10 +36,10 @@ final class OnboardingCoordinator: BaseCoordinator {
 
     // MARK: - Private Methods
 
-    private func showOnboarding() {
-        let viewController = OnboardingPageViewController(dependencies: dependencies)
+    private func showDebug() {
+        let viewController = DebugViewController(dependencies: dependencies)
         viewController.dismissalDelegate = self
-        router.setRootModule(viewController, hideBar: true)
+        router.setRootModule(viewController, hideBar: false)
         window.rootViewController = router.toPresent()
         window.makeKeyAndVisible()
     }
@@ -48,14 +47,14 @@ final class OnboardingCoordinator: BaseCoordinator {
 }
 
 // MARK: - Presentable
-extension OnboardingCoordinator: Presentable {
+extension DebugCoordinator: Presentable {
     func toPresent() -> UIViewController {
         return router.toPresent()
     }
 }
 
 // MARK: - VoidDismissalDelegate
-extension OnboardingCoordinator: VoidDismissalDelegate {
+extension DebugCoordinator: VoidDismissalDelegate {
     func dismiss() {
         onFinishFlow?(())
     }

@@ -19,16 +19,18 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
     let userDefaultsManager: UserDefaultsManagerType
 
     init() {
-        // Initialize client for auth
-        AWSMobileClient.sharedInstance().initialize().catch { error in
-            log.error("Unable to initialize AWSMobileClient: \(error.localizedDescription)")
+        // https://aws-amplify.github.io/docs/ios/authentication
+        let credentialsProvider = AWSMobileClient.sharedInstance()
+
+        // Initialize dataProvider
+        do {
+            self.dataProvider = try DataProvider(credentialsProvider: credentialsProvider)
+        } catch {
+            log.error("Unable to initialize AWSAppSyncClient: \(error)")
+            self.dataProvider = MockDataProvider(error: error)
         }
-        guard let appSyncClient = AppDependency.makeAppSyncClient(cacheKey: "id") else {
-            log.error("Unable to initialize AppSyncClient")
-            fatalError("Unable to initialize AppSyncClient")
-        }
+
         let networkClient = AppDependency.makeNetworkClient()
-        self.dataProvider = DataProvider(appSync: appSyncClient)
         self.imageService = ImageService(client: networkClient)
 
         self.userDefaultsManager = UserDefaultsManager(defaults: .standard)
@@ -41,6 +43,7 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
             })
         }
 
+        // FIXME: handle this better; move into static method on `ThemeManager?
         // Accent color from HIG:
         // https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/
         let defaultTheme = Theme(accentColor: "#007AFF", backgroundColor: "#ffffff", foreground: .dark)
@@ -62,25 +65,4 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
 
         return NetworkClient(configuration: configuration, decoder: decoder)
     }
-
-    private static func makeAppSyncClient(cacheKey: String) -> AWSAppSyncClient? {
-        do {
-            // Initialize the AWS AppSync configuration
-            // https://aws-amplify.github.io/docs/ios/api#iam
-            // https://github.com/aws-samples/aws-mobile-appsync-events-starter-ios/blob/master/EventsApp/AppDelegate.swift
-            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
-                                                                  credentialsProvider: AWSMobileClient.sharedInstance(),
-                                                                  cacheConfiguration: AWSAppSyncCacheConfiguration(),
-                                                                  connectionStateChangeHandler: nil,
-                                                                  retryStrategy: .exponential)
-
-            let client = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
-            client.apolloClient?.cacheKeyForObject = { $0[cacheKey] }
-            return client
-        } catch {
-            log.error("Unable to initialize appsync client: \(error)")
-        }
-        return nil
-    }
-
 }

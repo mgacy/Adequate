@@ -25,6 +25,7 @@ extension AWSAppSyncClient {
         return Promise<Query.Data> { fulfill, reject in
             self.fetch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
                 if let error = error {
+                    // TODO: should I wrap in SyncClientError here or higher up?
                     reject(SyncClientError.network(error: error))
                 } else if let result = result, let data = result.data {
                     fulfill(data)
