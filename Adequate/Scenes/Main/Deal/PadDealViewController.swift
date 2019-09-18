@@ -37,7 +37,7 @@ class PadDealViewController: UIViewController {
 
     // iPad
     private var haveSetupRegularConstraints: Bool = false
-    private var pagedImageViewConstraints: [NSLayoutConstraint] = []    // Rename `sharedRegularConstraint`?
+    private var sharedRegularConstraints: [NSLayoutConstraint] = []
     private var portraitConstraints: [NSLayoutConstraint] = []
     private var landscapeConstraints: [NSLayoutConstraint] = []
 
@@ -265,7 +265,7 @@ class PadDealViewController: UIViewController {
 
         // Common
         // TODO: adjust constant on centerYAnchor to ensure placement below nav bar?
-        pagedImageViewConstraints = [
+        sharedRegularConstraints = [
             // columnContainerView
             columnContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             columnContainerView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -307,7 +307,7 @@ class PadDealViewController: UIViewController {
             NSLayoutConstraint.activate(portraitConstraints)
             //layout = .regularPortrait
         }
-        NSLayoutConstraint.activate(pagedImageViewConstraints)
+        NSLayoutConstraint.activate(sharedRegularConstraints)
     }
 
     private func setupObservations() -> [ObservationToken] {
@@ -419,7 +419,7 @@ class PadDealViewController: UIViewController {
         // deactivate constraints
         NSLayoutConstraint.deactivate(portraitConstraints)
         NSLayoutConstraint.deactivate(landscapeConstraints)
-        NSLayoutConstraint.deactivate(pagedImageViewConstraints)
+        NSLayoutConstraint.deactivate(sharedRegularConstraints)
 
         // remove pagedImageView
         columnContainerView.removeFromSuperview()
@@ -464,7 +464,7 @@ class PadDealViewController: UIViewController {
             NSLayoutConstraint.activate(portraitConstraints)
             //layout = .regularPortrait
         }
-        NSLayoutConstraint.activate(pagedImageViewConstraints)
+        NSLayoutConstraint.activate(sharedRegularConstraints)
         // IMPORTANT
         pagedImageView.flowLayout.invalidateLayout()
     }
