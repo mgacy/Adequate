@@ -164,6 +164,7 @@ class PadDealViewController: UIViewController {
             // TODO: move into `setupRegularView()` method?
             view.addSubview(columnContainerView)
             columnContainerView.addSubview(pagedImageView)
+            barBackingView.leftLabelInset = AppTheme.sideMargin
             setupRegularConstraints()
         case .unspecified:
             log.error("Unspecified horizontalSizeClass")
@@ -430,6 +431,9 @@ class PadDealViewController: UIViewController {
         //let viewWidth = newSize?.width ?? view.frame.width
         //scrollView.headerHeight = viewWidth + pagedImageView.pageControlHeight
 
+        // TODO: clarify meaning of this magic constant
+        barBackingView.leftLabelInset = 56.0
+
         // activate constraints
         NSLayoutConstraint.activate(compactConstraints)
         //layout = .compact
@@ -446,6 +450,8 @@ class PadDealViewController: UIViewController {
         // add PagedImageView
         view.addSubview(columnContainerView)
         columnContainerView.addSubview(pagedImageView)
+
+        barBackingView.leftLabelInset = AppTheme.sideMargin
 
         // reset scrollView
         scrollView.headerHeight = 0
