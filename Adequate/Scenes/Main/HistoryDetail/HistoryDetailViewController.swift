@@ -183,7 +183,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
     // MARK: - View Methods
 
-    func setupView() {
+    private func setupView() {
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.isTranslucent = true
@@ -196,7 +196,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         apply(theme: AppTheme(theme: dealFragment.theme))
     }
 
-    func setupParallaxScrollView() {
+    private func setupParallaxScrollView() {
 
         // barBackingView
         let statusBarHeight = UIApplication.shared.isStatusBarHidden ? CGFloat(0) : UIApplication.shared.statusBarFrame.height
@@ -212,7 +212,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         }
     }
 
-    func setupConstraints() {
+    private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             // stateView
