@@ -37,6 +37,7 @@ class PadDealViewController: UIViewController {
 
     // iPad
     private var haveSetupRegularConstraints: Bool = false
+    private lazy var regularPagedImageViewGuide = UILayoutGuide()
     private var sharedRegularConstraints: [NSLayoutConstraint] = []
     private var portraitConstraints: [NSLayoutConstraint] = []
     private var landscapeConstraints: [NSLayoutConstraint] = []
@@ -78,15 +79,6 @@ class PadDealViewController: UIViewController {
         button.isEnabled = false
         button.accessibilityLabel = L10n.Accessibility.storyButton
         return button
-    }()
-
-    // Primary Column
-
-    // TODO: rename
-    private lazy var columnContainerView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
     }()
 
     // Secondary Column
@@ -162,9 +154,8 @@ class PadDealViewController: UIViewController {
             setupParallaxScrollView()
         case .regular:
             // TODO: move into `setupRegularView()` method?
-            view.addSubview(columnContainerView)
-            columnContainerView.addSubview(pagedImageView)
             barBackingView.leftLabelInset = AppTheme.sideMargin
+            view.addSubview(pagedImageView)
             setupRegularConstraints()
         case .unspecified:
             log.error("Unspecified horizontalSizeClass")
@@ -264,35 +255,35 @@ class PadDealViewController: UIViewController {
 
     private func setupRegularConstraints() {
 
-        // Common
-        // TODO: adjust constant on centerYAnchor to ensure placement below nav bar?
+        view.addLayoutGuide(regularPagedImageViewGuide)
         sharedRegularConstraints = [
-            // columnContainerView
-            columnContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            columnContainerView.topAnchor.constraint(equalTo: view.topAnchor),
-            columnContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            // regularPagedImageViewGuide
+            regularPagedImageViewGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            regularPagedImageViewGuide.topAnchor.constraint(equalTo: view.topAnchor),
+            regularPagedImageViewGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             // pagedImageView
-            pagedImageView.centerYAnchor.constraint(equalTo: columnContainerView.centerYAnchor, constant: 0.0),
-            pagedImageView.centerXAnchor.constraint(equalTo: columnContainerView.centerXAnchor, constant: 0.0),
+            // TODO: adjust constant on centerYAnchor to ensure placement below nav bar?
+            pagedImageView.centerYAnchor.constraint(equalTo: regularPagedImageViewGuide.centerYAnchor, constant: 0.0),
+            pagedImageView.centerXAnchor.constraint(equalTo: regularPagedImageViewGuide.centerXAnchor),
             pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
                                                    constant: pagedImageView.pageControlHeight),
-            pagedImageView.widthAnchor.constraint(equalTo: columnContainerView.widthAnchor,
-                                                  constant: -2.0 * pagedImageViewMargin)
+            pagedImageView.widthAnchor.constraint(equalTo: regularPagedImageViewGuide.widthAnchor,
+                                                  constant: -2.0 * pagedImageViewMargin),
             // scrollView
-            scrollView.leadingAnchor.constraint(equalTo: columnContainerView.trailingAnchor)
+            scrollView.leadingAnchor.constraint(equalTo: regularPagedImageViewGuide.trailingAnchor)
         ]
 
         // Portrait
         let portraitMultiplier: CGFloat = 1.0 - portraitWidthMultiplier
         portraitConstraints = [
-            columnContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: portraitWidthMultiplier),
+            regularPagedImageViewGuide.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: portraitWidthMultiplier),
             contentView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: portraitMultiplier)
         ]
 
         // Landscape
         let landscapeMultiplier = 1.0 - landscapeWidthMultiplier
         landscapeConstraints = [
-            columnContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: landscapeWidthMultiplier),
+            regularPagedImageViewGuide.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: landscapeWidthMultiplier),
             contentView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: landscapeMultiplier)
         ]
 
@@ -423,7 +414,6 @@ class PadDealViewController: UIViewController {
         NSLayoutConstraint.deactivate(sharedRegularConstraints)
 
         // remove pagedImageView
-        columnContainerView.removeFromSuperview()
         pagedImageView.removeFromSuperview()
 
         // add PagedImageView
@@ -448,8 +438,7 @@ class PadDealViewController: UIViewController {
         scrollView.removeHeaderView()
 
         // add PagedImageView
-        view.addSubview(columnContainerView)
-        columnContainerView.addSubview(pagedImageView)
+        view.addSubview(pagedImageView)
 
         barBackingView.leftLabelInset = AppTheme.sideMargin
 
@@ -563,12 +552,12 @@ extension PadDealViewController: ViewStateRenderable {
         switch viewState {
         case .empty:
             stateView.render(viewState)
-            columnContainerView.isHidden = true
+            pagedImageView.isHidden = true
             scrollView.isHidden = true
             footerView.isHidden = true
         case .loading:
             stateView.render(viewState)
-            columnContainerView.isHidden = true
+            pagedImageView.isHidden = true
             scrollView.isHidden = true
             footerView.isHidden = true
             shareButton.isEnabled = false
@@ -592,14 +581,14 @@ extension PadDealViewController: ViewStateRenderable {
                 // FIXME: can't animate `isHidden`
                 // see: https://stackoverflow.com/a/29080894
                 self.stateView.render(viewState)
-                self.columnContainerView.isHidden = false
+                self.pagedImageView.isHidden = false
                 self.scrollView.isHidden = false
                 self.footerView.isHidden = false
                 //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
             })
         case .error:
             stateView.render(viewState)
-            columnContainerView.isHidden = true
+            pagedImageView.isHidden = true
             scrollView.isHidden = true
             // TODO: hide footerView as well?
         }
