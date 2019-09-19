@@ -248,12 +248,15 @@ extension HistoryDetailViewController: ViewStateRenderable {
         stateView.render(viewState)
         switch viewState {
         case .empty:
+            //stateView.render(viewState)
             //stateView.isHidden = false
             scrollView.isHidden = true
         case .loading:
+            //stateView.render(viewState)
             //stateView.isHidden = false
             scrollView.isHidden = true
         case .result(let deal):
+            //stateView.render(viewState)
             //stateView.isHidden = true
             barBackingView.text = deal.title
             contentView.title = deal.title
@@ -266,7 +269,9 @@ extension HistoryDetailViewController: ViewStateRenderable {
                 .compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
             scrollView.isHidden = false
+            // TODO: animate display
         case .error:
+            //stateView.render(viewState)
             //stateView.isHidden = false
             scrollView.isHidden = true
         }
