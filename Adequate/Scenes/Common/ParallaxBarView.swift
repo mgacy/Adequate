@@ -16,7 +16,7 @@ class ParallaxBarView: UIView {
     /// Space above the 'title bar' (occupied by the status bar).
     var inset: CGFloat = 0.0
 
-    /// Insets for titleLabel.
+    /// Left inset for title label.
     // TODO: use enum with cases for number of bar button items?
     var leftLabelInset: CGFloat = 56.0 {
         didSet {
@@ -24,6 +24,7 @@ class ParallaxBarView: UIView {
         }
     }
 
+    /// Right inset for title label
     var rightLabelInset: CGFloat = 110.0 {
         didSet {
             titleRightConstraint.constant = rightLabelInset

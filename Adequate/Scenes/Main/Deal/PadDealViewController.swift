@@ -185,7 +185,7 @@ class PadDealViewController: UIViewController {
         contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
 
         // barBackingView
-        let statusBarHeight = UIApplication.shared.isStatusBarHidden ? CGFloat(0) : UIApplication.shared.statusBarFrame.height
+        let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
         barBackingView.coordinateOffset = 8.0
         barBackingView.inset = statusBarHeight
 
@@ -249,7 +249,6 @@ class PadDealViewController: UIViewController {
     }
 
     private func setupRegularConstraints() {
-
         view.addLayoutGuide(regularPagedImageViewGuide)
         sharedRegularConstraints = [
             // regularPagedImageViewGuide

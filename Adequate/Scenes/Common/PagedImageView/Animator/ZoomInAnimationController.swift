@@ -25,6 +25,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        // TODO: cast toVC as protocol to get access to properties
         guard
             let fromVC = transitionContext.viewController(forKey: .from),
             let toVC = transitionContext.viewController(forKey: .to) as? FullScreenImageViewController else {
@@ -71,7 +72,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         containerView.addSubview(transitionImageView)
 
         // Animation
-        let animation: () -> Void = { () in
+        let animation = { () -> Void in
             //transitionImageView.frame = finalFrame
             transitionImageView.frame.size = scaledSize
             transitionImageView.center = toVC.view.center
@@ -80,7 +81,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         }
 
         // Completion
-        let completion  = { (_ finished: Bool) -> Void in
+        let completion = { (finished: Bool) -> Void in
             transitionImageView.removeFromSuperview()
             bgView.removeFromSuperview()
             sourceImageCoveringView.removeFromSuperview()

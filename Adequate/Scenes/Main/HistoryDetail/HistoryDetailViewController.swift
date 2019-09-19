@@ -152,7 +152,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     private func setupParallaxScrollView() {
 
         // barBackingView
-        let statusBarHeight = UIApplication.shared.isStatusBarHidden ? CGFloat(0) : UIApplication.shared.statusBarFrame.height
+        let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
         barBackingView.coordinateOffset = 8.0
         barBackingView.inset = statusBarHeight
 

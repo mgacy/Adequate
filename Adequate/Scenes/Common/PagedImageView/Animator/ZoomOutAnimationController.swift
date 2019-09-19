@@ -71,7 +71,7 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
         }
 
         // Completion
-        let imageCompletion = { (_ finished: Bool) -> Void in
+        let imageCompletion = { (finished: Bool) -> Void in
             fromVC.view.isHidden = false
             transitionImageView.removeFromSuperview()
             bgView.removeFromSuperview()
