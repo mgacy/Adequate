@@ -26,11 +26,6 @@ class PadDealViewController: UIViewController {
         }
     }
 
-    // TODO: make part of a protocol
-    var visibleImage: Promise<UIImage> {
-        return pagedImageView.visibleImage
-    }
-
     // MARK: Constraints
 
     private var compactConstraints: [NSLayoutConstraint] = []
