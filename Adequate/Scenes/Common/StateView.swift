@@ -25,7 +25,7 @@ class StateView: UIView {
             switch foreground {
             case .dark:
                 activityIndicator.style = .gray
-                activityMessageLabel.textColor = .black
+                activityMessageLabel.textColor = .gray
                 messageLabel.textColor = .gray
                 retryButton.layer.borderColor = UIColor.gray.cgColor
                 retryButton.setTitleColor(.gray, for: .normal)
