@@ -285,7 +285,7 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
     // MARK: - Transition
 
     /// The new size to which the view is transitioning.
-    private var newSize: CGSize?
+    //private var newSize: CGSize?
 
     // MARK: Trait Collection
 
@@ -322,7 +322,7 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
 
         //guard UIDevice.current.userInterfaceIdiom == .pad else { return }
 
-        newSize = size
+        //newSize = size
 
         // PagedImageView
         // For collection view rotation see also: https://stackoverflow.com/a/43322706
@@ -347,7 +347,7 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
             },
             completion: { [unowned self] (context) -> Void in
                 self.pagedImageView.completeRotation(page: currentPage)
-                self.newSize = nil
+                //self.newSize = nil
             }
         )
     }
