@@ -49,10 +49,20 @@ final class HistoryDetailCoordinator: BaseCoordinator {
     // MARK: - Private Methods
 
     private func showDetail() {
-        let viewController = HistoryDetailViewController(dependencies: dependencies, deal: deal)
-        viewController.delegate = self
-        router.setRootModule(viewController, navBarStyle: .hiddenSeparator)
-        viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            let viewController = HistoryDetailViewController(dependencies: dependencies, deal: deal)
+            viewController.delegate = self
+            router.setRootModule(viewController, navBarStyle: .hiddenSeparator)
+            viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
+        case .pad:
+            let viewController = PadHistoryDetailViewController(dependencies: dependencies, deal: deal)
+            viewController.delegate = self
+            router.setRootModule(viewController, navBarStyle: .hiddenSeparator)
+            viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
+        default:
+            fatalError("Invalid device")
+        }
     }
 
     private func showWebPage(with url: URL, animated: Bool) {
