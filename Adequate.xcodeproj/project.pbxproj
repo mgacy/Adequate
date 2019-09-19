@@ -112,6 +112,7 @@
 		C9B3FAC422447AAB00B8524A /* CurrentDealManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */; };
 		C9B3FAC62245649E00B8524A /* CurrentDeal+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAC52245649E00B8524A /* CurrentDeal+Init.swift */; };
 		C9B90D0322837D140070ADE9 /* ParallaxScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B90D0222837D140070ADE9 /* ParallaxScrollView.swift */; };
+		C9BEAB71233308A400C143FB /* HistoryDetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BEAB70233308A400C143FB /* HistoryDetailViewControllerDelegate.swift */; };
 		C9C0C0B923063D230011EFB4 /* MDStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0B823063D230011EFB4 /* MDStyler.swift */; };
 		C9C0C0BC23072D7D0011EFB4 /* UIFont+Traits.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0BB23072D7D0011EFB4 /* UIFont+Traits.swift */; };
 		C9C0C0BE23072DC50011EFB4 /* NSMutableAttributedString+Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0BD23072DC50011EFB4 /* NSMutableAttributedString+Attributes.swift */; };
@@ -333,6 +334,7 @@
 		C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDealManager.swift; sourceTree = "<group>"; };
 		C9B3FAC52245649E00B8524A /* CurrentDeal+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentDeal+Init.swift"; sourceTree = "<group>"; };
 		C9B90D0222837D140070ADE9 /* ParallaxScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxScrollView.swift; sourceTree = "<group>"; };
+		C9BEAB70233308A400C143FB /* HistoryDetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailViewControllerDelegate.swift; sourceTree = "<group>"; };
 		C9C0C0B823063D230011EFB4 /* MDStyler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDStyler.swift; sourceTree = "<group>"; };
 		C9C0C0BB23072D7D0011EFB4 /* UIFont+Traits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Traits.swift"; sourceTree = "<group>"; };
 		C9C0C0BD23072DC50011EFB4 /* NSMutableAttributedString+Attributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Attributes.swift"; sourceTree = "<group>"; };
@@ -906,6 +908,7 @@
 			children = (
 				C9093CBE2225BC0500C9DA0C /* HistoryDetailCoordinator.swift */,
 				C9F7166E221F138B00733D17 /* HistoryDetailViewController.swift */,
+				C9BEAB70233308A400C143FB /* HistoryDetailViewControllerDelegate.swift */,
 				C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */,
 				C9221564225453920001FF3F /* DimmingPresentationController.swift */,
 				C92215662254632D0001FF3F /* SlideAnimationController.swift */,
@@ -1428,6 +1431,7 @@
 				C95CD61F230FE2020011585F /* PadDealViewController.swift in Sources */,
 				C9221565225453920001FF3F /* DimmingPresentationController.swift in Sources */,
 				C9DAC4B32147864A00D6558B /* ViewState.swift in Sources */,
+				C9BEAB71233308A400C143FB /* HistoryDetailViewControllerDelegate.swift in Sources */,
 				C96CA8702182DD2E00C3459E /* NotificationViewController.swift in Sources */,
 				C9093CC32228A27800C9DA0C /* ObservationToken.swift in Sources */,
 				C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */,

@@ -9,16 +9,6 @@
 import UIKit
 import Promise
 
-// MARK: - Protocol
-
-protocol HistoryDetailViewControllerDelegate: VoidDismissalDelegate {
-    typealias Topic = GetDealQuery.Data.GetDeal.Topic
-    func showForum(with: Topic)
-    func showImage(animatingFrom: PagedImageView)
-}
-
-// MARK: - View Controller
-
 class HistoryDetailViewController: UIViewController, SwipeDismissable {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
     typealias DealFragment = ListDealsForPeriodQuery.Data.ListDealsForPeriod
@@ -50,10 +40,6 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
     // MARK: - Subviews
 
-    private lazy var dismissButton: UIBarButtonItem = {
-        UIBarButtonItem(image: #imageLiteral(resourceName: "CloseNavBar"), style: .plain, target: self, action: #selector(didPressDismiss(_:)))
-    }()
-
     private lazy var stateView: StateView = {
         let view = StateView()
         view.onRetry = { [weak self] in
@@ -63,6 +49,14 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+
+    // Navigation Bar
+
+    private lazy var dismissButton: UIBarButtonItem = {
+        UIBarButtonItem(image: #imageLiteral(resourceName: "CloseNavBar"), style: .plain, target: self, action: #selector(didPressDismiss(_:)))
+    }()
+
+    // ScrollView
 
     private let scrollView: ParallaxScrollView = {
         let view = ParallaxScrollView()
@@ -291,6 +285,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
 // MARK: - PagedImageViewDelegate
 extension HistoryDetailViewController: PagedImageViewDelegate {
+
     func displayFullscreenImage(animatingFrom pagedImageView: PagedImageView) {
         delegate?.showImage(animatingFrom: pagedImageView)
     }
