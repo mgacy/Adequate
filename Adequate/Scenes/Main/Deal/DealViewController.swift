@@ -317,16 +317,13 @@ extension DealViewController: DealFooterDelegate {
 extension DealViewController: ViewStateRenderable {
     typealias ResultType = Deal
 
-    func render(_ viewState: ViewState<Deal>) {
+    func render(_ viewState: ViewState<ResultType>) {
         //stateView.render(viewState)
         switch viewState {
         case .empty:
             stateView.render(viewState)
             scrollView.isHidden = true
             footerView.isHidden = true
-        case .error:
-            stateView.render(viewState)
-            scrollView.isHidden = true
         case .loading:
             stateView.render(viewState)
             scrollView.isHidden = true
@@ -334,7 +331,6 @@ extension DealViewController: ViewStateRenderable {
             shareButton.isEnabled = false
             storyButton.isEnabled = false
         case .result(let deal):
-            // Update UI
             shareButton.isEnabled = true
             storyButton.isEnabled = true
             barBackingView.text = deal.title
@@ -357,6 +353,9 @@ extension DealViewController: ViewStateRenderable {
                 self.footerView.isHidden = false
                 //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
             })
+        case .error:
+            stateView.render(viewState)
+            scrollView.isHidden = true
         }
     }
 }
@@ -370,8 +369,8 @@ extension DealViewController: Themeable {
         storyButton.tintColor = theme.accentColor
 
         // backgroundColor
-        self.navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        self.navigationController?.navigationBar.layoutIfNeeded() // Animate color change
+        navigationController?.navigationBar.barTintColor = theme.backgroundColor
+        navigationController?.navigationBar.layoutIfNeeded() // Animate color change
         view.backgroundColor = theme.backgroundColor
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor

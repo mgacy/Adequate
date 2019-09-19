@@ -552,7 +552,7 @@ extension PadDealViewController: DealFooterDelegate {
 extension PadDealViewController: ViewStateRenderable {
     typealias ResultType = Deal
 
-    func render(_ viewState: ViewState<Deal>) {
+    func render(_ viewState: ViewState<ResultType>) {
         //stateView.render(viewState)
         switch viewState {
         case .empty:
@@ -560,11 +560,6 @@ extension PadDealViewController: ViewStateRenderable {
             columnContainerView.isHidden = true
             scrollView.isHidden = true
             footerView.isHidden = true
-        case .error:
-            stateView.render(viewState)
-            columnContainerView.isHidden = true
-            scrollView.isHidden = true
-            // TODO: hide footerView as well?
         case .loading:
             stateView.render(viewState)
             columnContainerView.isHidden = true
@@ -573,7 +568,6 @@ extension PadDealViewController: ViewStateRenderable {
             shareButton.isEnabled = false
             storyButton.isEnabled = false
         case .result(let deal):
-            // Update UI
             shareButton.isEnabled = true
             storyButton.isEnabled = true
             barBackingView.text = deal.title
@@ -597,6 +591,11 @@ extension PadDealViewController: ViewStateRenderable {
                 self.footerView.isHidden = false
                 //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
             })
+        case .error:
+            stateView.render(viewState)
+            columnContainerView.isHidden = true
+            scrollView.isHidden = true
+            // TODO: hide footerView as well?
         }
     }
 }
@@ -610,8 +609,8 @@ extension PadDealViewController: Themeable {
         storyButton.tintColor = theme.accentColor
 
         // backgroundColor
-        self.navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        self.navigationController?.navigationBar.layoutIfNeeded() // Animate color change
+        navigationController?.navigationBar.barTintColor = theme.backgroundColor
+        navigationController?.navigationBar.layoutIfNeeded() // Animate color change
         view.backgroundColor = theme.backgroundColor
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
