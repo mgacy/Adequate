@@ -168,7 +168,7 @@ extension StoryViewController: ViewStateRenderable {
             break
         case .result(let deal):
             titleLabel.text = deal.story.title
-            bodyText.text = deal.story.body
+            bodyText.markdownText = deal.story.body
         case .error(let error):
             log.error("\(#function): \(error.localizedDescription)")
         }

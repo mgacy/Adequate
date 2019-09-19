@@ -21,7 +21,7 @@ class DealContentView: UIView {
             guard features != oldValue else {
                 return
             }
-            featuresText.text = features
+            featuresText.markdownText = features
         }
     }
 
@@ -43,7 +43,7 @@ class DealContentView: UIView {
             guard specifications != oldValue else {
                 return
             }
-            specsText.text = specifications
+            specsText.markdownText = specifications
         }
     }
 
@@ -160,12 +160,12 @@ extension DealContentView: Themeable {
         forumButton.backgroundColor = theme.accentColor
         // backgroundColor
         backgroundColor = theme.backgroundColor
-        featuresText.backgroundColor = theme.backgroundColor
         forumButton.setTitleColor(theme.backgroundColor, for: .normal)
-        specsText.backgroundColor = theme.backgroundColor
         // foreground
         titleLabel.textColor = theme.foreground.textColor
-        featuresText.textColor = theme.foreground.textColor
-        specsText.textColor = theme.foreground.textColor
+
+        // Subviews
+        featuresText.apply(theme: theme)
+        specsText.apply(theme: theme)
     }
 }
