@@ -41,15 +41,15 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         containerView.addSubview(toVC.view)
 
         // snapshot
-        let snapshot = fromVC.view.snapshotView(afterScreenUpdates: true)
-        containerView.addSubview(snapshot!)
+        let snapshot = UIScreen.main.snapshotView(afterScreenUpdates: false)
+        containerView.addSubview(snapshot)
 
         // sourceImageCoveringView
         let sourceImageCoveringView = UIView(frame: sourceFrame)
         sourceImageCoveringView.backgroundColor = fromVC.view.backgroundColor
         containerView.addSubview(sourceImageCoveringView)
 
-        // background
+        // destination background
         let bgView = UIView(frame: finalFrame)
         bgView.backgroundColor = .black
         bgView.alpha = 0.0
@@ -85,7 +85,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
             transitionImageView.removeFromSuperview()
             bgView.removeFromSuperview()
             sourceImageCoveringView.removeFromSuperview()
-            snapshot?.removeFromSuperview()
+            snapshot.removeFromSuperview()
 
             if transitionContext.isInteractive {
                 if transitionContext.transitionWasCancelled {
