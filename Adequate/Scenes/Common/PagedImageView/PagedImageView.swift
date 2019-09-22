@@ -143,12 +143,6 @@ class PagedImageView: UIView {
         firstImageCell.configure(with: promise)
     }
 
-    // MARK: Selection
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.displayFullscreenImage(animatingFrom: self)
-    }
-
     // MARK: - Pages
 
     @objc private func pageControlValueChanged() {
@@ -183,6 +177,14 @@ class PagedImageView: UIView {
                       height: collectionView.frame.size.height)
     }
 
+}
+
+// MARK: - UICollectionViewDelegate
+extension PagedImageView: UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.displayFullscreenImage(animatingFrom: self)
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout

@@ -137,8 +137,10 @@ class FooterView: UIView {
     @objc private func buy(_ sender: UIButton) {
         delegate?.buy()
     }
+}
 
-    // MARK: - Update View
+// MARK: - Update View
+extension FooterView {
 
     // FIXME: shouldn't really have model communicating directly with view
     public func update(withDeal deal: Deal) {
