@@ -147,8 +147,7 @@ extension FooterView {
 
         // Price Comparison
         if let priceComparison = parsePriceComparison(from: deal.specifications) {
-            // TODO: handle localization (including price conversion?)
-            priceComparisonLabel.text = "\(priceComparison.price) at \(priceComparison.store)"
+            priceComparisonLabel.text = formatPriceComparison(priceComparison)
             priceComparisonLabel.isHidden = false
             //stackView.alignment = .center
             priceLabel.font = FontBook.compactFooter
@@ -162,18 +161,10 @@ extension FooterView {
         // Format price
         let priceText: String = (parsePriceRange >>> formatPriceRange)(deal)
 
-        // LaunchStatus and Price
-        guard let launchStatus = deal.launchStatus else {
-            log.error("Missing launchStatus: \(deal)")
+        // LaunchStatus
+        // Handle soldOut in case launchStatus is not implemented
+        let launchStatus = deal.launchStatus ?? (deal.soldOutAt == nil ? .launch : .soldOut)
 
-            // Handle soldOut in case launchStatus is not implemented
-            if deal.soldOutAt == nil {
-                updateStatus(launchStatus: .launch, priceText: priceText)
-            } else {
-                updateStatus(launchStatus: .soldOut, priceText: priceText)
-            }
-            return
-        }
         updateStatus(launchStatus: launchStatus, priceText: priceText)
     }
 
@@ -187,7 +178,6 @@ extension FooterView {
             buyButton.isEnabled = true
             priceLabel.isHidden = false
             priceLabel.text = priceText
-            //priceComparisonLabel.isHidden = false
         case .launchSoldOut:
             buyButton.isEnabled = false
             priceLabel.isHidden = false
@@ -260,6 +250,11 @@ extension FooterView {
     }
 
     // MARK: - Formatting
+
+    private func formatPriceComparison(_ priceComparison: PriceComparison) -> String {
+        // TODO: handle localization (including price conversion?)
+        return "\(priceComparison.price) at \(priceComparison.store)"
+    }
 
     private func formatPriceRange(_ priceRange: PriceRange) -> String {
         switch priceRange {
