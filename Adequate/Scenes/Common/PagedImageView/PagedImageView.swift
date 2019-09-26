@@ -180,7 +180,12 @@ class PagedImageView: UIView {
 }
 
 // MARK: - UICollectionViewDelegate
+// TODO: move to PagedImageViewDataSource?
 extension PagedImageView: UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        return !dataSource.imageSource(for: indexPath).isRejected ? true : false
+    }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.displayFullscreenImage(animatingFrom: self)
