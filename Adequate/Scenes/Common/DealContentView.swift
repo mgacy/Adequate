@@ -10,6 +10,8 @@ import UIKit
 
 class DealContentView: UIView {
 
+    var styler: MDStyler
+
     var title: String? {
         didSet {
             titleLabel.text = title
@@ -81,8 +83,7 @@ class DealContentView: UIView {
         return label
     }()
 
-    let featuresText: MDTextView = {
-        let styler = MDStyler()
+    lazy var featuresText: MDTextView = {
         let view = MDTextView(styler: styler)
         view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -99,8 +100,7 @@ class DealContentView: UIView {
         return button
     }()
 
-    let specsText: MDTextView = {
-        let styler = MDStyler()
+    lazy var specsText: MDTextView = {
         let view = MDTextView(styler: styler)
         view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -109,8 +109,9 @@ class DealContentView: UIView {
 
     // MARK: - Lifecycle
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(styler: MDStyler = MDStyler()) {
+        self.styler = styler
+        super.init(frame: CGRect.zero)
         self.configure()
     }
 
@@ -159,12 +160,14 @@ extension DealContentView: Themeable {
         forumButton.backgroundColor = theme.accentColor
         // backgroundColor
         backgroundColor = theme.backgroundColor
+        featuresText.backgroundColor = theme.backgroundColor
         forumButton.setTitleColor(theme.backgroundColor, for: .normal)
+        specsText.backgroundColor = theme.backgroundColor
         // foreground
         titleLabel.textColor = theme.foreground.textColor
 
-        // Subviews
-        featuresText.apply(theme: theme)
-        specsText.apply(theme: theme)
+        styler.colors = ColorCollection(theme: theme)
+        try? featuresText.render()
+        try? specsText.render()
     }
 }
