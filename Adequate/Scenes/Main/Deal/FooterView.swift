@@ -144,7 +144,6 @@ extension FooterView {
 
     // FIXME: shouldn't really have model communicating directly with view
     public func update(withDeal deal: Deal) {
-        buyButton.isHidden = false
 
         // Price Comparison
         if let priceComparison = parsePriceComparison(from: deal.specifications) {
@@ -160,24 +159,10 @@ extension FooterView {
             priceLabel.font = FontBook.expandedFooter
         }
 
-        // Price
-        let priceRange = parsePriceRange(for: deal)
-        let priceText: String
-        switch priceRange {
-        case .none:
-            priceText = "ERROR: missing price"
-        case .single(let price):
-            let formattedMinPrice = formatter.string(from: price as NSNumber) ?? "\(price)"
-            priceText = "$\(formattedMinPrice)"
-        case .range(let minPrice, let maxPrice):
-            let formattedMinPrice = formatter.string(from: minPrice as NSNumber) ?? "\(minPrice)"
-            let formattedMaxPrice = formatter.string(from: maxPrice as NSNumber) ?? "\(maxPrice)"
-            priceText =  "$\(formattedMinPrice) - $\(formattedMaxPrice)"
-        }
-        priceLabel.text = priceText
-        priceLabel.isHidden = false
+        // Format price
+        let priceText: String = (parsePriceRange >>> formatPriceRange)(deal)
 
-        // LaunchStatus
+        // LaunchStatus and Price
         guard let launchStatus = deal.launchStatus else {
             log.error("Missing launchStatus: \(deal)")
 
@@ -205,18 +190,25 @@ extension FooterView {
             //priceComparisonLabel.isHidden = false
         case .launchSoldOut:
             buyButton.isEnabled = false
+            priceLabel.isHidden = false
             priceLabel.setStrikethrough(text: priceText)
             // TODO: show button to schedule reminder for when relaunch occurs
         case .relaunchSoldOut:
             buyButton.isEnabled = false
+            priceLabel.isHidden = false
             priceLabel.setStrikethrough(text: priceText)
         case .soldOut:
             buyButton.isEnabled = false
+            priceLabel.isHidden = false
             priceLabel.setStrikethrough(text: priceText)
         case .expired:
-            break
+            priceLabel.isHidden = true
+            // TODO: display with strikethrough or different color?
+            //priceLabel.text = priceText
         case .unknown(_):
             log.error("Unknown LaunchStatus: \(launchStatus)")
+            // FIXME: how to handle?
+            priceLabel.isHidden = true
         }
     }
 
@@ -233,6 +225,7 @@ extension FooterView {
         }
     }
 
+    // TODO: make throwing?
     private func parsePriceComparison(from text: String) -> PriceComparison? {
         // TODO: relocate pattern to PriceComparisonParser object
         // TODO: handle `$29.97 (for 3) at Amazon`, etc
@@ -266,6 +259,21 @@ extension FooterView {
         }
     }
 
+    // MARK: - Formatting
+
+    private func formatPriceRange(_ priceRange: PriceRange) -> String {
+        switch priceRange {
+        case .none:
+            return "ERROR: missing price"
+        case .single(let price):
+            let formattedMinPrice = formatter.string(from: price as NSNumber) ?? "\(price)"
+            return "$\(formattedMinPrice)"
+        case .range(let minPrice, let maxPrice):
+            let formattedMinPrice = formatter.string(from: minPrice as NSNumber) ?? "\(minPrice)"
+            let formattedMaxPrice = formatter.string(from: maxPrice as NSNumber) ?? "\(maxPrice)"
+            return "$\(formattedMinPrice) - $\(formattedMaxPrice)"
+        }
+    }
 }
 
 // MARK: - Themeable
