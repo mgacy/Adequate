@@ -14,6 +14,10 @@ class FullScreenImageViewController: UIViewController {
     weak var delegate: FullScreenImageDelegate?
     let imageSource: Promise<UIImage>
 
+    var originFrame: CGRect {
+        return view.convert(zoomingImageView.originFrame, to: nil)
+    }
+
     // TODO: rename `interactionController?
     private var transitionController: FullScreenImageTransitionController?
 
