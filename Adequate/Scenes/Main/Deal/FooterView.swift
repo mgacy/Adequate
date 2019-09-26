@@ -177,6 +177,7 @@ extension FooterView {
         case .launch, .relaunch:
             buyButton.isEnabled = true
             priceLabel.isHidden = false
+            priceLabel.removeStrikethrough()
             priceLabel.text = priceText
         case .launchSoldOut:
             buyButton.isEnabled = false
