@@ -49,6 +49,17 @@ class FileCache {
 
     // MARK: - Maintenance
 
+    /// Remove all items from cache.
+    func clearCache() throws {
+        if let files = try markFilesForDeletion(at: containerURL, maxFileCount: 0) {
+            for file in files {
+                try fileManager.removeItem(at: file)
+            }
+        }
+    }
+
+    // MARK: - Private
+
     /// Purge oldest items if number of files in cache > maxFileCount
     private func cleanupCache() throws {
         if let files = try markFilesForDeletion(at: containerURL, maxFileCount: maxFileCount) {
