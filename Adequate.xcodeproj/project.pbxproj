@@ -38,6 +38,9 @@
 		C923839022B1B4B4003BB1DA /* StoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C923838F22B1B4B4003BB1DA /* StoryType.swift */; };
 		C923839222B1B4EA003BB1DA /* TopicType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C923839122B1B4EA003BB1DA /* TopicType.swift */; };
 		C923839422B1B921003BB1DA /* ThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C923839322B1B921003BB1DA /* ThemeType.swift */; };
+		C925EEC9233E952300D24F38 /* ImageCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925EEC8233E952300D24F38 /* ImageCaching.swift */; };
+		C925EECB233E955400D24F38 /* ImageServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925EECA233E955400D24F38 /* ImageServiceType.swift */; };
+		C925EECD233E959D00D24F38 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925EECC233E959D00D24F38 /* ImageCache.swift */; };
 		C928547B216DCE44001E5993 /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C928547A216DCE44001E5993 /* AWSManager.swift */; };
 		C928547D21704C73001E5993 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C928547C21704C72001E5993 /* ImageCell.swift */; };
 		C937EFE522DFFD4800C363C8 /* Affine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C937EFE422DFFD4800C363C8 /* Affine.swift */; };
@@ -260,6 +263,9 @@
 		C923838F22B1B4B4003BB1DA /* StoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryType.swift; sourceTree = "<group>"; };
 		C923839122B1B4EA003BB1DA /* TopicType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicType.swift; sourceTree = "<group>"; };
 		C923839322B1B921003BB1DA /* ThemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeType.swift; sourceTree = "<group>"; };
+		C925EEC8233E952300D24F38 /* ImageCaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCaching.swift; sourceTree = "<group>"; };
+		C925EECA233E955400D24F38 /* ImageServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServiceType.swift; sourceTree = "<group>"; };
+		C925EECC233E959D00D24F38 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		C928547A216DCE44001E5993 /* AWSManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSManager.swift; sourceTree = "<group>"; };
 		C928547C21704C72001E5993 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		C937EFE422DFFD4800C363C8 /* Affine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Affine.swift; sourceTree = "<group>"; };
@@ -493,6 +499,25 @@
 				C9116E5221616CA60084934B /* StoryViewController.swift */,
 			);
 			path = Story;
+			sourceTree = "<group>";
+		};
+		C925EEC6233E94E600D24F38 /* ImageService */ = {
+			isa = PBXGroup;
+			children = (
+				C925EEC7233E950300D24F38 /* Protocols */,
+				C925EECC233E959D00D24F38 /* ImageCache.swift */,
+				C9DAC4A421476C5E00D6558B /* ImageService.swift */,
+			);
+			path = ImageService;
+			sourceTree = "<group>";
+		};
+		C925EEC7233E950300D24F38 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				C925EEC8233E952300D24F38 /* ImageCaching.swift */,
+				C925EECA233E955400D24F38 /* ImageServiceType.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		C9285479216DCE2B001E5993 /* Managers */ = {
@@ -772,12 +797,12 @@
 		C9DAC47B2147692600D6558B /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				C925EEC6233E94E600D24F38 /* ImageService */,
 				C989E11A223734C800DEAE89 /* API.swift */,
 				C989E11C223738ED00DEAE89 /* API+Ext.swift */,
 				C989E1222237459300DEAE89 /* SyncClientError.swift */,
 				C9DAC4A221476C3A00D6558B /* NetworkClient.swift */,
 				C9DAC4A621476C8600D6558B /* NetworkClientError.swift */,
-				C9DAC4A421476C5E00D6558B /* ImageService.swift */,
 				C995C07422A8E01C00C2289F /* FileCache.swift */,
 				C9DAC4A821476C9D00D6558B /* MehService.swift */,
 				C9093CC22228A27800C9DA0C /* ObservationToken.swift */,
@@ -1338,6 +1363,7 @@
 				C92215672254632D0001FF3F /* SlideAnimationController.swift in Sources */,
 				C9093CBD221FBE9400C9DA0C /* DealCoordinator.swift in Sources */,
 				C9BEAB7323330B5600C143FB /* PadHistoryDetailViewController.swift in Sources */,
+				C925EEC9233E952300D24F38 /* ImageCaching.swift in Sources */,
 				C9116E5321616CA60084934B /* StoryViewController.swift in Sources */,
 				C995C07522A8E01C00C2289F /* FileCache.swift in Sources */,
 				C96CA86E2182DD1A00C3459E /* WelcomeViewController.swift in Sources */,
@@ -1406,6 +1432,7 @@
 				C93CBED72320ADCE0033DCD0 /* DealViewControllerDelegate.swift in Sources */,
 				C99DD5DB2182D4C500A38529 /* PaddingLabel.swift in Sources */,
 				C923838C22B1B454003BB1DA /* LaunchType.swift in Sources */,
+				C925EECD233E959D00D24F38 /* ImageCache.swift in Sources */,
 				C9C2109422D8126700C4F66F /* RefreshEvent.swift in Sources */,
 				C93CBEDC2320C8D80033DCD0 /* DebugViewController.swift in Sources */,
 				C9088C2D22E6A418007C35CC /* DealDelta.swift in Sources */,
@@ -1437,6 +1464,7 @@
 				C9DAC4B32147864A00D6558B /* ViewState.swift in Sources */,
 				C9BEAB71233308A400C143FB /* HistoryDetailViewControllerDelegate.swift in Sources */,
 				C96CA8702182DD2E00C3459E /* NotificationViewController.swift in Sources */,
+				C925EECB233E955400D24F38 /* ImageServiceType.swift in Sources */,
 				C9093CC32228A27800C9DA0C /* ObservationToken.swift in Sources */,
 				C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */,
 				C9DAC48D21476AF600D6558B /* UIColor+Ext.swift in Sources */,
