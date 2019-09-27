@@ -49,12 +49,12 @@ class FileCache {
             return
         }
 
-        /// Write file
+        // Write file
         do {
-            /// Ensure caches directory exists
+            // Ensure caches directory exists
             try fileManager.createDirectory(at: sharedContainerURL, withIntermediateDirectories: true, attributes: nil)
 
-            /// Rewrite or just skip if file already exists?
+            // Rewrite or just skip if file already exists?
             if fileManager.fileExists(atPath: destinationURL.path) {
                 try fileManager.removeItem(at: destinationURL)
             }
@@ -63,7 +63,7 @@ class FileCache {
             log.error("Error writing image: \(error)")
         }
 
-        /// Cleanup cache
+        // Cleanup cache
         do {
             try cleanupCache()
         } catch {
@@ -94,16 +94,7 @@ class FileCache {
 
     // MARK: - Maintenance
 
-    /// Purge oldest items if number of files > maxFileCount
-    private func cleanupCache() throws {
-        if let files = try markFilesForDeletion(at: sharedContainerURL, maxFileCount: maxFileCount) {
-            for file in files {
-                try fileManager.removeItem(at: file)
-            }
-        }
-    }
-
-    /// Remove all items
+    /// Remove all items from cache.
     func clearCache() throws {
         if let files = try markFilesForDeletion(at: sharedContainerURL, maxFileCount: 0) {
             for file in files {
@@ -114,6 +105,20 @@ class FileCache {
 
     // MARK: - Private
 
+    /// Purge oldest items if number of files in cache > maxFileCount
+    private func cleanupCache() throws {
+        if let files = try markFilesForDeletion(at: sharedContainerURL, maxFileCount: maxFileCount) {
+            for file in files {
+                try fileManager.removeItem(at: file)
+            }
+        }
+    }
+
+    /// Returns the oldest cached files that should be deleted.
+    /// - Parameter url: The `URL` of the cached files to be pruned.
+    /// - Parameter maxFileCount: The maximum desired number of files to cache.
+    ///
+    /// When `containerURL` contains n files and n > `maxFileCount`, return Array of URLs for the n - `maxFileCount` oldest files.
     private func markFilesForDeletion(at url: URL, maxFileCount: Int) throws -> [URL]? {
         let keys = [URLResourceKey.creationDateKey]
         let currentFiles = try fileManager.contentsOfDirectory(at: url,

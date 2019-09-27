@@ -49,6 +49,7 @@ class FileCache {
 
     // MARK: - Maintenance
 
+    /// Purge oldest items if number of files in cache > maxFileCount
     private func cleanupCache() throws {
         if let files = try markFilesForDeletion(at: containerURL, maxFileCount: maxFileCount) {
             for file in files {
@@ -57,6 +58,10 @@ class FileCache {
         }
     }
 
+    /// Returns the oldest cached files that should be deleted.
+    /// - Parameter url: The `URL` of the cached files to be pruned.
+    /// - Parameter maxFileCount: The maximum desired number of files to cache.
+    ///
     /// When `containerURL` contains n files and n > `maxFileCount`, return Array of URLs for the n - `maxFileCount` oldest files.
     private func markFilesForDeletion(at url: URL, maxFileCount: Int) throws -> [URL]? {
         let keys = [URLResourceKey.creationDateKey]
