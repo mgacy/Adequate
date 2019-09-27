@@ -62,7 +62,10 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
             transitionImageView = UIImageView(image: transitionImage)
             transitionImageView.frame = sourceFrame
             transitionImageView.contentMode = .scaleAspectFit
-            scaledSize = finalFrame.size
+            // FIXME: preserve aspect ratio; just use `ZoomingImageView.zoomScale`?
+            let minDimension = min(transitionImage.size.width, transitionImage.size.height,
+                                   finalFrame.size.width, finalFrame.size.height)
+            scaledSize = CGSize(width: minDimension, height: minDimension)
         } else {
             transitionImageView = UIView(frame: sourceFrame)
             //transitionImageView.backgroundColor = .red
