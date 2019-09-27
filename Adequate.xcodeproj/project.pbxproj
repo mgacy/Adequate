@@ -41,6 +41,7 @@
 		C925EEC9233E952300D24F38 /* ImageCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925EEC8233E952300D24F38 /* ImageCaching.swift */; };
 		C925EECB233E955400D24F38 /* ImageServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925EECA233E955400D24F38 /* ImageServiceType.swift */; };
 		C925EECD233E959D00D24F38 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925EECC233E959D00D24F38 /* ImageCache.swift */; };
+		C925EED0233EA6A500D24F38 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925EECF233EA6A500D24F38 /* ColorPalette.swift */; };
 		C928547B216DCE44001E5993 /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C928547A216DCE44001E5993 /* AWSManager.swift */; };
 		C928547D21704C73001E5993 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C928547C21704C72001E5993 /* ImageCell.swift */; };
 		C937EFE522DFFD4800C363C8 /* Affine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C937EFE422DFFD4800C363C8 /* Affine.swift */; };
@@ -266,6 +267,7 @@
 		C925EEC8233E952300D24F38 /* ImageCaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCaching.swift; sourceTree = "<group>"; };
 		C925EECA233E955400D24F38 /* ImageServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServiceType.swift; sourceTree = "<group>"; };
 		C925EECC233E959D00D24F38 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		C925EECF233EA6A500D24F38 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		C928547A216DCE44001E5993 /* AWSManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSManager.swift; sourceTree = "<group>"; };
 		C928547C21704C72001E5993 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		C937EFE422DFFD4800C363C8 /* Affine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Affine.swift; sourceTree = "<group>"; };
@@ -518,6 +520,16 @@
 				C925EECA233E955400D24F38 /* ImageServiceType.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		C925EECE233EA67400D24F38 /* Appearance */ = {
+			isa = PBXGroup;
+			children = (
+				C9116E552161781F0084934B /* Appearance.swift */,
+				C925EECF233EA6A500D24F38 /* ColorPalette.swift */,
+				C94D2CEC230E11C300043431 /* FontBook.swift */,
+			);
+			path = Appearance;
 			sourceTree = "<group>";
 		};
 		C9285479216DCE2B001E5993 /* Managers */ = {
@@ -829,11 +841,10 @@
 		C9DAC47D2147693000D6558B /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				C925EECE233EA67400D24F38 /* Appearance */,
 				C95CD610230FAEF70011585F /* Coordinator */,
 				C9C0C0BA23072D580011EFB4 /* MDTextView */,
 				C9DDB20221644BE8004D7957 /* PagedImageView */,
-				C9116E552161781F0084934B /* Appearance.swift */,
-				C94D2CEC230E11C300043431 /* FontBook.swift */,
 				C943E5AF2238695C00DE0675 /* StateView.swift */,
 				C9DAC4B22147864A00D6558B /* ViewState.swift */,
 				C95CD61C230FB46C0011585F /* DealContentView.swift */,
@@ -1425,6 +1436,7 @@
 				C9C0C0BE23072DC50011EFB4 /* NSMutableAttributedString+Attributes.swift in Sources */,
 				C9DAC48121476A2900D6558B /* ErrorAlertDisplayable.swift in Sources */,
 				C9E3223921C2F3AE0088AF9E /* HistoryListViewController.swift in Sources */,
+				C925EED0233EA6A500D24F38 /* ColorPalette.swift in Sources */,
 				C95B83C521811DFA0051B72B /* AppTheme.swift in Sources */,
 				C913919822CD91F2006C2E19 /* UILabel+Ext.swift in Sources */,
 				C928547D21704C73001E5993 /* ImageCell.swift in Sources */,
