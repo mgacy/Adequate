@@ -9,20 +9,22 @@
 import UIKit
 import Down
 
-
 class MDTextView: UITextView {
 
     // MARK: - Properties
 
     var styler: Styler
 
-    override var text: String! {
-        didSet {
-            guard oldValue != text else {
+    private var _markdownText: String! = ""
+    var markdownText: String! {
+        set {
+            guard newValue != _markdownText else {
                 return
             }
+            _markdownText = newValue
             try? render()
         }
+        get { return _markdownText }
     }
 
     // MARK: - Lifecycle
@@ -59,9 +61,15 @@ class MDTextView: UITextView {
 
     func render() throws {
         //let currentTextColor = textColor
-        let down = Down(markdownString: text)
-        attributedText = try down.toAttributedString(styler: styler)
+        //let down = Down(markdownString: _markdownText)
+        //attributedText = try down.toAttributedString(styler: styler)
+        attributedText = try attributedString(from: _markdownText)
         //textColor = currentTextColor
+    }
+
+    private func attributedString(from markdown: String) throws -> NSAttributedString {
+        let down = Down(markdownString: markdown)
+        return try down.toAttributedString(styler: styler)
     }
 }
 
@@ -74,7 +82,8 @@ extension MDTextView: Themeable {
         }
         mdStyler.colors = ColorCollection(theme: theme)
         backgroundColor = theme.backgroundColor
-        if text != "" {
+        //textColor = theme.foreground.textColor
+        if _markdownText != "" {
             try? render()
         }
     }

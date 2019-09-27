@@ -47,8 +47,10 @@ class PagedImageViewDataSource: NSObject, PagedImageViewDataSourceType {
         }
         return imageSource
     }
+}
 
-    // MARK: - UICollectionViewDataSource
+// MARK: - UICollectionViewDataSource
+extension PagedImageViewDataSource: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return urls.count
@@ -71,7 +73,6 @@ class PagedImageViewDataSource: NSObject, PagedImageViewDataSourceType {
         }
         return cell
     }
-
 }
 
 // MARK: - ImageCellDelegate

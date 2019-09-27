@@ -25,7 +25,7 @@ class StateView: UIView {
             switch foreground {
             case .dark:
                 activityIndicator.style = .gray
-                activityMessageLabel.textColor = .black
+                activityMessageLabel.textColor = .gray
                 messageLabel.textColor = .gray
                 retryButton.layer.borderColor = UIColor.gray.cgColor
                 retryButton.setTitleColor(.gray, for: .normal)
@@ -178,6 +178,8 @@ extension StateView {
             /*
             // TODO: animate here or in caller?
             UIView.animate(withDuration: 0.3, animations: {
+                // FIXME: can't animate `isHidden`
+                // see: https://stackoverflow.com/a/29080894
                 self.isHidden = true
                 self.activityIndicator.stopAnimating()
                 self.activityMessageLabel.isHidden = true

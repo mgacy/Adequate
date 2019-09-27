@@ -13,6 +13,10 @@ class ZoomingImageView: UIScrollView {
     weak var zoomingImageDelegate: ZoomingImageViewDelegate?
     var imageView: UIImageView = UIImageView()
 
+    var originFrame: CGRect {
+        return imageView.frame
+    }
+
     // MARK: - Lifecycle
 
     init() {

@@ -127,15 +127,16 @@ final class StoryViewController: UIViewController {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             // scrollView
-            scrollView.leftAnchor.constraint(equalTo: guide.leftAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             scrollView.topAnchor.constraint(equalTo: guide.topAnchor),
-            scrollView.rightAnchor.constraint(equalTo: guide.rightAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             // stackView
             stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: AppTheme.sideMargin),
-            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: AppTheme.widthInset),
             stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: AppTheme.spacing * 2.0),
-            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -AppTheme.sideMargin),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: AppTheme.spacing * -2.0),
+            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: AppTheme.widthInset),
         ])
     }
 
@@ -167,7 +168,7 @@ extension StoryViewController: ViewStateRenderable {
             break
         case .result(let deal):
             titleLabel.text = deal.story.title
-            bodyText.text = deal.story.body
+            bodyText.markdownText = deal.story.body
         case .error(let error):
             log.error("\(#function): \(error.localizedDescription)")
         }
@@ -182,14 +183,15 @@ extension StoryViewController: Themeable {
 
         // backgroundColor
         view.backgroundColor = theme.backgroundColor
-        bodyText.backgroundColor = theme.backgroundColor
         navigationController?.navigationBar.barTintColor = theme.backgroundColor
 
         // foreground
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: theme.foreground.textColor]
         titleLabel.textColor = theme.foreground.textColor
-        bodyText.textColor = theme.foreground.textColor
         navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
         //setNeedsStatusBarAppearanceUpdate()
+
+        // Subviews
+        bodyText.apply(theme: theme)
     }
 }

@@ -137,17 +137,17 @@ class FooterView: UIView {
     @objc private func buy(_ sender: UIButton) {
         delegate?.buy()
     }
+}
 
-    // MARK: - Update View
+// MARK: - Update View
+extension FooterView {
 
     // FIXME: shouldn't really have model communicating directly with view
     public func update(withDeal deal: Deal) {
-        buyButton.isHidden = false
 
         // Price Comparison
         if let priceComparison = parsePriceComparison(from: deal.specifications) {
-            // TODO: handle localization (including price conversion?)
-            priceComparisonLabel.text = "\(priceComparison.price) at \(priceComparison.store)"
+            priceComparisonLabel.text = formatPriceComparison(priceComparison)
             priceComparisonLabel.isHidden = false
             //stackView.alignment = .center
             priceLabel.font = FontBook.compactFooter
@@ -158,35 +158,13 @@ class FooterView: UIView {
             priceLabel.font = FontBook.expandedFooter
         }
 
-        // Price
-        let priceRange = parsePriceRange(for: deal)
-        let priceText: String
-        switch priceRange {
-        case .none:
-            priceText = "ERROR: missing price"
-        case .single(let price):
-            let formattedMinPrice = formatter.string(from: price as NSNumber) ?? "\(price)"
-            priceText = "$\(formattedMinPrice)"
-        case .range(let minPrice, let maxPrice):
-            let formattedMinPrice = formatter.string(from: minPrice as NSNumber) ?? "\(minPrice)"
-            let formattedMaxPrice = formatter.string(from: maxPrice as NSNumber) ?? "\(maxPrice)"
-            priceText =  "$\(formattedMinPrice) - $\(formattedMaxPrice)"
-        }
-        priceLabel.text = priceText
-        priceLabel.isHidden = false
+        // Format price
+        let priceText: String = (parsePriceRange >>> formatPriceRange)(deal)
 
         // LaunchStatus
-        guard let launchStatus = deal.launchStatus else {
-            log.error("Missing launchStatus: \(deal)")
+        // Handle soldOut in case launchStatus is not implemented
+        let launchStatus = deal.launchStatus ?? (deal.soldOutAt == nil ? .launch : .soldOut)
 
-            // Handle soldOut in case launchStatus is not implemented
-            if deal.soldOutAt == nil {
-                updateStatus(launchStatus: .launch, priceText: priceText)
-            } else {
-                updateStatus(launchStatus: .soldOut, priceText: priceText)
-            }
-            return
-        }
         updateStatus(launchStatus: launchStatus, priceText: priceText)
     }
 
@@ -199,22 +177,29 @@ class FooterView: UIView {
         case .launch, .relaunch:
             buyButton.isEnabled = true
             priceLabel.isHidden = false
+            priceLabel.removeStrikethrough()
             priceLabel.text = priceText
-            //priceComparisonLabel.isHidden = false
         case .launchSoldOut:
             buyButton.isEnabled = false
+            priceLabel.isHidden = false
             priceLabel.setStrikethrough(text: priceText)
             // TODO: show button to schedule reminder for when relaunch occurs
         case .relaunchSoldOut:
             buyButton.isEnabled = false
+            priceLabel.isHidden = false
             priceLabel.setStrikethrough(text: priceText)
         case .soldOut:
             buyButton.isEnabled = false
+            priceLabel.isHidden = false
             priceLabel.setStrikethrough(text: priceText)
         case .expired:
-            break
+            priceLabel.isHidden = true
+            // TODO: display with strikethrough or different color?
+            //priceLabel.text = priceText
         case .unknown(_):
             log.error("Unknown LaunchStatus: \(launchStatus)")
+            // FIXME: how to handle?
+            priceLabel.isHidden = true
         }
     }
 
@@ -231,6 +216,7 @@ class FooterView: UIView {
         }
     }
 
+    // TODO: make throwing?
     private func parsePriceComparison(from text: String) -> PriceComparison? {
         // TODO: relocate pattern to PriceComparisonParser object
         // TODO: handle `$29.97 (for 3) at Amazon`, etc
@@ -264,6 +250,26 @@ class FooterView: UIView {
         }
     }
 
+    // MARK: - Formatting
+
+    private func formatPriceComparison(_ priceComparison: PriceComparison) -> String {
+        // TODO: handle localization (including price conversion?)
+        return "\(priceComparison.price) at \(priceComparison.store)"
+    }
+
+    private func formatPriceRange(_ priceRange: PriceRange) -> String {
+        switch priceRange {
+        case .none:
+            return "ERROR: missing price"
+        case .single(let price):
+            let formattedMinPrice = formatter.string(from: price as NSNumber) ?? "\(price)"
+            return "$\(formattedMinPrice)"
+        case .range(let minPrice, let maxPrice):
+            let formattedMinPrice = formatter.string(from: minPrice as NSNumber) ?? "\(minPrice)"
+            let formattedMaxPrice = formatter.string(from: maxPrice as NSNumber) ?? "\(maxPrice)"
+            return "$\(formattedMinPrice) - $\(formattedMaxPrice)"
+        }
+    }
 }
 
 // MARK: - Themeable

@@ -44,6 +44,7 @@
 		C937EFE722DFFE5100C363C8 /* Prism.swift in Sources */ = {isa = PBXBuildFile; fileRef = C937EFE622DFFE5100C363C8 /* Prism.swift */; };
 		C937EFE922DFFF1400C363C8 /* Optional+Prism.swift in Sources */ = {isa = PBXBuildFile; fileRef = C937EFE822DFFF1400C363C8 /* Optional+Prism.swift */; };
 		C93BD90422B1B38100FAD8AA /* ItemAttributeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD90322B1B38100FAD8AA /* ItemAttributeType.swift */; };
+		C93CBED72320ADCE0033DCD0 /* DealViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CBED62320ADCE0033DCD0 /* DealViewControllerDelegate.swift */; };
 		C93CBEDA2320C8C70033DCD0 /* DebugCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CBED92320C8C70033DCD0 /* DebugCoordinator.swift */; };
 		C93CBEDC2320C8D80033DCD0 /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CBEDB2320C8D80033DCD0 /* DebugViewController.swift */; };
 		C93CBEDE2320CCA40033DCD0 /* MockDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CBEDD2320CCA40033DCD0 /* MockDataProvider.swift */; };
@@ -62,6 +63,8 @@
 		C95CD616230FB0E60011585F /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95CD615230FB0E60011585F /* DeepLink.swift */; };
 		C95CD618230FB1530011585F /* CoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95CD617230FB1530011585F /* CoordinatorType.swift */; };
 		C95CD61B230FB35E0011585F /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95CD61A230FB35E0011585F /* Coordinator.swift */; };
+		C95CD61D230FB46C0011585F /* DealContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95CD61C230FB46C0011585F /* DealContentView.swift */; };
+		C95CD61F230FE2020011585F /* PadDealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95CD61E230FE2020011585F /* PadDealViewController.swift */; };
 		C961F35822F3DE1E00405CA3 /* MailComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C961F35722F3DE1E00405CA3 /* MailComposer.swift */; };
 		C961F35A22F4CF0E00405CA3 /* UIDevice+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C961F35922F4CF0D00405CA3 /* UIDevice+Ext.swift */; };
 		C96B487122FA9703000A8D91 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96B487022FA9703000A8D91 /* UIViewController+Ext.swift */; };
@@ -109,6 +112,8 @@
 		C9B3FAC422447AAB00B8524A /* CurrentDealManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */; };
 		C9B3FAC62245649E00B8524A /* CurrentDeal+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAC52245649E00B8524A /* CurrentDeal+Init.swift */; };
 		C9B90D0322837D140070ADE9 /* ParallaxScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B90D0222837D140070ADE9 /* ParallaxScrollView.swift */; };
+		C9BEAB71233308A400C143FB /* HistoryDetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BEAB70233308A400C143FB /* HistoryDetailViewControllerDelegate.swift */; };
+		C9BEAB7323330B5600C143FB /* PadHistoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BEAB7223330B5600C143FB /* PadHistoryDetailViewController.swift */; };
 		C9C0C0B923063D230011EFB4 /* MDStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0B823063D230011EFB4 /* MDStyler.swift */; };
 		C9C0C0BC23072D7D0011EFB4 /* UIFont+Traits.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0BB23072D7D0011EFB4 /* UIFont+Traits.swift */; };
 		C9C0C0BE23072DC50011EFB4 /* NSMutableAttributedString+Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0BD23072DC50011EFB4 /* NSMutableAttributedString+Attributes.swift */; };
@@ -261,6 +266,7 @@
 		C937EFE622DFFE5100C363C8 /* Prism.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prism.swift; sourceTree = "<group>"; };
 		C937EFE822DFFF1400C363C8 /* Optional+Prism.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Prism.swift"; sourceTree = "<group>"; };
 		C93BD90322B1B38100FAD8AA /* ItemAttributeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAttributeType.swift; sourceTree = "<group>"; };
+		C93CBED62320ADCE0033DCD0 /* DealViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealViewControllerDelegate.swift; sourceTree = "<group>"; };
 		C93CBED92320C8C70033DCD0 /* DebugCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugCoordinator.swift; sourceTree = "<group>"; };
 		C93CBEDB2320C8D80033DCD0 /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
 		C93CBEDD2320CCA40033DCD0 /* MockDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataProvider.swift; sourceTree = "<group>"; };
@@ -279,6 +285,8 @@
 		C95CD615230FB0E60011585F /* DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
 		C95CD617230FB1530011585F /* CoordinatorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorType.swift; sourceTree = "<group>"; };
 		C95CD61A230FB35E0011585F /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		C95CD61C230FB46C0011585F /* DealContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealContentView.swift; sourceTree = "<group>"; };
+		C95CD61E230FE2020011585F /* PadDealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadDealViewController.swift; sourceTree = "<group>"; };
 		C961F35722F3DE1E00405CA3 /* MailComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailComposer.swift; sourceTree = "<group>"; };
 		C961F35922F4CF0D00405CA3 /* UIDevice+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Ext.swift"; sourceTree = "<group>"; };
 		C963AB022295EFB700E335D9 /* NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationService.entitlements; sourceTree = "<group>"; };
@@ -327,6 +335,8 @@
 		C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDealManager.swift; sourceTree = "<group>"; };
 		C9B3FAC52245649E00B8524A /* CurrentDeal+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentDeal+Init.swift"; sourceTree = "<group>"; };
 		C9B90D0222837D140070ADE9 /* ParallaxScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxScrollView.swift; sourceTree = "<group>"; };
+		C9BEAB70233308A400C143FB /* HistoryDetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailViewControllerDelegate.swift; sourceTree = "<group>"; };
+		C9BEAB7223330B5600C143FB /* PadHistoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadHistoryDetailViewController.swift; sourceTree = "<group>"; };
 		C9C0C0B823063D230011EFB4 /* MDStyler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDStyler.swift; sourceTree = "<group>"; };
 		C9C0C0BB23072D7D0011EFB4 /* UIFont+Traits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Traits.swift"; sourceTree = "<group>"; };
 		C9C0C0BD23072DC50011EFB4 /* NSMutableAttributedString+Attributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Attributes.swift"; sourceTree = "<group>"; };
@@ -801,6 +811,7 @@
 				C94D2CEC230E11C300043431 /* FontBook.swift */,
 				C943E5AF2238695C00DE0675 /* StateView.swift */,
 				C9DAC4B22147864A00D6558B /* ViewState.swift */,
+				C95CD61C230FB46C0011585F /* DealContentView.swift */,
 				C995C07222A8B63600C2289F /* ParallaxBarView.swift */,
 				C9B90D0222837D140070ADE9 /* ParallaxScrollView.swift */,
 				C95CD60C230F36FD0011585F /* TableBackgroundView.swift */,
@@ -848,6 +859,8 @@
 			children = (
 				C9093CBC221FBE9400C9DA0C /* DealCoordinator.swift */,
 				C9DAC4AE21476D3F00D6558B /* DealViewController.swift */,
+				C93CBED62320ADCE0033DCD0 /* DealViewControllerDelegate.swift */,
+				C95CD61E230FE2020011585F /* PadDealViewController.swift */,
 				C9DDB20721644E71004D7957 /* FooterView.swift */,
 			);
 			path = Deal;
@@ -897,6 +910,8 @@
 			children = (
 				C9093CBE2225BC0500C9DA0C /* HistoryDetailCoordinator.swift */,
 				C9F7166E221F138B00733D17 /* HistoryDetailViewController.swift */,
+				C9BEAB70233308A400C143FB /* HistoryDetailViewControllerDelegate.swift */,
+				C9BEAB7223330B5600C143FB /* PadHistoryDetailViewController.swift */,
 				C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */,
 				C9221564225453920001FF3F /* DimmingPresentationController.swift */,
 				C92215662254632D0001FF3F /* SlideAnimationController.swift */,
@@ -1322,6 +1337,7 @@
 				C9DDB20821644E71004D7957 /* FooterView.swift in Sources */,
 				C92215672254632D0001FF3F /* SlideAnimationController.swift in Sources */,
 				C9093CBD221FBE9400C9DA0C /* DealCoordinator.swift in Sources */,
+				C9BEAB7323330B5600C143FB /* PadHistoryDetailViewController.swift in Sources */,
 				C9116E5321616CA60084934B /* StoryViewController.swift in Sources */,
 				C995C07522A8E01C00C2289F /* FileCache.swift in Sources */,
 				C96CA86E2182DD1A00C3459E /* WelcomeViewController.swift in Sources */,
@@ -1332,6 +1348,7 @@
 				C9DAC4A721476C8600D6558B /* NetworkClientError.swift in Sources */,
 				C989E11B223734C800DEAE89 /* API.swift in Sources */,
 				C94D2CEF230E143700043431 /* UIFont+Ext.swift in Sources */,
+				C95CD61D230FB46C0011585F /* DealContentView.swift in Sources */,
 				C95CD612230FAF810011585F /* RouterType.swift in Sources */,
 				C989E1232237459300DEAE89 /* SyncClientError.swift in Sources */,
 				C923839022B1B4B4003BB1DA /* StoryType.swift in Sources */,
@@ -1386,6 +1403,7 @@
 				C913919822CD91F2006C2E19 /* UILabel+Ext.swift in Sources */,
 				C928547D21704C73001E5993 /* ImageCell.swift in Sources */,
 				C989E11F223742C100DEAE89 /* AWSAppSyncClient+Promise.swift in Sources */,
+				C93CBED72320ADCE0033DCD0 /* DealViewControllerDelegate.swift in Sources */,
 				C99DD5DB2182D4C500A38529 /* PaddingLabel.swift in Sources */,
 				C923838C22B1B454003BB1DA /* LaunchType.swift in Sources */,
 				C9C2109422D8126700C4F66F /* RefreshEvent.swift in Sources */,
@@ -1414,8 +1432,10 @@
 				C961F35A22F4CF0E00405CA3 /* UIDevice+Ext.swift in Sources */,
 				C9C2109822D8FFA300C4F66F /* Lens.swift in Sources */,
 				C9DAC49321476B5100D6558B /* MehResponse.swift in Sources */,
+				C95CD61F230FE2020011585F /* PadDealViewController.swift in Sources */,
 				C9221565225453920001FF3F /* DimmingPresentationController.swift in Sources */,
 				C9DAC4B32147864A00D6558B /* ViewState.swift in Sources */,
+				C9BEAB71233308A400C143FB /* HistoryDetailViewControllerDelegate.swift in Sources */,
 				C96CA8702182DD2E00C3459E /* NotificationViewController.swift in Sources */,
 				C9093CC32228A27800C9DA0C /* ObservationToken.swift in Sources */,
 				C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */,

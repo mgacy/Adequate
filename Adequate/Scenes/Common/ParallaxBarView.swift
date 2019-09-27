@@ -16,10 +16,20 @@ class ParallaxBarView: UIView {
     /// Space above the 'title bar' (occupied by the status bar).
     var inset: CGFloat = 0.0
 
-    /// Insets for titleLabel.
+    /// Left inset for title label.
     // TODO: use enum with cases for number of bar button items?
-    var leftLabelInset: CGFloat = 56.0
-    var rightLabelInset: CGFloat = 110.0
+    var leftLabelInset: CGFloat = 56.0 {
+        didSet {
+            titleLeftConstraint.constant = leftLabelInset
+        }
+    }
+
+    /// Right inset for title label
+    var rightLabelInset: CGFloat = 110.0 {
+        didSet {
+            titleRightConstraint.constant = rightLabelInset
+        }
+    }
 
     var text: String = "" {
         didSet {
@@ -52,6 +62,8 @@ class ParallaxBarView: UIView {
     // MARK: - Subviews
 
     private var titleTopConstraint: NSLayoutConstraint!
+    private var titleLeftConstraint: NSLayoutConstraint!
+    private var titleRightConstraint: NSLayoutConstraint!
     private var backgroundHeightConstraint: NSLayoutConstraint!
 
     private lazy var titleLabel: UILabel = {
@@ -70,6 +82,8 @@ class ParallaxBarView: UIView {
     }()
 
     // MARK: - Lifecycle
+
+    // TODO: init(leftBarItems: Int, rightBarItems: Int) { ... }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -91,6 +105,9 @@ class ParallaxBarView: UIView {
     private func configureConstraints() {
         backgroundHeightConstraint = backgroundView.heightAnchor.constraint(equalToConstant: 0.0)
         titleTopConstraint = titleLabel.topAnchor.constraint(equalTo: bottomAnchor, constant: 0.0)
+        titleLeftConstraint = titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leftLabelInset)
+        titleRightConstraint = titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -rightLabelInset)
+
         NSLayoutConstraint.activate([
             // backgroundView
             backgroundHeightConstraint,
@@ -99,8 +116,8 @@ class ParallaxBarView: UIView {
             backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
             // titleLabel
             titleTopConstraint,
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leftLabelInset),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -rightLabelInset)
+            titleLeftConstraint,
+            titleRightConstraint
         ])
     }
 

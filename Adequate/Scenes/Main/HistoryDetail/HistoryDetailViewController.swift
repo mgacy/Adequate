@@ -9,16 +9,6 @@
 import UIKit
 import Promise
 
-// MARK: - Protocol
-
-protocol HistoryDetailViewControllerDelegate: VoidDismissalDelegate {
-    typealias Topic = GetDealQuery.Data.GetDeal.Topic
-    func showForum(with: Topic)
-    func showImage(animatingFrom: PagedImageView)
-}
-
-// MARK: - View Controller
-
 class HistoryDetailViewController: UIViewController, SwipeDismissable {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
     typealias DealFragment = ListDealsForPeriodQuery.Data.ListDealsForPeriod
@@ -50,10 +40,6 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
     // MARK: - Subviews
 
-    private lazy var dismissButton: UIBarButtonItem = {
-        UIBarButtonItem(image: #imageLiteral(resourceName: "CloseNavBar"), style: .plain, target: self, action: #selector(didPressDismiss(_:)))
-    }()
-
     private lazy var stateView: StateView = {
         let view = StateView()
         view.onRetry = { [weak self] in
@@ -64,6 +50,14 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         return view
     }()
 
+    // Navigation Bar
+
+    private lazy var dismissButton: UIBarButtonItem = {
+        UIBarButtonItem(image: #imageLiteral(resourceName: "CloseNavBar"), style: .plain, target: self, action: #selector(didPressDismiss(_:)))
+    }()
+
+    // ScrollView
+
     private let scrollView: ParallaxScrollView = {
         let view = ParallaxScrollView()
         view.contentInsetAdjustmentBehavior = .always
@@ -72,8 +66,9 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         return view
     }()
 
-    private let contentView: UIView = {
-        let view = UIView()
+    private let contentView: DealContentView = {
+        let view = DealContentView()
+        view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -87,49 +82,6 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
         view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = FontBook.mainTitle
-        label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let featuresText: MDTextView = {
-        let styler = MDStyler()
-        let view = MDTextView(styler: styler)
-        view.adjustsFontForContentSizeCategory = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    /*
-    private let storyButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle("Story", for: .normal)
-        button.layer.cornerRadius = 5
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = button.tintColor
-        return button
-    }()
-    */
-    private let forumButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle(L10n.Comments.count(0), for: .normal)
-        button.layer.cornerRadius = 5
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = button.tintColor
-        return button
-    }()
-
-    private let specsText: MDTextView = {
-        let styler = MDStyler()
-        let view = MDTextView(styler: styler)
-        view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -156,10 +108,6 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         view.addSubview(barBackingView)
         scrollView.headerView = pagedImageView
         scrollView.addSubview(contentView)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(featuresText)
-        contentView.addSubview(forumButton)
-        contentView.addSubview(specsText)
         // Navigation bar
         navigationItem.leftBarButtonItem = dismissButton
 
@@ -189,24 +137,23 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
     // MARK: - View Methods
 
-    func setupView() {
+    private func setupView() {
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.isTranslucent = true
 
         pagedImageView.delegate = self
 
-        forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
-        //storyButton.addTarget(self, action: #selector(didPressStory(_:)), for: .touchUpInside)
+        contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupParallaxScrollView()
         apply(theme: AppTheme(theme: dealFragment.theme))
     }
 
-    func setupParallaxScrollView() {
+    private func setupParallaxScrollView() {
 
         // barBackingView
-        let statusBarHeight = UIApplication.shared.isStatusBarHidden ? CGFloat(0) : UIApplication.shared.statusBarFrame.height
-        barBackingView.coordinateOffset = 8.0 // spacing
+        let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
+        barBackingView.coordinateOffset = 8.0
         barBackingView.inset = statusBarHeight
 
         // scrollView
@@ -218,7 +165,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         }
     }
 
-    func setupConstraints() {
+    private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             // stateView
@@ -241,24 +188,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            // titleLabel
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: AppTheme.spacing),
-            titleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
-            // featuresLabel
-            featuresText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
-            featuresText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: AppTheme.spacing * 2.0),
-            featuresText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
-            // forumButton
-            forumButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: AppTheme.spacing * 2.0),
-            forumButton.widthAnchor.constraint(equalToConstant: 200.0),
-            // specsText
-            specsText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
-            specsText.topAnchor.constraint(equalTo: forumButton.bottomAnchor, constant: AppTheme.spacing * 2.0),
-            specsText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
-            specsText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -AppTheme.spacing)
+            contentView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
     }
     /*
@@ -291,6 +221,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
 // MARK: - PagedImageViewDelegate
 extension HistoryDetailViewController: PagedImageViewDelegate {
+
     func displayFullscreenImage(animatingFrom pagedImageView: PagedImageView) {
         delegate?.showImage(animatingFrom: pagedImageView)
     }
@@ -317,42 +248,33 @@ extension HistoryDetailViewController: ViewStateRenderable {
         stateView.render(viewState)
         switch viewState {
         case .empty:
+            //stateView.render(viewState)
             //stateView.isHidden = false
             scrollView.isHidden = true
         case .loading:
+            //stateView.render(viewState)
             //stateView.isHidden = false
             scrollView.isHidden = true
         case .result(let deal):
+            //stateView.render(viewState)
             //stateView.isHidden = true
             barBackingView.text = deal.title
-            titleLabel.text = deal.title
-            featuresText.text = deal.features
-            specsText.text = deal.specifications
+            contentView.title = deal.title
+            contentView.features = deal.features
+            contentView.commentCount = deal.topic?.commentCount
+            contentView.specifications = deal.specifications
             // images
             let safePhotoURLs = deal.photos
                 .compactMap { URL(string: $0) }
                 .compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
-            // forum
-            renderComments(for: deal)
             scrollView.isHidden = false
+            // TODO: animate display
         case .error:
+            //stateView.render(viewState)
             //stateView.isHidden = false
             scrollView.isHidden = true
         }
-    }
-
-    // MARK: Helper Methods
-
-    private func renderComments(for deal: Deal) {
-        guard let topic = deal.topic else {
-            forumButton.isEnabled = false
-            forumButton.isHidden = true
-            return
-        }
-        forumButton.isHidden = false
-        forumButton.isEnabled = true
-        forumButton.setTitle(L10n.Comments.count(topic.commentCount), for: .normal)
     }
 }
 
@@ -360,9 +282,7 @@ extension HistoryDetailViewController: ViewStateRenderable {
 extension HistoryDetailViewController: Themeable {
     func apply(theme: AppTheme) {
         // accentColor
-        //storyButton.backgroundColor = theme.accentColor
         dismissButton.tintColor = theme.accentColor
-        forumButton.backgroundColor = theme.accentColor
 
         // backgroundColor
         navigationController?.view.backgroundColor = theme.backgroundColor
@@ -371,20 +291,16 @@ extension HistoryDetailViewController: Themeable {
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
         contentView.backgroundColor = theme.backgroundColor
-        forumButton.setTitleColor(theme.backgroundColor, for: .normal)
-        //storyButton.setTitleColor(theme.backgroundColor, for: .normal)
 
         // foreground
         // TODO: set home indicator color?
-        titleLabel.textColor = theme.foreground.textColor
         navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
         setNeedsStatusBarAppearanceUpdate()
 
         // Subviews
         pagedImageView.apply(theme: theme)
+        contentView.apply(theme: theme)
         barBackingView.apply(theme: theme)
         stateView.apply(theme: theme)
-        featuresText.apply(theme: theme)
-        specsText.apply(theme: theme)
     }
 }

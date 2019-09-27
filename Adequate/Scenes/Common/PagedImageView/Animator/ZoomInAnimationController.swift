@@ -25,6 +25,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        // TODO: cast toVC as protocol to get access to properties
         guard
             let fromVC = transitionContext.viewController(forKey: .from),
             let toVC = transitionContext.viewController(forKey: .to) as? FullScreenImageViewController else {
@@ -40,15 +41,15 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         containerView.addSubview(toVC.view)
 
         // snapshot
-        let snapshot = fromVC.view.snapshotView(afterScreenUpdates: true)
-        containerView.addSubview(snapshot!)
+        let snapshot = UIScreen.main.snapshotView(afterScreenUpdates: false)
+        containerView.addSubview(snapshot)
 
         // sourceImageCoveringView
         let sourceImageCoveringView = UIView(frame: sourceFrame)
         sourceImageCoveringView.backgroundColor = fromVC.view.backgroundColor
         containerView.addSubview(sourceImageCoveringView)
 
-        // background
+        // destination background
         let bgView = UIView(frame: finalFrame)
         bgView.backgroundColor = .black
         bgView.alpha = 0.0
@@ -61,7 +62,10 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
             transitionImageView = UIImageView(image: transitionImage)
             transitionImageView.frame = sourceFrame
             transitionImageView.contentMode = .scaleAspectFit
-            scaledSize = finalFrame.size
+            // FIXME: preserve aspect ratio; just use `ZoomingImageView.zoomScale`?
+            let minDimension = min(transitionImage.size.width, transitionImage.size.height,
+                                   finalFrame.size.width, finalFrame.size.height)
+            scaledSize = CGSize(width: minDimension, height: minDimension)
         } else {
             transitionImageView = UIView(frame: sourceFrame)
             //transitionImageView.backgroundColor = .red
@@ -71,7 +75,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         containerView.addSubview(transitionImageView)
 
         // Animation
-        let animation: () -> Void = { () in
+        let animation = { () -> Void in
             //transitionImageView.frame = finalFrame
             transitionImageView.frame.size = scaledSize
             transitionImageView.center = toVC.view.center
@@ -80,11 +84,11 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         }
 
         // Completion
-        let completion  = { (_ finished: Bool) -> Void in
+        let completion = { (finished: Bool) -> Void in
             transitionImageView.removeFromSuperview()
             bgView.removeFromSuperview()
             sourceImageCoveringView.removeFromSuperview()
-            snapshot?.removeFromSuperview()
+            snapshot.removeFromSuperview()
 
             if transitionContext.isInteractive {
                 if transitionContext.transitionWasCancelled {

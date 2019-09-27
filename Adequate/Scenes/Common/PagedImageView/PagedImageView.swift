@@ -13,7 +13,7 @@ import Promise
 class PagedImageView: UIView {
 
     var currentPage: Int = 0
-    var isPaging: Bool = false
+    private var isPaging: Bool = false
 
     var originFrame: CGRect {
         return convert(collectionView.frame, to: nil)
@@ -21,6 +21,7 @@ class PagedImageView: UIView {
 
     var visibleImage: Promise<UIImage> {
         // FIXME: this can cause a crash when dataSource.urls == []
+        //guard dataSource.collectionView(collectionView, numberOfItemsInSection: 0) >= primaryVisiblePage else {}
         return dataSource.imageSource(for: IndexPath(item: primaryVisiblePage, section: 0))
     }
 
@@ -60,7 +61,7 @@ class PagedImageView: UIView {
         return layout
     }()
 
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
         view.isPagingEnabled = true
         view.isPrefetchingEnabled = true
@@ -69,7 +70,7 @@ class PagedImageView: UIView {
         return view
     }()
 
-    let pageControl: UIPageControl = {
+    private let pageControl: UIPageControl = {
         let control = UIPageControl()
         control.pageIndicatorTintColor = control.tintColor.withAlphaComponent(0.3)
         control.currentPageIndicatorTintColor = control.tintColor
@@ -142,12 +143,6 @@ class PagedImageView: UIView {
         firstImageCell.configure(with: promise)
     }
 
-    // MARK: Selection
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.displayFullscreenImage(animatingFrom: self)
-    }
-
     // MARK: - Pages
 
     @objc private func pageControlValueChanged() {
@@ -161,10 +156,11 @@ class PagedImageView: UIView {
 
     public func beginRotation() {
         collectionView.isHidden = true
-        flowLayout.invalidateLayout()
     }
 
     public func completeRotation(page currentPage: Int) {
+        layoutIfNeeded()
+        flowLayout.invalidateLayout()
         collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally,
                                     animated: false)
         collectionView.isHidden = false
@@ -181,6 +177,19 @@ class PagedImageView: UIView {
                       height: collectionView.frame.size.height)
     }
 
+}
+
+// MARK: - UICollectionViewDelegate
+// TODO: move to PagedImageViewDataSource?
+extension PagedImageView: UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        return !dataSource.imageSource(for: indexPath).isRejected ? true : false
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.displayFullscreenImage(animatingFrom: self)
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout

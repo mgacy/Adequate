@@ -46,9 +46,18 @@ final class DealCoordinator: Coordinator {
     // MARK: - Private Methods
 
     private func showDeal() {
-        let dealViewController = DealViewController(dependencies: dependencies)
-        dealViewController.delegate = self
-        router.setRootModule(dealViewController, hideBar: false)
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            let dealViewController = DealViewController(dependencies: dependencies)
+            dealViewController.delegate = self
+            router.setRootModule(dealViewController, hideBar: false)
+        case .pad:
+            let dealViewController = PadDealViewController(dependencies: dependencies)
+            dealViewController.delegate = self
+            router.setRootModule(dealViewController, hideBar: false)
+        default:
+            fatalError("Invalid device")
+        }
     }
 
     private func shareDeal(title: String, url: URL) {

@@ -14,6 +14,10 @@ class FullScreenImageViewController: UIViewController {
     weak var delegate: FullScreenImageDelegate?
     let imageSource: Promise<UIImage>
 
+    var originFrame: CGRect {
+        return view.convert(zoomingImageView.originFrame, to: nil)
+    }
+
     // TODO: rename `interactionController?
     private var transitionController: FullScreenImageTransitionController?
 
@@ -42,11 +46,12 @@ class FullScreenImageViewController: UIViewController {
     private var activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
         view.style = .white
+        view.isHidden = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    lazy var zoomingImageView: ZoomingImageView = {
+    private lazy var zoomingImageView: ZoomingImageView = {
         let view = ZoomingImageView(frame: UIScreen.main.bounds)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -64,6 +69,14 @@ class FullScreenImageViewController: UIViewController {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+        super.loadView()
+        view.addSubview(activityIndicator)
+        view.addSubview(zoomingImageView)
+        view.addSubview(closeButton)
+        setupConstraints()
     }
 
     override func viewDidLoad() {
@@ -96,19 +109,8 @@ class FullScreenImageViewController: UIViewController {
     private func setupView() {
         view.backgroundColor = backgroundColor
 
-        // zoomingImageView
         //zoomingImageView.zoomingImageDelegate = self
-        view.addSubview(zoomingImageView)
-
-        // activityIndicator
-        view.addSubview(activityIndicator)
-        activityIndicator.isHidden = true
-
-        // closeButton
         closeButton.addTarget(self, action: #selector(dismissView(_:)), for: .touchUpInside)
-        view.addSubview(closeButton)
-
-        setupConstraints()
 
         // image
         if imageSource.isPending {
@@ -152,5 +154,4 @@ class FullScreenImageViewController: UIViewController {
     @objc private func dismissView(_ sender: UIButton) {
         delegate?.dismissFullScreenImage()
     }
-
 }

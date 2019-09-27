@@ -9,31 +9,6 @@
 import UIKit
 import Promise
 
-// MARK: - Delegate
-
-protocol DealViewControllerDelegate: class {
-    func showImage(animatingFrom: PagedImageView)
-    func showPurchase(for: Deal)
-    func showForum(with: Topic)
-    func showHistoryList()
-    func showStory()
-}
-
-//enum MainScene {
-//    case forum(Topic)
-//    case history
-//    case image(Promise<UIImage>)
-//    case purchase(Deal)
-//    case story(Story)
-//    case settings
-//}
-//
-//protocol MainSceneDelegate: class {
-//    func controller(_ controller: DealViewController, shouldTransitionTo: MainScene)
-//}
-
-// MARK: - View Controller
-
 class DealViewController: UIViewController {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
 
@@ -49,11 +24,6 @@ class DealViewController: UIViewController {
         didSet {
             render(viewState)
         }
-    }
-
-    // TODO: make part of a protocol
-    var visibleImage: Promise<UIImage> {
-        return pagedImageView.visibleImage
     }
 
     // MARK: - Subviews
@@ -100,8 +70,8 @@ class DealViewController: UIViewController {
         return view
     }()
 
-    private let contentView: UIView = {
-        let view = UIView()
+    private let contentView: DealContentView = {
+        let view = DealContentView()
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -116,41 +86,6 @@ class DealViewController: UIViewController {
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
         view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = FontBook.mainTitle
-        label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let featuresText: MDTextView = {
-        let styler = MDStyler()
-        let view = MDTextView(styler: styler)
-        view.adjustsFontForContentSizeCategory = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private let forumButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle(L10n.Comments.count(0), for: .normal)
-        button.layer.cornerRadius = 5
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
-        button.backgroundColor = button.tintColor
-        return button
-    }()
-
-    private let specsText: MDTextView = {
-        let styler = MDStyler()
-        let view = MDTextView(styler: styler)
-        view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -185,10 +120,6 @@ class DealViewController: UIViewController {
         view.addSubview(barBackingView)
         scrollView.headerView = pagedImageView
         scrollView.addSubview(contentView)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(featuresText)
-        contentView.addSubview(forumButton)
-        contentView.addSubview(specsText)
         view.addSubview(footerView)
         // Navigation bar
         navigationItem.leftBarButtonItem = historyButton
@@ -208,16 +139,17 @@ class DealViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    // TODO: remove now that we use PadDealViewController on iPad?
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         let currentPage = pagedImageView.primaryVisiblePage
+        let parallaxHeight: CGFloat = size.width + pagedImageView.pageControlHeight
         coordinator.animate(
             alongsideTransition: { [weak self] (context) -> Void in
                 self?.pagedImageView.beginRotation()
             },
             completion: { [weak self] (context) -> Void in
                 self?.pagedImageView.completeRotation(page: currentPage)
-                let parallaxHeight: CGFloat = size.width + 24.0 // Add height of PagedImageView.pageControl
                 self?.scrollView.headerHeight = parallaxHeight
             }
         )
@@ -235,7 +167,7 @@ class DealViewController: UIViewController {
         pagedImageView.delegate = self
         footerView.delegate = self
 
-        forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
+        contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupParallaxScrollView()
 
         let notificationCenter = NotificationCenter.default
@@ -246,7 +178,7 @@ class DealViewController: UIViewController {
     func setupParallaxScrollView() {
 
         // barBackingView
-        let statusBarHeight = UIApplication.shared.isStatusBarHidden ? CGFloat(0) : UIApplication.shared.statusBarFrame.height
+        let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
         barBackingView.coordinateOffset = 8.0
         barBackingView.inset = statusBarHeight
 
@@ -286,24 +218,7 @@ class DealViewController: UIViewController {
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            // titleLabel
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: AppTheme.spacing),
-            titleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
-            // featuresLabel
-            featuresText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
-            featuresText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: AppTheme.spacing * 2.0),
-            featuresText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
-            // forumButton
-            forumButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: AppTheme.spacing),
-            forumButton.widthAnchor.constraint(equalToConstant: 200.0),
-            // specsText
-            specsText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: AppTheme.sideMargin),
-            specsText.topAnchor.constraint(equalTo: forumButton.bottomAnchor, constant: AppTheme.spacing * 2.0),
-            specsText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: AppTheme.widthInset),
-            specsText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -AppTheme.spacing)
+            contentView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
     }
 
@@ -398,16 +313,13 @@ extension DealViewController: DealFooterDelegate {
 extension DealViewController: ViewStateRenderable {
     typealias ResultType = Deal
 
-    func render(_ viewState: ViewState<Deal>) {
+    func render(_ viewState: ViewState<ResultType>) {
         //stateView.render(viewState)
         switch viewState {
         case .empty:
             stateView.render(viewState)
             scrollView.isHidden = true
             footerView.isHidden = true
-        case .error:
-            stateView.render(viewState)
-            scrollView.isHidden = true
         case .loading:
             stateView.render(viewState)
             scrollView.isHidden = true
@@ -415,49 +327,33 @@ extension DealViewController: ViewStateRenderable {
             shareButton.isEnabled = false
             storyButton.isEnabled = false
         case .result(let deal):
-            // Update UI
             shareButton.isEnabled = true
             storyButton.isEnabled = true
-            titleLabel.text = deal.title
             barBackingView.text = deal.title
-            featuresText.text = deal.features
-            specsText.text = deal.specifications
+            contentView.title = deal.title
+            contentView.features = deal.features
+            contentView.commentCount = deal.topic?.commentCount
+            contentView.specifications = deal.specifications
             // images
             let safePhotoURLs = deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
-            // forum
-            renderComments(for: deal)
             // footerView
             footerView.update(withDeal: deal)
 
             themeManager.applyTheme(theme: deal.theme)
             UIView.animate(withDuration: 0.3, animations: {
-                //self.activityIndicator.stopAnimating()
-                //self.messageLabel.isHidden = true
-                //self.errorMessageLabel.isHidden = true
-                //self.retryButton.isHidden = true
                 self.stateView.render(viewState)
+                // FIXME: can't animate `isHidden`
+                // see: https://stackoverflow.com/a/29080894
                 self.scrollView.isHidden = false
                 self.footerView.isHidden = false
                 //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
             })
+        case .error:
+            stateView.render(viewState)
+            scrollView.isHidden = true
         }
     }
-
-    // MARK: Helper Methods
-
-    // TODO: move into extension on Topic?
-    private func renderComments(for deal: Deal) {
-        guard let topic = deal.topic else {
-            forumButton.isEnabled = false
-            forumButton.isHidden = true
-            return
-        }
-        forumButton.isHidden = false
-        forumButton.isEnabled = true
-        forumButton.setTitle(L10n.Comments.count(topic.commentCount), for: .normal)
-    }
-
 }
 
 // MARK: - Themeable
@@ -467,30 +363,23 @@ extension DealViewController: Themeable {
         historyButton.tintColor = theme.accentColor
         shareButton.tintColor = theme.accentColor
         storyButton.tintColor = theme.accentColor
-        forumButton.backgroundColor = theme.accentColor
 
         // backgroundColor
-        self.navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        self.navigationController?.navigationBar.layoutIfNeeded() // Animate color change
+        navigationController?.navigationBar.barTintColor = theme.backgroundColor
+        navigationController?.navigationBar.layoutIfNeeded() // Animate color change
         view.backgroundColor = theme.backgroundColor
         pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
         contentView.backgroundColor = theme.backgroundColor
-        featuresText.backgroundColor = theme.backgroundColor
-        forumButton.setTitleColor(theme.backgroundColor, for: .normal)
-        specsText.backgroundColor = theme.backgroundColor
 
         // foreground
-        // TODO: set status bar and home indicator color?
-        // TODO: set activityIndicator color
-        titleLabel.textColor = theme.foreground.textColor
-        featuresText.textColor = theme.foreground.textColor
-        specsText.textColor = theme.foreground.textColor
+        // TODO: set home indicator color?
         navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
         setNeedsStatusBarAppearanceUpdate()
 
         // Subviews
         pagedImageView.apply(theme: theme)
+        contentView.apply(theme: theme)
         barBackingView.apply(theme: theme)
         stateView.apply(theme: theme)
         footerView.apply(theme: theme)
