@@ -13,13 +13,13 @@ class FileCache {
     let maxFileCount: Int = 5
 
     private let fileManager: FileManager = .default
-    private let sharedContainerURL: URL
+    private let containerURL: URL
 
     // MARK: - Lifecycle
 
     init(appGroupID: String){
         let appGroupURL = fileManager.containerURL(forSecurityApplicationGroupIdentifier: appGroupID)!
-        self.sharedContainerURL = appGroupURL.appendingPathComponent("Library/Caches", isDirectory: true)
+        self.containerURL = appGroupURL.appendingPathComponent("Library/Caches", isDirectory: true)
 
         // TODO: should this just maintain an array of files to minimize file operations?
         //let currentFiles = try fileManager.contentsOfDirectory(at: url, includingPropertiesForKeys: keys, options: .skipsHiddenFiles)
@@ -33,7 +33,7 @@ class FileCache {
         // FIXME: ensure no illegal name characters?
         // FIXME: we are discarding a lot of info that could, theoretically, be significant
         let fileName = url.lastPathComponent
-        let destinationURL = sharedContainerURL.appendingPathComponent(fileName)
+        let destinationURL = containerURL.appendingPathComponent(fileName)
 
         guard let image = image else {
             do {
@@ -52,7 +52,7 @@ class FileCache {
         // Write file
         do {
             // Ensure caches directory exists
-            try fileManager.createDirectory(at: sharedContainerURL, withIntermediateDirectories: true, attributes: nil)
+            try fileManager.createDirectory(at: containerURL, withIntermediateDirectories: true, attributes: nil)
 
             // Rewrite or just skip if file already exists?
             if fileManager.fileExists(atPath: destinationURL.path) {
@@ -78,7 +78,7 @@ class FileCache {
         let fileName = url.lastPathComponent
         var imageData: Data?
         do {
-            imageData = try Data(contentsOf: sharedContainerURL.appendingPathComponent(fileName))
+            imageData = try Data(contentsOf: containerURL.appendingPathComponent(fileName))
         } catch {
             guard (error as NSError).code != NSFileReadNoSuchFileError else { return nil }
             log.error("Error reading image data: \(error)")
@@ -96,7 +96,7 @@ class FileCache {
 
     /// Remove all items from cache.
     func clearCache() throws {
-        if let files = try markFilesForDeletion(at: sharedContainerURL, maxFileCount: 0) {
+        if let files = try markFilesForDeletion(at: containerURL, maxFileCount: 0) {
             for file in files {
                 try fileManager.removeItem(at: file)
             }
@@ -107,7 +107,7 @@ class FileCache {
 
     /// Purge oldest items if number of files in cache > maxFileCount
     private func cleanupCache() throws {
-        if let files = try markFilesForDeletion(at: sharedContainerURL, maxFileCount: maxFileCount) {
+        if let files = try markFilesForDeletion(at: containerURL, maxFileCount: maxFileCount) {
             for file in files {
                 try fileManager.removeItem(at: file)
             }
