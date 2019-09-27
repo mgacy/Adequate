@@ -13,7 +13,7 @@ import Promise
 class PagedImageView: UIView {
 
     var currentPage: Int = 0
-    var isPaging: Bool = false
+    private var isPaging: Bool = false
 
     var originFrame: CGRect {
         return convert(collectionView.frame, to: nil)
@@ -61,7 +61,7 @@ class PagedImageView: UIView {
         return layout
     }()
 
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
         view.isPagingEnabled = true
         view.isPrefetchingEnabled = true
@@ -70,7 +70,7 @@ class PagedImageView: UIView {
         return view
     }()
 
-    let pageControl: UIPageControl = {
+    private let pageControl: UIPageControl = {
         let control = UIPageControl()
         control.pageIndicatorTintColor = control.tintColor.withAlphaComponent(0.3)
         control.currentPageIndicatorTintColor = control.tintColor
