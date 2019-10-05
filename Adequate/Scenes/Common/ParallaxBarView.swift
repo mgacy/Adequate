@@ -27,7 +27,7 @@ class ParallaxBarView: UIView {
     /// Right inset for title label
     var rightLabelInset: CGFloat = 110.0 {
         didSet {
-            titleRightConstraint.constant = rightLabelInset
+            titleRightConstraint.constant = -rightLabelInset
         }
     }
 
@@ -171,7 +171,7 @@ extension ParallaxBarView: Themeable {
     func apply(theme: AppTheme) {
         // accentColor
         // backgroundColor
-        backgroundColor = theme.backgroundColor.withAlphaComponent(0.0)
+        backgroundColor = theme.backgroundColor.withAlphaComponent(progress)
         backgroundView.backgroundColor = theme.backgroundColor
         // foreground
         titleLabel.textColor = theme.foreground.textColor
