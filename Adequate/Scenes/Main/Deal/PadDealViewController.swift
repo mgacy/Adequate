@@ -42,6 +42,9 @@ class PadDealViewController: UIViewController {
     private let portraitWidthMultiplier: CGFloat = 1.0 / 2.0
     private let landscapeWidthMultiplier: CGFloat = 2.0 / 3.0
 
+    /// The new size to which the view is transitioning.
+    //private var newSize: CGSize?
+
     // MARK: - Subviews
 
     private lazy var stateView: StateView = {
@@ -304,10 +307,66 @@ class PadDealViewController: UIViewController {
         return [dealToken, themeToken]
     }
 
-    // MARK: - Transition
+    // MARK: - Actions
 
-    /// The new size to which the view is transitioning.
-    //private var newSize: CGSize?
+    @objc func getDeal() {
+        dataProvider.refreshDeal(for: .manual)
+    }
+
+    @objc private func didPressShare(_ sender: UIBarButtonItem) {
+        guard case .result(let deal) = viewState else {
+            return
+        }
+        shareDeal(title: deal.title, url: deal.url)
+    }
+
+    func shareDeal(title: String, url: URL) {
+        log.debug("\(#function) ...")
+
+        // TODO: add price to text?
+        let text = "\(L10n.sharingActivityText): \(title)"
+
+        // set up activity view controller
+        let textToShare: [Any] = [ text, url ]
+        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+
+        // exclude some activity types from the list (optional)
+        //activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+
+        present(activityViewController, animated: true, completion: nil)
+    }
+
+    @objc func ensureVisibleImageLoaded(){
+        guard let imageViewState = pagedImageView.visibleImageState else {
+            return
+        }
+        if case .error = imageViewState {
+            pagedImageView.reloadVisibleImage()
+        }
+    }
+
+    // MARK: - Navigation
+
+    @objc private func didPressForum(_ sender: UIButton) {
+        guard case .result(let deal) = viewState, let topic = deal.topic else {
+            return
+        }
+        delegate?.showForum(with: topic)
+    }
+
+    @objc private func didPressHistory(_ sender: UIBarButtonItem) {
+        delegate?.showHistoryList()
+    }
+
+    @objc private func didPressStory(_ sender: UIBarButtonItem) {
+        delegate?.showStory()
+    }
+
+}
+
+// MARK: - Transitions
+extension PadDealViewController {
 
     // MARK: Trait Collection
 
@@ -458,63 +517,6 @@ class PadDealViewController: UIViewController {
         // IMPORTANT
         pagedImageView.flowLayout.invalidateLayout()
     }
-
-    // MARK: - Actions / Navigation
-
-    @objc func getDeal() {
-        dataProvider.refreshDeal(for: .manual)
-    }
-
-    @objc private func didPressShare(_ sender: UIBarButtonItem) {
-        guard case .result(let deal) = viewState else {
-            return
-        }
-        shareDeal(title: deal.title, url: deal.url)
-    }
-
-    func shareDeal(title: String, url: URL) {
-        log.debug("\(#function) ...")
-
-        // TODO: add price to text?
-        let text = "\(L10n.sharingActivityText): \(title)"
-
-        // set up activity view controller
-        let textToShare: [Any] = [ text, url ]
-        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
-
-        // exclude some activity types from the list (optional)
-        //activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
-
-        present(activityViewController, animated: true, completion: nil)
-    }
-
-    @objc func ensureVisibleImageLoaded(){
-        guard let imageViewState = pagedImageView.visibleImageState else {
-            return
-        }
-        if case .error = imageViewState {
-            pagedImageView.reloadVisibleImage()
-        }
-    }
-
-    // MARK: - Navigation
-
-    @objc private func didPressForum(_ sender: UIButton) {
-        guard case .result(let deal) = viewState, let topic = deal.topic else {
-            return
-        }
-        delegate?.showForum(with: topic)
-    }
-
-    @objc private func didPressHistory(_ sender: UIBarButtonItem) {
-        delegate?.showHistoryList()
-    }
-
-    @objc private func didPressStory(_ sender: UIBarButtonItem) {
-        delegate?.showStory()
-    }
-
 }
 
 // MARK: - PagedImageViewDelegate

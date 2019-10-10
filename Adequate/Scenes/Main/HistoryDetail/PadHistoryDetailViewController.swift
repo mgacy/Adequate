@@ -54,6 +54,9 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
     private let portraitWidthMultiplier: CGFloat = 1.0 / 2.0
     private let landscapeWidthMultiplier: CGFloat = 2.0 / 3.0
 
+    /// The new size to which the view is transitioning.
+    //private var newSize: CGSize?
+
     // MARK: - Subviews
 
     private lazy var stateView: StateView = {
@@ -282,10 +285,24 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
         return [themeToken]
     }
     */
-    // MARK: - Transition
 
-    /// The new size to which the view is transitioning.
-    //private var newSize: CGSize?
+    // MARK: - Navigation
+
+    @objc private func didPressForum(_ sender: UIButton) {
+        guard case .result(let deal) = viewState, let topic = deal.topic else {
+            return
+        }
+        delegate?.showForum(with: topic)
+    }
+
+    @objc private func didPressDismiss(_ sender: UIBarButtonItem) {
+        delegate?.dismiss()
+    }
+
+}
+
+// MARK: - Transitions
+extension PadHistoryDetailViewController {
 
     // MARK: Trait Collection
 
@@ -409,20 +426,6 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
         // IMPORTANT
         pagedImageView.flowLayout.invalidateLayout()
     }
-
-    // MARK: - Navigation
-
-    @objc private func didPressForum(_ sender: UIButton) {
-        guard case .result(let deal) = viewState, let topic = deal.topic else {
-            return
-        }
-        delegate?.showForum(with: topic)
-    }
-
-    @objc private func didPressDismiss(_ sender: UIBarButtonItem) {
-        delegate?.dismiss()
-    }
-
 }
 
 // MARK: - PagedImageViewDelegate
