@@ -54,7 +54,12 @@ final class HistoryDetailCoordinator: BaseCoordinator {
             let viewController = HistoryDetailViewController(dependencies: dependencies, deal: deal)
             viewController.delegate = self
             router.setRootModule(viewController, navBarStyle: .hiddenSeparator)
-            viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
+
+            if #available(iOS 13, *) {
+                router.toPresent().presentationController?.delegate = self
+            } else {
+                viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
+            } 
         case .pad:
             let viewController = PadHistoryDetailViewController(dependencies: dependencies, deal: deal)
             viewController.delegate = self
@@ -85,6 +90,13 @@ extension HistoryDetailCoordinator: Presentable {
 // MARK: - VoidDismissalDelegate
 extension HistoryDetailCoordinator: VoidDismissalDelegate {
     func dismiss() {
+        onFinishFlow?(())
+    }
+}
+
+// MARK: - UIAdaptivePresentationControllerDelegate
+extension HistoryDetailCoordinator: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         onFinishFlow?(())
     }
 }
