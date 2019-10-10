@@ -288,9 +288,7 @@ extension HistoryDetailViewController: Themeable {
         navigationController?.view.backgroundColor = theme.backgroundColor
         navigationController?.navigationBar.barTintColor = theme.backgroundColor
         view.backgroundColor = theme.backgroundColor
-        pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
-        contentView.backgroundColor = theme.backgroundColor
 
         // foreground
         // TODO: set home indicator color?

@@ -502,9 +502,7 @@ extension PadHistoryDetailViewController: Themeable {
         self.navigationController?.navigationBar.barTintColor = theme.backgroundColor
         self.navigationController?.navigationBar.layoutIfNeeded() // Animate color change
         view.backgroundColor = theme.backgroundColor
-        pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
-        contentView.backgroundColor = theme.backgroundColor
 
         // foreground
         // TODO: set status bar and home indicator color?
