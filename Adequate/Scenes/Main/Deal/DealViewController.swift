@@ -160,10 +160,7 @@ class DealViewController: UIViewController {
     // MARK: - View Methods
 
     func setupView() {
-        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.isTranslucent = true
-
+        navigationController?.applyStyle(.transparent)
         pagedImageView.delegate = self
         footerView.delegate = self
 

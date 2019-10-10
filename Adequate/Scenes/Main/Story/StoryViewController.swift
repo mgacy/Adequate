@@ -116,9 +116,8 @@ final class StoryViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
+        navigationController?.applyStyle(.hiddenSeparator)
         title = L10n.story
-        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        navigationController?.navigationBar.isTranslucent = false
         observationTokens = setupObservations()
     }
 

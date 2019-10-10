@@ -178,10 +178,7 @@ class PadDealViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.isTranslucent = true
-
+        navigationController?.applyStyle(.transparent)
         pagedImageView.delegate = self
         footerView.delegate = self
 
