@@ -15,7 +15,7 @@ public struct DownStylerConfiguration {
 public extension DownStylerConfiguration {
     init() {
         fonts = FontCollection()
-        colors = ColorCollection()
+        colors = ColorCollection.light
         paragraphStyles = ParagraphStyleCollection()
     }
 }
