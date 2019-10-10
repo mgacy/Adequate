@@ -107,6 +107,7 @@ final class NotificationViewController: UIViewController {
         view.addSubview(labelStack)
         view.addSubview(buttonStack)
         self.view = view
+        setupConstraints()
     }
 
     override func viewDidLoad() {
@@ -123,10 +124,10 @@ final class NotificationViewController: UIViewController {
 
     func setupView() {
         view.backgroundColor = .white
-        setupConstraints()
     }
 
     func setupConstraints() {
+        // TODO: use readableContentGuide
         NSLayoutConstraint.activate([
             // labelStack
             labelStack.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0),
@@ -139,7 +140,7 @@ final class NotificationViewController: UIViewController {
         ])
     }
 
-    // MARK: - A
+    // MARK: - Actions
 
     @objc private func handleNotNowTapped(_ sender: UIButton) {
         userDefaultsManager.showNotifications = false

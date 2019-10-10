@@ -433,6 +433,7 @@ class DataProvider: DataProviderType {
             log.error("Unable to get store")
             return
         }
+        // TODO: throw error and make caller handler it
         if case .newDeal = delta {
             log.error("Unable to update cache for \(delta)")
             return

@@ -31,6 +31,7 @@ class StateView: UIView {
                 retryButton.setTitleColor(.gray, for: .normal)
             case .light:
                 activityIndicator.style = .white
+                // FIXME: should we really use white, or should it be gray instead?
                 activityMessageLabel.textColor = .white
                 messageLabel.textColor = .gray
                 retryButton.layer.borderColor = UIColor.gray.cgColor

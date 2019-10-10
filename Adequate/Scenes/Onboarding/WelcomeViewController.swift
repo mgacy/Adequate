@@ -48,6 +48,7 @@ final class WelcomeViewController: UIViewController {
         let view = UIView()
         view.addSubview(stackView)
         self.view = view
+        setupConstraints()
     }
 
     override func viewDidLoad() {
@@ -64,10 +65,10 @@ final class WelcomeViewController: UIViewController {
 
     func setupView() {
         view.backgroundColor = .white
-        setupConstraints()
     }
 
     func setupConstraints() {
+        // TODO: use readableContentGuide
         NSLayoutConstraint.activate([
             stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16.0),

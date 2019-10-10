@@ -8,6 +8,7 @@
 
 import UIKit
 
+// TODO: rename `MDColorCollection`
 public struct ColorCollection {
     public var heading1: UIColor
     public var heading2: UIColor

@@ -29,6 +29,10 @@ class ThemeManager: ThemeManagerType {
         self.theme = AppTheme(theme: theme)
     }
 
+    init(theme: AppTheme) {
+        self.theme = theme
+    }
+
     func applyTheme(theme: Theme) {
         //let appTheme = AppTheme(theme: theme)
         self.theme = AppTheme(theme: theme)

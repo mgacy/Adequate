@@ -10,6 +10,10 @@ import UIKit
 
 struct AppTheme {
 
+    enum CornerRadius: CGFloat {
+        case small = 5.0
+    }
+
     // Basic Layout
     static let spacing: CGFloat = 8.0
     static let sideMargin: CGFloat = 16.0
@@ -19,6 +23,10 @@ struct AppTheme {
     let accentColor: UIColor
     let backgroundColor: UIColor
     let foreground: ThemeForeground
+}
+
+// MARK: - Initializers
+extension AppTheme {
 
     init(theme: ThemeType) {
         accentColor = UIColor(hexString: theme.accentColor)

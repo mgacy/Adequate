@@ -8,6 +8,7 @@
 
 import UIKit
 
+// TODO: rename `MDParagraphStyleCollection`
 public struct ParagraphStyleCollection {
     public let heading1: NSParagraphStyle
     public let heading2: NSParagraphStyle
@@ -20,7 +21,9 @@ public struct ParagraphStyleCollection {
     public let list: NSParagraphStyle
 }
 
+// MARK: - Initializers
 public extension ParagraphStyleCollection {
+    // TODO: move this into static var?
     init() {
         let headingStyle = NSMutableParagraphStyle()
         headingStyle.paragraphSpacing = 8
@@ -87,6 +90,7 @@ public extension ParagraphStyleCollection {
     }
 }
 
+// MARK: - Factory
 private extension ParagraphStyleCollection {
     static func makeBaseStyle(headIndent: CGFloat) -> NSMutableParagraphStyle {
         // TODO: obtain value from attributes of font?

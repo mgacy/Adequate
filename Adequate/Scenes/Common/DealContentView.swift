@@ -162,6 +162,7 @@ extension DealContentView: Themeable {
         backgroundColor = theme.backgroundColor
         featuresText.backgroundColor = theme.backgroundColor
         forumButton.setTitleColor(theme.backgroundColor, for: .normal)
+        // TODO: setTitleColor for other states?
         specsText.backgroundColor = theme.backgroundColor
         // foreground
         titleLabel.textColor = theme.foreground.textColor

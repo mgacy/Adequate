@@ -12,6 +12,7 @@ import UIKit
 // `adjustsFontForContentSizeCategory` is actually false. Instead override `traitCollectionDidChange()` to
 // manually reload the content.
 
+// TODO: rename `MDFontCollection`
 public struct FontCollection {
     public var heading1: UIFont
     public var heading2: UIFont
@@ -24,7 +25,9 @@ public struct FontCollection {
     public var listItemPrefix: UIFont
 }
 
+// MARK: - Initializers
 public extension FontCollection {
+    // TODO: move this into static var?
     init() {
         heading1 = UIFont.preferredFont(for: .title3, adding: .traitBold)
         heading2 = UIFont.preferredFont(forTextStyle: .headline)

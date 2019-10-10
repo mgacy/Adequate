@@ -119,7 +119,6 @@ final class StoryViewController: UIViewController {
         title = L10n.story
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.isTranslucent = false
-        apply(theme: themeManager.theme)
         observationTokens = setupObservations()
     }
 
