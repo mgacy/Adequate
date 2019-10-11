@@ -365,9 +365,7 @@ extension DealViewController: Themeable {
         navigationController?.navigationBar.barTintColor = theme.backgroundColor
         navigationController?.navigationBar.layoutIfNeeded() // Animate color change
         view.backgroundColor = theme.backgroundColor
-        pagedImageView.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
-        contentView.backgroundColor = theme.backgroundColor
 
         // foreground
         // TODO: set home indicator color?

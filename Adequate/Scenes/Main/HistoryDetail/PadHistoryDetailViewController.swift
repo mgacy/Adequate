@@ -499,8 +499,8 @@ extension PadHistoryDetailViewController: Themeable {
         dismissButton.tintColor = theme.accentColor
 
         // backgroundColor
-        self.navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        self.navigationController?.navigationBar.layoutIfNeeded() // Animate color change
+        navigationController?.navigationBar.barTintColor = theme.backgroundColor
+        navigationController?.navigationBar.layoutIfNeeded() // Animate color change
         view.backgroundColor = theme.backgroundColor
         scrollView.backgroundColor = theme.backgroundColor
 
