@@ -151,7 +151,6 @@ final class StoryViewController: UIViewController {
     @objc private func didPressDeal(_ sender: UIBarButtonItem) {
         delegate?.showDeal()
     }
-
 }
 
 // MARK: - ViewStateRenderable

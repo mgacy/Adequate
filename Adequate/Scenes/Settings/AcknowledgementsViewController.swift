@@ -75,12 +75,12 @@ class AcknowledgementsViewController: UIViewController {
 
     // MARK: - View Methods
 
-    func setupView() {
+    private func setupView() {
         view.backgroundColor = .white
         //observationTokens = setupObservations()
     }
 
-    func setupConstraints() {
+    private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             textView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 0.0),

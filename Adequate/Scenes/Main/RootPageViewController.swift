@@ -53,7 +53,7 @@ final class RootPageViewControler: UIPageViewController {
 
     // MARK: - View Methods
 
-    func setupView() {
+    private func setupView() {
         view.backgroundColor = .white
         self.dataSource = self
         self.delegate = self
@@ -75,7 +75,7 @@ final class RootPageViewControler: UIPageViewController {
         */
     }
 
-    func setupObservations() -> [ObservationToken] {
+    private func setupObservations() -> [ObservationToken] {
         return [themeManager.addObserver(self)]
     }
 

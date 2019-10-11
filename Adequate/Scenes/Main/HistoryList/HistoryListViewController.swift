@@ -96,7 +96,7 @@ final class HistoryListViewController: UIViewController {
 
     // MARK: - View Methods
 
-    func setupView() {
+    private func setupView() {
         title = L10n.history
         navigationController?.navigationBar.barTintColor = .white
         //navigationController?.navigationBar.prefersLargeTitles = true
@@ -114,7 +114,7 @@ final class HistoryListViewController: UIViewController {
         observationTokens = setupObservations()
     }
 
-    func setupConstraints() {
+    private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
@@ -124,7 +124,7 @@ final class HistoryListViewController: UIViewController {
         ])
     }
 
-    func setupTableView() {
+    private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = dataSource
         tableView.estimatedRowHeight = 88.0

@@ -122,11 +122,11 @@ final class NotificationViewController: UIViewController {
 
     // MARK: - View Methods
 
-    func setupView() {
+    private func setupView() {
         view.backgroundColor = .white
     }
 
-    func setupConstraints() {
+    private func setupConstraints() {
         // TODO: use readableContentGuide
         NSLayoutConstraint.activate([
             // labelStack
@@ -164,5 +164,4 @@ final class NotificationViewController: UIViewController {
                 self.delegate?.dismiss()
             })
     }
-
 }

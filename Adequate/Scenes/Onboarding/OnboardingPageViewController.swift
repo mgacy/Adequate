@@ -39,7 +39,7 @@ final class OnboardingPageViewController: UIPageViewController {
 
     // MARK: - View Methods
 
-    func setupView() {
+    private func setupView() {
         view.backgroundColor = .white
         self.dataSource = self
 

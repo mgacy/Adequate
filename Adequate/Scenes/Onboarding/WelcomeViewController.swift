@@ -63,11 +63,11 @@ final class WelcomeViewController: UIViewController {
 
     // MARK: - View Methods
 
-    func setupView() {
+    private func setupView() {
         view.backgroundColor = .white
     }
 
-    func setupConstraints() {
+    private func setupConstraints() {
         // TODO: use readableContentGuide
         NSLayoutConstraint.activate([
             stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0),
