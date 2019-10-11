@@ -66,13 +66,6 @@ final class RootPageViewControler: UIPageViewController {
             }
         }
 
-        /*
-        // pageControl
-        let pageControl = UIPageControl.appearance(whenContainedInInstancesOf: [UIPageViewController.self])
-        let tintColor = UIButton().tintColor
-        pageControl.pageIndicatorTintColor = tintColor?.withAlphaComponent(0.5)
-        pageControl.currentPageIndicatorTintColor = tintColor
-        */
     }
 
     private func setupObservations() -> [ObservationToken] {

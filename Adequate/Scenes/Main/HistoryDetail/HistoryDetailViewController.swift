@@ -75,6 +75,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
     private let barBackingView: ParallaxBarView = {
         let view = ParallaxBarView()
+        view.rightLabelInset = AppTheme.sideMargin
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

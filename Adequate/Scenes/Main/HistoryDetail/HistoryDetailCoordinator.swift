@@ -53,7 +53,7 @@ final class HistoryDetailCoordinator: BaseCoordinator {
         case .phone:
             let viewController = HistoryDetailViewController(dependencies: dependencies, deal: deal)
             viewController.delegate = self
-            router.setRootModule(viewController, navBarStyle: .hiddenSeparator)
+            router.setRootModule(viewController, hideBar: false)
 
             if #available(iOS 13, *) {
                 router.toPresent().presentationController?.delegate = self
@@ -63,7 +63,7 @@ final class HistoryDetailCoordinator: BaseCoordinator {
         case .pad:
             let viewController = PadHistoryDetailViewController(dependencies: dependencies, deal: deal)
             viewController.delegate = self
-            router.setRootModule(viewController, navBarStyle: .hiddenSeparator)
+            router.setRootModule(viewController, hideBar: false)
             viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
         default:
             fatalError("Invalid device")

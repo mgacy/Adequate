@@ -94,7 +94,7 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
 
     private lazy var barBackingView: ParallaxBarView = {
         let view = ParallaxBarView()
-        view.rightLabelInset = 0.0
+        view.rightLabelInset = AppTheme.sideMargin
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

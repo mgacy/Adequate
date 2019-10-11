@@ -161,6 +161,8 @@ class PagedImageView: UIView {
     public func completeRotation(page currentPage: Int) {
         layoutIfNeeded()
         flowLayout.invalidateLayout()
+        // TODO: set flowLayout.estimatedItemSize using value from VC.viewWillTransition(to:, with:)?
+        // https://stackoverflow.com/a/52281704/4472195
         collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally,
                                     animated: false)
         collectionView.isHidden = false

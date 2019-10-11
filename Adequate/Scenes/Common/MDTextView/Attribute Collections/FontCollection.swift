@@ -57,4 +57,6 @@ public extension FontCollection {
         let listFont = UIFont.monospacedDigitSystemFont(ofSize: 17, weight: .regular)
         listItemPrefix = UIFontMetrics.default.scaledFont(for: listFont)
     }
+
+    // TODO: add initializer accepting `FontBook`?
 }
