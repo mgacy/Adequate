@@ -14,18 +14,10 @@ class ZoomingImageView: UIScrollView {
     var imageView: UIImageView = UIImageView()
 
     var originFrame: CGRect {
-        return imageView.frame
-//        guard let image = imageView.image else {
-//            return .zero
-//        }
-//
-//        let scaledWidth = image.size.width * zoomScale
-//        let scaledHeight = image.size.height * zoomScale
-//
-//        let initialX = imageView.frame.minX - contentOffset.x
-//        let initialY = imageView.frame.minY - contentOffset.y
-//
-//        return CGRect(x: initialX, y: initialY, width: scaledWidth, height: scaledHeight)
+        return CGRect(x: imageView.frame.minX - contentOffset.x,
+                      y: imageView.frame.minY - contentOffset.y,
+                      width: imageView.frame.width,
+                      height: imageView.frame.height)
     }
 
     // MARK: - Lifecycle
