@@ -84,14 +84,14 @@ class PadDealViewController: UIViewController {
     private let scrollView: ParallaxScrollView = {
         let view = ParallaxScrollView()
         view.contentInsetAdjustmentBehavior = .always
+        view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
         return view
     }()
 
     private let contentView: DealContentView = {
         let view = DealContentView()
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -106,7 +106,7 @@ class PadDealViewController: UIViewController {
 
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -115,7 +115,7 @@ class PadDealViewController: UIViewController {
 
     private lazy var footerView: FooterView = {
         let view = FooterView()
-        //view.backgroundColor = view.tintColor
+        //view.backgroundColor = ColorCompatibility.systemBlue
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

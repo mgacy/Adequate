@@ -105,10 +105,10 @@ final class HistoryListViewController: UIViewController {
         edgesForExtendedLayout = [.all] // [.top]?
         extendedLayoutIncludesOpaqueBars = true
 
-        settingsButton.tintColor = .black
-        dealButton.tintColor = .black
-        view.backgroundColor = .white
-        tableView.backgroundColor = .white
+        settingsButton.tintColor = ColorCompatibility.label
+        dealButton.tintColor = ColorCompatibility.label
+        view.backgroundColor = ColorCompatibility.systemBackground
+        tableView.backgroundColor = ColorCompatibility.systemBackground
 
         setupTableView()
         observationTokens = setupObservations()

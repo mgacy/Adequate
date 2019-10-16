@@ -40,7 +40,7 @@ class FooterView: UIView {
     private let priceLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
-        label.textColor = .white
+        label.textColor = ColorCompatibility.label
         label.font = FontBook.compactFooter
         label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .center
@@ -51,7 +51,7 @@ class FooterView: UIView {
     private let priceComparisonLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
-        label.textColor = UIColor(red:0.28, green:0.25, blue:0.19, alpha:1.00)
+        label.textColor = ColorCompatibility.secondaryLabel
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
         label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .center
@@ -77,7 +77,7 @@ class FooterView: UIView {
         button.setTitleColor(button.tintColor, for: .normal)
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .white
+        button.backgroundColor = ColorCompatibility.systemBackground
         return button
     }()
 

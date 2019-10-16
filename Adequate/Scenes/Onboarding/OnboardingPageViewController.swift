@@ -40,7 +40,7 @@ final class OnboardingPageViewController: UIPageViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         self.dataSource = self
 
         let page1 = WelcomeViewController()

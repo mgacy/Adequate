@@ -34,7 +34,7 @@ final class NotificationViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 0
         label.text = L10n.welcomeNotificationsBody
-        label.textColor = .gray
+        label.textColor = ColorCompatibility.secondaryLabel
         label.font = UIFont.preferredFont(forTextStyle: .body)
         //label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -132,7 +132,7 @@ final class NotificationViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
     }
 
     private func setupConstraints() {

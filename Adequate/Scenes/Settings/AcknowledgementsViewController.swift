@@ -76,7 +76,7 @@ class AcknowledgementsViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         //observationTokens = setupObservations()
     }
 

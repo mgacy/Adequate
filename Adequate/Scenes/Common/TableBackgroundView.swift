@@ -58,7 +58,7 @@ class TableBackgroundView: UIView {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.textColor = .black
+        label.textColor = ColorCompatibility.label
         label.textAlignment = .center
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -69,7 +69,7 @@ class TableBackgroundView: UIView {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.textColor = .lightGray
+        label.textColor = ColorCompatibility.secondaryLabel
         label.textAlignment = .center
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false

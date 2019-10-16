@@ -16,6 +16,7 @@ final class WelcomeViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 1
         label.text = L10n.appName
+        label.textColor = ColorCompatibility.label
         //label.textAlignment = .center
         // TODO: use FontBook
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -28,7 +29,7 @@ final class WelcomeViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 0
         label.text = L10n.welcomeMessage
-        label.textColor = .gray
+        label.textColor = ColorCompatibility.secondaryLabel
         label.font = UIFont.preferredFont(forTextStyle: .body)
         //label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -67,7 +68,7 @@ final class WelcomeViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
     }
 
     private func setupConstraints() {
