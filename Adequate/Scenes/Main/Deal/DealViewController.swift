@@ -337,7 +337,6 @@ extension DealViewController: ViewStateRenderable {
             // footerView
             footerView.update(withDeal: deal)
 
-            themeManager.applyTheme(theme: deal.theme)
             UIView.animate(withDuration: 0.3, animations: {
                 self.stateView.render(viewState)
                 // FIXME: can't animate `isHidden`

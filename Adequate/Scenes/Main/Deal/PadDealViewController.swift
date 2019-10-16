@@ -570,7 +570,6 @@ extension PadDealViewController: ViewStateRenderable {
             // footerView
             footerView.update(withDeal: deal)
 
-            themeManager.applyTheme(theme: deal.theme)
             UIView.animate(withDuration: 0.3, animations: {
                 // FIXME: can't animate `isHidden`
                 // see: https://stackoverflow.com/a/29080894
