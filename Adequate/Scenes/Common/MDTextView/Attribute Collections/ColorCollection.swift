@@ -76,19 +76,17 @@ extension ColorCollection {
                                codeBlockBackground: UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1))
     }
 
-    // TODO: use ColorCompatibility colors instead?
-    @available(iOS 13, *)
     static var system: ColorCollection {
-        return ColorCollection(heading1: .label,
-                               heading2: .label,
-                               heading3: .label,
-                               body: .label,
-                               code: .label,
-                               link: .link,
+        return ColorCollection(heading1: ColorCompatibility.label,
+                               heading2: ColorCompatibility.label,
+                               heading3: ColorCompatibility.label,
+                               body: ColorCompatibility.label,
+                               code: ColorCompatibility.label,
+                               link: ColorCompatibility.link,
                                quote: .darkGray,
                                quoteStripe: .darkGray,
-                               thematicBreak: .secondarySystemBackground, // ?
-                               listItemPrefix: .label,
-                               codeBlockBackground: .secondarySystemBackground) // ?
+                               thematicBreak: ColorCompatibility.secondarySystemBackground, // ?
+                               listItemPrefix: ColorCompatibility.label,
+                               codeBlockBackground: ColorCompatibility.secondarySystemBackground) // ?
     }
 }
