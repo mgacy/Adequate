@@ -43,7 +43,7 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
             })
         }
 
-        self.themeManager = ThemeManager(theme: Theme.lightSystem)
+        self.themeManager = ThemeManager(theme: AppTheme.system)
     }
 
     // MARK: - Factory Functions

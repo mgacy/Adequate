@@ -33,10 +33,13 @@ extension AppTheme {
         backgroundColor = UIColor(hexString: theme.backgroundColor)
         foreground = theme.foreground
     }
+}
 
-    init(accentColor: UIColor, backgroundColor: UIColor, foreground: ThemeForeground) {
-        self.accentColor = accentColor
-        self.backgroundColor = backgroundColor
-        self.foreground = foreground
+// MARK: - Default
+extension AppTheme {
+    static var system: AppTheme {
+        return AppTheme(accentColor: ColorCompatibility.systemBlue,
+                        backgroundColor: ColorCompatibility.systemBackground,
+                        foreground: .unknown("system"))
     }
 }

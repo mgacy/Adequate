@@ -42,12 +42,3 @@ extension Theme {
         self.foreground = theme.foreground
     }
 }
-
-// MARK: - Default
-extension Theme {
-    static var lightSystem: Theme {
-        // Accent color from HIG:
-        // https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/
-        return Theme(accentColor: "#007AFF", backgroundColor: "#ffffff", foreground: .dark)
-    }
-}
