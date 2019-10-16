@@ -16,7 +16,7 @@ extension ThemeForeground: Codable {
         switch self {
         case .dark: return .black
         case .light: return .white
-        case .unknown: return .yellow
+        case .unknown: return ColorCompatibility.label
         }
     }
 

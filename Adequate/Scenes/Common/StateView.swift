@@ -36,8 +36,12 @@ class StateView: UIView {
                 messageLabel.textColor = .gray
                 retryButton.layer.borderColor = UIColor.gray.cgColor
                 retryButton.setTitleColor(.gray, for: .normal)
-            case .unknown(let rawValue):
-                log.warning("\(#function) - rawValue: \(rawValue)")
+            case .unknown:
+                activityIndicator.color = ColorCompatibility.secondaryLabel
+                activityMessageLabel.textColor = ColorCompatibility.secondaryLabel
+                messageLabel.textColor = ColorCompatibility.secondaryLabel
+                retryButton.layer.borderColor = ColorCompatibility.secondaryLabel.cgColor
+                retryButton.setTitleColor(ColorCompatibility.secondaryLabel, for: .normal)
             }
         }
     }
