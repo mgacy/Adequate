@@ -28,12 +28,6 @@ class ThemeManager: ThemeManagerType {
         }
     }
 
-    init(dataProvider: DataProviderType, theme: Theme) {
-        self.dataProvider = dataProvider
-        self.theme = AppTheme(theme: theme)
-        dealObservationToken = startDealObservation()
-    }
-
     init(dataProvider: DataProviderType, theme: AppTheme) {
         self.dataProvider = dataProvider
         self.theme = theme
@@ -41,7 +35,6 @@ class ThemeManager: ThemeManagerType {
     }
 
     func applyTheme(theme: Theme) {
-        //let appTheme = AppTheme(theme: theme)
         self.theme = AppTheme(theme: theme)
 
         //UIApplication.shared.delegate?.window??.tintColor = appTheme.accentColor
