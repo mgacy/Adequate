@@ -23,6 +23,10 @@ struct AppTheme {
     let accentColor: UIColor
     let backgroundColor: UIColor
     let foreground: ThemeForeground
+    
+    // MARK: - New
+    let dealTheme: ColorTheme?
+    let baseTheme: ColorTheme
 }
 
 // MARK: - Initializers
@@ -32,6 +36,9 @@ extension AppTheme {
         accentColor = UIColor(hexString: theme.accentColor)
         backgroundColor = UIColor(hexString: theme.backgroundColor)
         foreground = theme.foreground
+
+        dealTheme = nil
+        baseTheme = ColorTheme(theme: theme)
     }
 }
 
@@ -40,6 +47,8 @@ extension AppTheme {
     static var system: AppTheme {
         return AppTheme(accentColor: ColorCompatibility.systemBlue,
                         backgroundColor: ColorCompatibility.systemBackground,
-                        foreground: .unknown("system"))
+                        foreground: .unknown("system"),
+                        dealTheme: nil,
+                        baseTheme: ColorTheme.system)
     }
 }

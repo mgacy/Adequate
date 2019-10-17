@@ -93,6 +93,7 @@
 		C995C07522A8E01C00C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07422A8E01C00C2289F /* FileCache.swift */; };
 		C995C07722A8F9E600C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07622A8F9E600C2289F /* FileCache.swift */; };
 		C997ED0122BFF6300053C62A /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = C997ED0322BFF6300053C62A /* Localizable.stringsdict */; };
+		C99C23F72357FF28004493B3 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C23F62357FF28004493B3 /* ColorTheme.swift */; };
 		C99DD5DB2182D4C500A38529 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99DD5DA2182D4C500A38529 /* PaddingLabel.swift */; };
 		C99EF3B122BB695500BF4410 /* AdequateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EF3B022BB695500BF4410 /* AdequateUITests.swift */; };
 		C99EF3B922BC244200BF4410 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EF3B822BC244200BF4410 /* SnapshotHelper.swift */; };
@@ -321,6 +322,7 @@
 		C995C07422A8E01C00C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		C995C07622A8F9E600C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		C997ED0222BFF6300053C62A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		C99C23F62357FF28004493B3 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
 		C99DD5DA2182D4C500A38529 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		C99EF3AE22BB695500BF4410 /* AdequateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdequateUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99EF3B022BB695500BF4410 /* AdequateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdequateUITests.swift; sourceTree = "<group>"; };
@@ -530,6 +532,7 @@
 				C9116E552161781F0084934B /* Appearance.swift */,
 				C9F01F21234FE3C500A77447 /* ColorCompatibility.swift */,
 				C925EECF233EA6A500D24F38 /* ColorPalette.swift */,
+				C99C23F62357FF28004493B3 /* ColorTheme.swift */,
 				C94D2CEC230E11C300043431 /* FontBook.swift */,
 			);
 			path = Appearance;
@@ -1478,6 +1481,7 @@
 				C95CD61F230FE2020011585F /* PadDealViewController.swift in Sources */,
 				C9221565225453920001FF3F /* DimmingPresentationController.swift in Sources */,
 				C9DAC4B32147864A00D6558B /* ViewState.swift in Sources */,
+				C99C23F72357FF28004493B3 /* ColorTheme.swift in Sources */,
 				C9BEAB71233308A400C143FB /* HistoryDetailViewControllerDelegate.swift in Sources */,
 				C96CA8702182DD2E00C3459E /* NotificationViewController.swift in Sources */,
 				C925EECB233E955400D24F38 /* ImageServiceType.swift in Sources */,

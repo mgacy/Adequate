@@ -42,6 +42,20 @@ extension ColorCollection {
         listItemPrefix = theme.foreground.textColor
         codeBlockBackground = UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1) // ?
     }
+
+    init(theme: ColorTheme) {
+        heading1 = theme.label
+        heading2 = theme.label
+        heading3 = theme.label
+        body = theme.label
+        code = theme.label
+        link = theme.link
+        quote = theme.secondaryLabel
+        quoteStripe = theme.secondaryLabel
+        thematicBreak = theme.secondarySystemBackground
+        listItemPrefix = theme.label
+        codeBlockBackground = theme.secondarySystemBackground
+    }
 }
 
 // MARK: - Default
