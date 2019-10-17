@@ -234,4 +234,18 @@ extension PagedImageView: Themeable {
         }
         */
     }
+
+    func apply(theme: ColorTheme) {
+        // accentColor
+        pageControl.currentPageIndicatorTintColor = theme.label
+        pageControl.pageIndicatorTintColor = theme.label.withAlphaComponent(0.3)
+        //pageControl.pageIndicatorTintColor = theme.tertiaryLabel
+
+        // backgroundColor
+        backgroundColor = theme.systemBackground
+
+        // Subviews
+        // TODO: we should set `dataSource.theme` to `nil` so that it doesn't apply theme to `ImageCell.stateView`
+        dataSource.apply(theme: theme)
+    }
 }

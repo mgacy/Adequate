@@ -176,4 +176,12 @@ extension ParallaxBarView: Themeable {
         // foreground
         titleLabel.textColor = theme.foreground.textColor
     }
+
+    func apply(theme: ColorTheme) {
+        // backgroundColor
+        backgroundColor = theme.systemBackground.withAlphaComponent(progress)
+        backgroundView.backgroundColor = theme.systemBackground
+        // foreground
+        titleLabel.textColor = theme.label
+    }
 }

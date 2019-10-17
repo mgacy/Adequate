@@ -303,4 +303,24 @@ extension HistoryDetailViewController: Themeable {
         barBackingView.apply(theme: theme)
         stateView.apply(theme: theme)
     }
+
+    func apply(theme: ColorTheme) {
+        // accentColor
+        dismissButton.tintColor = theme.label
+
+        // backgroundColor
+        navigationController?.view.backgroundColor = theme.systemBackground
+        // NOTE: are not changing the following:
+        //navigationController?.navigationBar.barTintColor = theme.backgroundColor
+        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
+
+        view.backgroundColor = theme.systemBackground
+        scrollView.backgroundColor = theme.systemBackground
+
+        // Subviews
+        pagedImageView.apply(theme: theme)
+        contentView.apply(theme: theme)
+        barBackingView.apply(theme: theme)
+        stateView.apply(theme: theme)
+    }
 }

@@ -120,5 +120,13 @@ extension AcknowledgementsViewController: Themeable {
         // foreground
         textView.textColor = theme.foreground.textColor
     }
+
+    func apply(theme: ColorTheme) {
+        // backgroundColor
+        view.backgroundColor = theme.systemBackground
+        textView.backgroundColor = theme.systemBackground
+        // foreground
+        textView.textColor = theme.label
+    }
 }
 */

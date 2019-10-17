@@ -191,6 +191,7 @@ extension HistoryListCell {
 
 // MARK: - Themeable
 extension HistoryListCell: Themeable {
+
     func apply(theme: AppTheme) {
         self.theme = theme
         // accentColor
@@ -199,6 +200,13 @@ extension HistoryListCell: Themeable {
         // foreground
         titleLabel.textColor = theme.foreground.textColor
         dateLabel.textColor = theme.foreground.textColor.withAlphaComponent(0.8)
+    }
+
+    func apply(theme: ColorTheme) {
+        //self.theme = theme
+        cardView.backgroundColor = theme.systemBackground
+        titleLabel.textColor = theme.label
+        dateLabel.textColor = theme.secondaryLabel
     }
 }
 /*

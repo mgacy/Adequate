@@ -192,4 +192,23 @@ extension StoryViewController: Themeable {
         // Subviews
         bodyText.apply(theme: theme)
     }
+
+    func apply(theme: ColorTheme) {
+        // accentColor
+        dealButton.tintColor = theme.label
+
+        // backgroundColor
+        view.backgroundColor = theme.systemBackground
+        //navigationController?.navigationBar.barTintColor = theme.label
+        navigationController?.navigationBar.barTintColor = theme.systemBackground
+
+        // foreground
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: theme.label]
+        titleLabel.textColor = theme.label
+        //navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
+        //setNeedsStatusBarAppearanceUpdate()
+
+        // Subviews
+        bodyText.apply(theme: theme)
+    }
 }

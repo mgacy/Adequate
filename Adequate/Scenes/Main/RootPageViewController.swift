@@ -200,4 +200,8 @@ extension RootPageViewControler: Themeable {
         // Apply to children
         //pages.compactMap { $0 as? Themeable }.forEach { $0.apply(theme: theme) }
     }
+
+    func apply(theme: ColorTheme) {
+        view.backgroundColor = theme.systemBackground
+    }
 }

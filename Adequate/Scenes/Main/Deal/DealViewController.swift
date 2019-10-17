@@ -378,4 +378,31 @@ extension DealViewController: Themeable {
         stateView.apply(theme: theme)
         footerView.apply(theme: theme)
     }
+
+    func apply(theme: ColorTheme) {
+        // accentColor
+        historyButton.tintColor = theme.label
+        shareButton.tintColor = theme.label
+        storyButton.tintColor = theme.label
+
+        // backgroundColor
+        // NOTE: are not changing the following:
+        //navigationController?.navigationBar.barTintColor = theme.backgroundColor
+        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
+
+        view.backgroundColor = theme.systemBackground
+        scrollView.backgroundColor = theme.systemBackground
+
+        // foreground
+        // TODO: set home indicator color?
+        //navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
+        //setNeedsStatusBarAppearanceUpdate()
+
+        // Subviews
+        pagedImageView.apply(theme: theme)
+        contentView.apply(theme: theme)
+        barBackingView.apply(theme: theme)
+        stateView.apply(theme: theme)
+        footerView.apply(theme: theme)
+    }
 }

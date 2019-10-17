@@ -207,4 +207,16 @@ extension StateView: Themeable {
         // foreground
         foreground = theme.foreground
     }
+
+    func apply(theme: ColorTheme) {
+        // backgroundColor
+        //backgroundColor = theme.systemBackground
+
+        // foreground
+        activityIndicator.color = theme.secondaryLabel
+        activityMessageLabel.textColor = theme.secondaryLabel
+        messageLabel.textColor = theme.secondaryLabel
+        retryButton.layer.borderColor = theme.secondaryLabel.cgColor
+        retryButton.setTitleColor(theme.secondaryLabel, for: .normal)
+    }
 }

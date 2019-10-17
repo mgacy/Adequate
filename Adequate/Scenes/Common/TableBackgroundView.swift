@@ -178,4 +178,10 @@ extension TableBackgroundView: Themeable {
         titleLabel.textColor = theme.foreground.textColor
         // TODO: how to color messageLabel?
     }
+
+    func apply(theme: ColorTheme) {
+        backgroundColor = theme.systemBackground
+        titleLabel.textColor = theme.label
+        messageLabel.textColor = theme.secondaryLabel
+    }
 }

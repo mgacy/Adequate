@@ -287,4 +287,15 @@ extension FooterView: Themeable {
         // foreground
         //priceLabel.textColor = theme.foreground.textColor
     }
+
+    func apply(theme: ColorTheme) {
+        priceLabel.textColor = theme.label
+        priceComparisonLabel.textColor = theme.secondaryLabel
+
+        backgroundColor = theme.secondarySystemBackground
+
+        buyButton.setTitleColor(theme.secondarySystemBackground, for: .normal)
+        buyButton.setTitleColor(ColorCompatibility.systemBlue, for: .selected)
+        buyButton.backgroundColor = theme.label
+    }
 }

@@ -171,4 +171,23 @@ extension DealContentView: Themeable {
         try? featuresText.render()
         try? specsText.render()
     }
+
+    func apply(theme: ColorTheme) {
+        // accentColor
+        forumButton.backgroundColor = theme.label
+
+        // backgroundColor
+        backgroundColor = theme.systemBackground
+        featuresText.backgroundColor = theme.systemBackground
+        forumButton.setTitleColor(theme.systemBackground, for: .normal)
+        // TODO: forumButton.setTitleColor(theme.?, for: .disabled)
+        specsText.backgroundColor = theme.systemBackground
+
+        // foreground - text
+        titleLabel.textColor = theme.label
+
+        styler.colors = ColorCollection(theme: theme)
+        try? featuresText.render()
+        try? specsText.render()
+    }
 }
