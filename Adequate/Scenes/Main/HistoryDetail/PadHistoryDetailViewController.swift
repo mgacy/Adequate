@@ -159,6 +159,7 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Ensure correct navigation bar style after aborted dismissal
+        // FIXME: update this to work with new theme system
         navigationController?.navigationBar.barStyle = dealFragment.theme.foreground.navigationBarStyle
         setNeedsStatusBarAppearanceUpdate()
     }
@@ -177,7 +178,10 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
         pagedImageView.delegate = self
 
         contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
-        apply(theme: AppTheme(theme: dealFragment.theme))
+
+        // FIXME: switch between using baseTheme and dealFragment
+        //apply(theme: AppTheme(theme: dealFragment.theme))
+        apply(theme: themeManager.theme.baseTheme)
 
         // barBackingView
         let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height

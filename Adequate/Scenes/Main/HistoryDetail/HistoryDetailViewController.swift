@@ -125,6 +125,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Ensure correct navigation bar style after aborted dismissal
+        // FIXME: update this to work with new theme system
         navigationController?.navigationBar.barStyle = dealFragment.theme.foreground.navigationBarStyle
         setNeedsStatusBarAppearanceUpdate()
     }
@@ -144,7 +145,9 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
         contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupParallaxScrollView()
-        apply(theme: AppTheme(theme: dealFragment.theme))
+        // FIXME: switch between using baseTheme and dealFragment
+        //apply(theme: AppTheme(theme: dealFragment.theme))
+        apply(theme: themeManager.theme.baseTheme)
     }
 
     private func setupParallaxScrollView() {

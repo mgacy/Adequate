@@ -591,6 +591,9 @@ extension PadDealViewController: ViewStateRenderable {
 // MARK: - Themeable
 extension PadDealViewController: Themeable {
     func apply(theme: AppTheme) {
+        apply(theme: theme.dealTheme ?? theme.baseTheme)
+        // FIXME: update UIBarStyle when using .dealTheme
+        /*
         // accentColor
         historyButton.tintColor = theme.accentColor
         shareButton.tintColor = theme.accentColor
@@ -614,6 +617,7 @@ extension PadDealViewController: Themeable {
         barBackingView.apply(theme: theme)
         stateView.apply(theme: theme)
         footerView.apply(theme: theme)
+        */
     }
 
     func apply(theme: ColorTheme) {

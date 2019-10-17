@@ -175,6 +175,9 @@ extension StoryViewController: ViewStateRenderable {
 // MARK: - Themeable
 extension StoryViewController: Themeable {
     func apply(theme: AppTheme) {
+        apply(theme: theme.dealTheme ?? theme.baseTheme)
+        // FIXME: update UIBarStyle when using .dealTheme
+        /*
         // accentColor
         dealButton.tintColor = theme.accentColor
 
@@ -191,6 +194,7 @@ extension StoryViewController: Themeable {
 
         // Subviews
         bodyText.apply(theme: theme)
+        */
     }
 
     func apply(theme: ColorTheme) {
