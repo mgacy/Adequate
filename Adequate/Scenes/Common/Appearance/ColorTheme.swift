@@ -77,28 +77,6 @@ extension ColorTheme {
         // FIXME: choose appropriate color
         self.link = .blue
     }
-
-    init(accentColor: UIColor, backgroundColor: UIColor, foreground: ThemeForeground) {
-
-        // Tints
-        //let tint = accentColor
-
-        // Backgrounds
-        self.systemBackground = backgroundColor
-        // TODO: is this the best way to achieve different shades?
-        self.secondarySystemBackground = backgroundColor.withAlphaComponent(0.75)
-        //self.tertiarySystemBackground = backgroundColor.withAlphaComponent(0.5)
-
-        // Foreground
-        self.label = foreground.textColor
-        // TODO: is this the best way to achieve different shades?
-        self.secondaryLabel = foreground.textColor.withAlphaComponent(0.75)
-        //self.tertiaryLabel = foreground.textColor.withAlphaComponent(0.5)
-        //self.quaternaryLabel = foreground.textColor.withAlphaComponent(0.25)
-
-        // FIXME: choose appropriate color
-        self.link = .blue
-    }
 }
 
 // MARK: - Default
