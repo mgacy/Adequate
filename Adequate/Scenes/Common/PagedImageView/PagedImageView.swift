@@ -237,9 +237,8 @@ extension PagedImageView: Themeable {
 
     func apply(theme: ColorTheme) {
         // accentColor
-        pageControl.currentPageIndicatorTintColor = theme.label
-        pageControl.pageIndicatorTintColor = theme.label.withAlphaComponent(0.3)
-        //pageControl.pageIndicatorTintColor = theme.tertiaryLabel
+        pageControl.currentPageIndicatorTintColor = theme.tint
+        pageControl.pageIndicatorTintColor = theme.tertiaryTint
 
         // backgroundColor
         backgroundColor = theme.systemBackground

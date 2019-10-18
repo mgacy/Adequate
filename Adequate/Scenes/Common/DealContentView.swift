@@ -174,7 +174,7 @@ extension DealContentView: Themeable {
 
     func apply(theme: ColorTheme) {
         // accentColor
-        forumButton.backgroundColor = theme.label
+        forumButton.backgroundColor = theme.tint
 
         // backgroundColor
         backgroundColor = theme.systemBackground

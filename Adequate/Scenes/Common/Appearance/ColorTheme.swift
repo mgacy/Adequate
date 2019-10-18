@@ -11,10 +11,17 @@ import UIKit
 struct ColorTheme {
 
     // MARK: - Tints
+    // TODO: have primaryTint and secondaryTint?
 
-    //let tint: UIColor
+    /// The color for interactive elements, illustrations, and highlights.
+    let tint: UIColor
+
+    let secondaryTint: UIColor
+
+    let tertiaryTint: UIColor
 
     // MARK: - Backgrounds
+    // TODO: drop `system`
 
     /// The color for the main background of your interface.
     let systemBackground: UIColor
@@ -50,6 +57,9 @@ struct ColorTheme {
 
     /// The color for borders or divider lines that hides any underlying content.
     //let opaqueSeparator: UIColor
+
+    // TODO: add optional properties for status bar, etc.
+    //let foreground: ThemeForeground?
 }
 
 // MARK: - Initializers
@@ -58,31 +68,35 @@ extension ColorTheme {
     init(theme: ThemeType) {
 
         // Tints
-        //let tint = UIColor(hexString: theme.accentColor)
+        let accentColor = UIColor(hexString: theme.accentColor)
+        self.tint = accentColor
+        self.secondaryTint = accentColor.withAlphaComponent(0.6)
+        self.tertiaryTint = accentColor.withAlphaComponent(0.3)
 
         // Backgrounds
         let baseBackgroundColor = UIColor(hexString: theme.backgroundColor)
         self.systemBackground = baseBackgroundColor
-        // TODO: is this the best way to achieve different shades?
+        // TODO: adjust alpha, or use `UIColor.adjust(hueBy:, saturationBy:, brightnessBy:)`?
         self.secondarySystemBackground = baseBackgroundColor.withAlphaComponent(0.75)
         //self.tertiarySystemBackground = baseBackgroundColor.withAlphaComponent(0.5)
 
         // Foreground
         self.label = theme.foreground.textColor
-        // TODO: is this the best way to achieve different shades?
-        self.secondaryLabel = theme.foreground.textColor.withAlphaComponent(0.75)
-        //self.tertiaryLabel = theme.foreground.textColor.withAlphaComponent(0.5)
-        //self.quaternaryLabel = theme.foreground.textColor.withAlphaComponent(0.25)
+        self.secondaryLabel = theme.foreground.textColor.withAlphaComponent(0.6)
+        //self.tertiaryLabel = theme.foreground.textColor.withAlphaComponent(0.3)
+        //self.quaternaryLabel = theme.foreground.textColor.withAlphaComponent(0.18)
 
-        // FIXME: choose appropriate color
-        self.link = .blue
+        self.link = accentColor
     }
 }
 
 // MARK: - Default
 extension ColorTheme {
     static var system: ColorTheme {
-        return ColorTheme(systemBackground: ColorCompatibility.systemBackground,
+        return ColorTheme(tint: ColorCompatibility.systemBlue,
+                          secondaryTint: ColorCompatibility.systemBlue.withAlphaComponent(0.6),
+                          tertiaryTint: ColorCompatibility.systemBlue.withAlphaComponent(0.3),
+                          systemBackground: ColorCompatibility.systemBackground,
                           secondarySystemBackground: ColorCompatibility.secondarySystemBackground,
                           label: ColorCompatibility.label,
                           secondaryLabel: ColorCompatibility.secondaryLabel,

@@ -385,9 +385,9 @@ extension DealViewController: Themeable {
 
     func apply(theme: ColorTheme) {
         // accentColor
-        historyButton.tintColor = theme.label
-        shareButton.tintColor = theme.label
-        storyButton.tintColor = theme.label
+        historyButton.tintColor = theme.tint
+        shareButton.tintColor = theme.tint
+        storyButton.tintColor = theme.tint
 
         // backgroundColor
         // NOTE: are not changing the following:

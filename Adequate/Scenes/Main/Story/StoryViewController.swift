@@ -199,7 +199,7 @@ extension StoryViewController: Themeable {
 
     func apply(theme: ColorTheme) {
         // accentColor
-        dealButton.tintColor = theme.label
+        dealButton.tintColor = theme.tint
 
         // backgroundColor
         view.backgroundColor = theme.systemBackground

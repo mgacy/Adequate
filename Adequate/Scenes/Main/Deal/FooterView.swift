@@ -296,6 +296,6 @@ extension FooterView: Themeable {
 
         buyButton.setTitleColor(theme.secondarySystemBackground, for: .normal)
         buyButton.setTitleColor(ColorCompatibility.systemBlue, for: .selected)
-        buyButton.backgroundColor = theme.label
+        buyButton.backgroundColor = theme.tint
     }
 }

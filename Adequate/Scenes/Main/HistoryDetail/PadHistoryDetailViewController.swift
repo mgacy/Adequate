@@ -523,7 +523,7 @@ extension PadHistoryDetailViewController: Themeable {
 
     func apply(theme: ColorTheme) {
         // accentColor
-        dismissButton.tintColor = theme.label
+        dismissButton.tintColor = theme.tint
 
         // backgroundColor
         navigationController?.view.backgroundColor = theme.systemBackground
