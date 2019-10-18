@@ -98,7 +98,7 @@ final class HistoryListViewController: UIViewController {
 
     private func setupView() {
         title = L10n.history
-        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.barTintColor = ColorCompatibility.systemBackground
         //navigationController?.navigationBar.prefersLargeTitles = true
 
         // Try to fix UIRefreshControl issues

@@ -52,7 +52,7 @@ class DebugViewController: UIViewController {
         let view = UIScrollView()
         view.contentInsetAdjustmentBehavior = .always
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         return view
     }()
 
@@ -103,7 +103,7 @@ class DebugViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         title = "Debug"
         // ...
     }
