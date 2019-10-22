@@ -29,20 +29,6 @@ public struct ColorCollection {
 // MARK: - Initializers
 extension ColorCollection {
 
-    init(theme: AppTheme) {
-        heading1 = theme.foreground.textColor
-        heading2 = theme.foreground.textColor
-        heading3 = theme.foreground.textColor
-        body = theme.foreground.textColor
-        code = theme.foreground.textColor // ?
-        link = theme.accentColor
-        quote = .darkGray // ?
-        quoteStripe = .darkGray // ?
-        thematicBreak = UIColor(white: 0.9, alpha: 1) // ?
-        listItemPrefix = theme.foreground.textColor
-        codeBlockBackground = UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1) // ?
-    }
-
     init(theme: ColorTheme) {
         heading1 = theme.label
         heading2 = theme.label

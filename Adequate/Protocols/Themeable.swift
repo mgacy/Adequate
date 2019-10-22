@@ -9,6 +9,9 @@
 import UIKit
 
 protocol Themeable {
-    func apply(theme: AppTheme)
     func apply(theme: ColorTheme)
+}
+
+protocol ThemeObserving {
+    func apply(theme: AppTheme)
 }

@@ -142,10 +142,6 @@ extension ImageCell: ViewStateRenderable {
 
 // MARK: - Themeable
 extension ImageCell: Themeable {
-    func apply(theme: AppTheme) {
-        stateView.apply(theme: theme)
-    }
-
     func apply(theme: ColorTheme) {
         stateView.apply(theme: theme)
     }

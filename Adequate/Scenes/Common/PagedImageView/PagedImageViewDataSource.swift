@@ -22,7 +22,7 @@ class PagedImageViewDataSource: NSObject, PagedImageViewDataSourceType {
 
     private let imageService: ImageServiceType
 
-    private var theme: AppTheme?
+    private var theme: ColorTheme?
     private var urls: [URL] = [URL]()
 
     // MARK: - Lifecycle
@@ -85,13 +85,8 @@ extension PagedImageViewDataSource: ImageCellDelegate {
 
 // MARK: - Themeable
 extension PagedImageViewDataSource: Themeable {
-    func apply(theme: AppTheme) {
-        // FIXME: apply theme to cells; have them observe data source?
-        self.theme = theme
-    }
-
     func apply(theme: ColorTheme) {
         // FIXME: apply theme to cells; have them observe data source?
-        //self.theme = theme
+        self.theme = theme
     }
 }

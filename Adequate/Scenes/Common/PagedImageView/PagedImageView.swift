@@ -215,13 +215,13 @@ extension PagedImageView: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Themeable
 extension PagedImageView: Themeable {
-    func apply(theme: AppTheme) {
+    func apply(theme: ColorTheme) {
         // accentColor
-        pageControl.currentPageIndicatorTintColor = theme.accentColor
-        pageControl.pageIndicatorTintColor = theme.accentColor.withAlphaComponent(0.3)
+        pageControl.currentPageIndicatorTintColor = theme.tint
+        pageControl.pageIndicatorTintColor = theme.tertiaryTint
+
         // backgroundColor
-        self.backgroundColor = theme.backgroundColor
-        // foreground
+        backgroundColor = theme.systemBackground
 
         // Subviews
         dataSource.apply(theme: theme)
@@ -233,18 +233,5 @@ extension PagedImageView: Themeable {
             }
         }
         */
-    }
-
-    func apply(theme: ColorTheme) {
-        // accentColor
-        pageControl.currentPageIndicatorTintColor = theme.tint
-        pageControl.pageIndicatorTintColor = theme.tertiaryTint
-
-        // backgroundColor
-        backgroundColor = theme.systemBackground
-
-        // Subviews
-        // TODO: we should set `dataSource.theme` to `nil` so that it doesn't apply theme to `ImageCell.stateView`
-        dataSource.apply(theme: theme)
     }
 }

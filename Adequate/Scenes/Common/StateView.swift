@@ -198,16 +198,6 @@ extension StateView {
 
 // MARK: - Themeable
 extension StateView: Themeable {
-    func apply(theme: AppTheme) {
-        // accentColor
-
-        // backgroundColor
-        //backgroundColor = theme.backgroundColor
-
-        // foreground
-        foreground = theme.foreground
-    }
-
     func apply(theme: ColorTheme) {
         // backgroundColor
         //backgroundColor = theme.systemBackground

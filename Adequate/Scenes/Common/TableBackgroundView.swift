@@ -167,18 +167,6 @@ extension UITableView {
 
 // MARK: - Themeable
 extension TableBackgroundView: Themeable {
-    func apply(theme: AppTheme) {
-        // accentColor
-
-        // backgroundColor
-        backgroundColor = theme.backgroundColor
-
-        // foreground
-        //foreground = theme.foreground
-        titleLabel.textColor = theme.foreground.textColor
-        // TODO: how to color messageLabel?
-    }
-
     func apply(theme: ColorTheme) {
         backgroundColor = theme.systemBackground
         titleLabel.textColor = theme.label

@@ -11,7 +11,7 @@ import UIKit
 // MARK: - Protocol
 protocol ThemeManagerType {
     var theme: AppTheme { get }
-    func addObserver<T: AnyObject & Themeable>(_ observer: T) -> ObservationToken
+    func addObserver<T: AnyObject & ThemeObserving>(_ observer: T) -> ObservationToken
 }
 
 // MARK: - Implementation
@@ -35,7 +35,11 @@ class ThemeManager: ThemeManagerType {
     }
 
     func applyTheme(theme: Theme) {
-        self.theme = AppTheme(theme: theme)
+        // TODO: use lenses to modify currentDealTheme
+        let newTheme = AppTheme(baseTheme: self.theme.baseTheme,
+                                dealTheme: ColorTheme(theme: theme),
+                                foreground: theme.foreground)
+        self.theme = newTheme
 
         //UIApplication.shared.delegate?.window??.tintColor = appTheme.accentColor
         //UINavigationBar.appearance().barTintColor = appTheme.backgroundColor
@@ -51,7 +55,7 @@ class ThemeManager: ThemeManagerType {
 
     private var observations: [UUID: (AppTheme) -> Void] = [:]
 
-    func addObserver<T: AnyObject & Themeable>(_ observer: T) -> ObservationToken {
+    func addObserver<T: AnyObject & ThemeObserving>(_ observer: T) -> ObservationToken {
         let id = UUID()
         observations[id] = { [weak self, weak observer] theme in
             // If the observer has been deallocated, we can
@@ -93,7 +97,7 @@ extension ThemeManager {
             guard case .result(let deal) = dealState else {
                 return
             }
-            tm.theme = AppTheme(theme: deal.theme)
+            tm.applyTheme(theme: deal.theme)
         }
     }
     

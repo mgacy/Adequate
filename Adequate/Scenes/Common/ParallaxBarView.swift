@@ -168,15 +168,6 @@ class ParallaxBarView: UIView {
 
 // MARK: - Themeable
 extension ParallaxBarView: Themeable {
-    func apply(theme: AppTheme) {
-        // accentColor
-        // backgroundColor
-        backgroundColor = theme.backgroundColor.withAlphaComponent(progress)
-        backgroundView.backgroundColor = theme.backgroundColor
-        // foreground
-        titleLabel.textColor = theme.foreground.textColor
-    }
-
     func apply(theme: ColorTheme) {
         // backgroundColor
         backgroundColor = theme.systemBackground.withAlphaComponent(progress)

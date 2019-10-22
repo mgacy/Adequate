@@ -352,8 +352,8 @@ extension DealViewController: ViewStateRenderable {
     }
 }
 
-// MARK: - Themeable
-extension DealViewController: Themeable {
+// MARK: - ThemeObserving
+extension DealViewController: ThemeObserving {
     func apply(theme: AppTheme) {
         apply(theme: theme.dealTheme ?? theme.baseTheme)
         // FIXME: update UIBarStyle when using .dealTheme
@@ -382,7 +382,10 @@ extension DealViewController: Themeable {
         footerView.apply(theme: theme)
         */
     }
+}
 
+// MARK: - Themeable
+extension DealViewController: Themeable {
     func apply(theme: ColorTheme) {
         // accentColor
         historyButton.tintColor = theme.tint
@@ -391,9 +394,8 @@ extension DealViewController: Themeable {
 
         // backgroundColor
         // NOTE: are not changing the following:
-        //navigationController?.navigationBar.barTintColor = theme.backgroundColor
+        //navigationController?.navigationBar.barTintColor = theme.systemBackground
         //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
-
         view.backgroundColor = theme.systemBackground
         scrollView.backgroundColor = theme.systemBackground
 

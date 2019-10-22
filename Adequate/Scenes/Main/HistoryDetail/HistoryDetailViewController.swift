@@ -283,8 +283,8 @@ extension HistoryDetailViewController: ViewStateRenderable {
     }
 }
 
-// MARK: - Themeable
-extension HistoryDetailViewController: Themeable {
+// MARK: - ThemeObserving
+extension HistoryDetailViewController: ThemeObserving {
     func apply(theme: AppTheme) {
         // accentColor
         dismissButton.tintColor = theme.accentColor
@@ -306,7 +306,10 @@ extension HistoryDetailViewController: Themeable {
         barBackingView.apply(theme: theme)
         stateView.apply(theme: theme)
     }
+}
 
+// MARK: - Themeable
+extension HistoryDetailViewController: Themeable {
     func apply(theme: ColorTheme) {
         // accentColor
         dismissButton.tintColor = theme.tint

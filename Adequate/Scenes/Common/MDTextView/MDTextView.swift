@@ -75,19 +75,6 @@ class MDTextView: UITextView {
 
 // MARK: - Themeable
 extension MDTextView: Themeable {
-    func apply(theme: AppTheme) {
-        guard let mdStyler = styler as? MDStyler else {
-            log.error("Unable to apply theme to \(self.description) without MDStyler")
-            return
-        }
-        mdStyler.colors = ColorCollection(theme: theme)
-        backgroundColor = theme.backgroundColor
-        //textColor = theme.foreground.textColor
-        if _markdownText != "" {
-            try? render()
-        }
-    }
-
     func apply(theme: ColorTheme) {
         guard let mdStyler = styler as? MDStyler else {
             log.error("Unable to apply theme to \(self.description) without MDStyler")

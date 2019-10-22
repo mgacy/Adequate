@@ -496,8 +496,8 @@ extension PadHistoryDetailViewController: ViewStateRenderable {
     }
 }
 
-// MARK: - Themeable
-extension PadHistoryDetailViewController: Themeable {
+// MARK: - ThemeObserving
+extension PadHistoryDetailViewController: ThemeObserving {
     func apply(theme: AppTheme) {
         // accentColor
         dismissButton.tintColor = theme.accentColor
@@ -520,7 +520,10 @@ extension PadHistoryDetailViewController: Themeable {
         barBackingView.apply(theme: theme)
         stateView.apply(theme: theme)
     }
+}
 
+// MARK: - Themeable
+extension PadHistoryDetailViewController: Themeable {
     func apply(theme: ColorTheme) {
         // accentColor
         dismissButton.tintColor = theme.tint
