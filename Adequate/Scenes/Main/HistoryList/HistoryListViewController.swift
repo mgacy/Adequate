@@ -20,12 +20,12 @@ protocol HistoryListViewControllerDelegate: class {
 // MARK: - View Controller
 
 final class HistoryListViewController: UIViewController {
-    typealias Dependencies = HasDataProvider
+    typealias Dependencies = HasDataProvider & HasThemeManager
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     weak var delegate: HistoryListViewControllerDelegate?
 
-    //private let themeManager: ThemeManagerType
+    private let themeManager: ThemeManagerType
     private let dataSource: HistoryListDataSource
     private var observationTokens: [ObservationToken] = []
 
@@ -59,7 +59,7 @@ final class HistoryListViewController: UIViewController {
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
-        //self.themeManager = dependencies.themeManager
+        self.themeManager = dependencies.themeManager
         self.dataSource = HistoryListDataSource(dependencies: dependencies)
         super.init(nibName: nil, bundle: nil)
     }
@@ -137,7 +137,8 @@ final class HistoryListViewController: UIViewController {
         let historyToken = dataSource.addObserver(self) { vc, state in
             vc.render(state)
         }
-        return [historyToken]
+        let themeToken = themeManager.addObserver(self)
+        return [historyToken, themeToken]
     }
 
     // MARK: - DataProvider
@@ -225,5 +226,34 @@ extension HistoryListViewController: ViewStateRenderable {
                 self.displayError(error: error, completion: nil)
             }
         }
+    }
+}
+
+// MARK: - ThemeObserving
+extension HistoryListViewController: ThemeObserving {
+    func apply(theme: AppTheme) {
+        apply(theme: theme.baseTheme)
+
+        // foreground
+        // TODO: set home indicator color?
+        //navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
+        //setNeedsStatusBarAppearanceUpdate()
+    }
+}
+
+// MARK: - Themeable
+extension HistoryListViewController: Themeable {
+    func apply(theme: ColorTheme) {
+        // accentColor
+        settingsButton.tintColor = theme.tint
+        dealButton.tintColor = theme.tint
+
+        // backgroundColor
+        navigationController?.navigationBar.barTintColor = theme.systemBackground
+        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
+        view.backgroundColor = theme.systemBackground
+        tableView.backgroundColor = theme.systemBackground
+
+        refreshControl.tintColor = theme.secondaryLabel
     }
 }
