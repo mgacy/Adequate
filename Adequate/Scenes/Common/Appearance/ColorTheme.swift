@@ -65,6 +65,28 @@ struct ColorTheme {
 // MARK: - Initializers
 extension ColorTheme {
 
+    init(theme: Theme) {
+
+        // Tints
+        self.tint = theme.accentColor
+        self.secondaryTint = theme.accentColor.withAlphaComponent(0.6)
+        self.tertiaryTint = theme.accentColor.withAlphaComponent(0.3)
+
+        // Backgrounds
+        self.systemBackground = theme.backgroundColor
+        // TODO: adjust alpha, or use `UIColor.adjust(hueBy:, saturationBy:, brightnessBy:)`?
+        self.secondarySystemBackground = theme.backgroundColor.withAlphaComponent(0.75)
+        //self.tertiarySystemBackground = theme.backgroundColor.withAlphaComponent(0.5)
+
+        // Foreground
+        self.label = theme.foreground.textColor
+        self.secondaryLabel = theme.foreground.textColor.withAlphaComponent(0.6)
+        //self.tertiaryLabel = theme.foreground.textColor.withAlphaComponent(0.3)
+        //self.quaternaryLabel = theme.foreground.textColor.withAlphaComponent(0.18)
+
+        self.link = theme.accentColor
+    }
+
     init(theme: ThemeType) {
 
         // Tints
