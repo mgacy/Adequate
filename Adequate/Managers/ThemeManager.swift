@@ -22,7 +22,7 @@ class ThemeManager: ThemeManagerType {
     private let dataProvider: DataProviderType
     private var dealObservationToken: ObservationToken?
 
-    var theme: AppTheme {
+    private(set) var theme: AppTheme {
         didSet {
             callObservations(with: theme)
         }
