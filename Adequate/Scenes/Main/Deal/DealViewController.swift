@@ -356,31 +356,11 @@ extension DealViewController: ViewStateRenderable {
 extension DealViewController: ThemeObserving {
     func apply(theme: AppTheme) {
         apply(theme: theme.dealTheme ?? theme.baseTheme)
-        // FIXME: update UIBarStyle when using .dealTheme
-        /*
-        // accentColor
-        historyButton.tintColor = theme.accentColor
-        shareButton.tintColor = theme.accentColor
-        storyButton.tintColor = theme.accentColor
-
-        // backgroundColor
-        navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        navigationController?.navigationBar.layoutIfNeeded() // Animate color change
-        view.backgroundColor = theme.backgroundColor
-        scrollView.backgroundColor = theme.backgroundColor
-
-        // foreground
-        // TODO: set home indicator color?
-        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
-        setNeedsStatusBarAppearanceUpdate()
-
-        // Subviews
-        pagedImageView.apply(theme: theme)
-        contentView.apply(theme: theme)
-        barBackingView.apply(theme: theme)
-        stateView.apply(theme: theme)
-        footerView.apply(theme: theme)
-        */
+        if let foreground = theme.foreground {
+            // TODO: set home indicator color?
+            navigationController?.navigationBar.barStyle = foreground.navigationBarStyle
+            setNeedsStatusBarAppearanceUpdate()
+        }
     }
 }
 
@@ -393,7 +373,6 @@ extension DealViewController: Themeable {
         storyButton.tintColor = theme.tint
 
         // backgroundColor
-        // NOTE: are not changing the following:
         //navigationController?.navigationBar.barTintColor = theme.systemBackground
         //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
         view.backgroundColor = theme.systemBackground

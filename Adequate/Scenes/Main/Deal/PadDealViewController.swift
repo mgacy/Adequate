@@ -592,32 +592,11 @@ extension PadDealViewController: ViewStateRenderable {
 extension PadDealViewController: ThemeObserving {
     func apply(theme: AppTheme) {
         apply(theme: theme.dealTheme ?? theme.baseTheme)
-        // FIXME: update UIBarStyle when using .dealTheme
-        /*
-        // accentColor
-        historyButton.tintColor = theme.accentColor
-        shareButton.tintColor = theme.accentColor
-        storyButton.tintColor = theme.accentColor
-
-        // backgroundColor
-        navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        navigationController?.navigationBar.layoutIfNeeded() // Animate color change
-        view.backgroundColor = theme.backgroundColor
-        scrollView.backgroundColor = theme.backgroundColor
-
-        // foreground
-        // TODO: set status bar and home indicator color?
-        // TODO: set activityIndicator color
-        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
-        setNeedsStatusBarAppearanceUpdate()
-
-        // Subviews
-        pagedImageView.apply(theme: theme)
-        contentView.apply(theme: theme)
-        barBackingView.apply(theme: theme)
-        stateView.apply(theme: theme)
-        footerView.apply(theme: theme)
-        */
+        if let foreground = theme.foreground {
+            // TODO: home indicator color?
+            navigationController?.navigationBar.barStyle = foreground.navigationBarStyle
+            setNeedsStatusBarAppearanceUpdate()
+        }
     }
 }
 

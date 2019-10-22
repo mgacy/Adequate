@@ -20,35 +20,21 @@ struct AppTheme {
     static let widthInset: CGFloat = -32.0
 
     // Meh
-    let accentColor: UIColor
-    let backgroundColor: UIColor
-    let foreground: ThemeForeground
-    
-    // MARK: - New
-    let dealTheme: ColorTheme?
     let baseTheme: ColorTheme
+    let dealTheme: ColorTheme?
+    let foreground: ThemeForeground?
 }
 
 // MARK: - Initializers
 extension AppTheme {
 
-    init(theme: ThemeType) {
-        accentColor = UIColor(hexString: theme.accentColor)
-        backgroundColor = UIColor(hexString: theme.backgroundColor)
-        foreground = theme.foreground
-
-        dealTheme = nil
-        baseTheme = ColorTheme(theme: theme)
-    }
 }
 
 // MARK: - Default
 extension AppTheme {
     static var system: AppTheme {
-        return AppTheme(accentColor: ColorCompatibility.systemBlue,
-                        backgroundColor: ColorCompatibility.systemBackground,
-                        foreground: .unknown("system"),
+        return AppTheme(baseTheme: ColorTheme.system,
                         dealTheme: nil,
-                        baseTheme: ColorTheme.system)
+                        foreground: .unknown("system"))
     }
 }

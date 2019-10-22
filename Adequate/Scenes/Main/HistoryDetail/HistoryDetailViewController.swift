@@ -286,25 +286,13 @@ extension HistoryDetailViewController: ViewStateRenderable {
 // MARK: - ThemeObserving
 extension HistoryDetailViewController: ThemeObserving {
     func apply(theme: AppTheme) {
-        // accentColor
-        dismissButton.tintColor = theme.accentColor
-
-        // backgroundColor
-        navigationController?.view.backgroundColor = theme.backgroundColor
-        navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        view.backgroundColor = theme.backgroundColor
-        scrollView.backgroundColor = theme.backgroundColor
 
         // foreground
-        // TODO: set home indicator color?
-        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
-        setNeedsStatusBarAppearanceUpdate()
-
-        // Subviews
-        pagedImageView.apply(theme: theme)
-        contentView.apply(theme: theme)
-        barBackingView.apply(theme: theme)
-        stateView.apply(theme: theme)
+        if let foreground = theme.foreground {
+            // TODO: set home indicator color?
+            navigationController?.navigationBar.barStyle = foreground.navigationBarStyle
+            setNeedsStatusBarAppearanceUpdate()
+        }
     }
 }
 
