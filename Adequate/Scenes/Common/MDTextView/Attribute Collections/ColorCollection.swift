@@ -97,8 +97,8 @@ extension ColorCollection {
                                body: ColorCompatibility.label,
                                code: ColorCompatibility.label,
                                link: ColorCompatibility.link,
-                               quote: .darkGray,
-                               quoteStripe: .darkGray,
+                               quote: ColorCompatibility.secondaryLabel,
+                               quoteStripe: ColorCompatibility.secondaryLabel,
                                thematicBreak: ColorCompatibility.secondarySystemBackground, // ?
                                listItemPrefix: ColorCompatibility.label,
                                codeBlockBackground: ColorCompatibility.secondarySystemBackground) // ?
