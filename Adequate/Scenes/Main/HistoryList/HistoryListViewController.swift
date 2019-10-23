@@ -98,17 +98,17 @@ final class HistoryListViewController: UIViewController {
 
     private func setupView() {
         title = L10n.history
-        navigationController?.navigationBar.barTintColor = ColorCompatibility.systemBackground
+        //navigationController?.navigationBar.barTintColor = ColorCompatibility.systemBackground
         //navigationController?.navigationBar.prefersLargeTitles = true
 
         // Try to fix UIRefreshControl issues
         edgesForExtendedLayout = [.all] // [.top]?
         extendedLayoutIncludesOpaqueBars = true
 
-        settingsButton.tintColor = ColorCompatibility.label
-        dealButton.tintColor = ColorCompatibility.label
-        view.backgroundColor = ColorCompatibility.systemBackground
-        tableView.backgroundColor = ColorCompatibility.systemBackground
+        //settingsButton.tintColor = ColorCompatibility.label
+        //dealButton.tintColor = ColorCompatibility.label
+        //view.backgroundColor = ColorCompatibility.systemBackground
+        //tableView.backgroundColor = ColorCompatibility.systemBackground
 
         setupTableView()
         observationTokens = setupObservations()
