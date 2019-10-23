@@ -10,6 +10,7 @@ import UIKit
 
 // MARK: - Protocol
 protocol ThemeManagerType {
+    var useDealTheme: Bool { get }
     var theme: AppTheme { get }
     func addObserver<T: AnyObject & ThemeObserving>(_ observer: T) -> ObservationToken
 }
@@ -22,6 +23,7 @@ class ThemeManager: ThemeManagerType {
     private let dataProvider: DataProviderType
     private var dealObservationToken: ObservationToken?
 
+    private(set) var useDealTheme: Bool = false
     private(set) var theme: AppTheme {
         didSet {
             callObservations(with: theme)
@@ -31,7 +33,9 @@ class ThemeManager: ThemeManagerType {
     init(dataProvider: DataProviderType, theme: AppTheme) {
         self.dataProvider = dataProvider
         self.theme = theme
-        dealObservationToken = startDealObservation()
+        if useDealTheme {
+            dealObservationToken = startDealObservation()
+        }
     }
 
     func applyTheme(theme: Theme) {

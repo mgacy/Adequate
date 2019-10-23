@@ -179,9 +179,12 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
 
         contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
 
-        // FIXME: switch between using baseTheme and dealFragment
-        //apply(theme: AppTheme(theme: dealFragment.theme))
-        apply(theme: themeManager.theme.baseTheme)
+        // TODO: observe changes in themeManager.theme
+        if themeManager.useDealTheme {
+            apply(theme: ColorTheme(theme: dealFragment.theme))
+        } else {
+            apply(theme: themeManager.theme.baseTheme)
+        }
 
         // barBackingView
         let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
@@ -499,6 +502,11 @@ extension PadHistoryDetailViewController: ViewStateRenderable {
 // MARK: - ThemeObserving
 extension PadHistoryDetailViewController: ThemeObserving {
     func apply(theme: AppTheme) {
+        if themeManager.useDealTheme {
+            apply(theme: ColorTheme(theme: dealFragment.theme))
+        } else {
+            apply(theme: theme.baseTheme)
+        }
 
         // foreground
         if let foreground = theme.foreground {

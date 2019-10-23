@@ -145,9 +145,13 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
         contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupParallaxScrollView()
-        // FIXME: switch between using baseTheme and dealFragment
-        //apply(theme: AppTheme(theme: dealFragment.theme))
-        apply(theme: themeManager.theme.baseTheme)
+
+        // TODO: observe changes in themeManager.theme
+        if themeManager.useDealTheme {
+            apply(theme: ColorTheme(theme: dealFragment.theme))
+        } else {
+            apply(theme: themeManager.theme.baseTheme)
+        }
     }
 
     private func setupParallaxScrollView() {
@@ -286,6 +290,11 @@ extension HistoryDetailViewController: ViewStateRenderable {
 // MARK: - ThemeObserving
 extension HistoryDetailViewController: ThemeObserving {
     func apply(theme: AppTheme) {
+        if themeManager.useDealTheme {
+            apply(theme: ColorTheme(theme: dealFragment.theme))
+        } else {
+            apply(theme: theme.baseTheme)
+        }
 
         // foreground
         if let foreground = theme.foreground {
