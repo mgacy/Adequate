@@ -357,9 +357,7 @@ extension DealViewController: ThemeObserving {
     func apply(theme: AppTheme) {
         apply(theme: theme.dealTheme ?? theme.baseTheme)
         if let foreground = theme.foreground {
-            // TODO: set home indicator color?
-            navigationController?.navigationBar.barStyle = foreground.navigationBarStyle
-            setNeedsStatusBarAppearanceUpdate()
+            apply(foreground: foreground)
         }
     }
 }
@@ -391,3 +389,6 @@ extension DealViewController: Themeable {
         footerView.apply(theme: theme)
     }
 }
+
+// MARK: - ForegroundThemeable
+extension DealViewController: ForegroundThemeable {}

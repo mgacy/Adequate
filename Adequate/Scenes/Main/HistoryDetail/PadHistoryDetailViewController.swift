@@ -502,18 +502,16 @@ extension PadHistoryDetailViewController: ViewStateRenderable {
 // MARK: - ThemeObserving
 extension PadHistoryDetailViewController: ThemeObserving {
     func apply(theme: AppTheme) {
+        // TODO: fix status bar themeing
         if themeManager.useDealTheme {
             apply(theme: ColorTheme(theme: dealFragment.theme))
+            //apply(foreground: dealFragment.theme.foreground)
         } else {
             apply(theme: theme.baseTheme)
-        }
 
-        // foreground
-        if let foreground = theme.foreground {
-            // TODO: set status bar and home indicator color?
-            // TODO: set activityIndicator color
-            navigationController?.navigationBar.barStyle = foreground.navigationBarStyle
-            setNeedsStatusBarAppearanceUpdate()
+            //if let foreground = theme.foreground {
+            //    apply(foreground: foreground)
+            //}
         }
     }
 }
@@ -540,3 +538,6 @@ extension PadHistoryDetailViewController: Themeable {
         stateView.apply(theme: theme)
     }
 }
+
+// MARK: - ForegroundThemeable
+//extension PadHistoryDetailViewController: ForegroundThemeable {}

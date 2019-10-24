@@ -176,6 +176,9 @@ extension StoryViewController: ViewStateRenderable {
 extension StoryViewController: ThemeObserving {
     func apply(theme: AppTheme) {
         apply(theme: theme.dealTheme ?? theme.baseTheme)
+        if let foreground = theme.foreground {
+            apply(foreground: foreground)
+        }
     }
 }
 
@@ -201,3 +204,6 @@ extension StoryViewController: Themeable {
         bodyText.apply(theme: theme)
     }
 }
+
+// MARK: - ForegroundThemeable
+extension StoryViewController: ForegroundThemeable {}

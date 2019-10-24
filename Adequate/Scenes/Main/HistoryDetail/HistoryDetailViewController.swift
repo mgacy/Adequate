@@ -290,18 +290,17 @@ extension HistoryDetailViewController: ViewStateRenderable {
 // MARK: - ThemeObserving
 extension HistoryDetailViewController: ThemeObserving {
     func apply(theme: AppTheme) {
+        // TODO: fix status bar themeing
         if themeManager.useDealTheme {
             apply(theme: ColorTheme(theme: dealFragment.theme))
+            //apply(foreground: dealFragment.theme.foreground)
         } else {
             apply(theme: theme.baseTheme)
         }
-
-        // foreground
-        if let foreground = theme.foreground {
-            // TODO: set home indicator color?
-            navigationController?.navigationBar.barStyle = foreground.navigationBarStyle
-            setNeedsStatusBarAppearanceUpdate()
-        }
+        // TODO: fix status bar
+        //if let foreground = theme.foreground {
+        //    apply(foreground: foreground)
+        //}
     }
 }
 
@@ -327,3 +326,6 @@ extension HistoryDetailViewController: Themeable {
         stateView.apply(theme: theme)
     }
 }
+
+// MARK: - ForegroundThemeable
+//extension HistoryDetailViewController: ForegroundThemeable {}
