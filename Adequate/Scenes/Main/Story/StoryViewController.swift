@@ -176,25 +176,6 @@ extension StoryViewController: ViewStateRenderable {
 extension StoryViewController: ThemeObserving {
     func apply(theme: AppTheme) {
         apply(theme: theme.dealTheme ?? theme.baseTheme)
-        // FIXME: update UIBarStyle when using .dealTheme
-        /*
-        // accentColor
-        dealButton.tintColor = theme.accentColor
-
-        // backgroundColor
-        view.backgroundColor = theme.backgroundColor
-        navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
-
-        // foreground
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: theme.foreground.textColor]
-        titleLabel.textColor = theme.foreground.textColor
-        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
-        //setNeedsStatusBarAppearanceUpdate()
-
-        // Subviews
-        bodyText.apply(theme: theme)
-        */
     }
 }
 
@@ -208,6 +189,7 @@ extension StoryViewController: Themeable {
         view.backgroundColor = theme.systemBackground
         //navigationController?.navigationBar.barTintColor = theme.label
         navigationController?.navigationBar.barTintColor = theme.systemBackground
+        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
 
         // foreground
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: theme.label]
