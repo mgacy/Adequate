@@ -6,7 +6,7 @@
 //  Copyright © 2019 Glazed Donut, LLC. All rights reserved.
 //
 
-public struct DownStylerConfiguration {
+public struct DownStylerConfiguration: Equatable {
     public var fonts: FontCollection
     public var colors: ColorCollection
     public var paragraphStyles: ParagraphStyleCollection

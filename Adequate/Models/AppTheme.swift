@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct AppTheme {
+struct AppTheme: Equatable {
 
     enum CornerRadius: CGFloat {
         case small = 5.0

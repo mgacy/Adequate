@@ -9,7 +9,7 @@
 import UIKit
 
 // TODO: rename `MDColorCollection`
-public struct ColorCollection {
+public struct ColorCollection: Equatable {
     public var heading1: UIColor
     public var heading2: UIColor
     public var heading3: UIColor

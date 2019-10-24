@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct ColorTheme {
+struct ColorTheme: Equatable {
 
     // MARK: - Tints
     // TODO: have primaryTint and secondaryTint?

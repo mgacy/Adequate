@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MehResponse: Codable {
+struct MehResponse: Codable, Equatable {
     let deal: Deal
     let poll: Poll?
     let video: Video?
