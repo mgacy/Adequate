@@ -9,7 +9,7 @@
 import UIKit
 
 // TODO: rename `MDParagraphStyleCollection`
-public struct ParagraphStyleCollection {
+public struct ParagraphStyleCollection: Equatable {
     public let heading1: NSParagraphStyle
     public let heading2: NSParagraphStyle
     public let heading3: NSParagraphStyle

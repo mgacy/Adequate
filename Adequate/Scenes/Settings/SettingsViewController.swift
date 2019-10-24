@@ -399,6 +399,13 @@ extension SettingsViewController: Themeable {
         supportHeader.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
         supportFooter.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
     }
+
+    func apply(theme: ColorTheme) {
+        notificationHeader.textColor = theme.secondaryLabel
+        supportHeader.textColor = theme.secondaryLabel
+        supportFooter.textColor = theme.secondaryLabel
+        // FIXME: finish
+    }
 }
 */
 // MARK: - Config

@@ -9,5 +9,25 @@
 import UIKit
 
 protocol Themeable {
+    func apply(theme: ColorTheme)
+}
+
+protocol ThemeObserving {
     func apply(theme: AppTheme)
+}
+
+protocol ForegroundThemeable {
+    func apply(foreground: ThemeForeground)
+}
+
+extension ForegroundThemeable where Self: UIViewController {
+    func apply(foreground: ThemeForeground) {
+        // TODO: set home indicator color?
+        if #available(iOS 13.0, *) {
+            navigationController?.overrideUserInterfaceStyle = foreground.userInterfaceStyle
+        } else {
+            navigationController?.navigationBar.barStyle = foreground.navigationBarStyle
+        }
+        setNeedsStatusBarAppearanceUpdate()
+    }
 }

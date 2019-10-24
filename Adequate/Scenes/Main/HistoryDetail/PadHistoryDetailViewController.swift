@@ -159,6 +159,7 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Ensure correct navigation bar style after aborted dismissal
+        // FIXME: update this to work with new theme system
         navigationController?.navigationBar.barStyle = dealFragment.theme.foreground.navigationBarStyle
         setNeedsStatusBarAppearanceUpdate()
     }
@@ -177,7 +178,13 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
         pagedImageView.delegate = self
 
         contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
-        apply(theme: AppTheme(theme: dealFragment.theme))
+
+        // TODO: observe changes in themeManager.theme
+        if themeManager.useDealTheme {
+            apply(theme: ColorTheme(theme: dealFragment.theme))
+        } else {
+            apply(theme: themeManager.theme.baseTheme)
+        }
 
         // barBackingView
         let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
@@ -492,23 +499,37 @@ extension PadHistoryDetailViewController: ViewStateRenderable {
     }
 }
 
+// MARK: - ThemeObserving
+extension PadHistoryDetailViewController: ThemeObserving {
+    func apply(theme: AppTheme) {
+        // TODO: fix status bar themeing
+        if themeManager.useDealTheme {
+            apply(theme: ColorTheme(theme: dealFragment.theme))
+            //apply(foreground: dealFragment.theme.foreground)
+        } else {
+            apply(theme: theme.baseTheme)
+
+            //if let foreground = theme.foreground {
+            //    apply(foreground: foreground)
+            //}
+        }
+    }
+}
+
 // MARK: - Themeable
 extension PadHistoryDetailViewController: Themeable {
-    func apply(theme: AppTheme) {
+    func apply(theme: ColorTheme) {
         // accentColor
-        dismissButton.tintColor = theme.accentColor
+        dismissButton.tintColor = theme.tint
 
         // backgroundColor
-        navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        navigationController?.navigationBar.layoutIfNeeded() // Animate color change
-        view.backgroundColor = theme.backgroundColor
-        scrollView.backgroundColor = theme.backgroundColor
+        navigationController?.view.backgroundColor = theme.systemBackground
+        // NOTE: are not changing the following:
+        //navigationController?.navigationBar.barTintColor = theme.backgroundColor
+        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
 
-        // foreground
-        // TODO: set status bar and home indicator color?
-        // TODO: set activityIndicator color
-        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
-        setNeedsStatusBarAppearanceUpdate()
+        view.backgroundColor = theme.systemBackground
+        scrollView.backgroundColor = theme.systemBackground
 
         // Subviews
         pagedImageView.apply(theme: theme)
@@ -517,3 +538,6 @@ extension PadHistoryDetailViewController: Themeable {
         stateView.apply(theme: theme)
     }
 }
+
+// MARK: - ForegroundThemeable
+//extension PadHistoryDetailViewController: ForegroundThemeable {}

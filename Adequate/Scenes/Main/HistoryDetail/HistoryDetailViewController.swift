@@ -125,6 +125,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Ensure correct navigation bar style after aborted dismissal
+        // FIXME: update this to work with new theme system
         navigationController?.navigationBar.barStyle = dealFragment.theme.foreground.navigationBarStyle
         setNeedsStatusBarAppearanceUpdate()
     }
@@ -144,7 +145,13 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
         contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupParallaxScrollView()
-        apply(theme: AppTheme(theme: dealFragment.theme))
+
+        // TODO: observe changes in themeManager.theme
+        if themeManager.useDealTheme {
+            apply(theme: ColorTheme(theme: dealFragment.theme))
+        } else {
+            apply(theme: themeManager.theme.baseTheme)
+        }
     }
 
     private func setupParallaxScrollView() {
@@ -280,22 +287,37 @@ extension HistoryDetailViewController: ViewStateRenderable {
     }
 }
 
+// MARK: - ThemeObserving
+extension HistoryDetailViewController: ThemeObserving {
+    func apply(theme: AppTheme) {
+        // TODO: fix status bar themeing
+        if themeManager.useDealTheme {
+            apply(theme: ColorTheme(theme: dealFragment.theme))
+            //apply(foreground: dealFragment.theme.foreground)
+        } else {
+            apply(theme: theme.baseTheme)
+        }
+        // TODO: fix status bar
+        //if let foreground = theme.foreground {
+        //    apply(foreground: foreground)
+        //}
+    }
+}
+
 // MARK: - Themeable
 extension HistoryDetailViewController: Themeable {
-    func apply(theme: AppTheme) {
+    func apply(theme: ColorTheme) {
         // accentColor
-        dismissButton.tintColor = theme.accentColor
+        dismissButton.tintColor = theme.tint
 
         // backgroundColor
-        navigationController?.view.backgroundColor = theme.backgroundColor
-        navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        view.backgroundColor = theme.backgroundColor
-        scrollView.backgroundColor = theme.backgroundColor
+        navigationController?.view.backgroundColor = theme.systemBackground
+        // NOTE: are not changing the following:
+        //navigationController?.navigationBar.barTintColor = theme.backgroundColor
+        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
 
-        // foreground
-        // TODO: set home indicator color?
-        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
-        setNeedsStatusBarAppearanceUpdate()
+        view.backgroundColor = theme.systemBackground
+        scrollView.backgroundColor = theme.systemBackground
 
         // Subviews
         pagedImageView.apply(theme: theme)
@@ -304,3 +326,6 @@ extension HistoryDetailViewController: Themeable {
         stateView.apply(theme: theme)
     }
 }
+
+// MARK: - ForegroundThemeable
+//extension HistoryDetailViewController: ForegroundThemeable {}

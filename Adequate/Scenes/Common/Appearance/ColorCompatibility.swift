@@ -8,7 +8,6 @@
 
 import UIKit
 
-// FIXME: for iOS12, this only covers (light?) mode
 enum ColorCompatibility {
 
     // MARK: - Element Colors
@@ -20,7 +19,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .label
         }
-        return UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        // Dark
+        //return UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        // Light
+        return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
     }
 
     /// The color for text labels that contain secondary content.
@@ -28,7 +30,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .secondaryLabel
         }
-        return UIColor(red: 0.9215686274509803, green: 0.9215686274509803, blue: 0.9607843137254902, alpha: 0.6)
+        // Dark
+        //return UIColor(red: 0.9215686274509803, green: 0.9215686274509803, blue: 0.9607843137254902, alpha: 0.6)
+        // Light
+        return UIColor(r: 60, g: 60, b: 67, a: 0.6)
     }
 
     /// The color for text labels that contain tertiary content.
@@ -36,7 +41,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .tertiaryLabel
         }
-        return UIColor(red: 0.9215686274509803, green: 0.9215686274509803, blue: 0.9607843137254902, alpha: 0.3)
+        // Dark
+        //return UIColor(red: 0.9215686274509803, green: 0.9215686274509803, blue: 0.9607843137254902, alpha: 0.3)
+        // Light
+        return UIColor(r: 60, g: 60, b: 67, a: 0.3)
     }
 
     /// The color for text labels that contain quaternary content.
@@ -44,7 +52,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .quaternaryLabel
         }
-        return UIColor(red: 0.9215686274509803, green: 0.9215686274509803, blue: 0.9607843137254902, alpha: 0.18)
+        // Dark
+        //return UIColor(red: 0.9215686274509803, green: 0.9215686274509803, blue: 0.9607843137254902, alpha: 0.18)
+        // Light
+        return UIColor(r: 60, g: 60, b: 67, a: 0.18)
     }
 
     /// The color for placeholder text in controls or text views.
@@ -52,7 +63,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .placeholderText
         }
-        return UIColor(red: 0.9215686274509803, green: 0.9215686274509803, blue: 0.9607843137254902, alpha: 0.3)
+        // Dark
+        //return UIColor(red: 0.9215686274509803, green: 0.9215686274509803, blue: 0.9607843137254902, alpha: 0.3)
+        // Light
+        return UIColor(r: 60, g: 60, b: 67, a: 0.3)
     }
 
     /// The color for links.
@@ -60,7 +74,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .link
         }
-        return UIColor(red: 0.03529411764705882, green: 0.5176470588235295, blue: 1.0, alpha: 1.0)
+        // Dark
+        //return UIColor(red: 0.03529411764705882, green: 0.5176470588235295, blue: 1.0, alpha: 1.0)
+        // Light
+        return UIColor(r: 0, g: 122, b: 255, a: 1.0)
     }
 
     // MARK: Separator Colors
@@ -70,7 +87,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .separator
         }
-        return UIColor(red: 0.32941176470588235, green: 0.32941176470588235, blue: 0.34509803921568627, alpha: 0.6)
+        // Dark
+        //return UIColor(red: 0.32941176470588235, green: 0.32941176470588235, blue: 0.34509803921568627, alpha: 0.6)
+        // Light
+        return UIColor(r: 60, g: 60, b: 67, a: 0.29)
     }
 
     /// The color for borders or divider lines that hides any underlying content.
@@ -78,7 +98,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .opaqueSeparator
         }
-        return UIColor(red: 0.2196078431372549, green: 0.2196078431372549, blue: 0.22745098039215686, alpha: 1.0)
+        // Dark
+        //return UIColor(red: 0.2196078431372549, green: 0.2196078431372549, blue: 0.22745098039215686, alpha: 1.0)
+        // Light
+        return UIColor(r: 198, g: 198, b: 200, a: 1.0)
     }
 
     // MARK: Fill Colors
@@ -88,7 +111,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemFill
         }
-        return UIColor(red: 0.47058823529411764, green: 0.47058823529411764, blue: 0.5019607843137255, alpha: 0.36)
+        // Dark
+        //return UIColor(red: 0.47058823529411764, green: 0.47058823529411764, blue: 0.5019607843137255, alpha: 0.36)
+        // Light
+        return UIColor(r: 120, g: 120, b: 128, a: 0.2)
     }
 
     /// An overlay fill color for medium-size shapes.
@@ -96,7 +122,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .secondarySystemFill
         }
-        return UIColor(red: 0.47058823529411764, green: 0.47058823529411764, blue: 0.5019607843137255, alpha: 0.32)
+        // Dark
+        //return UIColor(red: 0.47058823529411764, green: 0.47058823529411764, blue: 0.5019607843137255, alpha: 0.32)
+        // Light
+        return UIColor(r: 120, g: 120, b: 128, a: 0.16)
     }
 
     /// An overlay fill color for large shapes.
@@ -104,7 +133,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .tertiarySystemFill
         }
-        return UIColor(red: 0.4627450980392157, green: 0.4627450980392157, blue: 0.5019607843137255, alpha: 0.24)
+        // Dark
+        //return UIColor(red: 0.4627450980392157, green: 0.4627450980392157, blue: 0.5019607843137255, alpha: 0.24)
+        // Light
+        return UIColor(r: 118, g: 118, b: 128, a: 0.12)
     }
 
     /// An overlay fill color for large areas that contain complex content.
@@ -112,7 +144,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .quaternarySystemFill
         }
-        return UIColor(red: 0.4627450980392157, green: 0.4627450980392157, blue: 0.5019607843137255, alpha: 0.18)
+        // Dark
+        //return UIColor(red: 0.4627450980392157, green: 0.4627450980392157, blue: 0.5019607843137255, alpha: 0.18)
+        // Light
+        return UIColor(r: 116, g: 116, b: 128, a: 0.08)
     }
 
     // MARK: Standard Content Background Colors
@@ -122,7 +157,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemBackground
         }
-        return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+        // Dark
+        //return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+        // Light
+        return UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     }
 
     /// The color for content layered on top of the main background.
@@ -130,7 +168,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .secondarySystemBackground
         }
-        return UIColor(red: 0.10980392156862745, green: 0.10980392156862745, blue: 0.11764705882352941, alpha: 1.0)
+        // Dark
+        //return UIColor(red: 0.10980392156862745, green: 0.10980392156862745, blue: 0.11764705882352941, alpha: 1.0)
+        // Light
+        return UIColor(r: 242, g: 242, b: 247, a: 1.0)
     }
 
     /// The color for content layered on top of secondary backgrounds.
@@ -138,7 +179,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .tertiarySystemBackground
         }
-        return UIColor(red: 0.17254901960784313, green: 0.17254901960784313, blue: 0.1803921568627451, alpha: 1.0)
+        // Dark
+        //return UIColor(red: 0.17254901960784313, green: 0.17254901960784313, blue: 0.1803921568627451, alpha: 1.0)
+        // Light
+        return UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     }
 
     // MARK: Grouped Content Background Colors
@@ -148,7 +192,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemGroupedBackground
         }
-        return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+        // Dark
+        //return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+        // Light
+        return UIColor(r: 242, g: 242, b: 247, a: 1.0)
     }
 
     /// The color for content layered on top of the main background of your grouped interface.
@@ -156,7 +203,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .secondarySystemGroupedBackground
         }
-        return UIColor(red: 0.10980392156862745, green: 0.10980392156862745, blue: 0.11764705882352941, alpha: 1.0)
+        // Dark
+        //return UIColor(red: 0.10980392156862745, green: 0.10980392156862745, blue: 0.11764705882352941, alpha: 1.0)
+        // Light
+        return UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     }
 
     /// The color for content layered on top of secondary backgrounds of your grouped interface.
@@ -164,7 +214,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .tertiarySystemGroupedBackground
         }
-        return UIColor(red: 0.17254901960784313, green: 0.17254901960784313, blue: 0.1803921568627451, alpha: 1.0)
+        // Dark
+        //return UIColor(red: 0.17254901960784313, green: 0.17254901960784313, blue: 0.1803921568627451, alpha: 1.0)
+        // Light
+        return UIColor(r: 242, g: 242, b: 247, a: 1.0)
     }
 
     // MARK: - Standard Colors
@@ -176,10 +229,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemBlue
         }
-        // Color from HIG:
-        // https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/
-        //return UIColor(hexString: "#007AFF") // iOS 12
-        return UIColor(red: 0.0, green: 0.478431373, blue: 1.0, alpha: 1.0) // iOS 13
+        // Dark
+        //return UIColor(r: 10, g: 132, b: 255, a: 1.0)
+        // Light
+        return UIColor(r: 0, g: 122, b: 255, a: 1.0)
     }
 
     /// A green color that automatically adapts to the current trait environment.
@@ -187,7 +240,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemGreen
         }
-        return UIColor.green
+        // Dark
+        //return UIColor(r: 48, g: 209, b: 88, a: 1.0)
+        // Light
+        return UIColor(r: 52, g: 199, b: 89, a: 1.0)
     }
 
     /// An indigo color that automatically adapts to the current trait environment.
@@ -195,7 +251,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemIndigo
         }
-        return UIColor(red: 0.3686274509803922, green: 0.3607843137254902, blue: 0.9019607843137255, alpha: 1.0)
+        // Dark
+        //return UIColor(r: 94, g: 92, b: 230, a: 1.0)
+        // Light
+        return UIColor(r: 88, g: 86, b: 214, a: 1.0)
     }
 
     /// An orange color that automatically adapts to the current trait environment.
@@ -203,7 +262,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemOrange
         }
-        return UIColor.orange
+        // Dark
+        //return UIColor(r: 255, g: 159, b: 10, a: 1.0)
+        // Light
+        return UIColor(r: 255, g: 149, b: 0, a: 1.0)
     }
 
     /// A pink color that automatically adapts to the current trait environment.
@@ -211,8 +273,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemPink
         }
-        // Value from HIG
-        return UIColor(red: 1.0, green: 0.176470588, blue: 0.333333333, alpha: 1.0)
+        // Dark
+        //return UIColor(r: 255, g: 55, b: 95, a: 1.0)
+        // Light
+        return UIColor(r: 255, g: 45, b: 85, a: 1.0)
     }
 
     /// A purple color that automatically adapts to the current trait environment.
@@ -220,7 +284,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemPurple
         }
-        return UIColor.purple
+        // Dark
+        //return UIColor(r: 191, g: 90, b: 242, a: 1.0)
+        // Light
+        return UIColor(r: 175, g: 82, b: 222, a: 1.0)
     }
 
     /// A red color that automatically adapts to the current trait environment.
@@ -228,7 +295,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemRed
         }
-        return UIColor.red
+        // Dark
+        //return UIColor(r: 255, g: 69, b: 58, a: 1.0)
+        // Light
+        return UIColor(r: 255, g: 59, b: 48, a: 1.0)
     }
 
     /// A teal color that automatically adapts to the current trait environment.
@@ -236,8 +306,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemTeal
         }
-        // Value from HIG
-        return UIColor(red: 0.352941176, green: 0.784313725, blue: 0.980392157, alpha: 1.0)
+        // Dark
+        //return UIColor(r: 100, g: 210, b: 255, a: 1.0)
+        // Light
+        return UIColor(r: 90, g: 200, b: 250, a: 1.0)
     }
 
     /// A yellow color that automatically adapts to the current trait environment.
@@ -245,7 +317,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemYellow
         }
-        return UIColor.yellow
+        // Dark
+        //return UIColor(r: 255, g: 214, b: 10, a: 1.0)
+        // Light
+        return UIColor(r: 255, g: 204, b: 0, a: 1.0)
     }
 
     // MARK: Gray Colors
@@ -255,7 +330,8 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemGray
         }
-        return UIColor.gray
+        // Dark & Light
+        return UIColor(r: 142, g: 142, b: 147, a: 1.0)
     }
 
     /// A second-level shade of grey.
@@ -263,7 +339,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemGray2
         }
-        return UIColor(red: 0.38823529411764707, green: 0.38823529411764707, blue: 0.4, alpha: 1.0)
+        // Dark
+        //return UIColor(red: 0.38823529411764707, green: 0.38823529411764707, blue: 0.4, alpha: 1.0)
+        // Light
+        return UIColor(r: 174, g: 174, b: 178, a: 1.0)
     }
 
     /// A third-level shade of grey.
@@ -271,7 +350,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemGray3
         }
-        return UIColor(red: 0.2823529411764706, green: 0.2823529411764706, blue: 0.2901960784313726, alpha: 1.0)
+        // Dark
+        //return UIColor(red: 0.2823529411764706, green: 0.2823529411764706, blue: 0.2901960784313726, alpha: 1.0)
+        // Light
+        return UIColor(r: 199, g: 199, b: 204, a: 1.0)
     }
 
     /// A fourth-level shade of grey.
@@ -279,7 +361,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemGray4
         }
-        return UIColor(red: 0.22745098039215686, green: 0.22745098039215686, blue: 0.23529411764705882, alpha: 1.0)
+        // Dark
+        //return UIColor(red: 0.22745098039215686, green: 0.22745098039215686, blue: 0.23529411764705882, alpha: 1.0)
+        // Light
+        return UIColor(r: 209, g: 209, b: 214, a: 1.0)
     }
 
     /// A fifth-level shade of grey.
@@ -287,7 +372,10 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemGray5
         }
-        return UIColor(red: 0.17254901960784313, green: 0.17254901960784313, blue: 0.1803921568627451, alpha: 1.0)
+        // Dark
+        //return UIColor(red: 0.17254901960784313, green: 0.17254901960784313, blue: 0.1803921568627451, alpha: 1.0)
+        // Light
+        return UIColor(r: 299, g: 229, b: 234, a: 1.0)
     }
 
     /// A sixth-level shade of grey.
@@ -295,6 +383,9 @@ enum ColorCompatibility {
         if #available(iOS 13, *) {
             return .systemGray6
         }
-        return UIColor(red: 0.10980392156862745, green: 0.10980392156862745, blue: 0.11764705882352941, alpha: 1.0)
+        // Dark
+        //return UIColor(red: 0.10980392156862745, green: 0.10980392156862745, blue: 0.11764705882352941, alpha: 1.0)
+        // Light
+        return UIColor(r: 242, g: 242, b: 247, a: 1.0)
     }
 }

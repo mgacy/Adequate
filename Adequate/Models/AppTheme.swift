@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct AppTheme {
+struct AppTheme: Equatable {
 
     enum CornerRadius: CGFloat {
         case small = 5.0
@@ -20,26 +20,21 @@ struct AppTheme {
     static let widthInset: CGFloat = -32.0
 
     // Meh
-    let accentColor: UIColor
-    let backgroundColor: UIColor
-    let foreground: ThemeForeground
+    let baseTheme: ColorTheme
+    let dealTheme: ColorTheme?
+    let foreground: ThemeForeground?
 }
 
 // MARK: - Initializers
 extension AppTheme {
 
-    init(theme: ThemeType) {
-        accentColor = UIColor(hexString: theme.accentColor)
-        backgroundColor = UIColor(hexString: theme.backgroundColor)
-        foreground = theme.foreground
-    }
 }
 
 // MARK: - Default
 extension AppTheme {
     static var system: AppTheme {
-        return AppTheme(accentColor: ColorCompatibility.systemBlue,
-                        backgroundColor: ColorCompatibility.systemBackground,
+        return AppTheme(baseTheme: ColorTheme.system,
+                        dealTheme: nil,
                         foreground: .unknown("system"))
     }
 }

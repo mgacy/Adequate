@@ -10,32 +10,40 @@ import UIKit
 
 // MARK: - Protocol
 protocol ThemeManagerType {
+    var useDealTheme: Bool { get }
     var theme: AppTheme { get }
-    func applyTheme(theme: Theme)
-    func addObserver<T: AnyObject & Themeable>(_ observer: T) -> ObservationToken
+    func addObserver<T: AnyObject & ThemeObserving>(_ observer: T) -> ObservationToken
 }
 
 // MARK: - Implementation
 class ThemeManager: ThemeManagerType {
+
     private static var animationDuration: TimeInterval = 0.3
 
-    var theme: AppTheme {
+    private let dataProvider: DataProviderType
+    private var dealObservationToken: ObservationToken?
+
+    private(set) var useDealTheme: Bool = false
+    private(set) var theme: AppTheme {
         didSet {
             callObservations(with: theme)
         }
     }
 
-    init(theme: Theme) {
-        self.theme = AppTheme(theme: theme)
-    }
-
-    init(theme: AppTheme) {
+    init(dataProvider: DataProviderType, theme: AppTheme) {
+        self.dataProvider = dataProvider
         self.theme = theme
+        if useDealTheme {
+            dealObservationToken = startDealObservation()
+        }
     }
 
     func applyTheme(theme: Theme) {
-        //let appTheme = AppTheme(theme: theme)
-        self.theme = AppTheme(theme: theme)
+        // TODO: use lenses to modify currentDealTheme
+        let newTheme = AppTheme(baseTheme: self.theme.baseTheme,
+                                dealTheme: ColorTheme(theme: theme),
+                                foreground: theme.foreground)
+        self.theme = newTheme
 
         //UIApplication.shared.delegate?.window??.tintColor = appTheme.accentColor
         //UINavigationBar.appearance().barTintColor = appTheme.backgroundColor
@@ -51,7 +59,7 @@ class ThemeManager: ThemeManagerType {
 
     private var observations: [UUID: (AppTheme) -> Void] = [:]
 
-    func addObserver<T: AnyObject & Themeable>(_ observer: T) -> ObservationToken {
+    func addObserver<T: AnyObject & ThemeObserving>(_ observer: T) -> ObservationToken {
         let id = UUID()
         observations[id] = { [weak self, weak observer] theme in
             // If the observer has been deallocated, we can
@@ -78,4 +86,30 @@ class ThemeManager: ThemeManagerType {
         }
     }
 
+}
+
+// MARK: - DataProvider Observation
+extension ThemeManager {
+
+    func startDealObservation () -> ObservationToken {
+        // TODO: is this the best way to handle this?
+        guard dealObservationToken == nil else {
+            stopDealObservation()
+            return startDealObservation()
+        }
+        return dataProvider.addDealObserver(self) { tm, dealState in
+            guard case .result(let deal) = dealState else {
+                return
+            }
+            tm.applyTheme(theme: deal.theme)
+        }
+    }
+    
+    func stopDealObservation() {
+        guard let token = dealObservationToken else {
+            return
+        }
+        token.cancel()
+        dealObservationToken = nil
+    }
 }

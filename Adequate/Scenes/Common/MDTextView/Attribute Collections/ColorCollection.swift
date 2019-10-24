@@ -9,7 +9,7 @@
 import UIKit
 
 // TODO: rename `MDColorCollection`
-public struct ColorCollection {
+public struct ColorCollection: Equatable {
     public var heading1: UIColor
     public var heading2: UIColor
     public var heading3: UIColor
@@ -29,18 +29,18 @@ public struct ColorCollection {
 // MARK: - Initializers
 extension ColorCollection {
 
-    init(theme: AppTheme) {
-        heading1 = theme.foreground.textColor
-        heading2 = theme.foreground.textColor
-        heading3 = theme.foreground.textColor
-        body = theme.foreground.textColor
-        code = theme.foreground.textColor // ?
-        link = theme.accentColor
-        quote = .darkGray // ?
-        quoteStripe = .darkGray // ?
-        thematicBreak = UIColor(white: 0.9, alpha: 1) // ?
-        listItemPrefix = theme.foreground.textColor
-        codeBlockBackground = UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1) // ?
+    init(theme: ColorTheme) {
+        heading1 = theme.label
+        heading2 = theme.label
+        heading3 = theme.label
+        body = theme.label
+        code = theme.label
+        link = theme.link
+        quote = theme.secondaryLabel
+        quoteStripe = theme.secondaryLabel
+        thematicBreak = theme.secondarySystemBackground
+        listItemPrefix = theme.label
+        codeBlockBackground = theme.secondarySystemBackground
     }
 }
 
@@ -83,8 +83,8 @@ extension ColorCollection {
                                body: ColorCompatibility.label,
                                code: ColorCompatibility.label,
                                link: ColorCompatibility.link,
-                               quote: .darkGray,
-                               quoteStripe: .darkGray,
+                               quote: ColorCompatibility.secondaryLabel,
+                               quoteStripe: ColorCompatibility.secondaryLabel,
                                thematicBreak: ColorCompatibility.secondarySystemBackground, // ?
                                listItemPrefix: ColorCompatibility.label,
                                codeBlockBackground: ColorCompatibility.secondarySystemBackground) // ?

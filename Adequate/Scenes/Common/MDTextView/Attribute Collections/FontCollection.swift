@@ -13,7 +13,7 @@ import UIKit
 // manually reload the content.
 
 // TODO: rename `MDFontCollection`
-public struct FontCollection {
+public struct FontCollection: Equatable {
     public var heading1: UIFont
     public var heading2: UIFont
     public var heading3: UIFont

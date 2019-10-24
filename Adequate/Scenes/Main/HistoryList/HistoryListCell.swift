@@ -11,7 +11,7 @@ import UIKit
 final class HistoryListCell: UITableViewCell {
 
     //var deal: Deal?
-    var theme: AppTheme?
+    var theme: Theme?
 
     // MARK: - Subivews
 
@@ -179,7 +179,7 @@ extension HistoryListCell {
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     func configure(with deal: Deal) {
-        apply(theme: AppTheme(theme: deal.theme))
+        apply(theme: Theme(deal.theme))
         titleLabel.text = deal.title
         if let createdAt = DateFormatter.iso8601Full.date(from: deal.createdAt) {
             dateLabel.text = DateFormatter.veryShortEST.string(from: createdAt)
@@ -190,15 +190,16 @@ extension HistoryListCell {
 }
 
 // MARK: - Themeable
-extension HistoryListCell: Themeable {
-    func apply(theme: AppTheme) {
+extension HistoryListCell {
+
+    func apply(theme: Theme) {
         self.theme = theme
         // accentColor
         // backgroundColor
         cardView.backgroundColor = theme.backgroundColor
         // foreground
         titleLabel.textColor = theme.foreground.textColor
-        dateLabel.textColor = theme.foreground.textColor.withAlphaComponent(0.8)
+        dateLabel.textColor = theme.foreground.textColor.withAlphaComponent(0.6)
     }
 }
 /*

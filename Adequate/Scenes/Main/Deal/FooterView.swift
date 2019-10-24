@@ -274,17 +274,14 @@ extension FooterView {
 
 // MARK: - Themeable
 extension FooterView: Themeable {
-    public func apply(theme: AppTheme) {
-        // accentColor
-        self.backgroundColor = theme.accentColor
-        buyButton.setTitleColor(theme.accentColor, for: .normal)
+    func apply(theme: ColorTheme) {
+        priceLabel.textColor = theme.label
+        priceComparisonLabel.textColor = theme.secondaryLabel
 
-        // backgroundColor
-        priceLabel.textColor = theme.backgroundColor
-        priceComparisonLabel.textColor = theme.backgroundColor.withAlphaComponent(0.5)
-        buyButton.backgroundColor = theme.backgroundColor
+        backgroundColor = theme.secondarySystemBackground
 
-        // foreground
-        //priceLabel.textColor = theme.foreground.textColor
+        buyButton.setTitleColor(theme.secondarySystemBackground, for: .normal)
+        buyButton.setTitleColor(ColorCompatibility.systemBlue, for: .selected)
+        buyButton.backgroundColor = theme.tint
     }
 }

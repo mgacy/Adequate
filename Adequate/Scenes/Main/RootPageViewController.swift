@@ -192,10 +192,20 @@ extension RootPageViewControler: UIScrollViewDelegate {
 
 }
 
+// MARK: - ThemeObserving
+extension RootPageViewControler: ThemeObserving {
+    func apply(theme: AppTheme) {
+        apply(theme: theme.dealTheme ?? theme.baseTheme)
+
+        // Apply to children
+        //pages.compactMap { $0 as? Themeable }.forEach { $0.apply(theme: theme) }
+    }
+}
+
 // MARK: - Themeable
 extension RootPageViewControler: Themeable {
-    func apply(theme: AppTheme) {
-        view.backgroundColor = theme.backgroundColor
+    func apply(theme: ColorTheme) {
+        view.backgroundColor = theme.systemBackground
 
         // Apply to children
         //pages.compactMap { $0 as? Themeable }.forEach { $0.apply(theme: theme) }

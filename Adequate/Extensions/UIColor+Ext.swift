@@ -33,6 +33,7 @@
 
 import UIKit
 
+// MARK: - Hex Initializer
 public extension UIColor {
 
     /**
@@ -116,8 +117,33 @@ public extension UIColor {
 
 }
 
-// MARK: - HSB Manipulation
+// MARK - RGBA Initializer
+extension UIColor {
 
+    /// Creates a color object using the specified opacity and CSS RGB values.
+    /// - Parameter r: The red value of the color object. Values below 0 are interpreted as 0 and values above 255 are interpreted as 255.
+    /// - Parameter g: The green value of the color object. Values below 0 are interpreted as 0 and values above 255 are interpreted as 255.
+    /// - Parameter b: The blue value of the color object. Values below 0 are interpreted as 0 and values above 255 are interpreted as 255.
+    /// - Parameter a: The opacity value of the color object, specified as a value from 0.0 to 1.0. Alpha values below 0.0 are interpreted as 0.0, and values above 1.0 are interpreted as 1.0.
+    convenience init(r red: Int, g green: Int, b blue: Int, a alpha: CGFloat) {
+        self.init(red: UIColor.clampingPercentage(red),
+                  green: UIColor.clampingPercentage(green),
+                  blue: UIColor.clampingPercentage(blue),
+                  alpha: alpha)
+    }
+
+    fileprivate static func clampingPercentage(_ value: Int) -> CGFloat {
+        if value <= 0 {
+            return 0.0
+        } else if value >= 255 {
+            return 1.0
+        } else {
+            return CGFloat(value) / 255.0
+        }
+    }
+}
+
+// MARK: - HSB Manipulation
 extension UIColor {
 
     // https://stackoverflow.com/a/51865114/4472195

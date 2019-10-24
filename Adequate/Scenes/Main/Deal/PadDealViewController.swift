@@ -570,7 +570,6 @@ extension PadDealViewController: ViewStateRenderable {
             // footerView
             footerView.update(withDeal: deal)
 
-            themeManager.applyTheme(theme: deal.theme)
             UIView.animate(withDuration: 0.3, animations: {
                 // FIXME: can't animate `isHidden`
                 // see: https://stackoverflow.com/a/29080894
@@ -589,25 +588,30 @@ extension PadDealViewController: ViewStateRenderable {
     }
 }
 
+// MARK: - ThemeObserving
+extension PadDealViewController: ThemeObserving {
+    func apply(theme: AppTheme) {
+        apply(theme: theme.dealTheme ?? theme.baseTheme)
+        if let foreground = theme.foreground {
+            apply(foreground: foreground)
+        }
+    }
+}
+
 // MARK: - Themeable
 extension PadDealViewController: Themeable {
-    func apply(theme: AppTheme) {
+    func apply(theme: ColorTheme) {
         // accentColor
-        historyButton.tintColor = theme.accentColor
-        shareButton.tintColor = theme.accentColor
-        storyButton.tintColor = theme.accentColor
+        historyButton.tintColor = theme.tint
+        shareButton.tintColor = theme.tint
+        storyButton.tintColor = theme.tint
 
         // backgroundColor
-        navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        navigationController?.navigationBar.layoutIfNeeded() // Animate color change
-        view.backgroundColor = theme.backgroundColor
-        scrollView.backgroundColor = theme.backgroundColor
-
-        // foreground
-        // TODO: set status bar and home indicator color?
-        // TODO: set activityIndicator color
-        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
-        setNeedsStatusBarAppearanceUpdate()
+        // NOTE: are not changing the following:
+        //navigationController?.navigationBar.barTintColor = theme.systemBackground
+        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
+        view.backgroundColor = theme.systemBackground
+        scrollView.backgroundColor = theme.systemBackground
 
         // Subviews
         pagedImageView.apply(theme: theme)
@@ -617,3 +621,7 @@ extension PadDealViewController: Themeable {
         footerView.apply(theme: theme)
     }
 }
+
+// MARK: - ForegroundThemeable
+extension PadDealViewController: ForegroundThemeable {}
+
