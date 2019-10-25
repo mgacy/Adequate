@@ -67,6 +67,9 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
 
         // Animation
         let imageAnimation = { () -> Void in
+            UIView.performWithoutAnimation {
+                toVC.setNeedsStatusBarAppearanceUpdate()
+            }
             transitionImageView.frame = self.destinationFrame
             bgView.alpha = 0.0
         }
