@@ -25,8 +25,9 @@ class FullScreenImageViewController: UIViewController {
 
     var backgroundColor: UIColor = .black
 
+    var hideStatusBar: Bool = false
     override var prefersStatusBarHidden: Bool {
-        return true
+        return hideStatusBar
     }
 
     // MARK: - Subviews

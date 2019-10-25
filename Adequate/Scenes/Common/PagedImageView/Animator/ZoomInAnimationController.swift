@@ -76,7 +76,8 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
 
         // Animation
         let animation = { () -> Void in
-            //transitionImageView.frame = finalFrame
+            toVC.hideStatusBar = true
+            toVC.setNeedsStatusBarAppearanceUpdate()
             transitionImageView.frame.size = scaledSize
             transitionImageView.center = toVC.view.center
             bgView.alpha = 1.0
