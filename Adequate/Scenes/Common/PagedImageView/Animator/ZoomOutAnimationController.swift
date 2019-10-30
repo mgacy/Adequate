@@ -10,6 +10,7 @@ import UIKit
 
 class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
 
+    private let transitionDuration: TimeInterval = 0.3
     private let pagedImageView: PagedImageView
     private var destinationFrame: CGRect {
         // Use computed property to fix error in split view on iPad, where the value of this property at initialization
@@ -25,7 +26,7 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
     // MARK: - UIViewControllerAnimatedTransitioning
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.3
+        return transitionDuration
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {

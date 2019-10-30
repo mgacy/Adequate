@@ -10,6 +10,7 @@ import UIKit
 
 class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
 
+    private let transitionDuration: TimeInterval = 0.3
     private let pagedImageView: PagedImageView!
     private let sourceFrame: CGRect
 
@@ -21,7 +22,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
     // MARK: - UIViewControllerAnimatedTransitioning
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.3
+        return transitionDuration
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
