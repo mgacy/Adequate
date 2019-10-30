@@ -82,11 +82,11 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
             transitionImageView.frame.size = scaledSize
             transitionImageView.center = toVC.view.center
             bgView.alpha = 1.0
-            toVC.view.isHidden = false
         }
 
         // Completion
         let completion = { (finished: Bool) -> Void in
+            toVC.view.isHidden = false
             transitionImageView.removeFromSuperview()
             bgView.removeFromSuperview()
             sourceImageCoveringView.removeFromSuperview()
