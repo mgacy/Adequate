@@ -30,7 +30,9 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         guard
             let fromVC = transitionContext.viewController(forKey: .from),
             let toVC = transitionContext.viewController(forKey: .to) as? FullScreenImageViewController else {
-                fatalError("ERROR: failed to cast as correct view controllers for transition")
+                log.error("Failed to cast as correct view controllers for transition")
+                transitionContext.completeTransition(false)
+                return
         }
         let containerView = transitionContext.containerView
         let finalFrame = transitionContext.finalFrame(for: toVC)

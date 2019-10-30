@@ -34,11 +34,12 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
         guard
             let fromVC = transitionContext.viewController(forKey: .from) as? FullScreenImageViewController,
             let toVC = transitionContext.viewController(forKey: .to) else {
-                fatalError("ERROR: failed to cast as correct view controllers for transition")
+                log.error("Failed to cast as correct view controllers for transition")
+                transitionContext.completeTransition(false)
+                return
         }
         let containerView = transitionContext.containerView
         //let finalFrame = transitionContext.finalFrame(for: toVC)
-
 
         // TODO: is fromVC displaying image / activityIndicator (/ error?)
 
