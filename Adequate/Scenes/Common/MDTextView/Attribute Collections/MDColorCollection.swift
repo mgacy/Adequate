@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import Down
 
-public struct MDColorCollection: Equatable {
+public struct MDColorCollection: Equatable, ColorCollection {
     public var heading1: UIColor
     public var heading2: UIColor
     public var heading3: UIColor

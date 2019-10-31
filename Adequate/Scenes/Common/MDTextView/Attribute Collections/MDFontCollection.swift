@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import Down
 
 // TODO: Documentation -> When using dynamic fonts, we should make sure the text view property
 // `adjustsFontForContentSizeCategory` is actually false. Instead override `traitCollectionDidChange()` to
 // manually reload the content.
 
-public struct MDFontCollection: Equatable {
+public struct MDFontCollection: Equatable, FontCollection {
     public var heading1: UIFont
     public var heading2: UIFont
     public var heading3: UIFont
