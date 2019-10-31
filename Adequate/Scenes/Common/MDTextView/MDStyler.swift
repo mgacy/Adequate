@@ -10,9 +10,9 @@ import Down
 
 class MDStyler: Styler {
 
-    public var colors: ColorCollection
-    public let fonts: FontCollection
-    public let paragraphStyles: ParagraphStyleCollection
+    public var colors: MDColorCollection
+    public let fonts: MDFontCollection
+    public let paragraphStyles: MDParagraphStyleCollection
 
     // TODO: observe ThemeManager?
     //var theme: AppTheme
@@ -24,7 +24,7 @@ class MDStyler: Styler {
 
     // MARK: - Init
 
-    public init(configuration: DownStylerConfiguration = DownStylerConfiguration()) {
+    public init(configuration: MDStylerConfiguration = MDStylerConfiguration()) {
         fonts = configuration.fonts
         colors = configuration.colors
         paragraphStyles = configuration.paragraphStyles

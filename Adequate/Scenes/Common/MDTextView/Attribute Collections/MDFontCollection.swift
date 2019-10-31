@@ -1,6 +1,6 @@
 //
-//  FontCollection.swift
-//  Down
+//  MDFontCollection.swift
+//  Adequate
 //
 //  Created by John Nguyen on 22.06.19.
 //  Copyright © 2019 Glazed Donut, LLC. All rights reserved.
@@ -12,8 +12,7 @@ import UIKit
 // `adjustsFontForContentSizeCategory` is actually false. Instead override `traitCollectionDidChange()` to
 // manually reload the content.
 
-// TODO: rename `MDFontCollection`
-public struct FontCollection: Equatable {
+public struct MDFontCollection: Equatable {
     public var heading1: UIFont
     public var heading2: UIFont
     public var heading3: UIFont
@@ -26,7 +25,7 @@ public struct FontCollection: Equatable {
 }
 
 // MARK: - Initializers
-public extension FontCollection {
+public extension MDFontCollection {
     // TODO: move this into static var?
     init() {
         heading1 = UIFont.preferredFont(for: .title3, adding: .traitBold)

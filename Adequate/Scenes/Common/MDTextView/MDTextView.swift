@@ -80,7 +80,7 @@ extension MDTextView: Themeable {
             log.error("Unable to apply theme to \(self.description) without MDStyler")
             return
         }
-        mdStyler.colors = ColorCollection(theme: theme)
+        mdStyler.colors = MDColorCollection(theme: theme)
         backgroundColor = theme.systemBackground
         //textColor = theme.label
         if _markdownText != "" {

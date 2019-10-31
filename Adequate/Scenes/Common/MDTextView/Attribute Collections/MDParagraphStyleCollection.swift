@@ -1,6 +1,6 @@
 //
-//  ParagraphStyleCollection.swift
-//  Down
+//  MDParagraphStyleCollection.swift
+//  Adequate
 //
 //  Created by John Nguyen on 27.07.19.
 //  Copyright © 2019 Glazed Donut, LLC. All rights reserved.
@@ -8,8 +8,7 @@
 
 import UIKit
 
-// TODO: rename `MDParagraphStyleCollection`
-public struct ParagraphStyleCollection: Equatable {
+public struct MDParagraphStyleCollection: Equatable {
     public let heading1: NSParagraphStyle
     public let heading2: NSParagraphStyle
     public let heading3: NSParagraphStyle
@@ -22,7 +21,7 @@ public struct ParagraphStyleCollection: Equatable {
 }
 
 // MARK: - Initializers
-public extension ParagraphStyleCollection {
+public extension MDParagraphStyleCollection {
     // TODO: move this into static var?
     init() {
         let headingStyle = NSMutableParagraphStyle()
@@ -83,7 +82,7 @@ public extension ParagraphStyleCollection {
         heading2 = headingStyle
         heading3 = headingStyle
         //body = bodyStyle
-        body = ParagraphStyleCollection.makeBaseStyle(headIndent: 0.0)
+        body = MDParagraphStyleCollection.makeBaseStyle(headIndent: 0.0)
         code = codeStyle
         list = listStyle
         //list = ParagraphStyleCollection.makeBaseStyle(headIndent: 15.0)
@@ -91,7 +90,7 @@ public extension ParagraphStyleCollection {
 }
 
 // MARK: - Factory
-private extension ParagraphStyleCollection {
+private extension MDParagraphStyleCollection {
     static func makeBaseStyle(headIndent: CGFloat) -> NSMutableParagraphStyle {
         // TODO: obtain value from attributes of font?
         let indent: CGFloat = 15.0
