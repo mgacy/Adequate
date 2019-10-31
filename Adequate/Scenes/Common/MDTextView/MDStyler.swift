@@ -34,19 +34,23 @@ class MDStyler: Styler {
 
     func style(document str: NSMutableAttributedString) {}
 
-    func style(blockQuote str: NSMutableAttributedString) {
+    func style(blockQuote str: NSMutableAttributedString, nestDepth: Int) {
         //log.verbose("blockQuote: '\(str.string)'")
         // ...
         str.addAttributes([.paragraphStyle: paragraphStyles.body])
     }
 
-    func style(list str: NSMutableAttributedString) {
+    func style(list str: NSMutableAttributedString, nestDepth: Int) {
         //log.debug("list: '\(str.string)'")
         // NOTE: DownStyler applies paragraph styling in `style(item:)`
         str.addAttributes([.paragraphStyle: paragraphStyles.list])
     }
 
-    func style(item str: NSMutableAttributedString) {
+    func style(listItemPrefix str: NSMutableAttributedString) {
+        str.setAttributes(listPrefixAttributes)
+    }
+
+    func style(item str: NSMutableAttributedString, prefixLength: Int) {
         //log.verbose("item: '\(str.string)'")
         // NOTE: this is where DownStyler applies paragraph styling, rather than style(list:)
     }
@@ -67,7 +71,7 @@ class MDStyler: Styler {
         str.addAttribute(for: .paragraphStyle, value: paragraphStyles.body)
     }
 
-    open func style(heading str: NSMutableAttributedString, level: Int) {
+    func style(heading str: NSMutableAttributedString, level: Int) {
         //log.verbose("heading: '\(str.string)' - '\(level)")
         let (font, color, paragraphStyle) = headingAttributes(for: level)
 
