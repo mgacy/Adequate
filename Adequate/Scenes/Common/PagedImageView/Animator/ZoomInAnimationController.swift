@@ -11,7 +11,7 @@ import UIKit
 class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
 
     private let transitionDuration: TimeInterval = 0.3
-    private let pagedImageView: PagedImageView!
+    private let pagedImageView: PagedImageView
     private let sourceFrame: CGRect
 
     init(animatingFrom pagedImageView: PagedImageView) {
@@ -44,8 +44,8 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         containerView.addSubview(toVC.view)
 
         // snapshot
-        let snapshot = UIScreen.main.snapshotView(afterScreenUpdates: false)
-        containerView.addSubview(snapshot)
+        let sourceSnapshot = UIScreen.main.snapshotView(afterScreenUpdates: false)
+        containerView.addSubview(sourceSnapshot)
 
         // sourceImageCoveringView
         let sourceImageCoveringView = UIView(frame: sourceFrame)
@@ -92,7 +92,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
             transitionImageView.removeFromSuperview()
             bgView.removeFromSuperview()
             sourceImageCoveringView.removeFromSuperview()
-            snapshot.removeFromSuperview()
+            sourceSnapshot.removeFromSuperview()
 
             if transitionContext.isInteractive {
                 if transitionContext.transitionWasCancelled {
