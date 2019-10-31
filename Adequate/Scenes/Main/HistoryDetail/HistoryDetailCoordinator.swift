@@ -53,13 +53,23 @@ final class HistoryDetailCoordinator: BaseCoordinator {
         case .phone:
             let viewController = HistoryDetailViewController(dependencies: dependencies, deal: deal)
             viewController.delegate = self
-            router.setRootModule(viewController, navBarStyle: .hiddenSeparator)
-            viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
+            router.setRootModule(viewController, hideBar: false)
+
+            if #available(iOS 13, *) {
+                router.toPresent().presentationController?.delegate = self
+            } else {
+                viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
+            } 
         case .pad:
             let viewController = PadHistoryDetailViewController(dependencies: dependencies, deal: deal)
             viewController.delegate = self
-            router.setRootModule(viewController, navBarStyle: .hiddenSeparator)
-            viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
+            router.setRootModule(viewController, hideBar: false)
+
+            if #available(iOS 13, *) {
+                router.toPresent().presentationController?.delegate = self
+            } else {
+                viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
+            }
         default:
             fatalError("Invalid device")
         }
@@ -85,6 +95,13 @@ extension HistoryDetailCoordinator: Presentable {
 // MARK: - VoidDismissalDelegate
 extension HistoryDetailCoordinator: VoidDismissalDelegate {
     func dismiss() {
+        onFinishFlow?(())
+    }
+}
+
+// MARK: - UIAdaptivePresentationControllerDelegate
+extension HistoryDetailCoordinator: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         onFinishFlow?(())
     }
 }

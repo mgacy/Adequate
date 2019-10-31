@@ -12,18 +12,8 @@ import Promise
 // TODO: subclass UIViewController
 class PagedImageView: UIView {
 
-    var currentPage: Int = 0
+    private(set) var currentPage: Int = 0
     private var isPaging: Bool = false
-
-    var originFrame: CGRect {
-        return convert(collectionView.frame, to: nil)
-    }
-
-    var visibleImage: Promise<UIImage> {
-        // FIXME: this can cause a crash when dataSource.urls == []
-        //guard dataSource.collectionView(collectionView, numberOfItemsInSection: 0) >= primaryVisiblePage else {}
-        return dataSource.imageSource(for: IndexPath(item: primaryVisiblePage, section: 0))
-    }
 
     var visibleImageState: ViewState<UIImage>? {
         guard let firstImageCell = collectionView.visibleCells.first as? ImageCell else {
@@ -129,6 +119,7 @@ class PagedImageView: UIView {
         dataSource.updateImages(with: urls)
         collectionView.reloadData()
         collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: false)
+        currentPage = 0
         updatePageControl()
     }
 
@@ -152,20 +143,6 @@ class PagedImageView: UIView {
         collectionView.scrollRectToVisible(makeRect(forPage: newPage), animated: true)
     }
 
-    // MARK: - Appearance / Sizing
-
-    public func beginRotation() {
-        collectionView.isHidden = true
-    }
-
-    public func completeRotation(page currentPage: Int) {
-        layoutIfNeeded()
-        flowLayout.invalidateLayout()
-        collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally,
-                                    animated: false)
-        collectionView.isHidden = false
-    }
-
     private func updatePageControl() {
         pageControl.numberOfPages = collectionView.numberOfItems(inSection: 0)
         pageControl.currentPage = currentPage
@@ -176,7 +153,49 @@ class PagedImageView: UIView {
                       width: collectionView.frame.size.width,
                       height: collectionView.frame.size.height)
     }
+}
 
+// MARK: - Rotation Helpers
+extension PagedImageView {
+
+    public func beginRotation() {
+        isPaging = true
+        collectionView.isHidden = true
+    }
+
+    public func completeRotation(page currentPage: Int) {
+        layoutIfNeeded()
+        flowLayout.invalidateLayout()
+        // TODO: set flowLayout.estimatedItemSize using value from VC.viewWillTransition(to:, with:)?
+        // https://stackoverflow.com/a/52281704/4472195
+        collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally,
+                                    animated: false)
+        collectionView.isHidden = false
+    }
+}
+
+// MARK: - View Controller Presentation Animation Helpers
+extension PagedImageView {
+
+    var originFrame: CGRect {
+        return convert(collectionView.frame, to: nil)
+    }
+
+    var visibleImage: Promise<UIImage> {
+        // FIXME: this can cause a crash when dataSource.urls == []
+        //guard dataSource.collectionView(collectionView, numberOfItemsInSection: 0) >= primaryVisiblePage else {}
+        return dataSource.imageSource(for: IndexPath(item: primaryVisiblePage, section: 0))
+    }
+
+    /// Hide views that will be animated during presentation and dismissal of `FullScreenImageViewController`.
+    public func beginTransition() {
+        collectionView.isHidden = true
+    }
+
+    /// Show views that were animated during presentation and dismissal of `FullScreenImageViewController`.
+    public func completeTransition() {
+        collectionView.isHidden = false
+    }
 }
 
 // MARK: - UICollectionViewDelegate
@@ -201,6 +220,7 @@ extension PagedImageView: UICollectionViewDelegateFlowLayout {
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if !isPaging {
+            currentPage = primaryVisiblePage
             pageControl.currentPage = primaryVisiblePage
         }
     }
@@ -208,18 +228,17 @@ extension PagedImageView: UICollectionViewDelegateFlowLayout {
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         isPaging = false
     }
-
 }
 
 // MARK: - Themeable
 extension PagedImageView: Themeable {
-    func apply(theme: AppTheme) {
+    func apply(theme: ColorTheme) {
         // accentColor
-        pageControl.currentPageIndicatorTintColor = theme.accentColor
-        pageControl.pageIndicatorTintColor = theme.accentColor.withAlphaComponent(0.3)
+        pageControl.currentPageIndicatorTintColor = theme.tint
+        pageControl.pageIndicatorTintColor = theme.tertiaryTint
+
         // backgroundColor
-        self.backgroundColor = theme.backgroundColor
-        // foreground
+        backgroundColor = theme.systemBackground
 
         // Subviews
         dataSource.apply(theme: theme)

@@ -42,6 +42,9 @@ class PadDealViewController: UIViewController {
     private let portraitWidthMultiplier: CGFloat = 1.0 / 2.0
     private let landscapeWidthMultiplier: CGFloat = 2.0 / 3.0
 
+    /// The new size to which the view is transitioning.
+    //private var newSize: CGSize?
+
     // MARK: - Subviews
 
     private lazy var stateView: StateView = {
@@ -81,14 +84,14 @@ class PadDealViewController: UIViewController {
     private let scrollView: ParallaxScrollView = {
         let view = ParallaxScrollView()
         view.contentInsetAdjustmentBehavior = .always
+        view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
         return view
     }()
 
     private let contentView: DealContentView = {
         let view = DealContentView()
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -103,7 +106,7 @@ class PadDealViewController: UIViewController {
 
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -112,7 +115,7 @@ class PadDealViewController: UIViewController {
 
     private lazy var footerView: FooterView = {
         let view = FooterView()
-        //view.backgroundColor = view.tintColor
+        //view.backgroundColor = ColorCompatibility.systemBlue
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -175,10 +178,7 @@ class PadDealViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.isTranslucent = true
-
+        navigationController?.applyStyle(.transparent)
         pagedImageView.delegate = self
         footerView.delegate = self
 
@@ -304,10 +304,66 @@ class PadDealViewController: UIViewController {
         return [dealToken, themeToken]
     }
 
-    // MARK: - Transition
+    // MARK: - Actions
 
-    /// The new size to which the view is transitioning.
-    //private var newSize: CGSize?
+    @objc func getDeal() {
+        dataProvider.refreshDeal(for: .manual)
+    }
+
+    @objc private func didPressShare(_ sender: UIBarButtonItem) {
+        guard case .result(let deal) = viewState else {
+            return
+        }
+        shareDeal(title: deal.title, url: deal.url)
+    }
+
+    func shareDeal(title: String, url: URL) {
+        log.debug("\(#function) ...")
+
+        // TODO: add price to text?
+        let text = "\(L10n.sharingActivityText): \(title)"
+
+        // set up activity view controller
+        let textToShare: [Any] = [ text, url ]
+        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+
+        // exclude some activity types from the list (optional)
+        //activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+
+        present(activityViewController, animated: true, completion: nil)
+    }
+
+    @objc func ensureVisibleImageLoaded(){
+        guard let imageViewState = pagedImageView.visibleImageState else {
+            return
+        }
+        if case .error = imageViewState {
+            pagedImageView.reloadVisibleImage()
+        }
+    }
+
+    // MARK: - Navigation
+
+    @objc private func didPressForum(_ sender: UIButton) {
+        guard case .result(let deal) = viewState, let topic = deal.topic else {
+            return
+        }
+        delegate?.showForum(with: topic)
+    }
+
+    @objc private func didPressHistory(_ sender: UIBarButtonItem) {
+        delegate?.showHistoryList()
+    }
+
+    @objc private func didPressStory(_ sender: UIBarButtonItem) {
+        delegate?.showStory()
+    }
+
+}
+
+// MARK: - Transitions
+extension PadDealViewController {
 
     // MARK: Trait Collection
 
@@ -371,6 +427,7 @@ class PadDealViewController: UIViewController {
 
         // PagedImageView
         // For collection view rotation see also: https://stackoverflow.com/a/43322706
+        // TODO: use pagedImageView.currentPage instead
         let currentPage = pagedImageView.primaryVisiblePage
         coordinator.animate(
             alongsideTransition: { [unowned self] (context) -> Void in
@@ -458,63 +515,6 @@ class PadDealViewController: UIViewController {
         // IMPORTANT
         pagedImageView.flowLayout.invalidateLayout()
     }
-
-    // MARK: - Actions / Navigation
-
-    @objc func getDeal() {
-        dataProvider.refreshDeal(for: .manual)
-    }
-
-    @objc private func didPressShare(_ sender: UIBarButtonItem) {
-        guard case .result(let deal) = viewState else {
-            return
-        }
-        shareDeal(title: deal.title, url: deal.url)
-    }
-
-    func shareDeal(title: String, url: URL) {
-        log.debug("\(#function) ...")
-
-        // TODO: add price to text?
-        let text = "\(L10n.sharingActivityText): \(title)"
-
-        // set up activity view controller
-        let textToShare: [Any] = [ text, url ]
-        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
-
-        // exclude some activity types from the list (optional)
-        //activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
-
-        present(activityViewController, animated: true, completion: nil)
-    }
-
-    @objc func ensureVisibleImageLoaded(){
-        guard let imageViewState = pagedImageView.visibleImageState else {
-            return
-        }
-        if case .error = imageViewState {
-            pagedImageView.reloadVisibleImage()
-        }
-    }
-
-    // MARK: - Navigation
-
-    @objc private func didPressForum(_ sender: UIButton) {
-        guard case .result(let deal) = viewState, let topic = deal.topic else {
-            return
-        }
-        delegate?.showForum(with: topic)
-    }
-
-    @objc private func didPressHistory(_ sender: UIBarButtonItem) {
-        delegate?.showHistoryList()
-    }
-
-    @objc private func didPressStory(_ sender: UIBarButtonItem) {
-        delegate?.showStory()
-    }
-
 }
 
 // MARK: - PagedImageViewDelegate
@@ -571,7 +571,6 @@ extension PadDealViewController: ViewStateRenderable {
             // footerView
             footerView.update(withDeal: deal)
 
-            themeManager.applyTheme(theme: deal.theme)
             UIView.animate(withDuration: 0.3, animations: {
                 // FIXME: can't animate `isHidden`
                 // see: https://stackoverflow.com/a/29080894
@@ -590,26 +589,30 @@ extension PadDealViewController: ViewStateRenderable {
     }
 }
 
+// MARK: - ThemeObserving
+extension PadDealViewController: ThemeObserving {
+    func apply(theme: AppTheme) {
+        apply(theme: theme.dealTheme ?? theme.baseTheme)
+        if let foreground = theme.foreground {
+            apply(foreground: foreground)
+        }
+    }
+}
+
 // MARK: - Themeable
 extension PadDealViewController: Themeable {
-    func apply(theme: AppTheme) {
+    func apply(theme: ColorTheme) {
         // accentColor
-        historyButton.tintColor = theme.accentColor
-        shareButton.tintColor = theme.accentColor
-        storyButton.tintColor = theme.accentColor
+        historyButton.tintColor = theme.tint
+        shareButton.tintColor = theme.tint
+        storyButton.tintColor = theme.tint
 
         // backgroundColor
-        navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        navigationController?.navigationBar.layoutIfNeeded() // Animate color change
-        view.backgroundColor = theme.backgroundColor
-        pagedImageView.backgroundColor = theme.backgroundColor
-        scrollView.backgroundColor = theme.backgroundColor
-
-        // foreground
-        // TODO: set status bar and home indicator color?
-        // TODO: set activityIndicator color
-        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
-        setNeedsStatusBarAppearanceUpdate()
+        // NOTE: are not changing the following:
+        //navigationController?.navigationBar.barTintColor = theme.systemBackground
+        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
+        view.backgroundColor = theme.systemBackground
+        scrollView.backgroundColor = theme.systemBackground
 
         // Subviews
         pagedImageView.apply(theme: theme)
@@ -619,3 +622,7 @@ extension PadDealViewController: Themeable {
         footerView.apply(theme: theme)
     }
 }
+
+// MARK: - ForegroundThemeable
+extension PadDealViewController: ForegroundThemeable {}
+

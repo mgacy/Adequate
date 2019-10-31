@@ -65,14 +65,14 @@ class DealViewController: UIViewController {
     private let scrollView: ParallaxScrollView = {
         let view = ParallaxScrollView()
         view.contentInsetAdjustmentBehavior = .always
+        view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
         return view
     }()
 
     private let contentView: DealContentView = {
         let view = DealContentView()
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -85,7 +85,7 @@ class DealViewController: UIViewController {
 
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -94,7 +94,7 @@ class DealViewController: UIViewController {
 
     private lazy var footerView: FooterView = {
         let view = FooterView()
-        //view.backgroundColor = view.tintColor
+        //view.backgroundColor = ColorCompatibility.systemBlue
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -160,10 +160,7 @@ class DealViewController: UIViewController {
     // MARK: - View Methods
 
     func setupView() {
-        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.isTranslucent = true
-
+        navigationController?.applyStyle(.transparent)
         pagedImageView.delegate = self
         footerView.delegate = self
 
@@ -340,7 +337,6 @@ extension DealViewController: ViewStateRenderable {
             // footerView
             footerView.update(withDeal: deal)
 
-            themeManager.applyTheme(theme: deal.theme)
             UIView.animate(withDuration: 0.3, animations: {
                 self.stateView.render(viewState)
                 // FIXME: can't animate `isHidden`
@@ -356,26 +352,34 @@ extension DealViewController: ViewStateRenderable {
     }
 }
 
+// MARK: - ThemeObserving
+extension DealViewController: ThemeObserving {
+    func apply(theme: AppTheme) {
+        apply(theme: theme.dealTheme ?? theme.baseTheme)
+        if let foreground = theme.foreground {
+            apply(foreground: foreground)
+        }
+    }
+}
+
 // MARK: - Themeable
 extension DealViewController: Themeable {
-    func apply(theme: AppTheme) {
+    func apply(theme: ColorTheme) {
         // accentColor
-        historyButton.tintColor = theme.accentColor
-        shareButton.tintColor = theme.accentColor
-        storyButton.tintColor = theme.accentColor
+        historyButton.tintColor = theme.tint
+        shareButton.tintColor = theme.tint
+        storyButton.tintColor = theme.tint
 
         // backgroundColor
-        navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        navigationController?.navigationBar.layoutIfNeeded() // Animate color change
-        view.backgroundColor = theme.backgroundColor
-        pagedImageView.backgroundColor = theme.backgroundColor
-        scrollView.backgroundColor = theme.backgroundColor
-        contentView.backgroundColor = theme.backgroundColor
+        //navigationController?.navigationBar.barTintColor = theme.systemBackground
+        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
+        view.backgroundColor = theme.systemBackground
+        scrollView.backgroundColor = theme.systemBackground
 
         // foreground
         // TODO: set home indicator color?
-        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
-        setNeedsStatusBarAppearanceUpdate()
+        //navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
+        //setNeedsStatusBarAppearanceUpdate()
 
         // Subviews
         pagedImageView.apply(theme: theme)
@@ -385,3 +389,6 @@ extension DealViewController: Themeable {
         footerView.apply(theme: theme)
     }
 }
+
+// MARK: - ForegroundThemeable
+extension DealViewController: ForegroundThemeable {}

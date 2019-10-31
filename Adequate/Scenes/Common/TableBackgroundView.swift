@@ -58,7 +58,7 @@ class TableBackgroundView: UIView {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.textColor = .black
+        label.textColor = ColorCompatibility.label
         label.textAlignment = .center
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -69,7 +69,7 @@ class TableBackgroundView: UIView {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.textColor = .lightGray
+        label.textColor = ColorCompatibility.secondaryLabel
         label.textAlignment = .center
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -167,15 +167,9 @@ extension UITableView {
 
 // MARK: - Themeable
 extension TableBackgroundView: Themeable {
-    func apply(theme: AppTheme) {
-        // accentColor
-
-        // backgroundColor
-        backgroundColor = theme.backgroundColor
-
-        // foreground
-        //foreground = theme.foreground
-        titleLabel.textColor = theme.foreground.textColor
-        // TODO: how to color messageLabel?
+    func apply(theme: ColorTheme) {
+        backgroundColor = theme.systemBackground
+        titleLabel.textColor = theme.label
+        messageLabel.textColor = theme.secondaryLabel
     }
 }

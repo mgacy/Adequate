@@ -155,16 +155,19 @@ class DealContentView: UIView {
 
 // MARK: - Themeable
 extension DealContentView: Themeable {
-    func apply(theme: AppTheme) {
+    func apply(theme: ColorTheme) {
         // accentColor
-        forumButton.backgroundColor = theme.accentColor
+        forumButton.backgroundColor = theme.tint
+
         // backgroundColor
-        backgroundColor = theme.backgroundColor
-        featuresText.backgroundColor = theme.backgroundColor
-        forumButton.setTitleColor(theme.backgroundColor, for: .normal)
-        specsText.backgroundColor = theme.backgroundColor
-        // foreground
-        titleLabel.textColor = theme.foreground.textColor
+        backgroundColor = theme.systemBackground
+        featuresText.backgroundColor = theme.systemBackground
+        forumButton.setTitleColor(theme.systemBackground, for: .normal)
+        // TODO: forumButton.setTitleColor(theme.?, for: .disabled)
+        specsText.backgroundColor = theme.systemBackground
+
+        // foreground - text
+        titleLabel.textColor = theme.label
 
         styler.colors = ColorCollection(theme: theme)
         try? featuresText.render()

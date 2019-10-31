@@ -9,43 +9,6 @@
 import UIKit
 import Promise
 
-// MARK: - Image Cache
-
-public protocol ImageCaching {
-    func saveImageToCache(image: UIImage?, url: URL)
-    func imageFromCache(for: URL) -> UIImage?
-    func clearCache()
-}
-
-class ImageCache: ImageCaching {
-
-    var cache = Dictionary<String, UIImage>()
-
-    func saveImageToCache(image: UIImage?, url: URL) {
-        guard let image = image else { return }
-        cache[url.absoluteString] = image
-    }
-
-    func imageFromCache(for url: URL) -> UIImage? {
-        return cache[url.absoluteString]
-    }
-
-    func clearCache() {
-        cache.removeAll()
-    }
-}
-
-// MARK: - Protocol
-
-public protocol ImageServiceType {
-    func fetchImage(for url: URL) -> Promise<UIImage>
-    func fetchedImage(for url: URL, tryingSecondary: Bool) -> UIImage?
-    //func cancelFetch(_ url: URL)
-    func clearCache()
-}
-
-// MARK: - Implementation
-
 public class ImageService: ImageServiceType {
     // TODO: rename memoryCache and diskCache
     private let cache = ImageCache()

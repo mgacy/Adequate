@@ -54,6 +54,9 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
     private let portraitWidthMultiplier: CGFloat = 1.0 / 2.0
     private let landscapeWidthMultiplier: CGFloat = 2.0 / 3.0
 
+    /// The new size to which the view is transitioning.
+    //private var newSize: CGSize?
+
     // MARK: - Subviews
 
     private lazy var stateView: StateView = {
@@ -78,20 +81,20 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
         let view = ParallaxScrollView()
         view.contentInsetAdjustmentBehavior = .always
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         return view
     }()
 
     private let contentView: DealContentView = {
         let view = DealContentView()
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     private lazy var barBackingView: ParallaxBarView = {
         let view = ParallaxBarView()
-        view.rightLabelInset = 0.0
+        view.rightLabelInset = AppTheme.sideMargin
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -100,7 +103,7 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
 
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -140,7 +143,16 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
             view.addSubview(pagedImageView)
             setupRegularConstraints()
         case .unspecified:
+            // FIXME: can we do better than this hack?
             log.error("Unspecified horizontalSizeClass")
+            if min(view.frame.width, view.frame.height) < 500 {
+                NSLayoutConstraint.activate(compactConstraints)
+                setupParallaxScrollView()
+            } else {
+                barBackingView.leftLabelInset = AppTheme.sideMargin
+                view.addSubview(pagedImageView)
+                setupRegularConstraints()
+            }
         @unknown default:
             fatalError("Unrecognized size class: \(traitCollection.horizontalSizeClass)")
         }
@@ -156,6 +168,7 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Ensure correct navigation bar style after aborted dismissal
+        // FIXME: update this to work with new theme system
         navigationController?.navigationBar.barStyle = dealFragment.theme.foreground.navigationBarStyle
         setNeedsStatusBarAppearanceUpdate()
     }
@@ -170,19 +183,26 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
     // MARK: - View Methods
 
     private func setupView() {
-        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.isTranslucent = true
-
+        navigationController?.applyStyle(.transparent)
         pagedImageView.delegate = self
 
         contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
-        apply(theme: AppTheme(theme: dealFragment.theme))
+
+        // TODO: observe changes in themeManager.theme
+        if themeManager.useDealTheme {
+            apply(theme: ColorTheme(theme: dealFragment.theme))
+        } else {
+            apply(theme: themeManager.theme.baseTheme)
+        }
 
         // barBackingView
-        let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
-        barBackingView.coordinateOffset = 8.0
-        barBackingView.inset = statusBarHeight
+        if #available(iOS 13, *) {
+            // ...
+        } else {
+            let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
+            barBackingView.coordinateOffset = 8.0
+            barBackingView.inset = statusBarHeight
+        }
 
         // scrollView
         scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
@@ -282,10 +302,24 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
         return [themeToken]
     }
     */
-    // MARK: - Transition
 
-    /// The new size to which the view is transitioning.
-    //private var newSize: CGSize?
+    // MARK: - Navigation
+
+    @objc private func didPressForum(_ sender: UIButton) {
+        guard case .result(let deal) = viewState, let topic = deal.topic else {
+            return
+        }
+        delegate?.showForum(with: topic)
+    }
+
+    @objc private func didPressDismiss(_ sender: UIBarButtonItem) {
+        delegate?.dismiss()
+    }
+
+}
+
+// MARK: - Transitions
+extension PadHistoryDetailViewController {
 
     // MARK: Trait Collection
 
@@ -409,20 +443,6 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
         // IMPORTANT
         pagedImageView.flowLayout.invalidateLayout()
     }
-
-    // MARK: - Navigation
-
-    @objc private func didPressForum(_ sender: UIButton) {
-        guard case .result(let deal) = viewState, let topic = deal.topic else {
-            return
-        }
-        delegate?.showForum(with: topic)
-    }
-
-    @objc private func didPressDismiss(_ sender: UIBarButtonItem) {
-        delegate?.dismiss()
-    }
-
 }
 
 // MARK: - PagedImageViewDelegate
@@ -492,25 +512,37 @@ extension PadHistoryDetailViewController: ViewStateRenderable {
     }
 }
 
+// MARK: - ThemeObserving
+extension PadHistoryDetailViewController: ThemeObserving {
+    func apply(theme: AppTheme) {
+        // TODO: fix status bar themeing
+        if themeManager.useDealTheme {
+            apply(theme: ColorTheme(theme: dealFragment.theme))
+            //apply(foreground: dealFragment.theme.foreground)
+        } else {
+            apply(theme: theme.baseTheme)
+
+            //if let foreground = theme.foreground {
+            //    apply(foreground: foreground)
+            //}
+        }
+    }
+}
+
 // MARK: - Themeable
 extension PadHistoryDetailViewController: Themeable {
-    func apply(theme: AppTheme) {
+    func apply(theme: ColorTheme) {
         // accentColor
-        dismissButton.tintColor = theme.accentColor
+        dismissButton.tintColor = theme.tint
 
         // backgroundColor
-        self.navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        self.navigationController?.navigationBar.layoutIfNeeded() // Animate color change
-        view.backgroundColor = theme.backgroundColor
-        pagedImageView.backgroundColor = theme.backgroundColor
-        scrollView.backgroundColor = theme.backgroundColor
-        contentView.backgroundColor = theme.backgroundColor
+        navigationController?.view.backgroundColor = theme.systemBackground
+        // NOTE: are not changing the following:
+        //navigationController?.navigationBar.barTintColor = theme.backgroundColor
+        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
 
-        // foreground
-        // TODO: set status bar and home indicator color?
-        // TODO: set activityIndicator color
-        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
-        setNeedsStatusBarAppearanceUpdate()
+        view.backgroundColor = theme.systemBackground
+        scrollView.backgroundColor = theme.systemBackground
 
         // Subviews
         pagedImageView.apply(theme: theme)
@@ -519,3 +551,6 @@ extension PadHistoryDetailViewController: Themeable {
         stateView.apply(theme: theme)
     }
 }
+
+// MARK: - ForegroundThemeable
+//extension PadHistoryDetailViewController: ForegroundThemeable {}

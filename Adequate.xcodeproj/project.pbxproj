@@ -38,6 +38,10 @@
 		C923839022B1B4B4003BB1DA /* StoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C923838F22B1B4B4003BB1DA /* StoryType.swift */; };
 		C923839222B1B4EA003BB1DA /* TopicType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C923839122B1B4EA003BB1DA /* TopicType.swift */; };
 		C923839422B1B921003BB1DA /* ThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C923839322B1B921003BB1DA /* ThemeType.swift */; };
+		C925EEC9233E952300D24F38 /* ImageCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925EEC8233E952300D24F38 /* ImageCaching.swift */; };
+		C925EECB233E955400D24F38 /* ImageServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925EECA233E955400D24F38 /* ImageServiceType.swift */; };
+		C925EECD233E959D00D24F38 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925EECC233E959D00D24F38 /* ImageCache.swift */; };
+		C925EED0233EA6A500D24F38 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925EECF233EA6A500D24F38 /* ColorPalette.swift */; };
 		C928547B216DCE44001E5993 /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C928547A216DCE44001E5993 /* AWSManager.swift */; };
 		C928547D21704C73001E5993 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C928547C21704C72001E5993 /* ImageCell.swift */; };
 		C937EFE522DFFD4800C363C8 /* Affine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C937EFE422DFFD4800C363C8 /* Affine.swift */; };
@@ -89,6 +93,7 @@
 		C995C07522A8E01C00C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07422A8E01C00C2289F /* FileCache.swift */; };
 		C995C07722A8F9E600C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07622A8F9E600C2289F /* FileCache.swift */; };
 		C997ED0122BFF6300053C62A /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = C997ED0322BFF6300053C62A /* Localizable.stringsdict */; };
+		C99C23F72357FF28004493B3 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C23F62357FF28004493B3 /* ColorTheme.swift */; };
 		C99DD5DB2182D4C500A38529 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99DD5DA2182D4C500A38529 /* PaddingLabel.swift */; };
 		C99EF3B122BB695500BF4410 /* AdequateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EF3B022BB695500BF4410 /* AdequateUITests.swift */; };
 		C99EF3B922BC244200BF4410 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EF3B822BC244200BF4410 /* SnapshotHelper.swift */; };
@@ -168,6 +173,7 @@
 		C9EF22DB216D195600D9DD22 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF22DA216D195600D9DD22 /* Constants.swift */; };
 		C9EF22DC216D1A3D00D9DD22 /* URL+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC48E21476B2400D6558B /* URL+Ext.swift */; };
 		C9EF5ACB215CA82F00B5D2EC /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF5ACA215CA82F00B5D2EC /* Operators.swift */; };
+		C9F01F22234FE3C500A77447 /* ColorCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F01F21234FE3C500A77447 /* ColorCompatibility.swift */; };
 		C9F3671122B2EE8700606EAB /* PriceRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3671022B2EE8700606EAB /* PriceRange.swift */; };
 		C9F7166F221F138B00733D17 /* HistoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7166E221F138B00733D17 /* HistoryDetailViewController.swift */; };
 		C9F92264218A4EB2001C257A /* DismissalDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F92263218A4EB2001C257A /* DismissalDelegate.swift */; };
@@ -260,6 +266,10 @@
 		C923838F22B1B4B4003BB1DA /* StoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryType.swift; sourceTree = "<group>"; };
 		C923839122B1B4EA003BB1DA /* TopicType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicType.swift; sourceTree = "<group>"; };
 		C923839322B1B921003BB1DA /* ThemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeType.swift; sourceTree = "<group>"; };
+		C925EEC8233E952300D24F38 /* ImageCaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCaching.swift; sourceTree = "<group>"; };
+		C925EECA233E955400D24F38 /* ImageServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServiceType.swift; sourceTree = "<group>"; };
+		C925EECC233E959D00D24F38 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		C925EECF233EA6A500D24F38 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		C928547A216DCE44001E5993 /* AWSManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSManager.swift; sourceTree = "<group>"; };
 		C928547C21704C72001E5993 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		C937EFE422DFFD4800C363C8 /* Affine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Affine.swift; sourceTree = "<group>"; };
@@ -312,6 +322,7 @@
 		C995C07422A8E01C00C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		C995C07622A8F9E600C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		C997ED0222BFF6300053C62A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		C99C23F62357FF28004493B3 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
 		C99DD5DA2182D4C500A38529 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		C99EF3AE22BB695500BF4410 /* AdequateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdequateUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99EF3B022BB695500BF4410 /* AdequateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdequateUITests.swift; sourceTree = "<group>"; };
@@ -395,6 +406,7 @@
 		C9EF22D8216C67C600D9DD22 /* FileDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDownloader.swift; sourceTree = "<group>"; };
 		C9EF22DA216D195600D9DD22 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C9EF5ACA215CA82F00B5D2EC /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
+		C9F01F21234FE3C500A77447 /* ColorCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCompatibility.swift; sourceTree = "<group>"; };
 		C9F3671022B2EE8700606EAB /* PriceRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceRange.swift; sourceTree = "<group>"; };
 		C9F7166E221F138B00733D17 /* HistoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailViewController.swift; sourceTree = "<group>"; };
 		C9F92263218A4EB2001C257A /* DismissalDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissalDelegate.swift; sourceTree = "<group>"; };
@@ -493,6 +505,37 @@
 				C9116E5221616CA60084934B /* StoryViewController.swift */,
 			);
 			path = Story;
+			sourceTree = "<group>";
+		};
+		C925EEC6233E94E600D24F38 /* ImageService */ = {
+			isa = PBXGroup;
+			children = (
+				C925EEC7233E950300D24F38 /* Protocols */,
+				C925EECC233E959D00D24F38 /* ImageCache.swift */,
+				C9DAC4A421476C5E00D6558B /* ImageService.swift */,
+			);
+			path = ImageService;
+			sourceTree = "<group>";
+		};
+		C925EEC7233E950300D24F38 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				C925EEC8233E952300D24F38 /* ImageCaching.swift */,
+				C925EECA233E955400D24F38 /* ImageServiceType.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		C925EECE233EA67400D24F38 /* Appearance */ = {
+			isa = PBXGroup;
+			children = (
+				C9116E552161781F0084934B /* Appearance.swift */,
+				C9F01F21234FE3C500A77447 /* ColorCompatibility.swift */,
+				C925EECF233EA6A500D24F38 /* ColorPalette.swift */,
+				C99C23F62357FF28004493B3 /* ColorTheme.swift */,
+				C94D2CEC230E11C300043431 /* FontBook.swift */,
+			);
+			path = Appearance;
 			sourceTree = "<group>";
 		};
 		C9285479216DCE2B001E5993 /* Managers */ = {
@@ -772,12 +815,12 @@
 		C9DAC47B2147692600D6558B /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				C925EEC6233E94E600D24F38 /* ImageService */,
 				C989E11A223734C800DEAE89 /* API.swift */,
 				C989E11C223738ED00DEAE89 /* API+Ext.swift */,
 				C989E1222237459300DEAE89 /* SyncClientError.swift */,
 				C9DAC4A221476C3A00D6558B /* NetworkClient.swift */,
 				C9DAC4A621476C8600D6558B /* NetworkClientError.swift */,
-				C9DAC4A421476C5E00D6558B /* ImageService.swift */,
 				C995C07422A8E01C00C2289F /* FileCache.swift */,
 				C9DAC4A821476C9D00D6558B /* MehService.swift */,
 				C9093CC22228A27800C9DA0C /* ObservationToken.swift */,
@@ -804,11 +847,10 @@
 		C9DAC47D2147693000D6558B /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				C925EECE233EA67400D24F38 /* Appearance */,
 				C95CD610230FAEF70011585F /* Coordinator */,
 				C9C0C0BA23072D580011EFB4 /* MDTextView */,
 				C9DDB20221644BE8004D7957 /* PagedImageView */,
-				C9116E552161781F0084934B /* Appearance.swift */,
-				C94D2CEC230E11C300043431 /* FontBook.swift */,
 				C943E5AF2238695C00DE0675 /* StateView.swift */,
 				C9DAC4B22147864A00D6558B /* ViewState.swift */,
 				C95CD61C230FB46C0011585F /* DealContentView.swift */,
@@ -1338,6 +1380,7 @@
 				C92215672254632D0001FF3F /* SlideAnimationController.swift in Sources */,
 				C9093CBD221FBE9400C9DA0C /* DealCoordinator.swift in Sources */,
 				C9BEAB7323330B5600C143FB /* PadHistoryDetailViewController.swift in Sources */,
+				C925EEC9233E952300D24F38 /* ImageCaching.swift in Sources */,
 				C9116E5321616CA60084934B /* StoryViewController.swift in Sources */,
 				C995C07522A8E01C00C2289F /* FileCache.swift in Sources */,
 				C96CA86E2182DD1A00C3459E /* WelcomeViewController.swift in Sources */,
@@ -1356,6 +1399,7 @@
 				C96B487122FA9703000A8D91 /* UIViewController+Ext.swift in Sources */,
 				C943E5B02238695C00DE0675 /* StateView.swift in Sources */,
 				C9DAC49121476B4700D6558B /* Deal.swift in Sources */,
+				C9F01F22234FE3C500A77447 /* ColorCompatibility.swift in Sources */,
 				C9DAC49521476B9900D6558B /* Item.swift in Sources */,
 				C9093CBF2225BC0500C9DA0C /* HistoryDetailCoordinator.swift in Sources */,
 				C937EFE522DFFD4800C363C8 /* Affine.swift in Sources */,
@@ -1399,6 +1443,7 @@
 				C9C0C0BE23072DC50011EFB4 /* NSMutableAttributedString+Attributes.swift in Sources */,
 				C9DAC48121476A2900D6558B /* ErrorAlertDisplayable.swift in Sources */,
 				C9E3223921C2F3AE0088AF9E /* HistoryListViewController.swift in Sources */,
+				C925EED0233EA6A500D24F38 /* ColorPalette.swift in Sources */,
 				C95B83C521811DFA0051B72B /* AppTheme.swift in Sources */,
 				C913919822CD91F2006C2E19 /* UILabel+Ext.swift in Sources */,
 				C928547D21704C73001E5993 /* ImageCell.swift in Sources */,
@@ -1406,6 +1451,7 @@
 				C93CBED72320ADCE0033DCD0 /* DealViewControllerDelegate.swift in Sources */,
 				C99DD5DB2182D4C500A38529 /* PaddingLabel.swift in Sources */,
 				C923838C22B1B454003BB1DA /* LaunchType.swift in Sources */,
+				C925EECD233E959D00D24F38 /* ImageCache.swift in Sources */,
 				C9C2109422D8126700C4F66F /* RefreshEvent.swift in Sources */,
 				C93CBEDC2320C8D80033DCD0 /* DebugViewController.swift in Sources */,
 				C9088C2D22E6A418007C35CC /* DealDelta.swift in Sources */,
@@ -1435,8 +1481,10 @@
 				C95CD61F230FE2020011585F /* PadDealViewController.swift in Sources */,
 				C9221565225453920001FF3F /* DimmingPresentationController.swift in Sources */,
 				C9DAC4B32147864A00D6558B /* ViewState.swift in Sources */,
+				C99C23F72357FF28004493B3 /* ColorTheme.swift in Sources */,
 				C9BEAB71233308A400C143FB /* HistoryDetailViewControllerDelegate.swift in Sources */,
 				C96CA8702182DD2E00C3459E /* NotificationViewController.swift in Sources */,
+				C925EECB233E955400D24F38 /* ImageServiceType.swift in Sources */,
 				C9093CC32228A27800C9DA0C /* ObservationToken.swift in Sources */,
 				C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */,
 				C9DAC48D21476AF600D6558B /* UIColor+Ext.swift in Sources */,

@@ -62,26 +62,27 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         let view = ParallaxScrollView()
         view.contentInsetAdjustmentBehavior = .always
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         return view
     }()
 
     private let contentView: DealContentView = {
         let view = DealContentView()
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     private let barBackingView: ParallaxBarView = {
         let view = ParallaxBarView()
+        view.rightLabelInset = AppTheme.sideMargin
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
-        view.backgroundColor = .white
+        view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -124,8 +125,13 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Ensure correct navigation bar style after aborted dismissal
+        // FIXME: update this to work with new theme system
         navigationController?.navigationBar.barStyle = dealFragment.theme.foreground.navigationBarStyle
         setNeedsStatusBarAppearanceUpdate()
+
+        // Fix sizing when displayed on iPad on iOS 13
+        let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
+        scrollView.headerHeight = parallaxHeight
     }
 
     override func didReceiveMemoryWarning() {
@@ -138,23 +144,30 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     // MARK: - View Methods
 
     private func setupView() {
-        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.isTranslucent = true
-
+        navigationController?.applyStyle(.transparent)
         pagedImageView.delegate = self
 
         contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupParallaxScrollView()
-        apply(theme: AppTheme(theme: dealFragment.theme))
+
+        // TODO: observe changes in themeManager.theme
+        if themeManager.useDealTheme {
+            apply(theme: ColorTheme(theme: dealFragment.theme))
+        } else {
+            apply(theme: themeManager.theme.baseTheme)
+        }
     }
 
     private func setupParallaxScrollView() {
 
         // barBackingView
-        let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
-        barBackingView.coordinateOffset = 8.0
-        barBackingView.inset = statusBarHeight
+        if #available(iOS 13, *) {
+            // ...
+        } else {
+            let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
+            barBackingView.coordinateOffset = 8.0
+            barBackingView.inset = statusBarHeight
+        }
 
         // scrollView
         let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
@@ -219,6 +232,15 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
 }
 
+// MARK: - Trait Collection
+extension HistoryDetailViewController {
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        scrollView.headerHeight = size.width + pagedImageView.pageControlHeight
+    }
+}
+
 // MARK: - PagedImageViewDelegate
 extension HistoryDetailViewController: PagedImageViewDelegate {
 
@@ -278,24 +300,37 @@ extension HistoryDetailViewController: ViewStateRenderable {
     }
 }
 
+// MARK: - ThemeObserving
+extension HistoryDetailViewController: ThemeObserving {
+    func apply(theme: AppTheme) {
+        // TODO: fix status bar themeing
+        if themeManager.useDealTheme {
+            apply(theme: ColorTheme(theme: dealFragment.theme))
+            //apply(foreground: dealFragment.theme.foreground)
+        } else {
+            apply(theme: theme.baseTheme)
+        }
+        // TODO: fix status bar
+        //if let foreground = theme.foreground {
+        //    apply(foreground: foreground)
+        //}
+    }
+}
+
 // MARK: - Themeable
 extension HistoryDetailViewController: Themeable {
-    func apply(theme: AppTheme) {
+    func apply(theme: ColorTheme) {
         // accentColor
-        dismissButton.tintColor = theme.accentColor
+        dismissButton.tintColor = theme.tint
 
         // backgroundColor
-        navigationController?.view.backgroundColor = theme.backgroundColor
-        navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        view.backgroundColor = theme.backgroundColor
-        pagedImageView.backgroundColor = theme.backgroundColor
-        scrollView.backgroundColor = theme.backgroundColor
-        contentView.backgroundColor = theme.backgroundColor
+        navigationController?.view.backgroundColor = theme.systemBackground
+        // NOTE: are not changing the following:
+        //navigationController?.navigationBar.barTintColor = theme.backgroundColor
+        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
 
-        // foreground
-        // TODO: set home indicator color?
-        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
-        setNeedsStatusBarAppearanceUpdate()
+        view.backgroundColor = theme.systemBackground
+        scrollView.backgroundColor = theme.systemBackground
 
         // Subviews
         pagedImageView.apply(theme: theme)
@@ -304,3 +339,6 @@ extension HistoryDetailViewController: Themeable {
         stateView.apply(theme: theme)
     }
 }
+
+// MARK: - ForegroundThemeable
+//extension HistoryDetailViewController: ForegroundThemeable {}

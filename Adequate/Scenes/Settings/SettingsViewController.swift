@@ -33,7 +33,7 @@ class SettingsViewController: UITableViewController {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 32.0, left: 16.0, bottom: 8.0, right: 16.0))
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
         view.adjustsFontForContentSizeCategory = true
-        view.textColor = .gray
+        view.textColor = ColorCompatibility.secondaryLabel
         view.text = L10n.notifications.uppercased()
         return view
     }()
@@ -50,7 +50,7 @@ class SettingsViewController: UITableViewController {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 24.0, left: 16.0, bottom: 8.0, right: 16.0))
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
         view.adjustsFontForContentSizeCategory = true
-        view.textColor = .gray
+        view.textColor = ColorCompatibility.secondaryLabel
         view.text = L10n.support.uppercased()
         return view
     }()
@@ -84,7 +84,7 @@ class SettingsViewController: UITableViewController {
         view.numberOfLines = 0
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
         view.adjustsFontForContentSizeCategory = true
-        view.textColor = .gray
+        view.textColor = ColorCompatibility.secondaryLabel
         view.text = L10n.unofficialAppDisclaimer
         return view
     }()
@@ -398,6 +398,13 @@ extension SettingsViewController: Themeable {
         notificationHeader.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
         supportHeader.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
         supportFooter.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
+    }
+
+    func apply(theme: ColorTheme) {
+        notificationHeader.textColor = theme.secondaryLabel
+        supportHeader.textColor = theme.secondaryLabel
+        supportFooter.textColor = theme.secondaryLabel
+        // FIXME: finish
     }
 }
 */

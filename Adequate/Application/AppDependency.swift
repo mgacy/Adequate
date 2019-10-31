@@ -23,12 +23,14 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
         let credentialsProvider = AWSMobileClient.sharedInstance()
 
         // Initialize dataProvider
+        let dataProvider: DataProviderType
         do {
-            self.dataProvider = try DataProvider(credentialsProvider: credentialsProvider)
+            dataProvider = try DataProvider(credentialsProvider: credentialsProvider)
         } catch {
             log.error("Unable to initialize AWSAppSyncClient: \(error)")
-            self.dataProvider = MockDataProvider(error: error)
+            dataProvider = MockDataProvider(error: error)
         }
+        self.dataProvider = dataProvider
 
         let networkClient = AppDependency.makeNetworkClient()
         self.imageService = ImageService(client: networkClient)
@@ -43,7 +45,7 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
             })
         }
 
-        self.themeManager = ThemeManager(theme: Theme.lightSystem)
+        self.themeManager = ThemeManager(dataProvider: dataProvider, theme: AppTheme.system)
     }
 
     // MARK: - Factory Functions

@@ -39,8 +39,8 @@ final class OnboardingPageViewController: UIPageViewController {
 
     // MARK: - View Methods
 
-    func setupView() {
-        view.backgroundColor = .white
+    private func setupView() {
+        view.backgroundColor = ColorCompatibility.systemBackground
         self.dataSource = self
 
         let page1 = WelcomeViewController()
@@ -52,10 +52,10 @@ final class OnboardingPageViewController: UIPageViewController {
         setViewControllers([pages[0]], direction: .forward, animated: true, completion: nil)
 
         // pageControl
-        let pageControl = UIPageControl.appearance(whenContainedInInstancesOf: [UIPageViewController.self])
+        let pageControlAppearance = UIPageControl.appearance(whenContainedInInstancesOf: [UIPageViewController.self])
         let tintColor = UIButton().tintColor
-        pageControl.pageIndicatorTintColor = tintColor?.withAlphaComponent(0.5)
-        pageControl.currentPageIndicatorTintColor = tintColor
+        pageControlAppearance.pageIndicatorTintColor = tintColor?.withAlphaComponent(0.5)
+        pageControlAppearance.currentPageIndicatorTintColor = tintColor
     }
 
 }

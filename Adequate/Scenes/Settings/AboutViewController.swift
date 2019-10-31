@@ -146,6 +146,10 @@ extension AboutViewController: Themeable {
         acknowledgementsCell.textLabel?.textColor = theme.backgroundColor
         acknowledgementsCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
     }
+
+    func apply(theme: ColorTheme) {
+        // ...
+    }
 }
 */
 

@@ -31,12 +31,17 @@ class StateView: UIView {
                 retryButton.setTitleColor(.gray, for: .normal)
             case .light:
                 activityIndicator.style = .white
+                // FIXME: should we really use white, or should it be gray instead?
                 activityMessageLabel.textColor = .white
                 messageLabel.textColor = .gray
                 retryButton.layer.borderColor = UIColor.gray.cgColor
                 retryButton.setTitleColor(.gray, for: .normal)
-            case .unknown(let rawValue):
-                log.warning("\(#function) - rawValue: \(rawValue)")
+            case .unknown:
+                activityIndicator.color = ColorCompatibility.secondaryLabel
+                activityMessageLabel.textColor = ColorCompatibility.secondaryLabel
+                messageLabel.textColor = ColorCompatibility.secondaryLabel
+                retryButton.layer.borderColor = ColorCompatibility.secondaryLabel.cgColor
+                retryButton.setTitleColor(ColorCompatibility.secondaryLabel, for: .normal)
             }
         }
     }
@@ -193,13 +198,15 @@ extension StateView {
 
 // MARK: - Themeable
 extension StateView: Themeable {
-    func apply(theme: AppTheme) {
-        // accentColor
-
+    func apply(theme: ColorTheme) {
         // backgroundColor
-        //backgroundColor = theme.backgroundColor
+        //backgroundColor = theme.systemBackground
 
         // foreground
-        foreground = theme.foreground
+        activityIndicator.color = theme.secondaryLabel
+        activityMessageLabel.textColor = theme.secondaryLabel
+        messageLabel.textColor = theme.secondaryLabel
+        retryButton.layer.borderColor = theme.secondaryLabel.cgColor
+        retryButton.setTitleColor(theme.secondaryLabel, for: .normal)
     }
 }

@@ -30,8 +30,10 @@ extension UINavigationController {
            navigationBar.setValue(false, forKey: "hidesShadow")
            navigationBar.isTranslucent = true
         case .transparent:
+            //isNavigationBarHidden = false
             navigationBar.setBackgroundImage(UIImage(), for: .default)
-            navigationBar.shadowImage = UIImage()
+            navigationBar.setValue(true, forKey: "hidesShadow")
+            //navigationBar.shadowImage = UIImage()
             navigationBar.isTranslucent = true
         }
     }

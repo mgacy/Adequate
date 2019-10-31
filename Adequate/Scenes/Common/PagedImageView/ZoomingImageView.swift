@@ -14,7 +14,10 @@ class ZoomingImageView: UIScrollView {
     var imageView: UIImageView = UIImageView()
 
     var originFrame: CGRect {
-        return imageView.frame
+        return CGRect(x: imageView.frame.minX - contentOffset.x,
+                      y: imageView.frame.minY - contentOffset.y,
+                      width: imageView.frame.width,
+                      height: imageView.frame.height)
     }
 
     // MARK: - Lifecycle
@@ -111,7 +114,6 @@ class ZoomingImageView: UIScrollView {
 
         imageView.center = CGPoint(x: offsetX + (contentSize.width / 2), y: offsetY + (contentSize.height / 2))
     }
-
 }
 
 // MARK: - UIScrollViewDelegate
@@ -128,5 +130,4 @@ extension ZoomingImageView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         zoomingImageDelegate?.scrollViewDidUpdate(scrollView)
     }
-
 }

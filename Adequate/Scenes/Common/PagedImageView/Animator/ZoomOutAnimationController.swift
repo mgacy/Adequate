@@ -10,6 +10,7 @@ import UIKit
 
 class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
 
+    private let transitionDuration: TimeInterval = 0.3
     private let pagedImageView: PagedImageView
     private var destinationFrame: CGRect {
         // Use computed property to fix error in split view on iPad, where the value of this property at initialization
@@ -25,7 +26,7 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
     // MARK: - UIViewControllerAnimatedTransitioning
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.3
+        return transitionDuration
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -33,18 +34,17 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
         guard
             let fromVC = transitionContext.viewController(forKey: .from) as? FullScreenImageViewController,
             let toVC = transitionContext.viewController(forKey: .to) else {
-                fatalError("ERROR: failed to cast as correct view controllers for transition")
+                log.error("Failed to cast as correct view controllers for transition")
+                transitionContext.completeTransition(false)
+                return
         }
         let containerView = transitionContext.containerView
         //let finalFrame = transitionContext.finalFrame(for: toVC)
 
-
         // TODO: is fromVC displaying image / activityIndicator (/ error?)
 
-        // cover pagedImageView of DealViewController
-        let destinationImageCoveringView = UIView(frame: destinationFrame)
-        destinationImageCoveringView.backgroundColor = toVC.view.backgroundColor
-        containerView.addSubview(destinationImageCoveringView)
+        // hide pagedImageView of DealViewController
+        //pagedImageView.beginTransition()
 
         // hide FullScreenViewController and replace with background view
         let bgView = UIView(frame: fromVC.view.frame)
@@ -67,6 +67,9 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
 
         // Animation
         let imageAnimation = { () -> Void in
+            UIView.performWithoutAnimation {
+                toVC.setNeedsStatusBarAppearanceUpdate()
+            }
             transitionImageView.frame = self.destinationFrame
             bgView.alpha = 0.0
         }
@@ -74,9 +77,11 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
         // Completion
         let imageCompletion = { (finished: Bool) -> Void in
             fromVC.view.isHidden = false
+            if !transitionContext.transitionWasCancelled {
+                self.pagedImageView.completeTransition()
+            }
             transitionImageView.removeFromSuperview()
             bgView.removeFromSuperview()
-            destinationImageCoveringView.removeFromSuperview()
 
             //if transitionContext.transitionWasCancelled {
             //    toVC.view.removeFromSuperview()

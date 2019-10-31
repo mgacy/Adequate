@@ -16,13 +16,18 @@ extension ThemeForeground: Codable {
         switch self {
         case .dark: return .black
         case .light: return .white
-        case .unknown: return .yellow
+        case .unknown: return ColorCompatibility.label
         }
     }
 
     var statusBarStyle: UIStatusBarStyle {
         switch self {
-        case .dark: return .default
+        case .dark:
+            if #available(iOS 13.0, *) {
+                return .darkContent
+            } else {
+                return .default
+            }
         case .light: return .lightContent
         case .unknown: return .default
         }
@@ -33,6 +38,15 @@ extension ThemeForeground: Codable {
         case .dark: return .default
         case .light: return .black
         case .unknown: return .default
+        }
+    }
+
+    @available(iOS 12.0, *)
+    var userInterfaceStyle: UIUserInterfaceStyle {
+        switch self {
+        case .dark: return .light
+        case .light: return .dark
+        case .unknown: return .unspecified
         }
     }
 

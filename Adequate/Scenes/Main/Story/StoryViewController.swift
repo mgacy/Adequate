@@ -116,10 +116,8 @@ final class StoryViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
+        navigationController?.applyStyle(.hiddenSeparator)
         title = L10n.story
-        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        navigationController?.navigationBar.isTranslucent = false
-        apply(theme: themeManager.theme)
         observationTokens = setupObservations()
     }
 
@@ -153,7 +151,6 @@ final class StoryViewController: UIViewController {
     @objc private func didPressDeal(_ sender: UIBarButtonItem) {
         delegate?.showDeal()
     }
-
 }
 
 // MARK: - ViewStateRenderable
@@ -175,23 +172,38 @@ extension StoryViewController: ViewStateRenderable {
     }
 }
 
+// MARK: - ThemeObserving
+extension StoryViewController: ThemeObserving {
+    func apply(theme: AppTheme) {
+        apply(theme: theme.dealTheme ?? theme.baseTheme)
+        if let foreground = theme.foreground {
+            apply(foreground: foreground)
+        }
+    }
+}
+
 // MARK: - Themeable
 extension StoryViewController: Themeable {
-    func apply(theme: AppTheme) {
+    func apply(theme: ColorTheme) {
         // accentColor
-        dealButton.tintColor = theme.accentColor
+        dealButton.tintColor = theme.tint
 
         // backgroundColor
-        view.backgroundColor = theme.backgroundColor
-        navigationController?.navigationBar.barTintColor = theme.backgroundColor
+        view.backgroundColor = theme.systemBackground
+        //navigationController?.navigationBar.barTintColor = theme.label
+        navigationController?.navigationBar.barTintColor = theme.systemBackground
+        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
 
         // foreground
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: theme.foreground.textColor]
-        titleLabel.textColor = theme.foreground.textColor
-        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: theme.label]
+        titleLabel.textColor = theme.label
+        //navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
         //setNeedsStatusBarAppearanceUpdate()
 
         // Subviews
         bodyText.apply(theme: theme)
     }
 }
+
+// MARK: - ForegroundThemeable
+extension StoryViewController: ForegroundThemeable {}
