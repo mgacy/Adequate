@@ -115,9 +115,9 @@ extension ColorTheme {
 // MARK: - Default
 extension ColorTheme {
     static var system: ColorTheme {
-        return ColorTheme(tint: ColorCompatibility.systemBlue,
-                          secondaryTint: ColorCompatibility.systemBlue.withAlphaComponent(0.6),
-                          tertiaryTint: ColorCompatibility.systemBlue.withAlphaComponent(0.3),
+        return ColorTheme(tint: ColorCompatibility.label,
+                          secondaryTint: ColorCompatibility.secondaryLabel,
+                          tertiaryTint: ColorCompatibility.tertiaryLabel,
                           systemBackground: ColorCompatibility.systemBackground,
                           secondarySystemBackground: ColorCompatibility.secondarySystemBackground,
                           label: ColorCompatibility.label,

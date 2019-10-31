@@ -143,7 +143,16 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
             view.addSubview(pagedImageView)
             setupRegularConstraints()
         case .unspecified:
+            // FIXME: can we do better than this hack?
             log.error("Unspecified horizontalSizeClass")
+            if min(view.frame.width, view.frame.height) < 500 {
+                NSLayoutConstraint.activate(compactConstraints)
+                setupParallaxScrollView()
+            } else {
+                barBackingView.leftLabelInset = AppTheme.sideMargin
+                view.addSubview(pagedImageView)
+                setupRegularConstraints()
+            }
         @unknown default:
             fatalError("Unrecognized size class: \(traitCollection.horizontalSizeClass)")
         }
@@ -187,9 +196,13 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
         }
 
         // barBackingView
-        let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
-        barBackingView.coordinateOffset = 8.0
-        barBackingView.inset = statusBarHeight
+        if #available(iOS 13, *) {
+            // ...
+        } else {
+            let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
+            barBackingView.coordinateOffset = 8.0
+            barBackingView.inset = statusBarHeight
+        }
 
         // scrollView
         scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in

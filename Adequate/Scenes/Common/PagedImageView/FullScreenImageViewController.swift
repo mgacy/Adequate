@@ -25,8 +25,9 @@ class FullScreenImageViewController: UIViewController {
 
     var backgroundColor: UIColor = .black
 
+    var hideStatusBar: Bool = false
     override var prefersStatusBarHidden: Bool {
-        return true
+        return hideStatusBar
     }
 
     // MARK: - Subviews
@@ -91,6 +92,11 @@ class FullScreenImageViewController: UIViewController {
         if let window = UIApplication.shared.delegate?.window as? UIWindow {
             window.windowLevel = UIWindow.Level.statusBar + 1
         }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
