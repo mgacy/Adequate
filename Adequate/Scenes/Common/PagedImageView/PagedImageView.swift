@@ -12,7 +12,7 @@ import Promise
 // TODO: subclass UIViewController
 class PagedImageView: UIView {
 
-    var currentPage: Int = 0
+    private(set) var currentPage: Int = 0
     private var isPaging: Bool = false
 
     var visibleImageState: ViewState<UIImage>? {
