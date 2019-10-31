@@ -119,6 +119,7 @@ class PagedImageView: UIView {
         dataSource.updateImages(with: urls)
         collectionView.reloadData()
         collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: false)
+        currentPage = 0
         updatePageControl()
     }
 
@@ -158,6 +159,7 @@ class PagedImageView: UIView {
 extension PagedImageView {
 
     public func beginRotation() {
+        isPaging = true
         collectionView.isHidden = true
     }
 
@@ -218,6 +220,7 @@ extension PagedImageView: UICollectionViewDelegateFlowLayout {
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if !isPaging {
+            currentPage = primaryVisiblePage
             pageControl.currentPage = primaryVisiblePage
         }
     }

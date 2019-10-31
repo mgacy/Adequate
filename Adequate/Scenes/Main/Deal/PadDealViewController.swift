@@ -427,6 +427,7 @@ extension PadDealViewController {
 
         // PagedImageView
         // For collection view rotation see also: https://stackoverflow.com/a/43322706
+        // TODO: use pagedImageView.currentPage instead
         let currentPage = pagedImageView.primaryVisiblePage
         coordinator.animate(
             alongsideTransition: { [unowned self] (context) -> Void in
