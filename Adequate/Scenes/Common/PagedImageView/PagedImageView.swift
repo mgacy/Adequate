@@ -181,6 +181,20 @@ class PagedImageView: UIView {
 
 }
 
+// MARK: - View Controller Presentation Animation Helpers
+extension PagedImageView {
+
+    /// Hide views that will be animated during presentation and dismissal of `FullScreenImageViewController`.
+    public func beginTransition() {
+        collectionView.isHidden = true
+    }
+
+    /// Show views that were animated during presentation and dismissal of `FullScreenImageViewController`.
+    public func completeTransition() {
+        collectionView.isHidden = false
+    }
+}
+
 // MARK: - UICollectionViewDelegate
 // TODO: move to PagedImageViewDataSource?
 extension PagedImageView: UICollectionViewDelegate {

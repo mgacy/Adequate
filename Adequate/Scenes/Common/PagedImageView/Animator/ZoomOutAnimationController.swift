@@ -43,10 +43,8 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
 
         // TODO: is fromVC displaying image / activityIndicator (/ error?)
 
-        // cover pagedImageView of DealViewController
-        let destinationImageCoveringView = UIView(frame: destinationFrame)
-        destinationImageCoveringView.backgroundColor = toVC.view.backgroundColor
-        containerView.addSubview(destinationImageCoveringView)
+        // hide pagedImageView of DealViewController
+        //pagedImageView.beginTransition()
 
         // hide FullScreenViewController and replace with background view
         let bgView = UIView(frame: fromVC.view.frame)
@@ -79,9 +77,9 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
         // Completion
         let imageCompletion = { (finished: Bool) -> Void in
             fromVC.view.isHidden = false
+            self.pagedImageView.completeTransition()
             transitionImageView.removeFromSuperview()
             bgView.removeFromSuperview()
-            destinationImageCoveringView.removeFromSuperview()
 
             //if transitionContext.transitionWasCancelled {
             //    toVC.view.removeFromSuperview()

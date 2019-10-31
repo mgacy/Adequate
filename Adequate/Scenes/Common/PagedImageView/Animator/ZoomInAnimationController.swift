@@ -48,8 +48,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         containerView.addSubview(sourceSnapshot)
 
         // sourceImageCoveringView
-        let sourceImageCoveringView = UIView(frame: sourceFrame)
-        sourceImageCoveringView.backgroundColor = fromVC.view.backgroundColor
+        let sourceImageCoveringView = makeSourceImageCoveringView(covering: fromVC)
         containerView.addSubview(sourceImageCoveringView)
 
         // destination background
@@ -111,5 +110,20 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
                        animations: animation,
                        completion: completion)
     }
+}
 
+// MARK: - View Factories
+extension ZoomInAnimationController {
+
+    private func makeSourceImageCoveringView(covering fromVC: UIViewController) -> UIView {
+        pagedImageView.beginTransition()
+        // make snapshot to handle changes in `UIColor.systemBackground` in response to changes in elevation when using dark mode in iOS 13
+        let sourceImageCoveringView = pagedImageView.snapshotView(afterScreenUpdates: true)!
+        // adjust sourceFrame since we take a snapshot of entire view whereas sourceFrame does not account for .pageControlHeight
+        sourceImageCoveringView.frame = CGRect(x: sourceFrame.minX,
+                                               y: sourceFrame.minY,
+                                               width: sourceFrame.width,
+                                               height: sourceFrame.height + pagedImageView.pageControlHeight)
+        return sourceImageCoveringView
+    }
 }
