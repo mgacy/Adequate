@@ -128,6 +128,10 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         // FIXME: update this to work with new theme system
         navigationController?.navigationBar.barStyle = dealFragment.theme.foreground.navigationBarStyle
         setNeedsStatusBarAppearanceUpdate()
+
+        // Fix sizing when displayed on iPad on iOS 13
+        let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
+        scrollView.headerHeight = parallaxHeight
     }
 
     override func didReceiveMemoryWarning() {
@@ -226,6 +230,15 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         delegate?.dismiss()
     }
 
+}
+
+// MARK: - Trait Collection
+extension HistoryDetailViewController {
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        scrollView.headerHeight = size.width + pagedImageView.pageControlHeight
+    }
 }
 
 // MARK: - PagedImageViewDelegate
