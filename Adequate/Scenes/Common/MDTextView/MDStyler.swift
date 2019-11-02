@@ -35,13 +35,11 @@ class MDStyler: Styler {
     func style(document str: NSMutableAttributedString) {}
 
     func style(blockQuote str: NSMutableAttributedString, nestDepth: Int) {
-        //log.verbose("blockQuote: '\(str.string)'")
         // ...
         str.addAttributes([.paragraphStyle: paragraphStyles.body])
     }
 
     func style(list str: NSMutableAttributedString, nestDepth: Int) {
-        //log.debug("list: '\(str.string)'")
         // NOTE: DownStyler applies paragraph styling in `style(item:)`
         str.addAttributes([.paragraphStyle: paragraphStyles.list])
     }
@@ -51,17 +49,14 @@ class MDStyler: Styler {
     }
 
     func style(item str: NSMutableAttributedString, prefixLength: Int) {
-        //log.verbose("item: '\(str.string)'")
         // NOTE: this is where DownStyler applies paragraph styling, rather than style(list:)
     }
 
     func style(codeBlock str: NSMutableAttributedString, fenceInfo: String?) {
-        //log.verbose("codeBlock: '\(str.string)'")
         styleGenericCodeBlock(in: str)
     }
 
     func style(htmlBlock str: NSMutableAttributedString) {
-        //log.verbose("htmlBlock: '\(str.string)'")
         styleGenericCodeBlock(in: str)
     }
 
@@ -72,7 +67,6 @@ class MDStyler: Styler {
     }
 
     func style(heading str: NSMutableAttributedString, level: Int) {
-        //log.verbose("heading: '\(str.string)' - '\(level)")
         let (font, color, paragraphStyle) = headingAttributes(for: level)
 
         str.updateExistingAttributes(for: .font) { (currentFont: UIFont) in
@@ -101,7 +95,6 @@ class MDStyler: Styler {
     func style(thematicBreak str: NSMutableAttributedString) {}
 
     func style(text str: NSMutableAttributedString) {
-        //log.verbose("text: '\(str.string)'")
         str.setAttributes([
             .font: fonts.body,
             .foregroundColor: colors.body])
@@ -112,26 +105,22 @@ class MDStyler: Styler {
     func style(lineBreak str: NSMutableAttributedString) {}
 
     func style(code str: NSMutableAttributedString) {
-        //log.verbose("code: '\(str.string)'")
         styleGenericInlineCode(in: str)
     }
 
     func style(htmlInline str: NSMutableAttributedString) {
-        //log.verbose("htmlInline: '\(str.string)'")
         styleGenericInlineCode(in: str)
     }
 
     func style(customInline str: NSMutableAttributedString) {}
 
     func style(emphasis str: NSMutableAttributedString) {
-        //log.verbose("emphasis: '\(str.string)'")
         str.updateExistingAttributes(for: .font) { (font: UIFont) in
             font.italic
         }
     }
 
     func style(strong str: NSMutableAttributedString) {
-        //log.verbose("strong: '\(str.string)'")
         str.updateExistingAttributes(for: .font) { (font: UIFont) in
             font.bold
         }
@@ -150,11 +139,12 @@ class MDStyler: Styler {
         }
         styleGenericLink(in: str, url: url)
     }
+}
 
-    // MARK: - Common Styling
+// MARK: - Common Styling
+extension MDStyler {
 
     private func styleGenericCodeBlock(in str: NSMutableAttributedString) {
-        //log.verbose("styleGenericCodeBlock: '\(str.string)'")
         // ...
         str.setAttributes([
             .font: fonts.code,
@@ -165,7 +155,6 @@ class MDStyler: Styler {
     }
 
     private func styleGenericInlineCode(in str: NSMutableAttributedString) {
-        //log.verbose("styleGenericInlineCode: '\(str.string)'")
         str.setAttributes([
             .font: fonts.code,
             .foregroundColor: colors.code])
@@ -176,8 +165,10 @@ class MDStyler: Styler {
             .link: url,
             .foregroundColor: colors.link])
     }
+}
 
-    // MARK: - Helpers
+// MARK: - Helpers
+extension MDStyler {
 
     private func headingAttributes(for level: Int) -> (UIFont, UIColor, NSParagraphStyle) {
         switch level {
