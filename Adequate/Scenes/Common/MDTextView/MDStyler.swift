@@ -14,6 +14,8 @@ class MDStyler: Styler {
     public let fonts: MDFontCollection
     public let paragraphStyles: MDParagraphStyleCollection
 
+    public let itemParagraphStyler: MDUnorderedListItemParagraphStyler
+
     // TODO: observe ThemeManager?
     //var theme: AppTheme
 
@@ -28,6 +30,9 @@ class MDStyler: Styler {
         fonts = configuration.fonts
         colors = configuration.colors
         paragraphStyles = configuration.paragraphStyles
+
+        itemParagraphStyler = MDUnorderedListItemParagraphStyler(options: configuration.listItemOptions,
+                                                        prefixFont: fonts.listItemPrefix)
     }
 
     // MARK: Styler
@@ -40,8 +45,7 @@ class MDStyler: Styler {
     }
 
     func style(list str: NSMutableAttributedString, nestDepth: Int) {
-        // NOTE: DownStyler applies paragraph styling in `style(item:)`
-        str.addAttributes([.paragraphStyle: paragraphStyles.list])
+        //str.addAttributes([.paragraphStyle: paragraphStyles.list])
     }
 
     func style(listItemPrefix str: NSMutableAttributedString) {
@@ -49,7 +53,15 @@ class MDStyler: Styler {
     }
 
     func style(item str: NSMutableAttributedString, prefixLength: Int) {
-        // NOTE: this is where DownStyler applies paragraph styling, rather than style(list:)
+        let paragraphRanges = str.paragraphRanges()
+
+        guard let leadingParagraphRange = paragraphRanges.first else { return }
+
+        indentListItemLeadingParagraph(in: str, prefixLength: prefixLength, inRange: leadingParagraphRange)
+
+        paragraphRanges.dropFirst().forEach {
+            indentListItemTrailingParagraph(in: str, inRange: $0)
+        }
     }
 
     func style(codeBlock str: NSMutableAttributedString, fenceInfo: String?) {
@@ -180,5 +192,54 @@ extension MDStyler {
         case 6: return (fonts.heading3, colors.heading3, paragraphStyles.heading3) // TODO: use .heading6
         default: return (fonts.heading1, colors.heading1, paragraphStyles.heading1)
         }
+    }
+
+    private func indentListItemLeadingParagraph(in str: NSMutableAttributedString, prefixLength: Int, inRange range: NSRange) {
+        str.updateExistingAttributes(for: .paragraphStyle, in: range) { (existingStyle: NSParagraphStyle) in
+            existingStyle.indented(by: itemParagraphStyler.indentation)
+        }
+
+        let attributedPrefix = str.prefix(with: prefixLength)
+        let prefixWidth = attributedPrefix.size().width
+
+        let defaultStyle = itemParagraphStyler.leadingParagraphStyle(prefixWidth: prefixWidth)
+        str.addAttributeInMissingRanges(for: .paragraphStyle, value: defaultStyle, within: range)
+    }
+
+    private func indentListItemTrailingParagraph(in str: NSMutableAttributedString, inRange range: NSRange) {
+        str.updateExistingAttributes(for: .paragraphStyle, in: range) { (existingStyle: NSParagraphStyle) in
+            existingStyle.indented(by: itemParagraphStyler.indentation)
+        }
+
+        let defaultStyle = itemParagraphStyler.trailingParagraphStyle
+        str.addAttributeInMissingRanges(for: .paragraphStyle, value: defaultStyle, within: range)
+
+        //indentListItemQuotes(in: str, inRange: range)
+    }
+}
+
+// MARK: - Helper Extensions - DownStyler
+
+private extension NSParagraphStyle {
+
+    func indented(by indentation: CGFloat) -> NSParagraphStyle {
+        let result = mutableCopy() as! NSMutableParagraphStyle
+        result.firstLineHeadIndent += indentation
+        result.headIndent += indentation
+
+        result.tabStops = tabStops.map {
+            NSTextTab(textAlignment: $0.alignment, location: $0.location + indentation, options: $0.options)
+        }
+
+        return result
+    }
+}
+
+private extension NSAttributedString {
+
+    func prefix(with length: Int) -> NSAttributedString {
+        guard length <= self.length else { return self }
+        guard length > 0 else { return NSAttributedString() }
+        return attributedSubstring(from: NSMakeRange(0, length))
     }
 }

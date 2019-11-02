@@ -17,7 +17,6 @@ public struct MDParagraphStyleCollection: Equatable {
     //public let heading6: NSParagraphStyle
     public let body: NSParagraphStyle
     public let code: NSParagraphStyle
-    public let list: NSParagraphStyle
 }
 
 // MARK: - Initializers
@@ -37,7 +36,6 @@ public extension MDParagraphStyleCollection {
         heading3 = headingStyle
         body = MDParagraphStyleCollection.makeBaseStyle(headIndent: 0.0)
         code = codeStyle
-        list = MDParagraphStyleCollection.makeListStyle(indent: 15.0, spacingAbove: 0.0, spacingBelow: 8.0)
     }
 }
 
@@ -89,45 +87,5 @@ private extension MDParagraphStyleCollection {
         //paragraphStyle.lineHeightMultiple = 0.0
 
         return paragraphStyle
-    }
-
-    static func makeListStyle(indent: CGFloat, spacingAbove: CGFloat, spacingBelow: CGFloat) -> NSMutableParagraphStyle {
-        let style = NSMutableParagraphStyle()
-
-        // The indentation of the first line of the receiver.
-        style.firstLineHeadIndent = 0.0
-
-        // The indentation of the receiver’s lines other than the first.
-        style.headIndent = indent
-
-        style.tabStops = [NSTextTab(textAlignment: .left, location: 1, options: [:])]
-        style.defaultTabInterval = indent
-
-        // The trailing indentation of the receiver.
-        //style.tailIndent = 0.0
-
-        // The mode that should be used to break lines in the receiver.
-        //style.lineBreakMode: NSLineBreakMode
-
-        // The receiver’s maximum line height.
-        //style.maximumLineHeight = 0.0
-
-        // The receiver’s minimum height.
-        //style.minimumLineHeight = 0.0
-
-        // The distance in points between the bottom of one line fragment and the top of the next.
-        //style.lineSpacing = 0.0
-
-        // The space after the end of the paragraph.
-        style.paragraphSpacing = spacingBelow
-
-        // The distance between the paragraph’s top and the beginning of its text content.
-        //style.paragraphSpacingBefore = pGraphSpacing
-        style.paragraphSpacingBefore = spacingAbove
-
-        // The line height multiple.
-        //style.lineHeightMultiple = 0.0
-
-        return style
     }
 }
