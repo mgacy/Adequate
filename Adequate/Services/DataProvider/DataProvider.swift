@@ -76,7 +76,9 @@ class DataProvider: DataProviderType {
         }
     }
 
-    private let appSyncClient: AWSAppSyncClient
+    private let client: MehSyncClientType
+    private var credentialsProviderIsInitialized: Bool = false
+
     private var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
     private var historyObservations: [UUID: (ViewState<[DealHistory]>) -> Void] = [:]
 
@@ -85,17 +87,14 @@ class DataProvider: DataProviderType {
 
     // TODO: use a task queue (`OperationQueue`) for RefreshEvents / fetches? See `AWSPerformMutationQueue`
     private var pendingRefreshEvent: RefreshEvent?
-    private var credentialsProviderIsInitialized: Bool = false
 
     // MARK: - Lifecycle
 
-    init(credentialsProvider: AWSMobileClient) throws {
+    init(credentialsProvider: AWSMobileClient) {
         self.dealState = .empty
         self.historyState = .empty
 
-        let appSyncConfig = try DataProvider.makeClientConfiguration(credentialsProvider: credentialsProvider)
-        self.appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
-        appSyncClient.apolloClient?.cacheKeyForObject = { $0[Constants.cacheKey] }
+        self.client = MehSyncClient(credentialsProvider: credentialsProvider)
 
         addDealObserver(self) { dp, viewState in
             guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
@@ -117,10 +116,10 @@ class DataProvider: DataProviderType {
             }
     }
 
-    init(appSync: AWSAppSyncClient) {
-        self.appSyncClient = appSync
+    init(client: MehSyncClientType) {
         self.dealState = .empty
         self.historyState = .empty
+        self.client = client
         // CAUTION: `AWSAppSyncClient.httpTransport` is internal, so we cannot verify that it has been initialized
         credentialsProviderIsInitialized = true
 
@@ -137,12 +136,7 @@ class DataProvider: DataProviderType {
 
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
         // TODO: if id != Constants.currentDealID, we should be able to use `.returnCacheDataElseFetch`
-        return getDeal(withID: id, cachePolicy: .fetchIgnoringCacheData)
-    }
-
-    private func getDeal(withID id: GraphQLID, cachePolicy: CachePolicy = .fetchIgnoringCacheData) -> Promise<GetDealQuery.Data.GetDeal> {
-        let query = GetDealQuery(id: id)
-        return appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
+        return client.fetchDeal(withID: id,cachePolicy: .fetchIgnoringCacheData)
             .then({ result -> GetDealQuery.Data.GetDeal in
                 guard let deal = result.getDeal else {
                     throw SyncClientError.missingData(data: result)
@@ -166,11 +160,7 @@ class DataProvider: DataProviderType {
             historyState = .loading
         }
 
-        let startDateString = DateFormatter.yyyyMMddEST.string(from: startDate)
-        let endDateString = DateFormatter.yyyyMMddEST.string(from: endDate)
-        let query = ListDealsForPeriodQuery(startDate: startDateString, endDate: endDateString)
-        // TODO: replace with `appSyncClient.watch(query:, cachePolicy:, queue:, resultHandler:)`
-        appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
+        client.fetchDealHistory(from: startDate, to: endDate, cachePolicy: cachePolicy)
             .then { [weak self] result in
                 guard let items = result.listDealsForPeriod else {
                     throw SyncClientError.missingData(data: result)
@@ -273,9 +263,8 @@ class DataProvider: DataProviderType {
             dealState = .loading
         }
 
-        let query = GetDealQuery(id: Constants.currentDealID)
         // TODO: specify queue?
-        appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
+        client.fetchDeal(withID: Constants.currentDealID, cachePolicy: cachePolicy)
             .then({ result in
                 guard let deal = Deal(result.getDeal) else {
                     throw SyncClientError.missingData(data: result)
@@ -326,8 +315,8 @@ class DataProvider: DataProviderType {
             fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
             return
         }
-        let query = GetDealQuery(id: Constants.currentDealID)
-        appSyncClient.fetch(query: query, cachePolicy: .fetchIgnoringCacheData)
+
+        client.fetchDeal(withID: Constants.currentDealID, cachePolicy: .fetchIgnoringCacheData)
             .then({ result in
                 guard let newDeal = Deal(result.getDeal) else {
                     throw SyncClientError.missingData(data: result)
@@ -379,7 +368,18 @@ class DataProvider: DataProviderType {
                 let launchStatusLens = Deal.lens.launchStatus
                 let updatedDeal = launchStatusLens.set(newStatus)(currentDeal)
                 dealState = .result(updatedDeal)
-                updateCache(for: updatedDeal, delta: delta)
+
+//                do {
+//                    try client.updateCache(for: updatedDeal, delta: delta)
+//                    // TODO: update `lastDealResponse`?
+//                    completionHandler(.newData)
+//                } catch {
+//                    log.error("Unable to update cache")
+//                    completionHandler(.failed)
+//                }
+
+                // TODO: handle error?
+                try? client.updateCache(for: updatedDeal, delta: delta)
                 // TODO: update `lastDealResponse`?
                 completionHandler(.newData)
             } else {
@@ -397,7 +397,9 @@ class DataProvider: DataProviderType {
                         fatalError("Problem with Affine composition for Deal.topic.commentCount")
                     }
                     dealState = .result(updatedDeal)
-                    updateCache(for: updatedDeal, delta: delta)
+
+                    // TODO: handle error?
+                    try? client.updateCache(for: updatedDeal, delta: delta)
                     // TODO: update `lastDealResponse`?
                     completionHandler(.newData)
                 } else {
@@ -407,36 +409,6 @@ class DataProvider: DataProviderType {
                 refreshDealInBackground(fetchCompletionHandler: completionHandler)
             }
         }
-    }
-
-    private func updateCache(for deal: Deal, delta: DealDelta) {
-        // TODO: improve handling / reporting of cases below
-        guard let store = appSyncClient.store else {
-            log.error("Unable to get store")
-            return
-        }
-        // TODO: throw error and make caller handler it
-        if case .newDeal = delta {
-            log.error("Unable to update cache for \(delta)")
-            return
-        }
-
-        // NOTE: this uses AWSAppSync.Promise (from Apollo)
-        store.withinReadWriteTransaction { transaction in
-            let query = GetDealQuery(id: deal.id)
-            try transaction.update(query: query) { (data: inout GetDealQuery.Data) in
-                switch delta {
-                case .commentCount(let newCount):
-                    data.getDeal?.topic?.commentCount = newCount
-                case .launchStatus(let newStatus):
-                    data.getDeal?.launchStatus = newStatus
-                default:
-                    break
-                }
-            }
-        }.catch({ error in
-            log.error("\(error.localizedDescription)")
-        })
     }
 
     // MARK: - Observers
@@ -542,23 +514,6 @@ extension DataProvider {
             }
         }
         return observer
-    }
-}
-
-// MARK: - Configuration Factory
-extension DataProvider {
-    static func makeClientConfiguration(credentialsProvider: AWSCredentialsProvider, connectionStateChangeHandler: ConnectionStateChangeHandler? = nil) throws -> AWSAppSyncClientConfiguration {
-        let cacheConfiguration = try AWSAppSyncCacheConfiguration()
-        let retryStrategy: AWSAppSyncRetryStrategy = .aggressive  // OPTIONS: .aggressive, .exponential
-
-        // https://aws-amplify.github.io/docs/ios/api#iam
-        // https://github.com/aws-samples/aws-mobile-appsync-events-starter-ios/blob/master/EventsApp/AppDelegate.swift
-        return try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
-                                                 credentialsProvider: credentialsProvider,
-                                                 urlSessionConfiguration: URLSessionConfiguration.default,
-                                                 cacheConfiguration: cacheConfiguration,
-                                                 connectionStateChangeHandler: connectionStateChangeHandler,
-                                                 retryStrategy: retryStrategy)
     }
 }
 

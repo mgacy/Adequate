@@ -180,6 +180,8 @@
 		C9F92266218A88D0001C257A /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F92265218A88D0001C257A /* UserDefaultsManager.swift */; };
 		C9FABAE9236E0CD100C1E523 /* MDUnorderedListItemParagraphStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FABAE8236E0CD100C1E523 /* MDUnorderedListItemParagraphStyler.swift */; };
 		C9FABAEC2372472900C1E523 /* DataProviderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FABAEB2372472900C1E523 /* DataProviderType.swift */; };
+		C9FABAEE2372498100C1E523 /* MehSyncClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FABAED2372498100C1E523 /* MehSyncClient.swift */; };
+		C9FABAF22372908100C1E523 /* MehSyncClientType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FABAF12372908100C1E523 /* MehSyncClientType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -415,6 +417,8 @@
 		C9F92265218A88D0001C257A /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		C9FABAE8236E0CD100C1E523 /* MDUnorderedListItemParagraphStyler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDUnorderedListItemParagraphStyler.swift; sourceTree = "<group>"; };
 		C9FABAEB2372472900C1E523 /* DataProviderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderType.swift; sourceTree = "<group>"; };
+		C9FABAED2372498100C1E523 /* MehSyncClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MehSyncClient.swift; sourceTree = "<group>"; };
+		C9FABAF12372908100C1E523 /* MehSyncClientType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MehSyncClientType.swift; sourceTree = "<group>"; };
 		F77B497CAA561AEC2D68F337 /* Pods_DealWidget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DealWidget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -968,6 +972,8 @@
 				C979335522D7E27400132A00 /* CompletionWrapper.swift */,
 				C9FABAEB2372472900C1E523 /* DataProviderType.swift */,
 				C9093CC42228A76D00C9DA0C /* DataProvider.swift */,
+				C9FABAF12372908100C1E523 /* MehSyncClientType.swift */,
+				C9FABAED2372498100C1E523 /* MehSyncClient.swift */,
 				C9088C2C22E6A418007C35CC /* DealDelta.swift */,
 				C9C2109322D8126700C4F66F /* RefreshEvent.swift */,
 				C989E1222237459300DEAE89 /* SyncClientError.swift */,
@@ -1396,6 +1402,7 @@
 				C9BEAB7323330B5600C143FB /* PadHistoryDetailViewController.swift in Sources */,
 				C925EEC9233E952300D24F38 /* ImageCaching.swift in Sources */,
 				C9116E5321616CA60084934B /* StoryViewController.swift in Sources */,
+				C9FABAF22372908100C1E523 /* MehSyncClientType.swift in Sources */,
 				C995C07522A8E01C00C2289F /* FileCache.swift in Sources */,
 				C96CA86E2182DD1A00C3459E /* WelcomeViewController.swift in Sources */,
 				C9B90D0322837D140070ADE9 /* ParallaxScrollView.swift in Sources */,
@@ -1516,6 +1523,7 @@
 				C93F79042256EBE8004B4DD6 /* LoggingType.swift in Sources */,
 				C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */,
 				C9B3FAC62245649E00B8524A /* CurrentDeal+Init.swift in Sources */,
+				C9FABAEE2372498100C1E523 /* MehSyncClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
