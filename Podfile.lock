@@ -1,39 +1,39 @@
 PODS:
-  - AWSAppSync (2.14.1):
-    - AWSCore (~> 2.10.2)
-    - ReachabilitySwift (= 4.3.0)
-    - SQLite.swift (= 0.11.6)
-  - AWSAuthCore (2.10.3):
-    - AWSCore (= 2.10.3)
-  - AWSCognitoIdentityProvider (2.10.3):
+  - AWSAppSync (2.15.0):
+    - AWSCore (~> 2.12.0)
+    - ReachabilitySwift (~> 4.3.1)
+    - SQLite.swift (~> 0.12.2)
+  - AWSAuthCore (2.12.1):
+    - AWSCore (= 2.12.1)
+  - AWSCognitoIdentityProvider (2.12.1):
     - AWSCognitoIdentityProviderASF (= 1.0.1)
-    - AWSCore (= 2.10.3)
+    - AWSCore (= 2.12.1)
   - AWSCognitoIdentityProviderASF (1.0.1)
-  - AWSCore (2.10.3)
-  - AWSMobileClient (2.10.3):
-    - AWSAuthCore (= 2.10.3)
-    - AWSCognitoIdentityProvider (= 2.10.3)
-  - AWSSNS (2.10.3):
-    - AWSCore (= 2.10.3)
-  - Down (0.8.6)
+  - AWSCore (2.12.1)
+  - AWSMobileClient (2.12.1):
+    - AWSAuthCore (= 2.12.1)
+    - AWSCognitoIdentityProvider (= 2.12.1)
+  - AWSSNS (2.12.1):
+    - AWSCore (= 2.12.1)
+  - Down (0.9.0)
   - Promises (2.0.4)
-  - ReachabilitySwift (4.3.0)
-  - SQLite.swift (0.11.6):
-    - SQLite.swift/standard (= 0.11.6)
-  - SQLite.swift/standard (0.11.6)
-  - SwiftyBeaver (1.7.1)
+  - ReachabilitySwift (4.3.1)
+  - SQLite.swift (0.12.2):
+    - SQLite.swift/standard (= 0.12.2)
+  - SQLite.swift/standard (0.12.2)
+  - SwiftyBeaver (1.8.3)
 
 DEPENDENCIES:
   - AWSAppSync
   - AWSCore
   - AWSMobileClient
   - AWSSNS
-  - Down
+  - Down (from `https://github.com/mgacy/Down.git`, branch `hotfix/public-initializers`)
   - Promises
   - SwiftyBeaver
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - AWSAppSync
     - AWSAuthCore
     - AWSCognitoIdentityProvider
@@ -41,26 +41,35 @@ SPEC REPOS:
     - AWSCore
     - AWSMobileClient
     - AWSSNS
-    - Down
     - Promises
     - ReachabilitySwift
     - SQLite.swift
     - SwiftyBeaver
 
+EXTERNAL SOURCES:
+  Down:
+    :branch: hotfix/public-initializers
+    :git: https://github.com/mgacy/Down.git
+
+CHECKOUT OPTIONS:
+  Down:
+    :commit: 3bccd0573ec065a1a846e54401e297ca8c789126
+    :git: https://github.com/mgacy/Down.git
+
 SPEC CHECKSUMS:
-  AWSAppSync: 927eeb13bf6dc3559029f2e05c942da4573e65fc
-  AWSAuthCore: 2d776cbff5768148842502234fd6ba04697e4fe4
-  AWSCognitoIdentityProvider: 70cfc80901b1b66bd68ef06893cb0ec3c6213510
+  AWSAppSync: 38d681c93c2909e7fb8d4e1d1f0e816684f9f64f
+  AWSAuthCore: fa908a4df2feb3c978dfabb9a0927dffc69b112d
+  AWSCognitoIdentityProvider: 4b453fa8ae677dd9646fe5cb137b520105f33d08
   AWSCognitoIdentityProviderASF: f94f1a502e72ef3d0a1de93e10bf7a79c8698118
-  AWSCore: f9b8a30d9e8ec07d1a6dd8f0ec5fe84b6a215041
-  AWSMobileClient: 0043e0b2768b85ff92859152f5037d28d2b05131
-  AWSSNS: de9b2d31c3ad852f744223a2b0e9a693093a52b3
-  Down: 3c758f2388fa739663023f400e742a988fa1e21d
+  AWSCore: 0a4431f74d9dbf084d420b887a6a21042b423c5c
+  AWSMobileClient: b178cd21ba500030e727c6afcc00dda438b1fecd
+  AWSSNS: 4deb2335662fe860216c0b95ba2e8f907eb27f48
+  Down: 1cdbca4963b542d0ef34ebb3e10ff48382bdf761
   Promises: fcb83dc6be43294a8d30c343636ed1a45a8d2e0a
-  ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
-  SQLite.swift: 46d890be8601964454bd3392527f863d1b802d45
-  SwiftyBeaver: da5e573ad583586c18236324c36900990afe1733
+  ReachabilitySwift: 4032e2f59586e11e3b0ebe15b167abdd587a388b
+  SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
+  SwiftyBeaver: 3d3e93a12d648bd400b6f2948a7ef128b5b183c7
 
-PODFILE CHECKSUM: 8c588a5b329cbcfd8d663deab9cfc09871ee3d3a
+PODFILE CHECKSUM: 089da915f9f5c4f08fd0532d7054049cde8db30d
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.4

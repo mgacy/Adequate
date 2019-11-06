@@ -1,15 +1,15 @@
 //
-//  ColorCollection.swift
-//  Down
+//  MDColorCollection.swift
+//  Adequate
 //
 //  Created by John Nguyen on 27.07.19.
 //  Copyright © 2019 Glazed Donut, LLC. All rights reserved.
 //
 
 import UIKit
+import Down
 
-// TODO: rename `MDColorCollection`
-public struct ColorCollection: Equatable {
+public struct MDColorCollection: Equatable, ColorCollection {
     public var heading1: UIColor
     public var heading2: UIColor
     public var heading3: UIColor
@@ -27,7 +27,7 @@ public struct ColorCollection: Equatable {
 }
 
 // MARK: - Initializers
-extension ColorCollection {
+extension MDColorCollection {
 
     init(theme: ColorTheme) {
         heading1 = theme.label
@@ -45,11 +45,11 @@ extension ColorCollection {
 }
 
 // MARK: - Default
-extension ColorCollection {
+extension MDColorCollection {
 
-    static var light: ColorCollection {
+    static var light: MDColorCollection {
         // TODO: update values to match .systemTheme when UIUserInterfaceStyle == .light
-        return ColorCollection(heading1: .black,
+        return MDColorCollection(heading1: .black,
                                heading2: .black,
                                heading3: .black,
                                body: .black,
@@ -62,8 +62,8 @@ extension ColorCollection {
                                codeBlockBackground: UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1))
     }
 
-    static var dark: ColorCollection {
-        return ColorCollection(heading1: .white,
+    static var dark: MDColorCollection {
+        return MDColorCollection(heading1: .white,
                                heading2: .white,
                                heading3: .white,
                                body: .white,
@@ -76,8 +76,8 @@ extension ColorCollection {
                                codeBlockBackground: UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1))
     }
 
-    static var system: ColorCollection {
-        return ColorCollection(heading1: ColorCompatibility.label,
+    static var system: MDColorCollection {
+        return MDColorCollection(heading1: ColorCompatibility.label,
                                heading2: ColorCompatibility.label,
                                heading3: ColorCompatibility.label,
                                body: ColorCompatibility.label,

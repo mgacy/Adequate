@@ -169,7 +169,7 @@ extension DealContentView: Themeable {
         // foreground - text
         titleLabel.textColor = theme.label
 
-        styler.colors = ColorCollection(theme: theme)
+        styler.colors = MDColorCollection(theme: theme)
         try? featuresText.render()
         try? specsText.render()
     }

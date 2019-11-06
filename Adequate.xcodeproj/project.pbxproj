@@ -123,10 +123,10 @@
 		C9C0C0BC23072D7D0011EFB4 /* UIFont+Traits.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0BB23072D7D0011EFB4 /* UIFont+Traits.swift */; };
 		C9C0C0BE23072DC50011EFB4 /* NSMutableAttributedString+Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0BD23072DC50011EFB4 /* NSMutableAttributedString+Attributes.swift */; };
 		C9C0C0C023072E170011EFB4 /* NSAttributedString+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0BF23072E170011EFB4 /* NSAttributedString+Helpers.swift */; };
-		C9C0C0C423072F800011EFB4 /* ParagraphStyleCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0C323072F800011EFB4 /* ParagraphStyleCollection.swift */; };
-		C9C0C0C623072FBD0011EFB4 /* FontCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0C523072FBD0011EFB4 /* FontCollection.swift */; };
-		C9C0C0C8230730020011EFB4 /* ColorCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0C7230730020011EFB4 /* ColorCollection.swift */; };
-		C9C0C0CA230730E30011EFB4 /* DownStylerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0C9230730E30011EFB4 /* DownStylerConfiguration.swift */; };
+		C9C0C0C423072F800011EFB4 /* MDParagraphStyleCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0C323072F800011EFB4 /* MDParagraphStyleCollection.swift */; };
+		C9C0C0C623072FBD0011EFB4 /* MDFontCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0C523072FBD0011EFB4 /* MDFontCollection.swift */; };
+		C9C0C0C8230730020011EFB4 /* MDColorCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0C7230730020011EFB4 /* MDColorCollection.swift */; };
+		C9C0C0CA230730E30011EFB4 /* MDStylerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0C9230730E30011EFB4 /* MDStylerConfiguration.swift */; };
 		C9C2109422D8126700C4F66F /* RefreshEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2109322D8126700C4F66F /* RefreshEvent.swift */; };
 		C9C2109822D8FFA300C4F66F /* Lens.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2109722D8FFA300C4F66F /* Lens.swift */; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
@@ -178,6 +178,7 @@
 		C9F7166F221F138B00733D17 /* HistoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7166E221F138B00733D17 /* HistoryDetailViewController.swift */; };
 		C9F92264218A4EB2001C257A /* DismissalDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F92263218A4EB2001C257A /* DismissalDelegate.swift */; };
 		C9F92266218A88D0001C257A /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F92265218A88D0001C257A /* UserDefaultsManager.swift */; };
+		C9FABAE9236E0CD100C1E523 /* MDUnorderedListItemParagraphStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FABAE8236E0CD100C1E523 /* MDUnorderedListItemParagraphStyler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -352,10 +353,10 @@
 		C9C0C0BB23072D7D0011EFB4 /* UIFont+Traits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Traits.swift"; sourceTree = "<group>"; };
 		C9C0C0BD23072DC50011EFB4 /* NSMutableAttributedString+Attributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Attributes.swift"; sourceTree = "<group>"; };
 		C9C0C0BF23072E170011EFB4 /* NSAttributedString+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Helpers.swift"; sourceTree = "<group>"; };
-		C9C0C0C323072F800011EFB4 /* ParagraphStyleCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagraphStyleCollection.swift; sourceTree = "<group>"; };
-		C9C0C0C523072FBD0011EFB4 /* FontCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontCollection.swift; sourceTree = "<group>"; };
-		C9C0C0C7230730020011EFB4 /* ColorCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollection.swift; sourceTree = "<group>"; };
-		C9C0C0C9230730E30011EFB4 /* DownStylerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownStylerConfiguration.swift; sourceTree = "<group>"; };
+		C9C0C0C323072F800011EFB4 /* MDParagraphStyleCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDParagraphStyleCollection.swift; sourceTree = "<group>"; };
+		C9C0C0C523072FBD0011EFB4 /* MDFontCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDFontCollection.swift; sourceTree = "<group>"; };
+		C9C0C0C7230730020011EFB4 /* MDColorCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDColorCollection.swift; sourceTree = "<group>"; };
+		C9C0C0C9230730E30011EFB4 /* MDStylerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDStylerConfiguration.swift; sourceTree = "<group>"; };
 		C9C2109322D8126700C4F66F /* RefreshEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshEvent.swift; sourceTree = "<group>"; };
 		C9C2109722D8FFA300C4F66F /* Lens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lens.swift; sourceTree = "<group>"; };
 		C9DAC4502147688500D6558B /* Adequate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adequate.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -411,6 +412,7 @@
 		C9F7166E221F138B00733D17 /* HistoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailViewController.swift; sourceTree = "<group>"; };
 		C9F92263218A4EB2001C257A /* DismissalDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissalDelegate.swift; sourceTree = "<group>"; };
 		C9F92265218A88D0001C257A /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		C9FABAE8236E0CD100C1E523 /* MDUnorderedListItemParagraphStyler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDUnorderedListItemParagraphStyler.swift; sourceTree = "<group>"; };
 		F77B497CAA561AEC2D68F337 /* Pods_DealWidget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DealWidget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -663,9 +665,10 @@
 		C9C0C0BA23072D580011EFB4 /* MDTextView */ = {
 			isa = PBXGroup;
 			children = (
-				C9C0C0C9230730E30011EFB4 /* DownStylerConfiguration.swift */,
+				C9C0C0C9230730E30011EFB4 /* MDStylerConfiguration.swift */,
 				C9C0C0B823063D230011EFB4 /* MDStyler.swift */,
 				C9DDB20021643F9E004D7957 /* MDTextView.swift */,
+				C9FABAE8236E0CD100C1E523 /* MDUnorderedListItemParagraphStyler.swift */,
 				C9C0C0C223072F6A0011EFB4 /* Attribute Collections */,
 				C9C0C0C123072F530011EFB4 /* Extensions */,
 			);
@@ -685,9 +688,9 @@
 		C9C0C0C223072F6A0011EFB4 /* Attribute Collections */ = {
 			isa = PBXGroup;
 			children = (
-				C9C0C0C7230730020011EFB4 /* ColorCollection.swift */,
-				C9C0C0C523072FBD0011EFB4 /* FontCollection.swift */,
-				C9C0C0C323072F800011EFB4 /* ParagraphStyleCollection.swift */,
+				C9C0C0C7230730020011EFB4 /* MDColorCollection.swift */,
+				C9C0C0C523072FBD0011EFB4 /* MDFontCollection.swift */,
+				C9C0C0C323072F800011EFB4 /* MDParagraphStyleCollection.swift */,
 			);
 			path = "Attribute Collections";
 			sourceTree = "<group>";
@@ -1359,8 +1362,8 @@
 				C9DAC48B21476ADA00D6558B /* String+Ext.swift in Sources */,
 				C95CD61B230FB35E0011585F /* Coordinator.swift in Sources */,
 				C923838A22B1B427003BB1DA /* ItemType.swift in Sources */,
-				C9C0C0C8230730020011EFB4 /* ColorCollection.swift in Sources */,
-				C9C0C0C623072FBD0011EFB4 /* FontCollection.swift in Sources */,
+				C9C0C0C8230730020011EFB4 /* MDColorCollection.swift in Sources */,
+				C9C0C0C623072FBD0011EFB4 /* MDFontCollection.swift in Sources */,
 				C989E1212237432600DEAE89 /* AWSMobileClient+Promise.swift in Sources */,
 				C9AE54C521791E4200818F11 /* PagedImageViewDelegate.swift in Sources */,
 				C995C07322A8B63600C2289F /* ParallaxBarView.swift in Sources */,
@@ -1433,7 +1436,7 @@
 				C9DAC49D21476BBE00D6558B /* Theme.swift in Sources */,
 				C9058DF5215C7E4C00FF7B4C /* NotificationManager.swift in Sources */,
 				C9C0C0B923063D230011EFB4 /* MDStyler.swift in Sources */,
-				C9C0C0CA230730E30011EFB4 /* DownStylerConfiguration.swift in Sources */,
+				C9C0C0CA230730E30011EFB4 /* MDStylerConfiguration.swift in Sources */,
 				C9F92266218A88D0001C257A /* UserDefaultsManager.swift in Sources */,
 				C96CA86A2182DB2500C3459E /* OnboardingCoordinator.swift in Sources */,
 				C979335622D7E27400132A00 /* CompletionWrapper.swift in Sources */,
@@ -1448,6 +1451,7 @@
 				C913919822CD91F2006C2E19 /* UILabel+Ext.swift in Sources */,
 				C928547D21704C73001E5993 /* ImageCell.swift in Sources */,
 				C989E11F223742C100DEAE89 /* AWSAppSyncClient+Promise.swift in Sources */,
+				C9FABAE9236E0CD100C1E523 /* MDUnorderedListItemParagraphStyler.swift in Sources */,
 				C93CBED72320ADCE0033DCD0 /* DealViewControllerDelegate.swift in Sources */,
 				C99DD5DB2182D4C500A38529 /* PaddingLabel.swift in Sources */,
 				C923838C22B1B454003BB1DA /* LaunchType.swift in Sources */,
@@ -1460,7 +1464,7 @@
 				C9DAC4AF21476D3F00D6558B /* DealViewController.swift in Sources */,
 				C99EF3C022BD4FDD00BF4410 /* Strings.generated.swift in Sources */,
 				C9F3671122B2EE8700606EAB /* PriceRange.swift in Sources */,
-				C9C0C0C423072F800011EFB4 /* ParagraphStyleCollection.swift in Sources */,
+				C9C0C0C423072F800011EFB4 /* MDParagraphStyleCollection.swift in Sources */,
 				C98B324A222DC1F0003A8669 /* HistoryListCell.swift in Sources */,
 				C95CD60F230F48500011585F /* UIRefreshControl+Ext.swift in Sources */,
 				C989E11D223738ED00DEAE89 /* API+Ext.swift in Sources */,

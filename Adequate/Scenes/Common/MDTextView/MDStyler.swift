@@ -10,9 +10,11 @@ import Down
 
 class MDStyler: Styler {
 
-    public var colors: ColorCollection
-    public let fonts: FontCollection
-    public let paragraphStyles: ParagraphStyleCollection
+    public var colors: MDColorCollection
+    public let fonts: MDFontCollection
+    public let paragraphStyles: MDParagraphStyleCollection
+
+    public let itemParagraphStyler: MDUnorderedListItemParagraphStyler
 
     // TODO: observe ThemeManager?
     //var theme: AppTheme
@@ -24,40 +26,49 @@ class MDStyler: Styler {
 
     // MARK: - Init
 
-    public init(configuration: DownStylerConfiguration = DownStylerConfiguration()) {
+    public init(configuration: MDStylerConfiguration = MDStylerConfiguration()) {
         fonts = configuration.fonts
         colors = configuration.colors
         paragraphStyles = configuration.paragraphStyles
+
+        itemParagraphStyler = MDUnorderedListItemParagraphStyler(options: configuration.listItemOptions,
+                                                        prefixFont: fonts.listItemPrefix)
     }
 
     // MARK: Styler
 
     func style(document str: NSMutableAttributedString) {}
 
-    func style(blockQuote str: NSMutableAttributedString) {
-        //log.verbose("blockQuote: '\(str.string)'")
+    func style(blockQuote str: NSMutableAttributedString, nestDepth: Int) {
         // ...
         str.addAttributes([.paragraphStyle: paragraphStyles.body])
     }
 
-    func style(list str: NSMutableAttributedString) {
-        //log.debug("list: '\(str.string)'")
-        // NOTE: DownStyler applies paragraph styling in `style(item:)`
-        str.addAttributes([.paragraphStyle: paragraphStyles.list])
+    func style(list str: NSMutableAttributedString, nestDepth: Int) {
+        //str.addAttributes([.paragraphStyle: paragraphStyles.list])
     }
 
-    func style(item str: NSMutableAttributedString) {
-        //log.verbose("item: '\(str.string)'")
-        // NOTE: this is where DownStyler applies paragraph styling, rather than style(list:)
+    func style(listItemPrefix str: NSMutableAttributedString) {
+        str.setAttributes(listPrefixAttributes)
+    }
+
+    func style(item str: NSMutableAttributedString, prefixLength: Int) {
+        let paragraphRanges = str.paragraphRanges()
+
+        guard let leadingParagraphRange = paragraphRanges.first else { return }
+
+        indentListItemLeadingParagraph(in: str, prefixLength: prefixLength, inRange: leadingParagraphRange)
+
+        paragraphRanges.dropFirst().forEach {
+            indentListItemTrailingParagraph(in: str, inRange: $0)
+        }
     }
 
     func style(codeBlock str: NSMutableAttributedString, fenceInfo: String?) {
-        //log.verbose("codeBlock: '\(str.string)'")
         styleGenericCodeBlock(in: str)
     }
 
     func style(htmlBlock str: NSMutableAttributedString) {
-        //log.verbose("htmlBlock: '\(str.string)'")
         styleGenericCodeBlock(in: str)
     }
 
@@ -67,8 +78,7 @@ class MDStyler: Styler {
         str.addAttribute(for: .paragraphStyle, value: paragraphStyles.body)
     }
 
-    open func style(heading str: NSMutableAttributedString, level: Int) {
-        //log.verbose("heading: '\(str.string)' - '\(level)")
+    func style(heading str: NSMutableAttributedString, level: Int) {
         let (font, color, paragraphStyle) = headingAttributes(for: level)
 
         str.updateExistingAttributes(for: .font) { (currentFont: UIFont) in
@@ -97,7 +107,6 @@ class MDStyler: Styler {
     func style(thematicBreak str: NSMutableAttributedString) {}
 
     func style(text str: NSMutableAttributedString) {
-        //log.verbose("text: '\(str.string)'")
         str.setAttributes([
             .font: fonts.body,
             .foregroundColor: colors.body])
@@ -108,26 +117,22 @@ class MDStyler: Styler {
     func style(lineBreak str: NSMutableAttributedString) {}
 
     func style(code str: NSMutableAttributedString) {
-        //log.verbose("code: '\(str.string)'")
         styleGenericInlineCode(in: str)
     }
 
     func style(htmlInline str: NSMutableAttributedString) {
-        //log.verbose("htmlInline: '\(str.string)'")
         styleGenericInlineCode(in: str)
     }
 
     func style(customInline str: NSMutableAttributedString) {}
 
     func style(emphasis str: NSMutableAttributedString) {
-        //log.verbose("emphasis: '\(str.string)'")
         str.updateExistingAttributes(for: .font) { (font: UIFont) in
             font.italic
         }
     }
 
     func style(strong str: NSMutableAttributedString) {
-        //log.verbose("strong: '\(str.string)'")
         str.updateExistingAttributes(for: .font) { (font: UIFont) in
             font.bold
         }
@@ -146,11 +151,12 @@ class MDStyler: Styler {
         }
         styleGenericLink(in: str, url: url)
     }
+}
 
-    // MARK: - Common Styling
+// MARK: - Common Styling
+extension MDStyler {
 
     private func styleGenericCodeBlock(in str: NSMutableAttributedString) {
-        //log.verbose("styleGenericCodeBlock: '\(str.string)'")
         // ...
         str.setAttributes([
             .font: fonts.code,
@@ -161,7 +167,6 @@ class MDStyler: Styler {
     }
 
     private func styleGenericInlineCode(in str: NSMutableAttributedString) {
-        //log.verbose("styleGenericInlineCode: '\(str.string)'")
         str.setAttributes([
             .font: fonts.code,
             .foregroundColor: colors.code])
@@ -172,8 +177,10 @@ class MDStyler: Styler {
             .link: url,
             .foregroundColor: colors.link])
     }
+}
 
-    // MARK: - Helpers
+// MARK: - Helpers
+extension MDStyler {
 
     private func headingAttributes(for level: Int) -> (UIFont, UIColor, NSParagraphStyle) {
         switch level {
@@ -185,5 +192,54 @@ class MDStyler: Styler {
         case 6: return (fonts.heading3, colors.heading3, paragraphStyles.heading3) // TODO: use .heading6
         default: return (fonts.heading1, colors.heading1, paragraphStyles.heading1)
         }
+    }
+
+    private func indentListItemLeadingParagraph(in str: NSMutableAttributedString, prefixLength: Int, inRange range: NSRange) {
+        str.updateExistingAttributes(for: .paragraphStyle, in: range) { (existingStyle: NSParagraphStyle) in
+            existingStyle.indented(by: itemParagraphStyler.indentation)
+        }
+
+        let attributedPrefix = str.prefix(with: prefixLength)
+        let prefixWidth = attributedPrefix.size().width
+
+        let defaultStyle = itemParagraphStyler.leadingParagraphStyle(prefixWidth: prefixWidth)
+        str.addAttributeInMissingRanges(for: .paragraphStyle, value: defaultStyle, within: range)
+    }
+
+    private func indentListItemTrailingParagraph(in str: NSMutableAttributedString, inRange range: NSRange) {
+        str.updateExistingAttributes(for: .paragraphStyle, in: range) { (existingStyle: NSParagraphStyle) in
+            existingStyle.indented(by: itemParagraphStyler.indentation)
+        }
+
+        let defaultStyle = itemParagraphStyler.trailingParagraphStyle
+        str.addAttributeInMissingRanges(for: .paragraphStyle, value: defaultStyle, within: range)
+
+        //indentListItemQuotes(in: str, inRange: range)
+    }
+}
+
+// MARK: - Helper Extensions - DownStyler
+
+private extension NSParagraphStyle {
+
+    func indented(by indentation: CGFloat) -> NSParagraphStyle {
+        let result = mutableCopy() as! NSMutableParagraphStyle
+        result.firstLineHeadIndent += indentation
+        result.headIndent += indentation
+
+        result.tabStops = tabStops.map {
+            NSTextTab(textAlignment: $0.alignment, location: $0.location + indentation, options: $0.options)
+        }
+
+        return result
+    }
+}
+
+private extension NSAttributedString {
+
+    func prefix(with length: Int) -> NSAttributedString {
+        guard length <= self.length else { return self }
+        guard length > 0 else { return NSAttributedString() }
+        return attributedSubstring(from: NSMakeRange(0, length))
     }
 }

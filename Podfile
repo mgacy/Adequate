@@ -3,7 +3,8 @@ platform :ios, '11.0'
 
 # Basic
 def basic_pods
-  pod 'Down'
+  # pod 'Down'
+  pod 'Down', :git => 'https://github.com/mgacy/Down.git', :branch => 'hotfix/public-initializers'
   # pod 'Down', :git => 'https://github.com/iwasrobbed/Down.git', :branch => 'feature/default-styler'
   pod 'Promises'
   pod 'SwiftyBeaver'
