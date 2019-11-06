@@ -967,18 +967,26 @@
 		C9FABAEA237246B200C1E523 /* DataProvider */ = {
 			isa = PBXGroup;
 			children = (
+				C9FABAF32372A3E200C1E523 /* Protocols */,
 				C989E11A223734C800DEAE89 /* API.swift */,
 				C989E11C223738ED00DEAE89 /* API+Ext.swift */,
 				C979335522D7E27400132A00 /* CompletionWrapper.swift */,
-				C9FABAEB2372472900C1E523 /* DataProviderType.swift */,
 				C9093CC42228A76D00C9DA0C /* DataProvider.swift */,
-				C9FABAF12372908100C1E523 /* MehSyncClientType.swift */,
 				C9FABAED2372498100C1E523 /* MehSyncClient.swift */,
 				C9088C2C22E6A418007C35CC /* DealDelta.swift */,
 				C9C2109322D8126700C4F66F /* RefreshEvent.swift */,
 				C989E1222237459300DEAE89 /* SyncClientError.swift */,
 			);
 			path = DataProvider;
+			sourceTree = "<group>";
+		};
+		C9FABAF32372A3E200C1E523 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				C9FABAEB2372472900C1E523 /* DataProviderType.swift */,
+				C9FABAF12372908100C1E523 /* MehSyncClientType.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
