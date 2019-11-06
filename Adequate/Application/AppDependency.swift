@@ -20,7 +20,7 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
 
     init() {
         // https://aws-amplify.github.io/docs/ios/authentication
-        let credentialsProvider = AWSMobileClient.sharedInstance()
+        let credentialsProvider = AWSMobileClient.default()
 
         // Initialize dataProvider
         let dataProvider: DataProviderType
