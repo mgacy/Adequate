@@ -179,6 +179,7 @@
 		C9F92264218A4EB2001C257A /* DismissalDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F92263218A4EB2001C257A /* DismissalDelegate.swift */; };
 		C9F92266218A88D0001C257A /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F92265218A88D0001C257A /* UserDefaultsManager.swift */; };
 		C9FABAE9236E0CD100C1E523 /* MDUnorderedListItemParagraphStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FABAE8236E0CD100C1E523 /* MDUnorderedListItemParagraphStyler.swift */; };
+		C9FABAEC2372472900C1E523 /* DataProviderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FABAEB2372472900C1E523 /* DataProviderType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -413,6 +414,7 @@
 		C9F92263218A4EB2001C257A /* DismissalDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissalDelegate.swift; sourceTree = "<group>"; };
 		C9F92265218A88D0001C257A /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		C9FABAE8236E0CD100C1E523 /* MDUnorderedListItemParagraphStyler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDUnorderedListItemParagraphStyler.swift; sourceTree = "<group>"; };
+		C9FABAEB2372472900C1E523 /* DataProviderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderType.swift; sourceTree = "<group>"; };
 		F77B497CAA561AEC2D68F337 /* Pods_DealWidget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DealWidget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -964,6 +966,7 @@
 			isa = PBXGroup;
 			children = (
 				C979335522D7E27400132A00 /* CompletionWrapper.swift */,
+				C9FABAEB2372472900C1E523 /* DataProviderType.swift */,
 				C9093CC42228A76D00C9DA0C /* DataProvider.swift */,
 				C9088C2C22E6A418007C35CC /* DealDelta.swift */,
 				C9C2109322D8126700C4F66F /* RefreshEvent.swift */,
@@ -1478,6 +1481,7 @@
 				C989E11D223738ED00DEAE89 /* API+Ext.swift in Sources */,
 				C9DAC4B1214785DF00D6558B /* BaseCoordinator.swift in Sources */,
 				C9AE54C9217927B500818F11 /* ZoomingImageView.swift in Sources */,
+				C9FABAEC2372472900C1E523 /* DataProviderType.swift in Sources */,
 				C93BD90422B1B38100FAD8AA /* ItemAttributeType.swift in Sources */,
 				C9DAC49721476BA000D6558B /* Poll.swift in Sources */,
 				C9E07FD0232C32B700CA2F8E /* DebugButtonComponentView.swift in Sources */,

@@ -10,24 +10,6 @@ import AWSAppSync
 import AWSMobileClient
 import class Promise.Promise // import class to avoid name collision with AWSAppSync.Promise
 
-// MARK: - Protocol
-
-protocol DataProviderType {
-    typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
-    // Get
-    func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal>
-    func getDealHistory(from: Date, to: Date)
-    // Refresh
-    func refreshDeal(for: RefreshEvent)
-    // Update
-    func updateDealInBackground(_: DealDelta, fetchCompletionHandler: @escaping (UIBackgroundFetchResult) -> Void)
-    // Observers
-    func addDealObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<Deal>) -> Void) -> ObservationToken
-    func addHistoryObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<[DealHistory]>) -> Void) -> ObservationToken
-}
-
-// MARK: - Implementation
-
 class DataProvider: DataProviderType {
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
