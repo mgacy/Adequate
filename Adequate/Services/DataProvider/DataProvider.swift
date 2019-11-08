@@ -316,7 +316,7 @@ class DataProvider: DataProviderType {
             return
         }
 
-        client.fetchDeal(withID: Constants.currentDealID, cachePolicy: .fetchIgnoringCacheData)
+        client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData)
             .then({ result in
                 guard let newDeal = Deal(result.getDeal) else {
                     throw SyncClientError.missingData(data: result)
@@ -521,6 +521,5 @@ extension DataProvider {
 extension DataProvider {
     private enum Constants {
         static var cacheKey: String { return "id" }
-        static var currentDealID: String { return "current_deal" }
     }
 }

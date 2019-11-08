@@ -44,27 +44,29 @@ class MehSyncClient: MehSyncClientType {
 
     // MARK: - Fetch
 
-    func fetchDeal(withID id: GraphQLID, cachePolicy: CachePolicy = .fetchIgnoringCacheData) -> Promise<GetDealQuery.Data> {
-        guard let appSyncClient = appSyncClient else {
-            // TODO: make extension to retry initialization of client as a Promise?
-            return Promise<GetDealQuery.Data>(error: SyncClientError.missingClient)
-        }
+    func fetchCurrentDeal(cachePolicy: CachePolicy) -> Promise<GetDealQuery.Data> {
+        let query = GetDealQuery(id: Constants.currentDealID)
+        return fetch(query: query, cachePolicy: cachePolicy)
+    }
 
+    func fetchDeal(withID id: GraphQLID, cachePolicy: CachePolicy = .fetchIgnoringCacheData) -> Promise<GetDealQuery.Data> {
         let query = GetDealQuery(id: id)
-        return appSyncClient.fetch(query: query, cachePolicy: cachePolicy)
+        return fetch(query: query, cachePolicy: cachePolicy)
     }
 
     func fetchDealHistory(from startDate: Date, to endDate: Date, cachePolicy: CachePolicy) -> Promise<ListDealsForPeriodQuery.Data> {
         let startDateString = DateFormatter.yyyyMMddEST.string(from: startDate)
         let endDateString = DateFormatter.yyyyMMddEST.string(from: endDate)
         let query = ListDealsForPeriodQuery(startDate: startDateString, endDate: endDateString)
+        return fetch(query: query, cachePolicy: cachePolicy)
+    }
 
+    private func fetch<T: GraphQLQuery>(query: T, cachePolicy: CachePolicy, queue: DispatchQueue = .main) -> Promise<T.Data> {
         guard let appSyncClient = appSyncClient else {
             // TODO: make extension to retry initialization of client as a Promise?
-            return Promise<ListDealsForPeriodQuery.Data>(error: SyncClientError.missingClient)
+            return Promise<T.Data>(error: SyncClientError.missingClient)
         }
-
-        return appSyncClient.fetch(query: query, cachePolicy: cachePolicy, queue: DispatchQueue.main)
+        return appSyncClient.fetch(query: query, cachePolicy: cachePolicy, queue: queue)
     }
 
     // MARK: - Cache
@@ -134,5 +136,6 @@ extension MehSyncClient {
 extension MehSyncClient {
     private enum Constants {
         static var cacheKey: String { return "id" }
+        static var currentDealID: String { return "current_deal" }
     }
 }
