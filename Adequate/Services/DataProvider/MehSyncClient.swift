@@ -69,6 +69,57 @@ class MehSyncClient: MehSyncClientType {
         return appSyncClient.fetch(query: query, cachePolicy: cachePolicy, queue: queue)
     }
 
+    // MARK: - Watch
+
+    // Specify `Swift.Result` to avoid interference with `AWSAppSync.Result`
+    typealias DealResultHandler = (Swift.Result<Deal, SyncClientError>) -> Void
+
+    func watchCurrentDeal(cachePolicy: CachePolicy = .returnCacheDataAndFetch, queue: DispatchQueue = .main, resultHandler: @escaping DealResultHandler) throws -> GraphQLQueryWatcher<GetDealQuery> {
+        guard let appSyncClient = appSyncClient else {
+            throw SyncClientError.missingClient
+        }
+
+        let query = GetDealQuery(id: Constants.currentDealID)
+        return appSyncClient.watch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
+            if let appSyncError = error as? AWSAppSyncClientError {
+                /*
+                // TODO: handle different AWSAppSyncClientError
+                // https://techlife.cookpad.com/entry/2019/06/14/160000
+                // For `.requestFailed`, the Cocoa error can be extracted and `.localizedDescription` shown to the user.
+                // Other cases probably aren't that useful. `AWSAppSyncClientError` conforms to `LocalizedError`,
+                // but the error messages are English only and usually add various codes that would probably be unideal
+                // to show users.
+                 */
+                switch appSyncError {
+                case .requestFailed(_, _, let error):
+                    log.error("\(#function) - AWSAppSyncClientError.appSyncError: \(error?.localizedDescription ?? "No Error") ")
+                case .noData(let response):
+                    log.error("\(#function) - AWSAppSyncClientError.noData: \(response) ")
+                case .parseError(_, _, let error):
+                    log.error("\(#function) - AWSAppSyncClientError.parseError: \(error?.localizedDescription ?? "No Error") ")
+                case .authenticationError(let error):
+                    log.error("\(#function) - AWSAppSyncClientError.authenticationError: \(error.localizedDescription) ")
+                }
+                resultHandler(.failure(SyncClientError.network(error: appSyncError)))
+            } else if let unknownError = error {
+                resultHandler(.failure(SyncClientError.unknown(error: unknownError)))
+            } else if let result = result, let data = result.data {
+                // According to the GraphQL spec, result can contain both data and a non-empty list of (untyped) errors
+                if let graphQLErrors = result.errors, !graphQLErrors.isEmpty {
+                    //let errorMessages = graphQLErrors.map { $0.localizedDescription }
+                    log.error("\(#function) - fetch returned data and errors: \(graphQLErrors.map { $0.localizedDescription })")
+                }
+
+                guard let deal = Deal(data.getDeal) else {
+                    return resultHandler(.failure(SyncClientError.missingData(data: data)))
+                }
+                resultHandler(.success(deal))
+            } else {
+                resultHandler(.failure(SyncClientError.myError(message: "Something has gone horribly wrong.")))
+            }
+        }
+    }
+
     // MARK: - Cache
 
     // TODO: simply return Promise?
