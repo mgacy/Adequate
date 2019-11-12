@@ -76,8 +76,10 @@ class DataProvider: DataProviderType {
         }
     }
 
-    private let client: MehSyncClientType
+    private let credentialsProvider: AWSMobileClient
     private var credentialsProviderIsInitialized: Bool = false
+
+    private let client: MehSyncClientType
 
     private var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
     private var historyObservations: [UUID: (ViewState<[DealHistory]>) -> Void] = [:]
@@ -90,10 +92,11 @@ class DataProvider: DataProviderType {
 
     // MARK: - Lifecycle
 
+    // TODO: create protocol covering AWSMobileClient
     init(credentialsProvider: AWSMobileClient) {
         self.dealState = .empty
         self.historyState = .empty
-
+        self.credentialsProvider = credentialsProvider
         self.client = MehSyncClient(credentialsProvider: credentialsProvider)
 
         addDealObserver(self) { dp, viewState in
@@ -116,12 +119,11 @@ class DataProvider: DataProviderType {
             }
     }
 
-    init(client: MehSyncClientType) {
+    init(credentialsProvider: AWSMobileClient, client: MehSyncClientType) {
         self.dealState = .empty
         self.historyState = .empty
+        self.credentialsProvider = credentialsProvider
         self.client = client
-        // CAUTION: `AWSAppSyncClient.httpTransport` is internal, so we cannot verify that it has been initialized
-        credentialsProviderIsInitialized = true
 
         addDealObserver(self) { dp, viewState in
             guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
@@ -129,6 +131,30 @@ class DataProvider: DataProviderType {
             }
             let currentDealManager = CurrentDealManager()
             currentDealManager.saveDeal(currentDeal)
+        }
+
+        switch credentialsProvider.currentUserState {
+        case .unknown:
+            credentialsProvider.initialize()
+                .then { [weak self] userState in
+                    self?.credentialsProviderIsInitialized = true
+                    if let refreshEvent = self?.pendingRefreshEvent {
+                        self?.refreshDeal(for: refreshEvent)
+                        self?.pendingRefreshEvent = nil
+                    }
+                }.catch { error in
+                    log.error("Unable to initialize credentialsProvider: \(error)")
+                }
+        case .guest:
+            credentialsProviderIsInitialized = true
+        case .signedIn:
+            log.debug("currentUserState: \(credentialsProvider.currentUserState)")
+        case .signedOut:
+            log.debug("currentUserState: \(credentialsProvider.currentUserState)")
+        case .signedOutFederatedTokensInvalid:
+            log.debug("currentUserState: \(credentialsProvider.currentUserState)")
+        case .signedOutUserPoolsTokenInvalid:
+            log.debug("currentUserState: \(credentialsProvider.currentUserState)")
         }
     }
 
