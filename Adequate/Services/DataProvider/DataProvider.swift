@@ -276,16 +276,15 @@ class DataProvider: DataProviderType {
 
     func getDealHistory(from startDate: Date, to endDate: Date) {
         // FIXME: decide on CachePolicy: .fetchIgnoringCacheData / .returnCacheDataAndFetch
-        getDealHistory(from: startDate, to: endDate, showLoading: true, cachePolicy: .returnCacheDataAndFetch)
+        getDealHistory(from: startDate, to: endDate, cachePolicy: .returnCacheDataAndFetch)
     }
 
-    private func getDealHistory(from startDate: Date, to endDate: Date, showLoading: Bool, cachePolicy: CachePolicy) {
+    private func getDealHistory(from startDate: Date, to endDate: Date, cachePolicy: CachePolicy) {
+        // TODO: remove `showLoading` arg
         log.debug("\(#function) - \(startDate) - \(endDate) - \(cachePolicy)")
         //guard historyState != ViewState<[DealHistory]>.loading else { return }
-        if showLoading {
-            historyState = .loading
-        }
 
+        historyState = .loading
         client.fetchDealHistory(from: startDate, to: endDate, cachePolicy: cachePolicy)
             .then { [weak self] result in
                 guard let items = result.listDealsForPeriod else {
@@ -298,10 +297,8 @@ class DataProvider: DataProviderType {
                 }
             }.catch { error in
                 log.error("\(#function): \(error.localizedDescription)")
-                // TODO: still show .error if !showLoading?
-                //if showLoading {
+                // TODO: always show error?
                 self.historyState = .error(error)
-                //}
             }
     }
 
@@ -352,7 +349,7 @@ class DataProvider: DataProviderType {
 
             // Update Deal history after fetching current Deal
             // TODO: use cachePolicy
-            refreshHistoryObserver = makeRefreshHistoryObserver(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
+            refreshHistoryObserver = makeRefreshHistoryObserver(cachePolicy: .fetchIgnoringCacheData)
 
             configureWatcher(cachePolicy: cachePolicy)
         case .launchFromNotification:
@@ -594,7 +591,7 @@ extension DataProvider {
         return observer
     }
 
-    private func makeRefreshHistoryObserver(showLoading: Bool, cachePolicy: CachePolicy) -> CompletionWrapper<Void> {
+    private func makeRefreshHistoryObserver(cachePolicy: CachePolicy) -> CompletionWrapper<Void> {
         let observer: CompletionWrapper<Void> = CompletionWrapper(wrapping: { }) { [weak self] in
             self?.refreshHistoryObserver = nil
         }
@@ -607,7 +604,7 @@ extension DataProvider {
                 // TODO: move startDate / endDate to class properties?
                 let startDate = Calendar.current.date(byAdding: .month, value: -1, to: today)!
                 let endDate = Calendar.current.date(byAdding: .day, value: -1, to: today)!
-                self?.getDealHistory(from: startDate, to: endDate, showLoading: showLoading, cachePolicy: cachePolicy)
+                self?.getDealHistory(from: startDate, to: endDate, cachePolicy: cachePolicy)
                 wrapper.complete(with: ())
             case .error:
                 // TODO: should we complete, or wait for another successful refresh?
