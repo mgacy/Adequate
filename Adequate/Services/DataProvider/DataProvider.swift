@@ -116,8 +116,9 @@ class DataProvider: DataProviderType {
                     self?.refreshDeal(for: refreshEvent)
                     self?.pendingRefreshEvent = nil
                 }
-            }.catch { error in
+            }.catch { [weak self] error in
                 log.error("Unable to initialize credentialsProvider: \(error)")
+                self?.dealState = .error(error)
             }
     }
 
@@ -144,8 +145,9 @@ class DataProvider: DataProviderType {
                         self?.refreshDeal(for: refreshEvent)
                         self?.pendingRefreshEvent = nil
                     }
-                }.catch { error in
+                }.catch { [weak self] error in
                     log.error("Unable to initialize credentialsProvider: \(error)")
+                    self?.dealState = .error(error)
                 }
         case .guest:
             credentialsProviderIsInitialized = true
