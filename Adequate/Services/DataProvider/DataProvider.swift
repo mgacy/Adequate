@@ -580,8 +580,9 @@ extension DataProvider {
                 wrapper.complete(with: .failed)
             case .empty:
                 // FIXME: this is sometimes getting called as soon as we add the observer since the dealState is still .empty
-                log.debug("BACKGROUND_APP_REFRESH: noData")
-                wrapper.complete(with: .noData)
+                //log.debug("BACKGROUND_APP_REFRESH: noData")
+                //wrapper.complete(with: .noData)
+                break
             case .loading:
                 // This is called immediately; ignore it
                 break
