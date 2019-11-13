@@ -81,6 +81,8 @@ class DataProvider: DataProviderType {
 
     private let client: MehSyncClientType
 
+    private var currentDealWatcher: GraphQLQueryWatcher<GetDealQuery>?
+
     private var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
     private var historyObservations: [UUID: (ViewState<[DealHistory]>) -> Void] = [:]
 
@@ -158,6 +160,102 @@ class DataProvider: DataProviderType {
         }
     }
 
+    // MARK: - CurrentDealWatcher
+
+    /// Used by currentDealWatcher's resultHandler to determine whether to update .lastDealResponse.
+    private var haveInitializedWatcher: Bool = false
+
+    // TODO: make throwing
+    private func configureWatcher(cachePolicy: CachePolicy) {
+        log.verbose("\(#function) - \(cachePolicy)")
+        // TODO: verify credentialsProvider.currentUserState?
+        guard credentialsProviderIsInitialized else {
+            log.error("credentialsProvider not yet initialized")
+            return
+        }
+        guard currentDealWatcher == nil else {
+            log.error("currentDealWatcher has already been configured")
+            return
+        }
+        guard dealState == ViewState<Deal>.empty else {
+            log.error(".dealState is not empty")
+            return
+        }
+
+        if case .fetchIgnoringCacheData = cachePolicy {
+            lastDealRequest = Date()
+        }
+
+        dealState = .loading
+        do {
+            currentDealWatcher = try client.watchCurrentDeal(cachePolicy: cachePolicy, queue: .main) { result in
+                switch result {
+                case .success(let deal):
+                    //log.verbose("Deal: \(deal)")
+
+                    // TODO: handle lastDealRequest?
+                    if self.haveInitializedWatcher {
+                        // We have already fetched a result that may have been from the cache; this is from the server.
+                        self.lastDealResponse = Date()
+                        //self.lastDealCreatedAt = DateFormatter.iso8601Full.date(from: deal.createdAt)
+                    } else {
+                        // This is the first time fetching
+                        if case .fetchIgnoringCacheData = cachePolicy {
+                            self.lastDealRequest = Date()
+                            self.lastDealResponse = Date()
+                        }
+                    }
+
+                    if case .result(let oldDeal) = self.dealState {
+                        if oldDeal != deal {
+                            self.dealState = .result(deal)
+                        }
+                    } else {
+                        self.dealState = .result(deal)
+                    }
+
+                    self.haveInitializedWatcher = true
+                case .failure(let error):
+                    log.error("Error: \(error.localizedDescription)")
+
+                    // TODO: should we really display an error here?
+                    //if !self.haveInitializedWatcher {
+                    self.dealState = .error(error)
+                    //}
+                    //self.haveInitializedWatcher = true // ?
+                }
+            }
+        } catch {
+            log.error("\(#function) - unable to watchCurrentDeal: \(error.localizedDescription)")
+            self.dealState = .error(error)
+        }
+    }
+
+    private func refetchCurrentDeal(showLoading: Bool) {
+        // TODO: verify credentialsProvider.currentUserState?
+        guard credentialsProviderIsInitialized else {
+            log.error("\(#function) - credentialsProvider has not been initialized")
+            // TODO: try to initialze credentialsProvider again?
+            return
+        }
+        guard let currentDealWatcher = currentDealWatcher else {
+            log.error("\(#function) - currentDealWatcher not configured")
+            //dealState = .loading
+            //currentDealWatcher = configureWatcher(cachePolicy: .fetchIgnoringCacheData)
+            return
+        }
+
+        // TODO: how to handle different dealStates?
+        log.verbose("\(#function) - \(showLoading) - \(dealState)")
+
+        if showLoading {
+            dealState = .loading
+        }
+
+        lastDealRequest = Date()
+        currentDealWatcher.refetch()
+    }
+
     // MARK: - Get
 
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
@@ -222,9 +320,15 @@ class DataProvider: DataProviderType {
             return
         }
 
+        // TODO: peform fetch with .returnCacheDataAndFetch if dealState is .error?
         switch event {
         case .manual:
-            refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
+            guard currentDealWatcher != nil else {
+                log.error("\(#function) - \(event) - currentDealWatcher not configured)")
+                refreshDeal(for: .launch)
+                return
+            }
+            refetchCurrentDeal(showLoading: true)
         // App State
         case .launch:
             var cachePolicy: CachePolicy = .fetchIgnoringCacheData
@@ -234,7 +338,7 @@ class DataProvider: DataProviderType {
                 if lastDealResponse.timeIntervalSince(lastDealRequest) >= 0 {
                     // Our last request succeeded
                     // TODO: verify that Date().timeIntervalSince(lastDealCreatedAt) < 24 hours
-                    cachePolicy = .returnCacheDataAndFetch // or .returnCacheDataElseFetch?
+                    cachePolicy = .returnCacheDataAndFetch
                 } else {
                     // Our last request failed
                     cachePolicy = .fetchIgnoringCacheData
@@ -248,78 +352,49 @@ class DataProvider: DataProviderType {
             // TODO: use cachePolicy
             refreshHistoryObserver = makeRefreshHistoryObserver(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
 
-            refreshDeal(showLoading: true, cachePolicy: cachePolicy)
+            configureWatcher(cachePolicy: cachePolicy)
         case .launchFromNotification:
             // TODO: improve handling
-            refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
+            configureWatcher(cachePolicy: .fetchIgnoringCacheData)
         case .foreground:
+
+            guard currentDealWatcher != nil else {
+                log.error("\(#function) - \(event) - currentDealWatcher not configured)")
+                refreshDeal(for: .launch)
+                return
+            }
+
+            let showLoading: Bool
             // TODO: showLoading and fetch if Date().timeIntervalSince(lastDealCreatedAt) >= 24 hours
             if case .available = UIApplication.shared.backgroundRefreshStatus {
                 if lastDealResponse.timeIntervalSince(lastDealRequest) < 0 {
                     // Last request failed
-                    refreshDeal(showLoading: false, cachePolicy: .fetchIgnoringCacheData)
+                    showLoading = true
                 } else {
-                    log.debug("Skipping refresh")
-                    return
+                    //log.debug("Skipping refresh")
+                    //return
+                    showLoading = false
                 }
             } else {
                 log.debug("backgroundRefreshStatus: \(UIApplication.shared.backgroundRefreshStatus)")
-                refreshDeal(showLoading: false, cachePolicy: .fetchIgnoringCacheData)
+                showLoading = false // ?
             }
+
+            refetchCurrentDeal(showLoading: showLoading)
+
         // Notifications
         case .foregroundNotification:
+            guard currentDealWatcher != nil else {
+                log.error("\(#function) - \(event) - currentDealWatcher not configured)")
+                refreshDeal(for: .launch)
+                return
+            }
+
             // TODO: still refresh if backgroundRefreshStatus == .available?
-            refreshDeal(showLoading: true, cachePolicy: .fetchIgnoringCacheData)
+            refetchCurrentDeal(showLoading: true)
         case .silentNotification(let completionHandler):
             refreshDealInBackground(fetchCompletionHandler: completionHandler)
         }
-    }
-
-    private func refreshDeal(showLoading: Bool, cachePolicy: CachePolicy) {
-        log.verbose("\(#function) - \(showLoading) - \(cachePolicy)")
-        // FIXME: we currently rely on `refreshDeal(for:)` to ensure that `credentialsProviderIsInitialized` == `true`
-        // FIXME: this does not necessarily ensure we are not already fetching the current deal, since we may have called `refreshDeal(showLoading: false, cachePolicy:)`
-        guard dealState != ViewState<Deal>.loading else {
-            // FIXME: what if cachePolicy differs from that of current request?
-            log.debug("Already loading Deal; will bail")
-            return
-        }
-
-        if showLoading {
-            dealState = .loading
-        }
-
-        // TODO: specify queue?
-        client.fetchDeal(withID: Constants.currentDealID, cachePolicy: cachePolicy)
-            .then({ result in
-                guard let deal = Deal(result.getDeal) else {
-                    throw SyncClientError.missingData(data: result)
-                }
-                // TODO: place cacheQuery and showLoading (and dealState?) in capture list?
-                switch cachePolicy {
-                case .fetchIgnoringCacheData:
-                    self.lastDealResponse = Date()
-                case .returnCacheDataAndFetch:
-                    // FIXME: this will be inaccurate if the fetch fails
-                    self.lastDealResponse = Date()
-                case .returnCacheDataDontFetch, .returnCacheDataElseFetch:
-                    break
-                }
-                //self.lastDealCreatedAt = DateFormatter.iso8601Full.date(from: deal.createdAt)
-                if case .result(let oldDeal) = self.dealState {
-                    if oldDeal != deal {
-                        self.dealState = .result(deal)
-                    }
-                } else {
-                    self.dealState = .result(deal)
-                }
-            }).catch({ error in
-                log.error("\(#function): \(error.localizedDescription)")
-                // TODO: is this check sufficient to cover desired behavior?
-                if showLoading {
-                    self.dealState = .error(error)
-                }
-            })
     }
 
     private func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
