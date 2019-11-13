@@ -78,6 +78,7 @@
 		C96CA8702182DD2E00C3459E /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CA86F2182DD2E00C3459E /* NotificationViewController.swift */; };
 		C9725D5F2255A7EE0043C4FC /* UINavigationController+NavBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9725D5E2255A7EE0043C4FC /* UINavigationController+NavBarStyle.swift */; };
 		C979335622D7E27400132A00 /* CompletionWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C979335522D7E27400132A00 /* CompletionWrapper.swift */; };
+		C98282F9237B9419002B55D9 /* CredentialsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98282F8237B9418002B55D9 /* CredentialsProvider.swift */; };
 		C989E11722330B1C00DEAE89 /* SlideTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */; };
 		C989E119223734A700DEAE89 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = C989E118223734A600DEAE89 /* awsconfiguration.json */; };
 		C989E11B223734C800DEAE89 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11A223734C800DEAE89 /* API.swift */; };
@@ -311,6 +312,7 @@
 		C96CA86F2182DD2E00C3459E /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		C9725D5E2255A7EE0043C4FC /* UINavigationController+NavBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+NavBarStyle.swift"; sourceTree = "<group>"; };
 		C979335522D7E27400132A00 /* CompletionWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionWrapper.swift; sourceTree = "<group>"; };
+		C98282F8237B9418002B55D9 /* CredentialsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsProvider.swift; sourceTree = "<group>"; };
 		C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTransitionController.swift; sourceTree = "<group>"; };
 		C989E118223734A600DEAE89 /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
 		C989E11A223734C800DEAE89 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = SOURCE_ROOT; };
@@ -983,6 +985,7 @@
 		C9FABAF32372A3E200C1E523 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				C98282F8237B9418002B55D9 /* CredentialsProvider.swift */,
 				C9FABAEB2372472900C1E523 /* DataProviderType.swift */,
 				C9FABAF12372908100C1E523 /* MehSyncClientType.swift */,
 			);
@@ -1406,6 +1409,7 @@
 				C9AE54CF21795D7A00818F11 /* FullScreenImageDelegate.swift in Sources */,
 				C9DDB20821644E71004D7957 /* FooterView.swift in Sources */,
 				C92215672254632D0001FF3F /* SlideAnimationController.swift in Sources */,
+				C98282F9237B9419002B55D9 /* CredentialsProvider.swift in Sources */,
 				C9093CBD221FBE9400C9DA0C /* DealCoordinator.swift in Sources */,
 				C9BEAB7323330B5600C143FB /* PadHistoryDetailViewController.swift in Sources */,
 				C925EEC9233E952300D24F38 /* ImageCaching.swift in Sources */,

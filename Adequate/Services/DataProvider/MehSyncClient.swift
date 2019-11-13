@@ -13,14 +13,16 @@ import class Promise.Promise // import class to avoid name collision with AWSApp
 class MehSyncClient: MehSyncClientType {
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
-    private let credentialsProvider: AWSCredentialsProvider
     private var appSyncClient: AWSAppSyncClient?
-
-    //var isAuthenticated: Bool = false
 
     // MARK: - Lifecycle
 
-    init(credentialsProvider: AWSCredentialsProvider, connectionStateChangeHandler: ConnectionStateChangeHandler? = nil) {
+    convenience init(appSyncConfig: AWSAppSyncClientConfiguration) throws {
+        let client = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+        self.init(appSyncClient: client)
+    }
+
+    init(credentialsProvider: CredentialsProvider, connectionStateChangeHandler: ConnectionStateChangeHandler? = nil) {
         /*
         #if DEBUG
         // Setup logging
@@ -28,7 +30,6 @@ class MehSyncClient: MehSyncClientType {
         #endif
         */
 
-        self.credentialsProvider = credentialsProvider
         do {
             let appSyncConfig = try MehSyncClient.makeClientConfiguration(credentialsProvider: credentialsProvider,
                                                                           connectionStateChangeHandler: connectionStateChangeHandler)
@@ -40,7 +41,10 @@ class MehSyncClient: MehSyncClientType {
         appSyncClient?.apolloClient?.cacheKeyForObject = { $0[Constants.cacheKey] }
     }
 
-    //func initializeCredentialsProvider() -> Promise<UserState> {}
+    init(appSyncClient: AWSAppSyncClient) {
+        self.appSyncClient = appSyncClient
+        appSyncClient.apolloClient?.cacheKeyForObject = { $0[Constants.cacheKey] }
+    }
 
     // MARK: - Fetch
 
@@ -106,7 +110,6 @@ class MehSyncClient: MehSyncClientType {
             } else if let result = result, let data = result.data {
                 // According to the GraphQL spec, result can contain both data and a non-empty list of (untyped) errors
                 if let graphQLErrors = result.errors, !graphQLErrors.isEmpty {
-                    //let errorMessages = graphQLErrors.map { $0.localizedDescription }
                     log.error("\(#function) - fetch returned data and errors: \(graphQLErrors.map { $0.localizedDescription })")
                 }
 

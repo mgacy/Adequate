@@ -76,7 +76,7 @@ class DataProvider: DataProviderType {
         }
     }
 
-    private let credentialsProvider: AWSMobileClient
+    private let credentialsProvider: CredentialsProvider
     private var credentialsProviderIsInitialized: Bool = false
 
     private let client: MehSyncClientType
@@ -94,8 +94,7 @@ class DataProvider: DataProviderType {
 
     // MARK: - Lifecycle
 
-    // TODO: create protocol covering AWSMobileClient
-    init(credentialsProvider: AWSMobileClient) {
+    init(credentialsProvider: CredentialsProvider) {
         self.dealState = .empty
         self.historyState = .empty
         self.credentialsProvider = credentialsProvider
@@ -122,7 +121,7 @@ class DataProvider: DataProviderType {
             }
     }
 
-    init(credentialsProvider: AWSMobileClient, client: MehSyncClientType) {
+    init(credentialsProvider: CredentialsProvider, client: MehSyncClientType) {
         self.dealState = .empty
         self.historyState = .empty
         self.credentialsProvider = credentialsProvider
