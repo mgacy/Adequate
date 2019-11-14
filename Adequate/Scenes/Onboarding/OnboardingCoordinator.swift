@@ -33,15 +33,13 @@ final class OnboardingCoordinator: BaseCoordinator {
         }
     }
 
-    deinit { print("\(#function) - \(String(describing: self))") }
+    //deinit { print("\(#function) - \(String(describing: self))") }
 
     // MARK: - Private Methods
 
     private func showOnboarding() {
         let viewController = OnboardingPageViewController(dependencies: dependencies)
         viewController.dismissalDelegate = self
-        router.setRootModule(viewController, hideBar: true)
-
         router.setRootModule(viewController, hideBar: true)
         window.rootViewController = router.toPresent()
         window.makeKeyAndVisible()

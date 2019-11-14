@@ -39,17 +39,22 @@ final class StoryViewController: UIViewController {
         return button
     }()
 
+    // TODO: add `StateView`?
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.font = FontBook.mainTitle
         label.textAlignment = .left
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let bodyText: MDTextView = {
-        let view = MDTextView(stylesheet: Appearance.stylesheet)
+        let styler = MDStyler()
+        let view = MDTextView(styler: styler)
+        view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -111,10 +116,8 @@ final class StoryViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
+        navigationController?.applyStyle(.hiddenSeparator)
         title = L10n.story
-        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        navigationController?.navigationBar.isTranslucent = false
-        apply(theme: themeManager.theme)
         observationTokens = setupObservations()
     }
 
@@ -122,15 +125,16 @@ final class StoryViewController: UIViewController {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             // scrollView
-            scrollView.leftAnchor.constraint(equalTo: guide.leftAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             scrollView.topAnchor.constraint(equalTo: guide.topAnchor),
-            scrollView.rightAnchor.constraint(equalTo: guide.rightAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             // stackView
             stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: AppTheme.sideMargin),
-            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: AppTheme.widthInset),
             stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: AppTheme.spacing * 2.0),
-            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -AppTheme.sideMargin),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: AppTheme.spacing * -2.0),
+            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: AppTheme.widthInset),
         ])
     }
 
@@ -147,7 +151,6 @@ final class StoryViewController: UIViewController {
     @objc private func didPressDeal(_ sender: UIBarButtonItem) {
         delegate?.showDeal()
     }
-
 }
 
 // MARK: - ViewStateRenderable
@@ -157,34 +160,50 @@ extension StoryViewController: ViewStateRenderable {
     func render(_ viewState: ViewState<Deal>) {
         switch viewState {
         case .empty:
-            print("EMPTY")
+            break
         case .loading:
-            print("LOADING ...")
+            break
         case .result(let deal):
             titleLabel.text = deal.story.title
-            bodyText.markdown = deal.story.body
+            bodyText.markdownText = deal.story.body
         case .error(let error):
             log.error("\(#function): \(error.localizedDescription)")
         }
     }
 }
 
-// MARK: - Themeable
-extension StoryViewController: Themeable {
+// MARK: - ThemeObserving
+extension StoryViewController: ThemeObserving {
     func apply(theme: AppTheme) {
-        // accentColor
-        dealButton.tintColor = theme.accentColor
-
-        // backgroundColor
-        view.backgroundColor = theme.backgroundColor
-        bodyText.backgroundColor = theme.backgroundColor
-        navigationController?.navigationBar.barTintColor = theme.backgroundColor
-
-        // foreground
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: theme.foreground.textColor]
-        titleLabel.textColor = theme.foreground.textColor
-        bodyText.textColor = theme.foreground.textColor
-        navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
-        //setNeedsStatusBarAppearanceUpdate()
+        apply(theme: theme.dealTheme ?? theme.baseTheme)
+        if let foreground = theme.foreground {
+            apply(foreground: foreground)
+        }
     }
 }
+
+// MARK: - Themeable
+extension StoryViewController: Themeable {
+    func apply(theme: ColorTheme) {
+        // accentColor
+        dealButton.tintColor = theme.tint
+
+        // backgroundColor
+        view.backgroundColor = theme.systemBackground
+        //navigationController?.navigationBar.barTintColor = theme.label
+        navigationController?.navigationBar.barTintColor = theme.systemBackground
+        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
+
+        // foreground
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: theme.label]
+        titleLabel.textColor = theme.label
+        //navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
+        //setNeedsStatusBarAppearanceUpdate()
+
+        // Subviews
+        bodyText.apply(theme: theme)
+    }
+}
+
+// MARK: - ForegroundThemeable
+extension StoryViewController: ForegroundThemeable {}

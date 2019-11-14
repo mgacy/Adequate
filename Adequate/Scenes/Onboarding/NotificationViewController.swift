@@ -23,7 +23,9 @@ final class NotificationViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 1
         label.text = L10n.welcomeNotificationsTitle
+        // TODO: use FontBook
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        //label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -32,8 +34,9 @@ final class NotificationViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 0
         label.text = L10n.welcomeNotificationsBody
-        label.textColor = .gray
+        label.textColor = ColorCompatibility.secondaryLabel
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        //label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -50,6 +53,9 @@ final class NotificationViewController: UIViewController {
 
     private let notNowButton: UIButton = {
         let button = UIButton(type: .custom)
+        // TODO: use bolder font?
+        //button.titleLabel?.font = FontBook.boldButton
+        //button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.setTitle(L10n.nowNow, for: .normal)
         button.layer.cornerRadius = 5
         button.layer.borderWidth = 1
@@ -64,6 +70,9 @@ final class NotificationViewController: UIViewController {
 
     private let okButton: UIButton = {
         let button = UIButton(type: .custom)
+        // TODO: use bolder font?
+        //button.titleLabel?.font = FontBook.boldButton
+        //button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.setTitle(L10n.ok, for: .normal)
         button.layer.cornerRadius = 5
         //button.clipsToBounds = true
@@ -107,6 +116,7 @@ final class NotificationViewController: UIViewController {
         view.addSubview(labelStack)
         view.addSubview(buttonStack)
         self.view = view
+        setupConstraints()
     }
 
     override func viewDidLoad() {
@@ -121,12 +131,12 @@ final class NotificationViewController: UIViewController {
 
     // MARK: - View Methods
 
-    func setupView() {
-        view.backgroundColor = .white
-        setupConstraints()
+    private func setupView() {
+        view.backgroundColor = ColorCompatibility.systemBackground
     }
 
-    func setupConstraints() {
+    private func setupConstraints() {
+        // TODO: use readableContentGuide
         NSLayoutConstraint.activate([
             // labelStack
             labelStack.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0),
@@ -139,7 +149,7 @@ final class NotificationViewController: UIViewController {
         ])
     }
 
-    // MARK: - A
+    // MARK: - Actions
 
     @objc private func handleNotNowTapped(_ sender: UIButton) {
         userDefaultsManager.showNotifications = false
@@ -163,5 +173,4 @@ final class NotificationViewController: UIViewController {
                 self.delegate?.dismiss()
             })
     }
-
 }

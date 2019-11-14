@@ -2,45 +2,10 @@
 //  Router.swift
 //  Adequate
 //
-//  Created by Mathew Gacy on 9/10/18.
-//  Copyright © 2018 Mathew Gacy. All rights reserved.
+//  https://github.com/imaccallum/CoordinatorKit
 //
 
 import UIKit
-import SafariServices
-
-// MARK: - Presentable
-
-public protocol Presentable {
-    func toPresent() -> UIViewController
-}
-
-extension UIViewController: Presentable {
-    public func toPresent() -> UIViewController {
-        return self
-    }
-}
-
-// MARK: - Router
-
-// MARK: Router Protocol
-// https://github.com/imaccallum/CoordinatorKit
-
-public protocol RouterType: Presentable {
-    //var navigationController: UINavigationController { get }
-    var rootViewController: UIViewController? { get }
-
-    func present(_ module: Presentable, animated: Bool)
-    func push(_ module: Presentable, animated: Bool, completion: (() -> Void)?)
-    func popModule(animated: Bool)
-    func dismissModule(animated: Bool, completion: (() -> Void)?)
-    func setRootModule(_ module: Presentable, hideBar: Bool)
-    func setRootModule(_ module: Presentable, navBarStyle: NavBarStyle)
-    func popToRootModule(animated: Bool)
-}
-
-// MARK: Router Implementation
-// https://github.com/imaccallum/CoordinatorKit
 
 final public class Router: NSObject, RouterType, UINavigationControllerDelegate {
 

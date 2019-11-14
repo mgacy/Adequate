@@ -10,19 +10,23 @@ import UIKit
 
 class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
 
+    private let transitionDuration: TimeInterval = 0.3
     private let pagedImageView: PagedImageView
-    private let sourceFrame: CGRect
+    private var destinationFrame: CGRect {
+        // Use computed property to fix error in split view on iPad, where the value of this property at initialization
+        // is not the same as when it is accessed from `animateTransition(using:)`
+        return pagedImageView.originFrame
+    }
 
     init(animatingTo pagedImageView: PagedImageView) {
         self.pagedImageView = pagedImageView
-        self.sourceFrame = pagedImageView.originFrame
         super.init()
     }
 
     // MARK: - UIViewControllerAnimatedTransitioning
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.3
+        return transitionDuration
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -30,31 +34,30 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
         guard
             let fromVC = transitionContext.viewController(forKey: .from) as? FullScreenImageViewController,
             let toVC = transitionContext.viewController(forKey: .to) else {
-                fatalError("ERROR: failed to cast as correct view controllers for transition")
+                log.error("Failed to cast as correct view controllers for transition")
+                transitionContext.completeTransition(false)
+                return
         }
         let containerView = transitionContext.containerView
         //let finalFrame = transitionContext.finalFrame(for: toVC)
 
         // TODO: is fromVC displaying image / activityIndicator (/ error?)
 
-        fromVC.view.isHidden = true
+        // hide pagedImageView of DealViewController
+        //pagedImageView.beginTransition()
 
-        // cover pagedImageView of DealViewController
-        let destinationImageCoveringView = UIView(frame: sourceFrame)
-        destinationImageCoveringView.backgroundColor = toVC.view.backgroundColor
-        containerView.addSubview(destinationImageCoveringView)
-
-        // background
+        // hide FullScreenViewController and replace with background view
         let bgView = UIView(frame: fromVC.view.frame)
         bgView.backgroundColor = fromVC.view.backgroundColor
         containerView.addSubview(bgView)
+        fromVC.view.isHidden = true
 
         // image
         let transitionImageView: UIView
         if let transitionImage = fromVC.imageSource.value {
             transitionImageView = UIImageView(image: transitionImage)
-            transitionImageView.frame = fromVC.view.frame
             transitionImageView.contentMode = .scaleAspectFit
+            transitionImageView.frame = fromVC.originFrame
         } else {
             transitionImageView = UIView(frame: fromVC.view.frame)
             transitionImageView.backgroundColor = .red
@@ -63,19 +66,22 @@ class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitionin
         containerView.addSubview(transitionImageView)
 
         // Animation
-        let destinationFrame = sourceFrame
         let imageAnimation = { () -> Void in
-            transitionImageView.frame = destinationFrame
-            //transitionImageView.center = toVC.view.center
+            UIView.performWithoutAnimation {
+                toVC.setNeedsStatusBarAppearanceUpdate()
+            }
+            transitionImageView.frame = self.destinationFrame
             bgView.alpha = 0.0
         }
 
         // Completion
-        let imageCompletion = { (_ finished: Bool) -> Void in
+        let imageCompletion = { (finished: Bool) -> Void in
             fromVC.view.isHidden = false
+            if !transitionContext.transitionWasCancelled {
+                self.pagedImageView.completeTransition()
+            }
             transitionImageView.removeFromSuperview()
             bgView.removeFromSuperview()
-            destinationImageCoveringView.removeFromSuperview()
 
             //if transitionContext.transitionWasCancelled {
             //    toVC.view.removeFromSuperview()

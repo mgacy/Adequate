@@ -34,7 +34,7 @@ class SettingsCoordinator: BaseCoordinator {
         }
     }
 
-    deinit { print("\(#function) - \(String(describing: self))") }
+    //deinit { print("\(#function) - \(String(describing: self))") }
 
 }
 

@@ -12,7 +12,9 @@ public enum SyncClientError: Error {
     case network(error: Error) // Capture any underlying Error
     case graphQL(errors: [Error])
     case missingData(data: GraphQLSelectionSet)
+    case missingClient
     case myError(message: String)
+    case unknown(error: Error)
 }
 
 // MARK: - LocalizedError
@@ -25,8 +27,12 @@ extension SyncClientError: LocalizedError {
             return errors.map { $0.localizedDescription }.joined(separator: "\n")
         case .missingData(let data):
             return "Missing data for \(String(describing: data))"
+        case .missingClient:
+            return "Unable to initialize client"
         case .myError(let message):
             return message
+        case .unknown(let error):
+            return "Unknown Error: \(error.localizedDescription)"
         }
     }
 }

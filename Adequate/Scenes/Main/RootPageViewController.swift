@@ -53,8 +53,8 @@ final class RootPageViewControler: UIPageViewController {
 
     // MARK: - View Methods
 
-    func setupView() {
-        view.backgroundColor = .white
+    private func setupView() {
+        view.backgroundColor = ColorCompatibility.systemBackground
         self.dataSource = self
         self.delegate = self
 
@@ -66,16 +66,9 @@ final class RootPageViewControler: UIPageViewController {
             }
         }
 
-        /*
-        // pageControl
-        let pageControl = UIPageControl.appearance(whenContainedInInstancesOf: [UIPageViewController.self])
-        let tintColor = UIButton().tintColor
-        pageControl.pageIndicatorTintColor = tintColor?.withAlphaComponent(0.5)
-        pageControl.currentPageIndicatorTintColor = tintColor
-        */
     }
 
-    func setupObservations() -> [ObservationToken] {
+    private func setupObservations() -> [ObservationToken] {
         return [themeManager.addObserver(self)]
     }
 
@@ -199,10 +192,20 @@ extension RootPageViewControler: UIScrollViewDelegate {
 
 }
 
+// MARK: - ThemeObserving
+extension RootPageViewControler: ThemeObserving {
+    func apply(theme: AppTheme) {
+        apply(theme: theme.dealTheme ?? theme.baseTheme)
+
+        // Apply to children
+        //pages.compactMap { $0 as? Themeable }.forEach { $0.apply(theme: theme) }
+    }
+}
+
 // MARK: - Themeable
 extension RootPageViewControler: Themeable {
-    func apply(theme: AppTheme) {
-        view.backgroundColor = theme.backgroundColor
+    func apply(theme: ColorTheme) {
+        view.backgroundColor = theme.systemBackground
 
         // Apply to children
         //pages.compactMap { $0 as? Themeable }.forEach { $0.apply(theme: theme) }

@@ -60,6 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         log.debug("WILL_TERMINATE")
     }
 
+    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
+        log.warning("Memory Warning")
+        // TODO: clear cache on ImageService
+    }
+
     // MARK: - URL-Specified Resources
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -77,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .then({ [weak self] subscriptionArn in
                 self?.notificationServiceManager = nil
             })
-            .catch({error in
+            .catch({ error in
                 log.error("ERROR: \(error)")
             })
     }
@@ -90,7 +95,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // Called for silent notifications.
-        log.debug("\(#function) - \(userInfo)")
+        // FIXME: this can be called a second time when user presses notification
+        // TODO: see: https://stackoverflow.com/a/33778990/4472195, https://stackoverflow.com/q/16393673
+        log.debug("\(#function) - \(userInfo) - \(application.applicationState.rawValue)")
         //appCoordinator.refreshDeal(for: .silentNotification(completionHandler))
         appCoordinator.updateDealInBackground(userInfo: userInfo, completion: completionHandler)
     }

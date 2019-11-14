@@ -16,8 +16,11 @@ final class WelcomeViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 1
         label.text = L10n.appName
+        label.textColor = ColorCompatibility.label
         //label.textAlignment = .center
+        // TODO: use FontBook
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        //label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -26,8 +29,9 @@ final class WelcomeViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 0
         label.text = L10n.welcomeMessage
-        label.textColor = .gray
+        label.textColor = ColorCompatibility.secondaryLabel
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        //label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -48,6 +52,7 @@ final class WelcomeViewController: UIViewController {
         let view = UIView()
         view.addSubview(stackView)
         self.view = view
+        setupConstraints()
     }
 
     override func viewDidLoad() {
@@ -62,12 +67,12 @@ final class WelcomeViewController: UIViewController {
 
     // MARK: - View Methods
 
-    func setupView() {
-        view.backgroundColor = .white
-        setupConstraints()
+    private func setupView() {
+        view.backgroundColor = ColorCompatibility.systemBackground
     }
 
-    func setupConstraints() {
+    private func setupConstraints() {
+        // TODO: use readableContentGuide
         NSLayoutConstraint.activate([
             stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16.0),

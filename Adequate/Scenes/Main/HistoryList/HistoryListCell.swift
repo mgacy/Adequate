@@ -11,6 +11,7 @@ import UIKit
 final class HistoryListCell: UITableViewCell {
 
     //var deal: Deal?
+    var theme: Theme?
 
     // MARK: - Subivews
 
@@ -53,7 +54,7 @@ final class HistoryListCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        //self.selectionStyle = .none
+        self.selectionStyle = .none
         setupView()
         setupConstraints()
     }
@@ -64,7 +65,9 @@ final class HistoryListCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        // TODO: reset theme?
+        theme = nil
+        //titleLabel.text = nil
+        //dateLabel.text = nil
     }
 
     // MARK: - View Configuration
@@ -120,6 +123,55 @@ final class HistoryListCell: UITableViewCell {
         ])
     }
 
+    // MARK: Animation
+
+    private let brightnessDelta: CGFloat = 0.25
+    private let animationDuration: TimeInterval = 0.2
+
+    public func animateSelection() {
+        guard let theme = theme else {
+            return
+        }
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: animationDuration,
+            delay: 0,
+            options: [.curveEaseInOut],
+            animations: {
+                switch theme.foreground {
+                case .dark:
+                    self.cardView.backgroundColor = theme.backgroundColor.adjust(brightnessBy: -self.brightnessDelta)
+                case .light:
+                    self.cardView.backgroundColor = theme.backgroundColor.adjust(brightnessBy: self.brightnessDelta)
+                default:
+                    break
+                }
+            }
+        )
+    }
+
+    public func animateDeselection() {
+        guard let theme = theme else {
+            return
+        }
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: animationDuration,
+            delay: 0,
+            options: [.curveEaseInOut],
+            animations: {
+                self.cardView.backgroundColor = theme.backgroundColor
+            }
+        )
+    }
+
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        if highlighted && !isHighlighted {
+            animateSelection()
+        } else if !highlighted && isHighlighted {
+            animateDeselection()
+        }
+        super.setHighlighted(highlighted, animated: animated)
+    }
+
 }
 
 // MARK: - Configuration
@@ -127,7 +179,7 @@ extension HistoryListCell {
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     func configure(with deal: Deal) {
-        apply(theme: AppTheme(theme: deal.theme))
+        apply(theme: Theme(deal.theme))
         titleLabel.text = deal.title
         if let createdAt = DateFormatter.iso8601Full.date(from: deal.createdAt) {
             dateLabel.text = DateFormatter.veryShortEST.string(from: createdAt)
@@ -138,26 +190,16 @@ extension HistoryListCell {
 }
 
 // MARK: - Themeable
-extension HistoryListCell: Themeable {
-    func apply(theme: AppTheme) {
+extension HistoryListCell {
+
+    func apply(theme: Theme) {
+        self.theme = theme
         // accentColor
-        selectedBackgroundView?.backgroundColor = theme.accentColor
         // backgroundColor
         cardView.backgroundColor = theme.backgroundColor
         // foreground
         titleLabel.textColor = theme.foreground.textColor
-        dateLabel.textColor = theme.foreground.textColor.withAlphaComponent(0.8)
-
-        switch theme.foreground {
-        case .dark:
-            titleLabel.highlightedTextColor = ThemeForeground.light.textColor
-            dateLabel.highlightedTextColor = ThemeForeground.light.textColor.withAlphaComponent(0.8)
-        case .light:
-            titleLabel.highlightedTextColor = ThemeForeground.dark.textColor
-            dateLabel.highlightedTextColor = ThemeForeground.dark.textColor.withAlphaComponent(0.8)
-        default:
-            return
-        }
+        dateLabel.textColor = theme.foreground.textColor.withAlphaComponent(0.6)
     }
 }
 /*

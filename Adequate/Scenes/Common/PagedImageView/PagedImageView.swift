@@ -12,15 +12,14 @@ import Promise
 // TODO: subclass UIViewController
 class PagedImageView: UIView {
 
-    var currentPage: Int = 0
-    var isPaging: Bool = false
+    private(set) var currentPage: Int = 0
+    private var isPaging: Bool = false
 
-    var originFrame: CGRect {
-        return convert(collectionView.frame, to: nil)
-    }
-
-    var visibleImage: Promise<UIImage> {
-        return dataSource.imageSource(for: IndexPath(item: primaryVisiblePage, section: 0))
+    var visibleImageState: ViewState<UIImage>? {
+        guard let firstImageCell = collectionView.visibleCells.first as? ImageCell else {
+            return nil
+        }
+        return firstImageCell.viewState
     }
 
     var primaryVisiblePage: Int {
@@ -38,7 +37,8 @@ class PagedImageView: UIView {
             pageControl.backgroundColor = backgroundColor
         }
     }
-    //private var pageControlHeight: CGFloat = 30.0
+
+    let pageControlHeight: CGFloat = 24.0
 
     // MARK: - Subviews
 
@@ -51,7 +51,7 @@ class PagedImageView: UIView {
         return layout
     }()
 
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
         view.isPagingEnabled = true
         view.isPrefetchingEnabled = true
@@ -60,7 +60,7 @@ class PagedImageView: UIView {
         return view
     }()
 
-    let pageControl: UIPageControl = {
+    private let pageControl: UIPageControl = {
         let control = UIPageControl()
         control.pageIndicatorTintColor = control.tintColor.withAlphaComponent(0.3)
         control.currentPageIndicatorTintColor = control.tintColor
@@ -103,28 +103,35 @@ class PagedImageView: UIView {
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.topAnchor.constraint(equalTo: topAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: pageControl.topAnchor, constant: -8.0),
+            collectionView.bottomAnchor.constraint(equalTo: pageControl.topAnchor, constant: -0.0),
             // pageController
             pageControl.leadingAnchor.constraint(equalTo: leadingAnchor),
             pageControl.bottomAnchor.constraint(equalTo: bottomAnchor),
             pageControl.trailingAnchor.constraint(equalTo: trailingAnchor),
-            pageControl.heightAnchor.constraint(equalToConstant: 24.0)
+            pageControl.heightAnchor.constraint(equalToConstant: pageControlHeight)
         ])
     }
 
     // MARK: - Images
 
     public func updateImages(with urls: [URL]) {
+        // TODO: dataSource should verify that new URLs differ from old; use difference(from:) and .performBatchUpdates() instead of .reloadData()?
         dataSource.updateImages(with: urls)
         collectionView.reloadData()
         collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: false)
+        currentPage = 0
         updatePageControl()
     }
 
-    // MARK: Selection
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.displayFullscreenImage(animatingFrom: self)
+    public func reloadVisibleImage() {
+        guard
+            let firstImageCell = collectionView.visibleCells.first as? ImageCell,
+            firstImageCell.viewState != .loading else {
+                log.warning("Visible image is already loading")
+                return
+        }
+        let promise = dataSource.imageSource(for: IndexPath(row: primaryVisiblePage, section: 0))
+        firstImageCell.configure(with: promise)
     }
 
     // MARK: - Pages
@@ -134,19 +141,6 @@ class PagedImageView: UIView {
         let newPage = pageControl.currentPage
         currentPage = newPage
         collectionView.scrollRectToVisible(makeRect(forPage: newPage), animated: true)
-    }
-
-    // MARK: - Appearance / Sizing
-
-    public func beginRotation() {
-        collectionView.isHidden = true
-        flowLayout.invalidateLayout()
-    }
-
-    public func completeRotation(page currentPage: Int) {
-        collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally,
-                                    animated: false)
-        collectionView.isHidden = false
     }
 
     private func updatePageControl() {
@@ -159,7 +153,62 @@ class PagedImageView: UIView {
                       width: collectionView.frame.size.width,
                       height: collectionView.frame.size.height)
     }
+}
 
+// MARK: - Rotation Helpers
+extension PagedImageView {
+
+    public func beginRotation() {
+        isPaging = true
+        collectionView.isHidden = true
+    }
+
+    public func completeRotation(page currentPage: Int) {
+        layoutIfNeeded()
+        flowLayout.invalidateLayout()
+        // TODO: set flowLayout.estimatedItemSize using value from VC.viewWillTransition(to:, with:)?
+        // https://stackoverflow.com/a/52281704/4472195
+        collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally,
+                                    animated: false)
+        collectionView.isHidden = false
+    }
+}
+
+// MARK: - View Controller Presentation Animation Helpers
+extension PagedImageView {
+
+    var originFrame: CGRect {
+        return convert(collectionView.frame, to: nil)
+    }
+
+    var visibleImage: Promise<UIImage> {
+        // FIXME: this can cause a crash when dataSource.urls == []
+        //guard dataSource.collectionView(collectionView, numberOfItemsInSection: 0) >= primaryVisiblePage else {}
+        return dataSource.imageSource(for: IndexPath(item: primaryVisiblePage, section: 0))
+    }
+
+    /// Hide views that will be animated during presentation and dismissal of `FullScreenImageViewController`.
+    public func beginTransition() {
+        collectionView.isHidden = true
+    }
+
+    /// Show views that were animated during presentation and dismissal of `FullScreenImageViewController`.
+    public func completeTransition() {
+        collectionView.isHidden = false
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+// TODO: move to PagedImageViewDataSource?
+extension PagedImageView: UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        return !dataSource.imageSource(for: indexPath).isRejected ? true : false
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.displayFullscreenImage(animatingFrom: self)
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -171,6 +220,7 @@ extension PagedImageView: UICollectionViewDelegateFlowLayout {
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if !isPaging {
+            currentPage = primaryVisiblePage
             pageControl.currentPage = primaryVisiblePage
         }
     }
@@ -178,20 +228,27 @@ extension PagedImageView: UICollectionViewDelegateFlowLayout {
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         isPaging = false
     }
-
 }
 
 // MARK: - Themeable
 extension PagedImageView: Themeable {
-    func apply(theme: AppTheme) {
+    func apply(theme: ColorTheme) {
         // accentColor
-        pageControl.currentPageIndicatorTintColor = theme.accentColor
-        pageControl.pageIndicatorTintColor = theme.accentColor.withAlphaComponent(0.3)
+        pageControl.currentPageIndicatorTintColor = theme.tint
+        pageControl.pageIndicatorTintColor = theme.tertiaryTint
+
         // backgroundColor
-        self.backgroundColor = theme.backgroundColor
-        // foreground
+        backgroundColor = theme.systemBackground
 
         // Subviews
         dataSource.apply(theme: theme)
+        /*
+        // TODO: apply theme to all visible cells as well; use self.visibleCells?
+        collectionView.visibleCells.forEach { cell in
+            if let imageCell = cell as? ImageCell {
+                imageCell.apply(theme: theme)
+            }
+        }
+        */
     }
 }

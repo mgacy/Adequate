@@ -11,16 +11,25 @@ import UIKit
 final class HistoryListDataSource: NSObject {
     typealias Dependencies = HasDataProvider
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias ResultType = TableViewDiff
+
+    // MARK: - Properties
+
+    var isEmpty: Bool {
+        return deals.isEmpty
+    }
 
     private let dataProvider: DataProviderType
     private var deals: [Deal] = []
 
     private var observationTokens: [ObservationToken] = []
-    private var state: ViewState<Void> {
+    private(set) var state: ViewState<ResultType> {
         didSet {
             callObservations(with: state)
         }
     }
+
+    // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
         self.dataProvider = dependencies.dataProvider
@@ -31,7 +40,7 @@ final class HistoryListDataSource: NSObject {
 
     deinit { observationTokens.forEach { $0.cancel() } }
 
-    // MARK: A
+    // MARK: - Additional
 
     func getDealHistory(from startDate: Date, to endDate: Date) {
         dataProvider.getDealHistory(from: startDate, to: endDate)
@@ -41,29 +50,52 @@ final class HistoryListDataSource: NSObject {
         return deals[indexPath.row]
     }
 
-    // MARK: - TEMP
+    // MARK: - Observations
 
     private func setupObservations() -> [ObservationToken] {
         let historyToken = dataProvider.addHistoryObserver(self) { ds, viewState in
             switch viewState {
-            case .result(let deals):
-                ds.deals = deals
+            case .result(let newDeals):
+                let result: TableViewDiff
+                if #available(iOS 9999, *) { // Swift 5.1 returns true
+                    var deletedIndexPaths = [IndexPath]()
+                    var insertedIndexPaths = [IndexPath]()
+                    let diff = newDeals.difference(from: ds.deals)
+
+                    for change in diff {
+                        switch change {
+                        case let .remove(offset, _, _):
+                            deletedIndexPaths.append(IndexPath(row: offset, section: 0))
+                        case let .insert(offset, _, _):
+                            insertedIndexPaths.append(IndexPath(row: offset, section: 0))
+                        }
+                    }
+                    result = TableViewDiff(deletedIndexPaths: deletedIndexPaths,
+                                           insertedIndexPaths: insertedIndexPaths)
+                } else {
+                    result = TableViewDiff(deletedIndexPaths: [], insertedIndexPaths: [])
+                }
+
+                ds.deals = newDeals
+                ds.state = viewState.map { _ in return result }
             case .empty:
                 ds.deals = []
-            // TODO: what about .loading / .error?
-            default:
-                break
+                ds.state = .empty
+            case .loading:
+                ds.state = .loading
+            case .error(let error):
+                // TODO: what about ds.deals?
+                ds.state = .error(error)
             }
-            ds.state = viewState.map { _ in return }
         }
         return [historyToken]
     }
 
     // MARK: - Observable
 
-    private var observations: [UUID: (ViewState<Void>) -> Void] = [:]
+    private var observations: [UUID: (ViewState<ResultType>) -> Void] = [:]
 
-    func addObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, ViewState<Void>) -> Void) -> ObservationToken {
+    func addObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, ViewState<ResultType>) -> Void) -> ObservationToken {
         let id = UUID()
         observations[id] = { [weak self, weak observer] state in
             // If the observer has been deallocated, we can
@@ -81,7 +113,7 @@ final class HistoryListDataSource: NSObject {
         }
     }
 
-    private func callObservations(with state: ViewState<Void>) {
+    private func callObservations(with state: ViewState<ResultType>) {
         observations.values.forEach { observation in
             observation(state)
         }

@@ -25,18 +25,23 @@ class StateView: UIView {
             switch foreground {
             case .dark:
                 activityIndicator.style = .gray
-                activityMessageLabel.textColor = .black
+                activityMessageLabel.textColor = .gray
                 messageLabel.textColor = .gray
                 retryButton.layer.borderColor = UIColor.gray.cgColor
                 retryButton.setTitleColor(.gray, for: .normal)
             case .light:
                 activityIndicator.style = .white
+                // FIXME: should we really use white, or should it be gray instead?
                 activityMessageLabel.textColor = .white
                 messageLabel.textColor = .gray
                 retryButton.layer.borderColor = UIColor.gray.cgColor
                 retryButton.setTitleColor(.gray, for: .normal)
-            case .unknown(let rawValue):
-                log.warning("\(#function) - rawValue: \(rawValue)")
+            case .unknown:
+                activityIndicator.color = ColorCompatibility.secondaryLabel
+                activityMessageLabel.textColor = ColorCompatibility.secondaryLabel
+                messageLabel.textColor = ColorCompatibility.secondaryLabel
+                retryButton.layer.borderColor = ColorCompatibility.secondaryLabel.cgColor
+                retryButton.setTitleColor(ColorCompatibility.secondaryLabel, for: .normal)
             }
         }
     }
@@ -55,6 +60,7 @@ class StateView: UIView {
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
         label.text = L10n.loadingMessage
         label.textAlignment = .center
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -66,6 +72,7 @@ class StateView: UIView {
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textAlignment = .center
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -133,6 +140,7 @@ class StateView: UIView {
             messageLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
             messageLabel.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: AppTheme.spacing * -2.0),
             // retryButton
+            // TODO: allow messageLabel to push retryButton down?
             retryButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             retryButton.topAnchor.constraint(equalTo: centerYAnchor, constant: AppTheme.spacing),
         ])
@@ -175,6 +183,8 @@ extension StateView {
             /*
             // TODO: animate here or in caller?
             UIView.animate(withDuration: 0.3, animations: {
+                // FIXME: can't animate `isHidden`
+                // see: https://stackoverflow.com/a/29080894
                 self.isHidden = true
                 self.activityIndicator.stopAnimating()
                 self.activityMessageLabel.isHidden = true
@@ -188,13 +198,15 @@ extension StateView {
 
 // MARK: - Themeable
 extension StateView: Themeable {
-    func apply(theme: AppTheme) {
-        // accentColor
-
+    func apply(theme: ColorTheme) {
         // backgroundColor
-        //backgroundColor = theme.backgroundColor
+        //backgroundColor = theme.systemBackground
 
         // foreground
-        foreground = theme.foreground
+        activityIndicator.color = theme.secondaryLabel
+        activityMessageLabel.textColor = theme.secondaryLabel
+        messageLabel.textColor = theme.secondaryLabel
+        retryButton.layer.borderColor = theme.secondaryLabel.cgColor
+        retryButton.setTitleColor(theme.secondaryLabel, for: .normal)
     }
 }

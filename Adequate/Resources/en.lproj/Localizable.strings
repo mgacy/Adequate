@@ -11,6 +11,7 @@
 "buy" = "Buy";
 "cancel" = "Cancel";
 "daily_notifications" = "Daily Notifications";
+"dismiss" = "Dismiss";
 "email" = "Email";
 "empty_message" = "There was no data";
 "error" = "Error";
@@ -36,6 +37,7 @@
 "welcome_message" = "An app to see the crap meh is trying to sell you today.";
 
 /* Alerts */
+"disabled_email_alert_body" = "Device is not configured to send email.";
 "disabled_notification_alert_body" = "Notifications are disabled. Please allow Adequate to access notifications in Settings.";
 
 /* Welcome - Notifications Scene */

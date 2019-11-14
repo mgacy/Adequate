@@ -41,14 +41,23 @@ final class DealCoordinator: Coordinator {
         }
     }
 
-    deinit { print("\(#function) - \(String(describing: self))") }
+    //deinit { print("\(#function) - \(String(describing: self))") }
 
     // MARK: - Private Methods
 
     private func showDeal() {
-        let dealViewController = DealViewController(dependencies: dependencies)
-        dealViewController.delegate = self
-        router.setRootModule(dealViewController, hideBar: false)
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            let dealViewController = DealViewController(dependencies: dependencies)
+            dealViewController.delegate = self
+            router.setRootModule(dealViewController, hideBar: false)
+        case .pad:
+            let dealViewController = PadDealViewController(dependencies: dependencies)
+            dealViewController.delegate = self
+            router.setRootModule(dealViewController, hideBar: false)
+        default:
+            fatalError("Invalid device")
+        }
     }
 
     private func shareDeal(title: String, url: URL) {
@@ -99,6 +108,9 @@ extension DealCoordinator: DealViewControllerDelegate {
 
     func showPurchase(for deal: Deal) {
         let dealURL = deal.url.appendingPathComponent("checkout")
+        // TODO: pass to PurchaseManager
+        // show web page / open Safari
+        // increment purchase count in user defaults
         showWebPage(with: dealURL, animated: true)
     }
 

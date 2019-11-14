@@ -28,8 +28,7 @@ class ParallaxScrollView: UIScrollView {
             guard _headerView != view else {
                 return
             }
-            addSubview(contentView)
-            //insertSubview(contentView, at: 0)
+            insertSubview(contentView, at: 0)
             _headerView = view
             updateHeaderConstraints()
         }
@@ -74,8 +73,7 @@ class ParallaxScrollView: UIScrollView {
                 return
             }
             _progress = progress
-            //print("Progress: \(progress)")
-            parallaxHeaderDidScrollHandler?(self)
+            //log.verbose("Progress: \(progress)")
         }
     }
 
@@ -119,10 +117,29 @@ class ParallaxScrollView: UIScrollView {
 
         if !update {
             headerView.removeFromSuperview()
+            let heightConstraints = headerView.constraints.filter { $0.identifier == Constants.heightConstraintID }
+            NSLayoutConstraint.deactivate(heightConstraints)
             contentView.addSubview(headerView)
             headerView.translatesAutoresizingMaskIntoConstraints = false
         }
         setupConstraints()
+    }
+
+    // MARK: HeaderView
+
+    @discardableResult
+    func removeHeaderView() -> UIView? {
+        // TODO: should this (optionally) reset `.headerHeight`?
+        guard let headerView = headerView else {
+            return nil
+        }
+
+        headerView.removeFromSuperview()
+        self.headerView = nil
+
+        let heightConstraints = headerView.constraints.filter { $0.identifier == Constants.heightConstraintID }
+        NSLayoutConstraint.deactivate(heightConstraints)
+        return headerView
     }
 
     // MARK: Private
@@ -131,12 +148,14 @@ class ParallaxScrollView: UIScrollView {
         guard let headerView = headerView else {
             return
         }
+        let heightConstraint = headerView.heightAnchor.constraint(greaterThanOrEqualToConstant: headerHeight)
+        heightConstraint.identifier = Constants.heightConstraintID
+        heightConstraint.isActive = true
 
         NSLayoutConstraint.activate([
             headerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             headerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            //headerView.heightAnchor.constraint(equalTo: headerView.widthAnchor, constant: 0.0),
-            headerView.heightAnchor.constraint(greaterThanOrEqualToConstant: headerHeight),
+            //heightConstraint,
             headerView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             headerView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
@@ -190,6 +209,13 @@ class ParallaxScrollView: UIScrollView {
 extension ParallaxScrollView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         layoutContentView()
-        // TODO: just call `parallaxHeaderDidScrollHandler(self)` here?
+        parallaxHeaderDidScrollHandler?(self)
+    }
+}
+
+// MARK: - Constants
+extension ParallaxScrollView {
+    enum Constants {
+        static let heightConstraintID = "ParallaxScrollViewHeightConstraint"
     }
 }

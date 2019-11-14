@@ -20,12 +20,12 @@ protocol HistoryListViewControllerDelegate: class {
 // MARK: - View Controller
 
 final class HistoryListViewController: UIViewController {
-    typealias Dependencies = HasDataProvider
+    typealias Dependencies = HasDataProvider & HasThemeManager
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     weak var delegate: HistoryListViewControllerDelegate?
 
-    //private let themeManager: ThemeManagerType
+    private let themeManager: ThemeManagerType
     private let dataSource: HistoryListDataSource
     private var observationTokens: [ObservationToken] = []
 
@@ -39,14 +39,10 @@ final class HistoryListViewController: UIViewController {
         return UIBarButtonItem(image: #imageLiteral(resourceName: "RightChevronNavBar"), style: .plain, target: self, action: #selector(didPressDeal(_:)))
     }()
 
-    private lazy var stateView: StateView = {
-        let view = StateView()
-        view.onRetry = { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.getDealHistory()
-        }
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlDidChange(_:)), for: .valueChanged)
+        return refreshControl
     }()
 
     private lazy var tableView: UITableView = {
@@ -63,7 +59,7 @@ final class HistoryListViewController: UIViewController {
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
-        //self.themeManager = dependencies.themeManager
+        self.themeManager = dependencies.themeManager
         self.dataSource = HistoryListDataSource(dependencies: dependencies)
         super.init(nibName: nil, bundle: nil)
     }
@@ -75,7 +71,6 @@ final class HistoryListViewController: UIViewController {
     override func loadView() {
         super.loadView()
         //let view = UIView()
-        view.addSubview(stateView)
         view.addSubview(tableView)
         navigationItem.leftBarButtonItem = settingsButton
         navigationItem.rightBarButtonItem = dealButton
@@ -86,7 +81,10 @@ final class HistoryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        getDealHistory()
+        // TODO: refresh on viewDidLoad() or on viewWillAppear(_:)?
+        if case .empty = dataSource.state {
+            getDealHistory()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -98,28 +96,27 @@ final class HistoryListViewController: UIViewController {
 
     // MARK: - View Methods
 
-    func setupView() {
+    private func setupView() {
         title = L10n.history
-        navigationController?.navigationBar.barTintColor = .white
-        settingsButton.tintColor = .black
-        dealButton.tintColor = .black
-        stateView.foreground = .dark
-        view.backgroundColor = .white
-        tableView.backgroundColor = .white
+        //navigationController?.navigationBar.barTintColor = ColorCompatibility.systemBackground
+        //navigationController?.navigationBar.prefersLargeTitles = true
+
+        // Try to fix UIRefreshControl issues
+        edgesForExtendedLayout = [.all] // [.top]?
+        extendedLayoutIncludesOpaqueBars = true
+
+        //settingsButton.tintColor = ColorCompatibility.label
+        //dealButton.tintColor = ColorCompatibility.label
+        //view.backgroundColor = ColorCompatibility.systemBackground
+        //tableView.backgroundColor = ColorCompatibility.systemBackground
 
         setupTableView()
         observationTokens = setupObservations()
     }
 
-    func setupConstraints() {
+    private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            // stateView
-            stateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stateView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            stateView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: AppTheme.sideMargin),
-            stateView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -AppTheme.sideMargin),
-            // tableView
             tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             tableView.topAnchor.constraint(equalTo: guide.topAnchor),
             tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
@@ -127,10 +124,11 @@ final class HistoryListViewController: UIViewController {
         ])
     }
 
-    func setupTableView() {
+    private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = dataSource
-        tableView.estimatedRowHeight = 100.0
+        tableView.estimatedRowHeight = 88.0
+        tableView.refreshControl = refreshControl
         tableView.separatorStyle = .none
         tableView.register(cellType: HistoryListCell.self)
     }
@@ -139,7 +137,8 @@ final class HistoryListViewController: UIViewController {
         let historyToken = dataSource.addObserver(self) { vc, state in
             vc.render(state)
         }
-        return [historyToken]
+        let themeToken = themeManager.addObserver(self)
+        return [historyToken, themeToken]
     }
 
     // MARK: - DataProvider
@@ -163,6 +162,10 @@ final class HistoryListViewController: UIViewController {
         delegate?.showDeal()
     }
 
+    @objc func refreshControlDidChange(_ sender: UIRefreshControl) {
+        getDealHistory()
+    }
+
 }
 
 // MARK: - UITableViewDelegate
@@ -184,24 +187,73 @@ extension HistoryListViewController: UITableViewDelegate {
 
 // MARK: - ViewStateRenderable
 extension HistoryListViewController: ViewStateRenderable {
-    typealias ResultType = Void
+    typealias ResultType = TableViewDiff
 
-    func render(_ viewState: ViewState<Void>) {
-        stateView.render(viewState)
+    func render(_ viewState: ViewState<ResultType>) {
         switch viewState {
         case .empty:
-            stateView.isHidden = false
-            tableView.isHidden = true
+            if refreshControl.isRefreshing {
+                refreshControl.endRefreshing()
+            }
+            // Add `lazy var backgroundView: TableBackgroundView` in order to handle AppTheme?
+            tableView.setBackgroundView(title: nil, message: "There are no deals")
         case .loading:
-            stateView.isHidden = false
-            tableView.isHidden = true
-        case .result:
-            stateView.isHidden = true
-            tableView.isHidden = false
-            tableView.reloadData()
-        case .error:
-            stateView.isHidden = false
-            tableView.isHidden = true
+            tableView.setContentOffset(CGPoint(x: 0, y: tableView.contentOffset.y - refreshControl.frame.size.height),
+                                       animated: true)
+            refreshControl.beginRefreshing()
+            tableView.restore()
+        case .result(let diff):
+            // TODO: ensure tableView.backgroundView == nil?
+            if #available(iOS 9999, *) { // Swift 5.1 returns true
+                tableView.performBatchUpdates({
+                    tableView.deleteRows(at: diff.deletedIndexPaths, with: .fade)
+                    tableView.insertRows(at: diff.insertedIndexPaths, with: .right)
+                }, completion: { completed in
+                    self.refreshControl.endRefreshing()
+                })
+            } else {
+                tableView.reloadData()
+                refreshControl.endRefreshing()
+            }
+        case .error(let error):
+            if refreshControl.isRefreshing {
+                refreshControl.endRefreshing()
+            }
+            if dataSource.isEmpty {
+                tableView.setBackgroundView(error: error)
+            } else {
+                // TODO: show less obtrusive error view?
+                self.displayError(error: error, completion: nil)
+            }
         }
+    }
+}
+
+// MARK: - ThemeObserving
+extension HistoryListViewController: ThemeObserving {
+    func apply(theme: AppTheme) {
+        apply(theme: theme.baseTheme)
+
+        // foreground
+        // TODO: set home indicator color?
+        //navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
+        //setNeedsStatusBarAppearanceUpdate()
+    }
+}
+
+// MARK: - Themeable
+extension HistoryListViewController: Themeable {
+    func apply(theme: ColorTheme) {
+        // accentColor
+        settingsButton.tintColor = theme.tint
+        dealButton.tintColor = theme.tint
+
+        // backgroundColor
+        navigationController?.navigationBar.barTintColor = theme.systemBackground
+        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
+        view.backgroundColor = theme.systemBackground
+        tableView.backgroundColor = theme.systemBackground
+
+        refreshControl.tintColor = theme.secondaryLabel
     }
 }

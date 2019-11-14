@@ -34,7 +34,7 @@ class AWSManager: NotificationServiceManager {
         self.sns = AWSSNS.default()
     }
 
-    deinit { print("\(#function) - \(String(describing: self))") }
+    //deinit { print("\(#function) - \(String(describing: self))") }
 
     // MARK: - NotificationServiceManager
 

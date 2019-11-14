@@ -75,12 +75,12 @@ class AcknowledgementsViewController: UIViewController {
 
     // MARK: - View Methods
 
-    func setupView() {
-        view.backgroundColor = .white
+    private func setupView() {
+        view.backgroundColor = ColorCompatibility.systemBackground
         //observationTokens = setupObservations()
     }
 
-    func setupConstraints() {
+    private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             textView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 0.0),
@@ -119,6 +119,14 @@ extension AcknowledgementsViewController: Themeable {
         textView.backgroundColor = theme.backgroundColor
         // foreground
         textView.textColor = theme.foreground.textColor
+    }
+
+    func apply(theme: ColorTheme) {
+        // backgroundColor
+        view.backgroundColor = theme.systemBackground
+        textView.backgroundColor = theme.systemBackground
+        // foreground
+        textView.textColor = theme.label
     }
 }
 */
