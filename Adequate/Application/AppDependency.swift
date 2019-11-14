@@ -20,17 +20,10 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
 
     init() {
         // https://aws-amplify.github.io/docs/ios/authentication
-        let credentialsProvider = AWSMobileClient.sharedInstance()
+        let credentialsProvider = AWSMobileClient.default()
 
         // Initialize dataProvider
-        let dataProvider: DataProviderType
-        do {
-            dataProvider = try DataProvider(credentialsProvider: credentialsProvider)
-        } catch {
-            log.error("Unable to initialize AWSAppSyncClient: \(error)")
-            dataProvider = MockDataProvider(error: error)
-        }
-        self.dataProvider = dataProvider
+        self.dataProvider = DataProvider(credentialsProvider: credentialsProvider)
 
         let networkClient = AppDependency.makeNetworkClient()
         self.imageService = ImageService(client: networkClient)
