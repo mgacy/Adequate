@@ -108,6 +108,7 @@ class DataProvider: DataProviderType {
             currentDealManager.saveDeal(currentDeal)
         }
 
+        // TODO: should we indicate that we are in the process of initializing?
         credentialsProvider.initialize()
             .then { [weak self] userState in
                 self?.credentialsProviderIsInitialized = true
@@ -451,6 +452,7 @@ class DataProvider: DataProviderType {
         // FIXME: this prevents fetch if there was an error last time
         guard case .result(let currentDeal) = dealState else {
             // TODO: for `launchStatus` and `commentCount`, verify that the delta applies to currentDeal
+            // TODO: try to fetch from cache and see if that is the correct one?
             log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
             if fetchCompletionObserver != nil {
                 log.error("Replacing existing .fetchCompletionObserver")
@@ -573,6 +575,7 @@ extension DataProvider {
         observer.observationToken = addDealObserver(observer) { wrapper, viewState in
             switch viewState {
             case .result:
+                // TODO: ideally, we should store previous deal to decide between .newData / .noData
                 log.debug("BACKGROUND_APP_REFRESH: newData")
                 wrapper.complete(with: .newData)
             case .error:

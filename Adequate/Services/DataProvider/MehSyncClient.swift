@@ -96,6 +96,7 @@ class MehSyncClient: MehSyncClientType {
                  */
                 switch appSyncError {
                 case .requestFailed(_, _, let error):
+                    // TODO: look at response / data
                     log.error("\(#function) - AWSAppSyncClientError.appSyncError: \(error?.localizedDescription ?? "No Error") ")
                 case .noData(let response):
                     log.error("\(#function) - AWSAppSyncClientError.noData: \(response) ")
