@@ -53,6 +53,7 @@ class PadDealViewController: UIViewController {
             guard let strongSelf = self else { return }
             strongSelf.getDeal()
         }
+        view.preservesSuperviewLayoutMargins = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -218,9 +219,10 @@ class PadDealViewController: UIViewController {
         // Shared
         NSLayoutConstraint.activate([
             // stateView
-            stateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stateView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            stateView.widthAnchor.constraint(lessThanOrEqualTo: view.widthAnchor, constant: -AppTheme.widthInset),
+            stateView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            stateView.topAnchor.constraint(equalTo: guide.topAnchor),
+            stateView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            stateView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
             // footerView
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),

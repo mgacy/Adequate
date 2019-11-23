@@ -123,22 +123,21 @@ class StateView: UIView {
     }
 
     private func setupConstraints() {
+        let readableGuide = readableContentGuide
         let guide = safeAreaLayoutGuide
-
-        //let sideMargin: CGFloat = 16.0
-        let sideMargin: CGFloat = 0.0
         NSLayoutConstraint.activate([
             // activityIndicator
-            activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
             activityIndicator.topAnchor.constraint(equalTo: centerYAnchor),
             // activityMessageLabel
-            activityMessageLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
-            activityMessageLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
+            activityMessageLabel.leadingAnchor.constraint(equalTo: readableGuide.leadingAnchor),
+            activityMessageLabel.trailingAnchor.constraint(equalTo: readableGuide.trailingAnchor),
             activityMessageLabel.topAnchor.constraint(equalTo: activityIndicator.bottomAnchor, constant: 4.0),
             // messageLabel
-            messageLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: sideMargin),
-            messageLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -sideMargin),
+            messageLabel.leadingAnchor.constraint(equalTo: readableGuide.leadingAnchor),
+            messageLabel.trailingAnchor.constraint(equalTo: readableGuide.trailingAnchor),
             messageLabel.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: AppTheme.spacing * -2.0),
+            messageLabel.topAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: guide.topAnchor, multiplier: 1.0),
             // retryButton
             // TODO: allow messageLabel to push retryButton down?
             retryButton.centerXAnchor.constraint(equalTo: centerXAnchor),

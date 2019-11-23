@@ -34,6 +34,7 @@ class DealViewController: UIViewController {
             guard let strongSelf = self else { return }
             strongSelf.getDeal()
         }
+        view.preservesSuperviewLayoutMargins = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -192,10 +193,10 @@ class DealViewController: UIViewController {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             // stateView
-            stateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stateView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            stateView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: AppTheme.sideMargin),
-            stateView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -AppTheme.sideMargin),
+            stateView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            stateView.topAnchor.constraint(equalTo: guide.topAnchor),
+            stateView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            stateView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
             // footerView
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),

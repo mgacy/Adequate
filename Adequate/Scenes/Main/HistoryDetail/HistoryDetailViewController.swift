@@ -46,6 +46,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
             guard let strongSelf = self else { return }
             strongSelf.getDeal(withID: strongSelf.dealFragment.id)
         }
+        view.preservesSuperviewLayoutMargins = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -182,10 +183,10 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             // stateView
-            stateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stateView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            stateView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: AppTheme.sideMargin),
-            stateView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -AppTheme.sideMargin),
+            stateView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            stateView.topAnchor.constraint(equalTo: guide.topAnchor),
+            stateView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            stateView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
             // barBackingView
             barBackingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             barBackingView.topAnchor.constraint(equalTo: view.topAnchor),

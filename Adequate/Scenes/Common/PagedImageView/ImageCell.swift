@@ -38,7 +38,7 @@ class ImageCell: UICollectionViewCell {
     }()
 
     private lazy var stateView: StateView = {
-        let view = StateView()
+        let view = StateView(frame: frame)
         view.emptyMessageText = ""
         view.loadingMessageText = nil
         view.onRetry = { [weak self] in
@@ -69,12 +69,7 @@ class ImageCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         imageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
-
-        // TODO: should there be a max width?
-        let stateViewWidth = frame.width - AppTheme.spacing * 2.0
-        let stateViewHeight = frame.height - AppTheme.spacing * 2.0
-        stateView.frame = CGRect(x: AppTheme.spacing, y: AppTheme.spacing,
-                                 width: stateViewWidth, height: stateViewHeight)
+        stateView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
     }
 
     // MARK: - Configuration
