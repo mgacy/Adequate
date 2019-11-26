@@ -41,29 +41,10 @@ final class StoryViewController: UIViewController {
 
     // TODO: add `StateView`?
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = FontBook.mainTitle
-        label.textAlignment = .left
-        label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let bodyText: MDTextView = {
-        let styler = MDStyler()
-        let view = MDTextView(styler: styler)
-        view.adjustsFontForContentSizeCategory = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private lazy var stackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [titleLabel, bodyText])
-        view.axis = .vertical
-        view.alignment = .fill
-        view.spacing = 8.0
+    private let contentView: StoryContentView = {
+        let view = StoryContentView()
+        view.preservesSuperviewLayoutMargins = true
+        view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -90,7 +71,7 @@ final class StoryViewController: UIViewController {
     override func loadView() {
         super.loadView()
         view.addSubview(scrollView)
-        scrollView.addSubview(stackView)
+        scrollView.addSubview(contentView)
         navigationItem.leftBarButtonItem = dealButton
         setupConstraints()
     }
@@ -122,19 +103,20 @@ final class StoryViewController: UIViewController {
     }
 
     private func setupConstraints() {
-        let guide = view.safeAreaLayoutGuide
+        let frameGuide = scrollView.frameLayoutGuide
+        let contentGuide = scrollView.contentLayoutGuide
         NSLayoutConstraint.activate([
             // scrollView
-            scrollView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
-            scrollView.topAnchor.constraint(equalTo: guide.topAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            frameGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            frameGuide.topAnchor.constraint(equalTo: view.topAnchor),
+            frameGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            frameGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             // stackView
-            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: AppTheme.sideMargin),
-            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: AppTheme.spacing * 2.0),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -AppTheme.sideMargin),
-            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: AppTheme.spacing * -2.0),
-            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: AppTheme.widthInset),
+            contentGuide.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            contentGuide.topAnchor.constraint(equalTo: contentView.topAnchor),
+            contentGuide.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            contentGuide.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            contentGuide.widthAnchor.constraint(equalTo: frameGuide.widthAnchor)
         ])
     }
 
@@ -164,8 +146,8 @@ extension StoryViewController: ViewStateRenderable {
         case .loading:
             break
         case .result(let deal):
-            titleLabel.text = deal.story.title
-            bodyText.markdownText = deal.story.body
+            contentView.title = deal.story.title
+            contentView.body = deal.story.body
         case .error(let error):
             log.error("\(#function): \(error.localizedDescription)")
         }
@@ -196,12 +178,11 @@ extension StoryViewController: Themeable {
 
         // foreground
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: theme.label]
-        titleLabel.textColor = theme.label
         //navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
         //setNeedsStatusBarAppearanceUpdate()
 
         // Subviews
-        bodyText.apply(theme: theme)
+        contentView.apply(theme: theme)
     }
 }
 
