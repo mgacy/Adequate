@@ -37,6 +37,7 @@ class ImageCell: UICollectionViewCell {
         return view
     }()
 
+    // TODO: subclass UIImageView and add relevant subviews
     private lazy var stateView: StateView = {
         let view = StateView(frame: frame)
         view.emptyMessageText = ""
@@ -67,6 +68,7 @@ class ImageCell: UICollectionViewCell {
     }
 
     override func layoutSubviews() {
+        // TODO: do we need to call super?
         super.layoutSubviews()
         imageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         stateView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
@@ -75,8 +77,8 @@ class ImageCell: UICollectionViewCell {
     // MARK: - Configuration
 
     private func configure() {
-        addSubview(imageView)
-        addSubview(stateView)
+        contentView.addSubview(imageView)
+        contentView.addSubview(stateView)
     }
 
     // MARK: - Actions
@@ -124,6 +126,7 @@ extension ImageCell: ViewStateRenderable {
     func render(_ viewState: ViewState<ResultType>) {
         stateView.render(viewState)
         if case .result(let image) = viewState {
+            // FIXME: cannot animate `.isHidden`
             UIView.animate(withDuration: 0.3, animations: {
                 self.stateView.isHidden = true
                 self.imageView.image = image
