@@ -142,9 +142,6 @@ class PadDealViewController: UIViewController {
         view.addSubview(barBackingView)
         scrollView.addSubview(contentView)
         view.addSubview(footerView)
-        // Navigation bar
-        navigationItem.leftBarButtonItem = historyButton
-        navigationItem.rightBarButtonItems = [storyButton, shareButton]
 
         // Constraints
         setupConstraints()
@@ -179,6 +176,8 @@ class PadDealViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
+        navigationItem.leftBarButtonItem = historyButton
+        navigationItem.rightBarButtonItems = [storyButton, shareButton]
         navigationController?.applyStyle(.transparent)
         pagedImageView.delegate = self
         footerView.delegate = self

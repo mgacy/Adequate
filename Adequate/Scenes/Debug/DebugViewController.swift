@@ -80,9 +80,6 @@ class DebugViewController: UIViewController {
         let view = UIView()
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        // Navigation bar
-        navigationItem.leftBarButtonItems = [button1, button2]
-        navigationItem.rightBarButtonItems = [button4, button3]
         self.view = view
         setupConstraints()
     }
@@ -103,6 +100,8 @@ class DebugViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
+        navigationItem.leftBarButtonItems = [button1, button2]
+        navigationItem.rightBarButtonItems = [button4, button3]
         view.backgroundColor = ColorCompatibility.systemBackground
         title = "Debug"
         // ...

@@ -122,10 +122,6 @@ class DealViewController: UIViewController {
         scrollView.headerView = pagedImageView
         scrollView.addSubview(contentView)
         view.addSubview(footerView)
-        // Navigation bar
-        navigationItem.leftBarButtonItem = historyButton
-        navigationItem.rightBarButtonItems = [storyButton, shareButton]
-
         setupConstraints()
     }
 
@@ -161,6 +157,8 @@ class DealViewController: UIViewController {
     // MARK: - View Methods
 
     func setupView() {
+        navigationItem.leftBarButtonItem = historyButton
+        navigationItem.rightBarButtonItems = [storyButton, shareButton]
         navigationController?.applyStyle(.transparent)
         pagedImageView.delegate = self
         footerView.delegate = self

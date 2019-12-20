@@ -110,9 +110,6 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         view.addSubview(barBackingView)
         scrollView.headerView = pagedImageView
         scrollView.addSubview(contentView)
-        // Navigation bar
-        navigationItem.leftBarButtonItem = dismissButton
-
         setupConstraints()
     }
 
@@ -145,6 +142,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     // MARK: - View Methods
 
     private func setupView() {
+        navigationItem.leftBarButtonItem = dismissButton
         navigationController?.applyStyle(.transparent)
         pagedImageView.delegate = self
 

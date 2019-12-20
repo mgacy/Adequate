@@ -72,8 +72,6 @@ final class HistoryListViewController: UIViewController {
         super.loadView()
         //let view = UIView()
         view.addSubview(tableView)
-        navigationItem.leftBarButtonItem = settingsButton
-        navigationItem.rightBarButtonItem = dealButton
         //self.view = view
         setupConstraints()
     }
@@ -98,6 +96,9 @@ final class HistoryListViewController: UIViewController {
 
     private func setupView() {
         title = L10n.history
+        navigationItem.leftBarButtonItem = settingsButton
+        navigationItem.rightBarButtonItem = dealButton
+
         //navigationController?.navigationBar.barTintColor = ColorCompatibility.systemBackground
         //navigationController?.navigationBar.prefersLargeTitles = true
 
@@ -130,6 +131,7 @@ final class HistoryListViewController: UIViewController {
         tableView.estimatedRowHeight = 88.0
         tableView.refreshControl = refreshControl
         tableView.separatorStyle = .none
+        //tableView.cellLayoutMarginsFollowReadableWidth = true
         tableView.register(cellType: HistoryListCell.self)
     }
 

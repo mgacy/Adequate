@@ -72,7 +72,6 @@ final class StoryViewController: UIViewController {
         super.loadView()
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        navigationItem.leftBarButtonItem = dealButton
         setupConstraints()
     }
 
@@ -97,6 +96,7 @@ final class StoryViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
+        navigationItem.leftBarButtonItem = dealButton
         navigationController?.applyStyle(.hiddenSeparator)
         title = L10n.story
         observationTokens = setupObservations()

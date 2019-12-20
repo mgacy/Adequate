@@ -130,8 +130,6 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
         view.addSubview(scrollView)
         view.addSubview(barBackingView)
         scrollView.addSubview(contentView)
-        // Navigation bar
-        navigationItem.leftBarButtonItem = dismissButton
 
         // Constraints
         setupConstraints()
@@ -184,6 +182,7 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
     // MARK: - View Methods
 
     private func setupView() {
+        navigationItem.leftBarButtonItem = dismissButton
         navigationController?.applyStyle(.transparent)
         pagedImageView.delegate = self
 
