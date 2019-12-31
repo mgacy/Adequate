@@ -17,7 +17,7 @@ protocol StoryViewControllerDelegate: class {
 
 // MARK: - View Controller
 
-final class StoryViewController: UIViewController {
+final class StoryViewController: BaseViewController<ScrollableView<StoryContentView>> {
     typealias Dependencies = HasDataProvider & HasThemeManager
 
     weak var delegate: StoryViewControllerDelegate?
@@ -25,7 +25,6 @@ final class StoryViewController: UIViewController {
     private let dataProvider: DataProviderType
     private let themeManager: ThemeManagerType
 
-    private var observationTokens: [ObservationToken] = []
     private var viewState: ViewState<Deal> {
         didSet {
             render(viewState)
@@ -41,20 +40,6 @@ final class StoryViewController: UIViewController {
 
     // TODO: add `StateView`?
 
-    private let contentView: StoryContentView = {
-        let view = StoryContentView()
-        view.preservesSuperviewLayoutMargins = true
-        view.backgroundColor = ColorCompatibility.systemBackground
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private let scrollView: UIScrollView = {
-        let view = UIScrollView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
     // MARK: - Lifecycle
 
     init(depenedencies: Dependencies) {
@@ -68,59 +53,15 @@ final class StoryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func loadView() {
-        super.loadView()
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        setupConstraints()
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupView()
-    }
-    /*
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
-    */
-
-    deinit { observationTokens.forEach { $0.cancel() } }
-
     // MARK: - View Methods
 
-    private func setupView() {
+    override func setupView() {
         navigationItem.leftBarButtonItem = dealButton
         navigationController?.applyStyle(.hiddenSeparator)
         title = L10n.story
-        observationTokens = setupObservations()
     }
 
-    private func setupConstraints() {
-        let frameGuide = scrollView.frameLayoutGuide
-        let contentGuide = scrollView.contentLayoutGuide
-        NSLayoutConstraint.activate([
-            // scrollView
-            frameGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            frameGuide.topAnchor.constraint(equalTo: view.topAnchor),
-            frameGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            frameGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            // stackView
-            contentGuide.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            contentGuide.topAnchor.constraint(equalTo: contentView.topAnchor),
-            contentGuide.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            contentGuide.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            contentGuide.widthAnchor.constraint(equalTo: frameGuide.widthAnchor)
-        ])
-    }
-
-    private func setupObservations() -> [ObservationToken] {
+    override func setupObservations() -> [ObservationToken] {
         let dealToken = dataProvider.addDealObserver(self) { vc, viewState in
             vc.viewState = viewState
         }
@@ -146,8 +87,8 @@ extension StoryViewController: ViewStateRenderable {
         case .loading:
             break
         case .result(let deal):
-            contentView.title = deal.story.title
-            contentView.body = deal.story.body
+            rootView.contentView.title = deal.story.title
+            rootView.contentView.body = deal.story.body
         case .error(let error):
             log.error("\(#function): \(error.localizedDescription)")
         }
@@ -171,7 +112,6 @@ extension StoryViewController: Themeable {
         dealButton.tintColor = theme.tint
 
         // backgroundColor
-        view.backgroundColor = theme.systemBackground
         //navigationController?.navigationBar.barTintColor = theme.label
         navigationController?.navigationBar.barTintColor = theme.systemBackground
         //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
@@ -182,7 +122,7 @@ extension StoryViewController: Themeable {
         //setNeedsStatusBarAppearanceUpdate()
 
         // Subviews
-        contentView.apply(theme: theme)
+        rootView.apply(theme: theme)
     }
 }
 

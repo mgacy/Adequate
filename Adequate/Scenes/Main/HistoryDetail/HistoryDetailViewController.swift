@@ -9,7 +9,7 @@
 import UIKit
 import Promise
 
-class HistoryDetailViewController: UIViewController, SwipeDismissable {
+class HistoryDetailViewController: BaseViewController<ScrollableView<DealContentView>>, SwipeDismissable {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
     typealias DealFragment = ListDealsForPeriodQuery.Data.ListDealsForPeriod
     typealias Deal = GetDealQuery.Data.GetDeal
@@ -19,7 +19,7 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     weak var delegate: HistoryDetailViewControllerDelegate?
 
     var shouldDismiss: Bool {
-        return scrollView.contentOffset.y <= 0
+        return rootView.scrollView.contentOffset.y <= 0
     }
 
     // TODO: rename `interactionController?
@@ -31,7 +31,6 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     private let themeManager: ThemeManagerType
     private var dealFragment: DealFragment
 
-    //private var observationTokens: [ObservationToken] = []
     private var viewState: ViewState<Deal> {
         didSet {
             render(viewState)
@@ -58,21 +57,6 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
     }()
 
     // ScrollView
-
-    private let scrollView: ParallaxScrollView = {
-        let view = ParallaxScrollView()
-        view.contentInsetAdjustmentBehavior = .always
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = ColorCompatibility.systemBackground
-        return view
-    }()
-
-    private let contentView: DealContentView = {
-        let view = DealContentView()
-        view.backgroundColor = ColorCompatibility.systemBackground
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
 
     private let barBackingView: ParallaxBarView = {
         let view = ParallaxBarView()
@@ -103,20 +87,8 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func loadView() {
-        super.loadView()
-        view.addSubview(stateView)
-        view.addSubview(scrollView)
-        view.addSubview(barBackingView)
-        scrollView.headerView = pagedImageView
-        scrollView.addSubview(contentView)
-        setupConstraints()
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
-        //observationTokens = setupObservations()
         getDeal(withID: dealFragment.id)
     }
 
@@ -128,8 +100,8 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         setNeedsStatusBarAppearanceUpdate()
 
         // Fix sizing when displayed on iPad on iOS 13
-        let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
-        scrollView.headerHeight = parallaxHeight
+        //let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
+        //rootView.scrollView.headerHeight = parallaxHeight
     }
 
     override func didReceiveMemoryWarning() {
@@ -137,16 +109,20 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
         // Dispose of any resources that can be recreated.
     }
 
-    //deinit { observationTokens.forEach { $0.cancel() } }
-
     // MARK: - View Methods
 
-    private func setupView() {
+    override func setupView() {
         navigationItem.leftBarButtonItem = dismissButton
         navigationController?.applyStyle(.transparent)
+
         pagedImageView.delegate = self
 
-        contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
+        view.insertSubview(stateView, at: 0)
+        view.addSubview(barBackingView)
+        rootView.scrollView.headerView = pagedImageView
+
+        rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
+        setupConstraints()
         setupParallaxScrollView()
 
         // TODO: observe changes in themeManager.theme
@@ -170,9 +146,9 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
         // scrollView
         let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
-        scrollView.headerHeight = parallaxHeight
+        rootView.scrollView.headerHeight = parallaxHeight
 
-        scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
+        rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
             barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
         }
     }
@@ -189,22 +165,11 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
             barBackingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
             barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor),
-            // scrollView
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            // contentView
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: view.widthAnchor)
+            barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor)
         ])
     }
     /*
-    private func setupObservations() -> [ObservationToken] {
+    override func setupObservations() -> [ObservationToken] {
         let themeToken = themeManager.addObserver(self)
         return [themeToken]
     }
@@ -231,12 +196,18 @@ class HistoryDetailViewController: UIViewController, SwipeDismissable {
 
 }
 
-// MARK: - Trait Collection
+// MARK: - Layout
 extension HistoryDetailViewController {
+
+    override func viewWillLayoutSubviews() {
+        let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
+        rootView.scrollView.headerHeight = parallaxHeight
+        // TODO: adjust barBackingView.inset?
+    }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        scrollView.headerHeight = size.width + pagedImageView.pageControlHeight
+        rootView.scrollView.headerHeight = size.width + pagedImageView.pageControlHeight
     }
 }
 
@@ -271,30 +242,30 @@ extension HistoryDetailViewController: ViewStateRenderable {
         case .empty:
             //stateView.render(viewState)
             //stateView.isHidden = false
-            scrollView.isHidden = true
+            rootView.scrollView.isHidden = true
         case .loading:
             //stateView.render(viewState)
             //stateView.isHidden = false
-            scrollView.isHidden = true
+            rootView.scrollView.isHidden = true
         case .result(let deal):
             //stateView.render(viewState)
             //stateView.isHidden = true
             barBackingView.text = deal.title
-            contentView.title = deal.title
-            contentView.features = deal.features
-            contentView.commentCount = deal.topic?.commentCount
-            contentView.specifications = deal.specifications
+            rootView.contentView.title = deal.title
+            rootView.contentView.features = deal.features
+            rootView.contentView.commentCount = deal.topic?.commentCount
+            rootView.contentView.specifications = deal.specifications
             // images
             let safePhotoURLs = deal.photos
                 .compactMap { URL(string: $0) }
                 .compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
-            scrollView.isHidden = false
+            rootView.scrollView.isHidden = false
             // TODO: animate display
         case .error:
             //stateView.render(viewState)
             //stateView.isHidden = false
-            scrollView.isHidden = true
+            rootView.scrollView.isHidden = true
         }
     }
 }
@@ -328,12 +299,9 @@ extension HistoryDetailViewController: Themeable {
         //navigationController?.navigationBar.barTintColor = theme.backgroundColor
         //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
 
-        view.backgroundColor = theme.systemBackground
-        scrollView.backgroundColor = theme.systemBackground
-
         // Subviews
+        rootView.apply(theme: theme)
         pagedImageView.apply(theme: theme)
-        contentView.apply(theme: theme)
         barBackingView.apply(theme: theme)
         stateView.apply(theme: theme)
     }

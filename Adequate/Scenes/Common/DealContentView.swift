@@ -115,6 +115,12 @@ class DealContentView: UIView {
         self.configure()
     }
 
+    override public init(frame: CGRect) {
+        self.styler = MDStyler()
+        super.init(frame: frame)
+        self.configure()
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

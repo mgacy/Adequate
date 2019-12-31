@@ -9,7 +9,7 @@
 import UIKit
 import Promise
 
-class DealViewController: UIViewController {
+class DealViewController: BaseViewController<ScrollableView<DealContentView>> {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
 
     weak var delegate: DealViewControllerDelegate?
@@ -19,7 +19,6 @@ class DealViewController: UIViewController {
     private let themeManager: ThemeManagerType
     private let selectionFeedback = UISelectionFeedbackGenerator()
 
-    private var observationTokens: [ObservationToken] = []
     private var viewState: ViewState<Deal> = .empty {
         didSet {
             render(viewState)
@@ -63,21 +62,6 @@ class DealViewController: UIViewController {
 
     // ScrollView
 
-    private let scrollView: ParallaxScrollView = {
-        let view = ParallaxScrollView()
-        view.contentInsetAdjustmentBehavior = .always
-        view.backgroundColor = ColorCompatibility.systemBackground
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private let contentView: DealContentView = {
-        let view = DealContentView()
-        view.backgroundColor = ColorCompatibility.systemBackground
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
     private let barBackingView: ParallaxBarView = {
         let view = ParallaxBarView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -114,23 +98,6 @@ class DealViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func loadView() {
-        super.loadView()
-        view.addSubview(stateView)
-        view.addSubview(scrollView)
-        view.addSubview(barBackingView)
-        scrollView.headerView = pagedImageView
-        scrollView.addSubview(contentView)
-        view.addSubview(footerView)
-        setupConstraints()
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupView()
-        observationTokens = setupObservations()
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -147,23 +114,29 @@ class DealViewController: UIViewController {
             },
             completion: { [weak self] (context) -> Void in
                 self?.pagedImageView.completeRotation(page: currentPage)
-                self?.scrollView.headerHeight = parallaxHeight
+                self?.rootView.scrollView.headerHeight = parallaxHeight
             }
         )
     }
 
-    deinit { observationTokens.forEach { $0.cancel() } }
-
     // MARK: - View Methods
 
-    func setupView() {
+    override func setupView() {
         navigationItem.leftBarButtonItem = historyButton
         navigationItem.rightBarButtonItems = [storyButton, shareButton]
         navigationController?.applyStyle(.transparent)
+
+        // TODO: move to `setupSubViews()`?
         pagedImageView.delegate = self
         footerView.delegate = self
 
-        contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
+        view.insertSubview(stateView, at: 0)
+        view.addSubview(barBackingView)
+        rootView.scrollView.headerView = pagedImageView
+        view.addSubview(footerView)
+
+        rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
+        setupConstraints()
         setupParallaxScrollView()
 
         let notificationCenter = NotificationCenter.default
@@ -180,9 +153,9 @@ class DealViewController: UIViewController {
 
         // scrollView
         let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
-        scrollView.headerHeight = parallaxHeight
+        rootView.scrollView.headerHeight = parallaxHeight
 
-        scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
+        rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
             barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
         }
     }
@@ -204,21 +177,10 @@ class DealViewController: UIViewController {
             barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
             barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor),
-            // scrollView
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: footerView.topAnchor),
-            // contentView
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
     }
 
-    private func setupObservations() -> [ObservationToken] {
+    override func setupObservations() -> [ObservationToken] {
         let dealToken = dataProvider.addDealObserver(self) { vc, viewState in
             vc.viewState = viewState
         }
@@ -284,6 +246,20 @@ class DealViewController: UIViewController {
 
 }
 
+// MARK: - Layout
+extension DealViewController {
+
+    override func viewWillLayoutSubviews() {
+        rootView.scrollView.headerHeight = view.frame.width + pagedImageView.pageControlHeight
+        // TODO: adjust barBackingView.inset?
+    }
+
+    override func viewDidLayoutSubviews() {
+        let footerHeight = footerView.frame.size.height - view.safeAreaInsets.bottom
+        rootView.scrollView.contentInset.bottom = footerHeight
+    }
+}
+
 // MARK: - PagedImageViewDelegate
 extension DealViewController: PagedImageViewDelegate {
 
@@ -314,11 +290,11 @@ extension DealViewController: ViewStateRenderable {
         switch viewState {
         case .empty:
             stateView.render(viewState)
-            scrollView.isHidden = true
+            rootView.scrollView.isHidden = true
             footerView.isHidden = true
         case .loading:
             stateView.render(viewState)
-            scrollView.isHidden = true
+            rootView.scrollView.isHidden = true
             footerView.isHidden = true
             shareButton.isEnabled = false
             storyButton.isEnabled = false
@@ -326,10 +302,10 @@ extension DealViewController: ViewStateRenderable {
             shareButton.isEnabled = true
             storyButton.isEnabled = true
             barBackingView.text = deal.title
-            contentView.title = deal.title
-            contentView.features = deal.features
-            contentView.commentCount = deal.topic?.commentCount
-            contentView.specifications = deal.specifications
+            rootView.contentView.title = deal.title
+            rootView.contentView.features = deal.features
+            rootView.contentView.commentCount = deal.topic?.commentCount
+            rootView.contentView.specifications = deal.specifications
             // images
             let safePhotoURLs = deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
@@ -340,13 +316,13 @@ extension DealViewController: ViewStateRenderable {
                 self.stateView.render(viewState)
                 // FIXME: can't animate `isHidden`
                 // see: https://stackoverflow.com/a/29080894
-                self.scrollView.isHidden = false
+                self.rootView.scrollView.isHidden = false
                 self.footerView.isHidden = false
                 //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
             })
         case .error:
             stateView.render(viewState)
-            scrollView.isHidden = true
+            rootView.scrollView.isHidden = true
         }
     }
 }
@@ -372,8 +348,6 @@ extension DealViewController: Themeable {
         // backgroundColor
         //navigationController?.navigationBar.barTintColor = theme.systemBackground
         //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
-        view.backgroundColor = theme.systemBackground
-        scrollView.backgroundColor = theme.systemBackground
 
         // foreground
         // TODO: set home indicator color?
@@ -381,8 +355,8 @@ extension DealViewController: Themeable {
         //setNeedsStatusBarAppearanceUpdate()
 
         // Subviews
+        rootView.apply(theme: theme)
         pagedImageView.apply(theme: theme)
-        contentView.apply(theme: theme)
         barBackingView.apply(theme: theme)
         stateView.apply(theme: theme)
         footerView.apply(theme: theme)
