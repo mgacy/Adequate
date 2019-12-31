@@ -80,6 +80,7 @@
 		C973270D238CCF1600ADBAEE /* StoryContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C973270C238CCF1600ADBAEE /* StoryContentView.swift */; };
 		C979335622D7E27400132A00 /* CompletionWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C979335522D7E27400132A00 /* CompletionWrapper.swift */; };
 		C97AC2D823B6988C00B721AC /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97AC2D723B6988C00B721AC /* BaseViewController.swift */; };
+		C97AC2DA23B6AA3000B721AC /* ScrollableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97AC2D923B6AA3000B721AC /* ScrollableView.swift */; };
 		C98282F9237B9419002B55D9 /* CredentialsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98282F8237B9418002B55D9 /* CredentialsProvider.swift */; };
 		C989E11722330B1C00DEAE89 /* SlideTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */; };
 		C989E119223734A700DEAE89 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = C989E118223734A600DEAE89 /* awsconfiguration.json */; };
@@ -316,6 +317,7 @@
 		C973270C238CCF1600ADBAEE /* StoryContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryContentView.swift; sourceTree = "<group>"; };
 		C979335522D7E27400132A00 /* CompletionWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionWrapper.swift; sourceTree = "<group>"; };
 		C97AC2D723B6988C00B721AC /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		C97AC2D923B6AA3000B721AC /* ScrollableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableView.swift; sourceTree = "<group>"; };
 		C98282F8237B9418002B55D9 /* CredentialsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsProvider.swift; sourceTree = "<group>"; };
 		C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTransitionController.swift; sourceTree = "<group>"; };
 		C989E118223734A600DEAE89 /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
@@ -862,6 +864,7 @@
 				C9C0C0BA23072D580011EFB4 /* MDTextView */,
 				C9DDB20221644BE8004D7957 /* PagedImageView */,
 				C97AC2D723B6988C00B721AC /* BaseViewController.swift */,
+				C97AC2D923B6AA3000B721AC /* ScrollableView.swift */,
 				C943E5AF2238695C00DE0675 /* StateView.swift */,
 				C9DAC4B22147864A00D6558B /* ViewState.swift */,
 				C95CD61C230FB46C0011585F /* DealContentView.swift */,
@@ -1537,6 +1540,7 @@
 				C937EFE922DFFF1400C363C8 /* Optional+Prism.swift in Sources */,
 				C9AE54D32179733E00818F11 /* ZoomOutAnimationController.swift in Sources */,
 				C9DAC4A521476C5E00D6558B /* ImageService.swift in Sources */,
+				C97AC2DA23B6AA3000B721AC /* ScrollableView.swift in Sources */,
 				C9DAC49921476BAA00D6558B /* PriceComparison.swift in Sources */,
 				C9AE54CD21792BE400818F11 /* FullScreenImageTransitionController.swift in Sources */,
 				C9DDB20421644C01004D7957 /* PagedImageView.swift in Sources */,
