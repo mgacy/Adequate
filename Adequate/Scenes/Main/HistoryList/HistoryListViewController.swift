@@ -100,14 +100,13 @@ final class HistoryListViewController: UIViewController {
         navigationItem.rightBarButtonItem = dealButton
 
         //navigationController?.navigationBar.barTintColor = ColorCompatibility.systemBackground
+        //navigationController?.navigationBar.tintColor = ColorCompatibility.label
         //navigationController?.navigationBar.prefersLargeTitles = true
 
         // Try to fix UIRefreshControl issues
         edgesForExtendedLayout = [.all] // [.top]?
         extendedLayoutIncludesOpaqueBars = true
 
-        //settingsButton.tintColor = ColorCompatibility.label
-        //dealButton.tintColor = ColorCompatibility.label
         //view.backgroundColor = ColorCompatibility.systemBackground
         //tableView.backgroundColor = ColorCompatibility.systemBackground
 
@@ -247,8 +246,7 @@ extension HistoryListViewController: ThemeObserving {
 extension HistoryListViewController: Themeable {
     func apply(theme: ColorTheme) {
         // accentColor
-        settingsButton.tintColor = theme.tint
-        dealButton.tintColor = theme.tint
+        navigationController?.navigationBar.tintColor = theme.tint
 
         // backgroundColor
         navigationController?.navigationBar.barTintColor = theme.systemBackground

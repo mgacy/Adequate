@@ -604,9 +604,7 @@ extension PadDealViewController: ThemeObserving {
 extension PadDealViewController: Themeable {
     func apply(theme: ColorTheme) {
         // accentColor
-        historyButton.tintColor = theme.tint
-        shareButton.tintColor = theme.tint
-        storyButton.tintColor = theme.tint
+        navigationController?.navigationBar.tintColor = theme.tint
 
         // backgroundColor
         // NOTE: are not changing the following:

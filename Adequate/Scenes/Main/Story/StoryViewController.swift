@@ -109,7 +109,7 @@ extension StoryViewController: ThemeObserving {
 extension StoryViewController: Themeable {
     func apply(theme: ColorTheme) {
         // accentColor
-        dealButton.tintColor = theme.tint
+        navigationController?.navigationBar.tintColor = theme.tint
 
         // backgroundColor
         //navigationController?.navigationBar.barTintColor = theme.label

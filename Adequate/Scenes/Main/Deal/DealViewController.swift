@@ -341,9 +341,7 @@ extension DealViewController: ThemeObserving {
 extension DealViewController: Themeable {
     func apply(theme: ColorTheme) {
         // accentColor
-        historyButton.tintColor = theme.tint
-        shareButton.tintColor = theme.tint
-        storyButton.tintColor = theme.tint
+        navigationController?.navigationBar.tintColor = theme.tint
 
         // backgroundColor
         //navigationController?.navigationBar.barTintColor = theme.systemBackground
