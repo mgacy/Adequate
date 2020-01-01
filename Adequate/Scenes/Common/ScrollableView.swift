@@ -40,7 +40,7 @@ final class ScrollableView<T: UIView>: UIView {
     // MARK: - Configuration
 
     private func configure() {
-        //scrollView.contentInsetAdjustmentBehavior = .always
+        scrollView.contentInsetAdjustmentBehavior = .always
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.alwaysBounceHorizontal = false
         //scrollView.preservesSuperviewLayoutMargins = true
