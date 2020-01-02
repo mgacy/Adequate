@@ -17,7 +17,7 @@ protocol ImageCellDelegate: class {
 
 // MARK: - Cell
 
-class ImageCell: UICollectionViewCell {
+final class ImageCell: UICollectionViewCell {
 
     // MARK: - A
     weak var delegate: ImageCellDelegate?

@@ -9,7 +9,7 @@
 import UIKit
 import Promise
 
-class FullScreenImageViewController: UIViewController {
+final class FullScreenImageViewController: UIViewController {
 
     weak var delegate: FullScreenImageDelegate?
     let imageSource: Promise<UIImage>

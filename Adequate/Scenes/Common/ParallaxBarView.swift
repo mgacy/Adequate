@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ParallaxBarView: UIView {
+final class ParallaxBarView: UIView {
 
     /// Difference between coordinate system of this view and that of the scroll view.
     var coordinateOffset: CGFloat = 0.0

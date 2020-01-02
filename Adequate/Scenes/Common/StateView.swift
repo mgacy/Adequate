@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StateView: UIView {
+final class StateView: UIView {
 
     var onRetry: (() -> Void)?
     var emptyMessageText: String = L10n.emptyMessage

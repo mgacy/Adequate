@@ -9,7 +9,7 @@
 import UIKit
 import Down
 
-class AcknowledgementsViewController: UIViewController {
+final class AcknowledgementsViewController: UIViewController {
     //typealias Dependencies = HasThemeManager
 
     //private let themeManager: ThemeManagerType

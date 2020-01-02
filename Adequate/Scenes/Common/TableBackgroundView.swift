@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TableBackgroundView: UIView {
+final class TableBackgroundView: UIView {
 
     // MARK: - Properties
 

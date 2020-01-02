@@ -9,7 +9,7 @@
 import UIKit
 import Promise
 
-class DealViewController: BaseViewController<ScrollableView<DealContentView>> {
+final class DealViewController: BaseViewController<ScrollableView<DealContentView>> {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
 
     weak var delegate: DealViewControllerDelegate?

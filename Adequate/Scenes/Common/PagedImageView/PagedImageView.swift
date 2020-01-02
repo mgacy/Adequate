@@ -10,7 +10,7 @@ import UIKit
 import Promise
 
 // TODO: subclass UIViewController
-class PagedImageView: UIView {
+final class PagedImageView: UIView {
 
     private(set) var currentPage: Int = 0
     private var isPaging: Bool = false

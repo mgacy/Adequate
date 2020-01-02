@@ -16,7 +16,7 @@ protocol DealFooterDelegate: class {
 
 // MARK: - View
 
-class FooterView: UIView {
+final class FooterView: UIView {
 
     weak var delegate: DealFooterDelegate?
     private lazy var formatter: NumberFormatter = {

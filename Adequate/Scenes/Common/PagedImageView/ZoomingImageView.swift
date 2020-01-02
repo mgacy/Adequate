@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ZoomingImageView: UIScrollView {
+final class ZoomingImageView: UIScrollView {
 
     weak var zoomingImageDelegate: ZoomingImageViewDelegate?
     var imageView: UIImageView = UIImageView()

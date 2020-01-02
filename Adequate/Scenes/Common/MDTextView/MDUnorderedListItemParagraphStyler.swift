@@ -9,7 +9,7 @@
 import Down
 
 /// Paragraph styler for unordered list items.
-public class MDUnorderedListItemParagraphStyler {
+final public class MDUnorderedListItemParagraphStyler {
 
     public var indentation: CGFloat {
         return bulletPrefixWidth + options.spacingAfterPrefix

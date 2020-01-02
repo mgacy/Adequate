@@ -9,7 +9,7 @@
 import UIKit
 import Promise
 
-class HistoryDetailViewController: BaseViewController<ScrollableView<DealContentView>>, SwipeDismissable {
+final class HistoryDetailViewController: BaseViewController<ScrollableView<DealContentView>>, SwipeDismissable {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
     typealias DealFragment = ListDealsForPeriodQuery.Data.ListDealsForPeriod
     typealias Deal = GetDealQuery.Data.GetDeal

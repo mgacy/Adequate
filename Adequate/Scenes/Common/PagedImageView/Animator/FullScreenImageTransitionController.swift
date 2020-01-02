@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FullScreenImageTransitionController: NSObject {
+final class FullScreenImageTransitionController: NSObject {
 
     weak var viewController: FullScreenImageViewController!
     weak var pagedImageView: PagedImageView!

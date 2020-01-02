@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StoryContentView: UIView {
+final class StoryContentView: UIView {
 
     //var styler: MDStyler
 

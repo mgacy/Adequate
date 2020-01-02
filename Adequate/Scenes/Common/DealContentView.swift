@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DealContentView: UIView {
+final class DealContentView: UIView {
 
     var styler: MDStyler
 
