@@ -139,22 +139,22 @@ final class DealContentView: UIView {
         let buttonWidth: CGFloat = 200.0
         NSLayoutConstraint.activate([
             // titleLabel
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: AppTheme.sideMargin),
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: AppTheme.spacing),
-            titleLabel.widthAnchor.constraint(equalTo: widthAnchor, constant: AppTheme.widthInset),
+            titleLabel.leadingAnchor.constraint(equalTo: readableContentGuide.leadingAnchor),
+            titleLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: readableContentGuide.trailingAnchor),
             // featuresText
-            featuresText.leadingAnchor.constraint(equalTo: leadingAnchor, constant: AppTheme.sideMargin),
+            featuresText.leadingAnchor.constraint(equalTo: readableContentGuide.leadingAnchor),
             featuresText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: AppTheme.spacing * 2.0),
-            featuresText.widthAnchor.constraint(equalTo: widthAnchor, constant: AppTheme.widthInset),
+            featuresText.trailingAnchor.constraint(equalTo: readableContentGuide.trailingAnchor),
             // forumButton
             forumButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: AppTheme.spacing * 2.0),
             forumButton.widthAnchor.constraint(equalToConstant: buttonWidth),
             // specsText
-            specsText.leadingAnchor.constraint(equalTo: leadingAnchor, constant: AppTheme.sideMargin),
+            specsText.leadingAnchor.constraint(equalTo: readableContentGuide.leadingAnchor),
             specsText.topAnchor.constraint(equalTo: forumButton.bottomAnchor, constant: AppTheme.spacing * 2.0),
-            specsText.widthAnchor.constraint(equalTo: widthAnchor, constant: AppTheme.widthInset),
-            specsText.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -AppTheme.spacing)
+            specsText.trailingAnchor.constraint(equalTo: readableContentGuide.trailingAnchor),
+            specsText.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
         ])
     }
 }

@@ -31,8 +31,6 @@ final class FooterView: UIView {
 
     // MARK: - Appearance
 
-    private let horizontalInset: CGFloat = 16.0
-
     // MARK: - Subviews
 
     private var bottomAnchorConstraint: NSLayoutConstraint!
@@ -123,11 +121,11 @@ final class FooterView: UIView {
     }
 
     private func setupConstraints() {
-        bottomAnchorConstraint = stackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+        bottomAnchorConstraint = stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: horizontalInset),
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: horizontalInset / 2.0),
-            stackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalInset),
+            stackView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            stackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+            stackView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
             bottomAnchorConstraint
         ])
     }

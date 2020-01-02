@@ -80,6 +80,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
     private lazy var footerView: FooterView = {
         let view = FooterView()
         //view.backgroundColor = ColorCompatibility.systemBlue
+        view.preservesSuperviewLayoutMargins = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
