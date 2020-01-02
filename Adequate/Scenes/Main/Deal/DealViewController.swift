@@ -151,10 +151,6 @@ class DealViewController: BaseViewController<ScrollableView<DealContentView>> {
         barBackingView.coordinateOffset = 8.0
         barBackingView.inset = statusBarHeight
 
-        // scrollView
-        let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
-        rootView.scrollView.headerHeight = parallaxHeight
-
         rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
             barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
         }
@@ -250,7 +246,7 @@ class DealViewController: BaseViewController<ScrollableView<DealContentView>> {
 extension DealViewController {
 
     override func viewWillLayoutSubviews() {
-        rootView.scrollView.headerHeight = view.frame.width + pagedImageView.pageControlHeight
+        rootView.scrollView.headerHeight = view.contentWidth + pagedImageView.pageControlHeight
         // TODO: adjust barBackingView.inset?
     }
 

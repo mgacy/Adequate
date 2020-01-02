@@ -145,10 +145,6 @@ class HistoryDetailViewController: BaseViewController<ScrollableView<DealContent
             barBackingView.inset = statusBarHeight
         }
 
-        // scrollView
-        let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
-        rootView.scrollView.headerHeight = parallaxHeight
-
         rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
             barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
         }
@@ -201,8 +197,7 @@ class HistoryDetailViewController: BaseViewController<ScrollableView<DealContent
 extension HistoryDetailViewController {
 
     override func viewWillLayoutSubviews() {
-        let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
-        rootView.scrollView.headerHeight = parallaxHeight
+        rootView.scrollView.headerHeight = view.contentWidth + pagedImageView.pageControlHeight
         // TODO: adjust barBackingView.inset?
     }
 
