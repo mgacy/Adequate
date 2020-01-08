@@ -93,6 +93,7 @@
 		C98B3248222DC1E6003A8669 /* HistoryListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B3247222DC1E6003A8669 /* HistoryListDataSource.swift */; };
 		C98B324A222DC1F0003A8669 /* HistoryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B3249222DC1F0003A8669 /* HistoryListCell.swift */; };
 		C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */; };
+		C98F787123C674FB00FB5391 /* ScrollablePadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98F787023C674FB00FB5391 /* ScrollablePadView.swift */; };
 		C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992D1DD216D93F000B373D5 /* Optional+Ext.swift */; };
 		C995C07322A8B63600C2289F /* ParallaxBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07222A8B63600C2289F /* ParallaxBarView.swift */; };
 		C995C07522A8E01C00C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07422A8E01C00C2289F /* FileCache.swift */; };
@@ -331,6 +332,7 @@
 		C98B3247222DC1E6003A8669 /* HistoryListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListDataSource.swift; sourceTree = "<group>"; };
 		C98B3249222DC1F0003A8669 /* HistoryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListCell.swift; sourceTree = "<group>"; };
 		C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSSNS+Promise.swift"; sourceTree = "<group>"; };
+		C98F787023C674FB00FB5391 /* ScrollablePadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollablePadView.swift; sourceTree = "<group>"; };
 		C992D1DD216D93F000B373D5 /* Optional+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Ext.swift"; sourceTree = "<group>"; };
 		C995C07222A8B63600C2289F /* ParallaxBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxBarView.swift; sourceTree = "<group>"; };
 		C995C07422A8E01C00C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
@@ -868,6 +870,7 @@
 				C9DDB20221644BE8004D7957 /* PagedImageView */,
 				C97AC2D723B6988C00B721AC /* BaseViewController.swift */,
 				C97AC2D923B6AA3000B721AC /* ScrollableView.swift */,
+				C98F787023C674FB00FB5391 /* ScrollablePadView.swift */,
 				C943E5AF2238695C00DE0675 /* StateView.swift */,
 				C9DAC4B22147864A00D6558B /* ViewState.swift */,
 				C95CD61C230FB46C0011585F /* DealContentView.swift */,
@@ -1404,6 +1407,7 @@
 				C923838A22B1B427003BB1DA /* ItemType.swift in Sources */,
 				C9C0C0C8230730020011EFB4 /* MDColorCollection.swift in Sources */,
 				C9C0C0C623072FBD0011EFB4 /* MDFontCollection.swift in Sources */,
+				C98F787123C674FB00FB5391 /* ScrollablePadView.swift in Sources */,
 				C989E1212237432600DEAE89 /* AWSMobileClient+Promise.swift in Sources */,
 				C9AE54C521791E4200818F11 /* PagedImageViewDelegate.swift in Sources */,
 				C995C07322A8B63600C2289F /* ParallaxBarView.swift in Sources */,
