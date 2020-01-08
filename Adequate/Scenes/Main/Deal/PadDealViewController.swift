@@ -9,7 +9,7 @@
 import UIKit
 import Promise
 
-class PadDealViewController: UIViewController {
+final class PadDealViewController: BaseViewController<ScrollablePadView<DealContentView>> {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
 
     weak var delegate: DealViewControllerDelegate?
@@ -19,7 +19,6 @@ class PadDealViewController: UIViewController {
     private let themeManager: ThemeManagerType
     private let selectionFeedback = UISelectionFeedbackGenerator()
 
-    private var observationTokens: [ObservationToken] = []
     private var viewState: ViewState<Deal> = .empty {
         didSet {
             render(viewState)
@@ -28,19 +27,7 @@ class PadDealViewController: UIViewController {
 
     // MARK: Constraints
 
-    private var compactConstraints: [NSLayoutConstraint] = []
-
-    // iPad
-    private var haveSetupRegularConstraints: Bool = false
-    private lazy var regularPagedImageViewGuide = UILayoutGuide()
     private var sharedRegularConstraints: [NSLayoutConstraint] = []
-    private var portraitConstraints: [NSLayoutConstraint] = []
-    private var landscapeConstraints: [NSLayoutConstraint] = []
-
-    // Dimensions for pagedImageView
-    private let pagedImageViewMargin: CGFloat = 8.0                     // Rename `pagedImageViewInset`?
-    private let portraitWidthMultiplier: CGFloat = 1.0 / 2.0
-    private let landscapeWidthMultiplier: CGFloat = 2.0 / 3.0
 
     /// The new size to which the view is transitioning.
     //private var newSize: CGSize?
@@ -82,21 +69,6 @@ class PadDealViewController: UIViewController {
 
     // Secondary Column
 
-    private let scrollView: ParallaxScrollView = {
-        let view = ParallaxScrollView()
-        view.contentInsetAdjustmentBehavior = .always
-        view.backgroundColor = ColorCompatibility.systemBackground
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private let contentView: DealContentView = {
-        let view = DealContentView()
-        view.backgroundColor = ColorCompatibility.systemBackground
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
     private lazy var barBackingView: ParallaxBarView = {
         let view = ParallaxBarView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -135,24 +107,29 @@ class PadDealViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func loadView() {
-        super.loadView()
-        view.addSubview(stateView)
-        view.addSubview(scrollView)
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    // MARK: - View Methods
+
+    private func setupSubviews() {
+        view.insertSubview(stateView, at: 0)
         view.addSubview(barBackingView)
-        scrollView.addSubview(contentView)
         view.addSubview(footerView)
 
-        // Constraints
+        footerView.directionalLayoutMargins.top = 8.0
+
         setupConstraints()
+
+        // FIXME: improve this; move into `setupConstraints()`?
         switch traitCollection.horizontalSizeClass {
         case .compact:
-            setupParallaxScrollView()
+            transitionToCompact()
         case .regular:
+            transitionToRegular()
             // TODO: move into `setupRegularView()` method?
-            barBackingView.leftLabelInset = AppTheme.sideMargin
-            view.addSubview(pagedImageView)
-            setupRegularConstraints()
         case .unspecified:
             log.error("Unspecified horizontalSizeClass")
         @unknown default:
@@ -160,29 +137,16 @@ class PadDealViewController: UIViewController {
         }
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupView()
-        observationTokens = setupObservations()
-    }
+    override func setupView() {
+        setupSubviews()
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    deinit { observationTokens.forEach { $0.cancel() } }
-
-    // MARK: - View Methods
-
-    private func setupView() {
         navigationItem.leftBarButtonItem = historyButton
         navigationItem.rightBarButtonItems = [storyButton, shareButton]
         navigationController?.applyStyle(.transparent)
         pagedImageView.delegate = self
         footerView.delegate = self
 
-        contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
+        rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
 
         // barBackingView
         let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
@@ -190,7 +154,7 @@ class PadDealViewController: UIViewController {
         barBackingView.inset = statusBarHeight
 
         // scrollView
-        scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
+        rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
             barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
         }
 
@@ -201,19 +165,13 @@ class PadDealViewController: UIViewController {
 
     // TODO: rename?
     private func setupParallaxScrollView() {
-        scrollView.headerView = pagedImageView
+        rootView.scrollView.headerView = pagedImageView
         let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
-        scrollView.headerHeight = parallaxHeight
+        rootView.scrollView.headerHeight = parallaxHeight
     }
 
     private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
-
-        // iPhone
-        compactConstraints = [
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
-        ]
 
         // Shared
         NSLayoutConstraint.activate([
@@ -225,79 +183,25 @@ class PadDealViewController: UIViewController {
             // footerView
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            footerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            footerView.widthAnchor.constraint(equalTo: rootView.scrollView.widthAnchor),
             // barBackingView
             barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
             barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor),
-            barBackingView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            // scrollView
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: footerView.topAnchor),
-            // contentView
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            barBackingView.widthAnchor.constraint(equalTo: rootView.scrollView.widthAnchor),
         ])
 
-        if traitCollection.horizontalSizeClass == .compact {
-            //print("ACTIVATE: compactConstraints")
-            NSLayoutConstraint.activate(compactConstraints)
-            //layout = .compact
-        }
-    }
-
-    private func setupRegularConstraints() {
-        view.addLayoutGuide(regularPagedImageViewGuide)
         sharedRegularConstraints = [
-            // regularPagedImageViewGuide
-            regularPagedImageViewGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            regularPagedImageViewGuide.topAnchor.constraint(equalTo: view.topAnchor),
-            regularPagedImageViewGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            // pagedImageView
             // TODO: adjust constant on centerYAnchor to ensure placement below nav bar?
-            pagedImageView.centerYAnchor.constraint(equalTo: regularPagedImageViewGuide.centerYAnchor, constant: 0.0),
-            pagedImageView.centerXAnchor.constraint(equalTo: regularPagedImageViewGuide.centerXAnchor),
+            pagedImageView.centerYAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerYAnchor, constant: 0.0),
+            pagedImageView.centerXAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerXAnchor),
+            pagedImageView.widthAnchor.constraint(equalTo: rootView.secondaryColumnGuide.widthAnchor),
             pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
-                                                   constant: pagedImageView.pageControlHeight),
-            pagedImageView.widthAnchor.constraint(equalTo: regularPagedImageViewGuide.widthAnchor,
-                                                  constant: -2.0 * pagedImageViewMargin),
-            // scrollView
-            scrollView.leadingAnchor.constraint(equalTo: regularPagedImageViewGuide.trailingAnchor)
+                                                   constant: pagedImageView.pageControlHeight)
         ]
-
-        // Portrait
-        let portraitMultiplier: CGFloat = 1.0 - portraitWidthMultiplier
-        portraitConstraints = [
-            regularPagedImageViewGuide.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: portraitWidthMultiplier),
-            contentView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: portraitMultiplier)
-        ]
-
-        // Landscape
-        let landscapeMultiplier = 1.0 - landscapeWidthMultiplier
-        landscapeConstraints = [
-            regularPagedImageViewGuide.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: landscapeWidthMultiplier),
-            contentView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: landscapeMultiplier)
-        ]
-
-        haveSetupRegularConstraints = true
-
-        // Activate
-        if view.frame.width > view.frame.height {
-            //print("ACTIVATE: landscapeConstraints")
-            NSLayoutConstraint.activate(landscapeConstraints)
-            //layout = .regularLandscape
-        } else {
-            //print("ACTIVATE: portraitConstraints")
-            NSLayoutConstraint.activate(portraitConstraints)
-            //layout = .regularPortrait
-        }
-        NSLayoutConstraint.activate(sharedRegularConstraints)
     }
 
-    private func setupObservations() -> [ObservationToken] {
+    override func setupObservations() -> [ObservationToken] {
         let dealToken = dataProvider.addDealObserver(self) { vc, viewState in
             vc.viewState = viewState
         }
@@ -363,7 +267,7 @@ class PadDealViewController: UIViewController {
 
 }
 
-// MARK: - Transitions
+// MARK: - UIContentContainer
 extension PadDealViewController {
 
     // MARK: Trait Collection
@@ -437,15 +341,15 @@ extension PadDealViewController {
                     // TODO: skip activation if we are transitioning between size classes since transitionToRegular() already handles this?
                     if size.width > size.height {
                         //print("SIZE - ACTIVATE: landscapeConstraints")
-                        NSLayoutConstraint.deactivate(self.portraitConstraints)
-                        NSLayoutConstraint.activate(self.landscapeConstraints)
+                        NSLayoutConstraint.deactivate(self.rootView.portraitConstraints)
+                        NSLayoutConstraint.activate(self.rootView.landscapeConstraints)
                     } else {
                         //print("SIZE - ACTIVATE: portraitConstraints")
-                        NSLayoutConstraint.deactivate(self.landscapeConstraints)
-                        NSLayoutConstraint.activate(self.portraitConstraints)
+                        NSLayoutConstraint.deactivate(self.rootView.landscapeConstraints)
+                        NSLayoutConstraint.activate(self.rootView.portraitConstraints)
                     }
                 } else if self.traitCollection.horizontalSizeClass == .compact {
-                    self.scrollView.headerHeight = size.width + self.pagedImageView.pageControlHeight
+                    self.rootView.scrollView.headerHeight = size.width + self.pagedImageView.pageControlHeight
                 }
                 self.pagedImageView.beginRotation()
             },
@@ -460,17 +364,13 @@ extension PadDealViewController {
 
     /// Transition from iPad to iPhone layout
     private func transitionToCompact() {
-        // TODO: pass `newWidth: CGFloat?`?
-        // deactivate constraints
-        NSLayoutConstraint.deactivate(portraitConstraints)
-        NSLayoutConstraint.deactivate(landscapeConstraints)
+        rootView.deactivateRegularConstraints()
         NSLayoutConstraint.deactivate(sharedRegularConstraints)
 
-        // remove pagedImageView
+        // Move pagedImageView
         pagedImageView.removeFromSuperview()
-
-        // add PagedImageView
-        scrollView.headerView = pagedImageView
+        rootView.scrollView.headerView = pagedImageView
+        // TODO: can we improve how we handle setting the headerHeight?
         //let viewWidth = newSize?.width ?? view.frame.width
         //scrollView.headerHeight = viewWidth + pagedImageView.pageControlHeight
 
@@ -478,43 +378,52 @@ extension PadDealViewController {
         barBackingView.leftLabelInset = 56.0
 
         // activate constraints
-        NSLayoutConstraint.activate(compactConstraints)
-        //layout = .compact
+        rootView.activateCompactConstraints()
     }
 
     /// Transition from iPhone to iPad layout
     private func transitionToRegular() {
-        // deactivate constraints
-        NSLayoutConstraint.deactivate(compactConstraints)
+        rootView.deactivateCompactConstraints()
 
-        // remove pagedImageView
-        scrollView.removeHeaderView()
-
-        // add PagedImageView
+        // Move pagedImageView
+        rootView.scrollView.removeHeaderView()
         view.addSubview(pagedImageView)
 
         barBackingView.leftLabelInset = AppTheme.sideMargin
 
         // reset scrollView
-        scrollView.headerHeight = 0
+        rootView.scrollView.headerHeight = 0
 
-        guard haveSetupRegularConstraints else {
-            setupRegularConstraints()
-            // TODO: call `pagedImageView.flowLayout.invalidateLayout()`?
-            return // since setupRegularConstraints() already activates constraints
-        }
-
-        // activate constraints
-        if view.frame.width > view.frame.height {
-            NSLayoutConstraint.activate(landscapeConstraints)
-            //layout = .regularLandscape
-        } else {
-            NSLayoutConstraint.activate(portraitConstraints)
-            //layout = .regularPortrait
-        }
+        rootView.activateRegularConstraints()
         NSLayoutConstraint.activate(sharedRegularConstraints)
         // IMPORTANT
         pagedImageView.flowLayout.invalidateLayout()
+    }
+}
+
+// MARK: - Layout
+extension PadDealViewController {
+
+    override func viewWillLayoutSubviews() {
+        switch traitCollection.horizontalSizeClass {
+        case .compact:
+            rootView.scrollView.headerHeight = rootView.contentWidth + pagedImageView.pageControlHeight
+        case .regular:
+            rootView.scrollView.headerHeight = 0.0
+        default:
+            log.error("Unexpected horizontalSizeClass: \(traitCollection.horizontalSizeClass)")
+        }
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let footerHeight = footerView.frame.size.height - view.safeAreaInsets.bottom
+        rootView.scrollView.contentInset.bottom = footerHeight
+    }
+
+    override func viewLayoutMarginsDidChange() {
+        super.viewLayoutMarginsDidChange()
+        footerView.directionalLayoutMargins = view.directionalLayoutMargins
     }
 }
 
@@ -549,12 +458,12 @@ extension PadDealViewController: ViewStateRenderable {
         case .empty:
             stateView.render(viewState)
             pagedImageView.isHidden = true
-            scrollView.isHidden = true
+            rootView.scrollView.isHidden = true
             footerView.isHidden = true
         case .loading:
             stateView.render(viewState)
             pagedImageView.isHidden = true
-            scrollView.isHidden = true
+            rootView.scrollView.isHidden = true
             footerView.isHidden = true
             shareButton.isEnabled = false
             storyButton.isEnabled = false
@@ -562,10 +471,10 @@ extension PadDealViewController: ViewStateRenderable {
             shareButton.isEnabled = true
             storyButton.isEnabled = true
             barBackingView.text = deal.title
-            contentView.title = deal.title
-            contentView.features = deal.features
-            contentView.commentCount = deal.topic?.commentCount
-            contentView.specifications = deal.specifications
+            rootView.contentView.title = deal.title
+            rootView.contentView.features = deal.features
+            rootView.contentView.commentCount = deal.topic?.commentCount
+            rootView.contentView.specifications = deal.specifications
             // images
             let safePhotoURLs = deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
@@ -577,14 +486,14 @@ extension PadDealViewController: ViewStateRenderable {
                 // see: https://stackoverflow.com/a/29080894
                 self.stateView.render(viewState)
                 self.pagedImageView.isHidden = false
-                self.scrollView.isHidden = false
+                self.rootView.scrollView.isHidden = false
                 self.footerView.isHidden = false
                 //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
             })
         case .error:
             stateView.render(viewState)
             pagedImageView.isHidden = true
-            scrollView.isHidden = true
+            rootView.scrollView.isHidden = true
             // TODO: hide footerView as well?
         }
     }
@@ -610,12 +519,10 @@ extension PadDealViewController: Themeable {
         // NOTE: are not changing the following:
         //navigationController?.navigationBar.barTintColor = theme.systemBackground
         //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
-        view.backgroundColor = theme.systemBackground
-        scrollView.backgroundColor = theme.systemBackground
 
         // Subviews
+        rootView.apply(theme: theme)
         pagedImageView.apply(theme: theme)
-        contentView.apply(theme: theme)
         barBackingView.apply(theme: theme)
         stateView.apply(theme: theme)
         footerView.apply(theme: theme)
@@ -624,4 +531,3 @@ extension PadDealViewController: Themeable {
 
 // MARK: - ForegroundThemeable
 extension PadDealViewController: ForegroundThemeable {}
-
