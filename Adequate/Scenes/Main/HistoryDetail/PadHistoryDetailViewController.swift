@@ -167,9 +167,10 @@ class PadHistoryDetailViewController: UIViewController, SwipeDismissable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Ensure correct navigation bar style after aborted dismissal
-        // FIXME: update this to work with new theme system
-        navigationController?.navigationBar.barStyle = dealFragment.theme.foreground.navigationBarStyle
-        setNeedsStatusBarAppearanceUpdate()
+        if themeManager.useDealTheme {
+            navigationController?.navigationBar.barStyle = dealFragment.theme.foreground.navigationBarStyle
+            setNeedsStatusBarAppearanceUpdate()
+        }
     }
 
     override func didReceiveMemoryWarning() {
