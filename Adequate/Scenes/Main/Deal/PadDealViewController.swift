@@ -32,6 +32,8 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
     /// The new size to which the view is transitioning.
     //private var newSize: CGSize?
 
+    private var initialSetupDone = false
+
     // MARK: - Subviews
 
     private lazy var stateView: StateView = {
@@ -122,19 +124,6 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
         footerView.directionalLayoutMargins.top = 8.0
 
         setupConstraints()
-
-        // FIXME: improve this; move into `setupConstraints()`?
-        switch traitCollection.horizontalSizeClass {
-        case .compact:
-            transitionToCompact()
-        case .regular:
-            transitionToRegular()
-            // TODO: move into `setupRegularView()` method?
-        case .unspecified:
-            log.error("Unspecified horizontalSizeClass")
-        @unknown default:
-            fatalError("Unrecognized size class: \(traitCollection.horizontalSizeClass)")
-        }
     }
 
     override func setupView() {
@@ -405,6 +394,26 @@ extension PadDealViewController {
 extension PadDealViewController {
 
     override func viewWillLayoutSubviews() {
+        if !initialSetupDone {
+            switch traitCollection.horizontalSizeClass {
+            case .compact:
+                rootView.scrollView.headerView = pagedImageView
+
+                // TODO: clarify meaning of this magic constant
+                barBackingView.leftLabelInset = 56.0
+
+                rootView.activateCompactConstraints()
+            case .regular:
+                rootView.activateRegularConstraints()
+                view.addSubview(pagedImageView)
+                barBackingView.leftLabelInset = AppTheme.sideMargin
+                NSLayoutConstraint.activate(sharedRegularConstraints)
+            default:
+                log.error("Unexpected horizontalSizeClass: \(traitCollection.horizontalSizeClass)")
+            }
+            initialSetupDone = true
+        }
+
         switch traitCollection.horizontalSizeClass {
         case .compact:
             rootView.scrollView.headerHeight = rootView.contentWidth + pagedImageView.pageControlHeight
