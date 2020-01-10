@@ -29,9 +29,6 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
 
     private var sharedRegularConstraints: [NSLayoutConstraint] = []
 
-    /// The new size to which the view is transitioning.
-    //private var newSize: CGSize?
-
     private var initialSetupDone = false
 
     // MARK: - Subviews
@@ -90,7 +87,6 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
 
     private lazy var footerView: FooterView = {
         let view = FooterView()
-        //view.backgroundColor = ColorCompatibility.systemBlue
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -150,13 +146,6 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(ensureVisibleImageLoaded),
                                        name: UIApplication.willEnterForegroundNotification, object: nil)
-    }
-
-    // TODO: rename?
-    private func setupParallaxScrollView() {
-        rootView.scrollView.headerView = pagedImageView
-        let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
-        rootView.scrollView.headerHeight = parallaxHeight
     }
 
     private func setupConstraints() {
@@ -265,9 +254,6 @@ extension PadDealViewController {
         //print("COLLECTION - willTransition\nFROM:\t\(traitCollection)\nTO:\t\t\(newCollection)\n")
         super.willTransition(to: newCollection, with: coordinator)
 
-        //guard UIDevice.current.userInterfaceIdiom == .pad else { return }
-        //guard traitCollection.horizontalSizeClass != newCollection.horizontalSizeClass else { return }
-
         let oldCollection = traitCollection
         coordinator.animate(
             alongsideTransition: { [unowned self] context in
@@ -314,10 +300,8 @@ extension PadDealViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         //print("SIZE - willTransition\nFROM:\t\(view.frame.size)\nTO:\t\t\(size)\n")
         super.viewWillTransition(to: size, with: coordinator)
-        
-        //guard UIDevice.current.userInterfaceIdiom == .pad else { return }
 
-        //newSize = size
+        // TODO: check that size != current size
 
         // PagedImageView
         // For collection view rotation see also: https://stackoverflow.com/a/43322706
@@ -328,6 +312,7 @@ extension PadDealViewController {
                 // If we are changing size classes, this will already be the new size class
                 if self.traitCollection.horizontalSizeClass == .regular {
                     // TODO: skip activation if we are transitioning between size classes since transitionToRegular() already handles this?
+                    // TODO: move into method on ScrollablePadView?
                     if size.width > size.height {
                         //print("SIZE - ACTIVATE: landscapeConstraints")
                         NSLayoutConstraint.deactivate(self.rootView.portraitConstraints)
@@ -337,14 +322,12 @@ extension PadDealViewController {
                         NSLayoutConstraint.deactivate(self.rootView.landscapeConstraints)
                         NSLayoutConstraint.activate(self.rootView.portraitConstraints)
                     }
-                } else if self.traitCollection.horizontalSizeClass == .compact {
-                    self.rootView.scrollView.headerHeight = size.width + self.pagedImageView.pageControlHeight
+                //} else if self.traitCollection.horizontalSizeClass == .compact {
                 }
                 self.pagedImageView.beginRotation()
             },
             completion: { [unowned self] (context) -> Void in
                 self.pagedImageView.completeRotation(page: currentPage)
-                //self.newSize = nil
             }
         )
     }
@@ -359,9 +342,6 @@ extension PadDealViewController {
         // Move pagedImageView
         pagedImageView.removeFromSuperview()
         rootView.scrollView.headerView = pagedImageView
-        // TODO: can we improve how we handle setting the headerHeight?
-        //let viewWidth = newSize?.width ?? view.frame.width
-        //scrollView.headerHeight = viewWidth + pagedImageView.pageControlHeight
 
         // TODO: clarify meaning of this magic constant
         barBackingView.leftLabelInset = 56.0
