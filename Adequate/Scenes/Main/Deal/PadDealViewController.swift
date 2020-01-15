@@ -414,6 +414,7 @@ extension PadDealViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        // TODO: move to initial setup and .traitCollectionDidChange(_:) with check for .preferredContentSizeCategory?
         let footerHeight = footerView.frame.size.height - view.safeAreaInsets.bottom
         rootView.scrollView.contentInset.bottom = footerHeight
     }

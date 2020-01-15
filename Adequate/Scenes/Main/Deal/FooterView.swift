@@ -124,7 +124,8 @@ final class FooterView: UIView {
         bottomAnchorConstraint = stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-            stackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+            //stackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: AppTheme.spacing),
             stackView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
             bottomAnchorConstraint
         ])
