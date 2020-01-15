@@ -9,7 +9,7 @@
 import UIKit
 
 class BaseViewController<T: UIView>: UIViewController {
-    var rootView = T()
+    var rootView = T(frame: UIScreen.main.bounds)
 
     private var observationTokens: [ObservationToken] = []
 
