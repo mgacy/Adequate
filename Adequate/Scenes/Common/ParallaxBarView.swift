@@ -61,6 +61,7 @@ final class ParallaxBarView: UIView {
 
     // MARK: - Subviews
 
+    // TODO: make lazy?
     private var titleTopConstraint: NSLayoutConstraint!
     private var titleLeftConstraint: NSLayoutConstraint!
     private var titleRightConstraint: NSLayoutConstraint!
@@ -105,6 +106,7 @@ final class ParallaxBarView: UIView {
     private func configureConstraints() {
         backgroundHeightConstraint = backgroundView.heightAnchor.constraint(equalToConstant: 0.0)
         titleTopConstraint = titleLabel.topAnchor.constraint(equalTo: bottomAnchor, constant: 0.0)
+        // FIXME: use layoutMarginsGuide
         titleLeftConstraint = titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leftLabelInset)
         titleRightConstraint = titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -rightLabelInset)
 
@@ -147,7 +149,7 @@ final class ParallaxBarView: UIView {
         }
     }
 
-    // MARK: - B
+    // MARK: - Helper Methods
 
     private func updateLabel(for progress: CGFloat) {
         let labelHeight = titleLabel.intrinsicContentSize.height
