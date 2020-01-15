@@ -104,22 +104,6 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         // Dispose of any resources that can be recreated.
     }
 
-    // TODO: remove now that we use PadDealViewController on iPad?
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        let currentPage = pagedImageView.primaryVisiblePage
-        let parallaxHeight: CGFloat = size.width + pagedImageView.pageControlHeight
-        coordinator.animate(
-            alongsideTransition: { [weak self] (context) -> Void in
-                self?.pagedImageView.beginRotation()
-            },
-            completion: { [weak self] (context) -> Void in
-                self?.pagedImageView.completeRotation(page: currentPage)
-                self?.rootView.scrollView.headerHeight = parallaxHeight
-            }
-        )
-    }
-
     // MARK: - View Methods
 
     override func setupView() {
@@ -241,6 +225,26 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         delegate?.showStory()
     }
 
+}
+
+// MARK: - UIContentContainer
+extension DealViewController {
+
+    // TODO: remove now that we use PadDealViewController on iPad?
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        let currentPage = pagedImageView.primaryVisiblePage
+        //let parallaxHeight: CGFloat = size.width + pagedImageView.pageControlHeight
+        coordinator.animate(
+            alongsideTransition: { [weak self] (context) -> Void in
+                self?.pagedImageView.beginRotation()
+            },
+            completion: { [weak self] (context) -> Void in
+                self?.pagedImageView.completeRotation(page: currentPage)
+                //self?.rootView.scrollView.headerHeight = parallaxHeight
+            }
+        )
+    }
 }
 
 // MARK: - Layout
