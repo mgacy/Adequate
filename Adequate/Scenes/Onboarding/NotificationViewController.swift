@@ -65,6 +65,7 @@ final class NotificationViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .clear
         button.addTarget(self, action: #selector(handleNotNowTapped(_:)), for: .touchUpInside)
+        // TODO: add button.accessibilityLabel
         return button
     }()
 
@@ -79,25 +80,21 @@ final class NotificationViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = button.tintColor
         button.addTarget(self, action: #selector(handleOKTapped(_:)), for: .touchUpInside)
+        // TODO: add button.accessibilityLabel
         return button
     }()
 
     private lazy var buttonStack: UIStackView = {
         let view = UIStackView(arrangedSubviews: [notNowButton, okButton])
         view.axis = .horizontal
-        // Alignment
-        view.alignment = .fill
-        view.alignment = .top
+        //view.alignment = .fill
         view.alignment = .firstBaseline
         //view.alignment = .center
-        //view.alignment = .bottom
         view.distribution = .fillEqually
         view.spacing = 8.0
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
-    // TODO: stackView?
 
     // MARK: - Lifecycle
 
@@ -111,40 +108,31 @@ final class NotificationViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func loadView() {
-        let view = UIView()
-        view.addSubview(labelStack)
-        view.addSubview(buttonStack)
-        self.view = view
-        setupConstraints()
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - View Methods
 
     private func setupView() {
         view.backgroundColor = ColorCompatibility.systemBackground
+        view.addSubview(labelStack)
+        view.addSubview(buttonStack)
+        setupConstraints()
     }
 
     private func setupConstraints() {
-        // TODO: use readableContentGuide
+        let guide = view.readableContentGuide
+        //let guide = view.layoutMarginsGuide
         NSLayoutConstraint.activate([
             // labelStack
             labelStack.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0),
-            labelStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16.0),
-            labelStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16.0),
+            labelStack.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            labelStack.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
             // buttonStack
-            buttonStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16.0),
-            buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16.0),
+            buttonStack.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            buttonStack.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
             buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0.0)
         ])
     }
