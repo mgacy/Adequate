@@ -21,6 +21,8 @@ final class FullScreenImageViewController: UIViewController {
     // TODO: rename `interactionController?
     private var transitionController: FullScreenImageTransitionController?
 
+    private var initialSetupDone = false
+
     // MARK: - Appearance
 
     var backgroundColor: UIColor = .black
@@ -159,5 +161,16 @@ final class FullScreenImageViewController: UIViewController {
 
     @objc private func dismissView(_ sender: UIButton) {
         delegate?.dismissFullScreenImage()
+    }
+}
+
+// MARK: - Layout
+extension FullScreenImageViewController {
+
+    override func viewDidLayoutSubviews() {
+        if !initialSetupDone {
+            zoomingImageView.updateZoomScale()
+            initialSetupDone = true
+        }
     }
 }
