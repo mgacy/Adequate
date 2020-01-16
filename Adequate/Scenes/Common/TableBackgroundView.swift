@@ -52,13 +52,20 @@ final class TableBackgroundView: UIView {
         }
     }
 
+    var safeTopAnchor: NSLayoutYAxisAnchor? {
+        didSet {
+            guard let safeTopAnchor = safeTopAnchor else { return }
+            titleLabel.topAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: safeTopAnchor, multiplier: 1.0).isActive = true
+        }
+    }
+
     // MARK: - Subviews
 
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.textColor = ColorCompatibility.label
+        label.textColor = ColorCompatibility.secondaryLabel
         label.textAlignment = .center
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -74,14 +81,6 @@ final class TableBackgroundView: UIView {
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }()
-
-    private lazy var labelStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [titleLabel, messageLabel])
-        view.axis = .vertical
-        view.spacing = AppTheme.spacing
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
     }()
 
     // MARK: - Lifecycle
@@ -107,14 +106,21 @@ final class TableBackgroundView: UIView {
     // MARK: - Configuration
 
     private func configure() {
-        addSubview(labelStackView)
+        addSubview(titleLabel)
+        addSubview(messageLabel)
+
+        messageLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         NSLayoutConstraint.activate([
-            labelStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            labelStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            labelStackView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, constant: -AppTheme.widthInset)
+            // titleLabel
+            titleLabel.leadingAnchor.constraint(equalTo: readableContentGuide.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: readableContentGuide.trailingAnchor),
+            // messageLabel
+            messageLabel.leadingAnchor.constraint(equalTo: readableContentGuide.leadingAnchor),
+            messageLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 1.0),
+            messageLabel.trailingAnchor.constraint(equalTo: readableContentGuide.trailingAnchor),
+            messageLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor)
         ])
     }
-
 }
 
 // MARK: - UITableView + TableBackgroundView
@@ -123,21 +129,9 @@ extension UITableView {
 
     func setBackgroundView(title: String?, message: String?) {
         let emptyView = TableBackgroundView(title: title, message: message)
+        emptyView.preservesSuperviewLayoutMargins = true
         backgroundView = emptyView
-
-        guard let parent = superview else {
-            emptyView.frame = CGRect(x: self.center.x, y: self.center.y,
-                                     width: self.bounds.size.width,
-                                     height: self.bounds.size.height)
-            return
-        }
-        emptyView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            emptyView.leadingAnchor.constraint(equalTo: parent.leadingAnchor),
-            emptyView.topAnchor.constraint(equalTo: parent.topAnchor),
-            emptyView.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
-            emptyView.bottomAnchor.constraint(equalTo: parent.bottomAnchor),
-        ])
+        emptyView.safeTopAnchor = safeAreaLayoutGuide.topAnchor
     }
 
     func setBackgroundView(error: Error) {
