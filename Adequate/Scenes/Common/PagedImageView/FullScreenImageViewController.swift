@@ -74,14 +74,6 @@ final class FullScreenImageViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func loadView() {
-        super.loadView()
-        view.addSubview(activityIndicator)
-        view.addSubview(zoomingImageView)
-        view.addSubview(closeButton)
-        setupConstraints()
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -116,6 +108,11 @@ final class FullScreenImageViewController: UIViewController {
 
     private func setupView() {
         view.backgroundColor = backgroundColor
+
+        view.addSubview(activityIndicator)
+        view.addSubview(zoomingImageView)
+        view.addSubview(closeButton)
+        setupConstraints()
 
         //zoomingImageView.zoomingImageDelegate = self
         closeButton.addTarget(self, action: #selector(dismissView(_:)), for: .touchUpInside)
