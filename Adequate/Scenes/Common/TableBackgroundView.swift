@@ -52,13 +52,6 @@ final class TableBackgroundView: UIView {
         }
     }
 
-    var safeTopAnchor: NSLayoutYAxisAnchor? {
-        didSet {
-            guard let safeTopAnchor = safeTopAnchor else { return }
-            titleLabel.topAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: safeTopAnchor, multiplier: 1.0).isActive = true
-        }
-    }
-
     // MARK: - Subviews
 
     private let titleLabel: UILabel = {
@@ -101,6 +94,11 @@ final class TableBackgroundView: UIView {
         self.configure()
     }
 
+    public override func didMoveToSuperview() {
+        guard let safeTopAnchor = self.superview?.safeAreaLayoutGuide.topAnchor else { return }
+        titleLabel.topAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: safeTopAnchor, multiplier: 1.0).isActive = true
+    }
+
     //deinit { print("\(#function) - \(self.description)") }
 
     // MARK: - Configuration
@@ -131,7 +129,6 @@ extension UITableView {
         let emptyView = TableBackgroundView(title: title, message: message)
         emptyView.preservesSuperviewLayoutMargins = true
         backgroundView = emptyView
-        emptyView.safeTopAnchor = safeAreaLayoutGuide.topAnchor
     }
 
     func setBackgroundView(error: Error) {
