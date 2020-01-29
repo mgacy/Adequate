@@ -25,6 +25,8 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         }
     }
 
+    private var initialSetupDone = false
+
     // MARK: - Subviews
 
     private lazy var stateView: StateView = {
@@ -251,8 +253,29 @@ extension DealViewController {
 extension DealViewController {
 
     override func viewWillLayoutSubviews() {
-        rootView.scrollView.headerHeight = view.contentWidth + pagedImageView.pageControlHeight
-        // TODO: adjust barBackingView.inset?
+        if !initialSetupDone {
+            switch view.safeAreaInsets.bottom {
+            case 0.0..<8.0:
+                footerView.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
+            case 8.0..<22.0:
+                footerView.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 0.0, right: 16.0)
+            case 22.0...40.0:
+                // Fix excessive bottom padding on iPhone X, etc.
+                // TODO: will this cause accessability problems? Disable this behavior at a given text size?
+                footerView.insetsLayoutMarginsFromSafeArea = false
+                let new = view.safeAreaInsets.bottom - 8.0
+                footerView.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: new, right: 16.0)
+            default:
+                log.error("Unexpected bottom safe area inset")
+                footerView.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
+            }
+
+            rootView.scrollView.headerHeight = view.contentWidth + pagedImageView.pageControlHeight
+
+            // TODO: adjust barBackingView.inset?
+
+            initialSetupDone = true
+        }
     }
 
     override func viewDidLayoutSubviews() {

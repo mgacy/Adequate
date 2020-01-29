@@ -125,8 +125,11 @@ final class ScrollablePadView<T: UIView>: UIView {
 
     override func layoutMarginsDidChange() {
         // TODO: change constant on layout anchor for secondaryColumnGuide.trailingAnchor
-        contentView.directionalLayoutMargins.leading = directionalLayoutMargins.leading
-        contentView.directionalLayoutMargins.trailing = directionalLayoutMargins.trailing
+        let currentMargins = contentView.layoutMargins
+        contentView.layoutMargins = UIEdgeInsets(top: currentMargins.top,
+                                                 left: layoutMargins.left,
+                                                 bottom: currentMargins.bottom,
+                                                 right: layoutMargins.left)
     }
 }
 

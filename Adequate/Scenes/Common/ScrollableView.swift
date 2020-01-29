@@ -73,8 +73,11 @@ final class ScrollableView<T: UIView>: UIView {
     }
 
     override func layoutMarginsDidChange() {
-        contentView.directionalLayoutMargins.leading = directionalLayoutMargins.leading
-        contentView.directionalLayoutMargins.trailing = directionalLayoutMargins.trailing
+        let currentMargins = contentView.layoutMargins
+        contentView.layoutMargins = UIEdgeInsets(top: currentMargins.top,
+                                                 left: layoutMargins.left,
+                                                 bottom: currentMargins.bottom,
+                                                 right: layoutMargins.left)
     }
 }
 

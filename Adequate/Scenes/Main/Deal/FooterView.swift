@@ -33,8 +33,6 @@ final class FooterView: UIView {
 
     // MARK: - Subviews
 
-    private var bottomAnchorConstraint: NSLayoutConstraint!
-
     private let priceLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
@@ -107,8 +105,6 @@ final class FooterView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        // iPhone X - Portraint: 34.0 / Landscape: 21.0
-        bottomAnchorConstraint.constant = safeAreaInsets.bottom > 10.0 ? 0.0 : -8.0
     }
 
     // MARK: - Configuration
@@ -121,13 +117,11 @@ final class FooterView: UIView {
     }
 
     private func setupConstraints() {
-        bottomAnchorConstraint = stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-            //stackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: AppTheme.spacing),
+            stackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
             stackView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
-            bottomAnchorConstraint
+            stackView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
         ])
     }
 
