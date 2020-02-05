@@ -251,7 +251,6 @@ extension PadDealViewController {
     // MARK: Trait Collection
 
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        //print("COLLECTION - willTransition\nFROM:\t\(traitCollection)\nTO:\t\t\(newCollection)\n")
         super.willTransition(to: newCollection, with: coordinator)
 
         let oldCollection = traitCollection
@@ -259,8 +258,6 @@ extension PadDealViewController {
             alongsideTransition: { [unowned self] context in
                 switch (oldCollection.horizontalSizeClass, newCollection.horizontalSizeClass) {
                 case (.compact, .regular):
-                    //print("COLLECTION - compact -> regular")
-
                     // Address bug when app starts in split view
                     if #available(iOS 13.0, *) {
                         if oldCollection.userInterfaceLevel == .base && newCollection.userInterfaceLevel == .elevated {
@@ -270,35 +267,16 @@ extension PadDealViewController {
 
                     self.transitionToRegular()
                 case (.regular, .compact):
-                    //print("COLLECTION - regular -> compact")
                     self.transitionToCompact()
                 case (.regular, .regular):
-                    //print("COLLECTION - regular -> regular")
                     break
                 case (.compact, .compact):
-                    //print("COLLECTION - compact -> compact")
                     break
                 default:
-                    //print("COLLECTION - OTHER - \(oldCollection) -> \(newCollection)")
                     break
                 }
             },
-            completion: { context in
-                /*
-                switch self.layout {
-                case .compact:
-                    print("COLLECTION - compact")
-                    //self.scrollView.headerHeight = self.view.frame.width + self.pagedImageView.pageControlHeight
-                case .regularPortrait:
-                    print("COLLECTION - regularPortrait")
-                case .regularLandscape:
-                    print("COLLECTION - regularLandscape")
-                case .unspecified:
-                    print("COLLECTION - unspecified")
-                }
-                */
-                return
-            }
+            completion: nil
         )
     }
 
@@ -306,7 +284,6 @@ extension PadDealViewController {
 
     /// NOTE: this is called after(?) `willTransition(to: UITraitCollection, with: UIViewControllerTransitionCoordinator)` when both are called
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        //print("SIZE - willTransition\nFROM:\t\(view.frame.size)\nTO:\t\t\(size)\n")
         super.viewWillTransition(to: size, with: coordinator)
 
         // TODO: check that size != current size
@@ -322,11 +299,9 @@ extension PadDealViewController {
                     // TODO: skip activation if we are transitioning between size classes since transitionToRegular() already handles this?
                     // TODO: move into method on ScrollablePadView?
                     if size.width > size.height {
-                        //print("SIZE - ACTIVATE: landscapeConstraints")
                         NSLayoutConstraint.deactivate(self.rootView.portraitConstraints)
                         NSLayoutConstraint.activate(self.rootView.landscapeConstraints)
                     } else {
-                        //print("SIZE - ACTIVATE: portraitConstraints")
                         NSLayoutConstraint.deactivate(self.rootView.landscapeConstraints)
                         NSLayoutConstraint.activate(self.rootView.portraitConstraints)
                     }
