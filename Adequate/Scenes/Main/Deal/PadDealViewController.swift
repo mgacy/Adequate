@@ -116,9 +116,6 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
         view.insertSubview(stateView, at: 0)
         view.addSubview(barBackingView)
         view.addSubview(footerView)
-
-        footerView.directionalLayoutMargins.top = 8.0
-
         setupConstraints()
     }
 
@@ -131,6 +128,7 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
         pagedImageView.delegate = self
         footerView.delegate = self
 
+        // TODO: set closure on DealContentView instead?
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
 
         // barBackingView
@@ -394,9 +392,15 @@ extension PadDealViewController {
         rootView.scrollView.contentInset.bottom = footerHeight
     }
 
+    // At least on iPad, this seems to be called before `.viewWillLayoutSubviews`
     override func viewLayoutMarginsDidChange() {
         super.viewLayoutMarginsDidChange()
-        footerView.directionalLayoutMargins = view.directionalLayoutMargins
+        // FIXME: get values for margins from a central source; move into a type?
+        let bottomLayoutMargin: CGFloat = view.safeAreaInsets.bottom > 8.0 ? 0.0 : 8.0
+        footerView.layoutMargins = UIEdgeInsets(top: 8.0,
+                                                left: view.layoutMargins.left,
+                                                bottom: bottomLayoutMargin,
+                                                right: view.layoutMargins.right)
     }
 }
 
