@@ -32,6 +32,10 @@ final class FullScreenImageViewController: UIViewController {
         return hideStatusBar
     }
 
+    //override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+    //    return .slide
+    //}
+
     // MARK: - Subviews
 
     private var closeButton: UIButton = {

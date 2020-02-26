@@ -8,6 +8,7 @@
 
 import UIKit
 
+// TODO: rename `SplitScrollableView`
 final class ScrollablePadView<T: UIView>: UIView {
     public let scrollView = ParallaxScrollView()
     public let contentView = T()
