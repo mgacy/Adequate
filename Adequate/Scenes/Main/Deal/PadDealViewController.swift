@@ -367,7 +367,7 @@ extension PadDealViewController {
             case .regular:
                 rootView.activateRegularConstraints()
                 view.addSubview(pagedImageView)
-                barBackingView.leftLabelInset = AppTheme.sideMargin
+                barBackingView.leftLabelInset = view.layoutMargins.left
                 NSLayoutConstraint.activate(sharedRegularConstraints)
             default:
                 log.error("Unexpected horizontalSizeClass: \(traitCollection.horizontalSizeClass)")
