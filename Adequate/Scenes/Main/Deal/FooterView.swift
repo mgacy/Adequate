@@ -87,6 +87,19 @@ final class FooterView: UIView {
         return stackView
     }()
 
+    //private var initialSetupDone = false
+
+    // Gradient
+    /*
+    // TODO: add `didSet` and call function to set gradient(?)
+    public var gradientMaskHeight: CGFloat = 8.0
+
+    private lazy var gradientMaskLayer: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.colors = [UIColor.clear.cgColor, UIColor.white.cgColor]
+        return gradient
+    }()
+    */
     // MARK: - Lifecycle
 
     convenience init() {
@@ -105,6 +118,7 @@ final class FooterView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        //layoutGradientMask()
     }
 
     // MARK: - Configuration
@@ -113,6 +127,7 @@ final class FooterView: UIView {
         buyButton.addTarget(self, action: #selector(buy(_:)), for: .touchUpInside)
         buyButton.isHidden = true
         addSubview(stackView)
+        //layer.mask = gradientMaskLayer
         setupConstraints()
     }
 
@@ -278,3 +293,20 @@ extension FooterView: Themeable {
         buyButton.backgroundColor = theme.tint
     }
 }
+/*
+// MARK: - GradientMask
+extension FooterView {
+
+    enum GradientMaskConstants {
+        static var height: CGFloat = 8.0
+    }
+
+    private func layoutGradientMask() {
+        // Adjust gradient
+        gradientMaskLayer.frame = bounds
+        // TODO: move the following into a separate function? - `foo(height: CGFloat, frame: CGRect)`
+        let gradientEndLocation = gradientMaskHeight / frame.height
+        gradientMaskLayer.locations = [0, NSNumber(value: Double(gradientEndLocation))]
+    }
+}
+*/
