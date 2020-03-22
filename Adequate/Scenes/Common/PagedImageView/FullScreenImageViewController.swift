@@ -19,6 +19,7 @@ final class FullScreenImageViewController: UIViewController {
     }
 
     // TODO: rename `interactionController?
+    /// Maintain a strong reference to `transitioningDelegate`
     private var transitionController: FullScreenImageTransitionController?
 
     private var initialSetupDone = false
