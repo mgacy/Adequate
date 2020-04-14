@@ -18,7 +18,7 @@ protocol SettingsViewControllerDelegate: class {
 
 // MARK: - View
 
-class SettingsViewController: UITableViewController {
+final class SettingsViewController: UITableViewController {
     typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
 
     weak var delegate: SettingsViewControllerDelegate? = nil

@@ -36,48 +36,38 @@ final class WelcomeViewController: UIViewController {
         return label
     }()
 
-    private lazy var stackView: UIStackView = {
+    private lazy var labelStack: UIStackView = {
         let view = UIStackView(arrangedSubviews: [titleLabel, bodyLabel])
         view.axis = .vertical
         view.alignment = .fill
         view.distribution = .fillEqually
-        //view.spacing = 5.0
+        //view.spacing = 8.0
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     // MARK: - Lifecycle
 
-    override func loadView() {
-        let view = UIView()
-        view.addSubview(stackView)
-        self.view = view
-        setupConstraints()
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - View Methods
 
     private func setupView() {
         view.backgroundColor = ColorCompatibility.systemBackground
+        view.addSubview(labelStack)
+        setupConstraints()
     }
 
     private func setupConstraints() {
-        // TODO: use readableContentGuide
+        let guide = view.readableContentGuide
+        //let guide = view.layoutMarginsGuide
         NSLayoutConstraint.activate([
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16.0),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16.0),
+            labelStack.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0),
+            labelStack.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            labelStack.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
         ])
     }
-
 }

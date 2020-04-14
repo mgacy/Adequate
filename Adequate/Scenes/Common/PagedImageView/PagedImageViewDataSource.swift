@@ -18,7 +18,7 @@ protocol PagedImageViewDataSourceType: UICollectionViewDataSource, Themeable {
 
 // MARK: - Implementation
 
-class PagedImageViewDataSource: NSObject, PagedImageViewDataSourceType {
+final class PagedImageViewDataSource: NSObject, PagedImageViewDataSourceType {
 
     private let imageService: ImageServiceType
 

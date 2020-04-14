@@ -39,7 +39,7 @@ extension SwipeDismissable where Self: UIViewController {
 
 // MARK: - Transition Controller
 
-class SlideTransitionController: NSObject {
+final class SlideTransitionController: NSObject {
     typealias ViewControllerType = UIViewController & SwipeDismissable
 
     // TODO: replace with delegate protocol?

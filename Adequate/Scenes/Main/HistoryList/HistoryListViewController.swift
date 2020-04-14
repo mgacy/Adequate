@@ -46,9 +46,8 @@ final class HistoryListViewController: UIViewController {
     }()
 
     private lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .plain)
+        let tv = UITableView(frame: self.defaultFrame, style: .plain)
         tv.tableFooterView = UIView() // Prevent empty rows
-        tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     }()
 
@@ -69,13 +68,7 @@ final class HistoryListViewController: UIViewController {
     }
 
     override func loadView() {
-        super.loadView()
-        //let view = UIView()
-        view.addSubview(tableView)
-        navigationItem.leftBarButtonItem = settingsButton
-        navigationItem.rightBarButtonItem = dealButton
-        //self.view = view
-        setupConstraints()
+        self.view = tableView
     }
 
     override func viewDidLoad() {
@@ -98,30 +91,22 @@ final class HistoryListViewController: UIViewController {
 
     private func setupView() {
         title = L10n.history
+        navigationItem.leftBarButtonItem = settingsButton
+        navigationItem.rightBarButtonItem = dealButton
+
         //navigationController?.navigationBar.barTintColor = ColorCompatibility.systemBackground
+        //navigationController?.navigationBar.tintColor = ColorCompatibility.label
         //navigationController?.navigationBar.prefersLargeTitles = true
 
         // Try to fix UIRefreshControl issues
         edgesForExtendedLayout = [.all] // [.top]?
         extendedLayoutIncludesOpaqueBars = true
 
-        //settingsButton.tintColor = ColorCompatibility.label
-        //dealButton.tintColor = ColorCompatibility.label
         //view.backgroundColor = ColorCompatibility.systemBackground
         //tableView.backgroundColor = ColorCompatibility.systemBackground
 
         setupTableView()
         observationTokens = setupObservations()
-    }
-
-    private func setupConstraints() {
-        let guide = view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
-            tableView.topAnchor.constraint(equalTo: guide.topAnchor),
-            tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
     }
 
     private func setupTableView() {
@@ -130,6 +115,7 @@ final class HistoryListViewController: UIViewController {
         tableView.estimatedRowHeight = 88.0
         tableView.refreshControl = refreshControl
         tableView.separatorStyle = .none
+        //tableView.cellLayoutMarginsFollowReadableWidth = true
         tableView.register(cellType: HistoryListCell.self)
     }
 
@@ -204,6 +190,7 @@ extension HistoryListViewController: ViewStateRenderable {
             tableView.restore()
         case .result(let diff):
             // TODO: ensure tableView.backgroundView == nil?
+            // FIXME: how should this be handled now that iOS 13 is out of beta?
             if #available(iOS 9999, *) { // Swift 5.1 returns true
                 tableView.performBatchUpdates({
                     tableView.deleteRows(at: diff.deletedIndexPaths, with: .fade)
@@ -245,8 +232,7 @@ extension HistoryListViewController: ThemeObserving {
 extension HistoryListViewController: Themeable {
     func apply(theme: ColorTheme) {
         // accentColor
-        settingsButton.tintColor = theme.tint
-        dealButton.tintColor = theme.tint
+        navigationController?.navigationBar.tintColor = theme.tint
 
         // backgroundColor
         navigationController?.navigationBar.barTintColor = theme.systemBackground

@@ -6,7 +6,7 @@
 import UIKit
 
 // https://stackoverflow.com/a/32785683/4472195
-class PaddingLabel: UILabel {
+final class PaddingLabel: UILabel {
 
     let padding: UIEdgeInsets
 

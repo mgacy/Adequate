@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DimmingPresentationController: UIPresentationController {
+final class DimmingPresentationController: UIPresentationController {
 
     private let dimmmingColor: UIColor = .black
     private let dimmingAlpha: CGFloat = 0.5

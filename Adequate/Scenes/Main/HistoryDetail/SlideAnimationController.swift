@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SlideAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
+final class SlideAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
 
     enum TransitionType {
         case presenting

@@ -17,7 +17,7 @@ protocol ImageCellDelegate: class {
 
 // MARK: - Cell
 
-class ImageCell: UICollectionViewCell {
+final class ImageCell: UICollectionViewCell {
 
     // MARK: - A
     weak var delegate: ImageCellDelegate?
@@ -37,8 +37,9 @@ class ImageCell: UICollectionViewCell {
         return view
     }()
 
+    // TODO: subclass UIImageView and add relevant subviews
     private lazy var stateView: StateView = {
-        let view = StateView()
+        let view = StateView(frame: frame)
         view.emptyMessageText = ""
         view.loadingMessageText = nil
         view.onRetry = { [weak self] in
@@ -67,21 +68,17 @@ class ImageCell: UICollectionViewCell {
     }
 
     override func layoutSubviews() {
+        // TODO: do we need to call super?
         super.layoutSubviews()
         imageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
-
-        // TODO: should there be a max width?
-        let stateViewWidth = frame.width - AppTheme.spacing * 2.0
-        let stateViewHeight = frame.height - AppTheme.spacing * 2.0
-        stateView.frame = CGRect(x: AppTheme.spacing, y: AppTheme.spacing,
-                                 width: stateViewWidth, height: stateViewHeight)
+        stateView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
     }
 
     // MARK: - Configuration
 
     private func configure() {
-        addSubview(imageView)
-        addSubview(stateView)
+        contentView.addSubview(imageView)
+        contentView.addSubview(stateView)
     }
 
     // MARK: - Actions
@@ -129,6 +126,7 @@ extension ImageCell: ViewStateRenderable {
     func render(_ viewState: ViewState<ResultType>) {
         stateView.render(viewState)
         if case .result(let image) = viewState {
+            // FIXME: cannot animate `.isHidden`
             UIView.animate(withDuration: 0.3, animations: {
                 self.stateView.isHidden = true
                 self.imageView.image = image

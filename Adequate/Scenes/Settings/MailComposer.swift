@@ -8,7 +8,7 @@
 
 import MessageUI
 
-class MailComposer: NSObject, MFMailComposeViewControllerDelegate {
+final class MailComposer: NSObject, MFMailComposeViewControllerDelegate {
     // TODO: use `Result<MFMailComposeResult, Error>`?
     typealias CompletionHandler = (MFMailComposeResult) -> Void
 

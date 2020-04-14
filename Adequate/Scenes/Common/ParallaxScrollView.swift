@@ -9,7 +9,7 @@
 
 import UIKit
 
-class ParallaxScrollView: UIScrollView {
+final class ParallaxScrollView: UIScrollView {
     public typealias ParallaxHeaderHandlerBlock = (_ parallaxHeader: ParallaxScrollView) -> Void
 
     /// Block to handle parallax header scrolling.

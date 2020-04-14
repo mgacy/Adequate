@@ -9,7 +9,7 @@
 import UIKit
 import SafariServices
 
-class SettingsCoordinator: BaseCoordinator {
+final class SettingsCoordinator: BaseCoordinator {
     typealias CoordinationResult = Void
     typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
 
