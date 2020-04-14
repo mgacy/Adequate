@@ -29,3 +29,12 @@ extension UIViewController {
         removeFromParent()
     }
 }
+
+// MARK: - Properties
+extension UIViewController {
+
+    /// Best guess at a correct frame to use when using a custom view in `loadView()`.
+    var defaultFrame: CGRect {
+        return parent?.view.frame ?? UIScreen.main.bounds
+    }
+}

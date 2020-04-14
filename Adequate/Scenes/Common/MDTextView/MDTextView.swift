@@ -9,7 +9,7 @@
 import UIKit
 import Down
 
-class MDTextView: UITextView {
+final class MDTextView: UITextView {
 
     // MARK: - Properties
 

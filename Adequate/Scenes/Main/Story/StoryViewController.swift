@@ -17,7 +17,7 @@ protocol StoryViewControllerDelegate: class {
 
 // MARK: - View Controller
 
-final class StoryViewController: UIViewController {
+final class StoryViewController: BaseViewController<ScrollableView<StoryContentView>> {
     typealias Dependencies = HasDataProvider & HasThemeManager
 
     weak var delegate: StoryViewControllerDelegate?
@@ -25,7 +25,6 @@ final class StoryViewController: UIViewController {
     private let dataProvider: DataProviderType
     private let themeManager: ThemeManagerType
 
-    private var observationTokens: [ObservationToken] = []
     private var viewState: ViewState<Deal> {
         didSet {
             render(viewState)
@@ -41,39 +40,6 @@ final class StoryViewController: UIViewController {
 
     // TODO: add `StateView`?
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = FontBook.mainTitle
-        label.textAlignment = .left
-        label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let bodyText: MDTextView = {
-        let styler = MDStyler()
-        let view = MDTextView(styler: styler)
-        view.adjustsFontForContentSizeCategory = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private lazy var stackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [titleLabel, bodyText])
-        view.axis = .vertical
-        view.alignment = .fill
-        view.spacing = 8.0
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private let scrollView: UIScrollView = {
-        let view = UIScrollView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
     // MARK: - Lifecycle
 
     init(depenedencies: Dependencies) {
@@ -87,58 +53,15 @@ final class StoryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func loadView() {
-        super.loadView()
-        view.addSubview(scrollView)
-        scrollView.addSubview(stackView)
-        navigationItem.leftBarButtonItem = dealButton
-        setupConstraints()
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupView()
-    }
-    /*
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
-    */
-
-    deinit { observationTokens.forEach { $0.cancel() } }
-
     // MARK: - View Methods
 
-    private func setupView() {
+    override func setupView() {
+        navigationItem.leftBarButtonItem = dealButton
         navigationController?.applyStyle(.hiddenSeparator)
         title = L10n.story
-        observationTokens = setupObservations()
     }
 
-    private func setupConstraints() {
-        let guide = view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-            // scrollView
-            scrollView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
-            scrollView.topAnchor.constraint(equalTo: guide.topAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            // stackView
-            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: AppTheme.sideMargin),
-            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: AppTheme.spacing * 2.0),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -AppTheme.sideMargin),
-            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: AppTheme.spacing * -2.0),
-            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: AppTheme.widthInset),
-        ])
-    }
-
-    private func setupObservations() -> [ObservationToken] {
+    override func setupObservations() -> [ObservationToken] {
         let dealToken = dataProvider.addDealObserver(self) { vc, viewState in
             vc.viewState = viewState
         }
@@ -164,8 +87,8 @@ extension StoryViewController: ViewStateRenderable {
         case .loading:
             break
         case .result(let deal):
-            titleLabel.text = deal.story.title
-            bodyText.markdownText = deal.story.body
+            rootView.contentView.title = deal.story.title
+            rootView.contentView.body = deal.story.body
         case .error(let error):
             log.error("\(#function): \(error.localizedDescription)")
         }
@@ -186,22 +109,20 @@ extension StoryViewController: ThemeObserving {
 extension StoryViewController: Themeable {
     func apply(theme: ColorTheme) {
         // accentColor
-        dealButton.tintColor = theme.tint
+        navigationController?.navigationBar.tintColor = theme.tint
 
         // backgroundColor
-        view.backgroundColor = theme.systemBackground
         //navigationController?.navigationBar.barTintColor = theme.label
         navigationController?.navigationBar.barTintColor = theme.systemBackground
         //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
 
         // foreground
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: theme.label]
-        titleLabel.textColor = theme.label
         //navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
         //setNeedsStatusBarAppearanceUpdate()
 
         // Subviews
-        bodyText.apply(theme: theme)
+        rootView.apply(theme: theme)
     }
 }
 

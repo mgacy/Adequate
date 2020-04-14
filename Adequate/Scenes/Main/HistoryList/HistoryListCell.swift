@@ -124,7 +124,7 @@ final class HistoryListCell: UITableViewCell {
     }
 
     // MARK: Animation
-
+    // TODO: move into enum
     private let brightnessDelta: CGFloat = 0.25
     private let animationDuration: TimeInterval = 0.2
 
@@ -199,6 +199,7 @@ extension HistoryListCell {
         cardView.backgroundColor = theme.backgroundColor
         // foreground
         titleLabel.textColor = theme.foreground.textColor
+        // TODO: use secondaryText with corresponding UIUserInterfaceStyle on iOS 13 (use new UIColor initializers)
         dateLabel.textColor = theme.foreground.textColor.withAlphaComponent(0.6)
     }
 }

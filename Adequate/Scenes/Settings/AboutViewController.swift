@@ -17,7 +17,7 @@ protocol AboutViewControllerDelegate: class {
 
 // MARK: - View
 
-class AboutViewController: UITableViewController {
+final class AboutViewController: UITableViewController {
     //typealias Dependencies = HasThemeManager
 
     weak var delegate: AboutViewControllerDelegate? = nil

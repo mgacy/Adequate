@@ -9,7 +9,7 @@
 import UIKit
 import Promise
 
-class FullScreenImageViewController: UIViewController {
+final class FullScreenImageViewController: UIViewController {
 
     weak var delegate: FullScreenImageDelegate?
     let imageSource: Promise<UIImage>
@@ -19,7 +19,10 @@ class FullScreenImageViewController: UIViewController {
     }
 
     // TODO: rename `interactionController?
+    /// Maintain a strong reference to `transitioningDelegate`
     private var transitionController: FullScreenImageTransitionController?
+
+    private var initialSetupDone = false
 
     // MARK: - Appearance
 
@@ -29,6 +32,10 @@ class FullScreenImageViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return hideStatusBar
     }
+
+    //override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+    //    return .slide
+    //}
 
     // MARK: - Subviews
 
@@ -72,14 +79,6 @@ class FullScreenImageViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func loadView() {
-        super.loadView()
-        view.addSubview(activityIndicator)
-        view.addSubview(zoomingImageView)
-        view.addSubview(closeButton)
-        setupConstraints()
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -114,6 +113,11 @@ class FullScreenImageViewController: UIViewController {
 
     private func setupView() {
         view.backgroundColor = backgroundColor
+
+        view.addSubview(activityIndicator)
+        view.addSubview(zoomingImageView)
+        view.addSubview(closeButton)
+        setupConstraints()
 
         //zoomingImageView.zoomingImageDelegate = self
         closeButton.addTarget(self, action: #selector(dismissView(_:)), for: .touchUpInside)
@@ -159,5 +163,16 @@ class FullScreenImageViewController: UIViewController {
 
     @objc private func dismissView(_ sender: UIButton) {
         delegate?.dismissFullScreenImage()
+    }
+}
+
+// MARK: - Layout
+extension FullScreenImageViewController {
+
+    override func viewDidLayoutSubviews() {
+        if !initialSetupDone {
+            zoomingImageView.updateZoomScale()
+            initialSetupDone = true
+        }
     }
 }

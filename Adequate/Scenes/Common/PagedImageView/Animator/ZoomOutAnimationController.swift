@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
+final class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
 
     private let transitionDuration: TimeInterval = 0.3
     private let pagedImageView: PagedImageView

@@ -124,6 +124,9 @@ class MehSyncClient: MehSyncClientType {
         }
     }
 
+    // TODO: add private watch<T: GraphQLQuery>(query:cachePolicy:queue:resultHandler:) -> GraphQLQueryWatcher<T> method?
+    // TODO: how would we handle the type of the result?
+
     // MARK: - Cache
 
     // TODO: simply return Promise?

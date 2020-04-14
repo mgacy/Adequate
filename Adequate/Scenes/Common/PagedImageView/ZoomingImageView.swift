@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ZoomingImageView: UIScrollView {
+final class ZoomingImageView: UIScrollView {
 
     weak var zoomingImageDelegate: ZoomingImageViewDelegate?
     var imageView: UIImageView = UIImageView()
@@ -91,7 +91,7 @@ class ZoomingImageView: UIScrollView {
         }
     }
 
-    private func updateZoomScale() {
+    func updateZoomScale() {
         let imageSize = imageView.image?.size ?? CGSize(width: 1, height: 1)
         //let imageSize = imageView.bounds.size
         let viewSize = bounds.size
