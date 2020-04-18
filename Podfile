@@ -20,6 +20,11 @@ def test_pods
   pod 'SnapshotTesting', '~> 1.7.2'
 end
 
+# # UITesting
+def ui_test_pods
+  pod 'Swifter', '~> 1.4.7'
+end
+
 target 'Adequate' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
@@ -40,4 +45,9 @@ target 'AdequateTests' do
   use_frameworks!
   basic_pods
   test_pods
+end
+
+target 'AdequateUITests' do
+  use_frameworks!
+  ui_test_pods
 end

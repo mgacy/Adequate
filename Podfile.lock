@@ -26,6 +26,7 @@ PODS:
     - SQLite.swift/standard (= 0.12.2)
   - SQLite.swift/standard (0.12.2)
   - Starscream (3.0.6)
+  - Swifter (1.4.7)
   - SwiftyBeaver (1.9.1)
 
 DEPENDENCIES:
@@ -36,6 +37,7 @@ DEPENDENCIES:
   - Down (from `https://github.com/mgacy/Down.git`, branch `hotfix/public-initializers`)
   - Promises
   - SnapshotTesting (~> 1.7.2)
+  - Swifter (~> 1.4.7)
   - SwiftyBeaver
 
 SPEC REPOS:
@@ -53,6 +55,7 @@ SPEC REPOS:
     - SnapshotTesting
     - SQLite.swift
     - Starscream
+    - Swifter
     - SwiftyBeaver
 
 EXTERNAL SOURCES:
@@ -80,8 +83,9 @@ SPEC CHECKSUMS:
   SnapshotTesting: 8caa6661fea7c8019d5b46de77c16bab99c36c5c
   SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
+  Swifter: 2327ef5d872c638aebab79646ce494af508b0c8f
   SwiftyBeaver: a1f5691458561414bcfab51874b2b7445451602b
 
-PODFILE CHECKSUM: 278eb946f4ed3bd295438b1b781f8956dd33ceb6
+PODFILE CHECKSUM: 69bbe654c7749216c81aeed273b6dba045a14254
 
 COCOAPODS: 1.8.4
