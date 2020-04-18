@@ -22,19 +22,6 @@ final class PriceFormatter: PriceFormatting {
 
     // TODO: handle `$29.97 (for 3) at Amazon`, etc
     // TODO: handle `51.49 @ Walmart`
-    // TODO: use `#""" ... """#` so we can avoid the additional escape characters
-//    private let priceComparisonPattern = """
-//        \\[
-//        (\\\\)? # Older specs looked like `[\\$199 at Walmart]`
-//        (?<price>\\$[0-9.]*)
-//        \\s.*at\\s
-//        (?<store>.*)
-//        \\]
-//        \\(
-//        (?<link>https://w{3}\\..*)
-//        \\)
-//        """
-
     private let priceComparisonPattern = ##"""
         \[
         (\\)? # Older specs looked like `[\$199 at Walmart]`
@@ -65,9 +52,10 @@ final class PriceFormatter: PriceFormatting {
         return (priceText: priceText, priceComparison: priceComparison)
     }
 
-    // MARK: - Parsers
+    // MARK: - Parsing
 
     private func parsePriceRange(for deal: Deal) -> PriceRange {
+        // TODO: verify that minimumLimit <= maximumLimit?
         let minQuantity = Double(deal.purchaseQuantity?.minimumLimit ?? 1)
         let prices = deal.items.map { $0.price * minQuantity }
         guard let minPrice = prices.min(), let maxPrice = prices.max() else {
@@ -98,9 +86,10 @@ final class PriceFormatter: PriceFormatting {
         }
     }
 
-    // MARK: - Formatters
+    // MARK: - Formatting
 
     private func formatPriceComparison(_ priceComparison: PriceComparison) -> String {
+        // TODO: use formatter on this too?
         // TODO: handle localization (including price conversion?)
         return "\(priceComparison.price) at \(priceComparison.store)"
     }

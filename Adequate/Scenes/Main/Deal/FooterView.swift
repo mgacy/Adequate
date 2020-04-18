@@ -71,7 +71,7 @@ final class FooterView: UIView {
         button.setTitle(L10n.buy, for: .normal)
         button.setTitle(L10n.soldOut, for: .disabled)
         button.setTitleColor(button.tintColor, for: .normal)
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 5 // FIXME: use standard corner radius
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = ColorCompatibility.systemBackground
         return button
@@ -82,7 +82,7 @@ final class FooterView: UIView {
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.distribution = .fillEqually
-        stackView.spacing = 5.0
+        stackView.spacing = 5.0 // FIXME: isn't this pretty arbitrary?
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
