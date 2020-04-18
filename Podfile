@@ -16,9 +16,9 @@ def basic_pods
 end
 
 # Testing
-# def test_pods
-#
-# end
+def test_pods
+  pod 'SnapshotTesting', '~> 1.7.2'
+end
 
 target 'Adequate' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -26,13 +26,6 @@ target 'Adequate' do
 
   # Pods for Adequate
   basic_pods
-
-  target 'AdequateTests' do
-    inherit! :search_paths
-    # Pods for testing
-    # test_pods
-  end
-
 end
 
 target 'NotificationService' do
@@ -43,3 +36,8 @@ target 'DealWidget' do
   use_frameworks!
 end
 
+target 'AdequateTests' do
+  use_frameworks!
+  basic_pods
+  test_pods
+end

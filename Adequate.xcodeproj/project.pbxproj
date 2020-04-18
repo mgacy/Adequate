@@ -1078,6 +1078,7 @@
 				C9DAC4602147688500D6558B /* Sources */,
 				C9DAC4612147688500D6558B /* Frameworks */,
 				C9DAC4622147688500D6558B /* Resources */,
+				909440A87AA5292091FC6CB4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1330,6 +1331,52 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		909440A87AA5292091FC6CB4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AdequateTests/Pods-AdequateTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AWSAppSync/AWSAppSync.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSAuthCore/AWSAuthCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCognitoIdentityProvider/AWSCognitoIdentityProvider.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCognitoIdentityProviderASF/AWSCognitoIdentityProviderASF.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSMobileClient/AWSMobileClient.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSSNS/AWSSNS.framework",
+				"${BUILT_PRODUCTS_DIR}/AppSyncRealTimeClient/AppSyncRealTimeClient.framework",
+				"${BUILT_PRODUCTS_DIR}/Down/Down.framework",
+				"${BUILT_PRODUCTS_DIR}/Promises/Promise.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
+				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
+				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyBeaver/SwiftyBeaver.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapshotTesting/SnapshotTesting.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSAppSync.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSAuthCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCognitoIdentityProvider.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCognitoIdentityProviderASF.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSMobileClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSSNS.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AppSyncRealTimeClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Down.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Promise.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyBeaver.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapshotTesting.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AdequateTests/Pods-AdequateTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C928547E21711A7C001E5993 /* Run Script - Increment Build Number */ = {
@@ -1829,7 +1876,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2A0C888224B2A6E4C04A0417 /* Pods-Adequate.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Adequate/Supporting/Adequate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -1847,7 +1893,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A10E1F662B42B187B9092DAB /* Pods-Adequate.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Adequate/Supporting/Adequate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -1865,7 +1910,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B8C0797C0CEA93133449D825 /* Pods-AdequateTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
@@ -1883,7 +1927,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2051B85EC3A666B97827537D /* Pods-AdequateTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;

@@ -21,6 +21,7 @@ PODS:
   - Down (0.9.0)
   - Promises (2.0.4)
   - ReachabilitySwift (5.0.0)
+  - SnapshotTesting (1.7.2)
   - SQLite.swift (0.12.2):
     - SQLite.swift/standard (= 0.12.2)
   - SQLite.swift/standard (0.12.2)
@@ -34,6 +35,7 @@ DEPENDENCIES:
   - AWSSNS
   - Down (from `https://github.com/mgacy/Down.git`, branch `hotfix/public-initializers`)
   - Promises
+  - SnapshotTesting (~> 1.7.2)
   - SwiftyBeaver
 
 SPEC REPOS:
@@ -48,6 +50,7 @@ SPEC REPOS:
     - AWSSNS
     - Promises
     - ReachabilitySwift
+    - SnapshotTesting
     - SQLite.swift
     - Starscream
     - SwiftyBeaver
@@ -74,10 +77,11 @@ SPEC CHECKSUMS:
   Down: 1cdbca4963b542d0ef34ebb3e10ff48382bdf761
   Promises: fcb83dc6be43294a8d30c343636ed1a45a8d2e0a
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  SnapshotTesting: 8caa6661fea7c8019d5b46de77c16bab99c36c5c
   SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   SwiftyBeaver: a1f5691458561414bcfab51874b2b7445451602b
 
-PODFILE CHECKSUM: 921ea63abc3c96d24c308ca18cbb812acac7407e
+PODFILE CHECKSUM: 278eb946f4ed3bd295438b1b781f8956dd33ceb6
 
 COCOAPODS: 1.8.4
