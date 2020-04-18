@@ -27,14 +27,6 @@ target 'Adequate' do
   # Pods for Adequate
   basic_pods
 
-  target 'NotificationService' do
-    inherit! :search_paths
-  end
-
-  target 'DealWidget' do
-    inherit! :search_paths
-  end
-
   target 'AdequateTests' do
     inherit! :search_paths
     # Pods for testing
@@ -42,3 +34,12 @@ target 'Adequate' do
   end
 
 end
+
+target 'NotificationService' do
+  use_frameworks!
+end
+
+target 'DealWidget' do
+  use_frameworks!
+end
+
