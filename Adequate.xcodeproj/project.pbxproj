@@ -84,6 +84,7 @@
 		C97AC2DA23B6AA3000B721AC /* ScrollableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97AC2D923B6AA3000B721AC /* ScrollableView.swift */; };
 		C98282F9237B9419002B55D9 /* CredentialsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98282F8237B9418002B55D9 /* CredentialsProvider.swift */; };
 		C984810A24463B9D005B9B69 /* PriceFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984810924463B9D005B9B69 /* PriceFormatter.swift */; };
+		C984810E2448F6D5005B9B69 /* PriceFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984810D2448F6D5005B9B69 /* PriceFormatterTests.swift */; };
 		C9848110244965DB005B9B69 /* Models+create.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984810F244965DB005B9B69 /* Models+create.swift */; };
 		C989E11722330B1C00DEAE89 /* SlideTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */; };
 		C989E119223734A700DEAE89 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = C989E118223734A600DEAE89 /* awsconfiguration.json */; };
@@ -325,6 +326,7 @@
 		C97AC2D923B6AA3000B721AC /* ScrollableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableView.swift; sourceTree = "<group>"; };
 		C98282F8237B9418002B55D9 /* CredentialsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsProvider.swift; sourceTree = "<group>"; };
 		C984810924463B9D005B9B69 /* PriceFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceFormatter.swift; sourceTree = "<group>"; };
+		C984810D2448F6D5005B9B69 /* PriceFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceFormatterTests.swift; sourceTree = "<group>"; };
 		C984810F244965DB005B9B69 /* Models+create.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models+create.swift"; sourceTree = "<group>"; };
 		C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTransitionController.swift; sourceTree = "<group>"; };
 		C989E118223734A600DEAE89 /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
@@ -765,6 +767,7 @@
 			isa = PBXGroup;
 			children = (
 				C9DAC4682147688500D6558B /* AdequateTests.swift */,
+				C984810D2448F6D5005B9B69 /* PriceFormatterTests.swift */,
 				C984810F244965DB005B9B69 /* Models+create.swift */,
 				C9DAC46A2147688500D6558B /* Info.plist */,
 			);
@@ -1570,6 +1573,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C984810E2448F6D5005B9B69 /* PriceFormatterTests.swift in Sources */,
 				C9DAC4692147688500D6558B /* AdequateTests.swift in Sources */,
 				C9848110244965DB005B9B69 /* Models+create.swift in Sources */,
 			);
