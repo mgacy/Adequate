@@ -1,26 +1,30 @@
 PODS:
-  - AWSAppSync (2.15.0):
-    - AWSCore (~> 2.12.0)
-    - ReachabilitySwift (~> 4.3.1)
+  - AppSyncRealTimeClient (1.1.6):
+    - Starscream (= 3.0.6)
+  - AWSAppSync (3.1.2):
+    - AppSyncRealTimeClient (~> 1.1)
+    - AWSCore (~> 2.13.0)
+    - ReachabilitySwift (~> 5.0.0)
     - SQLite.swift (~> 0.12.2)
-  - AWSAuthCore (2.12.7):
-    - AWSCore (= 2.12.7)
-  - AWSCognitoIdentityProvider (2.12.7):
+  - AWSAuthCore (2.13.2):
+    - AWSCore (= 2.13.2)
+  - AWSCognitoIdentityProvider (2.13.2):
     - AWSCognitoIdentityProviderASF (= 1.0.1)
-    - AWSCore (= 2.12.7)
+    - AWSCore (= 2.13.2)
   - AWSCognitoIdentityProviderASF (1.0.1)
-  - AWSCore (2.12.7)
-  - AWSMobileClient (2.12.7):
-    - AWSAuthCore (= 2.12.7)
-    - AWSCognitoIdentityProvider (= 2.12.7)
-  - AWSSNS (2.12.7):
-    - AWSCore (= 2.12.7)
+  - AWSCore (2.13.2)
+  - AWSMobileClient (2.13.2):
+    - AWSAuthCore (= 2.13.2)
+    - AWSCognitoIdentityProvider (= 2.13.2)
+  - AWSSNS (2.13.2):
+    - AWSCore (= 2.13.2)
   - Down (0.9.0)
   - Promises (2.0.4)
-  - ReachabilitySwift (4.3.1)
+  - ReachabilitySwift (5.0.0)
   - SQLite.swift (0.12.2):
     - SQLite.swift/standard (= 0.12.2)
   - SQLite.swift/standard (0.12.2)
+  - Starscream (3.0.6)
   - SwiftyBeaver (1.9.1)
 
 DEPENDENCIES:
@@ -34,6 +38,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AppSyncRealTimeClient
     - AWSAppSync
     - AWSAuthCore
     - AWSCognitoIdentityProvider
@@ -44,6 +49,7 @@ SPEC REPOS:
     - Promises
     - ReachabilitySwift
     - SQLite.swift
+    - Starscream
     - SwiftyBeaver
 
 EXTERNAL SOURCES:
@@ -53,23 +59,25 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Down:
-    :commit: 3bccd0573ec065a1a846e54401e297ca8c789126
+    :commit: 90341e23c49097297af4674f8b413deeb16bd17b
     :git: https://github.com/mgacy/Down.git
 
 SPEC CHECKSUMS:
-  AWSAppSync: 38d681c93c2909e7fb8d4e1d1f0e816684f9f64f
-  AWSAuthCore: 288cb737a35ff031fbf42edaa8d0062328791d4e
-  AWSCognitoIdentityProvider: 4998bdbfbafe5038dae0237a598580e102e7b6b5
+  AppSyncRealTimeClient: 4a2ccdc1722750a1f4d76e216f9bfb1cf12f10de
+  AWSAppSync: 4b91c48712913ca4f2bb38273280190e65d59a45
+  AWSAuthCore: 890aaf36fa3a913a5948851a576c02456bed4c5b
+  AWSCognitoIdentityProvider: 68455a8d170bb6cd0ec17d261da0ab3d623232b0
   AWSCognitoIdentityProviderASF: f94f1a502e72ef3d0a1de93e10bf7a79c8698118
-  AWSCore: 2f0f88ae94a63a198274d683c7d0e18709d7090b
-  AWSMobileClient: bf1fb0868f9187141ca7b69220383c14878c0a29
-  AWSSNS: ec093ba2aeea026c744ea372bc5f055b106b38c6
+  AWSCore: 8e878a5b1b99cdf3d7df0c1c86be0bfcd6294c11
+  AWSMobileClient: bdec2a26617590bd3eece9bf208005bc4682d424
+  AWSSNS: 7c6f2972cb95fefd07dde5e5f05acdd193b3a122
   Down: 1cdbca4963b542d0ef34ebb3e10ff48382bdf761
   Promises: fcb83dc6be43294a8d30c343636ed1a45a8d2e0a
-  ReachabilitySwift: 4032e2f59586e11e3b0ebe15b167abdd587a388b
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
+  Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   SwiftyBeaver: a1f5691458561414bcfab51874b2b7445451602b
 
-PODFILE CHECKSUM: 089da915f9f5c4f08fd0532d7054049cde8db30d
+PODFILE CHECKSUM: 3c34efcf213140e12040144e744cb68d024b2b0b
 
 COCOAPODS: 1.8.4
