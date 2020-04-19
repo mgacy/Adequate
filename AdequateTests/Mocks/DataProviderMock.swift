@@ -1,5 +1,5 @@
 //
-//  MockDataProvider.swift
+//  DataProviderMock.swift
 //  Adequate
 //
 //  Created by Mathew Gacy on 9/4/19.
@@ -8,8 +8,9 @@
 
 import AWSAppSync
 import class Promise.Promise // import class to avoid name collision with AWSAppSync.Promise
+@testable import Adequate
 
-class MockDataProvider: DataProviderType {
+class DataProviderMock: DataProviderType {
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     var dealState: ViewState<Deal> {
