@@ -175,6 +175,8 @@
 		C9E0D7B2244BD6BE00032DE1 /* ImageServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */; };
 		C9E0D7B4244BF14900032DE1 /* ThemeManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7B3244BF14900032DE1 /* ThemeManagerMock.swift */; };
 		C9E0D7B8244C10B200032DE1 /* DataProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7B7244C10B200032DE1 /* DataProviderMock.swift */; };
+		C9E0D7BA244C19A600032DE1 /* NotificationManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7B9244C19A600032DE1 /* NotificationManagerMock.swift */; };
+		C9E0D7BC244C1AFA00032DE1 /* UserDefaultsManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7BB244C1AFA00032DE1 /* UserDefaultsManagerMock.swift */; };
 		C9E3223921C2F3AE0088AF9E /* HistoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E3223821C2F3AE0088AF9E /* HistoryListViewController.swift */; };
 		C9EF22CF216C616D00D9DD22 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF22CE216C616D00D9DD22 /* NotificationService.swift */; };
 		C9EF22D3216C616D00D9DD22 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9EF22CC216C616D00D9DD22 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -422,6 +424,8 @@
 		C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServiceMock.swift; sourceTree = "<group>"; };
 		C9E0D7B3244BF14900032DE1 /* ThemeManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManagerMock.swift; sourceTree = "<group>"; };
 		C9E0D7B7244C10B200032DE1 /* DataProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderMock.swift; sourceTree = "<group>"; };
+		C9E0D7B9244C19A600032DE1 /* NotificationManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManagerMock.swift; sourceTree = "<group>"; };
+		C9E0D7BB244C1AFA00032DE1 /* UserDefaultsManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManagerMock.swift; sourceTree = "<group>"; };
 		C9E3223821C2F3AE0088AF9E /* HistoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListViewController.swift; sourceTree = "<group>"; };
 		C9EF22CC216C616D00D9DD22 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EF22CE216C616D00D9DD22 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -959,7 +963,9 @@
 			children = (
 				C9E0D7B7244C10B200032DE1 /* DataProviderMock.swift */,
 				C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */,
+				C9E0D7B9244C19A600032DE1 /* NotificationManagerMock.swift */,
 				C9E0D7B3244BF14900032DE1 /* ThemeManagerMock.swift */,
+				C9E0D7BB244C1AFA00032DE1 /* UserDefaultsManagerMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1679,7 +1685,9 @@
 			files = (
 				C9DAC4692147688500D6558B /* AdequateTests.swift in Sources */,
 				C9E0D7B4244BF14900032DE1 /* ThemeManagerMock.swift in Sources */,
+				C9E0D7BA244C19A600032DE1 /* NotificationManagerMock.swift in Sources */,
 				C9E0D7B8244C10B200032DE1 /* DataProviderMock.swift in Sources */,
+				C9E0D7BC244C1AFA00032DE1 /* UserDefaultsManagerMock.swift in Sources */,
 				C9E0D7B2244BD6BE00032DE1 /* ImageServiceMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
