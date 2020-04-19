@@ -173,6 +173,8 @@
 		C9DDB20821644E71004D7957 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20721644E71004D7957 /* FooterView.swift */; };
 		C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20921653AA5004D7957 /* PagedImageViewDataSource.swift */; };
 		C9E07FD0232C32B700CA2F8E /* DebugButtonComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E07FCF232C32B600CA2F8E /* DebugButtonComponentView.swift */; };
+		C9E0D7B2244BD6BE00032DE1 /* ImageServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */; };
+		C9E0D7B4244BF14900032DE1 /* ThemeManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7B3244BF14900032DE1 /* ThemeManagerMock.swift */; };
 		C9E3223921C2F3AE0088AF9E /* HistoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E3223821C2F3AE0088AF9E /* HistoryListViewController.swift */; };
 		C9EF22CF216C616D00D9DD22 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF22CE216C616D00D9DD22 /* NotificationService.swift */; };
 		C9EF22D3216C616D00D9DD22 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9EF22CC216C616D00D9DD22 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -418,6 +420,8 @@
 		C9DDB20721644E71004D7957 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		C9DDB20921653AA5004D7957 /* PagedImageViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageViewDataSource.swift; sourceTree = "<group>"; };
 		C9E07FCF232C32B600CA2F8E /* DebugButtonComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugButtonComponentView.swift; sourceTree = "<group>"; };
+		C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServiceMock.swift; sourceTree = "<group>"; };
+		C9E0D7B3244BF14900032DE1 /* ThemeManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManagerMock.swift; sourceTree = "<group>"; };
 		C9E3223821C2F3AE0088AF9E /* HistoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListViewController.swift; sourceTree = "<group>"; };
 		C9EF22CC216C616D00D9DD22 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EF22CE216C616D00D9DD22 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -768,6 +772,7 @@
 		C9DAC4672147688500D6558B /* AdequateTests */ = {
 			isa = PBXGroup;
 			children = (
+				C9E0D7AA244BB2EE00032DE1 /* Mocks */,
 				C9DAC4682147688500D6558B /* AdequateTests.swift */,
 				C9DAC46A2147688500D6558B /* Info.plist */,
 			);
@@ -948,6 +953,15 @@
 				C951885A21797D990097F49E /* Protocols */,
 			);
 			path = PagedImageView;
+			sourceTree = "<group>";
+		};
+		C9E0D7AA244BB2EE00032DE1 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */,
+				C9E0D7B3244BF14900032DE1 /* ThemeManagerMock.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		C9E3223721C2F37F0088AF9E /* HistoryList */ = {
@@ -1665,6 +1679,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9DAC4692147688500D6558B /* AdequateTests.swift in Sources */,
+				C9E0D7B4244BF14900032DE1 /* ThemeManagerMock.swift in Sources */,
+				C9E0D7B2244BD6BE00032DE1 /* ImageServiceMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
