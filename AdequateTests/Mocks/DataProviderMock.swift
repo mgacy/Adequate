@@ -25,8 +25,14 @@ class DataProviderMock: DataProviderType {
         }
     }
 
-    private var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
-    private var historyObservations: [UUID: (ViewState<[DealHistory]>) -> Void] = [:]
+    var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
+    var historyObservations: [UUID: (ViewState<[DealHistory]>) -> Void] = [:]
+
+    /// Response that will be returned from `getDeal(withID:)`
+    var dealResponse: Result<GetDealQuery.Data.GetDeal>!
+
+    /// Completion handler passed to `updateDealInBackground(_:fetchCompletionHandler:)`
+    var backgroundUpdateHandler: ((UIBackgroundFetchResult) -> Void)?
 
     // MARK: - Lifecycle
 
@@ -43,7 +49,14 @@ class DataProviderMock: DataProviderType {
     // MARK: - Get
 
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
-        return Promise(error: SyncClientError.myError(message: "Missing AWSAppSyncClient"))
+        switch dealResponse {
+        case .success(let deal):
+            return Promise(value: deal)
+        case .failure(let error):
+            return Promise(error: error)
+        case .none:
+            return Promise(error: SyncClientError.myError(message: "Missing AWSAppSyncClient"))
+        }
     }
 
     func getDealHistory(from: Date, to: Date) {}
@@ -55,6 +68,8 @@ class DataProviderMock: DataProviderType {
     // MARK: - Update
 
     func updateDealInBackground(_: DealDelta, fetchCompletionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // TODO: check and notify if we are replacing existing handler?
+        backgroundUpdateHandler = fetchCompletionHandler
         fetchCompletionHandler(.failed)
     }
 
@@ -108,5 +123,4 @@ class DataProviderMock: DataProviderType {
             observation(dealState)
         }
     }
-
 }
