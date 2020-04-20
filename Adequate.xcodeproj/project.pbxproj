@@ -179,9 +179,15 @@
 		C9E0D7BA244C19A600032DE1 /* NotificationManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7B9244C19A600032DE1 /* NotificationManagerMock.swift */; };
 		C9E0D7BC244C1AFA00032DE1 /* UserDefaultsManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7BB244C1AFA00032DE1 /* UserDefaultsManagerMock.swift */; };
 		C9E0D7BE244C1BE200032DE1 /* AppDependencyMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7BD244C1BE200032DE1 /* AppDependencyMock.swift */; };
+		C9E0D7C0244CEBC900032DE1 /* StoryViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7BF244CEBC900032DE1 /* StoryViewControllerSnapshotTests.swift */; };
 		C9E0D7C2244CED2B00032DE1 /* SnapshotTestBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7C1244CED2B00032DE1 /* SnapshotTestBase.swift */; };
+		C9E0D7C4244CF0E900032DE1 /* DealViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7C3244CF0E900032DE1 /* DealViewControllerSnapshotTests.swift */; };
+		C9E0D7C6244CF1EE00032DE1 /* PadDealViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7C5244CF1EE00032DE1 /* PadDealViewControllerSnapshotTests.swift */; };
+		C9E0D7C8244CF42300032DE1 /* HistoryListViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7C7244CF42300032DE1 /* HistoryListViewControllerSnapshotTests.swift */; };
 		C9E0D7CA244CF50800032DE1 /* historyList.json in Resources */ = {isa = PBXBuildFile; fileRef = C9E0D7C9244CF50800032DE1 /* historyList.json */; };
 		C9E0D7CC244D060100032DE1 /* historyDetail.json in Resources */ = {isa = PBXBuildFile; fileRef = C9E0D7CB244D060100032DE1 /* historyDetail.json */; };
+		C9E0D7CE244D07CF00032DE1 /* HistoryDetailViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7CD244D07CF00032DE1 /* HistoryDetailViewControllerSnapshotTests.swift */; };
+		C9E0D7D1244D4C1B00032DE1 /* PadHistoryDetailViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7D0244D4C1B00032DE1 /* PadHistoryDetailViewControllerSnapshotTests.swift */; };
 		C9E3223921C2F3AE0088AF9E /* HistoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E3223821C2F3AE0088AF9E /* HistoryListViewController.swift */; };
 		C9EF22CF216C616D00D9DD22 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF22CE216C616D00D9DD22 /* NotificationService.swift */; };
 		C9EF22D3216C616D00D9DD22 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9EF22CC216C616D00D9DD22 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -433,9 +439,15 @@
 		C9E0D7B9244C19A600032DE1 /* NotificationManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManagerMock.swift; sourceTree = "<group>"; };
 		C9E0D7BB244C1AFA00032DE1 /* UserDefaultsManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManagerMock.swift; sourceTree = "<group>"; };
 		C9E0D7BD244C1BE200032DE1 /* AppDependencyMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependencyMock.swift; sourceTree = "<group>"; };
+		C9E0D7BF244CEBC900032DE1 /* StoryViewControllerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewControllerSnapshotTests.swift; sourceTree = "<group>"; };
 		C9E0D7C1244CED2B00032DE1 /* SnapshotTestBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotTestBase.swift; sourceTree = "<group>"; };
+		C9E0D7C3244CF0E900032DE1 /* DealViewControllerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealViewControllerSnapshotTests.swift; sourceTree = "<group>"; };
+		C9E0D7C5244CF1EE00032DE1 /* PadDealViewControllerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadDealViewControllerSnapshotTests.swift; sourceTree = "<group>"; };
+		C9E0D7C7244CF42300032DE1 /* HistoryListViewControllerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListViewControllerSnapshotTests.swift; sourceTree = "<group>"; };
 		C9E0D7C9244CF50800032DE1 /* historyList.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = historyList.json; sourceTree = "<group>"; };
 		C9E0D7CB244D060100032DE1 /* historyDetail.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = historyDetail.json; sourceTree = "<group>"; };
+		C9E0D7CD244D07CF00032DE1 /* HistoryDetailViewControllerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailViewControllerSnapshotTests.swift; sourceTree = "<group>"; };
+		C9E0D7D0244D4C1B00032DE1 /* PadHistoryDetailViewControllerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadHistoryDetailViewControllerSnapshotTests.swift; sourceTree = "<group>"; };
 		C9E3223821C2F3AE0088AF9E /* HistoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListViewController.swift; sourceTree = "<group>"; };
 		C9EF22CC216C616D00D9DD22 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EF22CE216C616D00D9DD22 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -788,6 +800,12 @@
 				C9E0D7AA244BB2EE00032DE1 /* Mocks */,
 				C9DAC4682147688500D6558B /* AdequateTests.swift */,
 				C9E0D7C1244CED2B00032DE1 /* SnapshotTestBase.swift */,
+				C9E0D7C3244CF0E900032DE1 /* DealViewControllerSnapshotTests.swift */,
+				C9E0D7C5244CF1EE00032DE1 /* PadDealViewControllerSnapshotTests.swift */,
+				C9E0D7CD244D07CF00032DE1 /* HistoryDetailViewControllerSnapshotTests.swift */,
+				C9E0D7D0244D4C1B00032DE1 /* PadHistoryDetailViewControllerSnapshotTests.swift */,
+				C9E0D7C7244CF42300032DE1 /* HistoryListViewControllerSnapshotTests.swift */,
+				C9E0D7BF244CEBC900032DE1 /* StoryViewControllerSnapshotTests.swift */,
 				C9DAC46A2147688500D6558B /* Info.plist */,
 			);
 			path = AdequateTests;
@@ -1709,14 +1727,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9E0D7CE244D07CF00032DE1 /* HistoryDetailViewControllerSnapshotTests.swift in Sources */,
+				C9E0D7C4244CF0E900032DE1 /* DealViewControllerSnapshotTests.swift in Sources */,
 				C9DAC4692147688500D6558B /* AdequateTests.swift in Sources */,
 				C9E0D7B4244BF14900032DE1 /* ThemeManagerMock.swift in Sources */,
 				C9E0D7BA244C19A600032DE1 /* NotificationManagerMock.swift in Sources */,
+				C9E0D7C6244CF1EE00032DE1 /* PadDealViewControllerSnapshotTests.swift in Sources */,
 				C9E0D7B8244C10B200032DE1 /* DataProviderMock.swift in Sources */,
+				C9E0D7C8244CF42300032DE1 /* HistoryListViewControllerSnapshotTests.swift in Sources */,
 				C9E0D7C2244CED2B00032DE1 /* SnapshotTestBase.swift in Sources */,
 				C9E0D7BE244C1BE200032DE1 /* AppDependencyMock.swift in Sources */,
+				C9E0D7D1244D4C1B00032DE1 /* PadHistoryDetailViewControllerSnapshotTests.swift in Sources */,
 				C9E0D7BC244C1AFA00032DE1 /* UserDefaultsManagerMock.swift in Sources */,
 				C9E0D7B2244BD6BE00032DE1 /* ImageServiceMock.swift in Sources */,
+				C9E0D7C0244CEBC900032DE1 /* StoryViewControllerSnapshotTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
