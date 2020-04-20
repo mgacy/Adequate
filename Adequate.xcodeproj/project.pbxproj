@@ -174,9 +174,14 @@
 		C9E07FD0232C32B700CA2F8E /* DebugButtonComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E07FCF232C32B600CA2F8E /* DebugButtonComponentView.swift */; };
 		C9E0D7B2244BD6BE00032DE1 /* ImageServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */; };
 		C9E0D7B4244BF14900032DE1 /* ThemeManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7B3244BF14900032DE1 /* ThemeManagerMock.swift */; };
+		C9E0D7B6244C0C2D00032DE1 /* currentDeal.json in Resources */ = {isa = PBXBuildFile; fileRef = C9E0D7B5244C0C2D00032DE1 /* currentDeal.json */; };
 		C9E0D7B8244C10B200032DE1 /* DataProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7B7244C10B200032DE1 /* DataProviderMock.swift */; };
 		C9E0D7BA244C19A600032DE1 /* NotificationManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7B9244C19A600032DE1 /* NotificationManagerMock.swift */; };
 		C9E0D7BC244C1AFA00032DE1 /* UserDefaultsManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7BB244C1AFA00032DE1 /* UserDefaultsManagerMock.swift */; };
+		C9E0D7BE244C1BE200032DE1 /* AppDependencyMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7BD244C1BE200032DE1 /* AppDependencyMock.swift */; };
+		C9E0D7C2244CED2B00032DE1 /* SnapshotTestBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7C1244CED2B00032DE1 /* SnapshotTestBase.swift */; };
+		C9E0D7CA244CF50800032DE1 /* historyList.json in Resources */ = {isa = PBXBuildFile; fileRef = C9E0D7C9244CF50800032DE1 /* historyList.json */; };
+		C9E0D7CC244D060100032DE1 /* historyDetail.json in Resources */ = {isa = PBXBuildFile; fileRef = C9E0D7CB244D060100032DE1 /* historyDetail.json */; };
 		C9E3223921C2F3AE0088AF9E /* HistoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E3223821C2F3AE0088AF9E /* HistoryListViewController.swift */; };
 		C9EF22CF216C616D00D9DD22 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF22CE216C616D00D9DD22 /* NotificationService.swift */; };
 		C9EF22D3216C616D00D9DD22 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9EF22CC216C616D00D9DD22 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -423,9 +428,14 @@
 		C9E07FCF232C32B600CA2F8E /* DebugButtonComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugButtonComponentView.swift; sourceTree = "<group>"; };
 		C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServiceMock.swift; sourceTree = "<group>"; };
 		C9E0D7B3244BF14900032DE1 /* ThemeManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManagerMock.swift; sourceTree = "<group>"; };
+		C9E0D7B5244C0C2D00032DE1 /* currentDeal.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = currentDeal.json; sourceTree = "<group>"; };
 		C9E0D7B7244C10B200032DE1 /* DataProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderMock.swift; sourceTree = "<group>"; };
 		C9E0D7B9244C19A600032DE1 /* NotificationManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManagerMock.swift; sourceTree = "<group>"; };
 		C9E0D7BB244C1AFA00032DE1 /* UserDefaultsManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManagerMock.swift; sourceTree = "<group>"; };
+		C9E0D7BD244C1BE200032DE1 /* AppDependencyMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependencyMock.swift; sourceTree = "<group>"; };
+		C9E0D7C1244CED2B00032DE1 /* SnapshotTestBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotTestBase.swift; sourceTree = "<group>"; };
+		C9E0D7C9244CF50800032DE1 /* historyList.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = historyList.json; sourceTree = "<group>"; };
+		C9E0D7CB244D060100032DE1 /* historyDetail.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = historyDetail.json; sourceTree = "<group>"; };
 		C9E3223821C2F3AE0088AF9E /* HistoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListViewController.swift; sourceTree = "<group>"; };
 		C9EF22CC216C616D00D9DD22 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EF22CE216C616D00D9DD22 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -777,6 +787,7 @@
 			children = (
 				C9E0D7AA244BB2EE00032DE1 /* Mocks */,
 				C9DAC4682147688500D6558B /* AdequateTests.swift */,
+				C9E0D7C1244CED2B00032DE1 /* SnapshotTestBase.swift */,
 				C9DAC46A2147688500D6558B /* Info.plist */,
 			);
 			path = AdequateTests;
@@ -961,6 +972,8 @@
 		C9E0D7AA244BB2EE00032DE1 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				C9E0D7CF244D48B700032DE1 /* Data */,
+				C9E0D7BD244C1BE200032DE1 /* AppDependencyMock.swift */,
 				C9E0D7B7244C10B200032DE1 /* DataProviderMock.swift */,
 				C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */,
 				C9E0D7B9244C19A600032DE1 /* NotificationManagerMock.swift */,
@@ -968,6 +981,16 @@
 				C9E0D7BB244C1AFA00032DE1 /* UserDefaultsManagerMock.swift */,
 			);
 			path = Mocks;
+			sourceTree = "<group>";
+		};
+		C9E0D7CF244D48B700032DE1 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				C9E0D7B5244C0C2D00032DE1 /* currentDeal.json */,
+				C9E0D7CB244D060100032DE1 /* historyDetail.json */,
+				C9E0D7C9244CF50800032DE1 /* historyList.json */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 		C9E3223721C2F37F0088AF9E /* HistoryList */ = {
@@ -1252,6 +1275,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9E0D7CC244D060100032DE1 /* historyDetail.json in Resources */,
+				C9E0D7CA244CF50800032DE1 /* historyList.json in Resources */,
+				C9E0D7B6244C0C2D00032DE1 /* currentDeal.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1687,6 +1713,8 @@
 				C9E0D7B4244BF14900032DE1 /* ThemeManagerMock.swift in Sources */,
 				C9E0D7BA244C19A600032DE1 /* NotificationManagerMock.swift in Sources */,
 				C9E0D7B8244C10B200032DE1 /* DataProviderMock.swift in Sources */,
+				C9E0D7C2244CED2B00032DE1 /* SnapshotTestBase.swift in Sources */,
+				C9E0D7BE244C1BE200032DE1 /* AppDependencyMock.swift in Sources */,
 				C9E0D7BC244C1AFA00032DE1 /* UserDefaultsManagerMock.swift in Sources */,
 				C9E0D7B2244BD6BE00032DE1 /* ImageServiceMock.swift in Sources */,
 			);
