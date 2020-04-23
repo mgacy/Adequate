@@ -98,8 +98,13 @@ class MehSyncAPIStub {
                 resource = .historyList
             }
 
-            let json = try! FileLoader.loadJSON(from: resource, in: .main)
-            return HttpResponse.ok(.json(json))
+            do {
+                let json = try FileLoader.loadJSON(from: resource,
+                                                   in: Bundle(for: type(of: self)))
+                return HttpResponse.ok(.json(json))
+            } catch {
+                fatalError("Unable to load JSON")
+            }
         }
     }
 }

@@ -23,7 +23,8 @@ class AdequateUITests: XCTestCase {
         app = XCUIApplication()
         app.launchArguments += ["ENABLE-UI-TESTING"]
 
-        try! apiStub.server.start()
+        apiStub.stubGraphQL()
+        try! apiStub.server.start(9080)
 
         // Setup fastlane snapshots
         setupSnapshot(app)
