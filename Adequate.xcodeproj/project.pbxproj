@@ -123,6 +123,7 @@
 		C9B3FAC422447AAB00B8524A /* CurrentDealManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */; };
 		C9B3FAC62245649E00B8524A /* CurrentDeal+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAC52245649E00B8524A /* CurrentDeal+Init.swift */; };
 		C9B90D0322837D140070ADE9 /* ParallaxScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B90D0222837D140070ADE9 /* ParallaxScrollView.swift */; };
+		C9BADE0E244F8B15004B17F1 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC48A21476ADA00D6558B /* String+Ext.swift */; };
 		C9BADE10244F9772004B17F1 /* FileLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BADE0F244F9772004B17F1 /* FileLoader.swift */; };
 		C9BADE11244F9772004B17F1 /* FileLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BADE0F244F9772004B17F1 /* FileLoader.swift */; };
 		C9BADE13244FEA4E004B17F1 /* ResponseResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BADE12244FEA4E004B17F1 /* ResponseResource.swift */; };
@@ -192,6 +193,7 @@
 		C9E0D7CC244D060100032DE1 /* historyDetail.json in Resources */ = {isa = PBXBuildFile; fileRef = C9E0D7CB244D060100032DE1 /* historyDetail.json */; };
 		C9E0D7CE244D07CF00032DE1 /* HistoryDetailViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7CD244D07CF00032DE1 /* HistoryDetailViewControllerSnapshotTests.swift */; };
 		C9E0D7D1244D4C1B00032DE1 /* PadHistoryDetailViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7D0244D4C1B00032DE1 /* PadHistoryDetailViewControllerSnapshotTests.swift */; };
+		C9E0D7D3244D742500032DE1 /* MehSyncAPIStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7D2244D742500032DE1 /* MehSyncAPIStub.swift */; };
 		C9E0D7D4244D74BF00032DE1 /* currentDeal.json in Resources */ = {isa = PBXBuildFile; fileRef = C9E0D7B5244C0C2D00032DE1 /* currentDeal.json */; };
 		C9E0D7D5244D76C400032DE1 /* historyDetail.json in Resources */ = {isa = PBXBuildFile; fileRef = C9E0D7CB244D060100032DE1 /* historyDetail.json */; };
 		C9E0D7D6244D76C800032DE1 /* historyList.json in Resources */ = {isa = PBXBuildFile; fileRef = C9E0D7C9244CF50800032DE1 /* historyList.json */; };
@@ -457,6 +459,7 @@
 		C9E0D7CB244D060100032DE1 /* historyDetail.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = historyDetail.json; sourceTree = "<group>"; };
 		C9E0D7CD244D07CF00032DE1 /* HistoryDetailViewControllerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailViewControllerSnapshotTests.swift; sourceTree = "<group>"; };
 		C9E0D7D0244D4C1B00032DE1 /* PadHistoryDetailViewControllerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadHistoryDetailViewControllerSnapshotTests.swift; sourceTree = "<group>"; };
+		C9E0D7D2244D742500032DE1 /* MehSyncAPIStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MehSyncAPIStub.swift; sourceTree = "<group>"; };
 		C9E3223821C2F3AE0088AF9E /* HistoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListViewController.swift; sourceTree = "<group>"; };
 		C9EF22CC216C616D00D9DD22 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EF22CE216C616D00D9DD22 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -712,6 +715,7 @@
 			children = (
 				C99EF3B022BB695500BF4410 /* AdequateUITests.swift */,
 				C99EF3B822BC244200BF4410 /* SnapshotHelper.swift */,
+				C9E0D7D2244D742500032DE1 /* MehSyncAPIStub.swift */,
 				C9BADE0F244F9772004B17F1 /* FileLoader.swift */,
 				C99EF3B222BB695500BF4410 /* Info.plist */,
 			);
@@ -1565,6 +1569,8 @@
 				C99EF3C222BD557200BF4410 /* Strings.generated.swift in Sources */,
 				C99EF3B122BB695500BF4410 /* AdequateUITests.swift in Sources */,
 				C99EF3B922BC244200BF4410 /* SnapshotHelper.swift in Sources */,
+				C9BADE0E244F8B15004B17F1 /* String+Ext.swift in Sources */,
+				C9E0D7D3244D742500032DE1 /* MehSyncAPIStub.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
