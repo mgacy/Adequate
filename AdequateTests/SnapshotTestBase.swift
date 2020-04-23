@@ -10,6 +10,7 @@ import XCTest
 import AWSAppSync
 @testable import Adequate
 
+// NOTE: all snapshots were generated using iPad Pro (10.5-inch)
 class SnapshotTestBase: XCTestCase {
 
     var dataProvider: DataProviderMock!
@@ -48,10 +49,16 @@ class SnapshotTestBase: XCTestCase {
 // MARK: - Factory Methods
 extension SnapshotTestBase {
 
+    func getSnapshot(named snapshotName: String, from jsonObject: JSONObject) -> JSONValue {
+        let data = jsonObject["data"] as! JSONObject
+        return data[snapshotName]!
+    }
+
     func loadCurrentDealData() throws -> Deal {
         let jsonObject = try FileLoader.loadJSON(from: ResponseResource.currentDeal,
                                                  in: Bundle(for: type(of: self)))
-        let getDeal = try GetDealQuery.Data.GetDeal(jsonObject: jsonObject)
+        let snapshot = getSnapshot(named: "getDeal", from: jsonObject) as! JSONObject
+        let getDeal = try GetDealQuery.Data.GetDeal(jsonObject: snapshot)
         guard let deal = Deal(getDeal) else {
             throw SyncClientError.missingData(data: getDeal)
         }
@@ -61,7 +68,8 @@ extension SnapshotTestBase {
     func loadHistoryDetailData() throws -> GetDealQuery.Data.GetDeal {
         let jsonObject = try FileLoader.loadJSON(from: ResponseResource.historyDetail,
                                                  in: Bundle(for: type(of: self)))
-        return try GetDealQuery.Data.GetDeal(jsonObject: jsonObject)
+        let snapshot = getSnapshot(named: "getDeal", from: jsonObject) as! JSONObject
+        return try GetDealQuery.Data.GetDeal(jsonObject: snapshot)
     }
 
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
@@ -69,6 +77,8 @@ extension SnapshotTestBase {
     func loadHistoryListData() throws -> [DealHistory] {
         let jsonObject = try FileLoader.loadJSON(from: ResponseResource.historyList,
                                                  in: Bundle(for: type(of: self)))
-        return jsonObject.compactMap { try? DealHistory(jsonObject: $0) }
+        let snapshot = getSnapshot(named: "listDealsForPeriod",
+                                   from: jsonObject) as! [JSONObject]
+        return snapshot.compactMap { try? DealHistory(jsonObject: $0) }
     }
 }
