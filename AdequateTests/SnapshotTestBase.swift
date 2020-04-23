@@ -48,22 +48,9 @@ class SnapshotTestBase: XCTestCase {
 // MARK: - Factory Methods
 extension SnapshotTestBase {
 
-    enum ResponseResource: String {
-        case currentDeal
-        case historyList
-        case historyDetail
-    }
-
-    // TODO: return JSONObject rather than Data?
-    func loadJSON(from resource: ResponseResource) throws -> Data {
-        let testBundle = Bundle(for: type(of: self))
-        let path = testBundle.path(forResource: resource.rawValue, ofType: "json")
-        return try Data(contentsOf: URL(fileURLWithPath: path!), options: .alwaysMapped)
-    }
-
     func loadCurrentDealData() throws -> Deal {
-        let jsonData = try loadJSON(from: .currentDeal)
-        let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: [.mutableContainers]) as! JSONObject
+        let jsonObject = try FileLoader.loadJSON(from: ResponseResource.currentDeal,
+                                                 in: Bundle(for: type(of: self)))
         let getDeal = try GetDealQuery.Data.GetDeal(jsonObject: jsonObject)
         guard let deal = Deal(getDeal) else {
             throw SyncClientError.missingData(data: getDeal)
@@ -72,16 +59,16 @@ extension SnapshotTestBase {
     }
 
     func loadHistoryDetailData() throws -> GetDealQuery.Data.GetDeal {
-        let jsonData = try loadJSON(from: .historyDetail)
-        let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: [.mutableContainers]) as! JSONObject
+        let jsonObject = try FileLoader.loadJSON(from: ResponseResource.historyDetail,
+                                                 in: Bundle(for: type(of: self)))
         return try GetDealQuery.Data.GetDeal(jsonObject: jsonObject)
     }
 
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     func loadHistoryListData() throws -> [DealHistory] {
-        let jsonData = try loadJSON(from: .historyList)
-        let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: [.mutableContainers]) as! [JSONObject]
+        let jsonObject = try FileLoader.loadJSON(from: ResponseResource.historyList,
+                                                 in: Bundle(for: type(of: self)))
         return jsonObject.compactMap { try? DealHistory(jsonObject: $0) }
     }
 }
