@@ -1223,7 +1223,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "Mathew Gacy";
 				TargetAttributes = {
 					C99EF3AD22BB695500BF4410 = {
@@ -1778,7 +1778,6 @@
 				C9848110244965DB005B9B69 /* Models+create.swift in Sources */,
 				C9E0D7CE244D07CF00032DE1 /* HistoryDetailViewControllerSnapshotTests.swift in Sources */,
 				C9E0D7C4244CF0E900032DE1 /* DealViewControllerSnapshotTests.swift in Sources */,
-				C9DAC4692147688500D6558B /* AdequateTests.swift in Sources */,
 				C9E0D7B4244BF14900032DE1 /* ThemeManagerMock.swift in Sources */,
 				C9E0D7BA244C19A600032DE1 /* NotificationManagerMock.swift in Sources */,
 				C9E0D7C6244CF1EE00032DE1 /* PadDealViewControllerSnapshotTests.swift in Sources */,
