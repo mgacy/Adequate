@@ -28,6 +28,10 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
+         <TestPlanReference
+            reference = "container:TestPlans/AdequateUITests.xctestplan"
+            default = "YES">
+         </TestPlanReference>
       </TestPlans>
       <Testables>
          <TestableReference
@@ -59,15 +63,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C99EF3AD22BB695500BF4410"
-            BuildableName = "AdequateUITests.xctest"
-            BlueprintName = "AdequateUITests"
-            ReferencedContainer = "container:Adequate.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

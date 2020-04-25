@@ -10,6 +10,7 @@ import XCTest
 import AWSAppSync
 @testable import Adequate
 
+// NOTE: all snapshots were generated using iPad Pro (10.5-inch)
 class SnapshotTestBase: XCTestCase {
 
     var dataProvider: DataProviderMock!
@@ -48,23 +49,16 @@ class SnapshotTestBase: XCTestCase {
 // MARK: - Factory Methods
 extension SnapshotTestBase {
 
-    enum ResponseResource: String {
-        case currentDeal
-        case historyList
-        case historyDetail
-    }
-
-    // TODO: return JSONObject rather than Data?
-    func loadJSON(from resource: ResponseResource) throws -> Data {
-        let testBundle = Bundle(for: type(of: self))
-        let path = testBundle.path(forResource: resource.rawValue, ofType: "json")
-        return try Data(contentsOf: URL(fileURLWithPath: path!), options: .alwaysMapped)
+    func getSnapshot(named snapshotName: String, from jsonObject: JSONObject) -> JSONValue {
+        let data = jsonObject["data"] as! JSONObject
+        return data[snapshotName]!
     }
 
     func loadCurrentDealData() throws -> Deal {
-        let jsonData = try loadJSON(from: .currentDeal)
-        let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: [.mutableContainers]) as! JSONObject
-        let getDeal = try GetDealQuery.Data.GetDeal(jsonObject: jsonObject)
+        let jsonObject = try FileLoader.loadJSON(from: ResponseResource.currentDeal,
+                                                 in: Bundle(for: type(of: self)))
+        let snapshot = getSnapshot(named: "getDeal", from: jsonObject) as! JSONObject
+        let getDeal = try GetDealQuery.Data.GetDeal(jsonObject: snapshot)
         guard let deal = Deal(getDeal) else {
             throw SyncClientError.missingData(data: getDeal)
         }
@@ -72,16 +66,19 @@ extension SnapshotTestBase {
     }
 
     func loadHistoryDetailData() throws -> GetDealQuery.Data.GetDeal {
-        let jsonData = try loadJSON(from: .historyDetail)
-        let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: [.mutableContainers]) as! JSONObject
-        return try GetDealQuery.Data.GetDeal(jsonObject: jsonObject)
+        let jsonObject = try FileLoader.loadJSON(from: ResponseResource.historyDetail,
+                                                 in: Bundle(for: type(of: self)))
+        let snapshot = getSnapshot(named: "getDeal", from: jsonObject) as! JSONObject
+        return try GetDealQuery.Data.GetDeal(jsonObject: snapshot)
     }
 
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     func loadHistoryListData() throws -> [DealHistory] {
-        let jsonData = try loadJSON(from: .historyList)
-        let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: [.mutableContainers]) as! [JSONObject]
-        return jsonObject.compactMap { try? DealHistory(jsonObject: $0) }
+        let jsonObject = try FileLoader.loadJSON(from: ResponseResource.historyList,
+                                                 in: Bundle(for: type(of: self)))
+        let snapshot = getSnapshot(named: "listDealsForPeriod",
+                                   from: jsonObject) as! [JSONObject]
+        return snapshot.compactMap { try? DealHistory(jsonObject: $0) }
     }
 }

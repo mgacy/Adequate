@@ -1,31 +1,31 @@
 {
-    "__typename": "Deal",
-    "id": "a6k5A000000QycxQAC",
-    "title": "One Click Compact Camera + Video Drone",
-    "features": "- A fun little drone that can take still images or videos\r\n- Press a button for automatic take-off\r\n- Great training for when all social interaction occurs via drone\r\n- Model: **D3RM0T-MULDR0N3Y**",
-    "specifications": "Specs\r\n====\r\n- Name: One Click Compact Camera + Video Drone\r\n- Model: SC-2052, \tSC-2053\r\n- Condition: New\r\n- Color: Black or Red\r\n- Camera Memory Type: Micro SDHC Card **(not included)**\r\n- Remote Frequency: 2.4GHz\r\n- Remote Channels: 3CH or 4CH\r\n- Flight Time: 5 - 7 Minutes, Varies by conditions\r\n- Battery Capacity 340 mAh\r\n- Battery Charge Time: 30-40 Minutes\r\n- Charging Cable: Micro-USB\r\n- Remote Batteries: 2 x AAA’s\r\n- Drone Dimensions: 5.5\" L x 5.5\" W x 1.55\" H\r\n- Features an onboard positional camera with one-push video and still image camera shutter buttons\r\n- Air Pressure Sensor Locks Altitude in Mid-Air, meaning you don’t have to struggle with the throttle\r\n- Automatic Push Button Take-off and Landing\r\n- Includes Propeller and drone guard to prevent a crash if you bump into a wall\r\n- Battery Charges via Micro-USB\r\n- Unique Switch Blade Technology Allows for 3CH or 4CH flight modes\r\n- Push-button 360 degree stunt rolls\r\n\r\nWhat's in the Box?\r\n====\r\n- 1x One-Click Camera Drone\r\n- 1x Drone Battery\r\n- 1x Slide-In Micro-USB Battery Charger\r\n- 1x Micro-USB Charging Cable\r\n- 1x Remote Controller\r\n- 1x Pair of Remote Palm Rests\r\n- 1x Remote Rubberized Tips\r\n- 1x Screwdriver\r\n- Spare Propellers\r\n- Instruction Booklet\r\n\r\nPrice Comparison\r\n====\r\n[$39.90 at Amazon](https://www.amazon.com/Propel-Compact-Outdoor-Performance-Perform/dp/B07KF3FZFN/?tag=meh0ec-20)",
-    "url": "https://meh.com/deals/one-click-compact-camera-video-drone",
-    "createdAt": "2020-04-01T04:00:07.015Z",
-    "soldOutAt": null,
-    "items":
-    [
+  "data": {
+    "getDeal": {
+      "__typename": "Deal",
+      "id": "a6k5A000000QycxQAC",
+      "title": "One Click Compact Camera + Video Drone",
+      "features": "- A fun little drone that can take still images or videos\r\n- Press a button for automatic take-off\r\n- Great training for when all social interaction occurs via drone\r\n- Model: **D3RM0T-MULDR0N3Y**",
+      "specifications": "Specs\r\n====\r\n- Name: One Click Compact Camera + Video Drone\r\n- Model: SC-2052, \tSC-2053\r\n- Condition: New\r\n- Color: Black or Red\r\n- Camera Memory Type: Micro SDHC Card **(not included)**\r\n- Remote Frequency: 2.4GHz\r\n- Remote Channels: 3CH or 4CH\r\n- Flight Time: 5 - 7 Minutes, Varies by conditions\r\n- Battery Capacity 340 mAh\r\n- Battery Charge Time: 30-40 Minutes\r\n- Charging Cable: Micro-USB\r\n- Remote Batteries: 2 x AAA’s\r\n- Drone Dimensions: 5.5\" L x 5.5\" W x 1.55\" H\r\n- Features an onboard positional camera with one-push video and still image camera shutter buttons\r\n- Air Pressure Sensor Locks Altitude in Mid-Air, meaning you don’t have to struggle with the throttle\r\n- Automatic Push Button Take-off and Landing\r\n- Includes Propeller and drone guard to prevent a crash if you bump into a wall\r\n- Battery Charges via Micro-USB\r\n- Unique Switch Blade Technology Allows for 3CH or 4CH flight modes\r\n- Push-button 360 degree stunt rolls\r\n\r\nWhat's in the Box?\r\n====\r\n- 1x One-Click Camera Drone\r\n- 1x Drone Battery\r\n- 1x Slide-In Micro-USB Battery Charger\r\n- 1x Micro-USB Charging Cable\r\n- 1x Remote Controller\r\n- 1x Pair of Remote Palm Rests\r\n- 1x Remote Rubberized Tips\r\n- 1x Screwdriver\r\n- Spare Propellers\r\n- Instruction Booklet\r\n\r\nPrice Comparison\r\n====\r\n[$39.90 at Amazon](https://www.amazon.com/Propel-Compact-Outdoor-Performance-Perform/dp/B07KF3FZFN/?tag=meh0ec-20)",
+      "url": "https://meh.com/deals/one-click-compact-camera-video-drone",
+      "createdAt": "2020-04-01T04:00:07.015Z",
+      "soldOutAt": null,
+      "items": [
         {
-            "__typename": "Item",
-            "id": "133569",
-            "condition": "New",
-            "price": 12,
-            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/uijm02x3ojdjazenfmhr.png"
+          "__typename": "Item",
+          "id": "133569",
+          "condition": "New",
+          "price": 12.0,
+          "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/uijm02x3ojdjazenfmhr.png"
         },
         {
-            "__typename": "Item",
-            "id": "133570",
-            "condition": "New",
-            "price": 12,
-            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mcut8w2dmg6dwaq49i3o.png"
+          "__typename": "Item",
+          "id": "133570",
+          "condition": "New",
+          "price": 12.0,
+          "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mcut8w2dmg6dwaq49i3o.png"
         }
-    ],
-    "photos":
-    [
+      ],
+      "photos": [
         "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/yfhhss4htyllwhhcp4kh.png",
         "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/cjkc5mxlqrfuu1vuvdn1.png",
         "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mshss5kps4r3dweiudke.png",
@@ -38,15 +38,13 @@
         "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/frlzxh13bzbzjtmfqcyi.png",
         "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/xxmivnpotcjmkq0m2cu0.png",
         "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kcmeehhjcejazwydvwvz.png"
-    ],
-    "story":
-    {
+      ],
+      "story": {
         "__typename": "Story",
         "title": "Iirkë's Quest: An Interactive Fiction!",
         "body": "*Hello, friends! This April Fools Day, we decided to forgo the pranks and instead do something a little different: we've put together a sprawling piece of interactive fiction that also serves as a quasi-tour of our recently re-launched site, [SideDeal](https://sidedeal.com/)! Hopefully it's a welcome distraction from... well... everything.*\r\n\r\n___\r\n\r\nCongratulations! You got the job! \r\n\r\nThe hiring manager seemed a bit rushed to get you in, mumbling something about someone before you who just stopped showing up a few weeks ago without giving notice. Maybe a red flag, but you do your best to ignore it. \r\n\r\nYour position: Junior Marketing Assessment Associate for a deal site. \r\n\r\nWhat does that mean? \r\n\r\nIt means you're a glorified intern. You do whatever odd jobs you're told to do. You make copies, you make coffee, you make small talk. \r\n\r\nYou've been there just a few days when you're sent to the storeroom at the end of the hall to fetch and unbox a drone for the photography department. The room is cluttered and it takes you nearly ten minutes to find what you're looking for among a stack of boxes piled against the wall. Tablets and bluetooth speakers and all sorts of stuff, stacked nearly to the ceiling. The topmost box nearly grazes a sprinkler. This can't be to code. \r\n\r\nStill, you don't want to spend your morning organizing the stockroom. That's not why you came here and you're not paid enough to take on extra responsibilities. So you try and hold the pile in place while slipping out the required box. Of course, it doesn't work. \r\n\r\nThe pile comes crashing down, revealing what looks to be an oversized dog door built into the wall. You push it open and feel a warm breeze. \r\n\r\nAgainst your better judgment, you crawl in.\r\n\r\n[Proceed.](https://sidedeal.com/deals/2-pack-victor-victoria-pliss-collection-double-wall-mugs-storage-jars)"
-    },
-    "topic":
-    {
+      },
+      "topic": {
         "__typename": "Topic",
         "id": "5e8411c7f4b08c0550a503a0",
         "commentCount": 43,
@@ -54,40 +52,35 @@
         "replyCount": 21,
         "url": "https://meh.com/forum/topics/one-click-compact-camera--video-drone",
         "voteCount": 0
-    },
-    "theme":
-    {
+      },
+      "theme": {
         "__typename": "Theme",
         "accentColor": "#19293b",
         "backgroundColor": "#77b1f6",
         "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/bxaumniqu7bd3frjw1mh.jpg",
         "foreground": "dark"
-    },
-    "purchaseQuantity":
-    {
+      },
+      "purchaseQuantity": {
         "__typename": "PurchaseQuantity",
         "maximumLimit": 3,
         "minimumLimit": 1
-    },
-    "launches":
-    [
+      },
+      "launches": [
         {
-            "__typename": "Launch",
-            "soldOutAt": null
+          "__typename": "Launch",
+          "soldOutAt": null
         },
         {
-            "__typename": "Launch",
-            "soldOutAt": null
+          "__typename": "Launch",
+          "soldOutAt": null
         }
-    ],
-    "launchStatus": "expired",
-    "votes":
-    {
+      ],
+      "launchStatus": "expired",
+      "votes": {
         "__typename": "ModelMehVoteConnection",
-        "items":
-        [
-
-        ],
+        "items": [],
         "nextToken": null
+      }
     }
+  }
 }
