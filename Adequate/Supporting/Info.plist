@@ -30,9 +30,14 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3146</string>
+	<string>3314</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

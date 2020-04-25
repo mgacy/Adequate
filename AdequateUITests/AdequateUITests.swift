@@ -9,7 +9,10 @@
 import XCTest
 
 class AdequateUITests: XCTestCase {
+
     var app: XCUIApplication!
+
+    let apiStub = MehSyncAPIStub()
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -18,6 +21,10 @@ class AdequateUITests: XCTestCase {
         continueAfterFailure = false
 
         app = XCUIApplication()
+        app.launchArguments += ["ENABLE-UI-TESTING"]
+
+        apiStub.stubGraphQL()
+        try! apiStub.server.start(9080)
 
         // Setup fastlane snapshots
         setupSnapshot(app)
@@ -30,6 +37,8 @@ class AdequateUITests: XCTestCase {
 
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+        apiStub.server.stop()
     }
 
     func testExample() {
@@ -76,5 +85,4 @@ class AdequateUITests: XCTestCase {
 
         //app.swipeLeft() // This results in swiping on the paged image view
     }
-
 }

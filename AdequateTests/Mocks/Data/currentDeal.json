@@ -1,0 +1,84 @@
+{
+    "data":
+    {
+        "getDeal":
+        {
+            "__typename": "Deal",
+            "id": "current_deal",
+            "title": "HP USB-C Power Delivery (PD) 45W Charger with 2 USB-A Ports",
+            "features": "- It turns your outlet into a cyber-outlet\r\n- (By cyber-outlet, we mean USB or USB-C port)\r\n- Comes with attachments for different regions\r\n- Pretty basic stuff here\r\n- Model: **2UX30AA#ABB**, which almost starts off like it's some sort of weird numbers-and-letters tuxedo joke, but nope, just a boring model number**",
+            "specifications": "Specs\r\n====\r\n- Name: HP USB-C Power Delivery (PD) 45W Charger with 2 USB-A Ports\r\n- Model: 2UX30AA#ABB\r\n- Condition: New\r\n- Charge many USB-C charges \r\n- Perfect charger for home, at the office or traveling\r\n- Supports the USB Power Delivery profile of up to 45W\r\n- Includes 2x USB-A ports for portable mobile device charging and 41\" USB-C to USB-C Cable\r\n- Contains changeable plugs for multi-region usage\r\n- Compatible with USB-C Devices: \r\n  - MacBook 12inch (2015/2016), MacBook Pro 201\r\n  - Google Chromebook Pixel\r\n  - Pixelbook\r\n  - Lenovo ThinkPad X1 Carbon 201\r\n  - Thinkpad x1 tablet\r\n  - LG Gram 15\r\n  - New Nokia N1 Tablet\r\n  - Galaxy TabPro S, Galaxy Tab S3\r\n  - ASUS ZenPad 3S 10\r\n  - Nintendo Switch\r\n  - Nexus 5X/6P\r\n  - LG G5 G6\r\n  - Samsung S8\r\n  - HTC 10\r\n  - Nokia N1\r\n  - OnePlus 2\r\n  - Microsoft Lumia 950/950 XL\r\n  - Lenovo Zuk Z1\r\n  - Nubia Z9\r\n  - And many more!\r\n\r\n\r\n\r\nWhat's in the Box?\r\n====\r\n- 1x HP USB-C Power Delivery (PD) 45W Charger with 2 USB-A Ports\r\n- 1x USB-C Cable\r\n\r\n\r\nPrice Comparison\r\n====\r\n[$59.99 at Amazon](https://www.amazon.com/HP-USB-C-Power-Delivery-Charger/dp/B079QP3FZ3/?tag=meh0ec-20)",
+            "url": "https://meh.com/deals/hp-usb-c-power-delivery-pd-45w-charger-with-2-usb-a-ports-5",
+            "createdAt": "2020-04-02T04:00:10.479Z",
+            "soldOutAt": null,
+            "items":
+            [
+                {
+                    "__typename": "Item",
+                    "id": "138613",
+                    "condition": "New",
+                    "price": 19,
+                    "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/f4ib10gzouhbspegypmb.png"
+                }
+            ],
+            "photos":
+            [
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/f4ib10gzouhbspegypmb.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/pyhvtxweqqrnvvotfkth.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/hjzxmtzg9sxvxeb8iee6.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/lirhu01xfm1oksfqxxyn.png"
+            ],
+            "story":
+            {
+                "__typename": "Story",
+                "title": "USB: Useful, Simple, Basic",
+                "body": "What we've got here is pretty simple. It's a USB charging block. Kinda like the one that came with your phone, except with two USB ports and a USB-C. Also: it comes with different plugs for different regions. Simple, but useful. Which is why, according to the product copy, it's the \"perfect charger for home, at the office or traveling.\"\r\n\r\nAnd we couldn't agree more.\r\n\r\nIn fact, we recommend getting three. Keep one in the bedroom, one in the living room, and one at work (the camp table in the corner of the living room where your laptop is set up). Or else keep two at home and put one in your bag or purse. That way, you're never without a charging option, whether you're going to the coffee shop (the French press in the kitchen), the fancy restaurant (the dining table, with spaghetti and meatballs), that more casual dinner spot (the couch, with frozen pizza), the dinner theater (same as the casual spot but with Netflix on), or out for a drink with friends (sitting on Zoom, drinking a whole bottle of wine).\r\n\r\nWhich is to say nothing about how they can come in handy on big tropical vacations (an hour out on the back porch) or day trips (the walk to the mailbox)!\r\n\r\nOkay, real talk: I don't know about you, but with my evenings and weekends free, I've been playing all sorts of dumb mobile games. Usually, I'd try to limit my screen time a little bit, but right now? I'm just happy to lose myself in something fun and brainless. And so, the last thing I want is for my game to be cut short by the 10% battery warning, thus forcing me to return to reality and go search around for an unused charging block.\r\n\r\nIn other words: you really can't have too many of these things. So maybe buy a few!\r\n\r\n(Also, if you have any great mobile game recs, let me know in the comments. Love stuff that's somewhat story-based. Faves include Dead Cells, Space Marshalls, and Steamworld Heist. Thank you!)"
+            },
+            "topic":
+            {
+                "__typename": "Topic",
+                "id": "5e85634adb825211743346ca",
+                "commentCount": 21,
+                "createdAt": "2020-04-02T04:00:10.479Z",
+                "replyCount": 21,
+                "url": "https://meh.com/forum/topics/hp-usb-c-power-delivery-pd-45w-charger-with-2-usb-a-ports",
+                "voteCount": 0
+            },
+            "theme":
+            {
+                "__typename": "Theme",
+                "accentColor": "#112139",
+                "backgroundColor": "#d2e1fa",
+                "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/pnegcnli2judbeedklp0.jpg",
+                "foreground": "dark"
+            },
+            "purchaseQuantity":
+            {
+                "__typename": "PurchaseQuantity",
+                "maximumLimit": 3,
+                "minimumLimit": 1
+            },
+            "launches":
+            [
+                {
+                    "__typename": "Launch",
+                    "soldOutAt": null
+                },
+                {
+                    "__typename": "Launch",
+                    "soldOutAt": null
+                }
+            ],
+            "launchStatus": "launch",
+            "votes":
+            {
+                "__typename": "ModelMehVoteConnection",
+                "items":
+                [
+
+                ],
+                "nextToken": null
+            }
+        }
+    }
+}

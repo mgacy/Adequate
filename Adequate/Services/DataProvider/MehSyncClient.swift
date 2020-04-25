@@ -176,13 +176,24 @@ extension MehSyncClient {
 // MARK: - Configuration Factory
 extension MehSyncClient {
     static func makeClientConfiguration(credentialsProvider: AWSCredentialsProvider, connectionStateChangeHandler: ConnectionStateChangeHandler? = nil) throws -> AWSAppSyncClientConfiguration {
+
+        var awsCredentialsProvider: AWSCredentialsProvider? = credentialsProvider
+        var serviceConfig: AWSAppSyncServiceConfigProvider?
+        #if DEBUG
+        if CommandLine.arguments.contains("ENABLE-UI-TESTING") {
+            serviceConfig = UITestingConfig()
+            awsCredentialsProvider = nil
+        }
+        #endif
+
+        let appSyncServiceConfig = serviceConfig != nil ? serviceConfig! : try AWSAppSyncServiceConfig()
         let cacheConfiguration = try AWSAppSyncCacheConfiguration()
         let retryStrategy: AWSAppSyncRetryStrategy = .aggressive  // OPTIONS: .aggressive, .exponential
 
         // https://aws-amplify.github.io/docs/ios/api#iam
         // https://github.com/aws-samples/aws-mobile-appsync-events-starter-ios/blob/master/EventsApp/AppDelegate.swift
-        return try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
-                                                 credentialsProvider: credentialsProvider,
+        return try AWSAppSyncClientConfiguration(appSyncServiceConfig: appSyncServiceConfig,
+                                                 credentialsProvider: awsCredentialsProvider,
                                                  urlSessionConfiguration: URLSessionConfiguration.default,
                                                  cacheConfiguration: cacheConfiguration,
                                                  connectionStateChangeHandler: connectionStateChangeHandler,
