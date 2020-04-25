@@ -79,18 +79,6 @@ final class ZoomingImageView: UIScrollView {
         updateOffsetForSize()
     }
 
-    // MARK: - Private
-
-    @objc private func handleDoubleTap(_ sender: UIGestureRecognizer) {
-        if sender.state == .ended {
-            if zoomScale == minimumZoomScale {
-                setZoomScale(1.0, animated: true)
-            } else {
-                setZoomScale(minimumZoomScale, animated: true)
-            }
-        }
-    }
-
     func updateZoomScale() {
         let imageSize = imageView.image?.size ?? CGSize(width: 1, height: 1)
         //let imageSize = imageView.bounds.size
@@ -102,6 +90,18 @@ final class ZoomingImageView: UIScrollView {
         let minScale = min(widthScale, heightScale)
         minimumZoomScale = minScale
         zoomScale = minScale
+    }
+
+    // MARK: - Private
+
+    @objc private func handleDoubleTap(_ sender: UIGestureRecognizer) {
+        if sender.state == .ended {
+            if zoomScale == minimumZoomScale {
+                setZoomScale(1.0, animated: true)
+            } else {
+                setZoomScale(minimumZoomScale, animated: true)
+            }
+        }
     }
 
     // TODO: pass CGSize?
