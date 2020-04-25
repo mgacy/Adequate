@@ -111,6 +111,7 @@
 		C99EF3C222BD557200BF4410 /* Strings.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EF3BF22BD4FDD00BF4410 /* Strings.generated.swift */; };
 		C99EF3C322BD5B5F00BF4410 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C99EF3BE22BC968300BF4410 /* Localizable.strings */; };
 		C9A0ECFC245284F70051103F /* UITestingConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0ECFB245284F70051103F /* UITestingConfig.swift */; };
+		C9A0ED002453F4210051103F /* FooterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0ECFF2453F4210051103F /* FooterViewController.swift */; };
 		C9AE54C521791E4200818F11 /* PagedImageViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */; };
 		C9AE54C72179270C00818F11 /* FullScreenImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */; };
 		C9AE54C9217927B500818F11 /* ZoomingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C8217927B500818F11 /* ZoomingImageView.swift */; };
@@ -380,6 +381,7 @@
 		C99EF3BD22BC968300BF4410 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C99EF3BF22BD4FDD00BF4410 /* Strings.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.generated.swift; sourceTree = "<group>"; };
 		C9A0ECFB245284F70051103F /* UITestingConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestingConfig.swift; sourceTree = "<group>"; };
+		C9A0ECFF2453F4210051103F /* FooterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterViewController.swift; sourceTree = "<group>"; };
 		C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageViewDelegate.swift; sourceTree = "<group>"; };
 		C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageViewController.swift; sourceTree = "<group>"; };
 		C9AE54C8217927B500818F11 /* ZoomingImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomingImageView.swift; sourceTree = "<group>"; };
@@ -1003,6 +1005,7 @@
 				C93CBED62320ADCE0033DCD0 /* DealViewControllerDelegate.swift */,
 				C95CD61E230FE2020011585F /* PadDealViewController.swift */,
 				C9DDB20721644E71004D7957 /* FooterView.swift */,
+				C9A0ECFF2453F4210051103F /* FooterViewController.swift */,
 				C984810924463B9D005B9B69 /* PriceFormatter.swift */,
 			);
 			path = Deal;
@@ -1732,6 +1735,7 @@
 				C93BD90422B1B38100FAD8AA /* ItemAttributeType.swift in Sources */,
 				C9DAC49721476BA000D6558B /* Poll.swift in Sources */,
 				C9E07FD0232C32B700CA2F8E /* DebugButtonComponentView.swift in Sources */,
+				C9A0ED002453F4210051103F /* FooterViewController.swift in Sources */,
 				C9DAC4B52147872700D6558B /* Router.swift in Sources */,
 				C98B3248222DC1E6003A8669 /* HistoryListDataSource.swift in Sources */,
 				C928547B216DCE44001E5993 /* AWSManager.swift in Sources */,
