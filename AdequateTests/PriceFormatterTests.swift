@@ -77,7 +77,7 @@ extension PriceFormatterTests {
         let unwrapped = try XCTUnwrap(actual)
         XCTAssertEqual(unwrapped, expected)
     }
-
+    /*
     func test_comparison_1() throws {
         let sut = PriceFormatter()
         let expected = """
@@ -120,7 +120,7 @@ extension PriceFormatterTests {
         let unwrapped = try XCTUnwrap(actual)
         XCTAssertEqual(unwrapped, expected)
     }
-
+    */
     func test_comparison_5() throws {
         let sut = PriceFormatter()
         let expected = "$199 at Walmart"
