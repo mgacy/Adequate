@@ -83,6 +83,9 @@
 		C97AC2D823B6988C00B721AC /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97AC2D723B6988C00B721AC /* BaseViewController.swift */; };
 		C97AC2DA23B6AA3000B721AC /* ScrollableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97AC2D923B6AA3000B721AC /* ScrollableView.swift */; };
 		C98282F9237B9419002B55D9 /* CredentialsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98282F8237B9418002B55D9 /* CredentialsProvider.swift */; };
+		C984810A24463B9D005B9B69 /* PriceFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984810924463B9D005B9B69 /* PriceFormatter.swift */; };
+		C984810E2448F6D5005B9B69 /* PriceFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984810D2448F6D5005B9B69 /* PriceFormatterTests.swift */; };
+		C9848110244965DB005B9B69 /* Models+create.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984810F244965DB005B9B69 /* Models+create.swift */; };
 		C989E11722330B1C00DEAE89 /* SlideTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */; };
 		C989E119223734A700DEAE89 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = C989E118223734A600DEAE89 /* awsconfiguration.json */; };
 		C989E11B223734C800DEAE89 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11A223734C800DEAE89 /* API.swift */; };
@@ -108,6 +111,7 @@
 		C99EF3C222BD557200BF4410 /* Strings.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EF3BF22BD4FDD00BF4410 /* Strings.generated.swift */; };
 		C99EF3C322BD5B5F00BF4410 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C99EF3BE22BC968300BF4410 /* Localizable.strings */; };
 		C9A0ECFC245284F70051103F /* UITestingConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0ECFB245284F70051103F /* UITestingConfig.swift */; };
+		C9A0ED002453F4210051103F /* FooterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0ECFF2453F4210051103F /* FooterViewController.swift */; };
 		C9AE54C521791E4200818F11 /* PagedImageViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */; };
 		C9AE54C72179270C00818F11 /* FullScreenImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */; };
 		C9AE54C9217927B500818F11 /* ZoomingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C8217927B500818F11 /* ZoomingImageView.swift */; };
@@ -175,7 +179,6 @@
 		C9DAC4B52147872700D6558B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4B42147872700D6558B /* Router.swift */; };
 		C9DDB20121643F9E004D7957 /* MDTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20021643F9E004D7957 /* MDTextView.swift */; };
 		C9DDB20421644C01004D7957 /* PagedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20321644C01004D7957 /* PagedImageView.swift */; };
-		C9DDB20821644E71004D7957 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20721644E71004D7957 /* FooterView.swift */; };
 		C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20921653AA5004D7957 /* PagedImageViewDataSource.swift */; };
 		C9E07FD0232C32B700CA2F8E /* DebugButtonComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E07FCF232C32B600CA2F8E /* DebugButtonComponentView.swift */; };
 		C9E0D7B2244BD6BE00032DE1 /* ImageServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */; };
@@ -349,6 +352,9 @@
 		C97AC2D723B6988C00B721AC /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		C97AC2D923B6AA3000B721AC /* ScrollableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableView.swift; sourceTree = "<group>"; };
 		C98282F8237B9418002B55D9 /* CredentialsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsProvider.swift; sourceTree = "<group>"; };
+		C984810924463B9D005B9B69 /* PriceFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceFormatter.swift; sourceTree = "<group>"; };
+		C984810D2448F6D5005B9B69 /* PriceFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceFormatterTests.swift; sourceTree = "<group>"; };
+		C984810F244965DB005B9B69 /* Models+create.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models+create.swift"; sourceTree = "<group>"; };
 		C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTransitionController.swift; sourceTree = "<group>"; };
 		C989E118223734A600DEAE89 /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
 		C989E11A223734C800DEAE89 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = SOURCE_ROOT; };
@@ -374,6 +380,7 @@
 		C99EF3BD22BC968300BF4410 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C99EF3BF22BD4FDD00BF4410 /* Strings.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.generated.swift; sourceTree = "<group>"; };
 		C9A0ECFB245284F70051103F /* UITestingConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestingConfig.swift; sourceTree = "<group>"; };
+		C9A0ECFF2453F4210051103F /* FooterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterViewController.swift; sourceTree = "<group>"; };
 		C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageViewDelegate.swift; sourceTree = "<group>"; };
 		C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageViewController.swift; sourceTree = "<group>"; };
 		C9AE54C8217927B500818F11 /* ZoomingImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomingImageView.swift; sourceTree = "<group>"; };
@@ -443,7 +450,6 @@
 		C9DAC4B42147872700D6558B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		C9DDB20021643F9E004D7957 /* MDTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDTextView.swift; sourceTree = "<group>"; };
 		C9DDB20321644C01004D7957 /* PagedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageView.swift; sourceTree = "<group>"; };
-		C9DDB20721644E71004D7957 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		C9DDB20921653AA5004D7957 /* PagedImageViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageViewDataSource.swift; sourceTree = "<group>"; };
 		C9E07FCF232C32B600CA2F8E /* DebugButtonComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugButtonComponentView.swift; sourceTree = "<group>"; };
 		C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServiceMock.swift; sourceTree = "<group>"; };
@@ -825,6 +831,8 @@
 			children = (
 				C9E0D7AA244BB2EE00032DE1 /* Mocks */,
 				C9DAC4682147688500D6558B /* AdequateTests.swift */,
+				C984810D2448F6D5005B9B69 /* PriceFormatterTests.swift */,
+				C984810F244965DB005B9B69 /* Models+create.swift */,
 				C9E0D7C1244CED2B00032DE1 /* SnapshotTestBase.swift */,
 				C9E0D7C3244CF0E900032DE1 /* DealViewControllerSnapshotTests.swift */,
 				C9E0D7C5244CF1EE00032DE1 /* PadDealViewControllerSnapshotTests.swift */,
@@ -994,7 +1002,8 @@
 				C9DAC4AE21476D3F00D6558B /* DealViewController.swift */,
 				C93CBED62320ADCE0033DCD0 /* DealViewControllerDelegate.swift */,
 				C95CD61E230FE2020011585F /* PadDealViewController.swift */,
-				C9DDB20721644E71004D7957 /* FooterView.swift */,
+				C9A0ECFF2453F4210051103F /* FooterViewController.swift */,
+				C984810924463B9D005B9B69 /* PriceFormatter.swift */,
 			);
 			path = Deal;
 			sourceTree = "<group>";
@@ -1214,7 +1223,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "Mathew Gacy";
 				TargetAttributes = {
 					C99EF3AD22BB695500BF4410 = {
@@ -1623,7 +1632,6 @@
 				C9093CB9221FBD1E00C9DA0C /* StoryCoordinator.swift in Sources */,
 				C989E11722330B1C00DEAE89 /* SlideTransitionController.swift in Sources */,
 				C9AE54CF21795D7A00818F11 /* FullScreenImageDelegate.swift in Sources */,
-				C9DDB20821644E71004D7957 /* FooterView.swift in Sources */,
 				C973270D238CCF1600ADBAEE /* StoryContentView.swift in Sources */,
 				C92215672254632D0001FF3F /* SlideAnimationController.swift in Sources */,
 				C98282F9237B9419002B55D9 /* CredentialsProvider.swift in Sources */,
@@ -1648,6 +1656,7 @@
 				C937EFE722DFFE5100C363C8 /* Prism.swift in Sources */,
 				C96B487122FA9703000A8D91 /* UIViewController+Ext.swift in Sources */,
 				C943E5B02238695C00DE0675 /* StateView.swift in Sources */,
+				C984810A24463B9D005B9B69 /* PriceFormatter.swift in Sources */,
 				C9DAC49121476B4700D6558B /* Deal.swift in Sources */,
 				C9F01F22234FE3C500A77447 /* ColorCompatibility.swift in Sources */,
 				C9DAC49521476B9900D6558B /* Item.swift in Sources */,
@@ -1722,6 +1731,7 @@
 				C93BD90422B1B38100FAD8AA /* ItemAttributeType.swift in Sources */,
 				C9DAC49721476BA000D6558B /* Poll.swift in Sources */,
 				C9E07FD0232C32B700CA2F8E /* DebugButtonComponentView.swift in Sources */,
+				C9A0ED002453F4210051103F /* FooterViewController.swift in Sources */,
 				C9DAC4B52147872700D6558B /* Router.swift in Sources */,
 				C98B3248222DC1E6003A8669 /* HistoryListDataSource.swift in Sources */,
 				C928547B216DCE44001E5993 /* AWSManager.swift in Sources */,
@@ -1763,9 +1773,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C984810E2448F6D5005B9B69 /* PriceFormatterTests.swift in Sources */,
+				C9DAC4692147688500D6558B /* AdequateTests.swift in Sources */,
+				C9848110244965DB005B9B69 /* Models+create.swift in Sources */,
 				C9E0D7CE244D07CF00032DE1 /* HistoryDetailViewControllerSnapshotTests.swift in Sources */,
 				C9E0D7C4244CF0E900032DE1 /* DealViewControllerSnapshotTests.swift in Sources */,
-				C9DAC4692147688500D6558B /* AdequateTests.swift in Sources */,
 				C9E0D7B4244BF14900032DE1 /* ThemeManagerMock.swift in Sources */,
 				C9E0D7BA244C19A600032DE1 /* NotificationManagerMock.swift in Sources */,
 				C9E0D7C6244CF1EE00032DE1 /* PadDealViewControllerSnapshotTests.swift in Sources */,

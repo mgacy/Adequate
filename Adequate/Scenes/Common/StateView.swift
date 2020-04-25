@@ -8,6 +8,7 @@
 
 import UIKit
 
+// TODO: make this a view controller
 final class StateView: UIView {
 
     var onRetry: (() -> Void)?

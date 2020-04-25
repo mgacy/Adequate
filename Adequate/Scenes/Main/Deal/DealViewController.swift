@@ -22,6 +22,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
     private var viewState: ViewState<Deal> = .empty {
         didSet {
             render(viewState)
+            footerViewController.render(viewState)
         }
     }
 
@@ -79,12 +80,11 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
 
     // Footer
 
-    private lazy var footerView: FooterView = {
-        let view = FooterView()
-        //view.backgroundColor = ColorCompatibility.systemBlue
-        view.preservesSuperviewLayoutMargins = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private lazy var footerViewController: FooterViewController = {
+        let controller = FooterViewController()
+        controller.view.translatesAutoresizingMaskIntoConstraints = false
+        controller.delegate = self
+        return controller
     }()
 
     // MARK: - Lifecycle
@@ -115,12 +115,11 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
 
         // TODO: move to `setupSubViews()`?
         pagedImageView.delegate = self
-        footerView.delegate = self
 
+        add(footerViewController)
         view.insertSubview(stateView, at: 0)
         view.addSubview(barBackingView)
         rootView.scrollView.headerView = pagedImageView
-        view.addSubview(footerView)
 
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupConstraints()
@@ -151,10 +150,10 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
             stateView.topAnchor.constraint(equalTo: guide.topAnchor),
             stateView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             stateView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
-            // footerView
-            footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            // footerViewController
+            footerViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            footerViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            footerViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             // barBackingView
             barBackingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -256,18 +255,20 @@ extension DealViewController {
         if !initialSetupDone {
             switch view.safeAreaInsets.bottom {
             case 0.0..<8.0:
-                footerView.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
+                footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
             case 8.0..<22.0:
-                footerView.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 0.0, right: 16.0)
+                footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 0.0, right: 16.0)
             case 22.0...40.0:
+                footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 0.0, right: 16.0)
+
                 // Fix excessive bottom padding on iPhone X, etc.
                 // TODO: will this cause accessability problems? Disable this behavior at a given text size?
-                footerView.insetsLayoutMarginsFromSafeArea = false
-                let new = view.safeAreaInsets.bottom - 8.0
-                footerView.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: new, right: 16.0)
+                //footerView.insetsLayoutMarginsFromSafeArea = false
+                //let new = view.safeAreaInsets.bottom - 8.0
+                //footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: new, right: 16.0)
             default:
                 log.error("Unexpected bottom safe area inset")
-                footerView.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
+                footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
             }
 
             rootView.scrollView.headerHeight = view.contentWidth + pagedImageView.pageControlHeight
@@ -279,7 +280,7 @@ extension DealViewController {
     }
 
     override func viewDidLayoutSubviews() {
-        let footerHeight = footerView.frame.size.height - view.safeAreaInsets.bottom
+        let footerHeight = footerViewController.view.frame.size.height - view.safeAreaInsets.bottom
         rootView.scrollView.contentInset.bottom = footerHeight
     }
 }
@@ -315,11 +316,9 @@ extension DealViewController: ViewStateRenderable {
         case .empty:
             stateView.render(viewState)
             rootView.scrollView.isHidden = true
-            footerView.isHidden = true
         case .loading:
             stateView.render(viewState)
             rootView.scrollView.isHidden = true
-            footerView.isHidden = true
             shareButton.isEnabled = false
             storyButton.isEnabled = false
         case .result(let deal):
@@ -333,15 +332,12 @@ extension DealViewController: ViewStateRenderable {
             // images
             let safePhotoURLs = deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
-            // footerView
-            footerView.update(withDeal: deal)
 
             UIView.animate(withDuration: 0.3, animations: {
                 self.stateView.render(viewState)
                 // FIXME: can't animate `isHidden`
                 // see: https://stackoverflow.com/a/29080894
                 self.rootView.scrollView.isHidden = false
-                self.footerView.isHidden = false
                 //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
             })
         case .error:
@@ -381,7 +377,7 @@ extension DealViewController: Themeable {
         pagedImageView.apply(theme: theme)
         barBackingView.apply(theme: theme)
         stateView.apply(theme: theme)
-        footerView.apply(theme: theme)
+        footerViewController.apply(theme: theme)
     }
 }
 
