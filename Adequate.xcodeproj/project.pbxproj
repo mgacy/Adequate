@@ -179,7 +179,6 @@
 		C9DAC4B52147872700D6558B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4B42147872700D6558B /* Router.swift */; };
 		C9DDB20121643F9E004D7957 /* MDTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20021643F9E004D7957 /* MDTextView.swift */; };
 		C9DDB20421644C01004D7957 /* PagedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20321644C01004D7957 /* PagedImageView.swift */; };
-		C9DDB20821644E71004D7957 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20721644E71004D7957 /* FooterView.swift */; };
 		C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDB20921653AA5004D7957 /* PagedImageViewDataSource.swift */; };
 		C9E07FD0232C32B700CA2F8E /* DebugButtonComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E07FCF232C32B600CA2F8E /* DebugButtonComponentView.swift */; };
 		C9E0D7B2244BD6BE00032DE1 /* ImageServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */; };
@@ -451,7 +450,6 @@
 		C9DAC4B42147872700D6558B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		C9DDB20021643F9E004D7957 /* MDTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDTextView.swift; sourceTree = "<group>"; };
 		C9DDB20321644C01004D7957 /* PagedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageView.swift; sourceTree = "<group>"; };
-		C9DDB20721644E71004D7957 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		C9DDB20921653AA5004D7957 /* PagedImageViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageViewDataSource.swift; sourceTree = "<group>"; };
 		C9E07FCF232C32B600CA2F8E /* DebugButtonComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugButtonComponentView.swift; sourceTree = "<group>"; };
 		C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServiceMock.swift; sourceTree = "<group>"; };
@@ -1004,7 +1002,6 @@
 				C9DAC4AE21476D3F00D6558B /* DealViewController.swift */,
 				C93CBED62320ADCE0033DCD0 /* DealViewControllerDelegate.swift */,
 				C95CD61E230FE2020011585F /* PadDealViewController.swift */,
-				C9DDB20721644E71004D7957 /* FooterView.swift */,
 				C9A0ECFF2453F4210051103F /* FooterViewController.swift */,
 				C984810924463B9D005B9B69 /* PriceFormatter.swift */,
 			);
@@ -1635,7 +1632,6 @@
 				C9093CB9221FBD1E00C9DA0C /* StoryCoordinator.swift in Sources */,
 				C989E11722330B1C00DEAE89 /* SlideTransitionController.swift in Sources */,
 				C9AE54CF21795D7A00818F11 /* FullScreenImageDelegate.swift in Sources */,
-				C9DDB20821644E71004D7957 /* FooterView.swift in Sources */,
 				C973270D238CCF1600ADBAEE /* StoryContentView.swift in Sources */,
 				C92215672254632D0001FF3F /* SlideAnimationController.swift in Sources */,
 				C98282F9237B9419002B55D9 /* CredentialsProvider.swift in Sources */,

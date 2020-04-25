@@ -8,6 +8,14 @@
 
 import UIKit
 
+// MARK: - Delegate
+
+protocol DealFooterDelegate: class {
+    func buy()
+}
+
+// MARK: - View Controller
+
 class FooterViewController: UIViewController {
 
     private lazy var formatter: PriceFormatting = PriceFormatter()
@@ -72,6 +80,19 @@ class FooterViewController: UIViewController {
         return stackView
     }()
 
+    //private var initialSetupDone = false
+    /*
+    // Gradient
+
+    // TODO: add `didSet` and call function to set gradient(?)
+    public var gradientMaskHeight: CGFloat = 8.0
+
+    private lazy var gradientMaskLayer: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.colors = [UIColor.clear.cgColor, UIColor.white.cgColor]
+        return gradient
+    }()
+    */
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -127,6 +148,7 @@ extension FooterViewController: ViewStateRenderable {
             do {
                 let priceData: PriceFormatter.PriceData
                 priceData =  try formatter.parsePriceData(from: deal)
+                view.isHidden = false
 
                 // Price Comparison
                 if let priceComparison = priceData.priceComparison {
@@ -202,3 +224,25 @@ extension FooterViewController: Themeable {
         buyButton.backgroundColor = theme.tint
     }
 }
+/*
+// MARK: - GradientMask
+extension FooterViewController {
+
+    enum GradientMaskConstants {
+        static var height: CGFloat = 8.0
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        layoutGradientMask()
+    }
+
+    private func layoutGradientMask() {
+        // Adjust gradient
+        gradientMaskLayer.frame = view.bounds
+        // TODO: move the following into a separate function? - `foo(height: CGFloat, frame: CGRect)`
+        let gradientEndLocation = gradientMaskHeight / view.frame.height
+        gradientMaskLayer.locations = [0, NSNumber(value: Double(gradientEndLocation))]
+    }
+}
+*/

@@ -22,6 +22,7 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
     private var viewState: ViewState<Deal> = .empty {
         didSet {
             render(viewState)
+            footerViewController.render(viewState)
         }
     }
 
@@ -85,10 +86,11 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
 
     // Footer
 
-    private lazy var footerView: FooterView = {
-        let view = FooterView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private lazy var footerViewController: FooterViewController = {
+        let controller = FooterViewController()
+        controller.view.translatesAutoresizingMaskIntoConstraints = false
+        controller.delegate = self
+        return controller
     }()
 
     // MARK: - Lifecycle
@@ -115,7 +117,7 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
     private func setupSubviews() {
         view.insertSubview(stateView, at: 0)
         view.addSubview(barBackingView)
-        view.addSubview(footerView)
+        add(footerViewController)
         setupConstraints()
     }
 
@@ -126,7 +128,6 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
         navigationItem.rightBarButtonItems = [storyButton, shareButton]
         navigationController?.applyStyle(.transparent)
         pagedImageView.delegate = self
-        footerView.delegate = self
 
         // TODO: set closure on DealContentView instead?
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
@@ -157,9 +158,9 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
             stateView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             stateView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
             // footerView
-            footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            footerView.widthAnchor.constraint(equalTo: rootView.scrollView.widthAnchor),
+            footerViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            footerViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            footerViewController.view.widthAnchor.constraint(equalTo: rootView.scrollView.widthAnchor),
             // barBackingView
             barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
             barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -388,7 +389,7 @@ extension PadDealViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         // TODO: move to initial setup and .traitCollectionDidChange(_:) with check for .preferredContentSizeCategory?
-        let footerHeight = footerView.frame.size.height - view.safeAreaInsets.bottom
+        let footerHeight = footerViewController.view.frame.size.height - view.safeAreaInsets.bottom
         rootView.scrollView.contentInset.bottom = footerHeight
     }
 
@@ -397,7 +398,7 @@ extension PadDealViewController {
         super.viewLayoutMarginsDidChange()
         // FIXME: get values for margins from a central source; move into a type?
         let bottomLayoutMargin: CGFloat = view.safeAreaInsets.bottom > 8.0 ? 0.0 : 8.0
-        footerView.layoutMargins = UIEdgeInsets(top: 8.0,
+        footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0,
                                                 left: view.layoutMargins.left,
                                                 bottom: bottomLayoutMargin,
                                                 right: view.layoutMargins.right)
@@ -436,12 +437,10 @@ extension PadDealViewController: ViewStateRenderable {
             stateView.render(viewState)
             pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
-            footerView.isHidden = true
         case .loading:
             stateView.render(viewState)
             pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
-            footerView.isHidden = true
             shareButton.isEnabled = false
             storyButton.isEnabled = false
         case .result(let deal):
@@ -455,8 +454,6 @@ extension PadDealViewController: ViewStateRenderable {
             // images
             let safePhotoURLs = deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
-            // footerView
-            footerView.update(withDeal: deal)
 
             UIView.animate(withDuration: 0.3, animations: {
                 // FIXME: can't animate `isHidden`
@@ -464,14 +461,12 @@ extension PadDealViewController: ViewStateRenderable {
                 self.stateView.render(viewState)
                 self.pagedImageView.isHidden = false
                 self.rootView.scrollView.isHidden = false
-                self.footerView.isHidden = false
                 //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
             })
         case .error:
             stateView.render(viewState)
             pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
-            // TODO: hide footerView as well?
         }
     }
 }
@@ -502,7 +497,7 @@ extension PadDealViewController: Themeable {
         pagedImageView.apply(theme: theme)
         barBackingView.apply(theme: theme)
         stateView.apply(theme: theme)
-        footerView.apply(theme: theme)
+        footerViewController.apply(theme: theme)
     }
 }
 
