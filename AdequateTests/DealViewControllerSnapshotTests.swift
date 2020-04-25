@@ -17,11 +17,12 @@ class DealViewControllerSnapshotTests: SnapshotTestBase {
         let vc = UINavigationController(rootViewController: DealViewController(dependencies: dependencies))
         let rootPageViewController = RootPageViewControler(depenedencies: dependencies)
         rootPageViewController.setPages([vc], displayIndex: 0, animated: false)
+        return rootPageViewController
+    }
 
+    func renderResult() throws {
         let deal = try loadCurrentDealData()
         dataProvider.dealState = .result(deal)
-
-        return rootPageViewController
     }
 }
 
@@ -29,16 +30,18 @@ class DealViewControllerSnapshotTests: SnapshotTestBase {
 extension DealViewControllerSnapshotTests {
 
     func test_iPhone8() throws {
-        record = shouldRecord
         sut = try makeSUT()
+        try renderResult()
+
         let config = ViewImageConfig.iPhone8
-        assertSnapshot(matching: sut, as: .image(on: config))
+        assertSnapshot(matching: sut, as: .image(on: config), record: shouldRecord)
     }
 
     func test_iPhoneX() throws {
-        record = shouldRecord
         sut = try makeSUT()
+        try renderResult()
+
         let config = ViewImageConfig.iPhoneX
-        assertSnapshot(matching: sut, as: .image(on: config))
+        assertSnapshot(matching: sut, as: .image(on: config), record: shouldRecord)
     }
 }

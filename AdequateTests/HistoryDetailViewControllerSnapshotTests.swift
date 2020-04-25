@@ -11,7 +11,6 @@ import SnapshotTesting
 @testable import Adequate
 
 class HistoryDetailViewControllerSnapshotTests: SnapshotTestBase {
-    typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
     override func makeSUT() throws -> UIViewController {
         let historyList = try loadHistoryListData()
@@ -35,18 +34,16 @@ class HistoryDetailViewControllerSnapshotTests: SnapshotTestBase {
 extension HistoryDetailViewControllerSnapshotTests {
 
     func test_iPhone8() throws {
-        record = shouldRecord
         sut = try makeSUT()
 
         let config = ViewImageConfig.iPhone8
-        assertSnapshot(matching: sut, as: .image(on: config))
+        assertSnapshot(matching: sut, as: .image(on: config), record: shouldRecord)
     }
 
     func test_iPhoneX() throws {
-        record = shouldRecord
         sut = try makeSUT()
 
         let config = ViewImageConfig.iPhoneX
-        assertSnapshot(matching: sut, as: .image(on: config))
+        assertSnapshot(matching: sut, as: .image(on: config), record: shouldRecord)
     }
 }
