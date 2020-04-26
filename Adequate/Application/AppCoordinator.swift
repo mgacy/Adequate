@@ -80,6 +80,7 @@ class AppCoordinator: BaseCoordinator {
     }
 
     private func showDebug() {
+        // TODO: is there any danger to allowing users to run this flow?
         let coordinator = DebugCoordinator(window: window, dependencies: dependencies)
         coordinator.onFinishFlow = { [weak self, weak coordinator] result in
             if let strongCoordinator = coordinator {
