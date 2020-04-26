@@ -15,7 +15,7 @@ enum RootViewControllerPage {
     case story
 }
 
-final class RootPageViewControler: UIPageViewController {
+final class RootPageViewController: UIPageViewController {
     typealias Dependencies = HasThemeManager
 
     private(set) var currentIndex: Int = 0
@@ -87,7 +87,7 @@ final class RootPageViewControler: UIPageViewController {
 }
 
 // MARK: - UIPageViewControllerDataSource
-extension RootPageViewControler: UIPageViewControllerDataSource {
+extension RootPageViewController: UIPageViewControllerDataSource {
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         if let viewControllerIndex = self.pages.firstIndex(of: viewController) {
@@ -127,7 +127,7 @@ extension RootPageViewControler: UIPageViewControllerDataSource {
 }
 
 // MARK: - UIPageViewDelegate
-extension RootPageViewControler: UIPageViewControllerDelegate {
+extension RootPageViewController: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed {
             guard
@@ -143,7 +143,7 @@ extension RootPageViewControler: UIPageViewControllerDelegate {
 
 // MARK: - B
 // https://stackoverflow.com/a/45667644/4472195
-extension RootPageViewControler {
+extension RootPageViewController {
 
     func goToNextPage(animated: Bool = true) {
         guard let currentVC = viewControllers?.first else { return }
@@ -167,7 +167,7 @@ extension RootPageViewControler {
 
 // MARK: - UIScrollViewDelegate - Disable Bounce
 // https://stackoverflow.com/a/25167681
-extension RootPageViewControler: UIScrollViewDelegate {
+extension RootPageViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (currentIndex == 0 && scrollView.contentOffset.x < scrollView.bounds.size.width) {
@@ -193,7 +193,7 @@ extension RootPageViewControler: UIScrollViewDelegate {
 }
 
 // MARK: - ThemeObserving
-extension RootPageViewControler: ThemeObserving {
+extension RootPageViewController: ThemeObserving {
     func apply(theme: AppTheme) {
         apply(theme: theme.dealTheme ?? theme.baseTheme)
 
@@ -203,7 +203,7 @@ extension RootPageViewControler: ThemeObserving {
 }
 
 // MARK: - Themeable
-extension RootPageViewControler: Themeable {
+extension RootPageViewController: Themeable {
     func apply(theme: ColorTheme) {
         view.backgroundColor = theme.systemBackground
 

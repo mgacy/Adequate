@@ -15,7 +15,7 @@ class DealViewControllerSnapshotTests: SnapshotTestBase {
 
     override func makeSUT() throws -> UIViewController {
         let vc = UINavigationController(rootViewController: DealViewController(dependencies: dependencies))
-        let rootPageViewController = RootPageViewControler(depenedencies: dependencies)
+        let rootPageViewController = RootPageViewController(depenedencies: dependencies)
         rootPageViewController.setPages([vc], displayIndex: 0, animated: false)
         return rootPageViewController
     }
