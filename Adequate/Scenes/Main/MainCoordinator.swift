@@ -53,7 +53,7 @@ final class MainCoordinator: BaseCoordinator {
     init(window: UIWindow, dependencies: Dependencies) {
         self.window = window
         self.dependencies = dependencies
-        self.pageViewController = RootPageViewController(depenedencies: dependencies)
+        self.pageViewController = RootPageViewController(dependencies: dependencies)
     }
 
     override func start(with deepLink: DeepLink?) {

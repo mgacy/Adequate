@@ -42,10 +42,10 @@ final class StoryViewController: BaseViewController<ScrollableView<StoryContentV
 
     // MARK: - Lifecycle
 
-    init(depenedencies: Dependencies) {
+    init(dependencies: Dependencies) {
         self.viewState = .empty
-        self.dataProvider = depenedencies.dataProvider
-        self.themeManager = depenedencies.themeManager
+        self.dataProvider = dependencies.dataProvider
+        self.themeManager = dependencies.themeManager
         super.init(nibName: nil, bundle: nil)
     }
 

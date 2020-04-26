@@ -35,7 +35,7 @@ final class StoryCoordinator: Coordinator {
     // MARK: - Private Methods
 
     private func showStory() {
-        let storyViewController = StoryViewController(depenedencies: dependencies)
+        let storyViewController = StoryViewController(dependencies: dependencies)
         storyViewController.delegate = self
         router.setRootModule(storyViewController, hideBar: false)
     }

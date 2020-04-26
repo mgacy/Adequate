@@ -14,7 +14,7 @@ class HistoryListViewControllerSnapshotTests: SnapshotTestBase {
 
     override func makeSUT() throws -> UIViewController {
         let vc = UINavigationController(rootViewController: HistoryListViewController(dependencies: dependencies))
-        let rootPageViewController = RootPageViewController(depenedencies: dependencies)
+        let rootPageViewController = RootPageViewController(dependencies: dependencies)
         rootPageViewController.setPages([vc], displayIndex: 0, animated: false)
         return rootPageViewController
     }

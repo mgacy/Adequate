@@ -30,8 +30,8 @@ final class RootPageViewController: UIPageViewController {
 
     // MARK: - Lifecycle
 
-    init(depenedencies: Dependencies) {
-        self.themeManager = depenedencies.themeManager
+    init(dependencies: Dependencies) {
+        self.themeManager = dependencies.themeManager
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal,
                    options: nil)
     }
