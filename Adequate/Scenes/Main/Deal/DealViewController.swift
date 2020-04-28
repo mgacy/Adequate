@@ -285,6 +285,22 @@ extension DealViewController {
     }
 }
 
+// MARK: - ViewAnimatedTransitioning
+extension DealViewController: ViewAnimatedTransitioning {
+
+    var originFrame: CGRect {
+        return pagedImageView.originFrame
+    }
+
+    var originView: UIView {
+        return pagedImageView.originView
+    }
+
+    var transitioningView: UIView? {
+        return pagedImageView.transitioningView
+    }
+}
+
 // MARK: - PagedImageViewDelegate
 extension DealViewController: PagedImageViewDelegate {
 

@@ -207,6 +207,22 @@ extension HistoryDetailViewController {
     }
 }
 
+// MARK: - ViewAnimatedTransitioning
+extension HistoryDetailViewController: ViewAnimatedTransitioning {
+
+    var originFrame: CGRect {
+        return pagedImageView.originFrame
+    }
+
+    var originView: UIView {
+        return pagedImageView.originView
+    }
+
+    var transitioningView: UIView? {
+        return pagedImageView.transitioningView
+    }
+}
+
 // MARK: - PagedImageViewDelegate
 extension HistoryDetailViewController: PagedImageViewDelegate {
 

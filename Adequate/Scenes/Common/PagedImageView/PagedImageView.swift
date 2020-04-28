@@ -177,10 +177,6 @@ extension PagedImageView {
 // MARK: - View Controller Presentation Animation Helpers
 extension PagedImageView {
 
-    var originFrame: CGRect {
-        return convert(collectionView.frame, to: nil)
-    }
-
     var visibleImage: Promise<UIImage> {
         // FIXME: this can cause a crash when dataSource.urls == []
         //guard dataSource.collectionView(collectionView, numberOfItemsInSection: 0) >= primaryVisiblePage else {}
@@ -195,6 +191,31 @@ extension PagedImageView {
     /// Show views that were animated during presentation and dismissal of `FullScreenImageViewController`.
     public func completeTransition() {
         collectionView.isHidden = false
+    }
+}
+
+// MARK: - ViewAnimatedTransitioning
+extension PagedImageView: ViewAnimatedTransitioning {
+
+    var originFrame: CGRect {
+        return convert(collectionView.frame, to: nil)
+    }
+
+    var originView: UIView {
+        return collectionView
+    }
+
+    var transitioningView: UIView? {
+        let v: UIView
+        if let visibleImageView = dataSource.imageSource(for: IndexPath(item: primaryVisiblePage, section: 0)).value {
+            v = UIImageView(image: visibleImageView)
+            //v.contentMode = .scaleAspectFit
+            //v.frame = originFrame
+        } else {
+            v = UIView(frame: originFrame)
+            v.backgroundColor = .red
+        }
+        return v
     }
 }
 

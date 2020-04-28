@@ -14,9 +14,6 @@ final class FullScreenImageViewController: UIViewController {
     weak var delegate: FullScreenImageDelegate?
     let imageSource: Promise<UIImage>
 
-    var originFrame: CGRect {
-        return view.convert(zoomingImageView.originFrame, to: nil)
-    }
 
     // TODO: rename `interactionController?
     /// Maintain a strong reference to `transitioningDelegate`
@@ -173,6 +170,32 @@ extension FullScreenImageViewController {
         if !initialSetupDone {
             zoomingImageView.updateZoomScale()
             initialSetupDone = true
+        }
+    }
+}
+
+// MARK: - ViewAnimatedTransitioning
+extension FullScreenImageViewController: ViewAnimatedTransitioning {
+
+    var originFrame: CGRect {
+        return view.convert(zoomingImageView.originFrame, to: nil)
+    }
+
+    var originView: UIView {
+        return zoomingImageView.imageView
+    }
+
+    var transitioningView: UIView? {
+        if let transitionImage = imageSource.value {
+            let transitionImageView = UIImageView(image: transitionImage)
+            transitionImageView.contentMode = .scaleAspectFit
+            //transitionImageView.frame = originFrame
+            return transitionImageView
+        } else {
+            let transitionImageView = UIView(frame: originFrame)
+            transitionImageView.backgroundColor = .red
+            //transitionImageView.frame = originFrame
+            return transitionImageView
         }
     }
 }
