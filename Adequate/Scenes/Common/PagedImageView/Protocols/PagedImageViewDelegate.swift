@@ -9,5 +9,5 @@
 import Promise
 
 protocol PagedImageViewDelegate: class {
-    func displayFullscreenImage(animatingFrom: PagedImageView)
+    func displayFullScreenImage(dataSource: PagedImageViewDataSourceType, indexPath: IndexPath)
 }

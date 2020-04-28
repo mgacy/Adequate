@@ -146,6 +146,7 @@
 		C9C0C0CA230730E30011EFB4 /* MDStylerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0C9230730E30011EFB4 /* MDStylerConfiguration.swift */; };
 		C9C2109422D8126700C4F66F /* RefreshEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2109322D8126700C4F66F /* RefreshEvent.swift */; };
 		C9C2109822D8FFA300C4F66F /* Lens.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2109722D8FFA300C4F66F /* Lens.swift */; };
+		C9C914612458C7BF0006190C /* FullScreenImagePresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C914602458C7BF0006190C /* FullScreenImagePresenting.swift */; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
 		C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45A2147688500D6558B /* Assets.xcassets */; };
 		C9DAC45E2147688500D6558B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45C2147688500D6558B /* LaunchScreen.storyboard */; };
@@ -414,6 +415,7 @@
 		C9C0C0C9230730E30011EFB4 /* MDStylerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDStylerConfiguration.swift; sourceTree = "<group>"; };
 		C9C2109322D8126700C4F66F /* RefreshEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshEvent.swift; sourceTree = "<group>"; };
 		C9C2109722D8FFA300C4F66F /* Lens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lens.swift; sourceTree = "<group>"; };
+		C9C914602458C7BF0006190C /* FullScreenImagePresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImagePresenting.swift; sourceTree = "<group>"; };
 		C9DAC4502147688500D6558B /* Adequate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adequate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DAC4532147688500D6558B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9DAC45A2147688500D6558B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -990,6 +992,7 @@
 			children = (
 				C9DAC4AB21476CEA00D6558B /* MainCoordinator.swift */,
 				C9093CC0222796FD00C9DA0C /* RootPageViewController.swift */,
+				C9C914602458C7BF0006190C /* FullScreenImagePresenting.swift */,
 				C9DAC4AD21476D3300D6558B /* Deal */,
 				C9E3223721C2F37F0088AF9E /* HistoryList */,
 				C9F7166D221F135700733D17 /* HistoryDetail */,
@@ -1696,6 +1699,7 @@
 				C9DAC4AC21476CEA00D6558B /* MainCoordinator.swift in Sources */,
 				C9DAC49D21476BBE00D6558B /* Theme.swift in Sources */,
 				C9058DF5215C7E4C00FF7B4C /* NotificationManager.swift in Sources */,
+				C9C914612458C7BF0006190C /* FullScreenImagePresenting.swift in Sources */,
 				C9C0C0B923063D230011EFB4 /* MDStyler.swift in Sources */,
 				C9C0C0CA230730E30011EFB4 /* MDStylerConfiguration.swift in Sources */,
 				C9F92266218A88D0001C257A /* UserDefaultsManager.swift in Sources */,

@@ -285,6 +285,14 @@ extension DealViewController {
     }
 }
 
+// MARK: - PagedImageViewDelegate
+extension DealViewController: PagedImageViewDelegate {
+
+    func displayFullScreenImage(dataSource: PagedImageViewDataSourceType, indexPath: IndexPath) {
+        delegate?.showImage(animatingFrom: self, dataSource: dataSource, indexPath: indexPath)
+    }
+}
+
 // MARK: - ViewAnimatedTransitioning
 extension DealViewController: ViewAnimatedTransitioning {
 
@@ -298,14 +306,6 @@ extension DealViewController: ViewAnimatedTransitioning {
 
     var transitioningView: UIView? {
         return pagedImageView.transitioningView
-    }
-}
-
-// MARK: - PagedImageViewDelegate
-extension DealViewController: PagedImageViewDelegate {
-
-    func displayFullscreenImage(animatingFrom pagedImageView: PagedImageView) {
-        delegate?.showImage(animatingFrom: pagedImageView)
     }
 }
 

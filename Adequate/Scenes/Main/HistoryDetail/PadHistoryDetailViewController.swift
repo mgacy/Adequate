@@ -332,6 +332,14 @@ extension PadHistoryDetailViewController {
     }
 }
 
+// MARK: - PagedImageViewDelegate
+extension PadHistoryDetailViewController: PagedImageViewDelegate {
+
+    func displayFullScreenImage(dataSource: PagedImageViewDataSourceType, indexPath: IndexPath) {
+        delegate?.showImage(animatingFrom: self, dataSource: dataSource, indexPath: indexPath)
+    }
+}
+
 // MARK: - ViewAnimatedTransitioning
 extension PadHistoryDetailViewController: ViewAnimatedTransitioning {
 
@@ -345,14 +353,6 @@ extension PadHistoryDetailViewController: ViewAnimatedTransitioning {
 
     var transitioningView: UIView? {
         return pagedImageView.transitioningView
-    }
-}
-
-// MARK: - PagedImageViewDelegate
-extension PadHistoryDetailViewController: PagedImageViewDelegate {
-
-    func displayFullscreenImage(animatingFrom pagedImageView: PagedImageView) {
-        delegate?.showImage(animatingFrom: pagedImageView)
     }
 }
 

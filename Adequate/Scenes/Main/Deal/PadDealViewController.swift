@@ -405,6 +405,14 @@ extension PadDealViewController {
     }
 }
 
+// MARK: - PagedImageViewDelegate
+extension PadDealViewController: PagedImageViewDelegate {
+
+    func displayFullScreenImage(dataSource: PagedImageViewDataSourceType, indexPath: IndexPath) {
+        delegate?.showImage(animatingFrom: self, dataSource: dataSource, indexPath: indexPath)
+    }
+}
+
 // MARK: - ViewAnimatedTransitioning
 extension PadDealViewController: ViewAnimatedTransitioning {
 
@@ -418,14 +426,6 @@ extension PadDealViewController: ViewAnimatedTransitioning {
 
     var transitioningView: UIView? {
         return pagedImageView.transitioningView
-    }
-}
-
-// MARK: - PagedImageViewDelegate
-extension PadDealViewController: PagedImageViewDelegate {
-
-    func displayFullscreenImage(animatingFrom pagedImageView: PagedImageView) {
-        delegate?.showImage(animatingFrom: pagedImageView)
     }
 }
 

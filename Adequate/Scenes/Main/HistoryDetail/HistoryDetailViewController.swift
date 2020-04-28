@@ -207,6 +207,14 @@ extension HistoryDetailViewController {
     }
 }
 
+// MARK: - PagedImageViewDelegate
+extension HistoryDetailViewController: PagedImageViewDelegate {
+
+    func displayFullScreenImage(dataSource: PagedImageViewDataSourceType, indexPath: IndexPath) {
+        delegate?.showImage(animatingFrom: self, dataSource: dataSource, indexPath: indexPath)
+    }
+}
+
 // MARK: - ViewAnimatedTransitioning
 extension HistoryDetailViewController: ViewAnimatedTransitioning {
 
@@ -220,14 +228,6 @@ extension HistoryDetailViewController: ViewAnimatedTransitioning {
 
     var transitioningView: UIView? {
         return pagedImageView.transitioningView
-    }
-}
-
-// MARK: - PagedImageViewDelegate
-extension HistoryDetailViewController: PagedImageViewDelegate {
-
-    func displayFullscreenImage(animatingFrom pagedImageView: PagedImageView) {
-        delegate?.showImage(animatingFrom: pagedImageView)
     }
 }
 

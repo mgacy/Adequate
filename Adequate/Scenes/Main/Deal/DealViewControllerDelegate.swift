@@ -8,8 +8,7 @@
 
 import Foundation
 
-protocol DealViewControllerDelegate: class {
-    func showImage(animatingFrom: PagedImageView)
+protocol DealViewControllerDelegate: AnyObject, FullScreenImagePresenting {
     func showPurchase(for: Deal)
     func showForum(with: Topic)
     func showHistoryList()

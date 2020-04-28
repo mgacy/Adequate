@@ -228,7 +228,7 @@ extension PagedImageView: UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.displayFullscreenImage(animatingFrom: self)
+        delegate?.displayFullScreenImage(dataSource: dataSource, indexPath: IndexPath(item: primaryVisiblePage, section: 0))
     }
 }
 

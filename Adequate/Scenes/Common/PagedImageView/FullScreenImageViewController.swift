@@ -13,7 +13,7 @@ final class FullScreenImageViewController: UIViewController {
 
     weak var delegate: FullScreenImageDelegate?
     let imageSource: Promise<UIImage>
-
+    private let dataSource: PagedImageViewDataSourceType
 
     // TODO: rename `interactionController?
     /// Maintain a strong reference to `transitioningDelegate`
@@ -64,8 +64,9 @@ final class FullScreenImageViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init(imageSource: Promise<UIImage>) {
-        self.imageSource = imageSource
+    init(dataSource: PagedImageViewDataSourceType, indexPath: IndexPath) {
+        self.dataSource = dataSource
+        self.imageSource = dataSource.imageSource(for: indexPath)
         super.init(nibName: nil, bundle: nil)
         view.frame = UIScreen.main.bounds
         self.modalPresentationStyle = .custom
