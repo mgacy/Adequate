@@ -186,7 +186,7 @@ extension FullScreenImageViewController: ViewAnimatedTransitioning {
         return zoomingImageView.imageView
     }
 
-    var transitioningView: UIView? {
+    func makeTransitioningView() -> UIView? {
         if let transitionImage = imageSource.value {
             let transitionImageView = UIImageView(image: transitionImage)
             transitionImageView.contentMode = .scaleAspectFit

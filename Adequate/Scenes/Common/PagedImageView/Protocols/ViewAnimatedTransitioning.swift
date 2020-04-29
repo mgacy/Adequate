@@ -11,5 +11,5 @@ import UIKit
 protocol ViewAnimatedTransitioning: AnyObject {
     var originFrame: CGRect { get }
     var originView: UIView { get }
-    var transitioningView: UIView? { get }
+    func makeTransitioningView() -> UIView?
 }

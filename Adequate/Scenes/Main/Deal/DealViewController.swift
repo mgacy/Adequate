@@ -304,8 +304,8 @@ extension DealViewController: ViewAnimatedTransitioning {
         return pagedImageView.originView
     }
 
-    var transitioningView: UIView? {
-        return pagedImageView.transitioningView
+    func makeTransitioningView() -> UIView? {
+        return pagedImageView.makeTransitioningView()
     }
 }
 

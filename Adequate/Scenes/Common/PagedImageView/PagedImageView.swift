@@ -205,7 +205,7 @@ extension PagedImageView: ViewAnimatedTransitioning {
         return collectionView
     }
 
-    var transitioningView: UIView? {
+    func makeTransitioningView() -> UIView? {
         let v: UIView
         if let visibleImageView = dataSource.imageSource(for: IndexPath(item: primaryVisiblePage, section: 0)).value {
             v = UIImageView(image: visibleImageView)
