@@ -8,24 +8,14 @@
 
 import UIKit
 
-final class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
+final class ZoomOutAnimationController: ZoomAnimator {
 
-    private let transitionDuration: TimeInterval = 0.3
-    let fromDelegate: ViewAnimatedTransitioning
-    let toDelegate: ViewAnimatedTransitioning
 
-    init(from fromDelegate: ViewAnimatedTransitioning, to toDelegate: ViewAnimatedTransitioning) {
-        self.fromDelegate = fromDelegate
-        self.toDelegate = toDelegate
-    }
+    //deinit { print("\(#function) - \(self.description)") }
 
     // MARK: - UIViewControllerAnimatedTransitioning
 
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return transitionDuration
-    }
-
-    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+    override func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard
             let fromVC = transitionContext.viewController(forKey: .from),
             let toVC = transitionContext.viewController(forKey: .to) else {
@@ -78,16 +68,6 @@ final class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransi
                        animations: imageAnimation,
                        completion: imageCompletion)
     }
-}
 
-// MARK: - Factories
-extension ZoomOutAnimationController {
-
-    func makeTransitioningView() -> UIView {
-        // TODO: complete
-        let view = UIView()
-        view.backgroundColor = ColorCompatibility.secondarySystemBackground
-        // Use `photo` symbol?
-        return view
     }
 }
