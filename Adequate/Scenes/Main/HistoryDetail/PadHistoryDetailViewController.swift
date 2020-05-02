@@ -336,6 +336,7 @@ extension PadHistoryDetailViewController {
 extension PadHistoryDetailViewController: PagedImageViewDelegate {
 
     func displayFullScreenImage(dataSource: PagedImageViewDataSourceType, indexPath: IndexPath) {
+        // TODO: pass self or just pass pagedImageView as `animatingFrom`?
         delegate?.showImage(animatingFrom: self, dataSource: dataSource, indexPath: indexPath)
     }
 }

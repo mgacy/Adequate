@@ -10,7 +10,7 @@ import UIKit
 
 final class ZoomInAnimationController: ZoomAnimator {
 
-    deinit { print("\(#function) - \(self.description)") }
+    //deinit { print("\(#function) - \(self.description)") }
 
     override func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard

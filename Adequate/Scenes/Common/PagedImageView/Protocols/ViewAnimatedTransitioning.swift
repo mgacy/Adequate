@@ -10,6 +10,7 @@ import UIKit
 
 protocol ViewAnimatedTransitioning: AnyObject {
     var originFrame: CGRect { get }
+    // TODO: replace with method to show / hide view?
     var originView: UIView { get }
     func makeTransitioningView() -> UIView?
 }
