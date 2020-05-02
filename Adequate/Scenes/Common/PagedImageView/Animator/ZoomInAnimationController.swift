@@ -8,24 +8,11 @@
 
 import UIKit
 
-final class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
+final class ZoomInAnimationController: ZoomAnimator {
 
-    private let transitionDuration: TimeInterval = 0.3
-    let fromDelegate: ViewAnimatedTransitioning
-    let toDelegate: ViewAnimatedTransitioning
+    deinit { print("\(#function) - \(self.description)") }
 
-    init(from fromDelegate: ViewAnimatedTransitioning, to toDelegate: ViewAnimatedTransitioning) {
-        self.fromDelegate = fromDelegate
-        self.toDelegate = toDelegate
-    }
-
-    // MARK: - UIViewControllerAnimatedTransitioning
-
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return transitionDuration
-    }
-
-    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+    override func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard
             //let fromVC = transitionContext.viewController(forKey: .from),
             let toVC = transitionContext.viewController(forKey: .to) else {
@@ -50,50 +37,18 @@ final class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransit
         fromDelegate.originView.isHidden = true
 
         // Animation
-        let animation = { () -> Void in
+        let animator = transitionAnimator(using: transitionContext)
+        animator.addAnimations {
             transitionView.frame = self.toDelegate.originFrame
             toVC.view.alpha = 1.0
         }
 
-        // Completion
-        let completion = { (finished: Bool) -> Void in
+        animator.addCompletion { _ in
             // TODO: call `transitionAnimationDidEnd()` method on delegates
             self.toDelegate.originView.isHidden = false
             transitionView.removeFromSuperview()
-
-            //if !finished {
-            //    fromDelegate.originView.isHidden = false
-            //}
-
-            if transitionContext.isInteractive {
-                if transitionContext.transitionWasCancelled {
-                    transitionContext.cancelInteractiveTransition()
-                } else {
-                    transitionContext.finishInteractiveTransition()
-                }
-            }
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
-
-        // Execute Animations
-        UIView.animate(withDuration: transitionDuration(using: transitionContext),
-                       delay: 0.0,
-                       usingSpringWithDamping: 0.7,
-                       initialSpringVelocity: 0,
-                       options: [.curveEaseIn],
-                       animations: animation,
-                       completion: completion)
-    }
-}
-
-// MARK: - Factories
-extension ZoomInAnimationController {
-
-    func makeTransitioningView() -> UIView {
-        // TODO: complete
-        let view = UIView()
-        view.backgroundColor = ColorCompatibility.secondarySystemBackground
-        // Use `photo` symbol?
-        return view
+        animator.startAnimation()
     }
 }
