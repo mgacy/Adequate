@@ -11,12 +11,12 @@ import UIKit
 final class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
 
     private let transitionDuration: TimeInterval = 0.3
-    private let pagedImageView: PagedImageView
-    private let sourceFrame: CGRect
+    let fromDelegate: ViewAnimatedTransitioning
+    let toDelegate: ViewAnimatedTransitioning
 
-    init(animatingFrom pagedImageView: PagedImageView) {
-        self.pagedImageView = pagedImageView
-        self.sourceFrame = pagedImageView.originFrame
+    init(from fromDelegate: ViewAnimatedTransitioning, to toDelegate: ViewAnimatedTransitioning) {
+        self.fromDelegate = fromDelegate
+        self.toDelegate = toDelegate
     }
 
     // MARK: - UIViewControllerAnimatedTransitioning
@@ -26,72 +26,44 @@ final class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransit
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        // TODO: cast toVC as protocol to get access to properties
         guard
-            let fromVC = transitionContext.viewController(forKey: .from),
-            let toVC = transitionContext.viewController(forKey: .to) as? FullScreenImageViewController else {
-                log.error("Failed to cast as correct view controllers for transition")
+            //let fromVC = transitionContext.viewController(forKey: .from),
+            let toVC = transitionContext.viewController(forKey: .to) else {
                 transitionContext.completeTransition(false)
                 return
         }
         let containerView = transitionContext.containerView
         let finalFrame = transitionContext.finalFrame(for: toVC)
 
+        // TODO: call transitionAnimationWillStart() method on delegates
         // TODO: is fromVC displaying image / activityIndicator (/ error?)
 
-        toVC.view.isHidden = true
-        toVC.view.frame = finalFrame
+        toDelegate.originView.isHidden = true
+        toVC.view.alpha = 0.0
         containerView.addSubview(toVC.view)
+        toVC.view.frame = finalFrame
 
-        // snapshot
-        let sourceSnapshot = UIScreen.main.snapshotView(afterScreenUpdates: false)
-        containerView.addSubview(sourceSnapshot)
-
-        // sourceImageCoveringView
-        let sourceImageCoveringView = makeSourceImageCoveringView(covering: fromVC)
-        containerView.addSubview(sourceImageCoveringView)
-
-        // destination background
-        let bgView = UIView(frame: finalFrame)
-        bgView.backgroundColor = .black
-        bgView.alpha = 0.0
-        containerView.addSubview(bgView)
-
-        // image
-        let transitionImageView: UIView
-        let scaledSize: CGSize
-        if let transitionImage = pagedImageView.visibleImage.value {
-            transitionImageView = UIImageView(image: transitionImage)
-            transitionImageView.frame = sourceFrame
-            transitionImageView.contentMode = .scaleAspectFit
-            // FIXME: preserve aspect ratio; just use `ZoomingImageView.zoomScale`?
-            let minDimension = min(transitionImage.size.width, transitionImage.size.height,
-                                   finalFrame.size.width, finalFrame.size.height)
-            scaledSize = CGSize(width: minDimension, height: minDimension)
-        } else {
-            transitionImageView = UIView(frame: sourceFrame)
-            //transitionImageView.backgroundColor = .red
-            let scaleFactor = min(finalFrame.width / sourceFrame.width, finalFrame.height / sourceFrame.height)
-            scaledSize = CGSize(width: sourceFrame.width * scaleFactor, height: sourceFrame.height * scaleFactor)
-        }
-        containerView.addSubview(transitionImageView)
+        // transitionView
+        let transitionView = fromDelegate.makeTransitioningView() ?? makeTransitioningView()
+        containerView.addSubview(transitionView)
+        transitionView.frame = fromDelegate.originFrame
+        fromDelegate.originView.isHidden = true
 
         // Animation
         let animation = { () -> Void in
-            toVC.hideStatusBar = true
-            toVC.setNeedsStatusBarAppearanceUpdate()
-            transitionImageView.frame.size = scaledSize
-            transitionImageView.center = toVC.view.center
-            bgView.alpha = 1.0
+            transitionView.frame = self.toDelegate.originFrame
+            toVC.view.alpha = 1.0
         }
 
         // Completion
         let completion = { (finished: Bool) -> Void in
-            toVC.view.isHidden = false
-            transitionImageView.removeFromSuperview()
-            bgView.removeFromSuperview()
-            sourceImageCoveringView.removeFromSuperview()
-            sourceSnapshot.removeFromSuperview()
+            // TODO: call `transitionAnimationDidEnd()` method on delegates
+            self.toDelegate.originView.isHidden = false
+            transitionView.removeFromSuperview()
+
+            //if !finished {
+            //    fromDelegate.originView.isHidden = false
+            //}
 
             if transitionContext.isInteractive {
                 if transitionContext.transitionWasCancelled {
@@ -106,24 +78,22 @@ final class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransit
         // Execute Animations
         UIView.animate(withDuration: transitionDuration(using: transitionContext),
                        delay: 0.0,
-                       options: [UIView.AnimationOptions.curveEaseOut],
+                       usingSpringWithDamping: 0.7,
+                       initialSpringVelocity: 0,
+                       options: [.curveEaseIn],
                        animations: animation,
                        completion: completion)
     }
 }
 
-// MARK: - View Factories
+// MARK: - Factories
 extension ZoomInAnimationController {
 
-    private func makeSourceImageCoveringView(covering fromVC: UIViewController) -> UIView {
-        pagedImageView.beginTransition()
-        // make snapshot to handle changes in `UIColor.systemBackground` in response to changes in elevation when using dark mode in iOS 13
-        let sourceImageCoveringView = pagedImageView.snapshotView(afterScreenUpdates: true)!
-        // adjust sourceFrame since we take a snapshot of entire view whereas sourceFrame does not account for .pageControlHeight
-        sourceImageCoveringView.frame = CGRect(x: sourceFrame.minX,
-                                               y: sourceFrame.minY,
-                                               width: sourceFrame.width,
-                                               height: sourceFrame.height + pagedImageView.pageControlHeight)
-        return sourceImageCoveringView
+    func makeTransitioningView() -> UIView {
+        // TODO: complete
+        let view = UIView()
+        view.backgroundColor = ColorCompatibility.secondarySystemBackground
+        // Use `photo` symbol?
+        return view
     }
 }

@@ -154,10 +154,6 @@ final class FullScreenImageViewController: UIViewController {
 
     // MARK: - B
 
-    func setupTransitionController(animatingFrom pagedImageView: PagedImageView) {
-        transitionController = FullScreenImageTransitionController(viewController: self, pagedImageView: pagedImageView)
-        transitioningDelegate = transitionController
-    }
 
     @objc private func dismissView(_ sender: UIButton) {
         delegate?.dismissFullScreenImage()
@@ -172,6 +168,19 @@ extension FullScreenImageViewController {
             zoomingImageView.updateZoomScale()
             initialSetupDone = true
         }
+    }
+}
+
+// MARK: - Transition
+// TODO: Specify as conformance to a new protocol(?)
+extension FullScreenImageViewController {
+
+    // TODO: make  protocol; move to default implementation(?)
+    func setupTransitionController(animatingFrom fromDelegate: ViewAnimatedTransitioning) {
+        modalPresentationStyle = .overFullScreen
+        //transitionController = MyTransitionController(presenting: self, from: fromDelegate, to: self)
+        transitionController = FullScreenImageTransitionController(presenting: self, from: fromDelegate, to: self)
+        transitioningDelegate = transitionController
     }
 }
 

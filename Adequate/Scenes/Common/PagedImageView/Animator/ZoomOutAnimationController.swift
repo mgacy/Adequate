@@ -11,16 +11,12 @@ import UIKit
 final class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
 
     private let transitionDuration: TimeInterval = 0.3
-    private let pagedImageView: PagedImageView
-    private var destinationFrame: CGRect {
-        // Use computed property to fix error in split view on iPad, where the value of this property at initialization
-        // is not the same as when it is accessed from `animateTransition(using:)`
-        return pagedImageView.originFrame
-    }
+    let fromDelegate: ViewAnimatedTransitioning
+    let toDelegate: ViewAnimatedTransitioning
 
-    init(animatingTo pagedImageView: PagedImageView) {
-        self.pagedImageView = pagedImageView
-        super.init()
+    init(from fromDelegate: ViewAnimatedTransitioning, to toDelegate: ViewAnimatedTransitioning) {
+        self.fromDelegate = fromDelegate
+        self.toDelegate = toDelegate
     }
 
     // MARK: - UIViewControllerAnimatedTransitioning
@@ -30,62 +26,39 @@ final class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransi
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        // TODO: cast fromVC as protocol to get access to properties
         guard
-            let fromVC = transitionContext.viewController(forKey: .from) as? FullScreenImageViewController,
+            let fromVC = transitionContext.viewController(forKey: .from),
             let toVC = transitionContext.viewController(forKey: .to) else {
-                log.error("Failed to cast as correct view controllers for transition")
                 transitionContext.completeTransition(false)
                 return
         }
         let containerView = transitionContext.containerView
         //let finalFrame = transitionContext.finalFrame(for: toVC)
 
-        // TODO: is fromVC displaying image / activityIndicator (/ error?)
+        // TODO: call `transitionAnimationWillStart()` on delegates
+        toDelegate.originView.isHidden = true // Is this necessary?
 
-        // hide pagedImageView of DealViewController
-        //pagedImageView.beginTransition()
-
-        // hide FullScreenViewController and replace with background view
-        let bgView = UIView(frame: fromVC.view.frame)
-        bgView.backgroundColor = fromVC.view.backgroundColor
-        containerView.addSubview(bgView)
-        fromVC.view.isHidden = true
-
-        // image
-        let transitionImageView: UIView
-        if let transitionImage = fromVC.imageSource.value {
-            transitionImageView = UIImageView(image: transitionImage)
-            transitionImageView.contentMode = .scaleAspectFit
-            transitionImageView.frame = fromVC.originFrame
-        } else {
-            transitionImageView = UIView(frame: fromVC.view.frame)
-            transitionImageView.backgroundColor = .red
-            // TODO: set a different destinationFrame?
-        }
-        containerView.addSubview(transitionImageView)
+        // transitionView
+        let transitionView = fromDelegate.makeTransitioningView() ?? makeTransitioningView()
+        containerView.addSubview(transitionView)
+        transitionView.frame = fromDelegate.originFrame
+        fromDelegate.originView.isHidden = true
 
         // Animation
         let imageAnimation = { () -> Void in
-            UIView.performWithoutAnimation {
-                toVC.setNeedsStatusBarAppearanceUpdate()
-            }
-            transitionImageView.frame = self.destinationFrame
-            bgView.alpha = 0.0
+            toVC.setNeedsStatusBarAppearanceUpdate() // Is this necessary?
+            transitionView.frame = self.toDelegate.originFrame
+            fromVC.view.alpha = 0.0
         }
 
         // Completion
         let imageCompletion = { (finished: Bool) -> Void in
-            fromVC.view.isHidden = false
+            // TODO: call `transitionAnimationDidEnd()` on delegates
+            self.fromDelegate.originView.isHidden = false
             if !transitionContext.transitionWasCancelled {
-                self.pagedImageView.completeTransition()
+                self.toDelegate.originView.isHidden = false
             }
-            transitionImageView.removeFromSuperview()
-            bgView.removeFromSuperview()
-
-            //if transitionContext.transitionWasCancelled {
-            //    toVC.view.removeFromSuperview()
-            //}
+            transitionView.removeFromSuperview()
 
             if transitionContext.isInteractive {
                 if transitionContext.transitionWasCancelled {
@@ -99,9 +72,22 @@ final class ZoomOutAnimationController: NSObject, UIViewControllerAnimatedTransi
 
         UIView.animate(withDuration: transitionDuration(using: transitionContext),
                        delay: 0.0,
-                       options: [UIView.AnimationOptions.curveEaseOut],
+                       usingSpringWithDamping: 0.7,
+                       initialSpringVelocity: 0,
+                       options: [.curveEaseIn],
                        animations: imageAnimation,
                        completion: imageCompletion)
     }
+}
 
+// MARK: - Factories
+extension ZoomOutAnimationController {
+
+    func makeTransitioningView() -> UIView {
+        // TODO: complete
+        let view = UIView()
+        view.backgroundColor = ColorCompatibility.secondarySystemBackground
+        // Use `photo` symbol?
+        return view
+    }
 }
