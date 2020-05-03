@@ -12,10 +12,10 @@ import Promise
 final class FullScreenImageViewController: UIViewController {
 
     weak var delegate: FullScreenImageDelegate?
-    let imageSource: Promise<UIImage>
+    // TODO: replace with pure reliance on `dataSource`
+    private let imageSource: Promise<UIImage>
     private let dataSource: PagedImageViewDataSourceType
 
-    // TODO: rename `interactionController?
     /// Maintain a strong reference to `transitioningDelegate`
     private var transitionController: FullScreenImageTransitionController?
 
@@ -23,28 +23,25 @@ final class FullScreenImageViewController: UIViewController {
 
     // MARK: - Appearance
 
-    var backgroundColor: UIColor = .black
-
-    var hideStatusBar: Bool = false
-    override var prefersStatusBarHidden: Bool {
-        return hideStatusBar
-    }
-
-    //override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-    //    return .slide
+    //var hideStatusBar: Bool = false
+    //override var prefersStatusBarHidden: Bool {
+    //    return hideStatusBar
     //}
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 
     // MARK: - Subviews
 
     private var closeButton: UIButton = {
-        //let button = UIButton(frame: CGRect(x: 30.0, y: 30.0, width: 30.0, height: 30.0))
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "CloseNavBar"), for: .normal)
         button.layer.cornerRadius = 14.0
         button.imageEdgeInsets = UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0)
         button.tintColor = .white
         button.backgroundColor = ColorPalette.darkGray
-        button.translatesAutoresizingMaskIntoConstraints = false
+        button.alpha = 0.0
         return button
     }()
 
@@ -52,14 +49,26 @@ final class FullScreenImageViewController: UIViewController {
         let view = UIActivityIndicatorView()
         view.style = .white
         view.isHidden = true
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     private lazy var zoomingImageView: ZoomingImageView = {
-        let view = ZoomingImageView(frame: UIScreen.main.bounds)
-        view.translatesAutoresizingMaskIntoConstraints = false
+        let view = ZoomingImageView()
+        //let view = ZoomingImageView(frame: UIScreen.main.bounds)
         return view
+    }()
+
+    // TODO: should I just make this the root view?
+    lazy var blurredView: UIView = {
+        let blurEffect: UIBlurEffect
+        if #available(iOS 13.0, *) {
+            blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
+        } else {
+            blurEffect = UIBlurEffect(style: .dark) // ?
+        }
+
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        return blurEffectView
     }()
 
     // MARK: - Lifecycle
@@ -68,8 +77,7 @@ final class FullScreenImageViewController: UIViewController {
         self.dataSource = dataSource
         self.imageSource = dataSource.imageSource(for: indexPath)
         super.init(nibName: nil, bundle: nil)
-        view.frame = UIScreen.main.bounds
-        self.modalPresentationStyle = .custom
+        //view.frame = UIScreen.main.bounds
         self.modalPresentationCapturesStatusBarAppearance = true
     }
 
@@ -82,27 +90,19 @@ final class FullScreenImageViewController: UIViewController {
         setupView()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        // hide status bar
-        if let window = UIApplication.shared.delegate?.window as? UIWindow {
-            window.windowLevel = UIWindow.Level.statusBar + 1
-        }
-    }
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        UIView.animate(
+            withDuration: 0.2,
+            animations: {
+                self.closeButton.alpha = 1.0
+        })
         setNeedsStatusBarAppearanceUpdate()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
-        // show status bar
-        if let window = UIApplication.shared.delegate?.window as? UIWindow {
-            window.windowLevel = UIWindow.Level.normal
-        }
+        closeButton.alpha = 0.0
     }
 
     deinit { print("\(#function) - \(self.description)") }
@@ -110,12 +110,12 @@ final class FullScreenImageViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        view.backgroundColor = backgroundColor
+        view.backgroundColor = .clear
 
         view.addSubview(activityIndicator)
         view.addSubview(zoomingImageView)
         view.addSubview(closeButton)
-        setupConstraints()
+        view.insertSubview(blurredView, at: 0)
 
         //zoomingImageView.zoomingImageDelegate = self
         closeButton.addTarget(self, action: #selector(dismissView(_:)), for: .touchUpInside)
@@ -133,27 +133,7 @@ final class FullScreenImageViewController: UIViewController {
         })
     }
 
-    private func setupConstraints() {
-        let guide = view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-            // closeButton
-            closeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28.0),
-            closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 28.0),
-            closeButton.widthAnchor.constraint(equalToConstant: 28.0),
-            closeButton.heightAnchor.constraint(equalToConstant: 28.0),
-            // zoomingImageView
-            zoomingImageView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            zoomingImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            zoomingImageView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            zoomingImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            // activityIndicator
-            activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: guide.centerYAnchor)
-        ])
-    }
-
-    // MARK: - B
-
+    // MARK: - Actions
 
     @objc private func dismissView(_ sender: UIButton) {
         delegate?.dismissFullScreenImage()
@@ -162,6 +142,17 @@ final class FullScreenImageViewController: UIViewController {
 
 // MARK: - Layout
 extension FullScreenImageViewController {
+
+    override func viewWillLayoutSubviews() {
+        blurredView.frame = view.frame
+        activityIndicator.center = view.center // TODO: center relative to view or safe area?
+        zoomingImageView.frame = view.frame
+
+        // TODO: vary position of closeButton when there is a notch
+        let x = view.safeAreaInsets.left + 28.0
+        let y = view.safeAreaInsets.top + 28.0
+        closeButton.frame = CGRect(x: x, y: y, width: 28.0, height: 28.0)
+    }
 
     override func viewDidLayoutSubviews() {
         if !initialSetupDone {
@@ -172,13 +163,11 @@ extension FullScreenImageViewController {
 }
 
 // MARK: - Transition
-// TODO: Specify as conformance to a new protocol(?)
+// TODO: Specify as conformance to a new protocol; move method to default implementation?
 extension FullScreenImageViewController {
 
-    // TODO: make  protocol; move to default implementation(?)
     func setupTransitionController(animatingFrom fromDelegate: ViewAnimatedTransitioning) {
         modalPresentationStyle = .overFullScreen
-        //transitionController = MyTransitionController(presenting: self, from: fromDelegate, to: self)
         transitionController = FullScreenImageTransitionController(presenting: self, from: fromDelegate, to: self)
         transitioningDelegate = transitionController
     }

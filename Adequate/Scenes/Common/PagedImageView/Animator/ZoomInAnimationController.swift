@@ -29,6 +29,7 @@ final class ZoomInAnimationController: ZoomAnimator {
         toVC.view.alpha = 0.0
         containerView.addSubview(toVC.view)
         toVC.view.frame = finalFrame
+        toVC.view.layoutIfNeeded()
 
         // transitionView
         let transitionView = fromDelegate.makeTransitioningView() ?? makeTransitioningView()
