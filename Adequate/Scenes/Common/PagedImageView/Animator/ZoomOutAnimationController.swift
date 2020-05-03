@@ -10,18 +10,26 @@ import UIKit
 
 final class ZoomOutAnimationController: ZoomAnimator {
 
+    // Return same animator for `animateTransition(using:)` and `interruptibleAnimator(using:)`
+    var animatorForCurrentTransition: UIViewImplicitlyAnimating?
 
     //deinit { print("\(#function) - \(self.description)") }
 
     // MARK: - UIViewControllerAnimatedTransitioning
 
     override func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard
-            let fromVC = transitionContext.viewController(forKey: .from),
-            let toVC = transitionContext.viewController(forKey: .to) else {
-                transitionContext.completeTransition(false)
-                return
+        let animator = interruptibleAnimator(using: transitionContext)
+        animator.startAnimation()
+    }
+
+    func interruptibleAnimator(using transitionContext: UIViewControllerContextTransitioning) -> UIViewImplicitlyAnimating {
+        if let animatorForCurrentSession = animatorForCurrentTransition {
+            return animatorForCurrentSession
         }
+
+        let fromVC = transitionContext.viewController(forKey: .from)!
+        let toVC = transitionContext.viewController(forKey: .to)!
+
         let containerView = transitionContext.containerView
         //let finalFrame = transitionContext.finalFrame(for: toVC)
 
@@ -35,14 +43,14 @@ final class ZoomOutAnimationController: ZoomAnimator {
         fromDelegate.originView.isHidden = true
 
         // Animation
-        let imageAnimation = { () -> Void in
+        let animator = transitionAnimator(using: transitionContext)
+        animator.addAnimations {
             toVC.setNeedsStatusBarAppearanceUpdate() // Is this necessary?
             transitionView.frame = self.toDelegate.originFrame
             fromVC.view.alpha = 0.0
         }
 
-        // Completion
-        let imageCompletion = { (finished: Bool) -> Void in
+        animator.addCompletion { position in
             // TODO: call `transitionAnimationDidEnd()` on delegates
             self.fromDelegate.originView.isHidden = false
             if !transitionContext.transitionWasCancelled {
@@ -50,24 +58,21 @@ final class ZoomOutAnimationController: ZoomAnimator {
             }
             transitionView.removeFromSuperview()
 
-            if transitionContext.isInteractive {
-                if transitionContext.transitionWasCancelled {
-                    transitionContext.cancelInteractiveTransition()
-                } else {
-                    transitionContext.finishInteractiveTransition()
-                }
+            switch position {
+            case .end:
+                transitionContext.finishInteractiveTransition()
+                transitionContext.completeTransition(true)
+            default:
+                transitionContext.cancelInteractiveTransition()
+                transitionContext.completeTransition(false)
             }
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
 
-        UIView.animate(withDuration: transitionDuration(using: transitionContext),
-                       delay: 0.0,
-                       usingSpringWithDamping: 0.7,
-                       initialSpringVelocity: 0,
-                       options: [.curveEaseIn],
-                       animations: imageAnimation,
-                       completion: imageCompletion)
+        animatorForCurrentTransition = animator
+        return animator
     }
 
+    func animationEnded(_ transitionCompleted: Bool) {
+        animatorForCurrentTransition = nil
     }
 }
