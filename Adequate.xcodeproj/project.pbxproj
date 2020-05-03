@@ -147,7 +147,6 @@
 		C9C0C0CA230730E30011EFB4 /* MDStylerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0C9230730E30011EFB4 /* MDStylerConfiguration.swift */; };
 		C9C2109422D8126700C4F66F /* RefreshEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2109322D8126700C4F66F /* RefreshEvent.swift */; };
 		C9C2109822D8FFA300C4F66F /* Lens.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2109722D8FFA300C4F66F /* Lens.swift */; };
-		C9C9145F2458BE0B0006190C /* NEW.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C9145E2458BE0B0006190C /* NEW.swift */; };
 		C9C914612458C7BF0006190C /* FullScreenImagePresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C914602458C7BF0006190C /* FullScreenImagePresenting.swift */; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
 		C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45A2147688500D6558B /* Assets.xcassets */; };
@@ -418,7 +417,6 @@
 		C9C0C0C9230730E30011EFB4 /* MDStylerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDStylerConfiguration.swift; sourceTree = "<group>"; };
 		C9C2109322D8126700C4F66F /* RefreshEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshEvent.swift; sourceTree = "<group>"; };
 		C9C2109722D8FFA300C4F66F /* Lens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lens.swift; sourceTree = "<group>"; };
-		C9C9145E2458BE0B0006190C /* NEW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEW.swift; sourceTree = "<group>"; };
 		C9C914602458C7BF0006190C /* FullScreenImagePresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImagePresenting.swift; sourceTree = "<group>"; };
 		C9DAC4502147688500D6558B /* Adequate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adequate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DAC4532147688500D6558B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -1027,7 +1025,6 @@
 				C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */,
 				C928547C21704C72001E5993 /* ImageCell.swift */,
 				C9AE54C8217927B500818F11 /* ZoomingImageView.swift */,
-				C9C9145E2458BE0B0006190C /* NEW.swift */,
 				C951885B21797E440097F49E /* Animator */,
 				C951885A21797D990097F49E /* Protocols */,
 			);
@@ -1762,7 +1759,6 @@
 				C99C23F72357FF28004493B3 /* ColorTheme.swift in Sources */,
 				C9BEAB71233308A400C143FB /* HistoryDetailViewControllerDelegate.swift in Sources */,
 				C96CA8702182DD2E00C3459E /* NotificationViewController.swift in Sources */,
-				C9C9145F2458BE0B0006190C /* NEW.swift in Sources */,
 				C925EECB233E955400D24F38 /* ImageServiceType.swift in Sources */,
 				C9093CC32228A27800C9DA0C /* ObservationToken.swift in Sources */,
 				C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */,
