@@ -92,11 +92,11 @@ extension FullScreenImageTransitionController: UIGestureRecognizerDelegate {
 extension FullScreenImageTransitionController: UIViewControllerTransitioningDelegate {
 
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ZoomInAnimationController(from: presentingDelegate, to: presentedDelegate)
+        return ZoomInAnimator(from: presentingDelegate, to: presentedDelegate)
     }
 
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ZoomOutAnimationController(from: presentedDelegate, to: presentingDelegate)
+        return ZoomOutAnimator(from: presentedDelegate, to: presentingDelegate)
     }
 
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {

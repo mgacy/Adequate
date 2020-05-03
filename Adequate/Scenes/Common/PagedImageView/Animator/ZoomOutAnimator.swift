@@ -1,5 +1,5 @@
 //
-//  ZoomOutAnimationController.swift
+//  ZoomOutAnimator.swift
 //  Adequate
 //
 //  Created by Mathew Gacy on 10/18/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class ZoomOutAnimationController: ZoomAnimator {
+final class ZoomOutAnimator: ZoomAnimator {
 
     // Return same animator for `animateTransition(using:)` and `interruptibleAnimator(using:)`
     var animatorForCurrentTransition: UIViewImplicitlyAnimating?

@@ -1,5 +1,5 @@
 //
-//  ZoomInAnimationController.swift
+//  ZoomInAnimator.swift
 //  Adequate
 //
 //  Created by Mathew Gacy on 10/18/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class ZoomInAnimationController: ZoomAnimator {
+final class ZoomInAnimator: ZoomAnimator {
 
     //deinit { print("\(#function) - \(self.description)") }
 

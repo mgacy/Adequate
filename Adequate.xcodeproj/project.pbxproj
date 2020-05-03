@@ -119,8 +119,8 @@
 		C9AE54CB21792ABC00818F11 /* ZoomingImageViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54CA21792ABC00818F11 /* ZoomingImageViewDelegate.swift */; };
 		C9AE54CD21792BE400818F11 /* FullScreenImageTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54CC21792BE400818F11 /* FullScreenImageTransitionController.swift */; };
 		C9AE54CF21795D7A00818F11 /* FullScreenImageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54CE21795D7A00818F11 /* FullScreenImageDelegate.swift */; };
-		C9AE54D12179697F00818F11 /* ZoomInAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54D02179697F00818F11 /* ZoomInAnimationController.swift */; };
-		C9AE54D32179733E00818F11 /* ZoomOutAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54D22179733E00818F11 /* ZoomOutAnimationController.swift */; };
+		C9AE54D12179697F00818F11 /* ZoomInAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54D02179697F00818F11 /* ZoomInAnimator.swift */; };
+		C9AE54D32179733E00818F11 /* ZoomOutAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54D22179733E00818F11 /* ZoomOutAnimator.swift */; };
 		C9AE8BCD2409D4BF00AB32DA /* ViewAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE8BCC2409D4BF00AB32DA /* ViewAnimatedTransitioning.swift */; };
 		C9B3FAB2223C39F900B8524A /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B3FAB1223C39F900B8524A /* NotificationCenter.framework */; };
 		C9B3FAB5223C39F900B8524A /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAB4223C39F900B8524A /* TodayViewController.swift */; };
@@ -391,8 +391,8 @@
 		C9AE54CA21792ABC00818F11 /* ZoomingImageViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomingImageViewDelegate.swift; sourceTree = "<group>"; };
 		C9AE54CC21792BE400818F11 /* FullScreenImageTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageTransitionController.swift; sourceTree = "<group>"; };
 		C9AE54CE21795D7A00818F11 /* FullScreenImageDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageDelegate.swift; sourceTree = "<group>"; };
-		C9AE54D02179697F00818F11 /* ZoomInAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomInAnimationController.swift; sourceTree = "<group>"; };
-		C9AE54D22179733E00818F11 /* ZoomOutAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomOutAnimationController.swift; sourceTree = "<group>"; };
+		C9AE54D02179697F00818F11 /* ZoomInAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomInAnimator.swift; sourceTree = "<group>"; };
+		C9AE54D22179733E00818F11 /* ZoomOutAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomOutAnimator.swift; sourceTree = "<group>"; };
 		C9AE8BCC2409D4BF00AB32DA /* ViewAnimatedTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAnimatedTransitioning.swift; sourceTree = "<group>"; };
 		C9B3FAB0223C39F900B8524A /* DealWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DealWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B3FAB1223C39F900B8524A /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -688,8 +688,8 @@
 			children = (
 				C9AE54CC21792BE400818F11 /* FullScreenImageTransitionController.swift */,
 				C98C61EB245D02B400BF1129 /* ZoomAnimator.swift */,
-				C9AE54D02179697F00818F11 /* ZoomInAnimationController.swift */,
-				C9AE54D22179733E00818F11 /* ZoomOutAnimationController.swift */,
+				C9AE54D02179697F00818F11 /* ZoomInAnimator.swift */,
+				C9AE54D22179733E00818F11 /* ZoomOutAnimator.swift */,
 			);
 			path = Animator;
 			sourceTree = "<group>";
@@ -1698,7 +1698,7 @@
 				C954028B22FDFB1E00465FFD /* TableViewDiff.swift in Sources */,
 				C9102F98224FF04000B06679 /* AcknowledgementsViewController.swift in Sources */,
 				C923838E22B1B483003BB1DA /* PurchaseQuantityType.swift in Sources */,
-				C9AE54D12179697F00818F11 /* ZoomInAnimationController.swift in Sources */,
+				C9AE54D12179697F00818F11 /* ZoomInAnimator.swift in Sources */,
 				C9EF5ACB215CA82F00B5D2EC /* Operators.swift in Sources */,
 				C9DAC4AC21476CEA00D6558B /* MainCoordinator.swift in Sources */,
 				C9DAC49D21476BBE00D6558B /* Theme.swift in Sources */,
@@ -1767,7 +1767,7 @@
 				C9DAC48321476A4000D6558B /* HasProtocols.swift in Sources */,
 				C93CBEDA2320C8C70033DCD0 /* DebugCoordinator.swift in Sources */,
 				C937EFE922DFFF1400C363C8 /* Optional+Prism.swift in Sources */,
-				C9AE54D32179733E00818F11 /* ZoomOutAnimationController.swift in Sources */,
+				C9AE54D32179733E00818F11 /* ZoomOutAnimator.swift in Sources */,
 				C96BED9A23BD66FF00510058 /* UIView+Ext.swift in Sources */,
 				C9DAC4A521476C5E00D6558B /* ImageService.swift in Sources */,
 				C97AC2DA23B6AA3000B721AC /* ScrollableView.swift in Sources */,
