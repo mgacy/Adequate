@@ -25,10 +25,13 @@ final class PagedImageView: UIView {
         return firstImageCell.viewState
     }
 
-    // FIXME: consolidate `currentPage`, `primaryVisiblePage`, `visibleImageState`, and `visibleImage` and the methods they use to determine the current page
+    // FIXME: consolidate `currentPage`, `primaryVisiblePage`, `visibleImageState`, and `visibleImage` (and `focusedIndexPath`?) and the methods they use to determine the current page
     private var primaryVisiblePage: Int {
         return collectionView.frame.size.width > 0 ? Int(collectionView.contentOffset.x + collectionView.frame.size.width / 2) / Int(collectionView.frame.size.width) : 0
     }
+
+    /// Currently visible page at the beginning of rotation; used to restore state following rotation and layout invalidation.
+    private var focusedIndexPath: IndexPath?
 
     private let dataSource: PagedImageViewDataSourceType
     weak var delegate: PagedImageViewDelegate?
@@ -175,14 +178,14 @@ final class PagedImageView: UIView {
 extension PagedImageView {
 
     public func beginRotation() {
-        isPaging = true
         collectionView.isHidden = true
     }
 
-    public func completeRotation(page currentPage: Int) {
+    public func completeRotation() {
         layoutIfNeeded()
         flowLayout.invalidateLayout()
         // TODO: set flowLayout.estimatedItemSize using value from VC.viewWillTransition(to:, with:)?
+        isPaging = true
         // https://stackoverflow.com/a/52281704/4472195
         collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally,
                                     animated: false)

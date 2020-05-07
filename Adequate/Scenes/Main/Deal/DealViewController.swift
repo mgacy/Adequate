@@ -234,14 +234,13 @@ extension DealViewController {
     // TODO: remove now that we use PadDealViewController on iPad?
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        let currentPage = pagedImageView.primaryVisiblePage
         //let parallaxHeight: CGFloat = size.width + pagedImageView.pageControlHeight
         coordinator.animate(
             alongsideTransition: { [weak self] (context) -> Void in
                 self?.pagedImageView.beginRotation()
             },
             completion: { [weak self] (context) -> Void in
-                self?.pagedImageView.completeRotation(page: currentPage)
+                self?.pagedImageView.completeRotation()
                 //self?.rootView.scrollView.headerHeight = parallaxHeight
             }
         )

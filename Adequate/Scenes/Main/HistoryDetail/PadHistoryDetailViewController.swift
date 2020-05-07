@@ -235,8 +235,6 @@ extension PadHistoryDetailViewController {
 
         // PagedImageView
         // For collection view rotation see also: https://stackoverflow.com/a/43322706
-        // TODO: use pagedImageView.currentPage instead
-        let currentPage = pagedImageView.primaryVisiblePage
         coordinator.animate(
             alongsideTransition: { [unowned self] (context) -> Void in
                 // If we are changing size classes, this will already be the new size class
@@ -254,7 +252,7 @@ extension PadHistoryDetailViewController {
                 self.pagedImageView.beginRotation()
             },
             completion: { [unowned self] (context) -> Void in
-                self.pagedImageView.completeRotation(page: currentPage)
+                self.pagedImageView.completeRotation()
             }
         )
     }
