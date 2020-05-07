@@ -13,8 +13,11 @@ import Promise
 final class PagedImageView: UIView {
 
     private(set) var currentPage: Int = 0
+
+    /// Flag indicating that `pageControl` has initiated collection view scrolling and should not be updated via `scrollViewDidScroll(_:)`.
     private var isPaging: Bool = false
 
+    /// View state of the currently visible cell.
     var visibleImageState: ViewState<UIImage>? {
         guard let firstImageCell = collectionView.visibleCells.first as? ImageCell else {
             return nil
@@ -22,7 +25,8 @@ final class PagedImageView: UIView {
         return firstImageCell.viewState
     }
 
-    var primaryVisiblePage: Int {
+    // FIXME: consolidate `currentPage`, `primaryVisiblePage`, `visibleImageState`, and `visibleImage` and the methods they use to determine the current page
+    private var primaryVisiblePage: Int {
         return collectionView.frame.size.width > 0 ? Int(collectionView.contentOffset.x + collectionView.frame.size.width / 2) / Int(collectionView.frame.size.width) : 0
     }
 
@@ -38,6 +42,7 @@ final class PagedImageView: UIView {
         }
     }
 
+    /// Height of `pageControl` subview.
     let pageControlHeight: CGFloat = 24.0
 
     // MARK: - Subviews
@@ -153,6 +158,17 @@ final class PagedImageView: UIView {
                       width: collectionView.frame.size.width,
                       height: collectionView.frame.size.height)
     }
+
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if !isPaging {
+            currentPage = primaryVisiblePage
+            pageControl.currentPage = primaryVisiblePage
+        }
+    }
+
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        isPaging = false
+    }
 }
 
 // MARK: - Rotation Helpers
@@ -239,17 +255,6 @@ extension PagedImageView: UICollectionViewDelegateFlowLayout {
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView.bounds.size
-    }
-
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if !isPaging {
-            currentPage = primaryVisiblePage
-            pageControl.currentPage = primaryVisiblePage
-        }
-    }
-
-    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        isPaging = false
     }
 }
 
