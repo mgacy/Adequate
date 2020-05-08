@@ -235,6 +235,7 @@ extension PadHistoryDetailViewController {
 
         // PagedImageView
         // For collection view rotation see also: https://stackoverflow.com/a/43322706
+        self.pagedImageView.beginRotation()
         coordinator.animate(
             alongsideTransition: { [unowned self] (context) -> Void in
                 // If we are changing size classes, this will already be the new size class
@@ -249,7 +250,7 @@ extension PadHistoryDetailViewController {
                         NSLayoutConstraint.activate(self.rootView.portraitConstraints)
                     }
                 }
-                self.pagedImageView.beginRotation()
+                self.pagedImageView.layoutIfNeeded()
             },
             completion: { [unowned self] (context) -> Void in
                 self.pagedImageView.completeRotation()

@@ -33,6 +33,9 @@ final class PagedImageView: UIView {
     /// Currently visible page at the beginning of rotation; used to restore state following rotation and layout invalidation.
     private var focusedIndexPath: IndexPath?
 
+    /// Temporary view used to cover `collectionView` and hide layout invalidation during rotation.
+    private var coveringImageView: UIView?
+
     private let dataSource: PagedImageViewDataSourceType
     weak var delegate: PagedImageViewDelegate?
 
@@ -91,6 +94,7 @@ final class PagedImageView: UIView {
     // MARK: - Configuration
 
     private func configure() {
+        clipsToBounds = true
         // collectionView
         collectionView.register(cellType: ImageCell.self)
         collectionView.delegate = self
@@ -178,18 +182,38 @@ final class PagedImageView: UIView {
 extension PagedImageView {
 
     public func beginRotation() {
-        collectionView.isHidden = true
+        focusedIndexPath = collectionView.indexPathsForVisibleItems.first
+
+        coveringImageView?.removeFromSuperview()
+        guard !collectionView.isHidden, let view = makeTransitioningView() else {
+            return
+        }
+        view.backgroundColor = backgroundColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(view)
+        NSLayoutConstraint.activate([
+            view.leadingAnchor.constraint(equalTo: leadingAnchor),
+            view.topAnchor.constraint(equalTo: topAnchor),
+            view.trailingAnchor.constraint(equalTo: trailingAnchor),
+            view.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -pageControlHeight),
+        ])
+
+        layoutIfNeeded()
+        coveringImageView = view
     }
 
     public func completeRotation() {
         layoutIfNeeded()
         flowLayout.invalidateLayout()
         // TODO: set flowLayout.estimatedItemSize using value from VC.viewWillTransition(to:, with:)?
-        isPaging = true
         // https://stackoverflow.com/a/52281704/4472195
-        collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally,
-                                    animated: false)
-        collectionView.isHidden = false
+        if let idx = focusedIndexPath {
+            isPaging = true
+            collectionView.scrollToItem(at: idx, at: .centeredHorizontally, animated: false)
+            focusedIndexPath = nil
+        }
+        coveringImageView?.removeFromSuperview()
+        coveringImageView = nil
     }
 }
 
@@ -230,7 +254,7 @@ extension PagedImageView: ViewAnimatedTransitioning {
         let v: UIView
         if let visibleImageView = dataSource.imageSource(for: IndexPath(item: primaryVisiblePage, section: 0)).value {
             v = UIImageView(image: visibleImageView)
-            //v.contentMode = .scaleAspectFit
+            v.contentMode = .scaleAspectFit
             //v.frame = originFrame
         } else {
             v = UIView(frame: originFrame)
