@@ -38,6 +38,11 @@ final class PagedImageViewDataSource: NSObject, PagedImageViewDataSourceType {
     }
 
     func imageSource(for indexPath: IndexPath) -> Promise<UIImage> {
+        guard !urls.isEmpty, indexPath.row < urls.count else {
+            // FIXME: use better error; add error type for data source?
+            let error = NetworkClientError.myError(message: "Missing URLs")
+            return Promise<UIImage>(error: error)
+        }
         let imageURL = urls[indexPath.row]
         let imageSource: Promise<UIImage>
         if let cachedImage = imageService.fetchedImage(for: imageURL, tryingSecondary: indexPath.row == 0) {
