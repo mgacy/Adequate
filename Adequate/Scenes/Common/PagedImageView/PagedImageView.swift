@@ -14,6 +14,9 @@ final class PagedImageView: UIView {
 
     private(set) var currentPage: Int = 0
 
+    private let dataSource: PagedImageViewDataSourceType
+    weak var delegate: PagedImageViewDelegate?
+
     /// Flag indicating that `pageControl` has initiated collection view scrolling and should not be updated via `scrollViewDidScroll(_:)`.
     private var isPaging: Bool = false
 
@@ -26,6 +29,7 @@ final class PagedImageView: UIView {
     }
 
     // FIXME: consolidate `currentPage`, `primaryVisiblePage`, `visibleImageState`, and `visibleImage` (and `focusedIndexPath`?) and the methods they use to determine the current page
+    /// Predominantly visible page; used to update `currentPage` and `pageControl.currentPage` when user is scrolling `collectionView`.
     private var primaryVisiblePage: Int {
         return collectionView.frame.size.width > 0 ? Int(collectionView.contentOffset.x + collectionView.frame.size.width / 2) / Int(collectionView.frame.size.width) : 0
     }
@@ -35,9 +39,6 @@ final class PagedImageView: UIView {
 
     /// Temporary view used to cover `collectionView` and hide layout invalidation during rotation.
     private var coveringImageView: UIView?
-
-    private let dataSource: PagedImageViewDataSourceType
-    weak var delegate: PagedImageViewDelegate?
 
     // MARK: - Appearance
 
@@ -53,7 +54,8 @@ final class PagedImageView: UIView {
 
     // MARK: - Subviews
 
-    let flowLayout: UICollectionViewFlowLayout = {
+    // TODO: add `resetLayout()` method rather than make this accessible?
+    lazy var flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .horizontal
@@ -136,6 +138,8 @@ final class PagedImageView: UIView {
     }
 
     public func reloadVisibleImage() {
+        // TODO: replace with:
+        //collectionView.reloadItems(at: [IndexPath(item: currentPage, section: 0)])
         guard
             let firstImageCell = collectionView.visibleCells.first as? ImageCell,
             firstImageCell.viewState != .loading else {
@@ -152,6 +156,9 @@ final class PagedImageView: UIView {
         isPaging = true
         let newPage = pageControl.currentPage
         currentPage = newPage
+        // TODO: replace with:
+        //collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0),
+        //                            at: .centeredHorizontally, animated: true)
         collectionView.scrollRectToVisible(makeRect(forPage: newPage), animated: true)
     }
 
@@ -182,6 +189,7 @@ final class PagedImageView: UIView {
 extension PagedImageView {
 
     public func beginRotation() {
+        //focusedIndexPath = IndexPath(item: currentPage, section: 0)
         focusedIndexPath = collectionView.indexPathsForVisibleItems.first
 
         coveringImageView?.removeFromSuperview()
@@ -252,6 +260,7 @@ extension PagedImageView: ViewAnimatedTransitioning {
 
     func makeTransitioningView() -> UIView? {
         let v: UIView
+        // TODO: use `currentPage` rather than `primaryVisiblePage`?
         if let visibleImageView = dataSource.imageSource(for: IndexPath(item: primaryVisiblePage, section: 0)).value {
             v = UIImageView(image: visibleImageView)
             v.contentMode = .scaleAspectFit
