@@ -224,7 +224,7 @@ extension PagedImageView {
         coveringImageView = nil
     }
 }
-
+/*
 // MARK: - View Controller Presentation Animation Helpers
 extension PagedImageView {
 
@@ -235,18 +235,16 @@ extension PagedImageView {
     }
 
     /// Hide views that will be animated during presentation and dismissal of `FullScreenImageViewController`.
-    // TODO: rename `transitionAnimationWillStart()`
-    public func beginTransition() {
+    public func transitionAnimationWillStart() {
         collectionView.isHidden = true
     }
 
     /// Show views that were animated during presentation and dismissal of `FullScreenImageViewController`.
-    // TODO: rename `transitionAnimationDidEnd()`
-    public func completeTransition() {
+    public func transitionAnimationDidEnd() {
         collectionView.isHidden = false
     }
 }
-
+*/
 // MARK: - ViewAnimatedTransitioning
 extension PagedImageView: ViewAnimatedTransitioning {
 
