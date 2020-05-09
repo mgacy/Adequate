@@ -17,8 +17,8 @@ final class PagedImageView: UIView {
     private let dataSource: PagedImageViewDataSourceType
     weak var delegate: PagedImageViewDelegate?
 
-    /// Flag indicating that `pageControl` has initiated collection view scrolling and should not be updated via `scrollViewDidScroll(_:)`.
-    private var isPaging: Bool = false
+    /// Flag indicating that `pageControl` should be updated  via `scrollViewDidScroll(_:)`.
+    private var updatePageControlDuringScroll: Bool = true
 
     /// View state of the currently visible cell.
     var visibleImageState: ViewState<UIImage>? {
@@ -153,7 +153,7 @@ final class PagedImageView: UIView {
     // MARK: - Pages
 
     @objc private func pageControlValueChanged() {
-        isPaging = true
+        updatePageControlDuringScroll = false
         let newPage = pageControl.currentPage
         currentPage = newPage
         // TODO: replace with:
@@ -174,14 +174,14 @@ final class PagedImageView: UIView {
     }
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if !isPaging {
+        if updatePageControlDuringScroll {
             currentPage = primaryVisiblePage
             pageControl.currentPage = primaryVisiblePage
         }
     }
 
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        isPaging = false
+        updatePageControlDuringScroll = true
     }
 }
 
@@ -216,7 +216,7 @@ extension PagedImageView {
         // TODO: set flowLayout.estimatedItemSize using value from VC.viewWillTransition(to:, with:)?
         // https://stackoverflow.com/a/52281704/4472195
         if let idx = focusedIndexPath {
-            isPaging = true
+            updatePageControlDuringScroll = false
             collectionView.scrollToItem(at: idx, at: .centeredHorizontally, animated: false)
             focusedIndexPath = nil
         }
