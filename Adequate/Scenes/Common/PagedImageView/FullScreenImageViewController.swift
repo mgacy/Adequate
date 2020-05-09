@@ -148,9 +148,15 @@ extension FullScreenImageViewController {
         activityIndicator.center = view.center // TODO: center relative to view or safe area?
         zoomingImageView.frame = view.frame
 
-        // TODO: vary position of closeButton when there is a notch
+        // TODO: move to `ViewMetrics` type?
         let x = view.safeAreaInsets.left + 28.0
-        let y = view.safeAreaInsets.top + 28.0
+        let y: CGFloat
+        switch view.safeAreaInsets.top {
+        case 0.0..<24.0:
+            y = view.safeAreaInsets.top + 8.0
+        default:
+            y = view.safeAreaInsets.top
+        }
         closeButton.frame = CGRect(x: x, y: y, width: 28.0, height: 28.0)
     }
 
