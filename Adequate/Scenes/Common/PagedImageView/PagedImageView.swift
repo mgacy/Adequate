@@ -17,9 +17,6 @@ final class PagedImageView: UIView {
     private let dataSource: PagedImageViewDataSourceType
     weak var delegate: PagedImageViewDelegate?
 
-    /// Flag indicating that `pageControl` should be updated  via `scrollViewDidScroll(_:)`.
-    private var updatePageControlDuringScroll: Bool = true
-
     /// View state of the currently visible cell.
     var visibleImageState: ViewState<UIImage>? {
         guard let firstImageCell = collectionView.visibleCells.first as? ImageCell else {
@@ -27,6 +24,9 @@ final class PagedImageView: UIView {
         }
         return firstImageCell.viewState
     }
+
+    /// Flag indicating that `pageControl` should be updated  via `scrollViewDidScroll(_:)`.
+    private var updatePageControlDuringScroll: Bool = true
 
     // FIXME: consolidate `currentPage`, `primaryVisiblePage`, `visibleImageState`, and `visibleImage` (and `focusedIndexPath`?) and the methods they use to determine the current page
     /// Predominantly visible page; used to update `currentPage` and `pageControl.currentPage` when user is scrolling `collectionView`.
@@ -146,31 +146,22 @@ final class PagedImageView: UIView {
                 log.warning("Visible image is already loading")
                 return
         }
-        let promise = dataSource.imageSource(for: IndexPath(row: primaryVisiblePage, section: 0))
+        let promise = dataSource.imageSource(for: IndexPath(row: currentPage, section: 0))
         firstImageCell.configure(with: promise)
     }
 
     // MARK: - Pages
 
     @objc private func pageControlValueChanged() {
+        currentPage = pageControl.currentPage
         updatePageControlDuringScroll = false
-        let newPage = pageControl.currentPage
-        currentPage = newPage
-        // TODO: replace with:
-        //collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0),
-        //                            at: .centeredHorizontally, animated: true)
-        collectionView.scrollRectToVisible(makeRect(forPage: newPage), animated: true)
+        collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0),
+                                    at: .centeredHorizontally, animated: true)
     }
 
     private func updatePageControl() {
         pageControl.numberOfPages = collectionView.numberOfItems(inSection: 0)
         pageControl.currentPage = currentPage
-    }
-
-    private func makeRect(forPage page: Int) -> CGRect {
-        return CGRect(x: collectionView.frame.size.width * CGFloat(page), y: 0.0,
-                      width: collectionView.frame.size.width,
-                      height: collectionView.frame.size.height)
     }
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -189,9 +180,7 @@ final class PagedImageView: UIView {
 extension PagedImageView {
 
     public func beginRotation() {
-        //focusedIndexPath = IndexPath(item: currentPage, section: 0)
         focusedIndexPath = collectionView.indexPathsForVisibleItems.first
-
         coveringImageView?.removeFromSuperview()
         guard !collectionView.isHidden, let view = makeTransitioningView() else {
             return
@@ -258,8 +247,7 @@ extension PagedImageView: ViewAnimatedTransitioning {
 
     func makeTransitioningView() -> UIView? {
         let v: UIView
-        // TODO: use `currentPage` rather than `primaryVisiblePage`?
-        if let visibleImageView = dataSource.imageSource(for: IndexPath(item: primaryVisiblePage, section: 0)).value {
+        if let visibleImageView = dataSource.imageSource(for: IndexPath(item: currentPage, section: 0)).value {
             v = UIImageView(image: visibleImageView)
             v.contentMode = .scaleAspectFit
             //v.frame = originFrame
@@ -272,7 +260,6 @@ extension PagedImageView: ViewAnimatedTransitioning {
 }
 
 // MARK: - UICollectionViewDelegate
-// TODO: move to PagedImageViewDataSource?
 extension PagedImageView: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
