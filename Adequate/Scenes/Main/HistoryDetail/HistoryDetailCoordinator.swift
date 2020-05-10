@@ -10,13 +10,12 @@ import UIKit
 import SafariServices
 import Promise
 
-final class HistoryDetailCoordinator: BaseCoordinator {
+final class HistoryDetailCoordinator: Coordinator {
     typealias CoordinationResult = Void
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
     typealias Topic = GetDealQuery.Data.GetDeal.Topic
 
-    private let router: RouterType
     private let dependencies: Dependencies
     private let deal: Deal
 
@@ -25,9 +24,9 @@ final class HistoryDetailCoordinator: BaseCoordinator {
     // MARK: - Lifecycle
 
     init(router: RouterType, dependencies: Dependencies, deal: Deal) {
-        self.router = router
         self.dependencies = dependencies
         self.deal = deal
+        super.init(router: router)
     }
 
     override func start(with deepLink: DeepLink?) {
@@ -85,13 +84,6 @@ final class HistoryDetailCoordinator: BaseCoordinator {
 
 }
 
-// MARK: - Presentable
-extension HistoryDetailCoordinator: Presentable {
-    func toPresent() -> UIViewController {
-        return router.toPresent()
-    }
-}
-
 // MARK: - VoidDismissalDelegate
 extension HistoryDetailCoordinator: VoidDismissalDelegate {
     func dismiss() {
@@ -106,14 +98,11 @@ extension HistoryDetailCoordinator: UIAdaptivePresentationControllerDelegate {
     }
 }
 
+// MARK: - FullScreenImagePresenting
+extension HistoryDetailCoordinator: FullScreenImagePresenting {}
+
 // MARK: - HistoryDetailViewControllerDelegate
 extension HistoryDetailCoordinator: HistoryDetailViewControllerDelegate {
-    func showImage(animatingFrom pagedImageView: PagedImageView) {
-        let viewController = FullScreenImageViewController(imageSource: pagedImageView.visibleImage)
-        viewController.delegate = self
-        viewController.setupTransitionController(animatingFrom: pagedImageView)
-        router.present(viewController, animated: true)
-    }
 
     func showForum(with topic: Topic) {
         guard let topicURL = URL(string: topic.url) else {

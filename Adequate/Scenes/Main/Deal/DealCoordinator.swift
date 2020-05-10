@@ -82,6 +82,9 @@ final class DealCoordinator: Coordinator {
 
 }
 
+// MARK: - FullScreenImagePresenting
+extension DealCoordinator: FullScreenImagePresenting {}
+
 // MARK: - DealViewControllerDelegate
 extension DealCoordinator: DealViewControllerDelegate {
 
@@ -97,13 +100,6 @@ extension DealCoordinator: DealViewControllerDelegate {
 
     func showForum(with topic: Topic) {
         showWebPage(with: topic.url, animated: true)
-    }
-
-    func showImage(animatingFrom pagedImageView: PagedImageView) {
-        let viewController = FullScreenImageViewController(imageSource: pagedImageView.visibleImage)
-        viewController.delegate = self
-        viewController.setupTransitionController(animatingFrom: pagedImageView)
-        router.present(viewController, animated: true)
     }
 
     func showPurchase(for deal: Deal) {

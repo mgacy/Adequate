@@ -289,8 +289,7 @@ extension PadDealViewController {
 
         // PagedImageView
         // For collection view rotation see also: https://stackoverflow.com/a/43322706
-        // TODO: use pagedImageView.currentPage instead
-        let currentPage = pagedImageView.primaryVisiblePage
+        self.pagedImageView.beginRotation()
         coordinator.animate(
             alongsideTransition: { [unowned self] (context) -> Void in
                 // If we are changing size classes, this will already be the new size class
@@ -306,10 +305,10 @@ extension PadDealViewController {
                     }
                 //} else if self.traitCollection.horizontalSizeClass == .compact {
                 }
-                self.pagedImageView.beginRotation()
+                self.pagedImageView.layoutIfNeeded()
             },
             completion: { [unowned self] (context) -> Void in
-                self.pagedImageView.completeRotation(page: currentPage)
+                self.pagedImageView.completeRotation()
             }
         )
     }
@@ -408,8 +407,24 @@ extension PadDealViewController {
 // MARK: - PagedImageViewDelegate
 extension PadDealViewController: PagedImageViewDelegate {
 
-    func displayFullscreenImage(animatingFrom pagedImageView: PagedImageView) {
-        delegate?.showImage(animatingFrom: pagedImageView)
+    func displayFullScreenImage(dataSource: PagedImageViewDataSourceType, indexPath: IndexPath) {
+        delegate?.showImage(animatingFrom: self, dataSource: dataSource, indexPath: indexPath)
+    }
+}
+
+// MARK: - ViewAnimatedTransitioning
+extension PadDealViewController: ViewAnimatedTransitioning {
+
+    var originFrame: CGRect {
+        return pagedImageView.originFrame
+    }
+
+    var originView: UIView {
+        return pagedImageView.originView
+    }
+
+    func makeTransitioningView() -> UIView? {
+        return pagedImageView.makeTransitioningView()
     }
 }
 

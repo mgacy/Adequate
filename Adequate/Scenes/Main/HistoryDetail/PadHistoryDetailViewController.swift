@@ -235,8 +235,7 @@ extension PadHistoryDetailViewController {
 
         // PagedImageView
         // For collection view rotation see also: https://stackoverflow.com/a/43322706
-        // TODO: use pagedImageView.currentPage instead
-        let currentPage = pagedImageView.primaryVisiblePage
+        self.pagedImageView.beginRotation()
         coordinator.animate(
             alongsideTransition: { [unowned self] (context) -> Void in
                 // If we are changing size classes, this will already be the new size class
@@ -251,10 +250,10 @@ extension PadHistoryDetailViewController {
                         NSLayoutConstraint.activate(self.rootView.portraitConstraints)
                     }
                 }
-                self.pagedImageView.beginRotation()
+                self.pagedImageView.layoutIfNeeded()
             },
             completion: { [unowned self] (context) -> Void in
-                self.pagedImageView.completeRotation(page: currentPage)
+                self.pagedImageView.completeRotation()
             }
         )
     }
@@ -335,8 +334,25 @@ extension PadHistoryDetailViewController {
 // MARK: - PagedImageViewDelegate
 extension PadHistoryDetailViewController: PagedImageViewDelegate {
 
-    func displayFullscreenImage(animatingFrom pagedImageView: PagedImageView) {
-        delegate?.showImage(animatingFrom: pagedImageView)
+    func displayFullScreenImage(dataSource: PagedImageViewDataSourceType, indexPath: IndexPath) {
+        // TODO: pass self or just pass pagedImageView as `animatingFrom`?
+        delegate?.showImage(animatingFrom: self, dataSource: dataSource, indexPath: indexPath)
+    }
+}
+
+// MARK: - ViewAnimatedTransitioning
+extension PadHistoryDetailViewController: ViewAnimatedTransitioning {
+
+    var originFrame: CGRect {
+        return pagedImageView.originFrame
+    }
+
+    var originView: UIView {
+        return pagedImageView.originView
+    }
+
+    func makeTransitioningView() -> UIView? {
+        return pagedImageView.makeTransitioningView()
     }
 }
 

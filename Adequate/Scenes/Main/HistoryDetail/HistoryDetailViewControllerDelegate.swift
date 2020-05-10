@@ -8,8 +8,7 @@
 
 import Foundation
 
-protocol HistoryDetailViewControllerDelegate: VoidDismissalDelegate {
+protocol HistoryDetailViewControllerDelegate: VoidDismissalDelegate, FullScreenImagePresenting {
     typealias Topic = GetDealQuery.Data.GetDeal.Topic
     func showForum(with: Topic)
-    func showImage(animatingFrom: PagedImageView)
 }

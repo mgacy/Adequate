@@ -10,8 +10,9 @@ import UIKit
 
 final class FullScreenImageTransitionController: NSObject {
 
-    weak var viewController: FullScreenImageViewController!
-    weak var pagedImageView: PagedImageView!
+    weak var presentingDelegate: ViewAnimatedTransitioning!
+    weak var presentedDelegate: ViewAnimatedTransitioning!
+    weak var viewController: UIViewController!
 
     var interacting: Bool = false
 
@@ -29,10 +30,10 @@ final class FullScreenImageTransitionController: NSObject {
 
     // MARK: - Lifecycle
 
-    // TODO: pass protocol rather than view controller?
-    init(viewController: FullScreenImageViewController, pagedImageView: PagedImageView) {
-        self.viewController = viewController
-        self.pagedImageView = pagedImageView
+    init(presenting: UIViewController, from fromDelegate: ViewAnimatedTransitioning, to toDelegate: ViewAnimatedTransitioning) {
+        self.viewController = presenting
+        self.presentingDelegate = fromDelegate
+        self.presentedDelegate = toDelegate
         super.init()
         viewController.view.addGestureRecognizer(panGestureRecognizer)
     }
@@ -47,6 +48,7 @@ final class FullScreenImageTransitionController: NSObject {
 
         switch gesture.state {
         case .began:
+            interacting = true
             interactionController = UIPercentDrivenInteractiveTransition()
             viewController.dismiss(animated: true)
 
@@ -70,7 +72,6 @@ final class FullScreenImageTransitionController: NSObject {
             return
         }
     }
-
 }
 
 // MARK: - UIGestureRecognizerDelegate
@@ -85,26 +86,21 @@ extension FullScreenImageTransitionController: UIGestureRecognizerDelegate {
         }
         return false
     }
-
 }
 
 // MARK: - UIViewControllerTransitioningDelegate
 extension FullScreenImageTransitionController: UIViewControllerTransitioningDelegate {
 
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ZoomInAnimationController(animatingFrom: pagedImageView)
+        return ZoomInAnimator(from: presentingDelegate, to: presentedDelegate)
     }
 
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ZoomOutAnimationController(animatingTo: pagedImageView)
-    }
-
-    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactionController
+        return ZoomOutAnimator(from: presentedDelegate, to: presentingDelegate)
     }
 
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactionController
+        return interacting ? interactionController : nil
     }
 
 }
