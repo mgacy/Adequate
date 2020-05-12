@@ -50,6 +50,10 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
         //configuration.timeoutIntervalForResource = 8 // seconds
         //configuration.waitsForConnectivity = true    // reachability
 
+        // Disable caching since we are going to use our own caches.
+        configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
+        configuration.urlCache = nil
+
         // JSON Decoding
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
