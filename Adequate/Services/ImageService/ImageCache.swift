@@ -8,6 +8,18 @@
 
 import UIKit
 
+protocol KeyWrapping {
+    associatedtype Key: AnyObject & Hashable
+    var key: Key { get }
+}
+
+extension URL: KeyWrapping {
+    typealias Key = NSString
+    var key: Key {
+        return absoluteString as NSString
+    }
+}
+
 public class ImageCache: ImageCaching {
     public typealias Key = URL
     public typealias Value = UIImage // TODO: use UIImage or Data?
@@ -20,8 +32,8 @@ public class ImageCache: ImageCaching {
         }
     }
 
-    private lazy var wrapped: NSCache<NSString, UIImage> = {
-        let cache = NSCache<NSString, UIImage>()
+    private lazy var wrapped: NSCache<Key.Key, Value> = {
+        let cache = NSCache<Key.Key, Value>()
         //cache.name = "com.mgacy.x"
         cache.countLimit = countLimit
         cache.totalCostLimit = totalCostLimit
@@ -31,15 +43,15 @@ public class ImageCache: ImageCaching {
     //init() { }
 
     public func insert(_ value: Value, for key: Key) {
-        wrapped.setObject(value, forKey: key.absoluteString as NSString)
+        wrapped.setObject(value, forKey: key.key)
     }
 
     public func value(for key: Key) -> Value? {
-        return wrapped.object(forKey: key.absoluteString as NSString)
+        return wrapped.object(forKey: key.key)
     }
 
     public func removeValue(for key: Key) {
-        wrapped.removeObject(forKey: key.absoluteString as NSString)
+        wrapped.removeObject(forKey: key.key)
     }
 
     public func removeAll() {
