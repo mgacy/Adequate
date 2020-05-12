@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FileCache {
+class FileCache: ImageCaching {
 
     let maxFileCount: Int = 5
 
@@ -28,23 +28,14 @@ class FileCache {
 
     // MARK: - Write
 
-    func saveImageToCache(image: UIImage?, url: URL) {
+    func insert(_ value: UIImage, for key: URL) {
 
         // FIXME: ensure no illegal name characters?
         // FIXME: we are discarding a lot of info that could, theoretically, be significant
-        let fileName = url.lastPathComponent
+        let fileName = key.lastPathComponent
         let destinationURL = containerURL.appendingPathComponent(fileName)
 
-        guard let image = image else {
-            do {
-                try fileManager.removeItem(at: destinationURL)
-            } catch {
-                log.error("Error clearing image: \(error)")
-            }
-            return
-        }
-
-        guard let data = image.pngData() else {
+        guard let data = value.pngData() else {
             log.error("Error getting pngData from image")
             return
         }
@@ -67,15 +58,25 @@ class FileCache {
         do {
             try cleanupCache()
         } catch {
-            //print("Error cleaning up cache: ", error)
             log.error("Error cleaning up cache: \(error)")
+        }
+    }
+
+    func removeValue(for key: URL) {
+        let fileName = key.lastPathComponent
+        let destinationURL = containerURL.appendingPathComponent(fileName)
+
+        do {
+            try fileManager.removeItem(at: destinationURL)
+        } catch {
+            log.error("Error clearing image: \(error)")
         }
     }
 
     // MARK: - Read
 
-    func imageFromCache(for url: URL) -> UIImage? {
-        let fileName = url.lastPathComponent
+    func value(for key: URL) -> UIImage? {
+        let fileName = key.lastPathComponent
         var imageData: Data?
         do {
             imageData = try Data(contentsOf: containerURL.appendingPathComponent(fileName))
@@ -84,10 +85,10 @@ class FileCache {
             log.error("Error reading image data: \(error)")
         }
         guard let data = imageData else {
-            log.verbose("Failed to retrieve image for \(url)")
+            log.verbose("Failed to retrieve image for \(key)")
             return nil
         }
-        log.verbose("Succeeded in retrieving image for \(url)")
+        log.verbose("Succeeded in retrieving image for \(key)")
         // TODO: make more generic; just return Data and have other components handle UIImage
         return UIImage(data: data)
     }
@@ -95,11 +96,15 @@ class FileCache {
     // MARK: - Maintenance
 
     /// Remove all items from cache.
-    func clearCache() throws {
-        if let files = try markFilesForDeletion(at: containerURL, maxFileCount: 0) {
-            for file in files {
-                try fileManager.removeItem(at: file)
+    func removeAll() {
+        do {
+            if let files = try markFilesForDeletion(at: containerURL, maxFileCount: 0) {
+                for file in files {
+                    try fileManager.removeItem(at: file)
+                }
             }
+        } catch {
+            log.error("Error clearing cache: \(error)")
         }
     }
 

@@ -9,7 +9,8 @@
 import UIKit
 
 public protocol ImageCaching {
-    func saveImageToCache(image: UIImage?, url: URL)
-    func imageFromCache(for: URL) -> UIImage?
-    func clearCache()
+    func insert(_: UIImage, for: URL)
+    func value(for: URL) -> UIImage?
+    func removeValue(for: URL)
+    func removeAll()
 }
