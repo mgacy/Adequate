@@ -1,5 +1,5 @@
 //
-//  ImageCache.swift
+//  Cache.swift
 //  Adequate
 //
 //  Created by Mathew Gacy on 9/27/19.
@@ -8,21 +8,19 @@
 
 import UIKit
 
-protocol KeyWrapping {
+public protocol KeyWrapping {
     associatedtype Key: AnyObject & Hashable
     var key: Key { get }
 }
 
 extension URL: KeyWrapping {
-    typealias Key = NSString
-    var key: Key {
+    public typealias Key = NSString
+    public var key: Key {
         return absoluteString as NSString
     }
 }
 
-public class ImageCache: ImageCaching {
-    public typealias Key = URL
-    public typealias Value = UIImage // TODO: use UIImage or Data?
+public final class Cache<Key: KeyWrapping, Value: AnyObject>: Caching {
 
     public var countLimit: Int = 20
     public var totalCostLimit: Int = 10*1024*1024 // Max 10MB used.
@@ -40,7 +38,9 @@ public class ImageCache: ImageCaching {
         return cache
     }()
 
-    //init() { }
+    //init(countLimit: Int = 20, costLimit: Int = 10*1024*1024) {}
+
+    // MARK: - Caching
 
     public func insert(_ value: Value, for key: Key) {
         wrapped.setObject(value, forKey: key.key)
@@ -60,7 +60,7 @@ public class ImageCache: ImageCaching {
 }
 
 // MARK: - Subscripts
-extension ImageCache {
+extension Cache {
     public subscript(key: Key) -> Value? {
         get { return value(for: key) }
         set {
@@ -73,3 +73,5 @@ extension ImageCache {
     }
 }
 
+// MARK: - ImageCaching
+extension Cache: ImageCaching where Key == URL, Value == UIImage {}

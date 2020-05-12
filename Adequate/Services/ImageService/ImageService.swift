@@ -28,7 +28,7 @@ public class ImageService: ImageServiceType {
 
     public init(client: NetworkClientType) {
         self.client = client
-        self.memoryCache = ImageCache()
+        self.memoryCache = Cache<URL, UIImage>()
         self.diskCache = FileCache(appGroupID: "group.mgacy.com.currentDeal")
     }
 
