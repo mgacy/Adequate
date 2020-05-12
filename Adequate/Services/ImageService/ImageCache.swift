@@ -12,16 +12,19 @@ class ImageCache: ImageCaching {
 
     var cache = Dictionary<String, UIImage>()
 
-    func saveImageToCache(image: UIImage?, url: URL) {
-        guard let image = image else { return }
-        cache[url.absoluteString] = image
+    func insert(_ value: UIImage, for key: URL) {
+        cache[key.absoluteString] = value
     }
 
-    func imageFromCache(for url: URL) -> UIImage? {
-        return cache[url.absoluteString]
+    func value(for key: URL) -> UIImage? {
+        return cache[key.absoluteString]
     }
 
-    func clearCache() {
+    func removeValue(for key: URL) {
+        cache[key.absoluteString] = nil
+    }
+
+    func removeAll() {
         cache.removeAll()
     }
 }
