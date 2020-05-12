@@ -8,23 +8,56 @@
 
 import UIKit
 
-class ImageCache: ImageCaching {
+public class ImageCache: ImageCaching {
+    public typealias Key = URL
+    public typealias Value = UIImage // TODO: use UIImage or Data?
 
-    var cache = Dictionary<String, UIImage>()
-
-    func insert(_ value: UIImage, for key: URL) {
-        cache[key.absoluteString] = value
+    public var countLimit: Int = 20
+    public var totalCostLimit: Int = 10*1024*1024 // Max 10MB used.
+    public var delegate: NSCacheDelegate? {
+        didSet {
+            wrapped.delegate = delegate
+        }
     }
 
-    func value(for key: URL) -> UIImage? {
-        return cache[key.absoluteString]
+    private lazy var wrapped: NSCache<NSString, UIImage> = {
+        let cache = NSCache<NSString, UIImage>()
+        //cache.name = "com.mgacy.x"
+        cache.countLimit = countLimit
+        cache.totalCostLimit = totalCostLimit
+        return cache
+    }()
+
+    //init() { }
+
+    public func insert(_ value: Value, for key: Key) {
+        wrapped.setObject(value, forKey: key.absoluteString as NSString)
     }
 
-    func removeValue(for key: URL) {
-        cache[key.absoluteString] = nil
+    public func value(for key: Key) -> Value? {
+        return wrapped.object(forKey: key.absoluteString as NSString)
     }
 
-    func removeAll() {
-        cache.removeAll()
+    public func removeValue(for key: Key) {
+        wrapped.removeObject(forKey: key.absoluteString as NSString)
+    }
+
+    public func removeAll() {
+        wrapped.removeAllObjects()
     }
 }
+
+// MARK: - Subscripts
+extension ImageCache {
+    public subscript(key: Key) -> Value? {
+        get { return value(for: key) }
+        set {
+            guard let value = newValue else {
+                removeValue(for: key)
+                return
+            }
+            insert(value, for: key)
+        }
+    }
+}
+
