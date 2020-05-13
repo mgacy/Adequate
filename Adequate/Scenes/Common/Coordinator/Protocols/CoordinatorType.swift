@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol CoordinatorType: class {
+protocol CoordinatorType: AnyObject {
     //associatedtype CoordinationResult
     //associatedtype Transition
     //associatedtype Scene

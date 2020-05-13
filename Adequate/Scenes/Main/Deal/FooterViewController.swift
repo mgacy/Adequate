@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Delegate
 
-protocol DealFooterDelegate: class {
+protocol DealFooterDelegate: AnyObject {
     func buy()
 }
 

@@ -6,7 +6,7 @@
 //  Copyright © 2018 Mathew Gacy. All rights reserved.
 //
 
-protocol VoidDismissalDelegate: class {
+protocol VoidDismissalDelegate: AnyObject {
     //associatedtype ResultType
     //func dismiss(_: ResultType)
     func dismiss()

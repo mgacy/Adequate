@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Delegate
 
-protocol HistoryListViewControllerDelegate: class {
+protocol HistoryListViewControllerDelegate: AnyObject {
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
     func showHistoryDetail(with: Deal)
     func showSettings()

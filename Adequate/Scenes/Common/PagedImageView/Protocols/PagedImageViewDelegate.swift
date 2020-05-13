@@ -8,6 +8,6 @@
 
 import Promise
 
-protocol PagedImageViewDelegate: class {
+protocol PagedImageViewDelegate: AnyObject {
     func displayFullScreenImage(dataSource: PagedImageViewDataSourceType, indexPath: IndexPath)
 }

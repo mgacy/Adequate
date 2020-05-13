@@ -12,7 +12,7 @@
 
 import UIKit
 
-protocol Reusable: class {
+protocol Reusable: AnyObject {
     static var reuseID: String {get}
 }
 

@@ -23,7 +23,7 @@ enum UserDefaultsKey: String {
 }
 
 // MARK: - Protocol
-protocol UserDefaultsManagerType: class {
+protocol UserDefaultsManagerType: AnyObject {
     var hasShownOnboarding: Bool { get set }
     var showNotifications: Bool { get set }
 }

@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Delegate Protocol
 
-protocol AboutViewControllerDelegate: class {
+protocol AboutViewControllerDelegate: AnyObject {
     func showAcknowledgements()
     func showPrivacyPolicy()
 }

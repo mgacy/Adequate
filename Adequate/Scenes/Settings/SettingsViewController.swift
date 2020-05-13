@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Delegate Protocol
 
-protocol SettingsViewControllerDelegate: class {
+protocol SettingsViewControllerDelegate: AnyObject {
     func showAbout()
     func showReview()
     func dismiss(_: Void)

@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Protocol
 
-protocol SwipeDismissable: class {
+protocol SwipeDismissable: AnyObject {
     //var scrollView: UIScrollView { get }
     var shouldDismiss: Bool { get }
     var transitionController: UIViewControllerTransitioningDelegate? { get set }

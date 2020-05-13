@@ -8,6 +8,6 @@
 
 import UIKit
 
-protocol ZoomingImageViewDelegate: class {
+protocol ZoomingImageViewDelegate: AnyObject {
     func scrollViewDidUpdate(_: UIScrollView)
 }

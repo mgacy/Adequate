@@ -11,7 +11,7 @@ import Promise
 
 // MARK: - Delegate
 
-protocol ImageCellDelegate: class {
+protocol ImageCellDelegate: AnyObject {
     func retry(imageURL: URL) -> Promise<UIImage>
 }
 

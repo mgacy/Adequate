@@ -11,7 +11,7 @@ import Down
 
 // MARK: - Delegate
 
-protocol StoryViewControllerDelegate: class {
+protocol StoryViewControllerDelegate: AnyObject {
     func showDeal()
 }
 
