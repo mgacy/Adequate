@@ -82,8 +82,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .then({ [weak self] subscriptionArn in
                 self?.notificationServiceManager = nil
             })
-            .catch({ error in
+            .catch({ [weak self] error in
                 log.error("ERROR: \(error)")
+                // TODO: improve error handling
+                self?.notificationServiceManager = nil
             })
     }
 
