@@ -91,6 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         log.error("Failed to register for remote notifications with error: \(error)")
+        // TODO: disable notification-related functions
     }
 
     // MARK: - Background App Refresh

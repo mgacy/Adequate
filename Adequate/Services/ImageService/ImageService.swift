@@ -63,7 +63,7 @@ public class ImageService: ImageServiceType {
             //log.verbose("Primary Cache")
             return result
         } else if tryingSecondary, let file = diskCache.value(for: url) {
-            //log.verbose("Secondary Cache")
+            log.verbose("Found image for /(url) in diskCache")
             memoryCache.insert(file, for: url)
             return file
         } else {

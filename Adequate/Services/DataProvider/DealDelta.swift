@@ -8,6 +8,7 @@
 
 import Foundation
 
+// TODO: make a struct with a `dealID` and `updateType` property?
 enum DealDelta {
     case newDeal
     case commentCount(Int)

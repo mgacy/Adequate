@@ -219,16 +219,17 @@ class DataProvider: DataProviderType {
                     self.haveInitializedWatcher = true
                 case .failure(let error):
                     log.error("Error: \(error.localizedDescription)")
-
-                    // TODO: should we really display an error here?
-                    //if !self.haveInitializedWatcher {
-                    self.dealState = .error(error)
-                    //}
-                    //self.haveInitializedWatcher = true // ?
+                    if !self.haveInitializedWatcher {
+                        self.dealState = .error(error)
+                        self.haveInitializedWatcher = true // ?
+                    }
+                    // TODO: should we display an error after initial configuration?
+                    // TODO: check existing dealState; .loading -> .error
                 }
             }
         } catch {
             log.error("\(#function) - unable to watchCurrentDeal: \(error.localizedDescription)")
+            // TODO: always set dealState to .error?
             self.dealState = .error(error)
         }
     }
@@ -354,6 +355,7 @@ class DataProvider: DataProviderType {
             configureWatcher(cachePolicy: cachePolicy)
         case .launchFromNotification:
             // TODO: improve handling
+            // - if it was merely a deal delta notification, there is still some value to cached data
             configureWatcher(cachePolicy: .fetchIgnoringCacheData)
         case .foreground:
 
@@ -398,6 +400,7 @@ class DataProvider: DataProviderType {
 
     private func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.verbose("\(#function)")
+        // TODO: should we start a timer to ensure that the completionHandler is called within the next 30 - cushion seconds?
         if !credentialsProviderIsInitialized {
             log.error("Trying to refresh Deal before initializing credentials provider")
             // TODO: check if we are replacing existing pendingRefreshEvent
