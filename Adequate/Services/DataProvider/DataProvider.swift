@@ -13,41 +13,6 @@ import class Promise.Promise // import class to avoid name collision with AWSApp
 class DataProvider: DataProviderType {
     typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
-    // TODO: initialize with UserDefaultsManager; use AppGroup
-    private let defaults: UserDefaults = .standard
-
-    /// The last time we tried to fetch the current Deal (in response to Notification)
-    var lastDealRequest: Date {
-        get {
-            return defaults.object(forKey: UserDefaultsKey.lastDealRequest.rawValue) as? Date ?? Date.distantPast
-        }
-        set {
-            defaults.set(newValue, forKey: UserDefaultsKey.lastDealRequest.rawValue)
-        }
-    }
-
-    /// The last time we succeeded in fetching the current Deal
-    var lastDealResponse: Date {
-        get {
-            return defaults.object(forKey: UserDefaultsKey.lastDealResponse.rawValue) as? Date ?? Date.distantPast
-        }
-        set {
-            defaults.set(newValue, forKey: UserDefaultsKey.lastDealResponse.rawValue)
-        }
-    }
-    /*
-    /// The .createdAt of last Deal fetched from server
-    var lastDealCreatedAt: Date {
-        get {
-            return defaults.object(forKey: UserDefaultsKey.lastDealCreatedAt.rawValue) as? Date ?? Date.distantPast
-        }
-        set {
-            defaults.set(newValue, forKey: UserDefaultsKey.lastDealCreatedAt.rawValue)
-        }
-    }
-    */
-    private let minimumRefreshInterval: TimeInterval = 60
-
     // TODO: rename `ViewState<T>` as `ResourceState<T>`?
     private var dealState: ViewState<Deal> {
         didSet {
@@ -92,6 +57,8 @@ class DataProvider: DataProviderType {
     // TODO: use a task queue (`OperationQueue`) for RefreshEvents / fetches? See `AWSPerformMutationQueue`
     private var pendingRefreshEvent: RefreshEvent?
 
+    private let refreshManager: RefreshManager
+
     // MARK: - Lifecycle
 
     init(credentialsProvider: CredentialsProvider) {
@@ -99,6 +66,7 @@ class DataProvider: DataProviderType {
         self.historyState = .empty
         self.credentialsProvider = credentialsProvider
         self.client = MehSyncClient(credentialsProvider: credentialsProvider)
+        self.refreshManager = RefreshManager()
 
         addDealObserver(self) { dp, viewState in
             guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
@@ -127,6 +95,7 @@ class DataProvider: DataProviderType {
         self.historyState = .empty
         self.credentialsProvider = credentialsProvider
         self.client = client
+        self.refreshManager = RefreshManager()
 
         addDealObserver(self) { dp, viewState in
             guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
@@ -184,8 +153,11 @@ class DataProvider: DataProviderType {
             return
         }
 
-        if case .fetchIgnoringCacheData = cachePolicy {
-            lastDealRequest = Date()
+        switch cachePolicy {
+        case .returnCacheDataAndFetch, .fetchIgnoringCacheData:
+            refreshManager.update(.request)
+        default:
+            break
         }
 
         dealState = .loading
@@ -195,16 +167,14 @@ class DataProvider: DataProviderType {
                 case .success(let deal):
                     //log.verbose("Deal: \(deal)")
 
-                    // TODO: handle lastDealRequest?
+                    // FIXME: improve handling
                     if self.haveInitializedWatcher {
                         // We have already fetched a result that may have been from the cache; this is from the server.
-                        self.lastDealResponse = Date()
-                        //self.lastDealCreatedAt = DateFormatter.iso8601Full.date(from: deal.createdAt)
+                        self.refreshManager.update(.response(deal))
                     } else {
                         // This is the first time fetching
                         if case .fetchIgnoringCacheData = cachePolicy {
-                            self.lastDealRequest = Date()
-                            self.lastDealResponse = Date()
+                            self.refreshManager.update(.response(deal))
                         }
                     }
 
@@ -229,7 +199,6 @@ class DataProvider: DataProviderType {
             }
         } catch {
             log.error("\(#function) - unable to watchCurrentDeal: \(error.localizedDescription)")
-            // TODO: always set dealState to .error?
             self.dealState = .error(error)
         }
     }
@@ -243,7 +212,6 @@ class DataProvider: DataProviderType {
         }
         guard let currentDealWatcher = currentDealWatcher else {
             log.error("\(#function) - currentDealWatcher not configured")
-            //dealState = .loading
             //currentDealWatcher = configureWatcher(cachePolicy: .fetchIgnoringCacheData)
             return
         }
@@ -255,7 +223,7 @@ class DataProvider: DataProviderType {
             dealState = .loading
         }
 
-        lastDealRequest = Date()
+        refreshManager.update(.request)
         currentDealWatcher.refetch()
     }
 
@@ -331,26 +299,10 @@ class DataProvider: DataProviderType {
             refetchCurrentDeal(showLoading: true)
         // App State
         case .launch:
-            var cachePolicy: CachePolicy = .fetchIgnoringCacheData
-
-            // Can we rely on the cache?
-            if case .available = UIApplication.shared.backgroundRefreshStatus {
-                if lastDealResponse.timeIntervalSince(lastDealRequest) >= 0 {
-                    // Our last request succeeded
-                    // TODO: verify that Date().timeIntervalSince(lastDealCreatedAt) < 24 hours
-                    cachePolicy = .returnCacheDataAndFetch
-                } else {
-                    // Our last request failed
-                    cachePolicy = .fetchIgnoringCacheData
-                }
-            } else {
-                log.debug("backgroundRefreshStatus: \(UIApplication.shared.backgroundRefreshStatus)")
-                cachePolicy = .fetchIgnoringCacheData
-            }
+            let cachePolicy = refreshManager.cacheCondition.cachePolicy
 
             // Update Deal history after fetching current Deal
-            // TODO: use cachePolicy
-            refreshHistoryObserver = makeRefreshHistoryObserver(cachePolicy: .fetchIgnoringCacheData)
+            refreshHistoryObserver = makeRefreshHistoryObserver(cachePolicy: cachePolicy)
 
             configureWatcher(cachePolicy: cachePolicy)
         case .launchFromNotification:
@@ -358,30 +310,16 @@ class DataProvider: DataProviderType {
             // - if it was merely a deal delta notification, there is still some value to cached data
             configureWatcher(cachePolicy: .fetchIgnoringCacheData)
         case .foreground:
-
             guard currentDealWatcher != nil else {
                 log.error("\(#function) - \(event) - currentDealWatcher not configured)")
                 refreshDeal(for: .launch)
                 return
             }
+            // FIXME: under certain conditions, we should simply return if (1) last request succeeded
+            // and (2) time interval since `lastDealResponse` < `minimumRefreshInterval`
 
-            let showLoading: Bool
-            // TODO: showLoading and fetch if Date().timeIntervalSince(lastDealCreatedAt) >= 24 hours
-            if case .available = UIApplication.shared.backgroundRefreshStatus {
-                if lastDealResponse.timeIntervalSince(lastDealRequest) < 0 {
-                    // Last request failed
-                    showLoading = true
-                } else {
-                    //log.debug("Skipping refresh")
-                    //return
-                    showLoading = false
-                }
-            } else {
-                log.debug("backgroundRefreshStatus: \(UIApplication.shared.backgroundRefreshStatus)")
-                showLoading = false // ?
-            }
-
-            refetchCurrentDeal(showLoading: showLoading)
+            let cacheCondition = refreshManager.cacheCondition
+            refetchCurrentDeal(showLoading: cacheCondition.showLoading)
 
         // Notifications
         case .foregroundNotification:
@@ -408,7 +346,7 @@ class DataProvider: DataProviderType {
             return
         }
 
-        self.lastDealRequest = Date()
+        refreshManager.update(.request)
         // FIXME: this does not necessarily ensure we are not already fetching the current deal, since we may have called `refreshDeal(showLoading: false, cachePolicy:)`
         guard dealState != ViewState<Deal>.loading else {
             log.debug("Already fetching Deal; setting .fetchCompletionObserver")
@@ -424,8 +362,7 @@ class DataProvider: DataProviderType {
                 guard let newDeal = Deal(result.getDeal) else {
                     throw SyncClientError.missingData(data: result)
                 }
-                self.lastDealResponse = Date()
-                //self.lastDealCreatedAt = DateFormatter.iso8601Full.date(from: deal.createdAt)
+                self.refreshManager.update(.response(newDeal))
                 if case .result(let oldDeal) = self.dealState {
                     if oldDeal != newDeal {
                         log.debug("BACKGROUND_APP_REFRESH: newData")
@@ -442,7 +379,7 @@ class DataProvider: DataProviderType {
                     completionHandler(.newData)
                 }
             }).catch({ error in
-                log.error("\(#function): \(error.localizedDescription)")
+                log.error("BACKGROUND_APP_REFRESH: failed - \(error.localizedDescription)")
                 //self.dealState = .error(error)
                 completionHandler(.failed)
             })
