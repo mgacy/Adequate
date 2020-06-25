@@ -69,6 +69,7 @@ public class CurrentDealManager {
                 do {
                     try data.write(to: self.sharedContainerURL.appendingPathComponent(.dealLocation))
                 } catch {
+                    // FIXME: improve handling
                     print("Error writing data to file")
                 }
             }
@@ -88,6 +89,7 @@ public class CurrentDealManager {
                 }
 
             } catch let error {
+                // FIXME: improve handling
                 print("ERROR: \(error)")
             }
         }
@@ -108,6 +110,7 @@ public class CurrentDealManager {
             }
             self.saveImage(image: scaledImage)
         } catch let error {
+            // FIXME: improve handling
             print("ERROR: \(error)")
         }
     }

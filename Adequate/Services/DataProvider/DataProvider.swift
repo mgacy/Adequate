@@ -68,6 +68,7 @@ class DataProvider: DataProviderType {
         self.client = MehSyncClient(credentialsProvider: credentialsProvider)
         self.refreshManager = RefreshManager()
 
+        // TODO: do work on another thread
         addDealObserver(self) { dp, viewState in
             guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
                 return
@@ -306,6 +307,10 @@ class DataProvider: DataProviderType {
 
             configureWatcher(cachePolicy: cachePolicy)
         case .launchFromNotification:
+            // FIXME: `DeepLink.build(with:)` does not distinguish different types of notifications
+            // In the future, we will need to handle DealDeltas differently
+
+            // TODO: should we first check `UIApplication.shared.backgroundRefreshStatus`?
             // TODO: improve handling
             // - if it was merely a deal delta notification, there is still some value to cached data
             configureWatcher(cachePolicy: .fetchIgnoringCacheData)
@@ -392,6 +397,7 @@ class DataProvider: DataProviderType {
         // FIXME: this prevents fetch if there was an error last time
         guard case .result(let currentDeal) = dealState else {
             // TODO: for `launchStatus` and `commentCount`, verify that the delta applies to currentDeal
+            //  - but the `id` of `currentDeal` is simply going to be `current_deal`, not meh's actual `id`
             // TODO: try to fetch from cache and see if that is the correct one?
             log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
             if fetchCompletionObserver != nil {

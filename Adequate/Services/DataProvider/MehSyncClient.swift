@@ -119,13 +119,14 @@ class MehSyncClient: MehSyncClientType {
                 }
                 resultHandler(.success(deal))
             } else {
+                // FIXME: is this really something we can expect to never encounter?
                 resultHandler(.failure(SyncClientError.myError(message: "Something has gone horribly wrong.")))
             }
         }
     }
 
     // TODO: add private watch<T: GraphQLQuery>(query:cachePolicy:queue:resultHandler:) -> GraphQLQueryWatcher<T> method?
-    // TODO: how would we handle the type of the result?
+    // TODO: would we need to handle the type of the result using type erasure?
 
     // MARK: - Cache
 

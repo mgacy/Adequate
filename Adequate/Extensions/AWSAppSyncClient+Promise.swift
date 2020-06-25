@@ -30,6 +30,7 @@ extension AWSAppSyncClient {
                 } else if let result = result, let data = result.data {
                     fulfill(data)
                 } else {
+                    // FIXME: handle case where there is no data; a query for which there is no result
                     fatalError("Something has gone horribly wrong.")
                 }
             }
