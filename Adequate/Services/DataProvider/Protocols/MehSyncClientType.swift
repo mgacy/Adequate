@@ -17,5 +17,5 @@ protocol MehSyncClientType {
     func fetchDeal(withID id: GraphQLID, cachePolicy: CachePolicy) -> Promise<GetDealQuery.Data>
     func fetchDealHistory(from startDate: Date, to endDate: Date, cachePolicy: CachePolicy) -> Promise<ListDealsForPeriodQuery.Data>
     func watchCurrentDeal(cachePolicy: CachePolicy, queue: DispatchQueue, resultHandler: @escaping DealResultHandler) throws -> GraphQLQueryWatcher<GetDealQuery>
-    func updateCache(for deal: Deal, delta: DealDelta) throws
+    func updateCache(for deal: Deal, delta: DealDelta) -> Promise<Void>
 }

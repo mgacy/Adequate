@@ -416,19 +416,14 @@ class DataProvider: DataProviderType {
                 let updatedDeal = launchStatusLens.set(newStatus)(currentDeal)
                 dealState = .result(updatedDeal)
 
-//                do {
-//                    try client.updateCache(for: updatedDeal, delta: delta)
-//                    // TODO: update `lastDealResponse`?
-//                    completionHandler(.newData)
-//                } catch {
-//                    log.error("Unable to update cache")
-//                    completionHandler(.failed)
-//                }
-
-                // TODO: handle error?
-                try? client.updateCache(for: updatedDeal, delta: delta)
-                // TODO: update `lastDealResponse`?
-                completionHandler(.newData)
+                client.updateCache(for: updatedDeal, delta: delta)
+                    .then({ _ in
+                        // TODO: update `lastDealResponse`?
+                        completionHandler(.newData)
+                    }).catch({ error in
+                        log.error("Unable to update cache: \(error)")
+                        completionHandler(.failed)
+                    })
             } else {
                 completionHandler(.noData)
             }
@@ -445,10 +440,14 @@ class DataProvider: DataProviderType {
                     }
                     dealState = .result(updatedDeal)
 
-                    // TODO: handle error?
-                    try? client.updateCache(for: updatedDeal, delta: delta)
-                    // TODO: update `lastDealResponse`?
-                    completionHandler(.newData)
+                    client.updateCache(for: updatedDeal, delta: delta)
+                        .then({ _ in
+                            // TODO: update `lastDealResponse`?
+                            completionHandler(.newData)
+                        }).catch({ error in
+                            log.error("Unable to update cache: \(error)")
+                            completionHandler(.failed)
+                        })
                 } else {
                     completionHandler(.noData)
                 }

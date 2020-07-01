@@ -109,38 +109,37 @@ class MehSyncClient: MehSyncClientType {
 
     // MARK: - Cache
 
-    // TODO: simply return Promise?
-    func updateCache(for deal: Deal, delta: DealDelta) throws {
-        // TODO: improve handling / reporting of cases below
-        guard let client = appSyncClient, let store = client.store else {
-            log.error("Unable to get store")
-            return
-            // FIXME: throw error (what type?)
-        }
-        // TODO: throw error and make caller handler it
+    func updateCache(for deal: Deal, delta: DealDelta) -> Promise<Void> {
         if case .newDeal = delta {
-            log.error("Unable to update cache for \(delta)")
-            return
-            // FIXME: throw error (what type?)
+            preconditionFailure("Unable to update DealDelta.newDeal")
+        }
+        guard let client = appSyncClient, let store = client.store else {
+            // FIXME: this could (maybe?) be inaccurate since the problem might be a missing store
+            return Promise<Void>(error: SyncClientError.missingClient)
         }
 
-        // NOTE: this uses AWSAppSync.Promise (from Apollo)
-        store.withinReadWriteTransaction { transaction in
-            let query = GetDealQuery(id: deal.id)
-            try transaction.update(query: query) { (data: inout GetDealQuery.Data) in
-                switch delta {
-                case .commentCount(let newCount):
-                    data.getDeal?.topic?.commentCount = newCount
-                case .launchStatus(let newStatus):
-                    data.getDeal?.launchStatus = newStatus
-                default:
-                    break
+        // Wrapping Apollo.Promise in Promise is ugly, but we don't have access to `ApolloStore.queue` and thus can't
+        // extend the class to accept a completion handler that we might use with Promise directly.
+        // TODO: should I be using a capture list: `... { [store] fulfill, reject in`?
+        return Promise<Void> { fulfill, reject in
+            // NOTE: this uses AWSAppSync.Promise (from Apollo)
+            store.withinReadWriteTransaction { transaction in
+                let query = GetDealQuery(id: deal.id)
+                try transaction.update(query: query) { (data: inout GetDealQuery.Data) in
+                    switch delta {
+                    case .commentCount(let newCount):
+                        data.getDeal?.topic?.commentCount = newCount
+                    case .launchStatus(let newStatus):
+                        data.getDeal?.launchStatus = newStatus
+                    default:
+                        break
+                    }
+                    fulfill(())
                 }
-            }
-        }.catch({ error in
-            // FIXME: is there anything else we can do?
-            log.error("\(error.localizedDescription)")
-        })
+            }.catch({ error in
+                reject(error)
+            })
+        }
     }
 }
 
