@@ -99,7 +99,7 @@ class MehSyncClient: MehSyncClientType {
                 resultHandler(.success(deal))
             } else {
                 // FIXME: is this really something we can expect to never encounter?
-                resultHandler(.failure(SyncClientError.myError(message: "Something has gone horribly wrong.")))
+                resultHandler(.failure(SyncClientError.myError(message: "Neither data nor error - \(String(describing: result))")))
             }
         }
     }
