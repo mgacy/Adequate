@@ -42,3 +42,6 @@ AppSecrets.generated.swift
 /fastlane/README.md
 /fastlane/report.xml
 /fastlane/screenshots
+
+# AppCode
+/.idea
