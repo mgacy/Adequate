@@ -258,10 +258,8 @@ extension PadDealViewController {
                 switch (oldCollection.horizontalSizeClass, newCollection.horizontalSizeClass) {
                 case (.compact, .regular):
                     // Address bug when app starts in split view
-                    if #available(iOS 13.0, *) {
-                        if oldCollection.userInterfaceLevel == .base && newCollection.userInterfaceLevel == .elevated {
-                            return
-                        }
+                    if oldCollection.userInterfaceLevel == .base && newCollection.userInterfaceLevel == .elevated {
+                        return
                     }
 
                     self.transitionToRegular()

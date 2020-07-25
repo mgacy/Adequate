@@ -61,12 +61,7 @@ final class FullScreenImageViewController: UIViewController {
     // TODO: should I just make this the root view?
     lazy var blurredView: UIView = {
         let blurEffect: UIBlurEffect
-        if #available(iOS 13.0, *) {
-            blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
-        } else {
-            blurEffect = UIBlurEffect(style: .dark) // ?
-        }
-
+        blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         return blurEffectView
     }()
