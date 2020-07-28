@@ -28,6 +28,7 @@ final class HistoryListViewController: UIViewController {
     private let themeManager: ThemeManagerType
     private let dataSource: HistoryListDataSource
     private var observationTokens: [ObservationToken] = []
+    private var initialSetupDone = false
 
     // MARK: - Subviews
 
@@ -189,19 +190,27 @@ extension HistoryListViewController: ViewStateRenderable {
             refreshControl.beginRefreshing()
             tableView.restore()
         case .result(let diff):
-            // TODO: ensure tableView.backgroundView == nil?
-            // FIXME: how should this be handled now that iOS 13 is out of beta?
-            if #available(iOS 9999, *) { // Swift 5.1 returns true
-                tableView.performBatchUpdates({
-                    tableView.deleteRows(at: diff.deletedIndexPaths, with: .fade)
-                    tableView.insertRows(at: diff.insertedIndexPaths, with: .right)
-                }, completion: { completed in
-                    self.refreshControl.endRefreshing()
-                })
-            } else {
-                tableView.reloadData()
+            if refreshControl.isRefreshing {
                 refreshControl.endRefreshing()
+            } else {
+                // Handle transition from .error / .empty -> .result
+                tableView.restore(animated: false)
             }
+
+            // There is no need to perform updates when `render(_:)` is called on `addObserver(_:closure:)`
+            if !initialSetupDone {
+                initialSetupDone = true
+                return
+            }
+
+            // FIXME: handle situation where there is no diff
+            // Should diff be optional, or should we just skip batch updates if both `.deletedIndexPaths` and `.insertedIndexPaths` are empty?
+
+            // TODO: ensure tableView.backgroundView == nil? Assumption is that .loading always precedes .result
+            tableView.performBatchUpdates({
+                tableView.deleteRows(at: diff.deletedIndexPaths, with: .fade)
+                tableView.insertRows(at: diff.insertedIndexPaths, with: .automatic)
+            })
         case .error(let error):
             if refreshControl.isRefreshing {
                 refreshControl.endRefreshing()
@@ -213,6 +222,7 @@ extension HistoryListViewController: ViewStateRenderable {
                 self.displayError(error: error, completion: nil)
             }
         }
+        initialSetupDone = true
     }
 }
 

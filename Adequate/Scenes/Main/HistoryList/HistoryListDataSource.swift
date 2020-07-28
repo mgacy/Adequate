@@ -56,25 +56,21 @@ final class HistoryListDataSource: NSObject {
         let historyToken = dataProvider.addHistoryObserver(self) { ds, viewState in
             switch viewState {
             case .result(let newDeals):
-                let result: TableViewDiff
-                if #available(iOS 9999, *) { // Swift 5.1 returns true
-                    var deletedIndexPaths = [IndexPath]()
-                    var insertedIndexPaths = [IndexPath]()
-                    let diff = newDeals.difference(from: ds.deals)
+                // TODO: skip diff on initial load?
+                var deletedIndexPaths = [IndexPath]()
+                var insertedIndexPaths = [IndexPath]()
+                let diff = newDeals.difference(from: ds.deals)
 
-                    for change in diff {
-                        switch change {
-                        case let .remove(offset, _, _):
-                            deletedIndexPaths.append(IndexPath(row: offset, section: 0))
-                        case let .insert(offset, _, _):
-                            insertedIndexPaths.append(IndexPath(row: offset, section: 0))
-                        }
+                for change in diff {
+                    switch change {
+                    case let .remove(offset, _, _):
+                        deletedIndexPaths.append(IndexPath(row: offset, section: 0))
+                    case let .insert(offset, _, _):
+                        insertedIndexPaths.append(IndexPath(row: offset, section: 0))
                     }
-                    result = TableViewDiff(deletedIndexPaths: deletedIndexPaths,
-                                           insertedIndexPaths: insertedIndexPaths)
-                } else {
-                    result = TableViewDiff(deletedIndexPaths: [], insertedIndexPaths: [])
                 }
+                let result = TableViewDiff(deletedIndexPaths: deletedIndexPaths,
+                                           insertedIndexPaths: insertedIndexPaths)
 
                 ds.deals = newDeals
                 ds.state = viewState.map { _ in return result }
