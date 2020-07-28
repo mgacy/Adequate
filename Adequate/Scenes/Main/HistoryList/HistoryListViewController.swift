@@ -19,7 +19,7 @@ protocol HistoryListViewControllerDelegate: AnyObject {
 
 // MARK: - View Controller
 
-final class HistoryListViewController: UIViewController {
+final class HistoryListViewController: UITableViewController {
     typealias Dependencies = HasDataProvider & HasThemeManager
     typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
 
@@ -29,6 +29,7 @@ final class HistoryListViewController: UIViewController {
     private let dataSource: HistoryListDataSource
     private var observationTokens: [ObservationToken] = []
     private var initialSetupDone = false
+    private var wasRefreshedManually = false
 
     // MARK: - Subviews
 
@@ -38,18 +39,6 @@ final class HistoryListViewController: UIViewController {
 
     private lazy var dealButton: UIBarButtonItem = {
         return UIBarButtonItem(image: #imageLiteral(resourceName: "RightChevronNavBar"), style: .plain, target: self, action: #selector(didPressDeal(_:)))
-    }()
-
-    private lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refreshControlDidChange(_:)), for: .valueChanged)
-        return refreshControl
-    }()
-
-    private lazy var tableView: UITableView = {
-        let tv = UITableView(frame: self.defaultFrame, style: .plain)
-        tv.tableFooterView = UIView() // Prevent empty rows
-        return tv
     }()
 
     private lazy var tableHeaderView: UIView = {
@@ -66,10 +55,6 @@ final class HistoryListViewController: UIViewController {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func loadView() {
-        self.view = tableView
     }
 
     override func viewDidLoad() {
@@ -111,6 +96,10 @@ final class HistoryListViewController: UIViewController {
     }
 
     private func setupTableView() {
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(refreshControlDidChange(_:)), for: .valueChanged)
+        tableView.tableFooterView = UIView() // Prevent empty rows
+
         tableView.delegate = self
         tableView.dataSource = dataSource
         tableView.estimatedRowHeight = 88.0
@@ -150,24 +139,25 @@ final class HistoryListViewController: UIViewController {
     }
 
     @objc func refreshControlDidChange(_ sender: UIRefreshControl) {
+        wasRefreshedManually = true
         getDealHistory()
     }
 
 }
 
 // MARK: - UITableViewDelegate
-extension HistoryListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+extension HistoryListViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let deal = dataSource.objectAtIndexPath(indexPath)
         delegate?.showHistoryDetail(with: deal)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 4.0
     }
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return tableHeaderView
     }
 }
@@ -179,18 +169,22 @@ extension HistoryListViewController: ViewStateRenderable {
     func render(_ viewState: ViewState<ResultType>) {
         switch viewState {
         case .empty:
-            if refreshControl.isRefreshing {
+            if let refreshControl = refreshControl, refreshControl.isRefreshing {
                 refreshControl.endRefreshing()
             }
             // Add `lazy var backgroundView: TableBackgroundView` in order to handle AppTheme?
             tableView.setBackgroundView(title: nil, message: "There are no deals")
         case .loading:
-            tableView.setContentOffset(CGPoint(x: 0, y: tableView.contentOffset.y - refreshControl.frame.size.height),
-                                       animated: true)
-            refreshControl.beginRefreshing()
+            if wasRefreshedManually {
+                wasRefreshedManually = false
+            } else if let refreshControl = refreshControl {
+                tableView.setContentOffset(
+                    CGPoint(x: 0, y: tableView.contentOffset.y - refreshControl.frame.size.height), animated: true)
+                refreshControl.beginRefreshing()
+            }
             tableView.restore()
         case .result(let diff):
-            if refreshControl.isRefreshing {
+            if let refreshControl = refreshControl, refreshControl.isRefreshing {
                 refreshControl.endRefreshing()
             } else {
                 // Handle transition from .error / .empty -> .result
@@ -212,7 +206,7 @@ extension HistoryListViewController: ViewStateRenderable {
                 tableView.insertRows(at: diff.insertedIndexPaths, with: .automatic)
             })
         case .error(let error):
-            if refreshControl.isRefreshing {
+            if let refreshControl = refreshControl, refreshControl.isRefreshing {
                 refreshControl.endRefreshing()
             }
             if dataSource.isEmpty {
@@ -250,6 +244,6 @@ extension HistoryListViewController: Themeable {
         view.backgroundColor = theme.systemBackground
         tableView.backgroundColor = theme.systemBackground
 
-        refreshControl.tintColor = theme.secondaryLabel
+        refreshControl?.tintColor = theme.secondaryLabel
     }
 }
