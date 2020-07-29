@@ -47,7 +47,7 @@ final class FullScreenImageViewController: UIViewController {
 
     private var activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
-        view.style = .white
+        view.color = .secondaryLabel // or .white?
         view.isHidden = true
         return view
     }()
