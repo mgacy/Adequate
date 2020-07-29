@@ -162,3 +162,16 @@ final class NotificationViewController: UIViewController {
             })
     }
 }
+
+// MARK: - UITraitEnvironment
+extension NotificationViewController {
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            // We need to handle `CALayer` manually
+            let resovedColor = UIColor.systemBlue.resolvedColor(with: traitCollection)
+            notNowButton.layer.borderColor = resovedColor.cgColor
+        }
+    }
+}

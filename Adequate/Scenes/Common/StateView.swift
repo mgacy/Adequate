@@ -158,6 +158,20 @@ final class StateView: UIView {
 
 }
 
+// MARK: - UITraitEnvironment
+extension StateView {
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        // TODO: we should ideally check `ThemeManager.useDealTheme` first
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            // We need to handle `CALayer` manually
+            let resovedColor = UIColor.secondaryLabel.resolvedColor(with: traitCollection)
+            retryButton.layer.borderColor = resovedColor.cgColor
+        }
+    }
+}
+
 extension StateView {
     func render<T>(_ viewState: ViewState<T>) {
         switch viewState {
