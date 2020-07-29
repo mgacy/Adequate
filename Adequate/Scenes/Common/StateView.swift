@@ -20,7 +20,7 @@ final class StateView: UIView {
     }
 
     // MARK: - Appearance
-
+    /*
     var foreground: ThemeForeground {
         didSet {
             // see: https://stackoverflow.com/a/57177411/4472195
@@ -50,7 +50,7 @@ final class StateView: UIView {
             }
         }
     }
-
+    */
     // MARK: - Subviews
 
     private let activityIndicator: UIActivityIndicatorView = {
@@ -98,20 +98,20 @@ final class StateView: UIView {
     }
 
     // MARK: - Lifecycle
-
+    /*
     convenience init(foreground: ThemeForeground = .dark) {
         self.init(frame: CGRect.zero)
         self.foreground = foreground
     }
-
+    */
     override init(frame: CGRect) {
-        self.foreground = .dark
+        //self.foreground = .dark
         super.init(frame: frame)
         self.configure()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        self.foreground = .dark
+        //self.foreground = .dark
         super.init(coder: aDecoder)
         self.configure()
     }
