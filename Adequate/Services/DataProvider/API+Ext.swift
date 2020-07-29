@@ -37,7 +37,6 @@ extension ThemeForeground: Codable {
         }
     }
 
-    @available(iOS 12.0, *)
     var userInterfaceStyle: UIUserInterfaceStyle {
         switch self {
         case .dark: return .light

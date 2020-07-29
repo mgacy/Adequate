@@ -23,6 +23,7 @@ final class NotificationViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 1
         label.text = L10n.welcomeNotificationsTitle
+        label.textColor = ColorCompatibility.label
         // TODO: use FontBook
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         //label.adjustsFontForContentSizeCategory = true

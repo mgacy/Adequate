@@ -8,11 +8,10 @@
 
 import UIKit
 
-public struct ColorPalette {
+public enum ColorPalette {
 
     // FullscreenImageViewController
     // closeButton
     public static let darkGray = UIColor(red: 0.207, green: 0.207, blue: 0.207, alpha: 1.0)
 
-    private init() {}
 }
