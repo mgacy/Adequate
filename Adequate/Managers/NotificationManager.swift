@@ -82,7 +82,7 @@ enum NotificationAction: String {
     }
 }
 
-struct NotificationConstants {
+enum NotificationConstants {
     // NOTE: in Apple's examples, they use ALL_CAPS for keys in notifications
     // New Deal
     static let dealKey = "adequate-deal-url"
