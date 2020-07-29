@@ -23,26 +23,30 @@ final class StateView: UIView {
 
     var foreground: ThemeForeground {
         didSet {
+            // see: https://stackoverflow.com/a/57177411/4472195
+            overrideUserInterfaceStyle = foreground.userInterfaceStyle
+            let secondaryLabel = UIColor.secondaryLabel.resolvedColor(with: foreground.userInterfaceStyle)
+            // TODO: for UIKit elements, use UIColor.secondary or our resolved `secondaryLabel`?
             switch foreground {
             case .dark:
-                activityIndicator.style = .gray
-                activityMessageLabel.textColor = .gray
-                messageLabel.textColor = .gray
-                retryButton.layer.borderColor = UIColor.gray.cgColor
-                retryButton.setTitleColor(.gray, for: .normal)
+                activityIndicator.color = secondaryLabel
+                activityMessageLabel.textColor = secondaryLabel
+                messageLabel.textColor = secondaryLabel
+                retryButton.layer.borderColor = secondaryLabel.cgColor
+                retryButton.setTitleColor(secondaryLabel, for: .normal)
             case .light:
-                activityIndicator.style = .white
+                activityIndicator.color = secondaryLabel
                 // FIXME: should we really use white, or should it be gray instead?
-                activityMessageLabel.textColor = .white
-                messageLabel.textColor = .gray
-                retryButton.layer.borderColor = UIColor.gray.cgColor
-                retryButton.setTitleColor(.gray, for: .normal)
+                activityMessageLabel.textColor = secondaryLabel
+                messageLabel.textColor = secondaryLabel
+                retryButton.layer.borderColor = secondaryLabel.cgColor
+                retryButton.setTitleColor(secondaryLabel, for: .normal)
             case .unknown:
-                activityIndicator.color = ColorCompatibility.secondaryLabel
-                activityMessageLabel.textColor = ColorCompatibility.secondaryLabel
-                messageLabel.textColor = ColorCompatibility.secondaryLabel
-                retryButton.layer.borderColor = ColorCompatibility.secondaryLabel.cgColor
-                retryButton.setTitleColor(ColorCompatibility.secondaryLabel, for: .normal)
+                activityIndicator.color = secondaryLabel
+                activityMessageLabel.textColor = secondaryLabel
+                messageLabel.textColor = secondaryLabel
+                retryButton.layer.borderColor = secondaryLabel.cgColor
+                retryButton.setTitleColor(secondaryLabel, for: .normal)
             }
         }
     }

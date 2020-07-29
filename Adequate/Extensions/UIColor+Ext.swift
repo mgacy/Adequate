@@ -121,3 +121,11 @@ extension UIColor {
         }
     }
 }
+
+// MARK: - UIUserInterfaceStyle
+extension UIColor {
+
+    public func resolvedColor(with userInterfaceStyle: UIUserInterfaceStyle) -> UIColor {
+        return resolvedColor(with: UITraitCollection(userInterfaceStyle: userInterfaceStyle))
+    }
+}
