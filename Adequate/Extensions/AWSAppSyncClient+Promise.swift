@@ -30,8 +30,7 @@ extension AWSAppSyncClient {
                 } else if let result = result, let data = result.data {
                     fulfill(data)
                 } else {
-                    // FIXME: handle case where there is no data; a query for which there is no result
-                    fatalError("Something has gone horribly wrong.")
+                    fatalError("Something has gone horribly wrong: neither result nor error.")
                 }
             }
         }
@@ -50,14 +49,15 @@ extension AWSAppSyncClient {
                     reject(SyncClientError.network(error: error))
                 } else if let result = result {
                     if let errors = result.errors {
+                        // TODO: should we reject if there are errors but possibly also data?
                         reject(SyncClientError.graphQL(errors: errors))
                     } else if let data = result.data {
                         fulfill(data)
                     } else {
-                        fatalError("Something has gone horribly wrong.")
+                        fatalError("Something has gone horribly wrong: neither result nor error.")
                     }
                 } else {
-                    fatalError("Something has gone horribly wrong.")
+                    fatalError("Something has gone horribly wrong: neither result nor error.")
                 }
             }
         }
