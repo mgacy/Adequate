@@ -54,21 +54,13 @@ final class HistoryDetailCoordinator: Coordinator {
             viewController.delegate = self
             router.setRootModule(viewController, hideBar: false)
 
-            if #available(iOS 13, *) {
-                router.toPresent().presentationController?.delegate = self
-            } else {
-                viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
-            } 
+            router.toPresent().presentationController?.delegate = self
         case .pad:
             let viewController = PadHistoryDetailViewController(dependencies: dependencies, deal: deal)
             viewController.delegate = self
             router.setRootModule(viewController, hideBar: false)
 
-            if #available(iOS 13, *) {
-                router.toPresent().presentationController?.delegate = self
-            } else {
-                viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
-            }
+            router.toPresent().presentationController?.delegate = self
         default:
             fatalError("Invalid device")
         }

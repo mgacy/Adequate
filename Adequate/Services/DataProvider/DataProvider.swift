@@ -623,6 +623,6 @@ extension DataProvider {
 // MARK: - Constants
 extension DataProvider {
     private enum Constants {
-        static var cacheKey: String { return "id" }
+        static let cacheKey: String = "id"
     }
 }

@@ -45,9 +45,9 @@ final class FullScreenImageViewController: UIViewController {
         return button
     }()
 
-    private var activityIndicator: UIActivityIndicatorView = {
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
-        view.style = .white
+        view.color = .secondaryLabel // or .white?
         view.isHidden = true
         return view
     }()
@@ -61,12 +61,7 @@ final class FullScreenImageViewController: UIViewController {
     // TODO: should I just make this the root view?
     lazy var blurredView: UIView = {
         let blurEffect: UIBlurEffect
-        if #available(iOS 13.0, *) {
-            blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
-        } else {
-            blurEffect = UIBlurEffect(style: .dark) // ?
-        }
-
+        blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         return blurEffectView
     }()
@@ -78,6 +73,7 @@ final class FullScreenImageViewController: UIViewController {
         self.imageSource = dataSource.imageSource(for: indexPath)
         super.init(nibName: nil, bundle: nil)
         //view.frame = UIScreen.main.bounds
+        self.overrideUserInterfaceStyle = .dark
         self.modalPresentationCapturesStatusBarAppearance = true
     }
 
