@@ -104,6 +104,7 @@
 		C995C07322A8B63600C2289F /* ParallaxBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07222A8B63600C2289F /* ParallaxBarView.swift */; };
 		C995C07522A8E01C00C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07422A8E01C00C2289F /* FileCache.swift */; };
 		C995C07722A8F9E600C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07622A8F9E600C2289F /* FileCache.swift */; };
+		C996E21124D26C3200F5F173 /* AWSAppSyncClient+Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C996E21024D26C3200F5F173 /* AWSAppSyncClient+Result.swift */; };
 		C997ED0122BFF6300053C62A /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = C997ED0322BFF6300053C62A /* Localizable.stringsdict */; };
 		C99C23F72357FF28004493B3 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C23F62357FF28004493B3 /* ColorTheme.swift */; };
 		C99DD5DB2182D4C500A38529 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99DD5DA2182D4C500A38529 /* PaddingLabel.swift */; };
@@ -378,6 +379,7 @@
 		C995C07222A8B63600C2289F /* ParallaxBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxBarView.swift; sourceTree = "<group>"; };
 		C995C07422A8E01C00C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		C995C07622A8F9E600C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
+		C996E21024D26C3200F5F173 /* AWSAppSyncClient+Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSAppSyncClient+Result.swift"; sourceTree = "<group>"; };
 		C997ED0222BFF6300053C62A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		C99C23F62357FF28004493B3 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
 		C99DD5DA2182D4C500A38529 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
@@ -875,6 +877,7 @@
 			isa = PBXGroup;
 			children = (
 				C989E11E223742C100DEAE89 /* AWSAppSyncClient+Promise.swift */,
+				C996E21024D26C3200F5F173 /* AWSAppSyncClient+Result.swift */,
 				C989E1202237432600DEAE89 /* AWSMobileClient+Promise.swift */,
 				C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */,
 				C9DAC48821476AC300D6558B /* DateFormatter+Ext.swift */,
@@ -1767,6 +1770,7 @@
 				C9BEAB71233308A400C143FB /* HistoryDetailViewControllerDelegate.swift in Sources */,
 				C96CA8702182DD2E00C3459E /* NotificationViewController.swift in Sources */,
 				C925EECB233E955400D24F38 /* ImageServiceType.swift in Sources */,
+				C996E21124D26C3200F5F173 /* AWSAppSyncClient+Result.swift in Sources */,
 				C9093CC32228A27800C9DA0C /* ObservationToken.swift in Sources */,
 				C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */,
 				C9DAC48D21476AF600D6558B /* UIColor+Ext.swift in Sources */,
