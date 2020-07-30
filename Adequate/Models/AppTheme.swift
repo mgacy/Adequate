@@ -19,6 +19,9 @@ struct AppTheme: Equatable {
     static let sideMargin: CGFloat = 16.0
     static let widthInset: CGFloat = -32.0
 
+    // UIPageControl
+    //static let inactivePageIndicatorAlpha: CGFloat = 0.3
+
     // Meh
     let baseTheme: ColorTheme
     let dealTheme: ColorTheme?
