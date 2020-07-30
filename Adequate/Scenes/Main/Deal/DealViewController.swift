@@ -133,6 +133,8 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
     func setupParallaxScrollView() {
 
         // barBackingView
+        // FIXME: see https://stackoverflow.com/a/57023907/4472195
+        //let statusBarHeight: CGFloat =  view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
         let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
         barBackingView.coordinateOffset = 8.0
         barBackingView.inset = statusBarHeight

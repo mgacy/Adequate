@@ -23,11 +23,7 @@ extension ThemeForeground: Codable {
     var statusBarStyle: UIStatusBarStyle {
         switch self {
         case .dark:
-            if #available(iOS 13.0, *) {
-                return .darkContent
-            } else {
-                return .default
-            }
+            return .darkContent
         case .light: return .lightContent
         case .unknown: return .default
         }
@@ -41,7 +37,6 @@ extension ThemeForeground: Codable {
         }
     }
 
-    @available(iOS 12.0, *)
     var userInterfaceStyle: UIUserInterfaceStyle {
         switch self {
         case .dark: return .light

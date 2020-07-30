@@ -229,7 +229,7 @@ extension FooterViewController: Themeable {
 extension FooterViewController {
 
     enum GradientMaskConstants {
-        static var height: CGFloat = 8.0
+        static let height: CGFloat = 8.0
     }
 
     override func viewDidLayoutSubviews() {

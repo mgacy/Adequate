@@ -23,6 +23,7 @@ final class NotificationViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 1
         label.text = L10n.welcomeNotificationsTitle
+        label.textColor = ColorCompatibility.label
         // TODO: use FontBook
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         //label.adjustsFontForContentSizeCategory = true
@@ -160,5 +161,18 @@ final class NotificationViewController: UIViewController {
                 self.userDefaultsManager.hasShownOnboarding = true
                 self.delegate?.dismiss()
             })
+    }
+}
+
+// MARK: - UITraitEnvironment
+extension NotificationViewController {
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            // We need to handle `CALayer` manually
+            let resovedColor = UIColor.systemBlue.resolvedColor(with: traitCollection)
+            notNowButton.layer.borderColor = resovedColor.cgColor
+        }
     }
 }

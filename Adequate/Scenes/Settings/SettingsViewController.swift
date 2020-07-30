@@ -433,9 +433,7 @@ extension SettingsViewController {
     }
 
     enum SupportEmailMessage {
-        static var subject: String {
-            return "Support Request: Adequate"
-        }
+        static let subject: String = "Support Request: Adequate"
 
         static var message: String {
             let versionNumber = Bundle.main.releaseVersionNumber ?? "X"

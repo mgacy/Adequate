@@ -1,6 +1,5 @@
 //
-//  UIColor.swift
-//  previously Color+HexAndCSSColorNames.swift
+//  UIColor+Ext.swift
 //
 //  Created by Norman Basham on 12/8/15.
 //  Copyright © 2017 Black Labs. All rights reserved.
@@ -36,32 +35,32 @@ import UIKit
 // MARK: - Hex Initializer
 public extension UIColor {
 
-    /**
-     Creates an immuatble UIColor instance specified by a hex string or nil.
-     - parameter hexString: A case insensitive String? representing a hex value e.g.
-     - **"abc"**
-     - **"abc7"**
-     - **"#abc7"**
-     - **"00FFFF"**
-     - **"#00FFFF"**
-     - **"00FFFF77"**
-     - **nil** [UIColor clearColor]
-     - **empty string** [UIColor clearColor]
-     */
-    convenience init(hexString: String?) {
-        let normalizedHexString: String = UIColor.normalize(hexString)
-        var c: CUnsignedInt = 0
-        Scanner(string: normalizedHexString).scanHexInt32(&c)
-        self.init(red:UIColorMasks.redValue(c), green:UIColorMasks.greenValue(c), blue:UIColorMasks.blueValue(c), alpha:UIColorMasks.alphaValue(c))
+    /// Creates a color object using the specified hex string.
+    /// - Parameter hexString: A String representing a hex value.
+    /// Source: https://stackoverflow.com/a/33397427/4472195
+    convenience init(hexString: String) {
+        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int = UInt64()
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
     }
 
-    /**
-     Returns a hex equivalent of this UIColor.
-     - Parameter includeAlpha:   Optional parameter to include the alpha hex.
-     color.hexDescription() -> "ff0000"
-     color.hexDescription(true) -> "ff0000aa"
-     - Returns: A new string with `String` with the color's hexidecimal value.
-     */
+    /// Returns a hex equivalent of this UIColor.
+    /// - Parameter includeAlpha:   Optional parameter to include the alpha hex.
+    /// color.hexDescription() -> "ff0000"
+    /// color.hexDescription(true) -> "ff0000aa"
+    /// - Returns: A new string with `String` with the color's hexidecimal value.
     func hexDescription(_ includeAlpha: Bool = false) -> String {
         guard self.cgColor.numberOfComponents == 4 else {
             return "Color not RGB."
@@ -74,47 +73,6 @@ public extension UIColor {
         }
         return color
     }
-
-    fileprivate enum UIColorMasks: CUnsignedInt {
-        case redMask    = 0xff000000
-        case greenMask  = 0x00ff0000
-        case blueMask   = 0x0000ff00
-        case alphaMask  = 0x000000ff
-
-        static func redValue(_ value: CUnsignedInt) -> CGFloat {
-            return CGFloat((value & redMask.rawValue) >> 24) / 255.0
-        }
-
-        static func greenValue(_ value: CUnsignedInt) -> CGFloat {
-            return CGFloat((value & greenMask.rawValue) >> 16) / 255.0
-        }
-
-        static func blueValue(_ value: CUnsignedInt) -> CGFloat {
-            return CGFloat((value & blueMask.rawValue) >> 8) / 255.0
-        }
-
-        static func alphaValue(_ value: CUnsignedInt) -> CGFloat {
-            return CGFloat(value & alphaMask.rawValue) / 255.0
-        }
-    }
-
-    fileprivate static func normalize(_ hex: String?) -> String {
-        guard var hexString = hex else {
-            return "00000000"
-        }
-        if hexString.hasPrefix("#") {
-            hexString.remove(at: hexString.startIndex)
-        }
-        if hexString.count == 3 || hexString.count == 4 {
-            hexString = hexString.map { "\($0)\($0)" } .joined()
-        }
-        let hasAlpha = hexString.count > 7
-        if !hasAlpha {
-            hexString += "ff"
-        }
-        return hexString
-    }
-
 }
 
 // MARK - RGBA Initializer
@@ -161,5 +119,13 @@ extension UIColor {
         } else {
             return self
         }
+    }
+}
+
+// MARK: - UIUserInterfaceStyle
+extension UIColor {
+
+    public func resolvedColor(with userInterfaceStyle: UIUserInterfaceStyle) -> UIColor {
+        return resolvedColor(with: UITraitCollection(userInterfaceStyle: userInterfaceStyle))
     }
 }
