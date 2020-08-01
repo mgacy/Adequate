@@ -118,6 +118,7 @@
 		C9A0ECFC245284F70051103F /* UITestingConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0ECFB245284F70051103F /* UITestingConfig.swift */; };
 		C9A0ED002453F4210051103F /* FooterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0ECFF2453F4210051103F /* FooterViewController.swift */; };
 		C9A5E9EE24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A5E9ED24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift */; };
+		C9A5E9F024D51BAB00AF77E5 /* CredentialsProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A5E9EF24D51BAB00AF77E5 /* CredentialsProviderMock.swift */; };
 		C9AE54C521791E4200818F11 /* PagedImageViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */; };
 		C9AE54C72179270C00818F11 /* FullScreenImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */; };
 		C9AE54C9217927B500818F11 /* ZoomingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C8217927B500818F11 /* ZoomingImageView.swift */; };
@@ -395,6 +396,7 @@
 		C9A0ECFB245284F70051103F /* UITestingConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestingConfig.swift; sourceTree = "<group>"; };
 		C9A0ECFF2453F4210051103F /* FooterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterViewController.swift; sourceTree = "<group>"; };
 		C9A5E9ED24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Misc+CustomStringConvertible.swift"; sourceTree = "<group>"; };
+		C9A5E9EF24D51BAB00AF77E5 /* CredentialsProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsProviderMock.swift; sourceTree = "<group>"; };
 		C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageViewDelegate.swift; sourceTree = "<group>"; };
 		C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageViewController.swift; sourceTree = "<group>"; };
 		C9AE54C8217927B500818F11 /* ZoomingImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomingImageView.swift; sourceTree = "<group>"; };
@@ -1050,6 +1052,7 @@
 			children = (
 				C9E0D7CF244D48B700032DE1 /* Data */,
 				C9E0D7BD244C1BE200032DE1 /* AppDependencyMock.swift */,
+				C9A5E9EF24D51BAB00AF77E5 /* CredentialsProviderMock.swift */,
 				C9E0D7B7244C10B200032DE1 /* DataProviderMock.swift */,
 				C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */,
 				C9E0D7B9244C19A600032DE1 /* NotificationManagerMock.swift */,
@@ -1819,6 +1822,7 @@
 				C9BADE10244F9772004B17F1 /* FileLoader.swift in Sources */,
 				C9E0D7BE244C1BE200032DE1 /* AppDependencyMock.swift in Sources */,
 				C9E0D7D1244D4C1B00032DE1 /* PadHistoryDetailViewControllerSnapshotTests.swift in Sources */,
+				C9A5E9F024D51BAB00AF77E5 /* CredentialsProviderMock.swift in Sources */,
 				C9E0D7BC244C1AFA00032DE1 /* UserDefaultsManagerMock.swift in Sources */,
 				C996E20F24D258D800F5F173 /* MehSyncClientTests.swift in Sources */,
 				C9E0D7B2244BD6BE00032DE1 /* ImageServiceMock.swift in Sources */,
