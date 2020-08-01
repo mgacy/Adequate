@@ -165,7 +165,13 @@ class DataProvider: DataProviderType {
         do {
             currentDealWatcher = try client.watchCurrentDeal(cachePolicy: cachePolicy, queue: .main) { result in
                 switch result {
-                case .success(let deal):
+                case .success(let maybeDeal):
+                    guard let deal = maybeDeal else {
+                        log.error("Query failed to return result.")
+                        self.dealState = .empty
+                        self.haveInitializedWatcher = true
+                        return
+                    }
                     //log.verbose("Deal: \(deal)")
 
                     // FIXME: improve handling
@@ -274,6 +280,8 @@ class DataProvider: DataProviderType {
 
     // MARK: - Refresh
 
+    var cancellable: Cancellable?
+
     func refreshDeal(for event: RefreshEvent) {
         log.verbose("\(#function) - \(event)")
 
@@ -313,7 +321,19 @@ class DataProvider: DataProviderType {
             // TODO: should we first check `UIApplication.shared.backgroundRefreshStatus`?
             // TODO: improve handling
             // - if it was merely a deal delta notification, there is still some value to cached data
-            configureWatcher(cachePolicy: .fetchIgnoringCacheData)
+            // TODO: use .returnCacheDataDontFetch and rely on notification fetching?
+            // TODO: configure watcher in closure for .fetchCurrentDeal?
+            configureWatcher(cachePolicy: .returnCacheDataDontFetch)  // or use .returnCacheDataElseFetch?
+
+            cancellable = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
+                switch result {
+                case .success(let maybeDeal):
+                    self.dealState = maybeDeal != nil ? .result(maybeDeal!) : .empty
+                case .failure(let error):
+                    log.error("\(error)")
+                }
+            }
+
         case .foreground:
             guard currentDealWatcher != nil else {
                 log.error("\(#function) - \(event) - currentDealWatcher not configured)")
@@ -362,10 +382,14 @@ class DataProvider: DataProviderType {
             return
         }
 
-        client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData)
-            .then({ result in
-                guard let newDeal = Deal(result.getDeal) else {
-                    throw SyncClientError.missingData(data: result)
+        cancellable = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
+            switch result {
+            case .success(let maybeDeal):
+                guard let newDeal = maybeDeal else {
+                    log.error("BACKGROUND_APP_REFRESH: failed - Deal was nil")
+                    //self.dealState = .error(SyncClientError.myError("Deal was nil")
+                    completionHandler(.failed)
+                    return
                 }
                 self.refreshManager.update(.response(newDeal))
                 if case .result(let oldDeal) = self.dealState {
@@ -383,11 +407,12 @@ class DataProvider: DataProviderType {
                     self.dealState = .result(newDeal)
                     completionHandler(.newData)
                 }
-            }).catch({ error in
+            case .failure(let error):
                 log.error("BACKGROUND_APP_REFRESH: failed - \(error.localizedDescription)")
                 //self.dealState = .error(error)
                 completionHandler(.failed)
-            })
+            }
+        }
     }
 
     // MARK: - Update

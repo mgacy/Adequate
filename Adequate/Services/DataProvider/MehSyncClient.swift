@@ -48,9 +48,34 @@ class MehSyncClient: MehSyncClientType {
 
     // MARK: - Fetch
 
-    func fetchCurrentDeal(cachePolicy: CachePolicy) -> Promise<GetDealQuery.Data> {
+    func fetchCurrentDeal(cachePolicy: CachePolicy,
+                          queue: DispatchQueue = DispatchQueue.main,
+                          resultHandler: @escaping MehSyncClientType.DealResultHandler) -> Cancellable {
         let query = GetDealQuery(id: Constants.currentDealID)
-        return fetch(query: query, cachePolicy: cachePolicy)
+        return fetchDeal(query: query, cachePolicy: cachePolicy, resultHandler: resultHandler)
+    }
+
+    func fetchDeal(query: GetDealQuery,
+                   cachePolicy: CachePolicy,
+                   queue: DispatchQueue = .main,
+                   resultHandler: @escaping MehSyncClientType.DealResultHandler) -> Cancellable {
+        guard let client = appSyncClient else {
+            resultHandler(.failure(SyncClientError.missingClient))
+            return EmptyCancellable()
+        }
+
+        return client.fetch(query: query, cachePolicy: cachePolicy, queue: queue) { result in
+            switch result {
+            case .success(let data):
+                if let getDeal = data.getDeal, let deal = Deal(getDeal) {
+                    resultHandler(.success(deal))
+                } else {
+                    resultHandler(.success(nil))
+                }
+            case .failure(let error):
+                resultHandler(.failure(error))
+            }
+        }
     }
 
     func fetchDeal(withID id: GraphQLID, cachePolicy: CachePolicy = .fetchIgnoringCacheData) -> Promise<GetDealQuery.Data> {
@@ -75,31 +100,24 @@ class MehSyncClient: MehSyncClientType {
 
     // MARK: - Watch
 
-    // Specify `Swift.Result` to avoid interference with `AWSAppSync.Result`
-    typealias DealResultHandler = (Swift.Result<Deal, SyncClientError>) -> Void
-
-    func watchCurrentDeal(cachePolicy: CachePolicy = .returnCacheDataAndFetch, queue: DispatchQueue = .main, resultHandler: @escaping DealResultHandler) throws -> GraphQLQueryWatcher<GetDealQuery> {
+    func watchCurrentDeal(cachePolicy: CachePolicy = .returnCacheDataAndFetch,
+                          queue: DispatchQueue = .main,
+                          resultHandler: @escaping MehSyncClientType.DealResultHandler) throws -> GraphQLQueryWatcher<GetDealQuery> {
         guard let appSyncClient = appSyncClient else {
             throw SyncClientError.missingClient
         }
 
         let query = GetDealQuery(id: Constants.currentDealID)
-        return appSyncClient.watch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
-            if let error = error {
-                resultHandler(.failure(SyncClientError.wrap(error)))
-            } else if let result = result, let data = result.data {
-                // According to the GraphQL spec, result can contain both data and a non-empty list of (untyped) errors
-                if let graphQLErrors = result.errors, !graphQLErrors.isEmpty {
-                    log.error("\(#function) - fetch returned data and errors: \(graphQLErrors.map { $0.localizedDescription })")
+        return appSyncClient.watch(query: query, cachePolicy: cachePolicy, queue: queue) { result in
+            switch result {
+            case .success(let data):
+                if let deal = Deal(data.getDeal) {
+                    resultHandler(.success(deal))
+                } else {
+                    resultHandler(.success(nil))
                 }
-
-                guard let deal = Deal(data.getDeal) else {
-                    return resultHandler(.failure(SyncClientError.missingData(data: data)))
-                }
-                resultHandler(.success(deal))
-            } else {
-                // FIXME: is this really something we can expect to never encounter?
-                resultHandler(.failure(SyncClientError.myError(message: "Neither data nor error - \(String(describing: result))")))
+            case .failure(let error):
+                resultHandler(.failure(error))
             }
         }
     }
@@ -180,10 +198,18 @@ extension MehSyncClient {
     }
 }
 
-// MARK: - Constants
+// MARK: - Types
 extension MehSyncClient {
+
     private enum Constants {
         static let cacheKey: String = "id"
         static let currentDealID: String = "current_deal"
+    }
+
+    /// A class to return when we need to bail out of something which still needs to return `Cancellable`.
+    private final class EmptyCancellable: Cancellable {
+        func cancel() {
+            // An error occured to there is nothing to cancel.
+        }
     }
 }
