@@ -116,6 +116,7 @@
 		C99EF3C322BD5B5F00BF4410 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C99EF3BE22BC968300BF4410 /* Localizable.strings */; };
 		C9A0ECFC245284F70051103F /* UITestingConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0ECFB245284F70051103F /* UITestingConfig.swift */; };
 		C9A0ED002453F4210051103F /* FooterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0ECFF2453F4210051103F /* FooterViewController.swift */; };
+		C9A5E9EE24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A5E9ED24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift */; };
 		C9AE54C521791E4200818F11 /* PagedImageViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */; };
 		C9AE54C72179270C00818F11 /* FullScreenImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */; };
 		C9AE54C9217927B500818F11 /* ZoomingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C8217927B500818F11 /* ZoomingImageView.swift */; };
@@ -391,6 +392,7 @@
 		C99EF3BF22BD4FDD00BF4410 /* Strings.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.generated.swift; sourceTree = "<group>"; };
 		C9A0ECFB245284F70051103F /* UITestingConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestingConfig.swift; sourceTree = "<group>"; };
 		C9A0ECFF2453F4210051103F /* FooterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterViewController.swift; sourceTree = "<group>"; };
+		C9A5E9ED24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Misc+CustomStringConvertible.swift"; sourceTree = "<group>"; };
 		C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageViewDelegate.swift; sourceTree = "<group>"; };
 		C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageViewController.swift; sourceTree = "<group>"; };
 		C9AE54C8217927B500818F11 /* ZoomingImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomingImageView.swift; sourceTree = "<group>"; };
@@ -893,6 +895,7 @@
 				C96B487022FA9703000A8D91 /* UIViewController+Ext.swift */,
 				C9058DED215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift */,
 				C9DAC48E21476B2400D6558B /* URL+Ext.swift */,
+				C9A5E9ED24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1785,6 +1788,7 @@
 				C97AC2DA23B6AA3000B721AC /* ScrollableView.swift in Sources */,
 				C9DAC49921476BAA00D6558B /* PriceComparison.swift in Sources */,
 				C9AE54CD21792BE400818F11 /* FullScreenImageTransitionController.swift in Sources */,
+				C9A5E9EE24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift in Sources */,
 				C9DDB20421644C01004D7957 /* PagedImageView.swift in Sources */,
 				C93F79042256EBE8004B4DD6 /* LoggingType.swift in Sources */,
 				C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */,
