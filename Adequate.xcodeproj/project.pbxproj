@@ -104,6 +104,7 @@
 		C995C07322A8B63600C2289F /* ParallaxBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07222A8B63600C2289F /* ParallaxBarView.swift */; };
 		C995C07522A8E01C00C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07422A8E01C00C2289F /* FileCache.swift */; };
 		C995C07722A8F9E600C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07622A8F9E600C2289F /* FileCache.swift */; };
+		C996E20F24D258D800F5F173 /* MehSyncClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C996E20E24D258D700F5F173 /* MehSyncClientTests.swift */; };
 		C996E21124D26C3200F5F173 /* AWSAppSyncClient+Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C996E21024D26C3200F5F173 /* AWSAppSyncClient+Result.swift */; };
 		C997ED0122BFF6300053C62A /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = C997ED0322BFF6300053C62A /* Localizable.stringsdict */; };
 		C99C23F72357FF28004493B3 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C23F62357FF28004493B3 /* ColorTheme.swift */; };
@@ -380,6 +381,7 @@
 		C995C07222A8B63600C2289F /* ParallaxBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxBarView.swift; sourceTree = "<group>"; };
 		C995C07422A8E01C00C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		C995C07622A8F9E600C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
+		C996E20E24D258D700F5F173 /* MehSyncClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MehSyncClientTests.swift; sourceTree = "<group>"; };
 		C996E21024D26C3200F5F173 /* AWSAppSyncClient+Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSAppSyncClient+Result.swift"; sourceTree = "<group>"; };
 		C997ED0222BFF6300053C62A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		C99C23F62357FF28004493B3 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
@@ -850,6 +852,7 @@
 				C9DAC4682147688500D6558B /* AdequateTests.swift */,
 				C984810D2448F6D5005B9B69 /* PriceFormatterTests.swift */,
 				C984810F244965DB005B9B69 /* Models+create.swift */,
+				C996E20E24D258D700F5F173 /* MehSyncClientTests.swift */,
 				C9E0D7C1244CED2B00032DE1 /* SnapshotTestBase.swift */,
 				C9E0D7C3244CF0E900032DE1 /* DealViewControllerSnapshotTests.swift */,
 				C9E0D7C5244CF1EE00032DE1 /* PadDealViewControllerSnapshotTests.swift */,
@@ -1817,6 +1820,7 @@
 				C9E0D7BE244C1BE200032DE1 /* AppDependencyMock.swift in Sources */,
 				C9E0D7D1244D4C1B00032DE1 /* PadHistoryDetailViewControllerSnapshotTests.swift in Sources */,
 				C9E0D7BC244C1AFA00032DE1 /* UserDefaultsManagerMock.swift in Sources */,
+				C996E20F24D258D800F5F173 /* MehSyncClientTests.swift in Sources */,
 				C9E0D7B2244BD6BE00032DE1 /* ImageServiceMock.swift in Sources */,
 				C9E0D7C0244CEBC900032DE1 /* StoryViewControllerSnapshotTests.swift in Sources */,
 			);
