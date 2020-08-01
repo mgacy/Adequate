@@ -280,6 +280,7 @@ class DataProvider: DataProviderType {
 
     // MARK: - Refresh
 
+    var backgroundTask: UIBackgroundTaskIdentifier = .invalid
     var cancellable: Cancellable?
 
     func refreshDeal(for event: RefreshEvent) {
@@ -319,6 +320,15 @@ class DataProvider: DataProviderType {
             // In the future, we will need to handle DealDeltas differently
 
             // TODO: should we first check `UIApplication.shared.backgroundRefreshStatus`?
+
+            // NOTE: we might need to call this method earlier as this method requests the task
+            // assertion asynchronously and the system might suspend the app before that assertion
+            // is granted. We could request it at the beginning of this method, but that would
+            // require some logic to check if we have already started a background task.
+            backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "NotificationBackgroundTask") { () -> Void in
+                self.endTask()
+            }
+
             // TODO: improve handling
             // - if it was merely a deal delta notification, there is still some value to cached data
             // TODO: use .returnCacheDataDontFetch and rely on notification fetching?
@@ -332,6 +342,7 @@ class DataProvider: DataProviderType {
                 case .failure(let error):
                     log.error("\(error)")
                 }
+                self.endTask()
             }
 
         case .foreground:
@@ -361,9 +372,22 @@ class DataProvider: DataProviderType {
         }
     }
 
+    private func endTask() {
+        log.debug("Cancelling background tasks ...")
+        cancellable?.cancel() // TODO: do we need any logic to skip if fetch already completed?
+        UIApplication.shared.endBackgroundTask(backgroundTask)
+        backgroundTask = .invalid
+    }
+
     private func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.verbose("\(#function)")
         // TODO: should we start a timer to ensure that the completionHandler is called within the next 30 - cushion seconds?
+
+        // TEMP:
+        if backgroundTask != .invalid {
+            log.warning("\(#function) - backgroundTask appears to be in progress")
+        }
+
         if !credentialsProviderIsInitialized {
             log.error("Trying to refresh Deal before initializing credentials provider")
             // TODO: check if we are replacing existing pendingRefreshEvent
