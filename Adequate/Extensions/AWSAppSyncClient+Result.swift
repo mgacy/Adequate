@@ -33,13 +33,18 @@ public extension AWSAppSyncClient {
             if let error = error {
                 // TODO: should I wrap in SyncClientError here or higher up?
                 resultHandler(.failure(SyncClientError.wrap(error)))
-            } else if let result = result, let data = result.data {
-                // According to the GraphQL spec, result can contain both data and a non-empty list of (untyped) errors.
-                // Should we check for and log any errors?
-                resultHandler(.success(data))
+            } else if let result = result {
+                if let data = result.data {
+                    resultHandler(.success(data))
+                } else if let errors = result.errors {
+                    resultHandler(.failure(.graphQL(errors: errors)))
+                } else {
+                    //fatalError("Something has gone horribly wrong: neither data nor errors.")
+                    resultHandler(.failure(.myError(message: "Neither data nor errors")))
+                }
             } else {
                 //fatalError("Something has gone horribly wrong: neither result nor error.")
-                resultHandler(.failure(.myError(message: "Neither data nor error - \(String(describing: result))")))
+                resultHandler(.failure(.myError(message: "Neither result nor error")))
             }
         }
     }
@@ -59,18 +64,22 @@ public extension AWSAppSyncClient {
                                     queue: DispatchQueue = DispatchQueue.main,
                                     resultHandler: @escaping QueryResultHandler<Query>
     ) -> GraphQLQueryWatcher<Query> {
-
         return watch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
             if let error = error {
                 // TODO: should I wrap in SyncClientError here or higher up?
                 resultHandler(.failure(SyncClientError.wrap(error)))
-            } else if let result = result, let data = result.data {
-                // According to the GraphQL spec, result can contain both data and a non-empty list of (untyped) errors.
-                // Should we check for and log any errors?
-                resultHandler(.success(data))
+            } else if let result = result {
+                if let data = result.data {
+                    resultHandler(.success(data))
+                } else if let errors = result.errors {
+                    resultHandler(.failure(.graphQL(errors: errors)))
+                } else {
+                    //fatalError("Something has gone horribly wrong: neither data nor errors.")
+                    resultHandler(.failure(.myError(message: "Neither data nor errors")))
+                }
             } else {
                 //fatalError("Something has gone horribly wrong: neither result nor error.")
-                resultHandler(.failure(.myError(message: "Neither data nor error - \(String(describing: result))")))
+                resultHandler(.failure(.myError(message: "Neither result nor error")))
             }
         }
     }
@@ -98,13 +107,18 @@ public extension AWSAppSyncClient {
                         if let error = error {
                             // TODO: should I wrap in SyncClientError here or higher up?
                             resultHandler(.failure(SyncClientError.wrap(error)))
-                        } else if let result = result, let data = result.data {
-                            // According to the GraphQL spec, result can contain both data and a non-empty list of
-                            // (untyped) errors. Should we check for and log any errors?
-                            resultHandler(.success(data))
+                        } else if let result = result {
+                            if let errors = result.errors {
+                                resultHandler(.failure(.graphQL(errors: errors)))
+                            } else if let data = result.data {
+                                resultHandler(.success(data))
+                            } else {
+                                //fatalError("Something has gone horribly wrong: neither data nor errors.")
+                                resultHandler(.failure(.myError(message: "Neither data nor errors")))
+                            }
                         } else {
                             //fatalError("Something has gone horribly wrong: neither result nor error.")
-                            resultHandler(.failure(.myError(message: "Neither data nor error - \(String(describing: result))")))
+                            resultHandler(.failure(.myError(message: "Neither result nor error")))
                         }
         }
     }
