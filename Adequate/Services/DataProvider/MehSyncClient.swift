@@ -46,7 +46,7 @@ class MehSyncClient: MehSyncClientType {
         appSyncClient.apolloClient?.cacheKeyForObject = { $0[Constants.cacheKey] }
     }
 
-    // MARK: - Fetch
+    // MARK: - Fetch (Cancellable)
 
     func fetchCurrentDeal(cachePolicy: CachePolicy,
                           queue: DispatchQueue = DispatchQueue.main,
@@ -77,6 +77,8 @@ class MehSyncClient: MehSyncClientType {
             }
         }
     }
+
+    // MARK: - Fetch (Promise)
 
     func fetchDeal(withID id: GraphQLID, cachePolicy: CachePolicy = .fetchIgnoringCacheData) -> Promise<GetDealQuery.Data> {
         let query = GetDealQuery(id: id)

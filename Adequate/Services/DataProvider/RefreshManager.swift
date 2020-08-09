@@ -103,12 +103,15 @@ extension RefreshManager {
     }
 
     enum CacheCondition {
+        // TODO: rename
+        case new            // showLoading: false, cachePolicy: returnCacheDataElseFetch
         case fresh          // showLoading: false, cachePolicy: returnCacheDataAndFetch?
         case intermediate   // showLoading: false, cachePolicy: fetchIgnoringCacheData
         case stale          // showLoading: true,  cachePolicy: fetchIgnoringCacheData
 
         var cachePolicy: CachePolicy {
             switch self {
+            case .new: return .returnCacheDataElseFetch
             case .fresh: return .returnCacheDataAndFetch
             case .intermediate: return .returnCacheDataAndFetch
             case .stale: return .fetchIgnoringCacheData
@@ -117,6 +120,7 @@ extension RefreshManager {
 
         var showLoading: Bool {
             switch self {
+            case .new: return false
             case .fresh: return false
             case .intermediate: return false
             case .stale: return true
