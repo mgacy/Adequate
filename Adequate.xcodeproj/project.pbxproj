@@ -30,6 +30,7 @@
 		C9102F9A224FFC1D00B06679 /* Pods-Adequate-acknowledgements.markdown in Resources */ = {isa = PBXBuildFile; fileRef = C9102F99224FFC1D00B06679 /* Pods-Adequate-acknowledgements.markdown */; };
 		C9116E5321616CA60084934B /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E5221616CA60084934B /* StoryViewController.swift */; };
 		C9116E562161781F0084934B /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E552161781F0084934B /* Appearance.swift */; };
+		C911E268246D1E100056C84A /* RefreshManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C911E267246D1E100056C84A /* RefreshManager.swift */; };
 		C913919822CD91F2006C2E19 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C913919722CD91F2006C2E19 /* UILabel+Ext.swift */; };
 		C9221565225453920001FF3F /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9221564225453920001FF3F /* DimmingPresentationController.swift */; };
 		C92215672254632D0001FF3F /* SlideAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92215662254632D0001FF3F /* SlideAnimationController.swift */; };
@@ -103,6 +104,8 @@
 		C995C07322A8B63600C2289F /* ParallaxBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07222A8B63600C2289F /* ParallaxBarView.swift */; };
 		C995C07522A8E01C00C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07422A8E01C00C2289F /* FileCache.swift */; };
 		C995C07722A8F9E600C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07622A8F9E600C2289F /* FileCache.swift */; };
+		C996E20F24D258D800F5F173 /* MehSyncClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C996E20E24D258D700F5F173 /* MehSyncClientTests.swift */; };
+		C996E21124D26C3200F5F173 /* AWSAppSyncClient+Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C996E21024D26C3200F5F173 /* AWSAppSyncClient+Result.swift */; };
 		C997ED0122BFF6300053C62A /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = C997ED0322BFF6300053C62A /* Localizable.stringsdict */; };
 		C99C23F72357FF28004493B3 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C23F62357FF28004493B3 /* ColorTheme.swift */; };
 		C99DD5DB2182D4C500A38529 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99DD5DA2182D4C500A38529 /* PaddingLabel.swift */; };
@@ -114,6 +117,8 @@
 		C99EF3C322BD5B5F00BF4410 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C99EF3BE22BC968300BF4410 /* Localizable.strings */; };
 		C9A0ECFC245284F70051103F /* UITestingConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0ECFB245284F70051103F /* UITestingConfig.swift */; };
 		C9A0ED002453F4210051103F /* FooterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0ECFF2453F4210051103F /* FooterViewController.swift */; };
+		C9A5E9EE24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A5E9ED24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift */; };
+		C9A5E9F024D51BAB00AF77E5 /* CredentialsProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A5E9EF24D51BAB00AF77E5 /* CredentialsProviderMock.swift */; };
 		C9AE54C521791E4200818F11 /* PagedImageViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */; };
 		C9AE54C72179270C00818F11 /* FullScreenImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */; };
 		C9AE54C9217927B500818F11 /* ZoomingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C8217927B500818F11 /* ZoomingImageView.swift */; };
@@ -302,6 +307,7 @@
 		C9102F99224FFC1D00B06679 /* Pods-Adequate-acknowledgements.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = "Pods-Adequate-acknowledgements.markdown"; path = "Pods/Target Support Files/Pods-Adequate/Pods-Adequate-acknowledgements.markdown"; sourceTree = SOURCE_ROOT; };
 		C9116E5221616CA60084934B /* StoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
 		C9116E552161781F0084934B /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
+		C911E267246D1E100056C84A /* RefreshManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshManager.swift; sourceTree = "<group>"; };
 		C913919722CD91F2006C2E19 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
 		C9221564225453920001FF3F /* DimmingPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
 		C92215662254632D0001FF3F /* SlideAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideAnimationController.swift; sourceTree = "<group>"; };
@@ -376,6 +382,8 @@
 		C995C07222A8B63600C2289F /* ParallaxBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxBarView.swift; sourceTree = "<group>"; };
 		C995C07422A8E01C00C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		C995C07622A8F9E600C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
+		C996E20E24D258D700F5F173 /* MehSyncClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MehSyncClientTests.swift; sourceTree = "<group>"; };
+		C996E21024D26C3200F5F173 /* AWSAppSyncClient+Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSAppSyncClient+Result.swift"; sourceTree = "<group>"; };
 		C997ED0222BFF6300053C62A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		C99C23F62357FF28004493B3 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
 		C99DD5DA2182D4C500A38529 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
@@ -387,6 +395,8 @@
 		C99EF3BF22BD4FDD00BF4410 /* Strings.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.generated.swift; sourceTree = "<group>"; };
 		C9A0ECFB245284F70051103F /* UITestingConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestingConfig.swift; sourceTree = "<group>"; };
 		C9A0ECFF2453F4210051103F /* FooterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterViewController.swift; sourceTree = "<group>"; };
+		C9A5E9ED24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Misc+CustomStringConvertible.swift"; sourceTree = "<group>"; };
+		C9A5E9EF24D51BAB00AF77E5 /* CredentialsProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsProviderMock.swift; sourceTree = "<group>"; };
 		C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageViewDelegate.swift; sourceTree = "<group>"; };
 		C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageViewController.swift; sourceTree = "<group>"; };
 		C9AE54C8217927B500818F11 /* ZoomingImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomingImageView.swift; sourceTree = "<group>"; };
@@ -844,6 +854,7 @@
 				C9DAC4682147688500D6558B /* AdequateTests.swift */,
 				C984810D2448F6D5005B9B69 /* PriceFormatterTests.swift */,
 				C984810F244965DB005B9B69 /* Models+create.swift */,
+				C996E20E24D258D700F5F173 /* MehSyncClientTests.swift */,
 				C9E0D7C1244CED2B00032DE1 /* SnapshotTestBase.swift */,
 				C9E0D7C3244CF0E900032DE1 /* DealViewControllerSnapshotTests.swift */,
 				C9E0D7C5244CF1EE00032DE1 /* PadDealViewControllerSnapshotTests.swift */,
@@ -873,6 +884,7 @@
 			isa = PBXGroup;
 			children = (
 				C989E11E223742C100DEAE89 /* AWSAppSyncClient+Promise.swift */,
+				C996E21024D26C3200F5F173 /* AWSAppSyncClient+Result.swift */,
 				C989E1202237432600DEAE89 /* AWSMobileClient+Promise.swift */,
 				C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */,
 				C9DAC48821476AC300D6558B /* DateFormatter+Ext.swift */,
@@ -888,6 +900,7 @@
 				C96B487022FA9703000A8D91 /* UIViewController+Ext.swift */,
 				C9058DED215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift */,
 				C9DAC48E21476B2400D6558B /* URL+Ext.swift */,
+				C9A5E9ED24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1039,6 +1052,7 @@
 			children = (
 				C9E0D7CF244D48B700032DE1 /* Data */,
 				C9E0D7BD244C1BE200032DE1 /* AppDependencyMock.swift */,
+				C9A5E9EF24D51BAB00AF77E5 /* CredentialsProviderMock.swift */,
 				C9E0D7B7244C10B200032DE1 /* DataProviderMock.swift */,
 				C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */,
 				C9E0D7B9244C19A600032DE1 /* NotificationManagerMock.swift */,
@@ -1107,6 +1121,7 @@
 				C979335522D7E27400132A00 /* CompletionWrapper.swift */,
 				C9093CC42228A76D00C9DA0C /* DataProvider.swift */,
 				C9FABAED2372498100C1E523 /* MehSyncClient.swift */,
+				C911E267246D1E100056C84A /* RefreshManager.swift */,
 				C9088C2C22E6A418007C35CC /* DealDelta.swift */,
 				C9C2109322D8126700C4F66F /* RefreshEvent.swift */,
 				C989E1222237459300DEAE89 /* SyncClientError.swift */,
@@ -1764,6 +1779,7 @@
 				C9BEAB71233308A400C143FB /* HistoryDetailViewControllerDelegate.swift in Sources */,
 				C96CA8702182DD2E00C3459E /* NotificationViewController.swift in Sources */,
 				C925EECB233E955400D24F38 /* ImageServiceType.swift in Sources */,
+				C996E21124D26C3200F5F173 /* AWSAppSyncClient+Result.swift in Sources */,
 				C9093CC32228A27800C9DA0C /* ObservationToken.swift in Sources */,
 				C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */,
 				C9DAC48D21476AF600D6558B /* UIColor+Ext.swift in Sources */,
@@ -1774,9 +1790,11 @@
 				C9AE54D32179733E00818F11 /* ZoomOutAnimator.swift in Sources */,
 				C96BED9A23BD66FF00510058 /* UIView+Ext.swift in Sources */,
 				C9DAC4A521476C5E00D6558B /* ImageService.swift in Sources */,
+				C911E268246D1E100056C84A /* RefreshManager.swift in Sources */,
 				C97AC2DA23B6AA3000B721AC /* ScrollableView.swift in Sources */,
 				C9DAC49921476BAA00D6558B /* PriceComparison.swift in Sources */,
 				C9AE54CD21792BE400818F11 /* FullScreenImageTransitionController.swift in Sources */,
+				C9A5E9EE24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift in Sources */,
 				C9DDB20421644C01004D7957 /* PagedImageView.swift in Sources */,
 				C93F79042256EBE8004B4DD6 /* LoggingType.swift in Sources */,
 				C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */,
@@ -1804,7 +1822,9 @@
 				C9BADE10244F9772004B17F1 /* FileLoader.swift in Sources */,
 				C9E0D7BE244C1BE200032DE1 /* AppDependencyMock.swift in Sources */,
 				C9E0D7D1244D4C1B00032DE1 /* PadHistoryDetailViewControllerSnapshotTests.swift in Sources */,
+				C9A5E9F024D51BAB00AF77E5 /* CredentialsProviderMock.swift in Sources */,
 				C9E0D7BC244C1AFA00032DE1 /* UserDefaultsManagerMock.swift in Sources */,
+				C996E20F24D258D800F5F173 /* MehSyncClientTests.swift in Sources */,
 				C9E0D7B2244BD6BE00032DE1 /* ImageServiceMock.swift in Sources */,
 				C9E0D7C0244CEBC900032DE1 /* StoryViewControllerSnapshotTests.swift in Sources */,
 			);

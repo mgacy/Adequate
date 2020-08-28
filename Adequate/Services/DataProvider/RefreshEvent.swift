@@ -15,7 +15,7 @@ enum RefreshEvent {
     case launchFromNotification([String: AnyObject])
     /// Application will enter foreground.
     case foreground
-
+    // TODO: add case for coming back online?
     /// Application received foreground notification.
     case foregroundNotification
 
