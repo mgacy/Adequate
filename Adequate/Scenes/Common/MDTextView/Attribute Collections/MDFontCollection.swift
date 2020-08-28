@@ -17,9 +17,9 @@ public struct MDFontCollection: Equatable, FontCollection {
     public var heading1: UIFont
     public var heading2: UIFont
     public var heading3: UIFont
-    //public var heading4: UIFont
-    //public var heading5: UIFont
-    //public var heading6: UIFont
+    public var heading4: UIFont
+    public var heading5: UIFont
+    public var heading6: UIFont
     public var body: UIFont
     public var code: UIFont
     public var listItemPrefix: UIFont
@@ -29,21 +29,19 @@ public struct MDFontCollection: Equatable, FontCollection {
 public extension MDFontCollection {
     // TODO: move this into static var?
     init() {
-        heading1 = UIFont.preferredFont(for: .title3, adding: .traitBold)
-        heading2 = UIFont.preferredFont(forTextStyle: .headline)
-        heading3 = UIFont.preferredFont(for: .body, adding: .traitBold)
-
-//        // C
-//        heading1 = UIFont.preferredFont(for: .title3, adding: .traitBold)
-//        heading2 = UIFont.preferredFont(forTextStyle: .title2)
-//        heading3 = UIFont.preferredFont(forTextStyle: .title3)
+        heading1 = .preferredFont(for: .title3, adding: .traitBold)
+        heading2 = .preferredFont(forTextStyle: .headline) // .title2?
+        heading3 = .preferredFont(for: .body, adding: .traitBold) // .title3?
+        heading4 = .boldSystemFont(ofSize: 20) // ?
+        heading5 = .boldSystemFont(ofSize: 20) // ?
+        heading6 = .boldSystemFont(ofSize: 20) // ?
 
         // body
-        body = UIFont.preferredFont(forTextStyle: .body)
+        body = .preferredFont(forTextStyle: .body)
 
         // code
         // FIXME: use monospaced font
-        code = UIFont.systemFont(ofSize: 17)
+        code = .systemFont(ofSize: 17)
         /*
         if #available(iOS 12.0, *) {
             code = .monospacedSystemFont(ofSize: 17.0, weight: .regular)
