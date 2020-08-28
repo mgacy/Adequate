@@ -18,7 +18,7 @@ PODS:
     - AWSCognitoIdentityProvider (= 2.15.2)
   - AWSSNS (2.15.2):
     - AWSCore (= 2.15.2)
-  - Down (0.9.0)
+  - Down (0.9.3)
   - Promises (2.0.4)
   - ReachabilitySwift (5.0.0)
   - SnapshotTesting (1.7.2)
@@ -34,7 +34,7 @@ DEPENDENCIES:
   - AWSCore
   - AWSMobileClient
   - AWSSNS
-  - Down (from `https://github.com/mgacy/Down.git`, branch `hotfix/public-initializers`)
+  - Down
   - Promises
   - SnapshotTesting (~> 1.7.2)
   - Swifter (~> 1.4.7)
@@ -50,6 +50,7 @@ SPEC REPOS:
     - AWSCore
     - AWSMobileClient
     - AWSSNS
+    - Down
     - Promises
     - ReachabilitySwift
     - SnapshotTesting
@@ -57,16 +58,6 @@ SPEC REPOS:
     - Starscream
     - Swifter
     - SwiftyBeaver
-
-EXTERNAL SOURCES:
-  Down:
-    :branch: hotfix/public-initializers
-    :git: https://github.com/mgacy/Down.git
-
-CHECKOUT OPTIONS:
-  Down:
-    :commit: 90341e23c49097297af4674f8b413deeb16bd17b
-    :git: https://github.com/mgacy/Down.git
 
 SPEC CHECKSUMS:
   AppSyncRealTimeClient: 1e14f5584218e63b00fffbc093ad1934701a4b68
@@ -77,7 +68,7 @@ SPEC CHECKSUMS:
   AWSCore: 81cfee0ac51488a60930d5dfb18d3ae48cf5e1a8
   AWSMobileClient: 9c0d7723c635c8cf4cad7e74bbf378963db5d975
   AWSSNS: cc656d966dce6502d22422d00ee3ceed2eb560eb
-  Down: 1cdbca4963b542d0ef34ebb3e10ff48382bdf761
+  Down: 4553b984236807e384fa0ef7c7e360ef9f7c425d
   Promises: fcb83dc6be43294a8d30c343636ed1a45a8d2e0a
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   SnapshotTesting: 8caa6661fea7c8019d5b46de77c16bab99c36c5c
@@ -86,6 +77,6 @@ SPEC CHECKSUMS:
   Swifter: 2327ef5d872c638aebab79646ce494af508b0c8f
   SwiftyBeaver: a1f5691458561414bcfab51874b2b7445451602b
 
-PODFILE CHECKSUM: 4d04403366b74a73eba306d5b66ba49d761a8f29
+PODFILE CHECKSUM: eef3d9aa91e226cb41a1a3a176fa6ed76bcebc5c
 
 COCOAPODS: 1.9.3
