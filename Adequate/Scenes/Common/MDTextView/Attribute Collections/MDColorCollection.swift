@@ -13,9 +13,9 @@ public struct MDColorCollection: Equatable, ColorCollection {
     public var heading1: UIColor
     public var heading2: UIColor
     public var heading3: UIColor
-    //public var heading4: UIColor
-    //public var heading5: UIColor
-    //public var heading6: UIColor
+    public var heading4: UIColor
+    public var heading5: UIColor
+    public var heading6: UIColor
     public var body: UIColor
     public var code: UIColor
     public var link: UIColor
@@ -33,6 +33,9 @@ extension MDColorCollection {
         heading1 = theme.label
         heading2 = theme.label
         heading3 = theme.label
+        heading4 = theme.label
+        heading5 = theme.label
+        heading6 = theme.label
         body = theme.label
         code = theme.label
         link = theme.link
@@ -50,43 +53,52 @@ extension MDColorCollection {
     static var light: MDColorCollection {
         // TODO: update values to match .systemTheme when UIUserInterfaceStyle == .light
         return MDColorCollection(heading1: .black,
-                               heading2: .black,
-                               heading3: .black,
-                               body: .black,
-                               code: .black,
-                               link: .systemBlue,
-                               quote: .darkGray,
-                               quoteStripe: .darkGray,
-                               thematicBreak: UIColor(white: 0.9, alpha: 1),
-                               listItemPrefix: .black,
-                               codeBlockBackground: UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1))
+                                 heading2: .black,
+                                 heading3: .black,
+                                 heading4: .black,
+                                 heading5: .black,
+                                 heading6: .black,
+                                 body: .black,
+                                 code: .black,
+                                 link: .systemBlue,
+                                 quote: .darkGray,
+                                 quoteStripe: .darkGray,
+                                 thematicBreak: UIColor(white: 0.9, alpha: 1),
+                                 listItemPrefix: .black,
+                                 codeBlockBackground: UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1))
     }
 
     static var dark: MDColorCollection {
         return MDColorCollection(heading1: .white,
-                               heading2: .white,
-                               heading3: .white,
-                               body: .white,
-                               code: .white,
-                               link: .systemBlue,
-                               quote: .darkGray,
-                               quoteStripe: .darkGray,
-                               thematicBreak: UIColor(white: 0.9, alpha: 1),
-                               listItemPrefix: .white,
-                               codeBlockBackground: UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1))
+                                 heading2: .white,
+                                 heading3: .white,
+                                 heading4: .white,
+                                 heading5: .white,
+                                 heading6: .white,
+                                 body: .white,
+                                 code: .white,
+                                 link: .systemBlue,
+                                 quote: .darkGray,
+                                 quoteStripe: .darkGray,
+                                 thematicBreak: UIColor(white: 0.9, alpha: 1),
+                                 listItemPrefix: .white,
+                                 codeBlockBackground: UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1))
     }
 
     static var system: MDColorCollection {
         return MDColorCollection(heading1: ColorCompatibility.label,
-                               heading2: ColorCompatibility.label,
-                               heading3: ColorCompatibility.label,
-                               body: ColorCompatibility.label,
-                               code: ColorCompatibility.label,
-                               link: ColorCompatibility.link,
-                               quote: ColorCompatibility.secondaryLabel,
-                               quoteStripe: ColorCompatibility.secondaryLabel,
-                               thematicBreak: ColorCompatibility.secondarySystemBackground, // ?
-                               listItemPrefix: ColorCompatibility.label,
-                               codeBlockBackground: ColorCompatibility.secondarySystemBackground) // ?
+                                 heading2: ColorCompatibility.label,
+                                 heading3: ColorCompatibility.label,
+                                 heading4: ColorCompatibility.label,
+                                 heading5: ColorCompatibility.label,
+                                 heading6: ColorCompatibility.label,
+                                 body: ColorCompatibility.label,
+                                 code: ColorCompatibility.label,
+                                 link: ColorCompatibility.link,
+                                 quote: ColorCompatibility.secondaryLabel,
+                                 quoteStripe: ColorCompatibility.secondaryLabel,
+                                 thematicBreak: ColorCompatibility.secondarySystemBackground, // ?
+                                 listItemPrefix: ColorCompatibility.label,
+                                 codeBlockBackground: ColorCompatibility.secondarySystemBackground) // ?
     }
 }
