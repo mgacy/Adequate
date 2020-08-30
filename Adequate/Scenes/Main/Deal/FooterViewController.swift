@@ -195,6 +195,11 @@ extension FooterViewController: ViewStateRenderable {
             buyButton.isEnabled = false
             priceLabel.isHidden = false
             priceLabel.setStrikethrough(text: priceText)
+        case .reserve:
+            // TODO: check UserDefaults to see if `isMehVmp`; if so, enable
+            buyButton.isEnabled = false
+            priceLabel.isHidden = false
+            priceLabel.setStrikethrough(text: priceText)
         case .soldOut:
             buyButton.isEnabled = false
             priceLabel.isHidden = false
