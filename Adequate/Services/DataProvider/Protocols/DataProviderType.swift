@@ -10,10 +10,10 @@ import AWSAppSync
 import class Promise.Promise // import class to avoid name collision with AWSAppSync.Promise
 
 protocol DataProviderType {
-    typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias DealHistory = DealHistoryQuery.Data.DealHistory.Item
     // Get
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal>
-    func getDealHistory(from: Date, to: Date)
+    func getDealHistory()
     // Refresh
     func refreshDeal(for: RefreshEvent)
     // Update

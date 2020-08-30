@@ -11,7 +11,7 @@ import Promise
 
 final class HistoryDetailViewController: BaseViewController<ScrollableView<DealContentView>>, SwipeDismissable {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
-    typealias DealFragment = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias DealFragment = DealHistoryQuery.Data.DealHistory.Item
     typealias Deal = GetDealQuery.Data.GetDeal
     typealias Topic = GetDealQuery.Data.GetDeal.Topic
     typealias GraphQLID = String

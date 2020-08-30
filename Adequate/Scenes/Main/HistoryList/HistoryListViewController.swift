@@ -11,7 +11,7 @@ import UIKit
 // MARK: - Delegate
 
 protocol HistoryListViewControllerDelegate: AnyObject {
-    typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias Deal = DealHistoryQuery.Data.DealHistory.Item
     func showHistoryDetail(with: Deal)
     func showSettings()
     func showDeal()
@@ -21,7 +21,7 @@ protocol HistoryListViewControllerDelegate: AnyObject {
 
 final class HistoryListViewController: UITableViewController {
     typealias Dependencies = HasDataProvider & HasThemeManager
-    typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias Deal = DealHistoryQuery.Data.DealHistory.Item
 
     weak var delegate: HistoryListViewControllerDelegate?
 
@@ -120,12 +120,7 @@ final class HistoryListViewController: UITableViewController {
     // MARK: - DataProvider
 
     private func getDealHistory() {
-        // TODO: account for TimeZones
-        let today = Date()
-        // TODO: move startDate / endDate to class properties?
-        let startDate = Calendar.current.date(byAdding: .month, value: -1, to: today)!
-        let endDate = Calendar.current.date(byAdding: .day, value: -1, to: today)!
-        dataSource.getDealHistory(from: startDate, to: endDate)
+        dataSource.getDealHistory()
     }
 
     // MARK: - Navigation

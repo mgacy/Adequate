@@ -13,7 +13,7 @@ import Promise
 final class HistoryDetailCoordinator: Coordinator {
     typealias CoordinationResult = Void
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
-    typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias Deal = DealHistoryQuery.Data.DealHistory.Item
     typealias Topic = GetDealQuery.Data.GetDeal.Topic
 
     private let dependencies: Dependencies

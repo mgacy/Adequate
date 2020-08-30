@@ -11,7 +11,7 @@ import AWSMobileClient
 import class Promise.Promise // import class to avoid name collision with AWSAppSync.Promise
 
 class DataProvider: DataProviderType {
-    typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias DealHistory = DealHistoryQuery.Data.DealHistory
 
     // TODO: rename `ViewState<T>` as `ResourceState<T>`?
     private var dealState: ViewState<Deal> {
@@ -28,7 +28,7 @@ class DataProvider: DataProviderType {
         }
     }
 
-    private var historyState: ViewState<[DealHistory]> {
+    private var historyState: ViewState<[DealHistory.Item]> {
         didSet {
 
             if case .result = historyState {
@@ -49,7 +49,7 @@ class DataProvider: DataProviderType {
     private var currentDealWatcher: GraphQLQueryWatcher<GetDealQuery>?
 
     private var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
-    private var historyObservations: [UUID: (ViewState<[DealHistory]>) -> Void] = [:]
+    private var historyObservations: [UUID: (ViewState<[DealHistory.Item]>) -> Void] = [:]
 
     private var fetchCompletionObserver: CompletionWrapper<UIBackgroundFetchResult>?
     private var refreshHistoryObserver: CompletionWrapper<Void>?
@@ -250,26 +250,33 @@ class DataProvider: DataProviderType {
             })
     }
 
-    func getDealHistory(from startDate: Date, to endDate: Date) {
+    func getDealHistory() {
         // FIXME: decide on CachePolicy: .fetchIgnoringCacheData / .returnCacheDataAndFetch
-        getDealHistory(from: startDate, to: endDate, cachePolicy: .returnCacheDataAndFetch)
+        getDealHistory(cachePolicy: .fetchIgnoringCacheData)
     }
 
-    private func getDealHistory(from startDate: Date, to endDate: Date, cachePolicy: CachePolicy) {
-        // TODO: remove `showLoading` arg
-        log.debug("\(#function) - \(startDate) - \(endDate) - \(cachePolicy)")
+    private func getDealHistory(limit: Int = 60, nextToken: String? = nil, cachePolicy: CachePolicy = .fetchIgnoringCacheData) {
+        log.debug("\(#function) - \(cachePolicy)")
         //guard historyState != ViewState<[DealHistory]>.loading else { return }
 
         historyState = .loading
-        client.fetchDealHistory(from: startDate, to: endDate, cachePolicy: cachePolicy)
+        client.fetchDealHistory(limit: limit, nextToken: nextToken, cachePolicy: cachePolicy)
             .then { [weak self] result in
-                guard let items = result.listDealsForPeriod else {
+                // FIXME: how to handle this?
+                guard let data = result.dealHistory else {
                     throw SyncClientError.missingData(data: result)
                 }
+
+                // FIXME: change schema so `items` is non-nullable?
+                guard let items = data.items else {
+                    self?.historyState = .empty
+                    return
+                }
+
                 if items.isEmpty {
                     self?.historyState = .empty
                 } else {
-                    self?.historyState = .result(items.reversed().compactMap { $0 })
+                    self?.historyState = .result(items.compactMap { $0 })
                 }
             }.catch { error in
                 log.error("\(#function): \(error.localizedDescription)")
@@ -527,7 +534,7 @@ class DataProvider: DataProviderType {
         }
     }
 
-    func addHistoryObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, ViewState<[DealHistory]>) -> Void) -> ObservationToken {
+    func addHistoryObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, ViewState<[DealHistory.Item]>) -> Void) -> ObservationToken {
         let id = UUID()
         historyObservations[id] = { [weak self, weak observer] state in
             // If the observer has been deallocated, we can
@@ -551,7 +558,7 @@ class DataProvider: DataProviderType {
         }
     }
 
-    private func callObservations(with dealState: ViewState<[DealHistory]>) {
+    private func callObservations(with dealState: ViewState<[DealHistory.Item]>) {
         historyObservations.values.forEach { observation in
             observation(dealState)
         }
@@ -596,12 +603,7 @@ extension DataProvider {
             //log.debug("refreshHistoryObserver: \(viewState)")
             switch viewState {
             case .result:
-                // TODO: account for TimeZones; do so at level of Calendar or DateFormatter?
-                let today = Date()
-                // TODO: move startDate / endDate to class properties?
-                let startDate = Calendar.current.date(byAdding: .month, value: -1, to: today)!
-                let endDate = Calendar.current.date(byAdding: .day, value: -1, to: today)!
-                self?.getDealHistory(from: startDate, to: endDate, cachePolicy: cachePolicy)
+                self?.getDealHistory(cachePolicy: cachePolicy)
                 wrapper.complete(with: ())
             case .error:
                 // TODO: should we complete, or wait for another successful refresh?

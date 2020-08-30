@@ -11,7 +11,7 @@ import AWSMobileClient
 import class Promise.Promise // import class to avoid name collision with AWSAppSync.Promise
 
 class MehSyncClient: MehSyncClientType {
-    typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias DealHistory = DealHistoryQuery.Data.DealHistory
 
     private var appSyncClient: AWSAppSyncClient?
 
@@ -85,10 +85,8 @@ class MehSyncClient: MehSyncClientType {
         return fetch(query: query, cachePolicy: cachePolicy)
     }
 
-    func fetchDealHistory(from startDate: Date, to endDate: Date, cachePolicy: CachePolicy) -> Promise<ListDealsForPeriodQuery.Data> {
-        let startDateString = DateFormatter.yyyyMMddEST.string(from: startDate)
-        let endDateString = DateFormatter.yyyyMMddEST.string(from: endDate)
-        let query = ListDealsForPeriodQuery(startDate: startDateString, endDate: endDateString)
+    func fetchDealHistory(limit: Int, nextToken: String?, cachePolicy: CachePolicy) -> Promise<DealHistoryQuery.Data> {
+        let query = DealHistoryQuery(filter: nil, limit: 60, nextToken: nil)
         return fetch(query: query, cachePolicy: cachePolicy)
     }
 

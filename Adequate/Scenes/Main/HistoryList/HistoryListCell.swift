@@ -176,7 +176,7 @@ final class HistoryListCell: UITableViewCell {
 
 // MARK: - Configuration
 extension HistoryListCell {
-    typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias Deal = DealHistoryQuery.Data.DealHistory.Item
 
     func configure(with deal: Deal) {
         apply(theme: Theme(deal.theme))

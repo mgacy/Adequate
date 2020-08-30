@@ -10,7 +10,7 @@ import UIKit
 
 final class HistoryListDataSource: NSObject {
     typealias Dependencies = HasDataProvider
-    typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias Deal = DealHistoryQuery.Data.DealHistory.Item
     typealias ResultType = TableViewDiff
 
     // MARK: - Properties
@@ -42,8 +42,8 @@ final class HistoryListDataSource: NSObject {
 
     // MARK: - Additional
 
-    func getDealHistory(from startDate: Date, to endDate: Date) {
-        dataProvider.getDealHistory(from: startDate, to: endDate)
+    func getDealHistory() {
+        dataProvider.getDealHistory()
     }
 
     func objectAtIndexPath(_ indexPath: IndexPath) -> Deal {
