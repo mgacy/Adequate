@@ -10,7 +10,7 @@ import Foundation
 
 extension CurrentDeal {
     init?(deal: Deal) {
-        self.id = deal.id
+        self.id = deal.dealID
         self.title = deal.title
 
         guard let imageURL = deal.photos.first?.secure() else {
