@@ -83,13 +83,13 @@ enum NotificationAction: String {
 }
 
 enum NotificationConstants {
-    // NOTE: in Apple's examples, they use ALL_CAPS for keys in notifications
+    static let idKey = "deal-id"
     // New Deal
-    static let dealKey = "adequate-deal-url"
-    static let imageKey = "adequate-image-url"
+    static let dealKey = "deal-url"
+    static let imageKey = "image-url"
     // Deal Delta
-    static let deltaTypeKey = "adequate-delta-type"
-    static let deltaValueKey = "adequate-delta-value"
+    static let deltaTypeKey = "delta-type"
+    static let deltaValueKey = "delta-value"
 }
 
 // MARK: - Implementation

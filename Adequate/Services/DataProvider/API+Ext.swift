@@ -61,22 +61,22 @@ extension GetDealQuery.Data.GetDeal.Theme: ThemeType {}
 
 extension GetDealQuery.Data.GetDeal.Topic: TopicType {}
 
-// MARK: - ListDealsForPeriodQuery + Model Protocols
+// MARK: - DealHistoryQuery + Model Protocols
 
-extension ListDealsForPeriodQuery.Data.ListDealsForPeriod.Theme: ThemeType {}
+extension DealHistoryQuery.Data.DealHistory.Item.Theme: ThemeType {}
 
-// MARK: - ListDealsForPeriodQuery + Equatable
+// MARK: - DealHistoryQuery + Equatable
 
-extension ListDealsForPeriodQuery.Data.ListDealsForPeriod.Theme: Equatable {
-    public static func == (lhs: ListDealsForPeriodQuery.Data.ListDealsForPeriod.Theme, rhs: ListDealsForPeriodQuery.Data.ListDealsForPeriod.Theme) -> Bool {
+extension DealHistoryQuery.Data.DealHistory.Item.Theme: Equatable {
+    public static func == (lhs: DealHistoryQuery.Data.DealHistory.Item.Theme, rhs: DealHistoryQuery.Data.DealHistory.Item.Theme) -> Bool {
         return lhs.accentColor == rhs.accentColor
             && lhs.backgroundColor == rhs.backgroundColor
             && lhs.foreground == rhs.foreground
     }
 }
 
-extension ListDealsForPeriodQuery.Data.ListDealsForPeriod.Item: Equatable {
-    public static func == (lhs: ListDealsForPeriodQuery.Data.ListDealsForPeriod.Item, rhs: ListDealsForPeriodQuery.Data.ListDealsForPeriod.Item) -> Bool {
+extension DealHistoryQuery.Data.DealHistory.Item.Item: Equatable {
+    public static func == (lhs: DealHistoryQuery.Data.DealHistory.Item.Item, rhs: DealHistoryQuery.Data.DealHistory.Item.Item) -> Bool {
         return lhs.id == rhs.id
             //&& lhs.condition == rhs.condition
             //&& lhs.photo == rhs.photo
@@ -84,8 +84,8 @@ extension ListDealsForPeriodQuery.Data.ListDealsForPeriod.Item: Equatable {
     }
 }
 
-extension ListDealsForPeriodQuery.Data.ListDealsForPeriod: Equatable {
-    public static func == (lhs: ListDealsForPeriodQuery.Data.ListDealsForPeriod, rhs: ListDealsForPeriodQuery.Data.ListDealsForPeriod) -> Bool {
+extension DealHistoryQuery.Data.DealHistory.Item: Equatable {
+    public static func == (lhs: DealHistoryQuery.Data.DealHistory.Item, rhs: DealHistoryQuery.Data.DealHistory.Item) -> Bool {
         return lhs.id == rhs.id
             //&& lhs.title == rhs.title
             //&& lhs.createdAt == rhs.createdAt

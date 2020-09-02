@@ -128,6 +128,7 @@
 		C9AE54D12179697F00818F11 /* ZoomInAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54D02179697F00818F11 /* ZoomInAnimator.swift */; };
 		C9AE54D32179733E00818F11 /* ZoomOutAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54D22179733E00818F11 /* ZoomOutAnimator.swift */; };
 		C9AE8BCD2409D4BF00AB32DA /* ViewAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE8BCC2409D4BF00AB32DA /* ViewAnimatedTransitioning.swift */; };
+		C9B3DE5B24FEE44F00A90453 /* Models+Lens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3DE5A24FEE44F00A90453 /* Models+Lens.generated.swift */; };
 		C9B3FAB2223C39F900B8524A /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B3FAB1223C39F900B8524A /* NotificationCenter.framework */; };
 		C9B3FAB5223C39F900B8524A /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAB4223C39F900B8524A /* TodayViewController.swift */; };
 		C9B3FABC223C39F900B8524A /* DealWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9B3FAB0223C39F900B8524A /* DealWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -406,6 +407,7 @@
 		C9AE54D02179697F00818F11 /* ZoomInAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomInAnimator.swift; sourceTree = "<group>"; };
 		C9AE54D22179733E00818F11 /* ZoomOutAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomOutAnimator.swift; sourceTree = "<group>"; };
 		C9AE8BCC2409D4BF00AB32DA /* ViewAnimatedTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAnimatedTransitioning.swift; sourceTree = "<group>"; };
+		C9B3DE5A24FEE44F00A90453 /* Models+Lens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Models+Lens.generated.swift"; sourceTree = "<group>"; };
 		C9B3FAB0223C39F900B8524A /* DealWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DealWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B3FAB1223C39F900B8524A /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		C9B3FAB4223C39F900B8524A /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -657,6 +659,7 @@
 				C9C2109722D8FFA300C4F66F /* Lens.swift */,
 				C937EFE622DFFE5100C363C8 /* Prism.swift */,
 				C937EFE822DFFF1400C363C8 /* Optional+Prism.swift */,
+				C9B3DE5A24FEE44F00A90453 /* Models+Lens.generated.swift */,
 			);
 			path = Optics;
 			sourceTree = "<group>";
@@ -1564,7 +1567,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#check if env-vars.sh exists\nif [ -f ./env-vars.sh ]\nthen\nsource ./env-vars.sh\nfi\n#no `else` case needed if the CI works as expected\nsourcery --sources . --templates ./templates --output ./Adequate/Application --args apikey=$API_KEY,identity_pool_id=$IDENTITY_POOL_ID,platform_application_arn=$PLATFORM_APPLICATION_ARN,platform_application_arn_prod=$PLATFORM_APPLICATION_ARN_PROD,topic_arn=$TOPIC_ARN,logger_app_id=$LOGGER_APP_ID,logger_app_secret=$LOGGER_APP_SECRET,logger_encryption_key=$LOGGER_ENCRYPTION_KEY\n\n";
+			shellScript = "#check if env-vars.sh exists\nif [ -f ./env-vars.sh ]\nthen\nsource ./env-vars.sh\nfi\n#no `else` case needed if the CI works as expected\nsourcery --sources . --templates ./templates/AppSecrets.stencil --output ./Adequate/Application --args apikey=$API_KEY,identity_pool_id=$IDENTITY_POOL_ID,platform_application_arn=$PLATFORM_APPLICATION_ARN,platform_application_arn_prod=$PLATFORM_APPLICATION_ARN_PROD,topic_arn=$TOPIC_ARN,logger_app_id=$LOGGER_APP_ID,logger_app_secret=$LOGGER_APP_SECRET,logger_encryption_key=$LOGGER_ENCRYPTION_KEY\n\n";
 		};
 		DB6458F974A6AE33EE2730DC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1697,6 +1700,7 @@
 				C9DAC48521476A7A00D6558B /* Reusable.swift in Sources */,
 				C923839422B1B921003BB1DA /* ThemeType.swift in Sources */,
 				C9A0ECFC245284F70051103F /* UITestingConfig.swift in Sources */,
+				C9B3DE5B24FEE44F00A90453 /* Models+Lens.generated.swift in Sources */,
 				C9AE54CB21792ABC00818F11 /* ZoomingImageViewDelegate.swift in Sources */,
 				C9093CC1222796FD00C9DA0C /* RootPageViewController.swift in Sources */,
 				C9AE54C72179270C00818F11 /* FullScreenImageViewController.swift in Sources */,

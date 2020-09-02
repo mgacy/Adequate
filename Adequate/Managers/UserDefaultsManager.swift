@@ -26,6 +26,7 @@ enum UserDefaultsKey: String {
 protocol UserDefaultsManagerType: AnyObject {
     var hasShownOnboarding: Bool { get set }
     var showNotifications: Bool { get set }
+    // TODO: add `isMehVmp: Bool`
 }
 
 // MARK: - Implementation
