@@ -31,7 +31,7 @@ struct Deal: Codable {
     let story: Story
     let theme: Theme
     let url: URL
-    //let createdAt: Date
+    let createdAt: Date
     //let updatedAt: Date
     //let lastChangedAt:
     //let endDate: Date?
@@ -73,7 +73,7 @@ extension Deal {
         self.story = story
         self.theme = Theme(deal.theme)
         self.url = url
-        //self.createdAt = DateFormatter.iso8601Full.date(from: deal.createdAt)
+        self.createdAt = DateFormatter.iso8601Full.date(from: deal.createdAt) ?? .distantPast
         if let soldOutAt = deal.soldOutAt {
             self.soldOutAt = DateFormatter.iso8601Full.date(from: soldOutAt)
         } else {
