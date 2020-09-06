@@ -12,7 +12,7 @@ import NotificationCenter
 // https://stackoverflow.com/questions/26037321/how-to-create-a-today-widget-programmatically-without-storyboard-on-ios8
 @objc (TodayViewController)
 
-class TodayViewController: UIViewController, NCWidgetProviding {
+class TodayViewController: UIViewController {
 
     private var currentDealManager: CurrentDealManager!
     private lazy var formatter: NumberFormatter = {
@@ -73,8 +73,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         return view
     }()
 
-    // MARK: - Lifecycle
+    private lazy var tapRecognizer: UITapGestureRecognizer = {
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTapWidget(_:)))
+        return recognizer
+    }()
 
+    // MARK: - Lifecycle
     override func loadView() {
         super.loadView()
         view.addSubview(imageView)
@@ -109,6 +113,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     // MARK: - View Setup
 
     func setupView() {
+        view.addGestureRecognizer(tapRecognizer)
         extensionContext?.widgetLargestAvailableDisplayMode = .expanded
         titleLabel.text = "--"
         priceLabel.text = "--"
@@ -164,7 +169,29 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
     }
 
-    // MARK: - NCWidgetProviding
+    // MARK: - B
+
+    func loadDeal(completionHandler: @escaping (Error?) -> Void) {
+        viewState = .loading
+        guard let deal = currentDealManager.readDeal() else {
+            viewState = .error(CurrentDealManagerError.missingDeal)
+            return completionHandler(CurrentDealManagerError.missingDeal)
+        }
+        let dealImage = currentDealManager.readImage()
+        viewState = .result(DealWrapper(deal: deal, image: dealImage))
+    }
+
+    @objc func didTapWidget(_ sender: UITapGestureRecognizer) {
+        guard let appURL = URL(string: "adequate:deal") else {
+            return
+        }
+        extensionContext?.open(appURL, completionHandler: nil)
+    }
+
+}
+
+// MARK: - NCWidgetProviding
+extension TodayViewController: NCWidgetProviding {
 
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         switch activeDisplayMode {
@@ -200,18 +227,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 completionHandler(.failed)
             }
         }
-    }
-
-    // MARK: - B
-
-    func loadDeal(completionHandler: @escaping (Error?) -> Void) {
-        viewState = .loading
-        guard let deal = currentDealManager.readDeal() else {
-            viewState = .error(CurrentDealManagerError.missingDeal)
-            return completionHandler(CurrentDealManagerError.missingDeal)
-        }
-        let dealImage = currentDealManager.readImage()
-        viewState = .result(DealWrapper(deal: deal, image: dealImage))
     }
 
 }
