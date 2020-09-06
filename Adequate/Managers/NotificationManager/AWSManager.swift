@@ -9,11 +9,6 @@
 import AWSSNS
 import Promise
 
-// MARK: - Protocol
-protocol NotificationServiceManager {
-    func registerDevice(with token: String) -> Promise<String>
-}
-
 // MARK: - Errors
 enum AWSManagerError: Error {
     case invalidInput

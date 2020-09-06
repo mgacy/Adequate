@@ -119,6 +119,9 @@
 		C9A0ED002453F4210051103F /* FooterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0ECFF2453F4210051103F /* FooterViewController.swift */; };
 		C9A3BD3025049617008F0D30 /* NotificationPayloadKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3BD2F25049617008F0D30 /* NotificationPayloadKey.swift */; };
 		C9A3BD312504967B008F0D30 /* NotificationPayloadKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3BD2F25049617008F0D30 /* NotificationPayloadKey.swift */; };
+		C9A3BD3425049E99008F0D30 /* NotificationServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3BD3325049E99008F0D30 /* NotificationServiceManager.swift */; };
+		C9A3BD3625049FB6008F0D30 /* NotificationManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3BD3525049FB6008F0D30 /* NotificationManagerType.swift */; };
+		C9A3BD382504A155008F0D30 /* NotificationCategoryIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3BD372504A155008F0D30 /* NotificationCategoryIdentifier.swift */; };
 		C9A5E9EE24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A5E9ED24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift */; };
 		C9A5E9F024D51BAB00AF77E5 /* CredentialsProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A5E9EF24D51BAB00AF77E5 /* CredentialsProviderMock.swift */; };
 		C9AE54C521791E4200818F11 /* PagedImageViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */; };
@@ -399,6 +402,9 @@
 		C9A0ECFB245284F70051103F /* UITestingConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestingConfig.swift; sourceTree = "<group>"; };
 		C9A0ECFF2453F4210051103F /* FooterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterViewController.swift; sourceTree = "<group>"; };
 		C9A3BD2F25049617008F0D30 /* NotificationPayloadKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPayloadKey.swift; sourceTree = "<group>"; };
+		C9A3BD3325049E99008F0D30 /* NotificationServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceManager.swift; sourceTree = "<group>"; };
+		C9A3BD3525049FB6008F0D30 /* NotificationManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManagerType.swift; sourceTree = "<group>"; };
+		C9A3BD372504A155008F0D30 /* NotificationCategoryIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCategoryIdentifier.swift; sourceTree = "<group>"; };
 		C9A5E9ED24D39CA200AF77E5 /* Misc+CustomStringConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Misc+CustomStringConvertible.swift"; sourceTree = "<group>"; };
 		C9A5E9EF24D51BAB00AF77E5 /* CredentialsProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsProviderMock.swift; sourceTree = "<group>"; };
 		C9AE54C421791E4200818F11 /* PagedImageViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedImageViewDelegate.swift; sourceTree = "<group>"; };
@@ -646,8 +652,6 @@
 			isa = PBXGroup;
 			children = (
 				C9A3BD2E2504939B008F0D30 /* NotificationManager */,
-				C928547A216DCE44001E5993 /* AWSManager.swift */,
-				C9058DF4215C7E4C00FF7B4C /* NotificationManager.swift */,
 				C95B83C2218017FD0051B72B /* ThemeManager.swift */,
 				C9F92265218A88D0001C257A /* UserDefaultsManager.swift */,
 				C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */,
@@ -762,9 +766,30 @@
 		C9A3BD2E2504939B008F0D30 /* NotificationManager */ = {
 			isa = PBXGroup;
 			children = (
-				C9A3BD2F25049617008F0D30 /* NotificationPayloadKey.swift */,
+				C9A3BD3225049E68008F0D30 /* Protocols */,
+				C9A3BD392504A3FD008F0D30 /* Configuration */,
+				C9058DF4215C7E4C00FF7B4C /* NotificationManager.swift */,
+				C928547A216DCE44001E5993 /* AWSManager.swift */,
 			);
 			path = NotificationManager;
+			sourceTree = "<group>";
+		};
+		C9A3BD3225049E68008F0D30 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				C9A3BD3525049FB6008F0D30 /* NotificationManagerType.swift */,
+				C9A3BD3325049E99008F0D30 /* NotificationServiceManager.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		C9A3BD392504A3FD008F0D30 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				C9A3BD2F25049617008F0D30 /* NotificationPayloadKey.swift */,
+				C9A3BD372504A155008F0D30 /* NotificationCategoryIdentifier.swift */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 		C9B3FAB3223C39F900B8524A /* DealWidget */ = {
@@ -1694,6 +1719,7 @@
 				C989E11B223734C800DEAE89 /* API.swift in Sources */,
 				C94D2CEF230E143700043431 /* UIFont+Ext.swift in Sources */,
 				C95CD61D230FB46C0011585F /* DealContentView.swift in Sources */,
+				C9A3BD382504A155008F0D30 /* NotificationCategoryIdentifier.swift in Sources */,
 				C95CD612230FAF810011585F /* RouterType.swift in Sources */,
 				C989E1232237459300DEAE89 /* SyncClientError.swift in Sources */,
 				C923839022B1B4B4003BB1DA /* StoryType.swift in Sources */,
@@ -1725,9 +1751,11 @@
 				C9093CBB221FBD6E00C9DA0C /* HistoryListCoordinator.swift in Sources */,
 				C9DAC4A121476BCD00D6558B /* Video.swift in Sources */,
 				C9093CC52228A76D00C9DA0C /* DataProvider.swift in Sources */,
+				C9A3BD3625049FB6008F0D30 /* NotificationManagerType.swift in Sources */,
 				C9116E562161781F0084934B /* Appearance.swift in Sources */,
 				C9C0C0C023072E170011EFB4 /* NSAttributedString+Helpers.swift in Sources */,
 				C95CD618230FB1530011585F /* CoordinatorType.swift in Sources */,
+				C9A3BD3425049E99008F0D30 /* NotificationServiceManager.swift in Sources */,
 				C9DAC475214768C600D6558B /* AppDependency.swift in Sources */,
 				C9DAC4A321476C3A00D6558B /* NetworkClient.swift in Sources */,
 				C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */,
