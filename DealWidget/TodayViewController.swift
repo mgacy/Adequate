@@ -35,7 +35,7 @@ class TodayViewController: UIViewController {
 
     // MARK: - Subviews
 
-    private let imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
         view.layer.cornerRadius = 8.0
@@ -44,7 +44,7 @@ class TodayViewController: UIViewController {
         return view
     }()
 
-    private let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .headline)
@@ -54,7 +54,7 @@ class TodayViewController: UIViewController {
         return label
     }()
 
-    private let priceLabel: UILabel = {
+    private lazy var priceLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
@@ -79,12 +79,6 @@ class TodayViewController: UIViewController {
     }()
 
     // MARK: - Lifecycle
-    override func loadView() {
-        super.loadView()
-        view.addSubview(imageView)
-        view.addSubview(stackView)
-        setupConstraints()
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,6 +87,11 @@ class TodayViewController: UIViewController {
         loadDeal { _ in }
     }
     /*
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadDeal { _ in }
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // ...
@@ -114,6 +113,10 @@ class TodayViewController: UIViewController {
 
     func setupView() {
         view.addGestureRecognizer(tapRecognizer)
+        view.addSubview(imageView)
+        view.addSubview(stackView)
+        setupConstraints()
+
         extensionContext?.widgetLargestAvailableDisplayMode = .expanded
         titleLabel.text = "--"
         priceLabel.text = "--"
@@ -240,11 +243,13 @@ extension TodayViewController: ViewStateRenderable {
         case .empty:
             titleLabel.text = ""
             priceLabel.text = ""
+            // TODO: add resource for placeholder
             imageView.image = nil
         case .loading:
             titleLabel.text = "--"
             priceLabel.text = "--"
             // TODO: what about imageView?
+            // TODO: use placeholder
         case .result(let wrapper):
             let deal = wrapper.deal
             titleLabel.text = deal.title
@@ -256,10 +261,12 @@ extension TodayViewController: ViewStateRenderable {
                 priceLabel.text = "$\(formattedMinPrice)"
             }
             imageView.image = wrapper.image
+            // TODO: indicate if deal is soldOut
         case .error(let error):
             print("Error: \(error)")
             titleLabel.text = "-*-"
             priceLabel.text = "-*-"
+            // TODO: add resource for error
             imageView.image = nil
         }
     }
