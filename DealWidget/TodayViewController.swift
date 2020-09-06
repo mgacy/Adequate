@@ -12,7 +12,7 @@ import NotificationCenter
 // https://stackoverflow.com/questions/26037321/how-to-create-a-today-widget-programmatically-without-storyboard-on-ios8
 @objc (TodayViewController)
 
-class TodayViewController: UIViewController, NCWidgetProviding {
+class TodayViewController: UIViewController {
 
     private var currentDealManager: CurrentDealManager!
     private lazy var formatter: NumberFormatter = {
@@ -35,7 +35,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 
     // MARK: - Subviews
 
-    private let imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
         view.layer.cornerRadius = 8.0
@@ -44,17 +44,17 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         return view
     }()
 
-    private let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.textColor = .black
+        label.textColor = Style.primaryTextColor
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    private let priceLabel: UILabel = {
+    private lazy var priceLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
@@ -73,14 +73,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         return view
     }()
 
-    // MARK: - Lifecycle
+    private lazy var tapRecognizer: UITapGestureRecognizer = {
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTapWidget(_:)))
+        return recognizer
+    }()
 
-    override func loadView() {
-        super.loadView()
-        view.addSubview(imageView)
-        view.addSubview(stackView)
-        setupConstraints()
-    }
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,6 +87,11 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         loadDeal { _ in }
     }
     /*
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadDeal { _ in }
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // ...
@@ -109,6 +112,11 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     // MARK: - View Setup
 
     func setupView() {
+        view.addGestureRecognizer(tapRecognizer)
+        view.addSubview(imageView)
+        view.addSubview(stackView)
+        setupConstraints()
+
         extensionContext?.widgetLargestAvailableDisplayMode = .expanded
         titleLabel.text = "--"
         priceLabel.text = "--"
@@ -164,7 +172,29 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
     }
 
-    // MARK: - NCWidgetProviding
+    // MARK: - B
+
+    func loadDeal(completionHandler: @escaping (Error?) -> Void) {
+        viewState = .loading
+        guard let deal = currentDealManager.readDeal() else {
+            viewState = .error(CurrentDealManagerError.missingDeal)
+            return completionHandler(CurrentDealManagerError.missingDeal)
+        }
+        let dealImage = currentDealManager.readImage()
+        viewState = .result(DealWrapper(deal: deal, image: dealImage))
+    }
+
+    @objc func didTapWidget(_ sender: UITapGestureRecognizer) {
+        guard let appURL = URL(string: "adequate:deal") else {
+            return
+        }
+        extensionContext?.open(appURL, completionHandler: nil)
+    }
+
+}
+
+// MARK: - NCWidgetProviding
+extension TodayViewController: NCWidgetProviding {
 
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         switch activeDisplayMode {
@@ -202,18 +232,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
     }
 
-    // MARK: - B
-
-    func loadDeal(completionHandler: @escaping (Error?) -> Void) {
-        viewState = .loading
-        guard let deal = currentDealManager.readDeal() else {
-            viewState = .error(CurrentDealManagerError.missingDeal)
-            return completionHandler(CurrentDealManagerError.missingDeal)
-        }
-        let dealImage = currentDealManager.readImage()
-        viewState = .result(DealWrapper(deal: deal, image: dealImage))
-    }
-
 }
 
 // MARK: - ViewStateRenderable
@@ -225,11 +243,13 @@ extension TodayViewController: ViewStateRenderable {
         case .empty:
             titleLabel.text = ""
             priceLabel.text = ""
+            // TODO: add resource for placeholder
             imageView.image = nil
         case .loading:
             titleLabel.text = "--"
             priceLabel.text = "--"
             // TODO: what about imageView?
+            // TODO: use placeholder
         case .result(let wrapper):
             let deal = wrapper.deal
             titleLabel.text = deal.title
@@ -241,10 +261,12 @@ extension TodayViewController: ViewStateRenderable {
                 priceLabel.text = "$\(formattedMinPrice)"
             }
             imageView.image = wrapper.image
+            // TODO: indicate if deal is soldOut
         case .error(let error):
             print("Error: \(error)")
             titleLabel.text = "-*-"
             priceLabel.text = "-*-"
+            // TODO: add resource for error
             imageView.image = nil
         }
     }
@@ -257,9 +279,11 @@ struct DealWrapper {
 }
 
 // MARK: - Style
+// TODO: use ColorTheme (or AppTheme?)
 enum Style {
     // Colors
-    static let secondaryTextColor = UIColor(red: 78/255.0, green: 78/255.0, blue: 78/255.0, alpha: 1.00)
+    static let primaryTextColor = UIColor.label
+    static let secondaryTextColor = UIColor.secondaryLabel
     // Layout
     static let spacing: CGFloat = 8.0
 }
