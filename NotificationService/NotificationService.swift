@@ -23,7 +23,7 @@ class NotificationService: UNNotificationServiceExtension {
 
             // Parse image url from bestAttemptContent?.userInfo
             guard
-                let urlString = bestAttemptContent.userInfo[NotificationConstants.imageKey] as? String,
+                let urlString = bestAttemptContent.userInfo[NotificationPayloadKey.imageURL] as? String,
                 let url = URL(string: urlString)?.secure() else {
                     return contentHandler(request.content)
             }

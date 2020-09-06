@@ -82,16 +82,6 @@ enum NotificationAction: String {
     }
 }
 
-enum NotificationConstants {
-    static let idKey = "deal-id"
-    // New Deal
-    static let dealKey = "deal-url"
-    static let imageKey = "image-url"
-    // Deal Delta
-    static let deltaTypeKey = "delta-type"
-    static let deltaValueKey = "delta-value"
-}
-
 // MARK: - Implementation
 
 class NotificationManager: NSObject, NotificationManagerType {

@@ -24,15 +24,15 @@ enum DealDelta {
 
     init?(userInfo: [AnyHashable : Any]) {
         if
-            let updateTypeString = userInfo[NotificationConstants.deltaTypeKey] as? String,
-            let updateType = NotificationUpdateType(rawValue: updateTypeString) {
+            let updateTypeString = userInfo[NotificationPayloadKey.deltaType] as? String,
+            let updateType = NotificationPayloadKey.DeltaType(rawValue: updateTypeString) {
 
             switch updateType {
             //case .newDeal:
             //    log.debug("NEW DEAL")
             //    self = .newDeal
             case .commentCount:
-                guard let count = userInfo[NotificationConstants.deltaValueKey] as? Int else {
+                guard let count = userInfo[NotificationPayloadKey.deltaValue] as? Int else {
                     log.error("Incorrect notification: \(userInfo)")
                     return nil
                 }
@@ -40,7 +40,7 @@ enum DealDelta {
                 self = .commentCount(count)
             case .launchStatus:
                 guard
-                    let status = userInfo[NotificationConstants.deltaValueKey] as? String,
+                    let status = userInfo[NotificationPayloadKey.deltaValue] as? String,
                     let launchStatus = LaunchStatus(rawValue: status) else {
                         log.error("Incorrect notification: \(userInfo)")
                         return nil
