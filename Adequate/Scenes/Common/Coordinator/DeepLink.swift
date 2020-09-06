@@ -21,6 +21,10 @@ enum DeepLink {
     case share(title: String, url: URL)
     /// Show debug view.
     case debug
+}
+
+// MARK: - Builders
+extension DeepLink {
 
     static func build(with dict: [String: AnyObject]?) -> DeepLink? {
         guard let id = dict?["launch_id"] as? String else { return nil }

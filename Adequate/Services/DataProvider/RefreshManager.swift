@@ -24,7 +24,7 @@ final class RefreshManager: NSObject {
         }
 
         // FIXME: when using this for `RefreshEvent.foreground`, we should also see how long since last refresh
-        if case .available = UIApplication.shared.backgroundRefreshStatus {
+        if case .available = backgroundRefreshStatus {
             if lastDealResponse.timeIntervalSince(lastDealRequest) >= 0 {
                 // Our last request succeeded
                 // TODO: verify that Date().timeIntervalSince(lastDealCreatedAt) < 24 hours
@@ -35,7 +35,7 @@ final class RefreshManager: NSObject {
                 return .stale // showLoading: true - cachePolicy: .fetchIgnoringCacheData
             }
         } else {
-            log.debug("backgroundRefreshStatus: \(UIApplication.shared.backgroundRefreshStatus)")
+            log.debug("backgroundRefreshStatus: \(backgroundRefreshStatus)")
             return .intermediate // showLoading: false - cachePolicy: fetchIgnoringCacheData
         }
     }

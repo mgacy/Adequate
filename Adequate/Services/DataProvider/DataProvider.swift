@@ -174,7 +174,7 @@ class DataProvider: DataProviderType {
                     }
                     //log.verbose("Deal: \(deal)")
 
-                    // FIXME: improve handling
+                    // FIXME: use GraphQLResult.source
                     if self.haveInitializedWatcher {
                         // We have already fetched a result that may have been from the cache; this is from the server.
                         self.refreshManager.update(.response(deal))
@@ -512,8 +512,10 @@ class DataProvider: DataProviderType {
             }
         }
     }
+}
 
-    // MARK: - Observers
+// MARK: - Observers
+extension DataProvider {
 
     @discardableResult
     func addDealObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, ViewState<Deal>) -> Void) -> ObservationToken {
