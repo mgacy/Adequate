@@ -48,7 +48,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.textColor = .black
+        label.textColor = Style.primaryTextColor
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -257,9 +257,11 @@ struct DealWrapper {
 }
 
 // MARK: - Style
+// TODO: use ColorTheme (or AppTheme?)
 enum Style {
     // Colors
-    static let secondaryTextColor = UIColor(red: 78/255.0, green: 78/255.0, blue: 78/255.0, alpha: 1.00)
+    static let primaryTextColor = UIColor.label
+    static let secondaryTextColor = UIColor.secondaryLabel
     // Layout
     static let spacing: CGFloat = 8.0
 }
