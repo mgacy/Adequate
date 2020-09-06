@@ -128,7 +128,7 @@ class MehSyncClient: MehSyncClientType {
     // MARK: - Cache
 
     func updateCache(for deal: Deal, delta: DealDelta) -> Promise<Void> {
-        if case .newDeal = delta {
+        if case .newDeal = delta.deltaType {
             preconditionFailure("Unable to update DealDelta.newDeal")
         }
         guard let client = appSyncClient, let store = client.store else {
@@ -144,7 +144,8 @@ class MehSyncClient: MehSyncClientType {
             store.withinReadWriteTransaction { transaction in
                 let query = GetDealQuery(id: deal.id)
                 try transaction.update(query: query) { (data: inout GetDealQuery.Data) in
-                    switch delta {
+                    // Should we compare `dealID`?
+                    switch delta.deltaType {
                     case .commentCount(let newCount):
                         data.getDeal?.topic?.commentCount = newCount
                     case .launchStatus(let newStatus):

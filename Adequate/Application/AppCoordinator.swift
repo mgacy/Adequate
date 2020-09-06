@@ -102,7 +102,11 @@ extension AppCoordinator {
     }
 
     func updateDealInBackground(userInfo: [AnyHashable : Any], completion: @escaping FetchCompletionHandler) {
-        let delta = DealDelta(userInfo: userInfo) ?? .newDeal
+        guard let delta = DealDelta(userInfo: userInfo) else {
+            log.error("Unable to parse DealDelta from notification: \(userInfo)")
+            completion(.failed)
+            return
+        }
         dependencies.dataProvider.updateDealInBackground(delta, fetchCompletionHandler: completion)
     }
 }

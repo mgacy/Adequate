@@ -463,7 +463,7 @@ class DataProvider: DataProviderType {
             return
         }
 
-        switch delta {
+        switch delta.deltaType {
         case .newDeal:
             refreshDealInBackground(fetchCompletionHandler: completionHandler)
         case .launchStatus(let newStatus):

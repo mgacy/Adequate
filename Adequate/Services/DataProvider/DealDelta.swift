@@ -8,9 +8,24 @@
 
 import Foundation
 
-// TODO: make a struct with a `dealID` and `updateType` property?
-enum DealDelta {
+struct DealDelta {
+    let dealID: String
+    let deltaType: DeltaType
+
+    init?(userInfo: [AnyHashable : Any]) {
+        guard
+            let dealID = userInfo[NotificationPayloadKey.dealID] as? String,
+            let deltaType = DeltaType(userInfo: userInfo) else {
+                return nil
+        }
+        self.dealID = dealID
+        self.deltaType = deltaType
+    }
+}
+
+enum DeltaType {
     case newDeal
+    //case newDeal(dealURL: URL, imageURL: URL)
     case commentCount(Int)
     case launchStatus(LaunchStatus)
 
@@ -36,9 +51,20 @@ enum DealDelta {
                 self = .launchStatus(launchStatus)
             //case .multiple:
             //    return nil
+            default:
+                return nil
             }
         } else {
             self = .newDeal
+            // TODO: have separate initializers for alert and silent notification?
+            //guard
+            //    let dealURLString = userInfo[NotificationPayloadKey.dealURL] as? String,
+            //    let dealURL = URL(string: dealURLString),
+            //    let imageURLString = userInfo[NotificationKey.imageURL] as? String,
+            //    let imageURL = URL(string: imageURLString) else {
+            //        return nil
+            //}
+            //self = .newDeal(dealURL: dealURL, imageURL: imageURL)
         }
     }
 }
