@@ -1,86 +1,86 @@
 {
-  "data": {
-    "getDeal": {
-      "__typename": "Deal",
-      "id": "a6k5A000000QycxQAC",
-      "title": "One Click Compact Camera + Video Drone",
-      "features": "- A fun little drone that can take still images or videos\r\n- Press a button for automatic take-off\r\n- Great training for when all social interaction occurs via drone\r\n- Model: **D3RM0T-MULDR0N3Y**",
-      "specifications": "Specs\r\n====\r\n- Name: One Click Compact Camera + Video Drone\r\n- Model: SC-2052, \tSC-2053\r\n- Condition: New\r\n- Color: Black or Red\r\n- Camera Memory Type: Micro SDHC Card **(not included)**\r\n- Remote Frequency: 2.4GHz\r\n- Remote Channels: 3CH or 4CH\r\n- Flight Time: 5 - 7 Minutes, Varies by conditions\r\n- Battery Capacity 340 mAh\r\n- Battery Charge Time: 30-40 Minutes\r\n- Charging Cable: Micro-USB\r\n- Remote Batteries: 2 x AAA’s\r\n- Drone Dimensions: 5.5\" L x 5.5\" W x 1.55\" H\r\n- Features an onboard positional camera with one-push video and still image camera shutter buttons\r\n- Air Pressure Sensor Locks Altitude in Mid-Air, meaning you don’t have to struggle with the throttle\r\n- Automatic Push Button Take-off and Landing\r\n- Includes Propeller and drone guard to prevent a crash if you bump into a wall\r\n- Battery Charges via Micro-USB\r\n- Unique Switch Blade Technology Allows for 3CH or 4CH flight modes\r\n- Push-button 360 degree stunt rolls\r\n\r\nWhat's in the Box?\r\n====\r\n- 1x One-Click Camera Drone\r\n- 1x Drone Battery\r\n- 1x Slide-In Micro-USB Battery Charger\r\n- 1x Micro-USB Charging Cable\r\n- 1x Remote Controller\r\n- 1x Pair of Remote Palm Rests\r\n- 1x Remote Rubberized Tips\r\n- 1x Screwdriver\r\n- Spare Propellers\r\n- Instruction Booklet\r\n\r\nPrice Comparison\r\n====\r\n[$39.90 at Amazon](https://www.amazon.com/Propel-Compact-Outdoor-Performance-Perform/dp/B07KF3FZFN/?tag=meh0ec-20)",
-      "url": "https://meh.com/deals/one-click-compact-camera-video-drone",
-      "createdAt": "2020-04-01T04:00:07.015Z",
-      "soldOutAt": null,
-      "items": [
-        {
-          "__typename": "Item",
-          "id": "133569",
-          "condition": "New",
-          "price": 12.0,
-          "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/uijm02x3ojdjazenfmhr.png"
-        },
-        {
-          "__typename": "Item",
-          "id": "133570",
-          "condition": "New",
-          "price": 12.0,
-          "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mcut8w2dmg6dwaq49i3o.png"
+    "data": {
+        "getDeal": {
+            "__typename": "Deal",
+            "id": "a6k5A000000kSimQAE",
+            "dealID": "a6k5A000000kSimQAE",
+            "dealYear": "2020",
+            "monthDay": "0820",
+            "title": "Eternal Home Neck and Shoulder Shiatsu Massager with 38 Modes",
+            "features": "- 38 modes and 15 levels of power means 570,363 unique ways to experience this thing\r\n- Sorry, 53 different ways to experience this thing\r\n- Wait, no, hit the plus button; it's actually 570 different ways to experience this thing\r\n- Anyway, it's a good little massager!\r\n- Model: **PG93923**, because the company recommends parental guidance for children under the age of 93,923 (it's common rating in vampire cinema)",
+            "specifications": "Specs\r\n====\r\n- Name: Eternal Home Neck and Shoulder Shiatsu Massager with 38 Modes\r\n- Model: PG93923\t\r\n- Condition: New\r\n- Adjustable intensity providing 15 levels of strength\r\n- 38 different modes: Soft, Kneading, Shiatsu, Percussive, and more to soothe tired bodies and relieve muscle tightness\r\n- Wraps comfortably around neck and shoulders\r\n- Power Cord Voltage/Amperage: 110V/2.5A\r\n- Power Cord Length: 5 feet\r\n\r\nWhat's in the Box?\r\n====\r\n- 1x Eternal Home Neck and Shoulder Shiatsu Massager with 38 Modes\r\n\r\n\r\nPrice Comparison\r\n====\r\n[$29.73 at Amazon](https://www.amazon.com/Cervical-Massager-Percussive-Kneading-Shoulder/dp/B07S298PVZ/?tag=meh0ec-20)",
+            "url": "https://meh.com/deals/eternal-home-neck-and-shoulder-shiatsu-massager-with-38-modes-16",
+            "createdAt": "2020-08-20T04:00:00.917Z",
+            "endDate": null,
+            "soldOutAt": null,
+            "items": [
+                {
+                    "__typename": "Item",
+                    "id": "130412",
+                    "attributes": [
+
+                    ],
+                    "condition": "New",
+                    "price": 20.0,
+                    "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/iu6fx1abei52hwxf6zf5.png"
+                }
+            ],
+            "modelNumbers": [
+                "PG93923"
+            ],
+            "photos": [
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/iu6fx1abei52hwxf6zf5.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mqstc7etrz5pieldoves.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/fjcfavmtfoxno3oinl9f.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/wmiqyuhgtoziqbcilfei.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/jolzdmou1fh3voo6f8dy.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/o9vuc0vuon6tv6lvsdyr.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/xzr8dhz2qzqbdgebvdyj.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bytkzbhga2dhk2udaiga.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/yxwn3ntm8ckpifcxhc0z.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/vkd7jkqed9fgkgd6iinx.png"
+            ],
+            "story": {
+                "__typename": "Story",
+                "title": "It Doesn't Do Heat",
+                "body": "True story: I bought this massager for my father-in-law for Christmas last year. He immediately put it over his shoulders and started playing around with it, adjusting among the 15 levels of strength, toggling between the 38 modes. He loved it!\r\n\r\nThen my nephew was curious about it, and my mother-in-law, and my aunt-in-law, and so the massager made the rounds.\r\n\r\n\"Oh, it's got the heat on,\" my father-in-law said when it finally got back to him.\r\n\r\n\"I didn't know it had a heat option,\" I said.\r\n\r\n\"Well, I can feel it,\" he said. \"It's nice!\"\r\n\r\nAnd then we had to turn it off for a bit because what he was actually experiencing was the motor overheating. Once it had a chance to cool down, though, it worked fine again, and it's still chugging along to this day. But just a word to the wise: if something says, \"only use this for 15 minutes at a time,\" it might be a good idea to actually heed that advice.\r\n\r\nAnd anyway, fifteen minutes is the perfect length for a massage. Especially  right now. \r\n\r\nLet me explain.\r\n\r\nRecently, [when we sold another massage device](https://meh.com/deals/vivaspa-percussion-massager), I talked about the difference between feeling a little achey and experiencing intense aches. What's great about this one is that it has you covered in either case. You can easily and comfortably drape it over your shoulders (or wherever) if you just need a little relief from some soreness. And you can also crank the power if you're dealing with some serious tightness or a killer knot in your neck. \r\n\r\nBut if you've been working from home, it can also serve another function: a line of demarcation in the afternoon. You've probably experienced some difficulty with this, right? Five rolls around, the workday comes to an end, and you feel... nothing. You're already home. You're already in your sweats. Hell, the television is likely already on in the background, and you might've already started prepping dinner between Zoom calls. \r\n\r\nThat kind of hazy boundary between when you're on and when you're off the clock can't be good for the psyche. So you need something definitive to help you compartmentalize the different parts of the day. Something relaxing and easy but also significant. Something that doesn't take too long, but also isn't over in the blink of an eye. \r\n\r\nSomething like, oh, I don't know, a 15 minute massage?\r\n\r\nSo yeah, it's good for dealing with literal aches and sore muscles, but it's also great for handling the mental discomfort of when all the hours in the day start to run together.\r\n\r\nAnd again: if it gets hot, that's not a function. That means turn it off. I know from experience."
+            },
+            "topic": {
+                "__typename": "Topic",
+                "id": "5f3df540f6c7f212dcf2030e",
+                "commentCount": 14,
+                "createdAt": "2020-08-20T04:00:00.917Z",
+                "replyCount": 11,
+                "url": "https://meh.com/forum/topics/eternal-home-neck-and-shoulder-shiatsu-massager-with-38-modes-1",
+                "voteCount": 2
+            },
+            "theme": {
+                "__typename": "Theme",
+                "accentColor": "#4a4f4c",
+                "backgroundColor": "#cef9dd",
+                "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/fywzf9kvggbg3gefhqm0.jpg",
+                "foreground": "dark"
+            },
+            "purchaseQuantity": {
+                "__typename": "PurchaseQuantity",
+                "maximumLimit": 3,
+                "minimumLimit": 1
+            },
+            "launches": [
+                {
+                    "__typename": "Launch",
+                    "soldOutAt": null
+                },
+                {
+                    "__typename": "Launch",
+                    "soldOutAt": null
+                }
+            ],
+            "launchStatus": "expired",
+            "_version": 1,
+            "_deleted": null,
+            "_lastChangedAt": 1598328105926,
+            "updatedAt": "2020-08-25T04:01:45.904Z"
         }
-      ],
-      "photos": [
-        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/yfhhss4htyllwhhcp4kh.png",
-        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/cjkc5mxlqrfuu1vuvdn1.png",
-        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mshss5kps4r3dweiudke.png",
-        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/wg6qfnbs3gcvghr4q05a.png",
-        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/th5ydwqlqtn69eppehdq.png",
-        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/iodudjh9am8ykgrk2za8.png",
-        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ice3fiillserz47betvy.png",
-        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/cqicyupywfhaqjigzptj.png",
-        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/sxwq8ypchjohiwlw30lp.png",
-        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/frlzxh13bzbzjtmfqcyi.png",
-        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/xxmivnpotcjmkq0m2cu0.png",
-        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kcmeehhjcejazwydvwvz.png"
-      ],
-      "story": {
-        "__typename": "Story",
-        "title": "Iirkë's Quest: An Interactive Fiction!",
-        "body": "*Hello, friends! This April Fools Day, we decided to forgo the pranks and instead do something a little different: we've put together a sprawling piece of interactive fiction that also serves as a quasi-tour of our recently re-launched site, [SideDeal](https://sidedeal.com/)! Hopefully it's a welcome distraction from... well... everything.*\r\n\r\n___\r\n\r\nCongratulations! You got the job! \r\n\r\nThe hiring manager seemed a bit rushed to get you in, mumbling something about someone before you who just stopped showing up a few weeks ago without giving notice. Maybe a red flag, but you do your best to ignore it. \r\n\r\nYour position: Junior Marketing Assessment Associate for a deal site. \r\n\r\nWhat does that mean? \r\n\r\nIt means you're a glorified intern. You do whatever odd jobs you're told to do. You make copies, you make coffee, you make small talk. \r\n\r\nYou've been there just a few days when you're sent to the storeroom at the end of the hall to fetch and unbox a drone for the photography department. The room is cluttered and it takes you nearly ten minutes to find what you're looking for among a stack of boxes piled against the wall. Tablets and bluetooth speakers and all sorts of stuff, stacked nearly to the ceiling. The topmost box nearly grazes a sprinkler. This can't be to code. \r\n\r\nStill, you don't want to spend your morning organizing the stockroom. That's not why you came here and you're not paid enough to take on extra responsibilities. So you try and hold the pile in place while slipping out the required box. Of course, it doesn't work. \r\n\r\nThe pile comes crashing down, revealing what looks to be an oversized dog door built into the wall. You push it open and feel a warm breeze. \r\n\r\nAgainst your better judgment, you crawl in.\r\n\r\n[Proceed.](https://sidedeal.com/deals/2-pack-victor-victoria-pliss-collection-double-wall-mugs-storage-jars)"
-      },
-      "topic": {
-        "__typename": "Topic",
-        "id": "5e8411c7f4b08c0550a503a0",
-        "commentCount": 43,
-        "createdAt": "2020-04-01T04:00:07.015Z",
-        "replyCount": 21,
-        "url": "https://meh.com/forum/topics/one-click-compact-camera--video-drone",
-        "voteCount": 0
-      },
-      "theme": {
-        "__typename": "Theme",
-        "accentColor": "#19293b",
-        "backgroundColor": "#77b1f6",
-        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/bxaumniqu7bd3frjw1mh.jpg",
-        "foreground": "dark"
-      },
-      "purchaseQuantity": {
-        "__typename": "PurchaseQuantity",
-        "maximumLimit": 3,
-        "minimumLimit": 1
-      },
-      "launches": [
-        {
-          "__typename": "Launch",
-          "soldOutAt": null
-        },
-        {
-          "__typename": "Launch",
-          "soldOutAt": null
-        }
-      ],
-      "launchStatus": "expired",
-      "votes": {
-        "__typename": "ModelMehVoteConnection",
-        "items": [],
-        "nextToken": null
-      }
     }
-  }
 }

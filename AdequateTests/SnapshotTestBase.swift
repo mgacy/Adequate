@@ -72,13 +72,13 @@ extension SnapshotTestBase {
         return try GetDealQuery.Data.GetDeal(jsonObject: snapshot)
     }
 
-    typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias DealHistory = DealHistoryQuery.Data.DealHistory
 
-    func loadHistoryListData() throws -> [DealHistory] {
+    func loadHistoryListData() throws -> [DealHistory.Item] {
         let jsonObject = try FileLoader.loadJSON(from: ResponseResource.historyList,
                                                  in: Bundle(for: type(of: self)))
-        let snapshot = getSnapshot(named: "listDealsForPeriod",
-                                   from: jsonObject) as! [JSONObject]
-        return snapshot.compactMap { try? DealHistory(jsonObject: $0) }
+        let snapshot = getSnapshot(named: "dealHistory", from: jsonObject) as! JSONObject
+        let history = try DealHistory(jsonObject: snapshot)
+        return history.items?.compactMap { $0 } ?? []
     }
 }

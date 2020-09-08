@@ -35,12 +35,13 @@ extension MehResponse {
 extension Deal {
 
     static func create(
-        features: String = "",
         id: String = "",
+        dealID: String? = nil,
+        title: String = "",
+        features: String = "",
         items: [Item] = [],
         photos: [URL] = [],
         purchaseQuantity: PurchaseQuantity? = nil,
-        title: String = "",
         specifications: String = "",
         story: Story = Story.create(),
         theme: Theme = Theme.create(),
@@ -50,12 +51,13 @@ extension Deal {
         launchStatus: LaunchStatus = .launch,
         topic: Topic? = nil
     ) -> Deal {
-        return Deal(features: features,
-                    id: id,
+        return Deal(id: id,
+                    dealID: dealID ?? id,
+                    title: title,
+                    features: features,
                     items: items,
                     photos: photos,
                     purchaseQuantity: purchaseQuantity,
-                    title: title,
                     specifications: specifications,
                     story: story,
                     theme: theme,
