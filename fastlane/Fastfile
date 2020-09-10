@@ -18,7 +18,14 @@ default_platform(:ios)
 platform :ios do
   desc "Generate new localized screenshots"
   lane :screenshots do
-    capture_screenshots(workspace: "Adequate.xcworkspace", scheme: "AdequateUITests")
+    capture_screenshots(workspace: "Adequate.xcworkspace", scheme: "AdequateUITests", testplan:"ScreenshotsLight", dark_mode: false)
+    capture_screenshots(workspace: "Adequate.xcworkspace", scheme: "AdequateUITests", testplan: "ScreenshotsDark", dark_mode: true)
+    frame_screenshots(path: "./fastlane/screenshots/en-US")
     # upload_to_app_store(skip_binary_upload: true, skip_metadata: true)
+  end
+  
+  desc "Frame current screenshots"
+  lane :frame do
+    frame_screenshots(path: "./fastlane/screenshots/en-US")
   end
 end

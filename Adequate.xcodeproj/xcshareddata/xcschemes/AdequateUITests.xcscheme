@@ -29,8 +29,11 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:TestPlans/AdequateUITests.xctestplan"
+            reference = "container:TestPlans/ScreenshotsLight.xctestplan"
             default = "YES">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:TestPlans/ScreenshotsDark.xctestplan">
          </TestPlanReference>
       </TestPlans>
       <Testables>
@@ -63,6 +66,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "C99EF3AD22BB695500BF4410"
+            BuildableName = "AdequateUITests.xctest"
+            BlueprintName = "AdequateUITests"
+            ReferencedContainer = "container:Adequate.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

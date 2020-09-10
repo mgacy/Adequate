@@ -41,7 +41,7 @@ class AdequateUITests: XCTestCase {
         apiStub.server.stop()
     }
 
-    func testExample() {
+    func testLightMode() {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
 
@@ -53,7 +53,7 @@ class AdequateUITests: XCTestCase {
 
         // Show Story
         adequateDealviewNavigationBar.buttons[L10n.Accessibility.storyButton].tap()
-        snapshot("02Story")
+        snapshot("04Story")
 
         // Back to Deal
         elementsQuery.navigationBars["Story"].buttons["LeftChevronNavBar"].tap()
@@ -63,11 +63,11 @@ class AdequateUITests: XCTestCase {
         snapshot("03History")
 
         // Show Settings
-        elementsQuery.navigationBars["History"].buttons["SettingsNavBar"].tap()
-        snapshot("04Settings")
+        //elementsQuery.navigationBars["History"].buttons["SettingsNavBar"].tap()
+        //snapshot("04Settings")
 
         // Dismiss Settings
-        app.navigationBars["Settings"].buttons["Done"].tap()
+        //app.navigationBars["Settings"].buttons["Done"].tap()
 
         // Show HistoryDetail
         //elementsQuery.tables.staticTexts["5-Pack: GenTek 9H Ceramic Liquid Screen Protector"].tap()
@@ -85,4 +85,10 @@ class AdequateUITests: XCTestCase {
 
         //app.swipeLeft() // This results in swiping on the paged image view
     }
+
+    func testDarkMode() {
+        // TODO: wait for loading to finish?
+        snapshot("05DarkMode")
+    }
+
 }
