@@ -5,7 +5,7 @@
       "font": "./fonts/SF-Pro-Display-Semibold.otf",
       "font_size": 112,
       "padding": 50,
-      "color": "#545454"
+      "color": "#000000"
     },
     "background": "./background.jpg",
     "show_complete_frame": false,
