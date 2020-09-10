@@ -63,11 +63,11 @@ class AdequateUITests: XCTestCase {
         snapshot("03History")
 
         // Show Settings
-        elementsQuery.navigationBars["History"].buttons["SettingsNavBar"].tap()
-        snapshot("04Settings")
+        //elementsQuery.navigationBars["History"].buttons["SettingsNavBar"].tap()
+        //snapshot("04Settings")
 
         // Dismiss Settings
-        app.navigationBars["Settings"].buttons["Done"].tap()
+        //app.navigationBars["Settings"].buttons["Done"].tap()
 
         // Show HistoryDetail
         //elementsQuery.tables.staticTexts["5-Pack: GenTek 9H Ceramic Liquid Screen Protector"].tap()
