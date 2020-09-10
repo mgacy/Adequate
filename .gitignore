@@ -43,7 +43,8 @@ AppSecrets.generated.swift
 /API.swift
 /fastlane/README.md
 /fastlane/report.xml
-/fastlane/screenshots
+/fastlane/screenshots/screenshots.html
+**/fastlane/screenshots/en-US/*.png
 
 # AppCode
 /.idea
