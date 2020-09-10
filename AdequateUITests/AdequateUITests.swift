@@ -53,7 +53,7 @@ class AdequateUITests: XCTestCase {
 
         // Show Story
         adequateDealviewNavigationBar.buttons[L10n.Accessibility.storyButton].tap()
-        snapshot("02Story")
+        snapshot("04Story")
 
         // Back to Deal
         elementsQuery.navigationBars["Story"].buttons["LeftChevronNavBar"].tap()
