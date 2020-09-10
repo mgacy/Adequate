@@ -41,7 +41,7 @@ class AdequateUITests: XCTestCase {
         apiStub.server.stop()
     }
 
-    func testExample() {
+    func testLightMode() {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
 
@@ -85,4 +85,10 @@ class AdequateUITests: XCTestCase {
 
         //app.swipeLeft() // This results in swiping on the paged image view
     }
+
+    func testDarkMode() {
+        // TODO: wait for loading to finish?
+        snapshot("05DarkMode")
+    }
+
 }
