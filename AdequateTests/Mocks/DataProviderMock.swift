@@ -11,7 +11,7 @@ import class Promise.Promise // import class to avoid name collision with AWSApp
 @testable import Adequate
 
 class DataProviderMock: DataProviderType {
-    typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias DealHistory = DealHistoryQuery.Data.DealHistory.Item
 
     var dealState: ViewState<Deal> {
         didSet {
@@ -59,7 +59,7 @@ class DataProviderMock: DataProviderType {
         }
     }
 
-    func getDealHistory(from: Date, to: Date) {}
+    func getDealHistory() {}
 
     // MARK: - Refresh
 

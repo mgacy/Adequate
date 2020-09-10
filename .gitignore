@@ -36,12 +36,15 @@ env-vars.sh
 AppSecrets.generated.swift
 /awsconfiguration.json
 /fastlane/Appfile
+/fastlane/metadata/review_information
+/fastlane/metadata/trade_representative_contact_information
 
 # Generated
 /API.swift
 /fastlane/README.md
 /fastlane/report.xml
-/fastlane/screenshots
+/fastlane/screenshots/screenshots.html
+**/fastlane/screenshots/en-US/*.png
 
 # AppCode
 /.idea

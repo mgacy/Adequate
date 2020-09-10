@@ -1,0 +1,45 @@
+{
+  "device_frame_version": "latest",
+  "default": {
+    "title": {
+      "font": "./fonts/SF-Pro-Display-Semibold.otf",
+      "font_size": 112,
+      "padding": 50,
+      "color": "#000000"
+    },
+    "background": "./background.jpg",
+    "show_complete_frame": false,
+    "stack_title": false,
+    "title_below_image": false,
+    "padding": 50,
+    "title_min_height": 350
+  },
+  "data": [
+    {
+      "filter": "Deal"
+    },
+    {
+      "filter": "Story",
+      "title": {
+        "padding": "50x50"
+      }
+    },
+    {
+      "filter": "History"
+    },
+    {
+      "filter": "Notifications",
+      "title": {
+        "padding": "50x100"
+      },
+      "padding": 50
+    },
+    {
+      "filter": "DarkMode",
+      "title": {
+        "color": "#FFFFFF"
+      },
+      "background": "./background_dark.jpg"
+    }
+  ]
+}

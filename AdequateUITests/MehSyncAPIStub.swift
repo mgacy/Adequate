@@ -69,7 +69,7 @@ class GraphQLQueryParser {
             case .getDeal:
                 return "GetDeal"
             case .historyList:
-                return "ListDealsForPeriod"
+                return "DealHistory"
             }
         }
     }
