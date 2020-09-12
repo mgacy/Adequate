@@ -8,51 +8,63 @@
 
 import Foundation
 
-// TODO: make a struct with a `dealID` and `updateType` property?
-enum DealDelta {
+struct DealDelta {
+    let dealID: String
+    let deltaType: DeltaType
+
+    init?(userInfo: [AnyHashable : Any]) {
+        guard
+            let dealID = userInfo[NotificationPayloadKey.dealID] as? String,
+            let deltaType = DeltaType(userInfo: userInfo) else {
+                return nil
+        }
+        self.dealID = dealID
+        self.deltaType = deltaType
+    }
+}
+
+enum DeltaType {
     case newDeal
+    //case newDeal(dealURL: URL, imageURL: URL)
     case commentCount(Int)
     case launchStatus(LaunchStatus)
 
-    enum NotificationUpdateType: String {
-        //case newDeal
-        case commentCount
-        case launchStatus
-        // TODO: use indirect enum with case multiple([UpdateType])?
-        //case multiple
-    }
-
     init?(userInfo: [AnyHashable : Any]) {
         if
-            let updateTypeString = userInfo[NotificationConstants.deltaTypeKey] as? String,
-            let updateType = NotificationUpdateType(rawValue: updateTypeString) {
+            let updateTypeString = userInfo[NotificationPayloadKey.deltaType] as? String,
+            let updateType = NotificationPayloadKey.DeltaType(rawValue: updateTypeString) {
 
             switch updateType {
             //case .newDeal:
-            //    log.debug("NEW DEAL")
             //    self = .newDeal
             case .commentCount:
-                guard let count = userInfo[NotificationConstants.deltaValueKey] as? Int else {
-                    log.error("Incorrect notification: \(userInfo)")
+                guard let count = userInfo[NotificationPayloadKey.deltaValue] as? Int else {
                     return nil
                 }
-                //log.debug("COMMENT COUNT: \(count)")
                 self = .commentCount(count)
             case .launchStatus:
                 guard
-                    let status = userInfo[NotificationConstants.deltaValueKey] as? String,
+                    let status = userInfo[NotificationPayloadKey.deltaValue] as? String,
                     let launchStatus = LaunchStatus(rawValue: status) else {
-                        log.error("Incorrect notification: \(userInfo)")
                         return nil
                 }
-                //log.debug("LAUNCH STATUS: \(launchStatus)")
                 self = .launchStatus(launchStatus)
             //case .multiple:
-            //    log.debug("MULTIPLE UPDATES")
             //    return nil
+            default:
+                return nil
             }
         } else {
             self = .newDeal
+            // TODO: have separate initializers for alert and silent notification?
+            //guard
+            //    let dealURLString = userInfo[NotificationPayloadKey.dealURL] as? String,
+            //    let dealURL = URL(string: dealURLString),
+            //    let imageURLString = userInfo[NotificationKey.imageURL] as? String,
+            //    let imageURL = URL(string: imageURLString) else {
+            //        return nil
+            //}
+            //self = .newDeal(dealURL: dealURL, imageURL: imageURL)
         }
     }
 }

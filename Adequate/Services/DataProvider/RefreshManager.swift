@@ -18,8 +18,13 @@ final class RefreshManager: NSObject {
 
     var cacheCondition: CacheCondition {
         // Can we rely on the cache?
+
+        if dateProvider().timeIntervalSince(lastDealCreatedAt) > TimeInterval.day {
+            return .stale
+        }
+
         // FIXME: when using this for `RefreshEvent.foreground`, we should also see how long since last refresh
-        if case .available = UIApplication.shared.backgroundRefreshStatus {
+        if case .available = backgroundRefreshStatus {
             if lastDealResponse.timeIntervalSince(lastDealRequest) >= 0 {
                 // Our last request succeeded
                 // TODO: verify that Date().timeIntervalSince(lastDealCreatedAt) < 24 hours
@@ -30,7 +35,7 @@ final class RefreshManager: NSObject {
                 return .stale // showLoading: true - cachePolicy: .fetchIgnoringCacheData
             }
         } else {
-            log.debug("backgroundRefreshStatus: \(UIApplication.shared.backgroundRefreshStatus)")
+            log.debug("backgroundRefreshStatus: \(backgroundRefreshStatus)")
             return .intermediate // showLoading: false - cachePolicy: fetchIgnoringCacheData
         }
     }
@@ -56,7 +61,7 @@ final class RefreshManager: NSObject {
             defaults.set(newValue, forKey: UserDefaultsKey.lastDealResponse.rawValue)
         }
     }
-    /*
+
     /// The .createdAt of last Deal fetched from server
     private var lastDealCreatedAt: Date {
         get {
@@ -66,7 +71,6 @@ final class RefreshManager: NSObject {
             defaults.set(newValue, forKey: UserDefaultsKey.lastDealCreatedAt.rawValue)
         }
     }
-    */
 
     var backgroundRefreshStatus: UIBackgroundRefreshStatus {
         return UIApplication.shared.backgroundRefreshStatus
@@ -83,11 +87,9 @@ final class RefreshManager: NSObject {
         switch event {
         case .request:
             lastDealRequest = dateProvider()
-        case .response:
+        case .response(let deal):
             lastDealResponse = dateProvider()
-            //if let topic = deal.topic {
-            //    self.lastDealCreatedAt = topic.createdAt
-            //}
+            lastDealCreatedAt = deal.createdAt
         }
     }
 }
@@ -126,5 +128,19 @@ extension RefreshManager {
             case .stale: return true
             }
         }
+    }
+}
+
+fileprivate extension TimeInterval {
+    static var minute: TimeInterval {
+        return 60.0
+    }
+
+    static var hour: TimeInterval {
+        return 3600.0
+    }
+
+    static var day: TimeInterval {
+        return 86400.0
     }
 }

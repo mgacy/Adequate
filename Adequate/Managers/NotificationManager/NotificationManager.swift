@@ -9,15 +9,6 @@
 import UserNotifications
 import Promise
 
-// MARK: - Protocol
-
-protocol NotificationManagerType {
-    func isAuthorized() -> Promise<Bool>
-    func requestAuthorization() -> Promise<Bool>
-    func registerForPushNotifications() -> Promise<Void>
-    func unregisterForRemoteNotifications()
-}
-
 // MARK: - Errors
 
 enum NotificationManagerError: Error {
@@ -25,74 +16,6 @@ enum NotificationManagerError: Error {
     case general(message: String)
 }
 
-// MARK: - Configuration
-
-enum NotificationCategoryIdentifier: String {
-    case dailyDeal = "MGDailyDealCategory"
-    //case launchStatus = "MGLaunchStatus"
-
-    // The actions to display when a notification of this type is presented.
-    var actions: [NotificationAction] {
-        switch self {
-        case .dailyDeal:
-            return [.buyAction, .shareAction]
-        }
-    }
-
-    /// The intents related to notifications of this category.
-    var intentIdentifiers: [String] {
-        switch self {
-        case .dailyDeal:
-            return []
-        }
-    }
-
-    /// Options for how to handle notifications of this type.
-    var options: UNNotificationCategoryOptions {
-        switch self {
-        case .dailyDeal:
-            return []
-        }
-    }
-}
-
-enum NotificationAction: String {
-    case buyAction = "MGBuyAction"
-    //case mehAction = "MGMehAction"
-    case shareAction = "MGShareAction"
-
-    var title: String {
-        switch self {
-        case .buyAction:
-            return L10n.buy
-        //case .mehAction:
-        //    return L10n.meh
-        case .shareAction:
-            return L10n.share
-        }
-    }
-
-    var options: UNNotificationActionOptions {
-        switch self {
-        case .buyAction:
-            return [.foreground]
-        case .shareAction:
-            return [.foreground]
-        }
-    }
-}
-
-enum NotificationConstants {
-    static let idKey = "deal-id"
-    // New Deal
-    static let dealKey = "deal-url"
-    static let imageKey = "image-url"
-    // Deal Delta
-    static let deltaTypeKey = "delta-type"
-    static let deltaValueKey = "delta-value"
-}
-
-// MARK: - Implementation
 
 class NotificationManager: NSObject, NotificationManagerType {
 

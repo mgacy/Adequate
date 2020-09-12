@@ -13,7 +13,7 @@ extension Deal {
       get: { $0.id },
       set: { part in 
         { whole in
-          Deal.init(id: part, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
+          Deal.init(id: part, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, createdAt: whole.createdAt, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
         }
       }
     )
@@ -21,7 +21,7 @@ extension Deal {
       get: { $0.dealID },
       set: { part in 
         { whole in
-          Deal.init(id: whole.id, dealID: part, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
+          Deal.init(id: whole.id, dealID: part, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, createdAt: whole.createdAt, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
         }
       }
     )
@@ -29,7 +29,7 @@ extension Deal {
       get: { $0.title },
       set: { part in 
         { whole in
-          Deal.init(id: whole.id, dealID: whole.dealID, title: part, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
+          Deal.init(id: whole.id, dealID: whole.dealID, title: part, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, createdAt: whole.createdAt, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
         }
       }
     )
@@ -37,7 +37,7 @@ extension Deal {
       get: { $0.features },
       set: { part in 
         { whole in
-          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: part, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
+          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: part, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, createdAt: whole.createdAt, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
         }
       }
     )
@@ -45,7 +45,7 @@ extension Deal {
       get: { $0.items },
       set: { part in 
         { whole in
-          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: part, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
+          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: part, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, createdAt: whole.createdAt, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
         }
       }
     )
@@ -53,7 +53,7 @@ extension Deal {
       get: { $0.photos },
       set: { part in 
         { whole in
-          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: part, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
+          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: part, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, createdAt: whole.createdAt, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
         }
       }
     )
@@ -61,7 +61,7 @@ extension Deal {
       get: { $0.purchaseQuantity },
       set: { part in 
         { whole in
-          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: part, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
+          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: part, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, createdAt: whole.createdAt, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
         }
       }
     )
@@ -69,7 +69,7 @@ extension Deal {
       get: { $0.specifications },
       set: { part in 
         { whole in
-          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: part, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
+          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: part, story: whole.story, theme: whole.theme, url: whole.url, createdAt: whole.createdAt, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
         }
       }
     )
@@ -77,7 +77,7 @@ extension Deal {
       get: { $0.story },
       set: { part in 
         { whole in
-          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: part, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
+          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: part, theme: whole.theme, url: whole.url, createdAt: whole.createdAt, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
         }
       }
     )
@@ -85,7 +85,7 @@ extension Deal {
       get: { $0.theme },
       set: { part in 
         { whole in
-          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: part, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
+          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: part, url: whole.url, createdAt: whole.createdAt, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
         }
       }
     )
@@ -93,7 +93,15 @@ extension Deal {
       get: { $0.url },
       set: { part in 
         { whole in
-          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: part, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
+          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: part, createdAt: whole.createdAt, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
+        }
+      }
+    )
+    static let createdAt = Lens<Deal, Date>(
+      get: { $0.createdAt },
+      set: { part in 
+        { whole in
+          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, createdAt: part, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
         }
       }
     )
@@ -101,7 +109,7 @@ extension Deal {
       get: { $0.soldOutAt },
       set: { part in 
         { whole in
-          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: part, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
+          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, createdAt: whole.createdAt, soldOutAt: part, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
         }
       }
     )
@@ -109,7 +117,7 @@ extension Deal {
       get: { $0.launches },
       set: { part in 
         { whole in
-          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: part, launchStatus: whole.launchStatus, topic: whole.topic)
+          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, createdAt: whole.createdAt, soldOutAt: whole.soldOutAt, launches: part, launchStatus: whole.launchStatus, topic: whole.topic)
         }
       }
     )
@@ -117,7 +125,7 @@ extension Deal {
       get: { $0.launchStatus },
       set: { part in 
         { whole in
-          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: part, topic: whole.topic)
+          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, createdAt: whole.createdAt, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: part, topic: whole.topic)
         }
       }
     )
@@ -125,7 +133,7 @@ extension Deal {
       get: { $0.topic },
       set: { part in 
         { whole in
-          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: part)
+          Deal.init(id: whole.id, dealID: whole.dealID, title: whole.title, features: whole.features, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, createdAt: whole.createdAt, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: part)
         }
       }
     )

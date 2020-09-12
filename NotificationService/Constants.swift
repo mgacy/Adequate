@@ -11,9 +11,3 @@
 enum AppGroupID: String {
     case currentDeal = "group.mgacy.com.currentDeal"
 }
-
-// FIXME: use `NotificationConstants` in `NotificationManger.swift`
-struct NotificationConstants {
-    static let dealKey = "deal-url"
-    static let imageKey = "image-url"
-}

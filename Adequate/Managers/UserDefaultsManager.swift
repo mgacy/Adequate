@@ -19,7 +19,7 @@ enum UserDefaultsKey: String {
     // DataProvider
     case lastDealRequest = "lastDealRequest"
     case lastDealResponse = "lastDealResponse"
-    //case lastDealCreatedAt = "lastDealCreatedAt"
+    case lastDealCreatedAt = "lastDealCreatedAt"
 }
 
 // MARK: - Protocol

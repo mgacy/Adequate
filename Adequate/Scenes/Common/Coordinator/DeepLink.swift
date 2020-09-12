@@ -21,6 +21,10 @@ enum DeepLink {
     case share(title: String, url: URL)
     /// Show debug view.
     case debug
+}
+
+// MARK: - Builders
+extension DeepLink {
 
     static func build(with dict: [String: AnyObject]?) -> DeepLink? {
         guard let id = dict?["launch_id"] as? String else { return nil }
@@ -59,17 +63,17 @@ enum DeepLink {
             switch notificationResponse.actionIdentifier {
             case NotificationAction.buyAction.rawValue:
                 guard
-                    let urlString = userInfo[NotificationConstants.dealKey] as? String,
+                    let urlString = userInfo[NotificationPayloadKey.dealURL] as? String,
                     let buyURL = URL(string: urlString) else {
-                        log.error("ERROR: unable to parse \(NotificationConstants.dealKey) from Notification")
+                        log.error("ERROR: unable to parse \(NotificationPayloadKey.dealURL) from Notification")
                         return nil
                 }
                 return .buy(buyURL)
             case NotificationAction.shareAction.rawValue:
                 guard
-                    let urlString = userInfo[NotificationConstants.dealKey] as? String,
+                    let urlString = userInfo[NotificationPayloadKey.dealURL] as? String,
                     let dealURL = URL(string: urlString)?.deletingLastPathComponent() else {
-                        log.error("ERROR: unable to parse \(NotificationConstants.dealKey) from Notification")
+                        log.error("ERROR: unable to parse \(NotificationPayloadKey.dealURL) from Notification")
                         return nil
                 }
                 let title = notificationResponse.notification.request.content.body
