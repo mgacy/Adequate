@@ -34,7 +34,7 @@ class PadHistoryDetailViewControllerSnapshotTests: SnapshotTestBase {
 extension PadHistoryDetailViewControllerSnapshotTests {
 
     func test_iPadPro10_5_landscape_oneThird() throws {
-        record = shouldRecord
+        isRecording = shouldRecord
         sut = try makeSUT()
 
         let orientation = ViewImageConfig.TabletOrientation.landscape(splitView: .oneThird)
@@ -43,7 +43,7 @@ extension PadHistoryDetailViewControllerSnapshotTests {
     }
 
     func test_iPadPro10_5_landscape_twoThirds() throws {
-        record = shouldRecord
+        isRecording = shouldRecord
         sut = try makeSUT()
 
         let orientation = ViewImageConfig.TabletOrientation.landscape(splitView: .twoThirds)
@@ -52,7 +52,7 @@ extension PadHistoryDetailViewControllerSnapshotTests {
     }
 
     func test_iPadPro10_5_landscape_full() throws {
-        record = shouldRecord
+        isRecording = shouldRecord
         sut = try makeSUT()
 
         let orientation = ViewImageConfig.TabletOrientation.landscape(splitView: .full)
@@ -65,7 +65,7 @@ extension PadHistoryDetailViewControllerSnapshotTests {
 extension PadHistoryDetailViewControllerSnapshotTests {
 
     func test_iPadPro10_5_portrait_oneThird() throws {
-        record = shouldRecord
+        isRecording = shouldRecord
         sut = try makeSUT()
 
         let orientation = ViewImageConfig.TabletOrientation.portrait(splitView: .oneThird)
@@ -74,7 +74,7 @@ extension PadHistoryDetailViewControllerSnapshotTests {
     }
 
     func test_iPadPro10_5_portrait_twoThirds() throws {
-        record = shouldRecord
+        isRecording = shouldRecord
         sut = try makeSUT()
 
         let orientation = ViewImageConfig.TabletOrientation.portrait(splitView: .twoThirds)
@@ -83,7 +83,7 @@ extension PadHistoryDetailViewControllerSnapshotTests {
     }
 
     func test_iPadPro10_5_portrait_full() throws {
-        record = shouldRecord
+        isRecording = shouldRecord
         sut = try makeSUT()
 
         let orientation = ViewImageConfig.TabletOrientation.portrait(splitView: .full)
