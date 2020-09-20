@@ -15,12 +15,12 @@ end
 
 # Testing
 def test_pods
-  pod 'SnapshotTesting', '~> 1.7.2'
+  pod 'SnapshotTesting', '~> 1.8.2'
 end
 
 # # UITesting
 def ui_test_pods
-  pod 'Swifter', '~> 1.4.7'
+  pod 'Swifter', '~> 1.5.0-rc.1'
 end
 
 target 'Adequate' do

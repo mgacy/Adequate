@@ -21,13 +21,13 @@ PODS:
   - Down (0.9.3)
   - Promises (2.0.4)
   - ReachabilitySwift (5.0.0)
-  - SnapshotTesting (1.7.2)
+  - SnapshotTesting (1.8.2)
   - SQLite.swift (0.12.2):
     - SQLite.swift/standard (= 0.12.2)
   - SQLite.swift/standard (0.12.2)
   - Starscream (3.1.1)
-  - Swifter (1.4.7)
-  - SwiftyBeaver (1.9.1)
+  - Swifter (1.5.0-rc.1)
+  - SwiftyBeaver (1.9.2)
 
 DEPENDENCIES:
   - AWSAppSync
@@ -36,8 +36,8 @@ DEPENDENCIES:
   - AWSSNS
   - Down
   - Promises
-  - SnapshotTesting (~> 1.7.2)
-  - Swifter (~> 1.4.7)
+  - SnapshotTesting (~> 1.8.2)
+  - Swifter (~> 1.5.0-rc.1)
   - SwiftyBeaver
 
 SPEC REPOS:
@@ -71,12 +71,12 @@ SPEC CHECKSUMS:
   Down: 4553b984236807e384fa0ef7c7e360ef9f7c425d
   Promises: fcb83dc6be43294a8d30c343636ed1a45a8d2e0a
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
-  SnapshotTesting: 8caa6661fea7c8019d5b46de77c16bab99c36c5c
+  SnapshotTesting: 38947050d13960d57a4a9c166fcf51bca7d56970
   SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
-  Swifter: 2327ef5d872c638aebab79646ce494af508b0c8f
-  SwiftyBeaver: a1f5691458561414bcfab51874b2b7445451602b
+  Swifter: 256770a124f078f6e7d969333cb75989f5445f20
+  SwiftyBeaver: b8239f6bfe9e1ea3303e6139abc8c24228081d84
 
-PODFILE CHECKSUM: 55e7373416eaf8b86a75d3940a1cf7adcb7ba5c8
+PODFILE CHECKSUM: 60353549f3de4fd88e3eb8fdd4cdae47f017794d
 
 COCOAPODS: 1.9.3
