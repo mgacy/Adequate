@@ -6,6 +6,7 @@
 //  Copyright © 2020 Mathew Gacy. All rights reserved.
 //
 
+#if canImport(WidgetKit)
 import WidgetKit
 import SwiftUI
 
@@ -142,3 +143,4 @@ struct WidgetExtension_Previews: PreviewProvider {
             .previewContext(WidgetPreviewContext(family: .systemLarge))
     }
 }
+#endif

@@ -6,6 +6,7 @@
 //  Copyright © 2020 Mathew Gacy. All rights reserved.
 //
 
+#if canImport(WidgetKit)
 import UIKit
 import WidgetKit
 
@@ -48,3 +49,4 @@ extension UIColor {
         }
     }
 }
+#endif

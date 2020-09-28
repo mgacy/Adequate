@@ -6,8 +6,8 @@
 //  Copyright © 2020 Mathew Gacy. All rights reserved.
 //
 
+#if canImport(WidgetKit)
 import WidgetKit
-//import SwiftUI
 
 struct DealProvider: TimelineProvider {
     typealias Entry = DealEntry
@@ -31,3 +31,4 @@ struct DealProvider: TimelineProvider {
         completion(timeline)
     }
 }
+#endif

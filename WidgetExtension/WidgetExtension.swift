@@ -6,6 +6,7 @@
 //  Copyright © 2020 Mathew Gacy. All rights reserved.
 //
 
+#if canImport(WidgetKit)
 import WidgetKit
 import SwiftUI
 
@@ -23,3 +24,4 @@ struct WidgetExtension: Widget {
         .description(L10n.widgetExtensionDescription)
     }
 }
+#endif
