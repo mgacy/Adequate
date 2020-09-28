@@ -20,7 +20,7 @@ end
 
 # # UITesting
 def ui_test_pods
-  pod 'Swifter', '~> 1.5.0-rc.1'
+  pod 'Swifter', '~> 1.5.0'
 end
 
 target 'Adequate' do
@@ -31,13 +31,13 @@ target 'Adequate' do
   basic_pods
 end
 
-target 'NotificationService' do
-  use_frameworks!
-end
+# target 'NotificationService' do
+#   use_frameworks!
+# end
 
-target 'DealWidget' do
-  use_frameworks!
-end
+#target 'DealWidget' do
+#  use_frameworks!
+#end
 
 target 'AdequateTests' do
   use_frameworks!

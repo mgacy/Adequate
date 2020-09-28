@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C9B3FAAF223C39F900B8524A"
-               BuildableName = "DealWidget.appex"
-               BlueprintName = "DealWidget"
+               BuildableName = "TodayExtension.appex"
+               BlueprintName = "TodayExtension"
                ReferencedContainer = "container:Adequate.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
