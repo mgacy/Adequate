@@ -895,6 +895,16 @@
 			path = CommonExtension;
 			sourceTree = "<group>";
 		};
+		C9CDA62725218F6F0044A2A3 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C9BADE262451418D004B17F1 /* TestPlans */,
+				C9DAC4672147688500D6558B /* AdequateTests */,
+				C99EF3AF22BB695500BF4410 /* AdequateUITests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		C9DAC4472147688500D6558B = {
 			isa = PBXGroup;
 			children = (
@@ -903,9 +913,7 @@
 				C9EF22CD216C616D00D9DD22 /* NotificationService */,
 				C9B3FAB3223C39F900B8524A /* TodayExtension */,
 				C9CDA4FE252174B00044A2A3 /* WidgetExtension */,
-				C9BADE262451418D004B17F1 /* TestPlans */,
-				C9DAC4672147688500D6558B /* AdequateTests */,
-				C99EF3AF22BB695500BF4410 /* AdequateUITests */,
+				C9CDA62725218F6F0044A2A3 /* Tests */,
 				C9DAC4512147688500D6558B /* Products */,
 				2971522F7369A10E345A6B6D /* Pods */,
 				52FFA2E6BBD0A2D7885757EC /* Frameworks */,
@@ -2018,7 +2026,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
-				INFOPLIST_FILE = AdequateUITests/Info.plist;
+				INFOPLIST_FILE = Tests/AdequateUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -2038,7 +2046,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
-				INFOPLIST_FILE = AdequateUITests/Info.plist;
+				INFOPLIST_FILE = Tests/AdequateUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_FAST_MATH = YES;
@@ -2287,7 +2295,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
-				INFOPLIST_FILE = AdequateTests/Info.plist;
+				INFOPLIST_FILE = Tests/AdequateTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2304,7 +2312,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
-				INFOPLIST_FILE = AdequateTests/Info.plist;
+				INFOPLIST_FILE = Tests/AdequateTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
