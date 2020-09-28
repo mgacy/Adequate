@@ -31,13 +31,13 @@ target 'Adequate' do
   basic_pods
 end
 
-target 'NotificationService' do
-  use_frameworks!
-end
+# target 'NotificationService' do
+#   use_frameworks!
+# end
 
-target 'DealWidget' do
-  use_frameworks!
-end
+#target 'DealWidget' do
+#  use_frameworks!
+#end
 
 target 'AdequateTests' do
   use_frameworks!
