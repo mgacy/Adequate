@@ -1,5 +1,5 @@
 ﻿strings:
-  inputs: Adequate/Resources/en.lproj/Localizable.strings
-  outputs:
-    templateName: structured-swift4
-    output: Adequate/Resources/Strings.generated.swift
+  - inputs: Adequate/Resources/en.lproj/Localizable.strings
+    outputs:
+      - templateName: structured-swift5
+        output: Adequate/Resources/Strings.generated.swift

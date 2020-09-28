@@ -19,7 +19,7 @@ struct WidgetExtension: Widget {
         ) { entry in
             DealWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName(L10n.widgetExtensionName)
+        .description(L10n.widgetExtensionDescription)
     }
 }

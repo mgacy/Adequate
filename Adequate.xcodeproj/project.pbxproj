@@ -171,6 +171,8 @@
 		C9CDA59725217DFD0044A2A3 /* CurrentDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA58F25217DEC0044A2A3 /* CurrentDeal.swift */; };
 		C9CDA59825217E0B0044A2A3 /* CurrentDealManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */; };
 		C9CDA59F25217E110044A2A3 /* CurrentDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA58F25217DEC0044A2A3 /* CurrentDeal.swift */; };
+		C9CDA5B4252180670044A2A3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C99EF3BE22BC968300BF4410 /* Localizable.strings */; };
+		C9CDA5BB252180710044A2A3 /* Strings.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EF3BF22BD4FDD00BF4410 /* Strings.generated.swift */; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
 		C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45A2147688500D6558B /* Assets.xcassets */; };
 		C9DAC45E2147688500D6558B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45C2147688500D6558B /* LaunchScreen.storyboard */; };
@@ -1477,6 +1479,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9CDA502252174B20044A2A3 /* Assets.xcassets in Resources */,
+				C9CDA5B4252180670044A2A3 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1780,6 +1783,7 @@
 				C9CDA59825217E0B0044A2A3 /* CurrentDealManager.swift in Sources */,
 				C9CDA56025217ACD0044A2A3 /* DealWidgetEntryView.swift in Sources */,
 				C9CDA500252174B00044A2A3 /* WidgetExtension.swift in Sources */,
+				C9CDA5BB252180710044A2A3 /* Strings.generated.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

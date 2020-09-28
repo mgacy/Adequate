@@ -54,3 +54,8 @@
 "accessibility.share_button" = "Share Deal";
 "accessibility.story_button" = "Show Story";
 /*"accessibility." = "";*/
+
+/* NewDealWidget */
+"widget_extension_name" = "Current Deal";
+"widget_extension_description" = "View the current deal on Meh.";
+"widget_extension_placeholder_title" = "Some Great New Deal";
