@@ -3,8 +3,7 @@
 
 import Foundation
 
-// swiftlint:disable superfluous_disable_command
-// swiftlint:disable file_length
+// swiftlint:disable superfluous_disable_command file_length implicit_return
 
 // MARK: - Strings
 
@@ -79,6 +78,12 @@ internal enum L10n {
   internal static let welcomeNotificationsBody = L10n.tr("Localizable", "welcome_notifications_body")
   /// Enable Notifications?
   internal static let welcomeNotificationsTitle = L10n.tr("Localizable", "welcome_notifications_title")
+  /// View the current deal on Meh.
+  internal static let widgetExtensionDescription = L10n.tr("Localizable", "widget_extension_description")
+  /// Current Deal
+  internal static let widgetExtensionName = L10n.tr("Localizable", "widget_extension_name")
+  /// Some Great New Deal
+  internal static let widgetExtensionPlaceholderTitle = L10n.tr("Localizable", "widget_extension_placeholder_title")
 
   internal enum Accessibility {
     /// Buy
@@ -107,10 +112,15 @@ internal enum L10n {
 
 extension L10n {
   private static func tr(_ table: String, _ key: String, _ args: CVarArg...) -> String {
-    // swiftlint:disable:next nslocalizedstring_key
-    let format = NSLocalizedString(key, tableName: table, bundle: Bundle(for: BundleToken.self), comment: "")
+    let format = BundleToken.bundle.localizedString(forKey: key, value: nil, table: table)
     return String(format: format, locale: Locale.current, arguments: args)
   }
 }
 
-private final class BundleToken {}
+// swiftlint:disable convenience_type
+private final class BundleToken {
+  static let bundle: Bundle = {
+    Bundle(for: BundleToken.self)
+  }()
+}
+// swiftlint:enable convenience_type

@@ -6,6 +6,9 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
+#if canImport(WidgetKit)
+import WidgetKit
+#endif
 import AWSAppSync
 import AWSMobileClient
 import class Promise.Promise // import class to avoid name collision with AWSAppSync.Promise
@@ -75,6 +78,11 @@ class DataProvider: DataProviderType {
             }
             let currentDealManager = CurrentDealManager()
             currentDealManager.saveDeal(currentDeal)
+
+            // FIXME: we should really only reload for a change in status
+            if #available(iOS 14, *) {
+                WidgetCenter.shared.reloadAllTimelines()
+            }
         }
 
         // TODO: should we indicate that we are in the process of initializing?
