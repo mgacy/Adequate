@@ -134,7 +134,7 @@
 		C9B3DE5B24FEE44F00A90453 /* Models+Lens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3DE5A24FEE44F00A90453 /* Models+Lens.generated.swift */; };
 		C9B3FAB2223C39F900B8524A /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B3FAB1223C39F900B8524A /* NotificationCenter.framework */; };
 		C9B3FAB5223C39F900B8524A /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAB4223C39F900B8524A /* TodayViewController.swift */; };
-		C9B3FABC223C39F900B8524A /* DealWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9B3FAB0223C39F900B8524A /* DealWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C9B3FABC223C39F900B8524A /* TodayExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9B3FAB0223C39F900B8524A /* TodayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9B3FAC12242D4E500B8524A /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4B22147864A00D6558B /* ViewState.swift */; };
 		C9B3FAC3224479B200B8524A /* CurrentDealManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */; };
 		C9B3FAC422447AAB00B8524A /* CurrentDealManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */; };
@@ -291,7 +291,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				C9B3FABC223C39F900B8524A /* DealWidget.appex in Embed App Extensions */,
+				C9B3FABC223C39F900B8524A /* TodayExtension.appex in Embed App Extensions */,
 				C9EF22D3216C616D00D9DD22 /* NotificationService.appex in Embed App Extensions */,
 				C9CDA506252174B20044A2A3 /* WidgetExtension.appex in Embed App Extensions */,
 			);
@@ -433,11 +433,11 @@
 		C9AE54D22179733E00818F11 /* ZoomOutAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomOutAnimator.swift; sourceTree = "<group>"; };
 		C9AE8BCC2409D4BF00AB32DA /* ViewAnimatedTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAnimatedTransitioning.swift; sourceTree = "<group>"; };
 		C9B3DE5A24FEE44F00A90453 /* Models+Lens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Models+Lens.generated.swift"; sourceTree = "<group>"; };
-		C9B3FAB0223C39F900B8524A /* DealWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DealWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9B3FAB0223C39F900B8524A /* TodayExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TodayExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B3FAB1223C39F900B8524A /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		C9B3FAB4223C39F900B8524A /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		C9B3FAB9223C39F900B8524A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C9B3FAC0223C4EF500B8524A /* DealWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DealWidget.entitlements; sourceTree = "<group>"; };
+		C9B3FAC0223C4EF500B8524A /* TodayExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TodayExtension.entitlements; sourceTree = "<group>"; };
 		C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDealManager.swift; sourceTree = "<group>"; };
 		C9B3FAC52245649E00B8524A /* CurrentDeal+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentDeal+Init.swift"; sourceTree = "<group>"; };
 		C9B90D0222837D140070ADE9 /* ParallaxScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxScrollView.swift; sourceTree = "<group>"; };
@@ -820,14 +820,14 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
-		C9B3FAB3223C39F900B8524A /* DealWidget */ = {
+		C9B3FAB3223C39F900B8524A /* TodayExtension */ = {
 			isa = PBXGroup;
 			children = (
-				C9B3FAC0223C4EF500B8524A /* DealWidget.entitlements */,
+				C9B3FAC0223C4EF500B8524A /* TodayExtension.entitlements */,
 				C9B3FAB4223C39F900B8524A /* TodayViewController.swift */,
 				C9B3FAB9223C39F900B8524A /* Info.plist */,
 			);
-			path = DealWidget;
+			path = TodayExtension;
 			sourceTree = "<group>";
 		};
 		C9BADE262451418D004B17F1 /* TestPlans */ = {
@@ -901,7 +901,7 @@
 				C9DAC4522147688500D6558B /* Adequate */,
 				C9CDA58225217D8C0044A2A3 /* CommonExtension */,
 				C9EF22CD216C616D00D9DD22 /* NotificationService */,
-				C9B3FAB3223C39F900B8524A /* DealWidget */,
+				C9B3FAB3223C39F900B8524A /* TodayExtension */,
 				C9CDA4FE252174B00044A2A3 /* WidgetExtension */,
 				C9BADE262451418D004B17F1 /* TestPlans */,
 				C9DAC4672147688500D6558B /* AdequateTests */,
@@ -918,7 +918,7 @@
 				C9DAC4502147688500D6558B /* Adequate.app */,
 				C9DAC4642147688500D6558B /* AdequateTests.xctest */,
 				C9EF22CC216C616D00D9DD22 /* NotificationService.appex */,
-				C9B3FAB0223C39F900B8524A /* DealWidget.appex */,
+				C9B3FAB0223C39F900B8524A /* TodayExtension.appex */,
 				C99EF3AE22BB695500BF4410 /* AdequateUITests.xctest */,
 				C9CDA4F9252174B00044A2A3 /* WidgetExtension.appex */,
 			);
@@ -1258,9 +1258,9 @@
 			productReference = C99EF3AE22BB695500BF4410 /* AdequateUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		C9B3FAAF223C39F900B8524A /* DealWidget */ = {
+		C9B3FAAF223C39F900B8524A /* TodayExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9B3FABF223C39F900B8524A /* Build configuration list for PBXNativeTarget "DealWidget" */;
+			buildConfigurationList = C9B3FABF223C39F900B8524A /* Build configuration list for PBXNativeTarget "TodayExtension" */;
 			buildPhases = (
 				C9B3FAAC223C39F900B8524A /* Sources */,
 				C9B3FAAD223C39F900B8524A /* Frameworks */,
@@ -1270,9 +1270,9 @@
 			);
 			dependencies = (
 			);
-			name = DealWidget;
+			name = TodayExtension;
 			productName = DealWidget;
-			productReference = C9B3FAB0223C39F900B8524A /* DealWidget.appex */;
+			productReference = C9B3FAB0223C39F900B8524A /* TodayExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		C9CDA4F8252174B00044A2A3 /* WidgetExtension */ = {
@@ -1432,7 +1432,7 @@
 			targets = (
 				C9DAC44F2147688500D6558B /* Adequate */,
 				C9EF22CB216C616D00D9DD22 /* NotificationService */,
-				C9B3FAAF223C39F900B8524A /* DealWidget */,
+				C9B3FAAF223C39F900B8524A /* TodayExtension */,
 				C9CDA4F8252174B00044A2A3 /* WidgetExtension */,
 				C9DAC4632147688500D6558B /* AdequateTests */,
 				C99EF3AD22BB695500BF4410 /* AdequateUITests */,
@@ -1963,7 +1963,7 @@
 		};
 		C9B3FABB223C39F900B8524A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C9B3FAAF223C39F900B8524A /* DealWidget */;
+			target = C9B3FAAF223C39F900B8524A /* TodayExtension */;
 			targetProxy = C9B3FABA223C39F900B8524A /* PBXContainerItemProxy */;
 		};
 		C9CDA505252174B20044A2A3 /* PBXTargetDependency */ = {
@@ -2054,15 +2054,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_ENTITLEMENTS = DealWidget/DealWidget.entitlements;
+				CODE_SIGN_ENTITLEMENTS = TodayExtension/TodayExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
-				INFOPLIST_FILE = DealWidget/Info.plist;
+				INFOPLIST_FILE = TodayExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.DealWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.TodayExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -2074,14 +2074,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_ENTITLEMENTS = DealWidget/DealWidget.entitlements;
+				CODE_SIGN_ENTITLEMENTS = TodayExtension/TodayExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
-				INFOPLIST_FILE = DealWidget/Info.plist;
+				INFOPLIST_FILE = TodayExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.DealWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.TodayExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -2365,7 +2365,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9B3FABF223C39F900B8524A /* Build configuration list for PBXNativeTarget "DealWidget" */ = {
+		C9B3FABF223C39F900B8524A /* Build configuration list for PBXNativeTarget "TodayExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9B3FABD223C39F900B8524A /* Debug */,
