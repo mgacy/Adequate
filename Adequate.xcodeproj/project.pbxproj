@@ -1422,10 +1422,10 @@
 			projectRoot = "";
 			targets = (
 				C9DAC44F2147688500D6558B /* Adequate */,
-				C9DAC4632147688500D6558B /* AdequateTests */,
 				C9EF22CB216C616D00D9DD22 /* NotificationService */,
 				C9B3FAAF223C39F900B8524A /* DealWidget */,
 				C9CDA4F8252174B00044A2A3 /* WidgetExtension */,
+				C9DAC4632147688500D6558B /* AdequateTests */,
 				C99EF3AD22BB695500BF4410 /* AdequateUITests */,
 			);
 		};
