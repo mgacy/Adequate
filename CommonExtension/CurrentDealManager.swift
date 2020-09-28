@@ -23,23 +23,6 @@ public enum CurrentDealManagerError: Error {
     case missingImage
 }
 
-// MARK: - Model
-
-public struct CurrentDeal: Codable {
-    let id: String
-    let title: String
-    //let createdAt: Date
-    //let updatedAt: Date
-    //let imageName: String
-    let imageURL: URL // should this be optional?
-    let minPrice: Double
-    let maxPrice: Double?
-    //let priceComparison: String?
-    //let isSoldOut: Bool
-}
-
-extension CurrentDeal: Equatable {}
-
 // MARK: - A
 
 public class CurrentDealManager {

@@ -167,6 +167,10 @@
 		C9CDA506252174B20044A2A3 /* WidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9CDA4F9252174B00044A2A3 /* WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9CDA54C2521793A0044A2A3 /* DealProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA54B2521793A0044A2A3 /* DealProvider.swift */; };
 		C9CDA56025217ACD0044A2A3 /* DealWidgetEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA55F25217ACD0044A2A3 /* DealWidgetEntryView.swift */; };
+		C9CDA59025217DEC0044A2A3 /* CurrentDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA58F25217DEC0044A2A3 /* CurrentDeal.swift */; };
+		C9CDA59725217DFD0044A2A3 /* CurrentDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA58F25217DEC0044A2A3 /* CurrentDeal.swift */; };
+		C9CDA59825217E0B0044A2A3 /* CurrentDealManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */; };
+		C9CDA59F25217E110044A2A3 /* CurrentDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA58F25217DEC0044A2A3 /* CurrentDeal.swift */; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
 		C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45A2147688500D6558B /* Assets.xcassets */; };
 		C9DAC45E2147688500D6558B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45C2147688500D6558B /* LaunchScreen.storyboard */; };
@@ -466,6 +470,7 @@
 		C9CDA5442521784F0044A2A3 /* WidgetExtensionRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetExtensionRelease.entitlements; sourceTree = "<group>"; };
 		C9CDA54B2521793A0044A2A3 /* DealProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealProvider.swift; sourceTree = "<group>"; };
 		C9CDA55F25217ACD0044A2A3 /* DealWidgetEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealWidgetEntryView.swift; sourceTree = "<group>"; };
+		C9CDA58F25217DEC0044A2A3 /* CurrentDeal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDeal.swift; sourceTree = "<group>"; };
 		C9DAC4502147688500D6558B /* Adequate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adequate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DAC4532147688500D6558B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9DAC45A2147688500D6558B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -690,7 +695,6 @@
 				C9A3BD2E2504939B008F0D30 /* NotificationManager */,
 				C95B83C2218017FD0051B72B /* ThemeManager.swift */,
 				C9F92265218A88D0001C257A /* UserDefaultsManager.swift */,
-				C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */,
 				C9B3FAC52245649E00B8524A /* CurrentDeal+Init.swift */,
 			);
 			path = Managers;
@@ -893,10 +897,20 @@
 			path = WidgetExtension;
 			sourceTree = "<group>";
 		};
+		C9CDA58225217D8C0044A2A3 /* CommonExtension */ = {
+			isa = PBXGroup;
+			children = (
+				C9CDA58F25217DEC0044A2A3 /* CurrentDeal.swift */,
+				C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */,
+			);
+			path = CommonExtension;
+			sourceTree = "<group>";
+		};
 		C9DAC4472147688500D6558B = {
 			isa = PBXGroup;
 			children = (
 				C9DAC4522147688500D6558B /* Adequate */,
+				C9CDA58225217D8C0044A2A3 /* CommonExtension */,
 				C9EF22CD216C616D00D9DD22 /* NotificationService */,
 				C9B3FAB3223C39F900B8524A /* DealWidget */,
 				C9CDA4FE252174B00044A2A3 /* WidgetExtension */,
@@ -1751,6 +1765,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9B3FAC12242D4E500B8524A /* ViewState.swift in Sources */,
+				C9CDA59F25217E110044A2A3 /* CurrentDeal.swift in Sources */,
 				C9B3FAC422447AAB00B8524A /* CurrentDealManager.swift in Sources */,
 				C9B3FAB5223C39F900B8524A /* TodayViewController.swift in Sources */,
 			);
@@ -1761,6 +1776,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9CDA54C2521793A0044A2A3 /* DealProvider.swift in Sources */,
+				C9CDA59025217DEC0044A2A3 /* CurrentDeal.swift in Sources */,
+				C9CDA59825217E0B0044A2A3 /* CurrentDealManager.swift in Sources */,
 				C9CDA56025217ACD0044A2A3 /* DealWidgetEntryView.swift in Sources */,
 				C9CDA500252174B00044A2A3 /* WidgetExtension.swift in Sources */,
 			);
@@ -1903,6 +1920,7 @@
 				C9A0ED002453F4210051103F /* FooterViewController.swift in Sources */,
 				C9DAC4B52147872700D6558B /* Router.swift in Sources */,
 				C98B3248222DC1E6003A8669 /* HistoryListDataSource.swift in Sources */,
+				C9CDA59725217DFD0044A2A3 /* CurrentDeal.swift in Sources */,
 				C928547B216DCE44001E5993 /* AWSManager.swift in Sources */,
 				C95B83C3218017FD0051B72B /* ThemeManager.swift in Sources */,
 				C9058DEE215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift in Sources */,
