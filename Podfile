@@ -20,7 +20,7 @@ end
 
 # # UITesting
 def ui_test_pods
-  pod 'Swifter', '~> 1.5.0-rc.1'
+  pod 'Swifter', '~> 1.5.0'
 end
 
 target 'Adequate' do
