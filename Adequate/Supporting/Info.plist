@@ -59,5 +59,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>_CONFIGURATION</key>
+	<string>$(CONFIGURATION)</string>
+	<key>_ENV_NAME</key>
+	<string>$(ENV_NAME)</string>
+	<key>_LOG_LEVEL</key>
+	<string>$(LOG_LEVEL)</string>	
 </dict>
 </plist>

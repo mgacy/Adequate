@@ -1,0 +1,29 @@
+//
+//  Development.xcconfig
+//  Adequate
+//
+//  Created by Mathew Gacy on 9/27/20.
+//  Copyright © 2020 Mathew Gacy. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include "Pods/Target Support Files/Pods-Adequate/Pods-Adequate.debug.xcconfig"
+
+ENV_NAME = dev
+
+//PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate-dev
+
+// App Settings
+APP_NAME = Adequate α
+APP_BUNDLE_ID = com.mgacy.Adequate.dev
+
+// Logging Level
+//
+// * Verbose: Log something generally unimportant. [0]
+// * Debug: Log something which help during debugging. [1]
+// * Info: Log something which you are really interested but which is not an issue or error. [2]
+// * Warning: Log something which may cause big trouble soon. [3]
+// * Error: Log something which will keep you awake at night. [4]
+LOG_LEVEL = 0

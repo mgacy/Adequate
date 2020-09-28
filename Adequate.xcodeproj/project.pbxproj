@@ -172,6 +172,7 @@
 		C9CDA5A725217FC50044A2A3 /* DealEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA5A625217FC50044A2A3 /* DealEntry.swift */; };
 		C9CDA5B4252180670044A2A3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C99EF3BE22BC968300BF4410 /* Localizable.strings */; };
 		C9CDA5BB252180710044A2A3 /* Strings.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EF3BF22BD4FDD00BF4410 /* Strings.generated.swift */; };
+		C9CDA65125219E740044A2A3 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA65025219E740044A2A3 /* Configuration.swift */; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
 		C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45A2147688500D6558B /* Assets.xcassets */; };
 		C9DAC45E2147688500D6558B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45C2147688500D6558B /* LaunchScreen.storyboard */; };
@@ -468,6 +469,11 @@
 		C9CDA55F25217ACD0044A2A3 /* DealWidgetEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealWidgetEntryView.swift; sourceTree = "<group>"; };
 		C9CDA58F25217DEC0044A2A3 /* CurrentDeal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDeal.swift; sourceTree = "<group>"; };
 		C9CDA5A625217FC50044A2A3 /* DealEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealEntry.swift; sourceTree = "<group>"; };
+		C9CDA641252195530044A2A3 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
+		C9CDA642252195620044A2A3 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
+		C9CDA6432521956D0044A2A3 /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Staging.xcconfig; sourceTree = "<group>"; };
+		C9CDA65025219E740044A2A3 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		C9CDA6582521A2D30044A2A3 /* Configuration.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Configuration.xcconfig; sourceTree = "<group>"; };
 		C9DAC4502147688500D6558B /* Adequate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adequate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DAC4532147688500D6558B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9DAC45A2147688500D6558B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -905,6 +911,17 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		C9CDA6402521951A0044A2A3 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				C9CDA6582521A2D30044A2A3 /* Configuration.xcconfig */,
+				C9CDA641252195530044A2A3 /* Development.xcconfig */,
+				C9CDA6432521956D0044A2A3 /* Staging.xcconfig */,
+				C9CDA642252195620044A2A3 /* Production.xcconfig */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 		C9DAC4472147688500D6558B = {
 			isa = PBXGroup;
 			children = (
@@ -914,6 +931,7 @@
 				C9B3FAB3223C39F900B8524A /* TodayExtension */,
 				C9CDA4FE252174B00044A2A3 /* WidgetExtension */,
 				C9CDA62725218F6F0044A2A3 /* Tests */,
+				C9CDA6402521951A0044A2A3 /* Configuration */,
 				C9DAC4512147688500D6558B /* Products */,
 				2971522F7369A10E345A6B6D /* Pods */,
 				52FFA2E6BBD0A2D7885757EC /* Frameworks */,
@@ -978,6 +996,7 @@
 				C9DAC476214768CF00D6558B /* AppCoordinator.swift */,
 				C9058DE8215C724700FF7B4C /* AppSecrets.generated.swift */,
 				C93F79052256FCBD004B4DD6 /* Logger.swift */,
+				C9CDA65025219E740044A2A3 /* Configuration.swift */,
 				C989E118223734A600DEAE89 /* awsconfiguration.json */,
 			);
 			path = Application;
@@ -1895,6 +1914,7 @@
 				C9DAC4B32147864A00D6558B /* ViewState.swift in Sources */,
 				C99C23F72357FF28004493B3 /* ColorTheme.swift in Sources */,
 				C9BEAB71233308A400C143FB /* HistoryDetailViewControllerDelegate.swift in Sources */,
+				C9CDA65125219E740044A2A3 /* Configuration.swift in Sources */,
 				C96CA8702182DD2E00C3459E /* NotificationViewController.swift in Sources */,
 				C925EECB233E955400D24F38 /* ImageServiceType.swift in Sources */,
 				C996E21124D26C3200F5F173 /* AWSAppSyncClient+Result.swift in Sources */,
