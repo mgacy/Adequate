@@ -9,34 +9,25 @@
 import WidgetKit
 //import SwiftUI
 
-struct DealEntry: TimelineEntry {
-    let date: Date
-}
-
 struct DealProvider: TimelineProvider {
     typealias Entry = DealEntry
 
-    func placeholder(in context: Context) -> DealEntry {
-        DealEntry(date: Date())
+    let currentDealManager = CurrentDealManager()
+
+    func placeholder(in context: Context) -> Entry {
+        DealEntry.placeholder
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (DealEntry) -> ()) {
-        let entry = DealEntry(date: Date())
-        completion(entry)
+    func getSnapshot(in context: Context, completion: @escaping (Entry) -> ()) {
+        // if context.isPreview { ... } else { ... }
+        completion(.placeholder)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<DealEntry>) -> ()) {
-        var entries: [DealEntry] = []
+    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+        let currentDeal = currentDealManager.readDeal() ?? .placeholder
+        let dealImage = currentDealManager.readImage() ?? .placeholder
 
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = DealEntry(date: entryDate)
-            entries.append(entry)
-        }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
+        let timeline = Timeline(entries: [DealEntry(deal: currentDeal, image: dealImage)], policy: .never)
         completion(timeline)
     }
 }
