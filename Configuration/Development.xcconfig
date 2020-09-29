@@ -9,7 +9,7 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
-#include "Pods/Target Support Files/Pods-Adequate/Pods-Adequate.debug.xcconfig"
+#include "Pods/Target Support Files/Pods-Adequate/Pods-Adequate.release (development).xcconfig"
 
 ENV_NAME = dev
 
