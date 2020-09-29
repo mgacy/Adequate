@@ -16,8 +16,8 @@ ENV_NAME = staging
 //PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate-staging
 
 // App Settings
-APP_NAME = Adequate β
-APP_BUNDLE_ID = com.mgacy.Adequate.staging
+//APP_NAME = Adequate β
+//APP_BUNDLE_ID = com.mgacy.Adequate.staging
 
 // Logging Level
 //

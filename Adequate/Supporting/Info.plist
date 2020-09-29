@@ -64,6 +64,6 @@
 	<key>_ENV_NAME</key>
 	<string>$(ENV_NAME)</string>
 	<key>_LOG_LEVEL</key>
-	<string>$(LOG_LEVEL)</string>	
+	<string>$(LOG_LEVEL)</string>
 </dict>
 </plist>

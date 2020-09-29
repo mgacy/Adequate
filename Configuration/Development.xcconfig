@@ -16,8 +16,8 @@ ENV_NAME = dev
 //PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate-dev
 
 // App Settings
-APP_NAME = Adequate α
-APP_BUNDLE_ID = com.mgacy.Adequate.dev
+//APP_NAME = Adequate α
+//APP_BUNDLE_ID = com.mgacy.Adequate.dev
 
 // Logging Level
 //
