@@ -10,6 +10,7 @@
 // https://help.apple.com/xcode/#/dev745c5c974
 
 #include "Pods/Target Support Files/Pods-Adequate/Pods-Adequate.release (production).xcconfig"
+#include "Shared.xcconfig"
 
 ENV_NAME =
 
