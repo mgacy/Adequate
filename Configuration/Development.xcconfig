@@ -12,7 +12,7 @@
 #include "Pods/Target Support Files/Pods-Adequate/Pods-Adequate.release (development).xcconfig"
 #include "Shared.xcconfig"
 
-ENV_NAME = dev
+ENV_NAME = development
 
 //PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate-dev
 

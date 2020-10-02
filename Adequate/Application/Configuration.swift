@@ -11,6 +11,12 @@ import Foundation
 // https://nshipster.com/xcconfig/
 enum Configuration {
 
+    enum Environment: String {
+        case development
+        case staging
+        case production
+    }
+
     enum Key: String {
         case buildConfiguration = "_CONFIGURATION"
         case envName = "_ENV_NAME"
@@ -40,8 +46,8 @@ extension Configuration {
         return Configuration.value(for: .buildConfiguration)
     }
 
-    static var envName: String {
-        return Configuration.value(for: .envName)
+    static var environment: Environment {
+        return Environment(rawValue: Configuration.value(for: .envName)) ?? .development
     }
 
     static var logLevel: Int {
