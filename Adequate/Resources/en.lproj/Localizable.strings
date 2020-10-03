@@ -40,6 +40,20 @@
 "disabled_email_alert_body" = "Device is not configured to send email.";
 "disabled_notification_alert_body" = "Notifications are disabled. Please allow Adequate to access notifications in Settings.";
 
+/* Settings - Theme */
+"appearance" = "Appearance";
+"theme" = "Theme";
+"theme_system" = "System";
+"theme_light" = "Light";
+"theme_dark" = "Dark";
+
+/* Settings - App Icon */
+"app_icon" = "App Icon";
+"default_icon" = "Default";
+"default_dark_icon" = "Default (Dark)";
+"alt_light_icon" = "Alt (Light)";
+"alt_dark_icon" = "Alt (Dark)";
+
 /* Welcome - Notifications Scene */
 "welcome_notifications_body" = "Enable notifications so Adequate can alert you when meh offers a new daily deal.";
 "welcome_notifications_title" = "Enable Notifications?";
@@ -55,7 +69,7 @@
 "accessibility.story_button" = "Show Story";
 /*"accessibility." = "";*/
 
-/* NewDealWidget */
+/* Extension - WidgetExtension */
 "widget_extension_name" = "Current Deal";
 "widget_extension_description" = "View the current deal on Meh.";
 "widget_extension_placeholder_title" = "Some Great New Deal";
