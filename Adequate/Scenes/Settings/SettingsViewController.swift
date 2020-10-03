@@ -11,6 +11,8 @@ import UIKit
 // MARK: - Delegate Protocol
 
 protocol SettingsViewControllerDelegate: AnyObject {
+    func showAppIcon()
+    func showTheme()
     func showAbout()
     func showReview()
     func dismiss(_: Void)
@@ -19,11 +21,11 @@ protocol SettingsViewControllerDelegate: AnyObject {
 // MARK: - View
 
 final class SettingsViewController: UITableViewController {
-    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
+    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager & HasThemeManager
 
     weak var delegate: SettingsViewControllerDelegate? = nil
     private let notificationManager: NotificationManagerType
-    //private let themeManager: ThemeManagerType
+    private let themeManager: ThemeManagerType
     private let userDefaultsManager: UserDefaultsManagerType
     //private var observationTokens: [ObservationToken] = []
 
@@ -44,6 +46,31 @@ final class SettingsViewController: UITableViewController {
     private let notificationSwitch: UISwitch = {
         let view = UISwitch()
         return view
+    }()
+
+    private let appearanceHeader: UILabel = {
+        let view = PaddingLabel(padding: UIEdgeInsets(top: 24.0, left: 16.0, bottom: 8.0, right: 16.0))
+        view.font = UIFont.preferredFont(forTextStyle: .footnote)
+        view.adjustsFontForContentSizeCategory = true
+        view.textColor = ColorCompatibility.secondaryLabel
+        view.text = L10n.appearance.uppercased()
+        return view
+    }()
+
+    private let themeCell: UITableViewCell = {
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
+        cell.textLabel?.text = L10n.theme
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            cell.accessoryType = .disclosureIndicator
+        }
+        return cell
+    }()
+
+    private let appIconCell: UITableViewCell = {
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
+        cell.textLabel?.text = L10n.appIcon
+        cell.accessoryType = .disclosureIndicator
+        return cell
     }()
 
     private let supportHeader: UILabel = {
@@ -103,11 +130,24 @@ final class SettingsViewController: UITableViewController {
         return cell
     }()
 
+    private lazy var appVersionFooter: UILabel = {
+        let view = PaddingLabel()
+        view.numberOfLines = 0
+        view.font = UIFont.preferredFont(forTextStyle: .footnote)
+        view.adjustsFontForContentSizeCategory = true
+        view.textColor = ColorCompatibility.secondaryLabel
+
+        let versionNumber = Bundle.main.releaseVersionNumber ?? "X"
+        let buildNumber = Bundle.main.buildVersionNumber ?? "X"
+        view.text = "Adequate v\(versionNumber) (\(buildNumber))"
+        return view
+    }()
+
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
         self.notificationManager = dependencies.notificationManager
-        //self.themeManager = dependencies.themeManager
+        self.themeManager = dependencies.themeManager
         self.userDefaultsManager = dependencies.userDefaultsManager
         super.init(style: .insetGrouped)
     }
@@ -174,14 +214,15 @@ final class SettingsViewController: UITableViewController {
     // MARK: - UITableViewDatasource
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0: return 1
-        case 1: return 3
-        case 2: return 2
+        case 1: return 2
+        case 2: return 3
+        case 3: return 2
         default: fatalError("Unknown number of sections in \(description)")
         }
     }
@@ -195,12 +236,19 @@ final class SettingsViewController: UITableViewController {
             }
         case 1:
             switch indexPath.row {
+            // TODO: appIconCell first?
+            case 0: return themeCell
+            case 1: return appIconCell
+            default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
+            }
+        case 2:
+            switch indexPath.row {
             case 0: return webCell
             case 1: return emailCell
             case 2: return twitterCell
             default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
             }
-        case 2:
+        case 3:
             switch indexPath.row {
             case 0: return aboutCell
             case 1: return reviewCell
@@ -237,12 +285,20 @@ final class SettingsViewController: UITableViewController {
         let application = UIApplication.shared
         switch (indexPath.section, indexPath.row) {
         case (1, 0):
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                delegate?.showTheme()
+            } else {
+                showChangeThemeAlert()
+            }
+        case (1, 1):
+            delegate?.showAppIcon()
+        case (2, 0):
             guard let webURL = URL(string: "https://\(SupportAddress.web.rawValue)") else {
                 log.error("Bad web support address")
                 return
             }
             application.open(webURL)
-        case (1, 1):
+        case (2, 1):
             // TODO: move this into coordinator?
             // TODO: add logs as attachment?
             let composer = MailComposer()
@@ -256,7 +312,7 @@ final class SettingsViewController: UITableViewController {
             }
             mailComposer = composer
             present(mailController, animated: true)
-        case (1, 2):
+        case (2, 2):
             guard
                 let appURL = URL(string: "twitter://user?screen_name=\(SupportAddress.twitter.rawValue)"),
                 let webURL = URL(string: "https://twitter.com/\(SupportAddress.twitter.rawValue)") else {
@@ -268,9 +324,9 @@ final class SettingsViewController: UITableViewController {
             } else {
                 application.open(webURL)
             }
-        case (2, 0):
+        case (3, 0):
             delegate?.showAbout()
-        case (2, 1):
+        case (3, 1):
             // FIXME: enable
             //delegate?.showReview()
             showDisabledReviewAlert()
@@ -321,33 +377,42 @@ final class SettingsViewController: UITableViewController {
     }
 }
 
+// MARK: - Change Theme
+extension SettingsViewController {
+
+    private func showChangeThemeAlert() {
+    }
+}
 // MARK: - UITableViewDelegate (Additional)
 extension SettingsViewController {
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case 0: return notificationHeader.intrinsicContentSize.height
-        case 1: return supportHeader.intrinsicContentSize.height
-        case 2: return 24.0
-        default: fatalError("Unknown section in \(description)")
+        case 1: return appearanceHeader.intrinsicContentSize.height
+        case 2: return supportHeader.intrinsicContentSize.height
+        case 3: return 24.0
+        default: fatalError("Unknown section in \(description): \(section)")
         }
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         switch section {
         case 0: return notificationHeader
-        case 1: return supportHeader
-        case 2: return nil
-        default: fatalError("Unknown section in \(description)")
+        case 1: return appearanceHeader
+        case 2: return supportHeader
+        case 3: return nil
+        default: fatalError("Unknown section in \(description): \(section)")
         }
     }
 
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         switch section {
         case 0: return nil
-        case 1: return supportFooter
-        case 2: return nil
-        default: fatalError("Unknown section in \(description)")
+        case 1: return nil
+        case 2: return supportFooter
+        case 3: return appVersionFooter
+        default: fatalError("Unknown section in \(description): \(section)")
         }
     }
 

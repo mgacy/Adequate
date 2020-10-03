@@ -11,7 +11,7 @@ import SafariServices
 
 final class SettingsCoordinator: BaseCoordinator {
     typealias CoordinationResult = Void
-    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
+    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager & HasThemeManager
 
     private let router: RouterType
     private let dependencies: Dependencies
@@ -47,6 +47,12 @@ extension SettingsCoordinator: Presentable {
 
 // MARK: - SettingsViewControllerDelegate
 extension SettingsCoordinator: SettingsViewControllerDelegate {
+
+    func showAppIcon() {
+    }
+
+    func showTheme() {
+    }
 
     func showAbout() {
         let viewController = AboutViewController()
