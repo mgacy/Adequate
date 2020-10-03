@@ -6,6 +6,36 @@
 
 import Foundation
 
+// MARK: - AppTheme + Lens
+extension AppTheme {
+  enum lens {
+    static let baseTheme = Lens<AppTheme, ColorTheme>(
+      get: { $0.baseTheme },
+      set: { part in 
+        { whole in
+          AppTheme.init(baseTheme: part, dealTheme: whole.dealTheme, foreground: whole.foreground)
+        }
+      }
+    )
+    static let dealTheme = Lens<AppTheme, ColorTheme?>(
+      get: { $0.dealTheme },
+      set: { part in 
+        { whole in
+          AppTheme.init(baseTheme: whole.baseTheme, dealTheme: part, foreground: whole.foreground)
+        }
+      }
+    )
+    static let foreground = Lens<AppTheme, ThemeForeground?>(
+      get: { $0.foreground },
+      set: { part in 
+        { whole in
+          AppTheme.init(baseTheme: whole.baseTheme, dealTheme: whole.dealTheme, foreground: part)
+        }
+      }
+    )
+  }
+}
+
 // MARK: - Deal + Lens
 extension Deal {
   enum lens {

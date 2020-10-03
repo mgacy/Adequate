@@ -8,6 +8,7 @@
 
 import UIKit
 
+// sourcery: lens
 struct AppTheme: Equatable {
 
     enum CornerRadius: CGFloat {
