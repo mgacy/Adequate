@@ -47,6 +47,22 @@ extension ThemeForeground: Codable {
 
 }
 
+extension ThemeForeground {
+
+    init(userInterfaceStyle: UIUserInterfaceStyle) {
+        switch userInterfaceStyle {
+        case .light:
+            self = .dark
+        case .dark:
+            self = .light
+        case .unspecified:
+            self = .unknown("system")
+        @unknown default:
+            self = .unknown("unknown")
+        }
+    }
+}
+
 // MARK: - GetDealQuery + Model Protocols
 
 extension GetDealQuery.Data.GetDeal.Item: ItemType {}

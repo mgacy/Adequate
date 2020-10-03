@@ -25,12 +25,18 @@ struct AppTheme: Equatable {
     // Meh
     let baseTheme: ColorTheme
     let dealTheme: ColorTheme?
+    // FIXME: this now represents `UIUserInterfaceStyle` more than `ThemeForeground`
     let foreground: ThemeForeground?
 }
 
 // MARK: - Initializers
 extension AppTheme {
 
+    init(interfaceStyle: UIUserInterfaceStyle) {
+        self.baseTheme = ColorTheme.system
+        self.dealTheme = nil
+        self.foreground = ThemeForeground(userInterfaceStyle: interfaceStyle)
+    }
 }
 
 // MARK: - Default
