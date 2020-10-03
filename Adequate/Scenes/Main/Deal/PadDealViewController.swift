@@ -490,9 +490,9 @@ extension PadDealViewController: ViewStateRenderable {
 extension PadDealViewController: ThemeObserving {
     func apply(theme: AppTheme) {
         apply(theme: theme.dealTheme ?? theme.baseTheme)
-        if let foreground = theme.foreground {
-            apply(foreground: foreground)
-        }
+        //if let foreground = theme.foreground {
+        //    apply(foreground: foreground)
+        //}
     }
 }
 
@@ -517,4 +517,4 @@ extension PadDealViewController: Themeable {
 }
 
 // MARK: - ForegroundThemeable
-extension PadDealViewController: ForegroundThemeable {}
+//extension PadDealViewController: ForegroundThemeable {}
