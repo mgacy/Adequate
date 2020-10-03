@@ -189,6 +189,10 @@ final class SettingsViewController: UITableViewController {
                                                             action: #selector(didPressDone(_:)))
 
         //apply(theme: themeManager.theme)
+        if let interfaceStyle = themeManager.theme.foreground?.userInterfaceStyle {
+            navigationController?.overrideUserInterfaceStyle = interfaceStyle
+            updateThemeCell(for: interfaceStyle)
+        }
 
         // TODO: move this logic into NotificationManager as `verifyNotificationSetting`?
         if userDefaultsManager.showNotifications {
@@ -381,6 +385,48 @@ final class SettingsViewController: UITableViewController {
 extension SettingsViewController {
 
     private func showChangeThemeAlert() {
+        let alertController = makeColorPaletteAlertController { [weak self] style in
+            self?.navigationController?.overrideUserInterfaceStyle = style
+            self?.updateThemeCell(for: style)
+            self?.userDefaultsManager.interfaceStyle = style
+            self?.themeManager.applyUserInterfaceStyle(style)
+        }
+        self.present(alertController, animated: true)
+    }
+
+    private func makeColorPaletteAlertController(actionHandler: @escaping (UIUserInterfaceStyle) -> Void) -> UIAlertController {
+        let systemAction = UIAlertAction(title: L10n.themeSystem, style: .default) { action in
+            actionHandler(.unspecified)
+        }
+        let lightAction = UIAlertAction(title: L10n.themeLight, style: .default) { action in
+            actionHandler(.light)
+        }
+        let darkAction = UIAlertAction(title: L10n.themeDark, style: .default) { action in
+            actionHandler(.dark)
+        }
+        let cancelAction = UIAlertAction(title: L10n.cancel, style: .cancel)
+
+        let alert = UIAlertController(title: L10n.theme,
+                                      message: nil,
+                                      preferredStyle: .actionSheet)
+        alert.addAction(systemAction)
+        alert.addAction(lightAction)
+        alert.addAction(darkAction)
+        alert.addAction(cancelAction)
+        return alert
+    }
+
+    func updateThemeCell(for interfaceStyle: UIUserInterfaceStyle) {
+        switch interfaceStyle {
+        case .dark:
+            themeCell.detailTextLabel?.text = L10n.themeDark
+        case .light:
+            themeCell.detailTextLabel?.text = L10n.themeLight
+        case .unspecified:
+            themeCell.detailTextLabel?.text = L10n.themeSystem
+        @unknown default:
+            fatalError("Unrecognized UIUserInterfaceStyle: \(interfaceStyle)")
+        }
     }
 }
 // MARK: - UITableViewDelegate (Additional)

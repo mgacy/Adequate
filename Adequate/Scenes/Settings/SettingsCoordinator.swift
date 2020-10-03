@@ -52,6 +52,8 @@ extension SettingsCoordinator: SettingsViewControllerDelegate {
     }
 
     func showTheme() {
+        let viewController = ThemeViewController(dependencies: dependencies)
+        router.push(viewController, animated: true, completion: nil)
     }
 
     func showAbout() {
