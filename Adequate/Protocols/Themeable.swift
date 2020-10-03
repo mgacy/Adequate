@@ -23,7 +23,11 @@ protocol ForegroundThemeable {
 extension ForegroundThemeable where Self: UIViewController {
     func apply(foreground: ThemeForeground) {
         // TODO: set home indicator color?
-        navigationController?.overrideUserInterfaceStyle = foreground.userInterfaceStyle
+        if let navigationController = navigationController {
+            navigationController.overrideUserInterfaceStyle = foreground.userInterfaceStyle
+        } else {
+            overrideUserInterfaceStyle = foreground.userInterfaceStyle
+        }
         setNeedsStatusBarAppearanceUpdate()
     }
 }

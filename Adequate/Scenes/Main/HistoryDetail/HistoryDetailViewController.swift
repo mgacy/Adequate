@@ -125,13 +125,6 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupConstraints()
         setupParallaxScrollView()
-
-        // TODO: observe changes in themeManager.theme
-        if themeManager.useDealTheme {
-            apply(theme: ColorTheme(theme: dealFragment.theme))
-        } else {
-            apply(theme: themeManager.theme.baseTheme)
-        }
     }
 
     private func setupParallaxScrollView() {
@@ -165,12 +158,12 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
             barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor)
         ])
     }
-    /*
+
     override func setupObservations() -> [ObservationToken] {
         let themeToken = themeManager.addObserver(self)
         return [themeToken]
     }
-    */
+
     // MARK: - Navigation
 
     @objc private func didPressForum(_ sender: UIButton) {
@@ -285,17 +278,15 @@ extension HistoryDetailViewController: ViewStateRenderable {
 // MARK: - ThemeObserving
 extension HistoryDetailViewController: ThemeObserving {
     func apply(theme: AppTheme) {
-        // TODO: fix status bar themeing
         if themeManager.useDealTheme {
             apply(theme: ColorTheme(theme: dealFragment.theme))
             //apply(foreground: dealFragment.theme.foreground)
         } else {
             apply(theme: theme.baseTheme)
+            if let foreground = theme.foreground {
+                apply(foreground: foreground)
+            }
         }
-        // TODO: fix status bar
-        //if let foreground = theme.foreground {
-        //    apply(foreground: foreground)
-        //}
     }
 }
 
@@ -320,4 +311,4 @@ extension HistoryDetailViewController: Themeable {
 }
 
 // MARK: - ForegroundThemeable
-//extension HistoryDetailViewController: ForegroundThemeable {}
+extension HistoryDetailViewController: ForegroundThemeable {}
