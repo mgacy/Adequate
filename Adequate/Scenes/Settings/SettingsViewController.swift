@@ -29,6 +29,8 @@ final class SettingsViewController: UITableViewController {
     private let userDefaultsManager: UserDefaultsManagerType
     //private var observationTokens: [ObservationToken] = []
 
+    private var mailComposer: MailComposer?
+
     // MARK: - Subviews
 
     private let notificationHeader: UILabel = {
@@ -280,8 +282,6 @@ final class SettingsViewController: UITableViewController {
     */
     // MARK: - UITableViewDelegate
 
-    private var mailComposer: MailComposer?
-
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // TODO: defer {}?
         tableView.deselectRow(at: indexPath, animated: false)
@@ -303,19 +303,7 @@ final class SettingsViewController: UITableViewController {
             }
             application.open(webURL)
         case (2, 1):
-            // TODO: move this into coordinator?
-            // TODO: add logs as attachment?
-            let composer = MailComposer()
-            guard let mailController = composer.configuredMailComposeViewController(
-                recipients: [SupportAddress.email.rawValue],
-                subject: SupportEmailMessage.subject,
-                message: SupportEmailMessage.message,
-                completionHandler: { [weak self] _ in self?.mailComposer = nil }) else {
-                    displayError(message: L10n.disabledEmailAlertBody)
-                    return
-            }
-            mailComposer = composer
-            present(mailController, animated: true)
+            showSupportEmail()
         case (2, 2):
             guard
                 let appURL = URL(string: "twitter://user?screen_name=\(SupportAddress.twitter.rawValue)"),
@@ -547,9 +535,6 @@ extension SettingsViewController {
         static let subject: String = "Support Request: Adequate"
 
         static var message: String {
-            let versionNumber = Bundle.main.releaseVersionNumber ?? "X"
-            let buildNumber = Bundle.main.buildVersionNumber ?? "X"
-
             var message = """
 
             --
@@ -557,13 +542,24 @@ extension SettingsViewController {
 
             \(UIDevice.current.modelIdentifier)
             \(UIDevice.current.systemVersion)
-            \(versionNumber) (\(buildNumber))
             """
+
+            if
+                let versionNumber = Bundle.main.releaseVersionNumber,
+                let buildNumber = Bundle.main.buildVersionNumber
+            {
+                message += "\n\(versionNumber) (\(buildNumber))"
+            }
 
             if let identifier = UIDevice.current.identifierForVendor {
                 message += "\n\(identifier)"
             }
             return message
         }
+    }
+
+    enum UserSupportFile {
+        // TODO: use more descriptive name?
+        static let log: String = "swiftybeaver.log"
     }
 }
