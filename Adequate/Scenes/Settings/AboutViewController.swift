@@ -49,7 +49,7 @@ final class AboutViewController: UITableViewController {
 
     init() {
         //self.themeManager = dependencies.themeManager
-        super.init(style: .grouped)
+        super.init(style: .insetGrouped)
     }
 
     required init?(coder aDecoder: NSCoder) {

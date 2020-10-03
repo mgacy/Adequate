@@ -109,7 +109,7 @@ final class SettingsViewController: UITableViewController {
         self.notificationManager = dependencies.notificationManager
         //self.themeManager = dependencies.themeManager
         self.userDefaultsManager = dependencies.userDefaultsManager
-        super.init(style: .grouped)
+        super.init(style: .insetGrouped)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -145,7 +145,7 @@ final class SettingsViewController: UITableViewController {
 
     func setupView() {
         title = L10n.settings
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
                                                             action: #selector(didPressDone(_:)))
 
         //apply(theme: themeManager.theme)
@@ -191,22 +191,22 @@ final class SettingsViewController: UITableViewController {
         case 0:
             switch indexPath.row {
             case 0: return notificationCell
-            default: fatalError("Unknown row in section 0 of \(description)")
+            default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
             }
         case 1:
             switch indexPath.row {
             case 0: return webCell
             case 1: return emailCell
             case 2: return twitterCell
-            default: fatalError("Unknown row in section 1 of \(description)")
+            default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
             }
         case 2:
             switch indexPath.row {
             case 0: return aboutCell
             case 1: return reviewCell
-            default: fatalError("Unknown row in section 2 of \(description)")
+            default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
             }
-        default: fatalError("Unknown section in \(description)")
+        default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
         }
     }
     /*
@@ -230,7 +230,6 @@ final class SettingsViewController: UITableViewController {
 
     private var mailComposer: MailComposer?
 
-    // Configure the row selection code for any cells that you want to customize the row selection
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // TODO: defer {}?
         tableView.deselectRow(at: indexPath, animated: false)
@@ -322,6 +321,7 @@ final class SettingsViewController: UITableViewController {
     }
 }
 
+// MARK: - UITableViewDelegate (Additional)
 extension SettingsViewController {
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
