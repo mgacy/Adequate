@@ -217,115 +217,6 @@ final class SettingsViewController: UITableViewController {
         return [themeToken]
     }
     */
-    // MARK: - UITableViewDatasource
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0: return 1
-        case 1: return 2
-        case 2: return 3
-        case 3: return 2
-        default: fatalError("Unknown number of sections in \(description)")
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.section {
-        case 0:
-            switch indexPath.row {
-            case 0: return notificationCell
-            default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
-            }
-        case 1:
-            switch indexPath.row {
-            // TODO: appIconCell first?
-            case 0: return themeCell
-            case 1: return appIconCell
-            default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
-            }
-        case 2:
-            switch indexPath.row {
-            case 0: return webCell
-            case 1: return emailCell
-            case 2: return twitterCell
-            default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
-            }
-        case 3:
-            switch indexPath.row {
-            case 0: return aboutCell
-            case 1: return reviewCell
-            default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
-            }
-        default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
-        }
-    }
-    /*
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0: return "Notifications"
-        case 1: return "Support"
-        default: fatalError("Unknown section in \(description)")
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        switch section {
-        case 0: return nil
-        case 1: return "This is an unofficial app. Please direct any issues to the developer, not to Meh."
-        default: fatalError("Unknown section in \(description)")
-        }
-    }
-    */
-    // MARK: - UITableViewDelegate
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: defer {}?
-        tableView.deselectRow(at: indexPath, animated: false)
-
-        let application = UIApplication.shared
-        switch (indexPath.section, indexPath.row) {
-        case (1, 0):
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                delegate?.showTheme()
-            } else {
-                showChangeThemeAlert()
-            }
-        case (1, 1):
-            delegate?.showAppIcon()
-        case (2, 0):
-            guard let webURL = URL(string: "https://\(SupportAddress.web.rawValue)") else {
-                log.error("Bad web support address")
-                return
-            }
-            application.open(webURL)
-        case (2, 1):
-            showSupportEmail()
-        case (2, 2):
-            guard
-                let appURL = URL(string: "twitter://user?screen_name=\(SupportAddress.twitter.rawValue)"),
-                let webURL = URL(string: "https://twitter.com/\(SupportAddress.twitter.rawValue)") else {
-                    log.error("Bad twitter support address")
-                    return
-            }
-            if application.canOpenURL(appURL) {
-                application.open(appURL)
-            } else {
-                application.open(webURL)
-            }
-        case (3, 0):
-            delegate?.showAbout()
-        case (3, 1):
-            // FIXME: enable
-            //delegate?.showReview()
-            showDisabledReviewAlert()
-        default:
-            return
-        }
-    }
 
     // MARK: - Actions
 
@@ -417,8 +308,154 @@ extension SettingsViewController {
         }
     }
 }
-// MARK: - UITableViewDelegate (Additional)
+
+// MARK: - Email Support
 extension SettingsViewController {
+
+    private func logData(atPath path: String) -> Data? {
+        let arrayPaths = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
+        let cacheDirectoryPath = arrayPaths[0]
+        let logPath = cacheDirectoryPath.appendingPathComponent(path)
+        return FileManager.default.contents(atPath: logPath.path)
+    }
+
+    private func showSupportEmail() {
+        var attachments: [MailComposer.MailAttachment]?
+        if let logData = logData(atPath: UserSupportFile.log) {
+            attachments = [MailComposer.MailAttachment(data: logData,
+                                                       mimeType: .text,
+                                                       fileName: UserSupportFile.log)
+            ]
+        }
+
+        let composer = MailComposer()
+        guard let mailController = composer.configuredMailComposeViewController(
+            recipients: [SupportAddress.email.rawValue],
+            subject: SupportEmailMessage.subject,
+            message: SupportEmailMessage.message,
+            attachments: attachments,
+            completionHandler: { [weak self] _ in self?.mailComposer = nil }) else {
+                displayError(message: L10n.disabledEmailAlertBody)
+                return
+        }
+        mailComposer = composer
+        present(mailController, animated: true)
+    }
+}
+
+// MARK: - UITableViewDataSource
+extension SettingsViewController {
+
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 4
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0: return 1
+        case 1: return 2
+        case 2: return 3
+        case 3: return 2
+        default: fatalError("Unknown number of sections in \(description)")
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.section {
+        case 0:
+            switch indexPath.row {
+            case 0: return notificationCell
+            default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
+            }
+        case 1:
+            switch indexPath.row {
+            // TODO: appIconCell first?
+            case 0: return themeCell
+            case 1: return appIconCell
+            default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
+            }
+        case 2:
+            switch indexPath.row {
+            case 0: return webCell
+            case 1: return emailCell
+            case 2: return twitterCell
+            default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
+            }
+        case 3:
+            switch indexPath.row {
+            case 0: return aboutCell
+            case 1: return reviewCell
+            default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
+            }
+        default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
+        }
+    }
+    /*
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0: return "Notifications"
+        case 1: return "Support"
+        default: fatalError("Unknown section in \(description)")
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        switch section {
+        case 0: return nil
+        case 1: return "This is an unofficial app. Please direct any issues to the developer, not to Meh."
+        default: fatalError("Unknown section in \(description)")
+        }
+    }
+    */
+}
+
+// MARK: - UITableViewDelegate
+extension SettingsViewController {
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // TODO: defer {}?
+        tableView.deselectRow(at: indexPath, animated: false)
+
+        let application = UIApplication.shared
+        switch (indexPath.section, indexPath.row) {
+        case (1, 0):
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                delegate?.showTheme()
+            } else {
+                showChangeThemeAlert()
+            }
+        case (1, 1):
+            delegate?.showAppIcon()
+        case (2, 0):
+            guard let webURL = URL(string: "https://\(SupportAddress.web.rawValue)") else {
+                log.error("Bad web support address")
+                return
+            }
+            application.open(webURL)
+        case (2, 1):
+            showSupportEmail()
+        case (2, 2):
+            guard
+                let appURL = URL(string: "twitter://user?screen_name=\(SupportAddress.twitter.rawValue)"),
+                let webURL = URL(string: "https://twitter.com/\(SupportAddress.twitter.rawValue)") else {
+                    log.error("Bad twitter support address")
+                    return
+            }
+            if application.canOpenURL(appURL) {
+                application.open(appURL)
+            } else {
+                application.open(webURL)
+            }
+        case (3, 0):
+            delegate?.showAbout()
+        case (3, 1):
+            // FIXME: enable
+            //delegate?.showReview()
+            showDisabledReviewAlert()
+        default:
+            return
+        }
+    }
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
