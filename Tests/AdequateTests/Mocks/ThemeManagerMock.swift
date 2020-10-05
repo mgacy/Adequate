@@ -6,6 +6,7 @@
 //  Copyright © 2020 Mathew Gacy. All rights reserved.
 //
 
+import UIKit
 import Foundation
 @testable import Adequate
 
@@ -20,6 +21,10 @@ class ThemeManagerMock: ThemeManagerType {
 
     init(theme: AppTheme = .system) {
         self.theme = theme
+    }
+
+    func applyUserInterfaceStyle(_ style: UIUserInterfaceStyle) {
+        // ...
     }
 
     // MARK: - Observation

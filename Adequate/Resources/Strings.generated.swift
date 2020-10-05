@@ -8,22 +8,36 @@ import Foundation
 // MARK: - Strings
 
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
-// swiftlint:disable nesting type_body_length type_name
+// swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum L10n {
   /// About
   internal static let about = L10n.tr("Localizable", "about")
   /// Acknowledgements
   internal static let acknowledgements = L10n.tr("Localizable", "acknowledgements")
+  /// Alt (Dark)
+  internal static let altDarkIcon = L10n.tr("Localizable", "alt_dark_icon")
+  /// Alt (Light)
+  internal static let altLightIcon = L10n.tr("Localizable", "alt_light_icon")
+  /// App Icon
+  internal static let appIcon = L10n.tr("Localizable", "app_icon")
   /// Adequate
   internal static let appName = L10n.tr("Localizable", "app_name")
+  /// Appearance
+  internal static let appearance = L10n.tr("Localizable", "appearance")
   /// Buy
   internal static let buy = L10n.tr("Localizable", "buy")
   /// Cancel
   internal static let cancel = L10n.tr("Localizable", "cancel")
   /// Daily Notifications
   internal static let dailyNotifications = L10n.tr("Localizable", "daily_notifications")
+  /// Default (Dark)
+  internal static let defaultDarkIcon = L10n.tr("Localizable", "default_dark_icon")
+  /// Default
+  internal static let defaultIcon = L10n.tr("Localizable", "default_icon")
   /// Device is not configured to send email.
   internal static let disabledEmailAlertBody = L10n.tr("Localizable", "disabled_email_alert_body")
+  /// Sorry, Adequate is not allowed to change its icon.
+  internal static let disabledIconChangeAlertBody = L10n.tr("Localizable", "disabled_icon_change_alert_body")
   /// Notifications are disabled. Please allow Adequate to access notifications in Settings.
   internal static let disabledNotificationAlertBody = L10n.tr("Localizable", "disabled_notification_alert_body")
   /// Dismiss
@@ -66,6 +80,14 @@ internal enum L10n {
   internal static let story = L10n.tr("Localizable", "story")
   /// Support
   internal static let support = L10n.tr("Localizable", "support")
+  /// Theme
+  internal static let theme = L10n.tr("Localizable", "theme")
+  /// Dark
+  internal static let themeDark = L10n.tr("Localizable", "theme_dark")
+  /// Light
+  internal static let themeLight = L10n.tr("Localizable", "theme_light")
+  /// System
+  internal static let themeSystem = L10n.tr("Localizable", "theme_system")
   /// Twitter
   internal static let twitter = L10n.tr("Localizable", "twitter")
   /// This is an unofficial app. Please direct any issues to the developer, not to Meh.
@@ -106,7 +128,7 @@ internal enum L10n {
   }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
-// swiftlint:enable nesting type_body_length type_name
+// swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces
 
 // MARK: - Implementation Details
 
@@ -119,8 +141,6 @@ extension L10n {
 
 // swiftlint:disable convenience_type
 private final class BundleToken {
-  static let bundle: Bundle = {
-    Bundle(for: BundleToken.self)
-  }()
+  static let bundle = Bundle(for: BundleToken.self)
 }
 // swiftlint:enable convenience_type

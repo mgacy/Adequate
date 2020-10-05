@@ -128,13 +128,6 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
 
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
 
-        // TODO: observe changes in themeManager.theme
-        if themeManager.useDealTheme {
-            apply(theme: ColorTheme(theme: dealFragment.theme))
-        } else {
-            apply(theme: themeManager.theme.baseTheme)
-        }
-
         // barBackingView
         if #available(iOS 13, *) {
             // ...
@@ -151,12 +144,11 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
 
         getDeal(withID: dealFragment.id)
     }
-    /*
-    private func setupObservations() -> [ObservationToken] {
+
+    override func setupObservations() -> [ObservationToken] {
         let themeToken = themeManager.addObserver(self)
         return [themeToken]
     }
-    */
 
     private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
@@ -424,10 +416,9 @@ extension PadHistoryDetailViewController: ThemeObserving {
             //apply(foreground: dealFragment.theme.foreground)
         } else {
             apply(theme: theme.baseTheme)
-
-            //if let foreground = theme.foreground {
-            //    apply(foreground: foreground)
-            //}
+            if let foreground = theme.foreground {
+                apply(foreground: foreground)
+            }
         }
     }
 }
@@ -453,4 +444,4 @@ extension PadHistoryDetailViewController: Themeable {
 }
 
 // MARK: - ForegroundThemeable
-//extension PadHistoryDetailViewController: ForegroundThemeable {}
+extension PadHistoryDetailViewController: ForegroundThemeable {}

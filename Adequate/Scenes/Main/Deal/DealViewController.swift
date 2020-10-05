@@ -368,9 +368,9 @@ extension DealViewController: ViewStateRenderable {
 extension DealViewController: ThemeObserving {
     func apply(theme: AppTheme) {
         apply(theme: theme.dealTheme ?? theme.baseTheme)
-        if let foreground = theme.foreground {
-            apply(foreground: foreground)
-        }
+        //if let foreground = theme.foreground {
+        //    apply(foreground: foreground)
+        //}
     }
 }
 
@@ -399,4 +399,4 @@ extension DealViewController: Themeable {
 }
 
 // MARK: - ForegroundThemeable
-extension DealViewController: ForegroundThemeable {}
+//extension DealViewController: ForegroundThemeable {}

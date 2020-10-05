@@ -28,7 +28,8 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
         let networkClient = AppDependency.makeNetworkClient()
         self.imageService = ImageService(client: networkClient)
 
-        self.userDefaultsManager = UserDefaultsManager(defaults: .standard)
+        let userDefaultsManager = UserDefaultsManager(defaults: .standard)
+        self.userDefaultsManager = userDefaultsManager
 
         // Notifications
         self.notificationManager = NotificationManager()
@@ -38,7 +39,8 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
             })
         }
 
-        self.themeManager = ThemeManager(dataProvider: dataProvider, theme: AppTheme.system)
+        let theme = AppTheme(interfaceStyle: userDefaultsManager.interfaceStyle)
+        self.themeManager = ThemeManager(dataProvider: dataProvider, theme: theme)
     }
 
     // MARK: - Factory Functions
