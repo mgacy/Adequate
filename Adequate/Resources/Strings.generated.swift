@@ -36,6 +36,8 @@ internal enum L10n {
   internal static let defaultIcon = L10n.tr("Localizable", "default_icon")
   /// Device is not configured to send email.
   internal static let disabledEmailAlertBody = L10n.tr("Localizable", "disabled_email_alert_body")
+  /// Sorry, Adequate is not allowed to change its icon.
+  internal static let disabledIconChangeAlertBody = L10n.tr("Localizable", "disabled_icon_change_alert_body")
   /// Notifications are disabled. Please allow Adequate to access notifications in Settings.
   internal static let disabledNotificationAlertBody = L10n.tr("Localizable", "disabled_notification_alert_body")
   /// Dismiss

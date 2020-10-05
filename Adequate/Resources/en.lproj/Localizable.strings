@@ -39,6 +39,7 @@
 /* Alerts */
 "disabled_email_alert_body" = "Device is not configured to send email.";
 "disabled_notification_alert_body" = "Notifications are disabled. Please allow Adequate to access notifications in Settings.";
+"disabled_icon_change_alert_body" = "Sorry, Adequate is not allowed to change its icon.";
 
 /* Settings - Theme */
 "appearance" = "Appearance";

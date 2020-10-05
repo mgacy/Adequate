@@ -49,6 +49,8 @@ extension SettingsCoordinator: Presentable {
 extension SettingsCoordinator: SettingsViewControllerDelegate {
 
     func showAppIcon() {
+        let viewController = AppIconViewController()
+        router.push(viewController, animated: true, completion: nil)
     }
 
     func showTheme() {

@@ -425,6 +425,10 @@ extension SettingsViewController {
                 showChangeThemeAlert()
             }
         case (1, 1):
+            guard UIApplication.shared.supportsAlternateIcons else {
+                displayError(message: L10n.disabledIconChangeAlertBody)
+                return
+            }
             delegate?.showAppIcon()
         case (2, 0):
             guard let webURL = URL(string: "https://\(SupportAddress.web.rawValue)") else {

@@ -92,6 +92,7 @@
 		C98731D3252A3E0E00E72A16 /* Icon-1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C98731D0252A3E0D00E72A16 /* Icon-1@3x.png */; };
 		C98731DC252A3F0900E72A16 /* Icon-3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C98731DA252A3F0900E72A16 /* Icon-3@2x.png */; };
 		C98731DD252A3F0900E72A16 /* Icon-3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C98731DB252A3F0900E72A16 /* Icon-3@3x.png */; };
+		C9873204252ACF1D00E72A16 /* AppIconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9873203252ACF1D00E72A16 /* AppIconCell.swift */; };
 		C989E11722330B1C00DEAE89 /* SlideTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */; };
 		C989E119223734A700DEAE89 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = C989E118223734A600DEAE89 /* awsconfiguration.json */; };
 		C989E11B223734C800DEAE89 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11A223734C800DEAE89 /* API.swift */; };
@@ -180,6 +181,7 @@
 		C9CDA5BB252180710044A2A3 /* Strings.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EF3BF22BD4FDD00BF4410 /* Strings.generated.swift */; };
 		C9CDA65125219E740044A2A3 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA65025219E740044A2A3 /* Configuration.swift */; };
 		C9DA48F625282E32008A990D /* ThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DA48F525282E32008A990D /* ThemeViewController.swift */; };
+		C9DA48FE2528352F008A990D /* AppIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DA48FD2528352F008A990D /* AppIconViewController.swift */; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
 		C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45A2147688500D6558B /* Assets.xcassets */; };
 		C9DAC45E2147688500D6558B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45C2147688500D6558B /* LaunchScreen.storyboard */; };
@@ -419,6 +421,7 @@
 		C98731D0252A3E0D00E72A16 /* Icon-1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-1@3x.png"; sourceTree = "<group>"; };
 		C98731DA252A3F0900E72A16 /* Icon-3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-3@2x.png"; sourceTree = "<group>"; };
 		C98731DB252A3F0900E72A16 /* Icon-3@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-3@3x.png"; sourceTree = "<group>"; };
+		C9873203252ACF1D00E72A16 /* AppIconCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconCell.swift; sourceTree = "<group>"; };
 		C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTransitionController.swift; sourceTree = "<group>"; };
 		C989E118223734A600DEAE89 /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
 		C989E11A223734C800DEAE89 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = SOURCE_ROOT; };
@@ -505,6 +508,7 @@
 		C9CDA65025219E740044A2A3 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		C9CDA6582521A2D30044A2A3 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		C9DA48F525282E32008A990D /* ThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeViewController.swift; sourceTree = "<group>"; };
+		C9DA48FD2528352F008A990D /* AppIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconViewController.swift; sourceTree = "<group>"; };
 		C9DAC4502147688500D6558B /* Adequate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adequate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DAC4532147688500D6558B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9DAC45A2147688500D6558B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -684,6 +688,8 @@
 				C9058DF0215C7CB600FF7B4C /* SettingsCoordinator.swift */,
 				C9058DF2215C7CC400FF7B4C /* SettingsViewController.swift */,
 				C9DA48F525282E32008A990D /* ThemeViewController.swift */,
+				C9DA48FD2528352F008A990D /* AppIconViewController.swift */,
+				C9873203252ACF1D00E72A16 /* AppIconCell.swift */,
 				C99DD5DA2182D4C500A38529 /* PaddingLabel.swift */,
 				C961F35722F3DE1E00405CA3 /* MailComposer.swift */,
 				C9102F95224FED1900B06679 /* AboutViewController.swift */,
@@ -1903,6 +1909,7 @@
 				C923839422B1B921003BB1DA /* ThemeType.swift in Sources */,
 				C9A0ECFC245284F70051103F /* UITestingConfig.swift in Sources */,
 				C9B3DE5B24FEE44F00A90453 /* Models+Lens.generated.swift in Sources */,
+				C9873204252ACF1D00E72A16 /* AppIconCell.swift in Sources */,
 				C9AE54CB21792ABC00818F11 /* ZoomingImageViewDelegate.swift in Sources */,
 				C9093CC1222796FD00C9DA0C /* RootPageViewController.swift in Sources */,
 				C9AE54C72179270C00818F11 /* FullScreenImageViewController.swift in Sources */,
@@ -1962,6 +1969,7 @@
 				C9F3671122B2EE8700606EAB /* PriceRange.swift in Sources */,
 				C9C0C0C423072F800011EFB4 /* MDParagraphStyleCollection.swift in Sources */,
 				C98B324A222DC1F0003A8669 /* HistoryListCell.swift in Sources */,
+				C9DA48FE2528352F008A990D /* AppIconViewController.swift in Sources */,
 				C95CD60F230F48500011585F /* UIRefreshControl+Ext.swift in Sources */,
 				C989E11D223738ED00DEAE89 /* API+Ext.swift in Sources */,
 				C9DAC4B1214785DF00D6558B /* BaseCoordinator.swift in Sources */,
