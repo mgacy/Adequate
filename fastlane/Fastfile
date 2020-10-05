@@ -16,9 +16,10 @@
 default_platform(:ios)
 
 platform :ios do
+
   desc "Generate new localized screenshots"
   lane :screenshots do
-    capture_screenshots(workspace: "Adequate.xcworkspace", scheme: "AdequateUITests", testplan:"ScreenshotsLight", dark_mode: false)
+    capture_screenshots(workspace: "Adequate.xcworkspace", scheme: "AdequateUITests", testplan: "ScreenshotsLight", dark_mode: false)
     capture_screenshots(workspace: "Adequate.xcworkspace", scheme: "AdequateUITests", testplan: "ScreenshotsDark", dark_mode: true)
     frame_screenshots(path: "./fastlane/screenshots/en-US")
     # upload_to_app_store(skip_binary_upload: true, skip_metadata: true)
@@ -28,4 +29,41 @@ platform :ios do
   lane :frame do
     frame_screenshots(path: "./fastlane/screenshots/en-US")
   end
+
+  desc "Build and test application"
+  lane :tests do
+    run_tests(scheme: "Adequate Production",
+              devices: ["iPhone 11"])               
+  end
+
+  desc "Build, test and upload a new build to TestFlight"
+  # desc "This will **not** send an email to all testers, it will only be uploaded to the new TestFlight. "
+  lane :beta do
+  
+    build_app(scheme: "Adequate Staging")
+    # pilot
+
+    # rescue => exception
+    #   on_error(exception)
+    # end
+  end
+
+  desc "Build, sign and upload a new build to the App Store."
+  desc "This will do the following:"
+  desc ""
+  desc "- Create new screenshots and store them in `./fastlane/screenshots`"
+  desc "- Collect the app metadata from `./fastlane/metadata`"
+  desc "- Upload screenshots + app metadata"
+  desc "- Build, sign and upload the app"
+  desc ""
+  desc "This will **not** submit the app for review."
+  lane :release do
+    # snapshot
+    build_app(scheme: "Adequate Production")
+    # upload_to_app_store
+  end
+
 end
+
+# def on_error(exception)
+# end
