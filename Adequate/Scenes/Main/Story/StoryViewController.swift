@@ -35,6 +35,7 @@ final class StoryViewController: BaseViewController<ScrollableView<StoryContentV
 
     private lazy var dealButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "LeftChevronNavBar"), style: .plain, target: self, action: #selector(didPressDeal(_:)))
+        button.accessibilityLabel = L10n.Accessibility.leftChevronButton
         return button
     }()
 

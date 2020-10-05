@@ -56,7 +56,7 @@ class AdequateUITests: XCTestCase {
         snapshot("04Story")
 
         // Back to Deal
-        elementsQuery.navigationBars["Story"].buttons["LeftChevronNavBar"].tap()
+        elementsQuery.navigationBars["Story"].buttons[L10n.Accessibility.leftChevronButton].tap()
 
         // Show History
         adequateDealviewNavigationBar.buttons[L10n.Accessibility.historyButton].tap()

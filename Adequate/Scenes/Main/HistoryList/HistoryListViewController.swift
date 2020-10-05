@@ -34,11 +34,15 @@ final class HistoryListViewController: UITableViewController {
     // MARK: - Subviews
 
     private lazy var settingsButton: UIBarButtonItem = {
-        return UIBarButtonItem(image: #imageLiteral(resourceName: "SettingsNavBar"), style: .plain, target: self, action: #selector(didPressSettings(_:)))
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "SettingsNavBar"), style: .plain, target: self, action: #selector(didPressSettings(_:)))
+        button.accessibilityLabel = L10n.Accessibility.settingsButton
+        return button
     }()
 
     private lazy var dealButton: UIBarButtonItem = {
-        return UIBarButtonItem(image: #imageLiteral(resourceName: "RightChevronNavBar"), style: .plain, target: self, action: #selector(didPressDeal(_:)))
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "RightChevronNavBar"), style: .plain, target: self, action: #selector(didPressDeal(_:)))
+        button.accessibilityLabel = L10n.Accessibility.rightChevronButton
+        return button
     }()
 
     private lazy var tableHeaderView: UIView = {

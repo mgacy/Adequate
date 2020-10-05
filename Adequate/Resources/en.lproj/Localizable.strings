@@ -68,6 +68,9 @@
 "accessibility.history_button" = "Show History";
 "accessibility.share_button" = "Share Deal";
 "accessibility.story_button" = "Show Story";
+"accessibility.left_chevron_button" = "Left Chevron Button";
+"accessibility.right_chevron_button" = "Right Chevron Button";
+"accessibility.settings_button" = "Show Settings";
 /*"accessibility." = "";*/
 
 /* Extension - WidgetExtension */

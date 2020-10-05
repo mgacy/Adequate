@@ -114,6 +114,12 @@ internal enum L10n {
     internal static let dealButton = L10n.tr("Localizable", "accessibility.deal_button")
     /// Show History
     internal static let historyButton = L10n.tr("Localizable", "accessibility.history_button")
+    /// Left Chevron Button
+    internal static let leftChevronButton = L10n.tr("Localizable", "accessibility.left_chevron_button")
+    /// Right Chevron Button
+    internal static let rightChevronButton = L10n.tr("Localizable", "accessibility.right_chevron_button")
+    /// Show Settings
+    internal static let settingsButton = L10n.tr("Localizable", "accessibility.settings_button")
     /// Share Deal
     internal static let shareButton = L10n.tr("Localizable", "accessibility.share_button")
     /// Show Story
