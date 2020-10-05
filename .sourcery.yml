@@ -1,0 +1,7 @@
+# --sources ./Adequate/Models --templates ./templates/Models+Lens.stencil --output ./Adequate/Models/Optics
+sources:
+    - ./Adequate/Models
+templates:
+    - ./templates/Models+Lens.stencil
+output:
+    ./Adequate/Models/Optics
