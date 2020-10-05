@@ -33,6 +33,9 @@ final class SettingsViewController: UITableViewController {
 
     // MARK: - Subviews
 
+    // TODO: do we need to adjust PaddingLabel insets according to view's content insets to accommodate iPads?
+    // TODO: add cell with switch to enable / disable sound for notification (see Drafts.app)
+
     private let notificationHeader: UILabel = {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 32.0, left: 16.0, bottom: 8.0, right: 16.0))
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
@@ -42,8 +45,14 @@ final class SettingsViewController: UITableViewController {
         return view
     }()
 
-    // TODO: configure this cell like all the others
-    private let notificationCell: UITableViewCell = UITableViewCell()
+    private lazy var notificationCell: UITableViewCell = {
+        let cell = UITableViewCell()
+        cell.textLabel?.text = L10n.dailyNotifications
+        cell.selectionStyle = .none
+        cell.accessoryView = notificationSwitch
+        notificationSwitch.addTarget(self, action: #selector(tappedSwitch(_:)), for: .touchUpInside)
+        return cell
+    }()
 
     private let notificationSwitch: UISwitch = {
         let view = UISwitch()
@@ -59,7 +68,7 @@ final class SettingsViewController: UITableViewController {
         return view
     }()
 
-    private let themeCell: UITableViewCell = {
+    private lazy var themeCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
         cell.textLabel?.text = L10n.theme
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -68,7 +77,7 @@ final class SettingsViewController: UITableViewController {
         return cell
     }()
 
-    private let appIconCell: UITableViewCell = {
+    private lazy var appIconCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
         cell.textLabel?.text = L10n.appIcon
         cell.accessoryType = .disclosureIndicator
@@ -156,19 +165,6 @@ final class SettingsViewController: UITableViewController {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func loadView() {
-        super.loadView()
-
-        // Section 1
-        notificationCell.textLabel?.text = L10n.dailyNotifications
-        notificationCell.accessoryView = notificationSwitch
-        notificationCell.selectionStyle = .none
-        notificationSwitch.addTarget(self, action: #selector(tappedSwitch(_:)), for: .touchUpInside)
-
-        // Section 2
-        // ...
     }
 
     override func viewDidLoad() {
