@@ -383,7 +383,7 @@
 		C943E5AF2238695C00DE0675 /* StateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
 		C94D2CEC230E11C300043431 /* FontBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontBook.swift; sourceTree = "<group>"; };
 		C94D2CEE230E143700043431 /* UIFont+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Ext.swift"; sourceTree = "<group>"; };
-		C94FACEF250889EA00C190ED /* ScreenshotsDark.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = ScreenshotsDark.xctestplan; path = TestPlans/ScreenshotsDark.xctestplan; sourceTree = SOURCE_ROOT; };
+		C94FACEF250889EA00C190ED /* ScreenshotsDark.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ScreenshotsDark.xctestplan; sourceTree = "<group>"; };
 		C954028A22FDFB1D00465FFD /* TableViewDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewDiff.swift; sourceTree = "<group>"; };
 		C95B83C2218017FD0051B72B /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		C95B83C421811DFA0051B72B /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };

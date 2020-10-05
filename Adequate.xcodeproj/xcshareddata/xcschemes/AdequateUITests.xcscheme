@@ -33,7 +33,7 @@
             default = "YES">
          </TestPlanReference>
          <TestPlanReference
-            reference = "container:TestPlans/ScreenshotsDark.xctestplan">
+            reference = "container:Tests/TestPlans/ScreenshotsDark.xctestplan">
          </TestPlanReference>
       </TestPlans>
       <Testables>
