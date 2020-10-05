@@ -6,9 +6,12 @@
 //  Copyright © 2020 Mathew Gacy. All rights reserved.
 //
 
+import UIKit
 @testable import Adequate
 
 class UserDefaultsManagerMock: UserDefaultsManagerType {
+
+    var interfaceStyle: UIUserInterfaceStyle = .unspecified
 
     var _hasShownOnboarding: Bool = true
     var _showNotifications: Bool = true

@@ -29,6 +29,7 @@ protocol UserDefaultsManagerType: AnyObject {
     var hasShownOnboarding: Bool { get set }
     // Settings
     var showNotifications: Bool { get set }
+    // TODO: use Int or struct mirroring UIUserInterfaceStyle
     var interfaceStyle: UIUserInterfaceStyle { get set }
     // TODO: add `isMehVmp: Bool`
 }
