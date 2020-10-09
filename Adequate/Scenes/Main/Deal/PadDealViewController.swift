@@ -346,8 +346,6 @@ extension PadDealViewController {
 
         rootView.activateRegularConstraints()
         NSLayoutConstraint.activate(sharedRegularConstraints)
-        // IMPORTANT
-        pagedImageView.flowLayout.invalidateLayout()
     }
 }
 

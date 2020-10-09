@@ -60,18 +60,8 @@ final class PagedImageView: UIView {
 
     // MARK: - Subviews
 
-    // TODO: add `resetLayout()` method rather than make this accessible?
-    lazy var flowLayout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        return layout
-    }()
-
     private lazy var collectionView: UICollectionView = {
-        let view = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
+        let view = UICollectionView(frame: frame, collectionViewLayout: makeLayout())
         view.isPagingEnabled = true
         view.isPrefetchingEnabled = true
         view.showsHorizontalScrollIndicator = false
@@ -181,10 +171,37 @@ final class PagedImageView: UIView {
     }
 }
 
+// MARK: - Configuration
+extension PagedImageView {
+
+    private func makeLayout() -> UICollectionViewLayout {
+        // Item
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let itemInset: CGFloat = 0.0
+        item.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
+
+        // Group
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .fractionalHeight(1.0))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+        let section = NSCollectionLayoutSection(group: group)
+        // This restores `UIScrollViewDelegate` functionality
+        section.visibleItemsInvalidationHandler = { _, _, _ in }
+
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.scrollDirection = .horizontal
+        return UICollectionViewCompositionalLayout(section: section, configuration: config)
+    }
+}
+
 // MARK: - Rotation Helpers
 extension PagedImageView {
 
     public func beginRotation() {
+        updatePageControlDuringScroll = false
         guard !collectionView.isHidden, let view = makeTransitioningView() else {
             return
         }
@@ -204,15 +221,13 @@ extension PagedImageView {
 
     public func completeRotation() {
         layoutIfNeeded()
-        flowLayout.invalidateLayout()
-        // TODO: set flowLayout.estimatedItemSize using value from VC.viewWillTransition(to:, with:)?
-        // https://stackoverflow.com/a/52281704/4472195
         if collectionView.numberOfItems(inSection: 0) > 0 {
             updatePageControlDuringScroll = false
             collectionView.scrollToItem(at: IndexPath(row: currentPage, section: 0),
                                         at: .centeredHorizontally, animated: false)
         }
         coveringImageView = nil
+        updatePageControlDuringScroll = true
     }
 }
 /*
@@ -270,14 +285,6 @@ extension PagedImageView: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.displayFullScreenImage(dataSource: dataSource, indexPath: IndexPath(item: primaryVisiblePage, section: 0))
-    }
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-extension PagedImageView: UICollectionViewDelegateFlowLayout {
-
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return collectionView.bounds.size
     }
 }
 
