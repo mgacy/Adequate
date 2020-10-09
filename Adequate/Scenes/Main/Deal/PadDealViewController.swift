@@ -315,7 +315,7 @@ extension PadDealViewController {
 
     // MARK: - Utility
 
-    /// Transition from iPad to iPhone layout
+    /// Transition from regular to compact horizonal layout
     private func transitionToCompact() {
         rootView.deactivateRegularConstraints()
         NSLayoutConstraint.deactivate(sharedRegularConstraints)
@@ -331,7 +331,7 @@ extension PadDealViewController {
         rootView.activateCompactConstraints()
     }
 
-    /// Transition from iPhone to iPad layout
+    /// Transition from compact to regular horizontal layout
     private func transitionToRegular() {
         rootView.deactivateCompactConstraints()
 

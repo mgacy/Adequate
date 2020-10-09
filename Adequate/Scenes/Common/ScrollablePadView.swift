@@ -43,7 +43,6 @@ final class ScrollablePadView<T: UIView>: UIView {
     /// Relative width of right column for regular horizontal trait collection with landscape orientation.
     private let landscapeWidthMultiplier: CGFloat = 1.0 / 3.0
 
-    // TODO: rename `leftColumnGuide` or `secondaryColumnGuide` or `supplementaryColumnGuide`?
     public lazy var secondaryColumnGuide = UILayoutGuide()
 
     // MARK: - Lifecycle
@@ -54,7 +53,7 @@ final class ScrollablePadView<T: UIView>: UIView {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError()
+        fatalError("init(coder:) has not been implemented")
         //super.init(coder: aDecoder)
         //self.configure()
     }

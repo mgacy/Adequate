@@ -68,7 +68,6 @@ final class ImageCell: UICollectionViewCell {
     }
 
     override func layoutSubviews() {
-        // TODO: do we need to call super?
         super.layoutSubviews()
         imageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         stateView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
@@ -84,12 +83,11 @@ final class ImageCell: UICollectionViewCell {
     // MARK: - Actions
 
     private func didPressRetry() {
-        // FIXME: this doesn't look right
-        guard delegate != nil else {
+        guard let delegate = delegate else {
             return
         }
         viewState = .loading
-        delegate?.retry(imageURL: imageURL)
+        delegate.retry(imageURL: imageURL)
             .then(on: invalidatableQueue, { [weak self] image in
                 self?.viewState = .result(image)
             }).catch({ [weak self] error in
