@@ -117,10 +117,14 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
 
     // MARK: - View Methods
 
-    override func setupView() {
+    private func setupSubviews() {
         view.insertSubview(stateView, at: 0)
         view.addSubview(barBackingView)
         setupConstraints()
+    }
+
+    override func setupView() {
+        setupSubviews()
 
         navigationItem.leftBarButtonItem = dismissButton
         navigationController?.applyStyle(.transparent)
@@ -143,11 +147,6 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
         }
 
         getDeal(withID: dealFragment.id)
-    }
-
-    override func setupObservations() -> [ObservationToken] {
-        let themeToken = themeManager.addObserver(self)
-        return [themeToken]
     }
 
     private func setupConstraints() {
@@ -175,6 +174,11 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
             pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
                                                    constant: pagedImageView.pageControlHeight)
         ]
+    }
+
+    override func setupObservations() -> [ObservationToken] {
+        let themeToken = themeManager.addObserver(self)
+        return [themeToken]
     }
 
     // MARK: - Navigation
