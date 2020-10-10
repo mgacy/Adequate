@@ -75,16 +75,12 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
         return view
     }()
 
-    // PagedImageView
-
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
         view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
-    // Footer
 
     private lazy var footerViewController: FooterViewController = {
         let controller = FooterViewController()

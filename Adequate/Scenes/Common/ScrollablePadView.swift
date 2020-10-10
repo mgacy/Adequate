@@ -95,11 +95,8 @@ final class ScrollablePadView<T: UIView>: UIView {
         addLayoutGuide(secondaryColumnGuide)
         sharedRegularConstraints = [
             secondaryColumnGuide.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-            //secondaryColumnGuide.topAnchor.constraint(equalTo: topAnchor),
             secondaryColumnGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            //secondaryColumnGuide.trailingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: -20.0),
             secondaryColumnGuide.trailingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            //secondaryColumnGuide.bottomAnchor.constraint(equalTo: bottomAnchor),
             secondaryColumnGuide.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ]
 
@@ -124,11 +121,10 @@ final class ScrollablePadView<T: UIView>: UIView {
     // MARK: - Layout
 
     override func layoutMarginsDidChange() {
-        // TODO: change constant on layout anchor for secondaryColumnGuide.trailingAnchor
-        let currentMargins = contentView.layoutMargins
-        contentView.layoutMargins = UIEdgeInsets(top: currentMargins.top,
+        let priorMargins = contentView.layoutMargins // preserve existing top / bottom margins
+        contentView.layoutMargins = UIEdgeInsets(top: priorMargins.top,
                                                  left: layoutMargins.left,
-                                                 bottom: currentMargins.bottom,
+                                                 bottom: priorMargins.bottom,
                                                  right: layoutMargins.left)
     }
 }
