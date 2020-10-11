@@ -129,3 +129,14 @@ extension UIColor {
         return resolvedColor(with: UITraitCollection(userInterfaceStyle: userInterfaceStyle))
     }
 }
+
+extension UIColor {
+
+    // https://stackoverflow.com/a/48441178/4472195 s
+    public func image(_ size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
+        return UIGraphicsImageRenderer(size: size).image { rendererContext in
+            self.setFill()
+            rendererContext.fill(CGRect(origin: .zero, size: size))
+        }
+    }
+}
