@@ -167,12 +167,12 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
         ])
 
         sharedRegularConstraints = [
-            // TODO: adjust constant on centerYAnchor to ensure placement below nav bar?
-            pagedImageView.centerYAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerYAnchor, constant: 0.0),
+            pagedImageView.centerYAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerYAnchor),
             pagedImageView.centerXAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerXAnchor),
-            pagedImageView.widthAnchor.constraint(equalTo: rootView.secondaryColumnGuide.widthAnchor),
+            pagedImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            // Subtract 40 to compensate for margins on either side of PagedImageView.collectionView
             pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
-                                                   constant: pagedImageView.pageControlHeight)
+                                                   constant: pagedImageView.pageControlHeight - 40)
         ]
     }
 
@@ -278,7 +278,7 @@ extension PadHistoryDetailViewController {
 
         // Move pagedImageView
         rootView.scrollView.removeHeaderView()
-        view.addSubview(pagedImageView)
+        rootView.insertSubview(pagedImageView, belowSubview: rootView.scrollView)
 
         barBackingView.leftLabelInset = AppTheme.sideMargin
 
@@ -305,7 +305,7 @@ extension PadHistoryDetailViewController {
                 rootView.activateCompactConstraints()
             case .regular:
                 rootView.activateRegularConstraints()
-                view.addSubview(pagedImageView)
+                rootView.insertSubview(pagedImageView, belowSubview: rootView.scrollView)
                 barBackingView.leftLabelInset = AppTheme.sideMargin
                 NSLayoutConstraint.activate(sharedRegularConstraints)
             default:

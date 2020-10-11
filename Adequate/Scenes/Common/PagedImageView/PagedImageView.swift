@@ -61,7 +61,7 @@ final class PagedImageView: UIView {
     // MARK: - Subviews
 
     private lazy var collectionView: UICollectionView = {
-        let view = UICollectionView(frame: frame, collectionViewLayout: makeLayout())
+        let view = UICollectionView(frame: frame, collectionViewLayout: makeAdaptiveLayout())
         view.isPagingEnabled = true
         view.isPrefetchingEnabled = true
         view.showsHorizontalScrollIndicator = false
@@ -174,26 +174,32 @@ final class PagedImageView: UIView {
 // MARK: - Configuration
 extension PagedImageView {
 
-    private func makeLayout() -> UICollectionViewLayout {
-        // Item
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let itemInset: CGFloat = 0.0
-        item.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
+    private func makeAdaptiveLayout() -> UICollectionViewLayout {
+        // (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection
+        let provider: UICollectionViewCompositionalLayoutSectionProvider = { _, layoutEnvironment in
+            // Item
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                 heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            if case .compact = layoutEnvironment.traitCollection.horizontalSizeClass {
+                item.contentInsets = NSDirectionalEdgeInsets(horizontal: 16.0)
+            } else {
+                item.contentInsets = NSDirectionalEdgeInsets(horizontal: 20.0)
+            }
 
-        // Group
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(1.0))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            // Group
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                   heightDimension: .fractionalHeight(1.0))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
-        let section = NSCollectionLayoutSection(group: group)
-        // This restores `UIScrollViewDelegate` functionality
-        section.visibleItemsInvalidationHandler = { _, _, _ in }
+            // Section
+            let section = NSCollectionLayoutSection(group: group)
+            return section
+        }
 
         let config = UICollectionViewCompositionalLayoutConfiguration()
         config.scrollDirection = .horizontal
-        return UICollectionViewCompositionalLayout(section: section, configuration: config)
+        return UICollectionViewCompositionalLayout(sectionProvider: provider, configuration: config)
     }
 }
 
