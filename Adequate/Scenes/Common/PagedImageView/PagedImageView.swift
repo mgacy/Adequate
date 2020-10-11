@@ -12,7 +12,13 @@ import Promise
 // TODO: subclass UIViewController
 final class PagedImageView: UIView {
 
-    private(set) var currentPage: Int = 0
+    private(set) var currentPage: Int = 0 {
+        didSet {
+            if oldValue != currentPage {
+                pageControl.currentPage = currentPage
+            }
+        }
+    }
 
     private let dataSource: PagedImageViewDataSourceType
     weak var delegate: PagedImageViewDelegate?
@@ -28,17 +34,17 @@ final class PagedImageView: UIView {
     /// Flag indicating that `pageControl` should be updated  via `scrollViewDidScroll(_:)`.
     private var updatePageControlDuringScroll: Bool = true
 
-    // FIXME: consolidate `currentPage`, `primaryVisiblePage`, `visibleImageState`, and `visibleImage` (and `focusedIndexPath`?) and the methods they use to determine the current page
     /// Predominantly visible page; used to update `currentPage` and `pageControl.currentPage` when user is scrolling `collectionView`.
     private var primaryVisiblePage: Int {
         return collectionView.frame.size.width > 0 ? Int(collectionView.contentOffset.x + collectionView.frame.size.width / 2) / Int(collectionView.frame.size.width) : 0
     }
 
-    /// Currently visible page at the beginning of rotation; used to restore state following rotation and layout invalidation.
-    private var focusedIndexPath: IndexPath?
-
     /// Temporary view used to cover `collectionView` and hide layout invalidation during rotation.
-    private var coveringImageView: UIView?
+    private var coveringImageView: UIView? {
+        didSet {
+            oldValue?.removeFromSuperview()
+        }
+    }
 
     // MARK: - Appearance
 
@@ -54,18 +60,8 @@ final class PagedImageView: UIView {
 
     // MARK: - Subviews
 
-    // TODO: add `resetLayout()` method rather than make this accessible?
-    lazy var flowLayout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        return layout
-    }()
-
     private lazy var collectionView: UICollectionView = {
-        let view = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
+        let view = UICollectionView(frame: frame, collectionViewLayout: makeAdaptiveLayout())
         view.isPagingEnabled = true
         view.isPrefetchingEnabled = true
         view.showsHorizontalScrollIndicator = false
@@ -167,7 +163,6 @@ final class PagedImageView: UIView {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if updatePageControlDuringScroll {
             currentPage = primaryVisiblePage
-            pageControl.currentPage = primaryVisiblePage
         }
     }
 
@@ -176,12 +171,43 @@ final class PagedImageView: UIView {
     }
 }
 
+// MARK: - Configuration
+extension PagedImageView {
+
+    private func makeAdaptiveLayout() -> UICollectionViewLayout {
+        // (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection
+        let provider: UICollectionViewCompositionalLayoutSectionProvider = { _, layoutEnvironment in
+            // Item
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                 heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            if case .compact = layoutEnvironment.traitCollection.horizontalSizeClass {
+                item.contentInsets = NSDirectionalEdgeInsets(horizontal: 16.0)
+            } else {
+                item.contentInsets = NSDirectionalEdgeInsets(horizontal: 20.0)
+            }
+
+            // Group
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                   heightDimension: .fractionalHeight(1.0))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+            // Section
+            let section = NSCollectionLayoutSection(group: group)
+            return section
+        }
+
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.scrollDirection = .horizontal
+        return UICollectionViewCompositionalLayout(sectionProvider: provider, configuration: config)
+    }
+}
+
 // MARK: - Rotation Helpers
 extension PagedImageView {
 
     public func beginRotation() {
-        focusedIndexPath = collectionView.indexPathsForVisibleItems.first
-        coveringImageView?.removeFromSuperview()
+        updatePageControlDuringScroll = false
         guard !collectionView.isHidden, let view = makeTransitioningView() else {
             return
         }
@@ -201,16 +227,13 @@ extension PagedImageView {
 
     public func completeRotation() {
         layoutIfNeeded()
-        flowLayout.invalidateLayout()
-        // TODO: set flowLayout.estimatedItemSize using value from VC.viewWillTransition(to:, with:)?
-        // https://stackoverflow.com/a/52281704/4472195
-        if let idx = focusedIndexPath {
+        if collectionView.numberOfItems(inSection: 0) > 0 {
             updatePageControlDuringScroll = false
-            collectionView.scrollToItem(at: idx, at: .centeredHorizontally, animated: false)
-            focusedIndexPath = nil
+            collectionView.scrollToItem(at: IndexPath(row: currentPage, section: 0),
+                                        at: .centeredHorizontally, animated: false)
         }
-        coveringImageView?.removeFromSuperview()
         coveringImageView = nil
+        updatePageControlDuringScroll = true
     }
 }
 /*
@@ -268,14 +291,6 @@ extension PagedImageView: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.displayFullScreenImage(dataSource: dataSource, indexPath: IndexPath(item: primaryVisiblePage, section: 0))
-    }
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-extension PagedImageView: UICollectionViewDelegateFlowLayout {
-
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return collectionView.bounds.size
     }
 }
 

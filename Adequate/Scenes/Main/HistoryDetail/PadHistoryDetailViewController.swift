@@ -117,10 +117,14 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
 
     // MARK: - View Methods
 
-    override func setupView() {
+    private func setupSubviews() {
         view.insertSubview(stateView, at: 0)
         view.addSubview(barBackingView)
         setupConstraints()
+    }
+
+    override func setupView() {
+        setupSubviews()
 
         navigationItem.leftBarButtonItem = dismissButton
         navigationController?.applyStyle(.transparent)
@@ -145,11 +149,6 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
         getDeal(withID: dealFragment.id)
     }
 
-    override func setupObservations() -> [ObservationToken] {
-        let themeToken = themeManager.addObserver(self)
-        return [themeToken]
-    }
-
     private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
 
@@ -168,13 +167,18 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
         ])
 
         sharedRegularConstraints = [
-            // TODO: adjust constant on centerYAnchor to ensure placement below nav bar?
-            pagedImageView.centerYAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerYAnchor, constant: 0.0),
+            pagedImageView.centerYAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerYAnchor),
             pagedImageView.centerXAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerXAnchor),
-            pagedImageView.widthAnchor.constraint(equalTo: rootView.secondaryColumnGuide.widthAnchor),
+            pagedImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            // Subtract 40 to compensate for margins on either side of PagedImageView.collectionView
             pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
-                                                   constant: pagedImageView.pageControlHeight)
+                                                   constant: pagedImageView.pageControlHeight - 40)
         ]
+    }
+
+    override func setupObservations() -> [ObservationToken] {
+        let themeToken = themeManager.addObserver(self)
+        return [themeToken]
     }
 
     // MARK: - Navigation
@@ -252,7 +256,7 @@ extension PadHistoryDetailViewController {
 
     // MARK: - Utility
 
-    /// Transition from iPad to iPhone layout
+    /// Transition from regular to compact horizonal layout
     private func transitionToCompact() {
         rootView.deactivateRegularConstraints()
         NSLayoutConstraint.deactivate(sharedRegularConstraints)
@@ -268,13 +272,13 @@ extension PadHistoryDetailViewController {
         rootView.activateCompactConstraints()
     }
 
-    /// Transition from iPhone to iPad layout
+    /// Transition from compact to regular horizontal layout
     private func transitionToRegular() {
         rootView.deactivateCompactConstraints()
 
         // Move pagedImageView
         rootView.scrollView.removeHeaderView()
-        view.addSubview(pagedImageView)
+        rootView.insertSubview(pagedImageView, belowSubview: rootView.scrollView)
 
         barBackingView.leftLabelInset = AppTheme.sideMargin
 
@@ -283,8 +287,6 @@ extension PadHistoryDetailViewController {
 
         rootView.activateRegularConstraints()
         NSLayoutConstraint.activate(sharedRegularConstraints)
-        // IMPORTANT
-        pagedImageView.flowLayout.invalidateLayout()
     }
 }
 
@@ -303,7 +305,7 @@ extension PadHistoryDetailViewController {
                 rootView.activateCompactConstraints()
             case .regular:
                 rootView.activateRegularConstraints()
-                view.addSubview(pagedImageView)
+                rootView.insertSubview(pagedImageView, belowSubview: rootView.scrollView)
                 barBackingView.leftLabelInset = AppTheme.sideMargin
                 NSLayoutConstraint.activate(sharedRegularConstraints)
             default:

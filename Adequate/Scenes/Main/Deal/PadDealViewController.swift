@@ -75,16 +75,12 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
         return view
     }()
 
-    // PagedImageView
-
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
         view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
-    // Footer
 
     private lazy var footerViewController: FooterViewController = {
         let controller = FooterViewController()
@@ -170,14 +166,25 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
             barBackingView.widthAnchor.constraint(equalTo: rootView.scrollView.widthAnchor),
         ])
 
-        sharedRegularConstraints = [
-            // TODO: adjust constant on centerYAnchor to ensure placement below nav bar?
-            pagedImageView.centerYAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerYAnchor, constant: 0.0),
-            pagedImageView.centerXAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerXAnchor),
-            pagedImageView.widthAnchor.constraint(equalTo: rootView.secondaryColumnGuide.widthAnchor),
-            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
-                                                   constant: pagedImageView.pageControlHeight)
-        ]
+            let horizontalMargin: CGFloat = 40.0
+
+            let topConstraint = pagedImageView.topAnchor.constraint(equalTo: rootView.secondaryColumnGuide.topAnchor)
+            topConstraint.priority = UILayoutPriority(650)
+
+            let widthConstraint = pagedImageView.widthAnchor.constraint(equalTo: rootView.secondaryColumnGuide.widthAnchor,
+                                                                        constant: horizontalMargin)
+            widthConstraint.priority = UILayoutPriority(750)
+
+            sharedRegularConstraints = [
+                pagedImageView.centerYAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerYAnchor),
+                pagedImageView.centerXAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerXAnchor),
+                pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
+                                                       constant: pagedImageView.pageControlHeight - horizontalMargin),
+                pagedImageView.topAnchor.constraint(greaterThanOrEqualTo: rootView.secondaryColumnGuide.topAnchor),
+                pagedImageView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor),
+                topConstraint,
+                widthConstraint
+            ]
     }
 
     override func setupObservations() -> [ObservationToken] {
@@ -315,7 +322,7 @@ extension PadDealViewController {
 
     // MARK: - Utility
 
-    /// Transition from iPad to iPhone layout
+    /// Transition from regular to compact horizonal layout
     private func transitionToCompact() {
         rootView.deactivateRegularConstraints()
         NSLayoutConstraint.deactivate(sharedRegularConstraints)
@@ -331,13 +338,13 @@ extension PadDealViewController {
         rootView.activateCompactConstraints()
     }
 
-    /// Transition from iPhone to iPad layout
+    /// Transition from compact to regular horizontal layout
     private func transitionToRegular() {
         rootView.deactivateCompactConstraints()
 
         // Move pagedImageView
         rootView.scrollView.removeHeaderView()
-        view.addSubview(pagedImageView)
+        rootView.insertSubview(pagedImageView, belowSubview: rootView.scrollView)
 
         barBackingView.leftLabelInset = AppTheme.sideMargin
 
@@ -346,8 +353,6 @@ extension PadDealViewController {
 
         rootView.activateRegularConstraints()
         NSLayoutConstraint.activate(sharedRegularConstraints)
-        // IMPORTANT
-        pagedImageView.flowLayout.invalidateLayout()
     }
 }
 
@@ -366,7 +371,7 @@ extension PadDealViewController {
                 rootView.activateCompactConstraints()
             case .regular:
                 rootView.activateRegularConstraints()
-                view.addSubview(pagedImageView)
+                rootView.insertSubview(pagedImageView, belowSubview: rootView.scrollView)
                 barBackingView.leftLabelInset = view.layoutMargins.left
                 NSLayoutConstraint.activate(sharedRegularConstraints)
             default:

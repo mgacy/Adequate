@@ -56,6 +56,7 @@
 		C943E5B02238695C00DE0675 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C943E5AF2238695C00DE0675 /* StateView.swift */; };
 		C94D2CED230E11C300043431 /* FontBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2CEC230E11C300043431 /* FontBook.swift */; };
 		C94D2CEF230E143700043431 /* UIFont+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2CEE230E143700043431 /* UIFont+Ext.swift */; };
+		C94D94B1253287620000328D /* Insets+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D94B0253287610000328D /* Insets+Ext.swift */; };
 		C954028B22FDFB1E00465FFD /* TableViewDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954028A22FDFB1D00465FFD /* TableViewDiff.swift */; };
 		C95B83C3218017FD0051B72B /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B83C2218017FD0051B72B /* ThemeManager.swift */; };
 		C95B83C521811DFA0051B72B /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B83C421811DFA0051B72B /* AppTheme.swift */; };
@@ -383,6 +384,7 @@
 		C943E5AF2238695C00DE0675 /* StateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
 		C94D2CEC230E11C300043431 /* FontBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontBook.swift; sourceTree = "<group>"; };
 		C94D2CEE230E143700043431 /* UIFont+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Ext.swift"; sourceTree = "<group>"; };
+		C94D94B0253287610000328D /* Insets+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Insets+Ext.swift"; sourceTree = "<group>"; };
 		C94FACEF250889EA00C190ED /* ScreenshotsDark.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ScreenshotsDark.xctestplan; sourceTree = "<group>"; };
 		C954028A22FDFB1D00465FFD /* TableViewDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewDiff.swift; sourceTree = "<group>"; };
 		C95B83C2218017FD0051B72B /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
@@ -1080,6 +1082,7 @@
 				C989E1202237432600DEAE89 /* AWSMobileClient+Promise.swift */,
 				C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */,
 				C9DAC48821476AC300D6558B /* DateFormatter+Ext.swift */,
+				C94D94B0253287610000328D /* Insets+Ext.swift */,
 				C992D1DD216D93F000B373D5 /* Optional+Ext.swift */,
 				C9DAC48A21476ADA00D6558B /* String+Ext.swift */,
 				C9DAC48C21476AF600D6558B /* UIColor+Ext.swift */,
@@ -1938,6 +1941,7 @@
 				C9DAC49D21476BBE00D6558B /* Theme.swift in Sources */,
 				C9058DF5215C7E4C00FF7B4C /* NotificationManager.swift in Sources */,
 				C9C914612458C7BF0006190C /* FullScreenImagePresenting.swift in Sources */,
+				C94D94B1253287620000328D /* Insets+Ext.swift in Sources */,
 				C9C0C0B923063D230011EFB4 /* MDStyler.swift in Sources */,
 				C9C0C0CA230730E30011EFB4 /* MDStylerConfiguration.swift in Sources */,
 				C9F92266218A88D0001C257A /* UserDefaultsManager.swift in Sources */,
