@@ -113,6 +113,8 @@ class FooterViewController: UIViewController {
         buyButton.isHidden = true
         view.addSubview(stackView)
         //layer.mask = gradientMaskLayer
+        view.layer.cornerRadius = 8.0
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         setupConstraints()
     }
 
