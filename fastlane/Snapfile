@@ -3,16 +3,15 @@
 # https://docs.fastlane.tools/getting-started/ios/screenshots/#advanced-snapshot
 
 # A list of devices you want to take the screenshots from
+# Requirements: https://help.apple.com/app-store-connect/#/devd274dd925
 devices([
-#   "iPhone 8",
-#   "iPhone 8 Plus",
-#   "iPhone SE",
-#   "iPhone X",
-#   "iPhone Xs",
-  "iPhone 11 Pro",
-#   "iPad Pro (12.9-inch)",
-#   "iPad Pro (9.7-inch)",
-#   "Apple TV 1080p"
+  # "iPhone SE (1st generation)",             # 4.0 inch
+  # "iPhone SE (2nd generation)",             # 4.7 inch
+  # "iPhone 8 Plus",                          # 5.5 inch - Required
+  # "iPhone 11 Pro",                          # 5.8 inch
+  "iPhone 11 Pro Max",                      # 6.5 inch - Required
+  # "iPad Pro (12.9-inch) (2nd generation)",  # 12.9 inch - Required
+  # "iPad Pro (12.9-inch) (4th generation)"   # 12.9 inch - Required
 ])
 
 # languages([
