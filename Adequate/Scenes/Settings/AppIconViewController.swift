@@ -186,7 +186,7 @@ extension AppIconViewController {
             case .defaultLight: return "Icon-1@2x"
             case .defaultDark: return "Icon-2@2x"
             case .altLight: return "Icon-3@2x"
-            case .altDark: return "Icon-3@2x"
+            case .altDark: return "Icon-4@2x"
             }
         }
     }

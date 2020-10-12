@@ -155,6 +155,8 @@
 		C9BADE14244FEA4E004B17F1 /* ResponseResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BADE12244FEA4E004B17F1 /* ResponseResource.swift */; };
 		C9BEAB71233308A400C143FB /* HistoryDetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BEAB70233308A400C143FB /* HistoryDetailViewControllerDelegate.swift */; };
 		C9BEAB7323330B5600C143FB /* PadHistoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BEAB7223330B5600C143FB /* PadHistoryDetailViewController.swift */; };
+		C9BFB2652534D27C0002EAE5 /* Icon-4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9BFB2632534D27C0002EAE5 /* Icon-4@2x.png */; };
+		C9BFB2662534D27C0002EAE5 /* Icon-4@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9BFB2642534D27C0002EAE5 /* Icon-4@3x.png */; };
 		C9C0C0B923063D230011EFB4 /* MDStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0B823063D230011EFB4 /* MDStyler.swift */; };
 		C9C0C0BC23072D7D0011EFB4 /* UIFont+Traits.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0BB23072D7D0011EFB4 /* UIFont+Traits.swift */; };
 		C9C0C0BE23072DC50011EFB4 /* NSMutableAttributedString+Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0C0BD23072DC50011EFB4 /* NSMutableAttributedString+Attributes.swift */; };
@@ -482,6 +484,8 @@
 		C9BADE27245141D3004B17F1 /* ScreenshotsLight.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ScreenshotsLight.xctestplan; sourceTree = "<group>"; };
 		C9BEAB70233308A400C143FB /* HistoryDetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailViewControllerDelegate.swift; sourceTree = "<group>"; };
 		C9BEAB7223330B5600C143FB /* PadHistoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadHistoryDetailViewController.swift; sourceTree = "<group>"; };
+		C9BFB2632534D27C0002EAE5 /* Icon-4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-4@2x.png"; sourceTree = "<group>"; };
+		C9BFB2642534D27C0002EAE5 /* Icon-4@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-4@3x.png"; sourceTree = "<group>"; };
 		C9C0C0B823063D230011EFB4 /* MDStyler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDStyler.swift; sourceTree = "<group>"; };
 		C9C0C0BB23072D7D0011EFB4 /* UIFont+Traits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Traits.swift"; sourceTree = "<group>"; };
 		C9C0C0BD23072DC50011EFB4 /* NSMutableAttributedString+Attributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Attributes.swift"; sourceTree = "<group>"; };
@@ -853,6 +857,8 @@
 				C98731CE252A3E0D00E72A16 /* Icon-2@3x.png */,
 				C98731DA252A3F0900E72A16 /* Icon-3@2x.png */,
 				C98731DB252A3F0900E72A16 /* Icon-3@3x.png */,
+				C9BFB2632534D27C0002EAE5 /* Icon-4@2x.png */,
+				C9BFB2642534D27C0002EAE5 /* Icon-4@3x.png */,
 			);
 			path = AltIcons;
 			sourceTree = "<group>";
@@ -1574,6 +1580,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C99EF3BC22BC968300BF4410 /* Localizable.strings in Resources */,
+				C9BFB2652534D27C0002EAE5 /* Icon-4@2x.png in Resources */,
 				C98731D1252A3E0E00E72A16 /* Icon-2@3x.png in Resources */,
 				C9DAC45E2147688500D6558B /* LaunchScreen.storyboard in Resources */,
 				C9102F9A224FFC1D00B06679 /* Pods-Adequate-acknowledgements.markdown in Resources */,
@@ -1581,6 +1588,7 @@
 				C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */,
 				C98731D3252A3E0E00E72A16 /* Icon-1@3x.png in Resources */,
 				C989E119223734A700DEAE89 /* awsconfiguration.json in Resources */,
+				C9BFB2662534D27C0002EAE5 /* Icon-4@3x.png in Resources */,
 				C98731DC252A3F0900E72A16 /* Icon-3@2x.png in Resources */,
 				C98731C7252A3E0100E72A16 /* Icon-1@2x.png in Resources */,
 				C98731DD252A3F0900E72A16 /* Icon-3@3x.png in Resources */,
