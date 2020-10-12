@@ -34,7 +34,7 @@
 "twitter" = "Twitter";
 "unofficial_app_disclaimer" = "This is an unofficial app. Please direct any issues to the developer, not to Meh.";
 "web" = "Web";
-"welcome_message" = "An app to see the crap meh is trying to sell you today.";
+"welcome_message" = "See the crap meh is selling today.";
 
 /* Alerts */
 "disabled_email_alert_body" = "Device is not configured to send email.";
