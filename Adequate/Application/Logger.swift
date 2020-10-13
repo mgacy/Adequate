@@ -43,7 +43,16 @@ class Logger: LoggingType {
         // Don't add `SBPlatformDestination` in simulator
         #if !(arch(i386) || arch(x86_64)) && os(iOS)
         switch Configuration.environment {
-        case .development, .staging:
+        case .development:
+            let console = ConsoleDestination()
+            SwiftyBeaver.addDestination(console)
+
+            let platform = SBPlatformDestination(appID: AppSecrets.loggerAppID,
+                                                 appSecret: AppSecrets.loggerAppSecret,
+                                                 encryptionKey: AppSecrets.loggerEncryptionKey)
+            platform.minLevel = logLevel
+            SwiftyBeaver.addDestination(platform)
+        case .staging:
             let platform = SBPlatformDestination(appID: AppSecrets.loggerAppID,
                                                  appSecret: AppSecrets.loggerAppSecret,
                                                  encryptionKey: AppSecrets.loggerEncryptionKey)
