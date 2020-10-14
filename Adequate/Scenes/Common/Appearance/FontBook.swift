@@ -8,9 +8,10 @@
 
 import UIKit
 
-struct FontBook {
+enum FontBook {
 
     static let mainTitle: UIFont = {
+        // SFUIDisplay | weight: Regular | size: 22pt | leading: 28pt | tracking: 16pt
         let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .title2)
         let boldDescriptor = descriptor.withSymbolicTraits(.traitBold)
         return UIFont(descriptor: boldDescriptor!, size: descriptor.pointSize)
