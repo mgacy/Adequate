@@ -760,10 +760,6 @@
 		C937EFE322DFFD2200C363C8 /* Optics */ = {
 			isa = PBXGroup;
 			children = (
-				C937EFE422DFFD4800C363C8 /* Affine.swift */,
-				C9C2109722D8FFA300C4F66F /* Lens.swift */,
-				C937EFE622DFFE5100C363C8 /* Prism.swift */,
-				C937EFE822DFFF1400C363C8 /* Optional+Prism.swift */,
 				C9B3DE5A24FEE44F00A90453 /* Models+Lens.generated.swift */,
 			);
 			path = Optics;
@@ -791,6 +787,34 @@
 				C9E07FCF232C32B600CA2F8E /* DebugButtonComponentView.swift */,
 			);
 			path = Debug;
+			sourceTree = "<group>";
+		};
+		C94825622538D1C20009446D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				C94825632538D1D00009446D /* FunctionalKit */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		C94825632538D1D00009446D /* FunctionalKit */ = {
+			isa = PBXGroup;
+			children = (
+				C94825642538D2E30009446D /* Optics */,
+				C9EF5ACA215CA82F00B5D2EC /* Operators.swift */,
+			);
+			path = FunctionalKit;
+			sourceTree = "<group>";
+		};
+		C94825642538D2E30009446D /* Optics */ = {
+			isa = PBXGroup;
+			children = (
+				C937EFE422DFFD4800C363C8 /* Affine.swift */,
+				C9C2109722D8FFA300C4F66F /* Lens.swift */,
+				C937EFE622DFFE5100C363C8 /* Prism.swift */,
+				C937EFE822DFFF1400C363C8 /* Optional+Prism.swift */,
+			);
+			path = Optics;
 			sourceTree = "<group>";
 		};
 		C951885A21797D990097F49E /* Protocols */ = {
@@ -1035,13 +1059,13 @@
 				C9DAC473214768A100D6558B /* Application */,
 				C9DAC478214768D600D6558B /* Extensions */,
 				C9DAC479214768FF00D6558B /* Protocols */,
+				C94825622538D1C20009446D /* Components */,
 				C9DAC47A2147691700D6558B /* Models */,
 				C9285479216DCE2B001E5993 /* Managers */,
 				C9DAC47B2147692600D6558B /* Services */,
 				C9DAC47C2147692B00D6558B /* Scenes */,
 				C9DAC47E2147693900D6558B /* Resources */,
 				C9DAC47F2147693E00D6558B /* Supporting */,
-				C9EF5ACA215CA82F00B5D2EC /* Operators.swift */,
 			);
 			path = Adequate;
 			sourceTree = "<group>";
