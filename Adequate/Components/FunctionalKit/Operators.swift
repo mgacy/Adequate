@@ -39,7 +39,7 @@ infix operator >>>: AssociativityLeft
 ///
 ///    (square >>> increment >>> describe)(3)  // "The resulting value is: 10"
 ///
-func >>> <A, B, C>(f: @escaping (A) -> B, g: @escaping (B) -> C) -> (A) -> C {
+public func >>> <A, B, C>(f: @escaping (A) -> B, g: @escaping (B) -> C) -> (A) -> C {
     return { x in g(f(x)) }
 }
 
@@ -95,7 +95,7 @@ infix operator .. : AssociativityLeft
 ///    let robb2 = composedLens.set("Kottbusser Damm")(robb)
 ///    // Creates a new `Person` with an updated street
 ///
-extension Lens {
+public extension Lens {
     static func .. <Subpart> (lhs: Lens<Whole,Part>, rhs: Lens<Part,Subpart>) -> Lens<Whole,Subpart> {
         return lhs.then(rhs)
     }
