@@ -100,3 +100,6 @@ public extension Lens {
         return lhs.then(rhs)
     }
 }
+
+/// Monoidal append
+infix operator <>: AdditionPrecedence

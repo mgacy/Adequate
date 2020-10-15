@@ -54,6 +54,8 @@
 		C93F79042256EBE8004B4DD6 /* LoggingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F79032256EBE8004B4DD6 /* LoggingType.swift */; };
 		C93F79062256FCBD004B4DD6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F79052256FCBD004B4DD6 /* Logger.swift */; };
 		C943E5B02238695C00DE0675 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C943E5AF2238695C00DE0675 /* StateView.swift */; };
+		C94825662538D48C0009446D /* Semigroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94825652538D48C0009446D /* Semigroup.swift */; };
+		C948257A2538D52B0009446D /* Monoid.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94825792538D52B0009446D /* Monoid.swift */; };
 		C94D2CED230E11C300043431 /* FontBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2CEC230E11C300043431 /* FontBook.swift */; };
 		C94D2CEF230E143700043431 /* UIFont+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2CEE230E143700043431 /* UIFont+Ext.swift */; };
 		C94D94B1253287620000328D /* Insets+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D94B0253287610000328D /* Insets+Ext.swift */; };
@@ -384,6 +386,8 @@
 		C93F79032256EBE8004B4DD6 /* LoggingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingType.swift; sourceTree = "<group>"; };
 		C93F79052256FCBD004B4DD6 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		C943E5AF2238695C00DE0675 /* StateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
+		C94825652538D48C0009446D /* Semigroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Semigroup.swift; sourceTree = "<group>"; };
+		C94825792538D52B0009446D /* Monoid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monoid.swift; sourceTree = "<group>"; };
 		C94D2CEC230E11C300043431 /* FontBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontBook.swift; sourceTree = "<group>"; };
 		C94D2CEE230E143700043431 /* UIFont+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Ext.swift"; sourceTree = "<group>"; };
 		C94D94B0253287610000328D /* Insets+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Insets+Ext.swift"; sourceTree = "<group>"; };
@@ -801,6 +805,8 @@
 			isa = PBXGroup;
 			children = (
 				C94825642538D2E30009446D /* Optics */,
+				C94825652538D48C0009446D /* Semigroup.swift */,
+				C94825792538D52B0009446D /* Monoid.swift */,
 				C9EF5ACA215CA82F00B5D2EC /* Operators.swift */,
 			);
 			path = FunctionalKit;
@@ -1951,6 +1957,7 @@
 				C9B3FAC3224479B200B8524A /* CurrentDealManager.swift in Sources */,
 				C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */,
 				C97AC2D823B6988C00B721AC /* BaseViewController.swift in Sources */,
+				C948257A2538D52B0009446D /* Monoid.swift in Sources */,
 				C9725D5F2255A7EE0043C4FC /* UINavigationController+NavBarStyle.swift in Sources */,
 				C9DAC477214768CF00D6558B /* AppCoordinator.swift in Sources */,
 				C9093CBB221FBD6E00C9DA0C /* HistoryListCoordinator.swift in Sources */,
@@ -2034,6 +2041,7 @@
 				C96CA8702182DD2E00C3459E /* NotificationViewController.swift in Sources */,
 				C925EECB233E955400D24F38 /* ImageServiceType.swift in Sources */,
 				C996E21124D26C3200F5F173 /* AWSAppSyncClient+Result.swift in Sources */,
+				C94825662538D48C0009446D /* Semigroup.swift in Sources */,
 				C9093CC32228A27800C9DA0C /* ObservationToken.swift in Sources */,
 				C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */,
 				C9DAC48D21476AF600D6558B /* UIColor+Ext.swift in Sources */,
