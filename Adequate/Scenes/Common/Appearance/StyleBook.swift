@@ -99,16 +99,6 @@ enum StyleBook {
             $0.numberOfLines = 2
             $0.font = UIFont.preferredFont(forTextStyle: .headline)
         } <> base
-
-        static let tableHeader = Style<UILabel> {
-            $0.font = UIFont.preferredFont(forTextStyle: .footnote)
-            $0.textColor = .secondaryLabel
-            $0.adjustsFontForContentSizeCategory = true
-        }
-
-        static let tableFooter = Style<UILabel> {
-            $0.numberOfLines = 0
-        } <> tableHeader
     }
 
     // MARK: - UIStackView
