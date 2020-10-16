@@ -26,57 +26,31 @@ class FooterViewController: UIViewController {
 
     // MARK: - Subviews
 
-    private let priceLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
-        label.textColor = ColorCompatibility.label
-        label.font = FontBook.compactFooter
-        label.adjustsFontForContentSizeCategory = true
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let priceLabel = UILabel(style:
+        StyleBook.Label.centered <> StyleBook.Label.primary)
 
-    private let priceComparisonLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
-        label.textColor = ColorCompatibility.secondaryLabel
-        label.font = UIFont.preferredFont(forTextStyle: .caption2)
-        label.adjustsFontForContentSizeCategory = true
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let priceComparisonLabel = UILabel(style:
+        StyleBook.Label.centered <> StyleBook.Label.secondary)
 
     private lazy var priceStack: UIStackView = {
         let view = UIStackView(arrangedSubviews: [priceLabel, priceComparisonLabel])
-        view.axis = .vertical
-        view.alignment = .leading
-        view.distribution = .fill
-        view.translatesAutoresizingMaskIntoConstraints = false
+        StyleBook.StackView.vertical().apply(to: view)
         return view
     }()
 
     private let buyButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.titleLabel?.font = FontBook.boldButton
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        let button = UIButton(style: StyleBook.Button.standard)
+        button.backgroundColor = ColorCompatibility.systemBackground
+        button.setTitleColor(button.tintColor, for: .normal)
         button.setTitle(L10n.buy, for: .normal)
         button.setTitle(L10n.soldOut, for: .disabled)
-        button.setTitleColor(button.tintColor, for: .normal)
-        button.layer.cornerRadius = 5 // FIXME: use standard corner radius
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = ColorCompatibility.systemBackground
         return button
     }()
 
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [priceStack, buyButton])
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fillEqually
-        stackView.spacing = 5.0 // FIXME: isn't this pretty arbitrary?
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        // FIXME: isn't this `spacing` value pretty arbitrary?
+        StyleBook.StackView.horizontal(spacing: 5.0).apply(to: stackView)
         return stackView
     }()
 

@@ -22,18 +22,11 @@ final class HistoryListCell: UITableViewCell {
         return view
     }()
 
-     private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 2
-        label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-     }()
+    private let titleLabel = UILabel(style: StyleBook.Label.cellTitle)
 
     private let dateLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
+        // TODO: use `Style`; aside from `textColor`, this uses `StyleBook.Label.secondary`
+        let label = UILabel(style: StyleBook.Label.base)
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -42,11 +35,8 @@ final class HistoryListCell: UITableViewCell {
 
     private lazy var stackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [titleLabel, dateLabel])
-        view.axis = .vertical
-        view.alignment = .leading
-        view.distribution = .fill
-        view.spacing = 2.0 // FIXME: use constant
-        view.translatesAutoresizingMaskIntoConstraints = false
+        // FIXME: use constant for spacing
+        StyleBook.StackView.vertical(spacing: 2.0).apply(to: view)
         return view
     }()
 

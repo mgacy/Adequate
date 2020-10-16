@@ -38,9 +38,7 @@ final class SettingsViewController: UITableViewController {
 
     private let notificationHeader: UILabel = {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 32.0, left: 16.0, bottom: 8.0, right: 16.0))
-        view.font = UIFont.preferredFont(forTextStyle: .footnote)
-        view.adjustsFontForContentSizeCategory = true
-        view.textColor = ColorCompatibility.secondaryLabel
+        StyleBook.Label.tableHeader.apply(to: view)
         view.text = L10n.notifications.uppercased()
         return view
     }()
@@ -61,9 +59,7 @@ final class SettingsViewController: UITableViewController {
 
     private let appearanceHeader: UILabel = {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 24.0, left: 16.0, bottom: 8.0, right: 16.0))
-        view.font = UIFont.preferredFont(forTextStyle: .footnote)
-        view.adjustsFontForContentSizeCategory = true
-        view.textColor = ColorCompatibility.secondaryLabel
+        StyleBook.Label.tableHeader.apply(to: view)
         view.text = L10n.appearance.uppercased()
         return view
     }()
@@ -86,9 +82,7 @@ final class SettingsViewController: UITableViewController {
 
     private let supportHeader: UILabel = {
         let view = PaddingLabel(padding: UIEdgeInsets(top: 24.0, left: 16.0, bottom: 8.0, right: 16.0))
-        view.font = UIFont.preferredFont(forTextStyle: .footnote)
-        view.adjustsFontForContentSizeCategory = true
-        view.textColor = ColorCompatibility.secondaryLabel
+        StyleBook.Label.tableHeader.apply(to: view)
         view.text = L10n.support.uppercased()
         return view
     }()
@@ -119,10 +113,7 @@ final class SettingsViewController: UITableViewController {
 
     private let supportFooter: UILabel = {
         let view = PaddingLabel()
-        view.numberOfLines = 0
-        view.font = UIFont.preferredFont(forTextStyle: .footnote)
-        view.adjustsFontForContentSizeCategory = true
-        view.textColor = ColorCompatibility.secondaryLabel
+        StyleBook.Label.tableFooter.apply(to: view)
         view.text = L10n.unofficialAppDisclaimer
         return view
     }()
@@ -143,11 +134,7 @@ final class SettingsViewController: UITableViewController {
 
     private lazy var appVersionFooter: UILabel = {
         let view = PaddingLabel()
-        view.numberOfLines = 0
-        view.font = UIFont.preferredFont(forTextStyle: .footnote)
-        view.adjustsFontForContentSizeCategory = true
-        view.textColor = ColorCompatibility.secondaryLabel
-
+        StyleBook.Label.tableFooter.apply(to: view)
         let versionNumber = Bundle.main.releaseVersionNumber ?? "X"
         let buildNumber = Bundle.main.buildVersionNumber ?? "X"
         view.text = "Adequate v\(versionNumber) (\(buildNumber))"

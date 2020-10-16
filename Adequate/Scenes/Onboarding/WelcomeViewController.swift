@@ -13,26 +13,20 @@ final class WelcomeViewController: UIViewController {
     // MARK: - Subviews
 
     private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
+        let label = UILabel(style: StyleBook.Label.base)
         label.text = L10n.appName
         label.textColor = ColorCompatibility.label
-        //label.textAlignment = .center
         // TODO: use FontBook
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        //label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let bodyLabel: UILabel = {
-        let label = UILabel()
+        let label = UILabel(style: StyleBook.Label.base)
         label.numberOfLines = 0
         label.text = L10n.welcomeMessage
         label.textColor = ColorCompatibility.secondaryLabel
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        //label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 

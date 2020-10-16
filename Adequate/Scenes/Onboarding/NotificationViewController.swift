@@ -20,25 +20,20 @@ final class NotificationViewController: UIViewController {
     // MARK: - Subviews
 
     private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
+        let label = UILabel(style: StyleBook.Label.base)
         label.text = L10n.welcomeNotificationsTitle
         label.textColor = ColorCompatibility.label
         // TODO: use FontBook
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        //label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let bodyLabel: UILabel = {
-        let label = UILabel()
+        let label = UILabel(style: StyleBook.Label.base)
         label.numberOfLines = 0
         label.text = L10n.welcomeNotificationsBody
         label.textColor = ColorCompatibility.secondaryLabel
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        //label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
@@ -88,9 +83,7 @@ final class NotificationViewController: UIViewController {
     private lazy var buttonStack: UIStackView = {
         let view = UIStackView(arrangedSubviews: [notNowButton, okButton])
         view.axis = .horizontal
-        //view.alignment = .fill
         view.alignment = .firstBaseline
-        //view.alignment = .center
         view.distribution = .fillEqually
         view.spacing = 8.0
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -125,7 +118,6 @@ final class NotificationViewController: UIViewController {
 
     private func setupConstraints() {
         let guide = view.readableContentGuide
-        //let guide = view.layoutMarginsGuide
         NSLayoutConstraint.activate([
             // labelStack
             labelStack.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0),

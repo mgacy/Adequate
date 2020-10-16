@@ -74,14 +74,7 @@ final class DealContentView: UIView {
 
     // MARK: - Subviews
 
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = FontBook.mainTitle
-        label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    let titleLabel = UILabel(style: StyleBook.Label.title)
 
     lazy var featuresText: MDTextView = {
         let view = MDTextView(styler: styler)
@@ -91,12 +84,9 @@ final class DealContentView: UIView {
     }()
 
     let forumButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle(L10n.Comments.count(0), for: .normal)
-        button.layer.cornerRadius = 5
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        let button = UIButton(style: StyleBook.Button.standard)
         button.backgroundColor = button.tintColor
+        button.setTitle(L10n.Comments.count(0), for: .normal)
         return button
     }()
 
