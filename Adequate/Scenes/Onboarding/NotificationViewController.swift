@@ -21,19 +21,17 @@ final class NotificationViewController: UIViewController {
 
     private let titleLabel: UILabel = {
         let label = UILabel(style: StyleBook.Label.base)
-        label.text = L10n.welcomeNotificationsTitle
-        label.textColor = ColorCompatibility.label
         // TODO: use FontBook
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.text = L10n.welcomeNotificationsTitle
         return label
     }()
 
     private let bodyLabel: UILabel = {
         let label = UILabel(style: StyleBook.Label.base)
         label.numberOfLines = 0
+        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.text = L10n.welcomeNotificationsBody
-        label.textColor = ColorCompatibility.secondaryLabel
-        label.font = UIFont.preferredFont(forTextStyle: .body)
         return label
     }()
 
@@ -48,33 +46,16 @@ final class NotificationViewController: UIViewController {
     }()
 
     private let notNowButton: UIButton = {
-        let button = UIButton(type: .custom)
-        // TODO: use bolder font?
-        //button.titleLabel?.font = FontBook.boldButton
-        //button.titleLabel?.adjustsFontForContentSizeCategory = true
+        let button = UIButton(style: StyleBook.Button.secondary)
         button.setTitle(L10n.nowNow, for: .normal)
-        button.layer.cornerRadius = 5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = button.tintColor.cgColor
-        button.setTitleColor(button.tintColor, for: .normal)
-        //button.layer.masksToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .clear
         button.addTarget(self, action: #selector(handleNotNowTapped(_:)), for: .touchUpInside)
         // TODO: add button.accessibilityLabel
         return button
     }()
 
     private let okButton: UIButton = {
-        let button = UIButton(type: .custom)
-        // TODO: use bolder font?
-        //button.titleLabel?.font = FontBook.boldButton
-        //button.titleLabel?.adjustsFontForContentSizeCategory = true
+        let button = UIButton(style: StyleBook.Button.standard)
         button.setTitle(L10n.ok, for: .normal)
-        button.layer.cornerRadius = 5
-        //button.clipsToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = button.tintColor
         button.addTarget(self, action: #selector(handleOKTapped(_:)), for: .touchUpInside)
         // TODO: add button.accessibilityLabel
         return button
@@ -110,7 +91,6 @@ final class NotificationViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        view.backgroundColor = ColorCompatibility.systemBackground
         view.addSubview(labelStack)
         view.addSubview(buttonStack)
         setupConstraints()
@@ -163,8 +143,25 @@ extension NotificationViewController {
         super.traitCollectionDidChange(previousTraitCollection)
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             // We need to handle `CALayer` manually
-            let resovedColor = UIColor.systemBlue.resolvedColor(with: traitCollection)
+            let resovedColor = UIColor.label.resolvedColor(with: traitCollection)
             notNowButton.layer.borderColor = resovedColor.cgColor
         }
+    }
+}
+
+// MARK: - Themeable
+extension NotificationViewController: Themeable {
+
+    func apply(theme: ColorTheme) {
+        view.backgroundColor = theme.systemBackground
+        titleLabel.textColor = theme.label
+        bodyLabel.textColor = theme.secondaryLabel
+
+        //StyleBook.Button.secondary(color: theme.label).apply(to: notNowButton)
+        notNowButton.layer.borderColor = theme.label.cgColor
+        notNowButton.setTitleColor(theme.label, for: .normal)
+
+        okButton.backgroundColor = theme.label
+        okButton.setTitleColor(theme.systemBackground, for: .normal)
     }
 }
