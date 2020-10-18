@@ -19,7 +19,7 @@ enum StyleBook {
 
         static let base = Style<UIButton> {
             $0.contentEdgeInsets = UIEdgeInsets(horizontal: 8.0, vertical: 6.0)
-            $0.layer.cornerRadius = 5.0
+            $0.layer.cornerRadius = 6.0
             $0.titleLabel?.adjustsFontForContentSizeCategory = true // ?
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -27,19 +27,19 @@ enum StyleBook {
         static let bold = Style<UIButton> {
             $0.titleLabel?.font = FontBook.boldButton
         }
-        /*
+
         static let secondary = Style<UIButton> {
-            // TODO: what about font?
             //$0.titleLabel?.font = FontBook.boldButton
             $0.layer.borderWidth = 1.0
             $0.backgroundColor = .clear
-            $0.layer.borderColor = $0.tintColor.cgColor
-            $0.setTitleColor($0.tintColor, for: .normal)
         } <> base
-        */
+
+        static let standard = Style<UIButton> {
+            $0.titleLabel?.font = FontBook.boldButton
+        } <> base
+
         static func secondary(color: UIColor) -> Style<UIButton> {
             return .init {
-                // TODO: what about font?
                 //$0.titleLabel?.font = FontBook.boldButton
                 $0.backgroundColor = .clear
                 $0.layer.borderWidth = 1.0
@@ -48,10 +48,12 @@ enum StyleBook {
             } <> base
         }
 
-        static let standard = Style<UIButton> {
-            $0.titleLabel?.font = FontBook.boldButton
-            //$0.backgroundColor =
-        } <> base
+        //static func standard(color: UIColor) -> Style<UIButton> {
+        //    return .init {
+        //        $0.backgroundColor =
+        //        $0.setTitleColor(color, for: .normal)
+        //    }
+        //}
 
         // FooterViewController.buyButton
         static let x = Style<UIButton> {
@@ -82,14 +84,14 @@ enum StyleBook {
 
         // FooterViewController.priceLabel
         static let primary = Style<UILabel> {
-            $0.textColor = ColorCompatibility.label
             $0.font = FontBook.compactFooter // ?
+            $0.textColor = ColorCompatibility.label
         } <> base
 
         // FooterViewController.priceComparisonLabel
         static let secondary = Style<UILabel> {
-            $0.textColor = ColorCompatibility.secondaryLabel
             $0.font = UIFont.preferredFont(forTextStyle: .caption2)
+            $0.textColor = ColorCompatibility.secondaryLabel
         } <> base
 
         // UITableView
