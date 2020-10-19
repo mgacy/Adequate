@@ -13,6 +13,8 @@ final class ParallaxBarView: UIView {
     /// Difference between coordinate system of this view and that of the scroll view.
     var coordinateOffset: CGFloat = 0.0
 
+    // TODO: replace separate insets with `titleEdgeInsets`?
+
     /// Space above the 'title bar' (occupied by the status bar).
     var inset: CGFloat = 0.0
 

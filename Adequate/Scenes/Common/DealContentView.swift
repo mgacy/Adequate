@@ -139,6 +139,7 @@ final class DealContentView: UIView {
             // forumButton
             forumButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: AppTheme.spacing * 2.0),
+            // TODO: replace with setting button insets
             forumButton.widthAnchor.constraint(equalToConstant: buttonWidth),
             // specsText
             specsText.leadingAnchor.constraint(equalTo: readableContentGuide.leadingAnchor),
