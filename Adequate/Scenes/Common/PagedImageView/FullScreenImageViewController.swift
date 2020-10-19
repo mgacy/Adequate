@@ -145,7 +145,7 @@ extension FullScreenImageViewController {
         zoomingImageView.frame = view.frame
 
         // TODO: move to `ViewMetrics` type?
-        let x = view.safeAreaInsets.left + 28.0
+        let x = view.bounds.width - view.safeAreaInsets.left - 2 * 28.0
         let y: CGFloat
         switch view.safeAreaInsets.top {
         case 0.0..<24.0:

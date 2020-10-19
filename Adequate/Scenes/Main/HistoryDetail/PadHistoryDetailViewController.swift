@@ -66,7 +66,7 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
 
     private lazy var barBackingView: ParallaxBarView = {
         let view = ParallaxBarView()
-        view.rightLabelInset = AppTheme.sideMargin
+        view.rightLabelInset = 56.0
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -126,7 +126,7 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
     override func setupView() {
         setupSubviews()
 
-        navigationItem.leftBarButtonItem = dismissButton
+        navigationItem.rightBarButtonItem = dismissButton
         navigationController?.applyStyle(.transparent)
         pagedImageView.delegate = self
 
