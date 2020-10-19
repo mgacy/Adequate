@@ -74,15 +74,9 @@ final class StateView: UIView {
         return label
     }()
 
-    // TODO: use StyleBook
     private let retryButton: UIButton = {
-        let button = UIButton(type: .custom)
+        let button = UIButton(style: StyleBook.Button.secondaryWide)
         button.setTitle(L10n.retry, for: .normal)
-        button.layer.cornerRadius = 5.0
-        button.layer.borderWidth = 1.0
-        button.backgroundColor = .clear
-        button.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: 15.0, bottom: 5.0, right: 15.0)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 

@@ -28,25 +28,9 @@ enum StyleBook {
             $0.titleLabel?.font = FontBook.boldButton
         }
 
-        static let secondary = Style<UIButton> {
-            //$0.titleLabel?.font = FontBook.boldButton
-            $0.layer.borderWidth = 1.0
-            $0.backgroundColor = .clear
-        } <> base
+        // MARK: Standard Button
 
-        static let standard = Style<UIButton> {
-            $0.titleLabel?.font = FontBook.boldButton
-        } <> base
-
-        static func secondary(color: UIColor) -> Style<UIButton> {
-            return .init {
-                //$0.titleLabel?.font = FontBook.boldButton
-                $0.backgroundColor = .clear
-                $0.layer.borderWidth = 1.0
-                $0.layer.borderColor = color.cgColor
-                $0.setTitleColor(color, for: .normal)
-            } <> base
-        }
+        static let standard = Button.base <> Button.bold
 
         //static func standard(color: UIColor) -> Style<UIButton> {
         //    return .init {
@@ -54,6 +38,30 @@ enum StyleBook {
         //        $0.setTitleColor(color, for: .normal)
         //    }
         //}
+
+        // MARK: Secondary Button
+
+        static let secondaryBase = Style<UIButton> {
+            //$0.titleLabel?.font = FontBook.boldButton
+            $0.layer.borderWidth = 1.0
+            $0.backgroundColor = .clear
+        }
+
+        static let secondary = Button.base <> Button.secondaryBase
+
+        static let secondaryWide = Style<UIButton> {
+            $0.contentEdgeInsets = UIEdgeInsets(horizontal: 15.0, vertical: 5.0)
+            $0.layer.cornerRadius = 5.0
+            $0.titleLabel?.adjustsFontForContentSizeCategory = true // ?
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        } <> secondaryBase
+
+        static func secondary(color: UIColor) -> Style<UIButton> {
+            return .init {
+                $0.layer.borderColor = color.cgColor
+                $0.setTitleColor(color, for: .normal)
+            } <> base <> secondaryBase
+        }
 
         // FooterViewController.buyButton
         static let x = Style<UIButton> {
