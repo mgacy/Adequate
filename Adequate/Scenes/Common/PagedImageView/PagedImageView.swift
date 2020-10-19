@@ -128,8 +128,11 @@ final class PagedImageView: UIView {
         // TODO: dataSource should verify that new URLs differ from old; use difference(from:) and .performBatchUpdates() instead of .reloadData()?
         dataSource.updateImages(with: urls)
         collectionView.reloadData()
-        collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: false)
-        currentPage = 0
+        if currentPage > 0 {
+            // FIXME: it looks on iOS 13, UICollectionView.scrollToItem(at:animated:) does not respect NSCollectionItem.contentInsets when using UICollectionViewCompositionalLayout
+            collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: false)
+            currentPage = 0
+        }
         updatePageControl()
     }
 
