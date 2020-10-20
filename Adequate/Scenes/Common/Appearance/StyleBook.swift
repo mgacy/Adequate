@@ -19,7 +19,7 @@ enum StyleBook {
 
         static let base = Style<UIButton> {
             $0.contentEdgeInsets = UIEdgeInsets(horizontal: 8.0, vertical: 6.0)
-            $0.layer.cornerRadius = 6.0
+            $0.layer.cornerRadius = 5.0
             $0.titleLabel?.adjustsFontForContentSizeCategory = true // ?
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
