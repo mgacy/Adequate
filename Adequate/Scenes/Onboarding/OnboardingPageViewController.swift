@@ -40,7 +40,6 @@ final class OnboardingPageViewController: UIPageViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        view.backgroundColor = ColorCompatibility.systemBackground
         self.dataSource = self
 
         let page1 = WelcomeViewController()
@@ -51,13 +50,8 @@ final class OnboardingPageViewController: UIPageViewController {
         self.pages.append(page2)
         setViewControllers([pages[0]], direction: .forward, animated: true, completion: nil)
 
-        // pageControl
-        let pageControlAppearance = UIPageControl.appearance(whenContainedInInstancesOf: [UIPageViewController.self])
-        let tintColor = UIButton().tintColor
-        pageControlAppearance.pageIndicatorTintColor = tintColor?.withAlphaComponent(0.5)
-        pageControlAppearance.currentPageIndicatorTintColor = tintColor
+        apply(theme: .system)
     }
-
 }
 
 // MARK: - UIPageViewControllerDataSource
@@ -96,7 +90,6 @@ extension OnboardingPageViewController: UIPageViewControllerDataSource {
             return 0
         }
     }
-
 }
 
 // MARK: - VoidDismissalDelegate
@@ -105,5 +98,18 @@ extension OnboardingPageViewController: VoidDismissalDelegate {
     func dismiss() {
         dismissalDelegate?.dismiss()
     }
+}
 
+// MARK: - Themeable
+extension OnboardingPageViewController: Themeable {
+
+    func apply(theme: ColorTheme) {
+        view.backgroundColor = theme.systemBackground
+
+        let pageControlAppearance = UIPageControl.appearance(whenContainedInInstancesOf: [UIPageViewController.self])
+        pageControlAppearance.currentPageIndicatorTintColor = theme.tint
+        pageControlAppearance.pageIndicatorTintColor = theme.tertiaryTint
+
+        pages.compactMap { $0 as? Themeable }.forEach { $0.apply(theme: theme) }
+    }
 }

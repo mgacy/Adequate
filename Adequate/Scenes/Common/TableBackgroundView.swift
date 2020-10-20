@@ -55,24 +55,18 @@ final class TableBackgroundView: UIView {
     // MARK: - Subviews
 
     private let titleLabel: UILabel = {
-        let label = UILabel()
+        let label = UILabel(style: StyleBook.Label.base <> StyleBook.Label.centered)
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.textColor = ColorCompatibility.secondaryLabel
-        label.textAlignment = .center
-        label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let messageLabel: UILabel = {
-        let label = UILabel()
+        let label = UILabel(style: StyleBook.Label.base <> StyleBook.Label.centered)
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textColor = ColorCompatibility.secondaryLabel
-        label.textAlignment = .center
-        label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 

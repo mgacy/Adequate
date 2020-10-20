@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct Lens<Whole,Part> {
-    let get: (Whole) -> Part
-    let set: (Part) -> (Whole) -> Whole
+public struct Lens<Whole,Part> {
+    public let get: (Whole) -> Part
+    public let set: (Part) -> (Whole) -> Whole
 }
 
-extension Lens {
+public extension Lens {
     func then<Subpart>(_ other: Lens<Part,Subpart>) -> Lens<Whole,Subpart> {
         return Lens<Whole,Subpart>(
             get: { other.get(self.get($0)) },

@@ -33,17 +33,7 @@ final class SettingsViewController: UITableViewController {
 
     // MARK: - Subviews
 
-    // TODO: do we need to adjust PaddingLabel insets according to view's content insets to accommodate iPads?
     // TODO: add cell with switch to enable / disable sound for notification (see Drafts.app)
-
-    private let notificationHeader: UILabel = {
-        let view = PaddingLabel(padding: UIEdgeInsets(top: 32.0, left: 16.0, bottom: 8.0, right: 16.0))
-        view.font = UIFont.preferredFont(forTextStyle: .footnote)
-        view.adjustsFontForContentSizeCategory = true
-        view.textColor = ColorCompatibility.secondaryLabel
-        view.text = L10n.notifications.uppercased()
-        return view
-    }()
 
     private lazy var notificationCell: UITableViewCell = {
         let cell = UITableViewCell()
@@ -56,15 +46,6 @@ final class SettingsViewController: UITableViewController {
 
     private let notificationSwitch: UISwitch = {
         let view = UISwitch()
-        return view
-    }()
-
-    private let appearanceHeader: UILabel = {
-        let view = PaddingLabel(padding: UIEdgeInsets(top: 24.0, left: 16.0, bottom: 8.0, right: 16.0))
-        view.font = UIFont.preferredFont(forTextStyle: .footnote)
-        view.adjustsFontForContentSizeCategory = true
-        view.textColor = ColorCompatibility.secondaryLabel
-        view.text = L10n.appearance.uppercased()
         return view
     }()
 
@@ -82,15 +63,6 @@ final class SettingsViewController: UITableViewController {
         cell.textLabel?.text = L10n.appIcon
         cell.accessoryType = .disclosureIndicator
         return cell
-    }()
-
-    private let supportHeader: UILabel = {
-        let view = PaddingLabel(padding: UIEdgeInsets(top: 24.0, left: 16.0, bottom: 8.0, right: 16.0))
-        view.font = UIFont.preferredFont(forTextStyle: .footnote)
-        view.adjustsFontForContentSizeCategory = true
-        view.textColor = ColorCompatibility.secondaryLabel
-        view.text = L10n.support.uppercased()
-        return view
     }()
 
     private lazy var webCell: UITableViewCell = {
@@ -117,16 +89,6 @@ final class SettingsViewController: UITableViewController {
         return cell
     }()
 
-    private let supportFooter: UILabel = {
-        let view = PaddingLabel()
-        view.numberOfLines = 0
-        view.font = UIFont.preferredFont(forTextStyle: .footnote)
-        view.adjustsFontForContentSizeCategory = true
-        view.textColor = ColorCompatibility.secondaryLabel
-        view.text = L10n.unofficialAppDisclaimer
-        return view
-    }()
-
     private lazy var aboutCell: UITableViewCell = {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
         cell.textLabel?.text = L10n.about
@@ -141,17 +103,10 @@ final class SettingsViewController: UITableViewController {
         return cell
     }()
 
-    private lazy var appVersionFooter: UILabel = {
-        let view = PaddingLabel()
-        view.numberOfLines = 0
-        view.font = UIFont.preferredFont(forTextStyle: .footnote)
-        view.adjustsFontForContentSizeCategory = true
-        view.textColor = ColorCompatibility.secondaryLabel
-
+    private lazy var appVersion: String = {
         let versionNumber = Bundle.main.releaseVersionNumber ?? "X"
         let buildNumber = Bundle.main.buildVersionNumber ?? "X"
-        view.text = "Adequate v\(versionNumber) (\(buildNumber))"
-        return view
+        return "Adequate v\(versionNumber) (\(buildNumber))"
     }()
 
     // MARK: - Lifecycle
@@ -386,11 +341,13 @@ extension SettingsViewController {
         default: fatalError("Unknown IndexPath in \(description): \(indexPath)")
         }
     }
-    /*
+
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-        case 0: return "Notifications"
-        case 1: return "Support"
+        case 0: return L10n.notifications.uppercased()
+        case 1: return L10n.appearance.uppercased()
+        case 2: return L10n.support.uppercased()
+        case 3: return nil
         default: fatalError("Unknown section in \(description)")
         }
     }
@@ -398,11 +355,12 @@ extension SettingsViewController {
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         switch section {
         case 0: return nil
-        case 1: return "This is an unofficial app. Please direct any issues to the developer, not to Meh."
+        case 1: return nil
+        case 2: return L10n.unofficialAppDisclaimer
+        case 3: return appVersion
         default: fatalError("Unknown section in \(description)")
         }
     }
-    */
 }
 
 // MARK: - UITableViewDelegate
@@ -456,37 +414,6 @@ extension SettingsViewController {
             return
         }
     }
-
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        switch section {
-        case 0: return notificationHeader.intrinsicContentSize.height
-        case 1: return appearanceHeader.intrinsicContentSize.height
-        case 2: return supportHeader.intrinsicContentSize.height
-        case 3: return 24.0
-        default: fatalError("Unknown section in \(description): \(section)")
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        switch section {
-        case 0: return notificationHeader
-        case 1: return appearanceHeader
-        case 2: return supportHeader
-        case 3: return nil
-        default: fatalError("Unknown section in \(description): \(section)")
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        switch section {
-        case 0: return nil
-        case 1: return nil
-        case 2: return supportFooter
-        case 3: return appVersionFooter
-        default: fatalError("Unknown section in \(description): \(section)")
-        }
-    }
-
 }
 
 // MARK: - Temporary method while testing

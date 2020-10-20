@@ -10,7 +10,7 @@ import XCTest
 import SnapshotTesting
 @testable import Adequate
 
-// NOTE: all snapshots were generated using iPad Pro (10.5-inch)
+// NOTE: all snapshots were generated using iPad Air (3rd generation)
 class DealViewControllerSnapshotTests: SnapshotTestBase {
 
     override func makeSUT() throws -> UIViewController {

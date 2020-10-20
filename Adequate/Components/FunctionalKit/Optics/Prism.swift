@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct Prism<Whole,Part> {
-    let tryGet: (Whole) -> Part?
-    let inject: (Part) -> Whole
+public struct Prism<Whole,Part> {
+    public let tryGet: (Whole) -> Part?
+    public let inject: (Part) -> Whole
 }
 
-extension Prism {
+public extension Prism {
     func then<Subpart>(_ other: Prism<Part,Subpart>) -> Prism<Whole,Subpart> {
         return Prism<Whole,Subpart>(
             tryGet: { self.tryGet($0).flatMap(other.tryGet) },

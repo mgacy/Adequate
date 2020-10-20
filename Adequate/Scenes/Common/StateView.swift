@@ -60,36 +60,23 @@ final class StateView: UIView {
     }()
 
     private lazy var activityMessageLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
-        label.font = UIFont.preferredFont(forTextStyle: .caption2)
+        let label = UILabel(style: StyleBook.Label.centered <> StyleBook.Label.secondary)
         label.text = L10n.loadingMessage
-        label.textAlignment = .center
-        label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     // TODO: UIStackView?
 
     private let messageLabel: UILabel = {
-        let label = UILabel()
+        let label = UILabel(style: StyleBook.Label.base <> StyleBook.Label.centered)
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.textAlignment = .center
-        label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let retryButton: UIButton = {
-        let button = UIButton(type: .custom)
+        let button = UIButton(style: StyleBook.Button.secondaryWide)
         button.setTitle(L10n.retry, for: .normal)
-        button.layer.cornerRadius = 5.0
-        button.layer.borderWidth = 1.0
-        button.backgroundColor = .clear
-        button.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: 15.0, bottom: 5.0, right: 15.0)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 

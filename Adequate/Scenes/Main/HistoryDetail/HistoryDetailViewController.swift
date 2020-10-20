@@ -113,7 +113,7 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
     // MARK: - View Methods
 
     override func setupView() {
-        navigationItem.leftBarButtonItem = dismissButton
+        navigationItem.rightBarButtonItem = dismissButton
         navigationController?.applyStyle(.transparent)
 
         pagedImageView.delegate = self
