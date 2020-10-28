@@ -98,13 +98,13 @@ final class ImageCell: UICollectionViewCell {
 
     // MARK: - Configuration
 
-    func configure(with image: UIImage) {
-        viewState = .result(image)
-    }
-
     func configure(with promise: Promise<UIImage>) {
         if let imageValue = promise.value {
             viewState = .result(imageValue)
+            return
+        } else if let error = promise.error {
+            log.warning("IMAGE ERROR: \(error)")
+            viewState = .error(error)
             return
         }
         viewState = .loading
