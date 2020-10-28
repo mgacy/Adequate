@@ -17,11 +17,11 @@ protocol ImageCellDelegate: AnyObject {
 
 // MARK: - Cell
 
-final class ImageCell: UICollectionViewCell {
+final class ImageCell: UICollectionViewCell, FetchingCellConfigurable {
 
     // MARK: - A
     weak var delegate: ImageCellDelegate?
-    var imageURL: URL!
+    var modelID: URL?
     private var invalidatableQueue = InvalidatableQueue()
     private(set) var viewState: ViewState<UIImage> {
         didSet {
@@ -65,6 +65,7 @@ final class ImageCell: UICollectionViewCell {
         invalidatableQueue.invalidate()
         invalidatableQueue = InvalidatableQueue()
         viewState = .empty
+        modelID = nil
     }
 
     override func layoutSubviews() {
@@ -83,7 +84,7 @@ final class ImageCell: UICollectionViewCell {
     // MARK: - Actions
 
     private func didPressRetry() {
-        guard let delegate = delegate else {
+        guard let delegate = delegate, let imageURL = modelID else {
             return
         }
         viewState = .loading
@@ -95,8 +96,10 @@ final class ImageCell: UICollectionViewCell {
                 self?.viewState = .error(error)
             })
     }
+}
 
-    // MARK: - Configuration
+// MARK: - CellConfigurable
+extension ImageCell: CellConfigurable {
 
     func configure(with promise: Promise<UIImage>) {
         if let imageValue = promise.value {
@@ -109,6 +112,7 @@ final class ImageCell: UICollectionViewCell {
         }
         viewState = .loading
         promise.then(on: invalidatableQueue, { [weak self] image in
+            // TODO: ideally, we would want to compare URL of fetched resource to modelID
             self?.viewState = .result(image)
         }).catch({ [weak self] error in
             log.warning("IMAGE ERROR: \(error)")

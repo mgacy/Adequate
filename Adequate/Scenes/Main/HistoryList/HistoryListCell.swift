@@ -164,8 +164,8 @@ final class HistoryListCell: UITableViewCell {
 
 }
 
-// MARK: - Configuration
-extension HistoryListCell {
+// MARK: - CellConfigurable
+extension HistoryListCell: CellConfigurable {
     typealias Deal = DealHistoryQuery.Data.DealHistory.Item
 
     func configure(with deal: Deal) {
@@ -179,7 +179,6 @@ extension HistoryListCell {
     }
 }
 
-// MARK: - Themeable
 extension HistoryListCell {
 
     func apply(theme: Theme) {
