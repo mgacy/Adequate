@@ -109,6 +109,7 @@
 		C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */; };
 		C98F787123C674FB00FB5391 /* ScrollablePadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98F787023C674FB00FB5391 /* ScrollablePadView.swift */; };
 		C9908F26254A04AB002948E1 /* CellConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9908F25254A04AB002948E1 /* CellConfigurable.swift */; };
+		C9908F30254B6202002948E1 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9908F2F254B6202002948E1 /* Models.swift */; };
 		C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992D1DD216D93F000B373D5 /* Optional+Ext.swift */; };
 		C995C07322A8B63600C2289F /* ParallaxBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07222A8B63600C2289F /* ParallaxBarView.swift */; };
 		C995C07522A8E01C00C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07422A8E01C00C2289F /* FileCache.swift */; };
@@ -446,6 +447,7 @@
 		C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSSNS+Promise.swift"; sourceTree = "<group>"; };
 		C98F787023C674FB00FB5391 /* ScrollablePadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollablePadView.swift; sourceTree = "<group>"; };
 		C9908F25254A04AB002948E1 /* CellConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellConfigurable.swift; sourceTree = "<group>"; };
+		C9908F2F254B6202002948E1 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		C992D1DD216D93F000B373D5 /* Optional+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Ext.swift"; sourceTree = "<group>"; };
 		C995C07222A8B63600C2289F /* ParallaxBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxBarView.swift; sourceTree = "<group>"; };
 		C995C07422A8E01C00C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
@@ -906,6 +908,7 @@
 			isa = PBXGroup;
 			children = (
 				C9908F2E254B60F5002948E1 /* Protocols */,
+				C9908F2F254B6202002948E1 /* Models.swift */,
 			);
 			path = DataSourcesKit;
 			sourceTree = "<group>";
@@ -1980,6 +1983,7 @@
 				C9093CC1222796FD00C9DA0C /* RootPageViewController.swift in Sources */,
 				C9AE54C72179270C00818F11 /* FullScreenImageViewController.swift in Sources */,
 				C9B3FAC3224479B200B8524A /* CurrentDealManager.swift in Sources */,
+				C9908F30254B6202002948E1 /* Models.swift in Sources */,
 				C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */,
 				C97AC2D823B6988C00B721AC /* BaseViewController.swift in Sources */,
 				C948257A2538D52B0009446D /* Monoid.swift in Sources */,

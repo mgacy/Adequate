@@ -96,7 +96,7 @@ final class PagedImageView: UIView {
         // collectionView
         collectionView.register(cellType: ImageCell.self)
         collectionView.delegate = self
-        collectionView.dataSource = dataSource
+        dataSource.addDataSource(toCollectionView: collectionView)
         addSubview(collectionView)
 
         // pageControl
@@ -125,15 +125,14 @@ final class PagedImageView: UIView {
     // MARK: - Images
 
     public func updateImages(with urls: [URL]) {
-        // TODO: dataSource should verify that new URLs differ from old; use difference(from:) and .performBatchUpdates() instead of .reloadData()?
-        dataSource.updateImages(with: urls)
-        collectionView.reloadData()
-        if currentPage > 0 {
-            // FIXME: it looks on iOS 13, UICollectionView.scrollToItem(at:animated:) does not respect NSCollectionItem.contentInsets when using UICollectionViewCompositionalLayout
-            collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: false)
-            currentPage = 0
+        dataSource.update(with: urls, animatingDifferences: true) { [weak self] in
+            if let currentPage = self?.currentPage, currentPage > 0 {
+                // FIXME: it looks on iOS 13, UICollectionView.scrollToItem(at:animated:) does not respect NSCollectionItem.contentInsets when using UICollectionViewCompositionalLayout
+                self?.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: false)
+                self?.currentPage = 0
+            }
+            self?.updatePageControl()
         }
-        updatePageControl()
     }
 
     public func reloadVisibleImage() {
