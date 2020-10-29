@@ -8,6 +8,8 @@
 
 import UIKit
 
+// TODO: add optional `colorTheme: ColorTheme` param to init and UITableView extension?
+
 final class TableBackgroundView: UIView {
 
     // MARK: - Properties
@@ -119,16 +121,24 @@ final class TableBackgroundView: UIView {
 
 extension UITableView {
 
+    /// Add `TableBackgroundView` as background view.
+    /// - Parameters:
+    ///   - title: The title to display in background view.
+    ///   - message: The message to display in background view.
     func setBackgroundView(title: String?, message: String?) {
         let emptyView = TableBackgroundView(title: title, message: message)
         emptyView.preservesSuperviewLayoutMargins = true
         backgroundView = emptyView
     }
 
+    /// Add `TableBackgroundView` view containing error message as background view.
+    /// - Parameter error: The error message to display.
     func setBackgroundView(error: Error) {
         setBackgroundView(title: L10n.error, message: error.localizedDescription)
     }
 
+    /// Remove background view.
+    /// - Parameter animated: Animate `backgroundView.alpha` to 0 before removing.
     func restore(animated: Bool = true) {
         if animated {
             guard let backgroundView = backgroundView else {

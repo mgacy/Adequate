@@ -13,6 +13,7 @@ public protocol CellConfigurable {
     func configure(with: ModelType)
 }
 
+// TODO: rename `AsyncCellConfigurable`?
 /// Use when a data source's model is used to fetch `ModelType`
 public protocol FetchingCellConfigurable: CellConfigurable {
     associatedtype ModelIdentifierType: Hashable
