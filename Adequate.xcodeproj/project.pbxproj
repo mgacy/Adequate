@@ -804,6 +804,7 @@
 		C94825622538D1C20009446D /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				C9908F2D254B60E4002948E1 /* DataSourcesKit */,
 				C94825632538D1D00009446D /* FunctionalKit */,
 			);
 			path = Components;
@@ -899,6 +900,23 @@
 				C9BFB2642534D27C0002EAE5 /* Icon-4@3x.png */,
 			);
 			path = AltIcons;
+			sourceTree = "<group>";
+		};
+		C9908F2D254B60E4002948E1 /* DataSourcesKit */ = {
+			isa = PBXGroup;
+			children = (
+				C9908F2E254B60F5002948E1 /* Protocols */,
+			);
+			path = DataSourcesKit;
+			sourceTree = "<group>";
+		};
+		C9908F2E254B60F5002948E1 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				C9908F25254A04AB002948E1 /* CellConfigurable.swift */,
+				C9DAC48421476A7A00D6558B /* Reusable.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		C99EF3AF22BB695500BF4410 /* AdequateUITests */ = {
@@ -1149,11 +1167,9 @@
 			children = (
 				C93BD90222B1B33800FAD8AA /* Model Protocols */,
 				C9F92263218A4EB2001C257A /* DismissalDelegate.swift */,
-				C9908F25254A04AB002948E1 /* CellConfigurable.swift */,
 				C9DAC48021476A2900D6558B /* ErrorAlertDisplayable.swift */,
 				C9DAC48221476A4000D6558B /* HasProtocols.swift */,
 				C93F79032256EBE8004B4DD6 /* LoggingType.swift */,
-				C9DAC48421476A7A00D6558B /* Reusable.swift */,
 				C9DAC48621476AA100D6558B /* Themeable.swift */,
 			);
 			path = Protocols;
