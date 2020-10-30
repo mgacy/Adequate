@@ -150,7 +150,7 @@ final class HistoryListViewController: UITableViewController {
 }
 
 // MARK: - TableViewDataSourceConfigurable
-extension HistoryListViewController: TableViewDataSourceConfigurable {
+extension HistoryListViewController: TableViewDiffableDataSourceProvider {
     typealias CellType = HistoryListCell
     typealias SectionType = SingleSection
     typealias ItemType = Deal
