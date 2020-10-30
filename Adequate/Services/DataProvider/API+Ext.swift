@@ -112,3 +112,11 @@ extension DealHistoryQuery.Data.DealHistory.Item: Equatable {
             //&& lhs.theme == rhs.theme
     }
 }
+
+// MARK: - DealHistoryQuery + Hashable
+
+extension DealHistoryQuery.Data.DealHistory.Item: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}

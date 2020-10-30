@@ -59,7 +59,6 @@
 		C94D2CED230E11C300043431 /* FontBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2CEC230E11C300043431 /* FontBook.swift */; };
 		C94D2CEF230E143700043431 /* UIFont+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2CEE230E143700043431 /* UIFont+Ext.swift */; };
 		C94D94B1253287620000328D /* Insets+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D94B0253287610000328D /* Insets+Ext.swift */; };
-		C954028B22FDFB1E00465FFD /* TableViewDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954028A22FDFB1D00465FFD /* TableViewDiff.swift */; };
 		C95B83C3218017FD0051B72B /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B83C2218017FD0051B72B /* ThemeManager.swift */; };
 		C95B83C521811DFA0051B72B /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B83C421811DFA0051B72B /* AppTheme.swift */; };
 		C95CD60D230F36FD0011585F /* TableBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95CD60C230F36FD0011585F /* TableBackgroundView.swift */; };
@@ -103,13 +102,13 @@
 		C989E11F223742C100DEAE89 /* AWSAppSyncClient+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11E223742C100DEAE89 /* AWSAppSyncClient+Promise.swift */; };
 		C989E1212237432600DEAE89 /* AWSMobileClient+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E1202237432600DEAE89 /* AWSMobileClient+Promise.swift */; };
 		C989E1232237459300DEAE89 /* SyncClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E1222237459300DEAE89 /* SyncClientError.swift */; };
-		C98B3248222DC1E6003A8669 /* HistoryListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B3247222DC1E6003A8669 /* HistoryListDataSource.swift */; };
 		C98B324A222DC1F0003A8669 /* HistoryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B3249222DC1F0003A8669 /* HistoryListCell.swift */; };
 		C98C61EC245D02B400BF1129 /* ZoomAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98C61EB245D02B400BF1129 /* ZoomAnimator.swift */; };
 		C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */; };
 		C98F787123C674FB00FB5391 /* ScrollablePadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98F787023C674FB00FB5391 /* ScrollablePadView.swift */; };
 		C9908F26254A04AB002948E1 /* CellConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9908F25254A04AB002948E1 /* CellConfigurable.swift */; };
 		C9908F30254B6202002948E1 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9908F2F254B6202002948E1 /* Models.swift */; };
+		C9908F44254B62DE002948E1 /* DiffableDataSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9908F43254B62DE002948E1 /* DiffableDataSourceProvider.swift */; };
 		C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992D1DD216D93F000B373D5 /* Optional+Ext.swift */; };
 		C995C07322A8B63600C2289F /* ParallaxBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07222A8B63600C2289F /* ParallaxBarView.swift */; };
 		C995C07522A8E01C00C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07422A8E01C00C2289F /* FileCache.swift */; };
@@ -396,7 +395,6 @@
 		C94D2CEE230E143700043431 /* UIFont+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Ext.swift"; sourceTree = "<group>"; };
 		C94D94B0253287610000328D /* Insets+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Insets+Ext.swift"; sourceTree = "<group>"; };
 		C94FACEF250889EA00C190ED /* ScreenshotsDark.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ScreenshotsDark.xctestplan; sourceTree = "<group>"; };
-		C954028A22FDFB1D00465FFD /* TableViewDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewDiff.swift; sourceTree = "<group>"; };
 		C95B83C2218017FD0051B72B /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		C95B83C421811DFA0051B72B /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		C95CD60C230F36FD0011585F /* TableBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableBackgroundView.swift; sourceTree = "<group>"; };
@@ -441,13 +439,13 @@
 		C989E11E223742C100DEAE89 /* AWSAppSyncClient+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSAppSyncClient+Promise.swift"; sourceTree = "<group>"; };
 		C989E1202237432600DEAE89 /* AWSMobileClient+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSMobileClient+Promise.swift"; sourceTree = "<group>"; };
 		C989E1222237459300DEAE89 /* SyncClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncClientError.swift; sourceTree = "<group>"; };
-		C98B3247222DC1E6003A8669 /* HistoryListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListDataSource.swift; sourceTree = "<group>"; };
 		C98B3249222DC1F0003A8669 /* HistoryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListCell.swift; sourceTree = "<group>"; };
 		C98C61EB245D02B400BF1129 /* ZoomAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomAnimator.swift; sourceTree = "<group>"; };
 		C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSSNS+Promise.swift"; sourceTree = "<group>"; };
 		C98F787023C674FB00FB5391 /* ScrollablePadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollablePadView.swift; sourceTree = "<group>"; };
 		C9908F25254A04AB002948E1 /* CellConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellConfigurable.swift; sourceTree = "<group>"; };
 		C9908F2F254B6202002948E1 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		C9908F43254B62DE002948E1 /* DiffableDataSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableDataSourceProvider.swift; sourceTree = "<group>"; };
 		C992D1DD216D93F000B373D5 /* Optional+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Ext.swift"; sourceTree = "<group>"; };
 		C995C07222A8B63600C2289F /* ParallaxBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxBarView.swift; sourceTree = "<group>"; };
 		C995C07422A8E01C00C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
@@ -916,8 +914,9 @@
 		C9908F2E254B60F5002948E1 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				C9908F25254A04AB002948E1 /* CellConfigurable.swift */,
 				C9DAC48421476A7A00D6558B /* Reusable.swift */,
+				C9908F25254A04AB002948E1 /* CellConfigurable.swift */,
+				C9908F43254B62DE002948E1 /* DiffableDataSourceProvider.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1338,9 +1337,7 @@
 			children = (
 				C9093CBA221FBD6E00C9DA0C /* HistoryListCoordinator.swift */,
 				C9E3223821C2F3AE0088AF9E /* HistoryListViewController.swift */,
-				C98B3247222DC1E6003A8669 /* HistoryListDataSource.swift */,
 				C98B3249222DC1F0003A8669 /* HistoryListCell.swift */,
-				C954028A22FDFB1D00465FFD /* TableViewDiff.swift */,
 			);
 			path = HistoryList;
 			sourceTree = "<group>";
@@ -1965,6 +1962,7 @@
 				C96B487122FA9703000A8D91 /* UIViewController+Ext.swift in Sources */,
 				C943E5B02238695C00DE0675 /* StateView.swift in Sources */,
 				C984810A24463B9D005B9B69 /* PriceFormatter.swift in Sources */,
+				C9908F44254B62DE002948E1 /* DiffableDataSourceProvider.swift in Sources */,
 				C9DA48F625282E32008A990D /* ThemeViewController.swift in Sources */,
 				C9DAC49121476B4700D6558B /* Deal.swift in Sources */,
 				C9F01F22234FE3C500A77447 /* ColorCompatibility.swift in Sources */,
@@ -2001,7 +1999,6 @@
 				C9908F26254A04AB002948E1 /* CellConfigurable.swift in Sources */,
 				C9DAC4A321476C3A00D6558B /* NetworkClient.swift in Sources */,
 				C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */,
-				C954028B22FDFB1E00465FFD /* TableViewDiff.swift in Sources */,
 				C9102F98224FF04000B06679 /* AcknowledgementsViewController.swift in Sources */,
 				C923838E22B1B483003BB1DA /* PurchaseQuantityType.swift in Sources */,
 				C9AE54D12179697F00818F11 /* ZoomInAnimator.swift in Sources */,
@@ -2054,7 +2051,6 @@
 				C9E07FD0232C32B700CA2F8E /* DebugButtonComponentView.swift in Sources */,
 				C9A0ED002453F4210051103F /* FooterViewController.swift in Sources */,
 				C9DAC4B52147872700D6558B /* Router.swift in Sources */,
-				C98B3248222DC1E6003A8669 /* HistoryListDataSource.swift in Sources */,
 				C9CDA59725217DFD0044A2A3 /* CurrentDeal.swift in Sources */,
 				C928547B216DCE44001E5993 /* AWSManager.swift in Sources */,
 				C95B83C3218017FD0051B72B /* ThemeManager.swift in Sources */,

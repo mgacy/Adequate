@@ -26,10 +26,17 @@ final class HistoryListViewController: UITableViewController {
     weak var delegate: HistoryListViewControllerDelegate?
 
     private let themeManager: ThemeManagerType
-    private let dataSource: HistoryListDataSource
+    private let dataProvider: DataProviderType
+    private lazy var dataSource = makeDataSource(for: tableView)
     private var observationTokens: [ObservationToken] = []
     private var initialSetupDone = false
     private var wasRefreshedManually = false
+
+    private var viewState: ViewState<[Deal]> = .empty {
+        didSet {
+            render(viewState)
+        }
+    }
 
     // MARK: - Subviews
 
@@ -53,7 +60,7 @@ final class HistoryListViewController: UITableViewController {
 
     init(dependencies: Dependencies) {
         self.themeManager = dependencies.themeManager
-        self.dataSource = HistoryListDataSource(dependencies: dependencies)
+        self.dataProvider = dependencies.dataProvider
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -64,8 +71,7 @@ final class HistoryListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        // TODO: refresh on viewDidLoad() or on viewWillAppear(_:)?
-        if case .empty = dataSource.state {
+        if case .empty = viewState {
             getDealHistory()
         }
     }
@@ -114,8 +120,8 @@ final class HistoryListViewController: UITableViewController {
     }
 
     private func setupObservations() -> [ObservationToken] {
-        let historyToken = dataSource.addObserver(self) { vc, state in
-            vc.render(state)
+        let historyToken = dataProvider.addHistoryObserver(self) { vc, viewState in
+            vc.viewState = viewState
         }
         let themeToken = themeManager.addObserver(self)
         return [historyToken, themeToken]
@@ -124,7 +130,7 @@ final class HistoryListViewController: UITableViewController {
     // MARK: - DataProvider
 
     private func getDealHistory() {
-        dataSource.getDealHistory()
+        dataProvider.getDealHistory()
     }
 
     // MARK: - Navigation
@@ -141,13 +147,21 @@ final class HistoryListViewController: UITableViewController {
         wasRefreshedManually = true
         getDealHistory()
     }
+}
 
+// MARK: - TableViewDataSourceConfigurable
+extension HistoryListViewController: TableViewDataSourceConfigurable {
+    typealias CellType = HistoryListCell
+    typealias SectionType = SingleSection
+    typealias ItemType = Deal
 }
 
 // MARK: - UITableViewDelegate
 extension HistoryListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let deal = dataSource.objectAtIndexPath(indexPath)
+         guard let deal = dataSource.itemIdentifier(for: indexPath) else {
+            return
+        }
         delegate?.showHistoryDetail(with: deal)
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -163,9 +177,8 @@ extension HistoryListViewController {
 
 // MARK: - ViewStateRenderable
 extension HistoryListViewController: ViewStateRenderable {
-    typealias ResultType = TableViewDiff
 
-    func render(_ viewState: ViewState<ResultType>) {
+    func render(_ viewState: ViewState<[Deal]>) {
         switch viewState {
         case .empty:
             if let refreshControl = refreshControl, refreshControl.isRefreshing {
@@ -173,6 +186,7 @@ extension HistoryListViewController: ViewStateRenderable {
             }
             // Add `lazy var backgroundView: TableBackgroundView` in order to handle AppTheme?
             tableView.setBackgroundView(title: nil, message: "There are no deals")
+            dataSource.apply(SingleSection.makeSnapshot(for: []))
         case .loading:
             if wasRefreshedManually {
                 wasRefreshedManually = false
@@ -182,33 +196,19 @@ extension HistoryListViewController: ViewStateRenderable {
                 refreshControl.beginRefreshing()
             }
             tableView.restore()
-        case .result(let diff):
+        case .result(let deals):
             if let refreshControl = refreshControl, refreshControl.isRefreshing {
                 refreshControl.endRefreshing()
             } else {
                 // Handle transition from .error / .empty -> .result
                 tableView.restore(animated: false)
             }
-
-            // There is no need to perform updates when `render(_:)` is called on `addObserver(_:closure:)`
-            if !initialSetupDone {
-                initialSetupDone = true
-                return
-            }
-
-            // FIXME: handle situation where there is no diff
-            // Should diff be optional, or should we just skip batch updates if both `.deletedIndexPaths` and `.insertedIndexPaths` are empty?
-
-            // TODO: ensure tableView.backgroundView == nil? Assumption is that .loading always precedes .result
-            tableView.performBatchUpdates({
-                tableView.deleteRows(at: diff.deletedIndexPaths, with: .fade)
-                tableView.insertRows(at: diff.insertedIndexPaths, with: .automatic)
-            })
+            dataSource.apply(SingleSection.makeSnapshot(for: deals))
         case .error(let error):
             if let refreshControl = refreshControl, refreshControl.isRefreshing {
                 refreshControl.endRefreshing()
             }
-            if dataSource.isEmpty {
+            if tableView.visibleCells.isEmpty {
                 tableView.setBackgroundView(error: error)
             } else {
                 // TODO: show less obtrusive error view?
