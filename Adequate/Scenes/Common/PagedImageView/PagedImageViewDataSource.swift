@@ -24,9 +24,15 @@ final class PagedImageViewDataSource: NSObject, PagedImageViewDataSourceType {
     private let imageService: ImageServiceType
 
     private var theme: ColorTheme?
+    // TODO: should we just initialize with UICollectionView and make this implicitly unwrapped?
     private var dataSource: UICollectionViewDiffableDataSource<SingleSection, URL>?
 
     // MARK: - Lifecycle
+
+    convenience init(imageService: ImageServiceType, collectionView: UICollectionView) {
+        self.init(imageService: imageService)
+        addDataSource(toCollectionView: collectionView)
+    }
 
     init(imageService: ImageServiceType) {
         self.imageService = imageService
