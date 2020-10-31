@@ -8,10 +8,11 @@
 
 import UIKit
 
+// MARK: - Properties
 extension UIView {
 
     /// The height of the frame minus the top and bottom directional layout margins.
-    var contentHeight: CGFloat {
+    public var contentHeight: CGFloat {
         guard frame.height > 0.0 else {
             return 0.0
         }
@@ -19,7 +20,7 @@ extension UIView {
     }
 
     /// The width of the frame minus the leading and trailing directional layout margins.
-    var contentWidth: CGFloat {
+    public var contentWidth: CGFloat {
         guard frame.width > 0.0 else {
             return 0.0
         }
