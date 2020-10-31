@@ -30,6 +30,7 @@
 		C9116E562161781F0084934B /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E552161781F0084934B /* Appearance.swift */; };
 		C911E268246D1E100056C84A /* RefreshManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C911E267246D1E100056C84A /* RefreshManager.swift */; };
 		C913919822CD91F2006C2E19 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C913919722CD91F2006C2E19 /* UILabel+Ext.swift */; };
+		C91F856D254D1268005192D4 /* ParallaxTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91F856C254D1268005192D4 /* ParallaxTitleView.swift */; };
 		C9221565225453920001FF3F /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9221564225453920001FF3F /* DimmingPresentationController.swift */; };
 		C92215672254632D0001FF3F /* SlideAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92215662254632D0001FF3F /* SlideAnimationController.swift */; };
 		C923838A22B1B427003BB1DA /* ItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C923838922B1B427003BB1DA /* ItemType.swift */; };
@@ -366,6 +367,7 @@
 		C9116E552161781F0084934B /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		C911E267246D1E100056C84A /* RefreshManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshManager.swift; sourceTree = "<group>"; };
 		C913919722CD91F2006C2E19 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
+		C91F856C254D1268005192D4 /* ParallaxTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxTitleView.swift; sourceTree = "<group>"; };
 		C9221564225453920001FF3F /* DimmingPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
 		C92215662254632D0001FF3F /* SlideAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideAnimationController.swift; sourceTree = "<group>"; };
 		C923838922B1B427003BB1DA /* ItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemType.swift; sourceTree = "<group>"; };
@@ -1240,6 +1242,7 @@
 				C95CD61C230FB46C0011585F /* DealContentView.swift */,
 				C995C07222A8B63600C2289F /* ParallaxBarView.swift */,
 				C9B90D0222837D140070ADE9 /* ParallaxScrollView.swift */,
+				C91F856C254D1268005192D4 /* ParallaxTitleView.swift */,
 				C95CD60C230F36FD0011585F /* TableBackgroundView.swift */,
 			);
 			path = Common;
@@ -2012,6 +2015,7 @@
 				C9C914612458C7BF0006190C /* FullScreenImagePresenting.swift in Sources */,
 				C94D94B1253287620000328D /* Insets+Ext.swift in Sources */,
 				C9C0C0B923063D230011EFB4 /* MDStyler.swift in Sources */,
+				C91F856D254D1268005192D4 /* ParallaxTitleView.swift in Sources */,
 				C9C0C0CA230730E30011EFB4 /* MDStylerConfiguration.swift in Sources */,
 				C9F92266218A88D0001C257A /* UserDefaultsManager.swift in Sources */,
 				C96CA86A2182DB2500C3459E /* OnboardingCoordinator.swift in Sources */,
