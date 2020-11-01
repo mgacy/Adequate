@@ -123,7 +123,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         navigationItem.titleView = titleView
         navigationItem.leftBarButtonItem = historyButton
         navigationItem.rightBarButtonItems = [storyButton, shareButton]
-        navigationController?.applyStyle(.transparent)
+        StyleBook.NavigationItem.transparent.apply(to: navigationItem)
 
         // TODO: move to `setupSubViews()`?
         pagedImageView.delegate = self

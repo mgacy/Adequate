@@ -134,7 +134,7 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
 
         navigationItem.titleView = titleView
         navigationItem.rightBarButtonItem = dismissButton
-        navigationController?.applyStyle(.transparent)
+        StyleBook.NavigationItem.transparent.apply(to: navigationItem)
         pagedImageView.delegate = self
 
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)

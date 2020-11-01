@@ -125,7 +125,7 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
     override func setupView() {
         navigationItem.titleView = titleView
         navigationItem.rightBarButtonItem = dismissButton
-        navigationController?.applyStyle(.transparent)
+        StyleBook.NavigationItem.transparent.apply(to: navigationItem)
 
         pagedImageView.delegate = self
 

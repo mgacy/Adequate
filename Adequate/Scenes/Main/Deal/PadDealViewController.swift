@@ -134,7 +134,8 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
         navigationItem.titleView = titleView
         navigationItem.leftBarButtonItem = historyButton
         navigationItem.rightBarButtonItems = [storyButton, shareButton]
-        navigationController?.applyStyle(.transparent)
+        StyleBook.NavigationItem.transparent.apply(to: navigationItem)
+
         pagedImageView.delegate = self
 
         // TODO: set closure on DealContentView instead?

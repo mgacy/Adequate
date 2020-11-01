@@ -111,6 +111,34 @@ enum StyleBook {
         } <> base
     }
 
+    // MARK: - UINavigationItem
+    enum NavigationItem {
+
+        static let opaque = Style<UINavigationItem> {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            $0.standardAppearance = appearance
+            $0.scrollEdgeAppearance = appearance
+            $0.compactAppearance = appearance
+        }
+
+        static let translucent = Style<UINavigationItem> {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithDefaultBackground()
+            $0.standardAppearance = appearance
+            $0.scrollEdgeAppearance = appearance
+            $0.compactAppearance = appearance
+        }
+
+        static let transparent = Style<UINavigationItem> {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithTransparentBackground()
+            $0.standardAppearance = appearance
+            $0.scrollEdgeAppearance = appearance
+            $0.compactAppearance = appearance
+        }
+    }
+
     // MARK: - UIStackView
     enum StackView {
 
