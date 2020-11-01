@@ -52,15 +52,25 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
 
     // Navigation Bar
 
+    private lazy var titleView: ParallaxTitleView = {
+        let view = ParallaxTitleView(frame: CGRect(x: 0, y: 0, width: 800, height: 60))
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return view
+    }()
+
     private lazy var dismissButton: UIBarButtonItem = {
         UIBarButtonItem(image: #imageLiteral(resourceName: "CloseNavBar"), style: .plain, target: self, action: #selector(didPressDismiss(_:)))
     }()
 
     // ScrollView
 
-    private let barBackingView: ParallaxBarView = {
+    private lazy var barBackingView: ParallaxBarView = {
         let view = ParallaxBarView()
-        view.rightLabelInset = AppTheme.sideMargin
+        view.additionalOffset = 8.0 // DealContentView.layoutMargins.top
+        view.progressHandler = { [weak self] progress in
+            self?.titleView.progress = progress
+            self?.rootView.contentView.titleLabel.alpha = 1 - progress
+        }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -113,6 +123,7 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
     // MARK: - View Methods
 
     override func setupView() {
+        navigationItem.titleView = titleView
         navigationItem.rightBarButtonItem = dismissButton
         navigationController?.applyStyle(.transparent)
 
@@ -128,15 +139,9 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
     }
 
     private func setupParallaxScrollView() {
-
-        // barBackingView
-        if #available(iOS 13, *) {
-            // ...
-        } else {
-            let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
-            barBackingView.coordinateOffset = 8.0
-            barBackingView.inset = statusBarHeight
-        }
+        //if let navBar = navigationController?.navigationBar {
+        //    barBackingView.coordinateOffset = navBar.convert(navBar.bounds, to: rootView.scrollView).minY
+        //}
 
         rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
             barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
@@ -255,7 +260,7 @@ extension HistoryDetailViewController: ViewStateRenderable {
         case .result(let deal):
             //stateView.render(viewState)
             //stateView.isHidden = true
-            barBackingView.text = deal.title
+            titleView.text = deal.title
             rootView.contentView.title = deal.title
             rootView.contentView.features = deal.features
             rootView.contentView.commentCount = deal.topic?.commentCount
@@ -303,6 +308,7 @@ extension HistoryDetailViewController: Themeable {
         //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
 
         // Subviews
+        titleView.apply(theme: theme)
         rootView.apply(theme: theme)
         pagedImageView.apply(theme: theme)
         barBackingView.apply(theme: theme)

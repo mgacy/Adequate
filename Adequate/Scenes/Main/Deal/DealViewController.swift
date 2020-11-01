@@ -43,6 +43,12 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
 
     // Navigation Bar
 
+    private lazy var titleView: ParallaxTitleView = {
+        let view = ParallaxTitleView(frame: CGRect(x: 0, y: 0, width: 800, height: 60))
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return view
+    }()
+
     private lazy var historyButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "HistoryNavBar"), style: .plain, target: self, action: #selector(didPressHistory(_:)))
         button.accessibilityLabel = L10n.Accessibility.historyButton
@@ -65,8 +71,13 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
 
     // ScrollView
 
-    private let barBackingView: ParallaxBarView = {
+    private lazy var barBackingView: ParallaxBarView = {
         let view = ParallaxBarView()
+        view.additionalOffset = 8.0 // DealContentView.layoutMargins.top
+        view.progressHandler = { [weak self] progress in
+            self?.titleView.progress = progress
+            self?.rootView.contentView.titleLabel.alpha = 1 - progress
+        }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -109,6 +120,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
     // MARK: - View Methods
 
     override func setupView() {
+        navigationItem.titleView = titleView
         navigationItem.leftBarButtonItem = historyButton
         navigationItem.rightBarButtonItems = [storyButton, shareButton]
         navigationController?.applyStyle(.transparent)
@@ -131,13 +143,9 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
     }
 
     func setupParallaxScrollView() {
-
-        // barBackingView
-        // FIXME: see https://stackoverflow.com/a/57023907/4472195
-        //let statusBarHeight: CGFloat =  view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
-        let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
-        barBackingView.coordinateOffset = 8.0
-        barBackingView.inset = statusBarHeight
+        if let navBar = navigationController?.navigationBar {
+            barBackingView.coordinateOffset = navBar.convert(navBar.bounds, to: rootView.scrollView).minY
+        }
 
         rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
             barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
@@ -341,7 +349,7 @@ extension DealViewController: ViewStateRenderable {
         case .result(let deal):
             shareButton.isEnabled = true
             storyButton.isEnabled = true
-            barBackingView.text = deal.title
+            titleView.text = deal.title
             rootView.contentView.title = deal.title
             rootView.contentView.features = deal.features
             rootView.contentView.commentCount = deal.topic?.commentCount
@@ -390,6 +398,7 @@ extension DealViewController: Themeable {
         //setNeedsStatusBarAppearanceUpdate()
 
         // Subviews
+        titleView.apply(theme: theme)
         rootView.apply(theme: theme)
         pagedImageView.apply(theme: theme)
         barBackingView.apply(theme: theme)
