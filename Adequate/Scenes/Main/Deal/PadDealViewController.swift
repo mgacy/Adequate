@@ -403,10 +403,9 @@ extension PadDealViewController {
         super.viewLayoutMarginsDidChange()
         // FIXME: get values for margins from a central source; move into a type?
         let bottomLayoutMargin: CGFloat = view.safeAreaInsets.bottom > 8.0 ? 0.0 : 8.0
-        footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0,
-                                                left: view.layoutMargins.left,
-                                                bottom: bottomLayoutMargin,
-                                                right: view.layoutMargins.right)
+        footerViewController.view.layoutMargins = UIEdgeInsets(
+            top: 8.0, left: view.layoutMargins.left,
+            bottom: bottomLayoutMargin, right: view.layoutMargins.right)
     }
 }
 
