@@ -58,6 +58,12 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
 
     // Navigation Bar
 
+    private lazy var titleView: ParallaxTitleView = {
+        let view = ParallaxTitleView(frame: CGRect(x: 0, y: 0, width: 800, height: 60))
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return view
+    }()
+
     private lazy var dismissButton: UIBarButtonItem = {
         UIBarButtonItem(image: #imageLiteral(resourceName: "CloseNavBar"), style: .plain, target: self, action: #selector(didPressDismiss(_:)))
     }()
@@ -66,7 +72,11 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
 
     private lazy var barBackingView: ParallaxBarView = {
         let view = ParallaxBarView()
-        view.rightLabelInset = 56.0
+        view.additionalOffset = 8.0 // DealContentView.layoutMargins.top
+        view.progressHandler = { [weak self] progress in
+            self?.titleView.progress = progress
+            self?.rootView.contentView.titleLabel.alpha = 1 - progress
+        }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -95,12 +105,6 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
         fatalError("init(coder:) has not been implemented")
     }
 
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        //setupView()
-//        getDeal(withID: dealFragment.id)
-//    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Ensure correct navigation bar style after aborted dismissal
@@ -115,6 +119,8 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
         // Dispose of any resources that can be recreated.
     }
 
+    //deinit { print("\(#function) - \(String(describing: self))") }
+
     // MARK: - View Methods
 
     private func setupSubviews() {
@@ -126,20 +132,17 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
     override func setupView() {
         setupSubviews()
 
+        navigationItem.titleView = titleView
         navigationItem.rightBarButtonItem = dismissButton
-        navigationController?.applyStyle(.transparent)
+        StyleBook.NavigationItem.transparent.apply(to: navigationItem)
         pagedImageView.delegate = self
 
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
 
         // barBackingView
-        if #available(iOS 13, *) {
-            // ...
-        } else {
-            let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
-            barBackingView.coordinateOffset = 8.0
-            barBackingView.inset = statusBarHeight
-        }
+        //if let navBar = navigationController?.navigationBar {
+        //    barBackingView.coordinateOffset = navBar.convert(navBar.bounds, to: rootView.scrollView).minY
+        //}
 
         // scrollView
         rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
@@ -265,9 +268,6 @@ extension PadHistoryDetailViewController {
         pagedImageView.removeFromSuperview()
         rootView.scrollView.headerView = pagedImageView
 
-        // TODO: clarify meaning of this magic constant
-        barBackingView.leftLabelInset = 56.0
-
         // activate constraints
         rootView.activateCompactConstraints()
     }
@@ -279,8 +279,6 @@ extension PadHistoryDetailViewController {
         // Move pagedImageView
         rootView.scrollView.removeHeaderView()
         rootView.insertSubview(pagedImageView, belowSubview: rootView.scrollView)
-
-        barBackingView.leftLabelInset = AppTheme.sideMargin
 
         // reset scrollView
         rootView.scrollView.headerHeight = 0
@@ -298,15 +296,10 @@ extension PadHistoryDetailViewController {
             switch traitCollection.horizontalSizeClass {
             case .compact:
                 rootView.scrollView.headerView = pagedImageView
-
-                // TODO: clarify meaning of this magic constant
-                barBackingView.leftLabelInset = 56.0
-
                 rootView.activateCompactConstraints()
             case .regular:
                 rootView.activateRegularConstraints()
                 rootView.insertSubview(pagedImageView, belowSubview: rootView.scrollView)
-                barBackingView.leftLabelInset = AppTheme.sideMargin
                 NSLayoutConstraint.activate(sharedRegularConstraints)
             default:
                 log.error("Unexpected horizontalSizeClass: \(traitCollection.horizontalSizeClass)")
@@ -380,7 +373,7 @@ extension PadHistoryDetailViewController: ViewStateRenderable {
             rootView.scrollView.isHidden = true
         case .result(let deal):
             // Update UI
-            barBackingView.text = deal.title
+            titleView.text = deal.title
             rootView.contentView.title = deal.title
             rootView.contentView.features = deal.features
             rootView.contentView.commentCount = deal.topic?.commentCount
@@ -438,6 +431,7 @@ extension PadHistoryDetailViewController: Themeable {
         //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
 
         // Subviews
+        titleView.apply(theme: theme)
         rootView.apply(theme: theme)
         pagedImageView.apply(theme: theme)
         barBackingView.apply(theme: theme)

@@ -10,83 +10,37 @@ import UIKit
 
 final class ParallaxBarView: UIView {
 
-    /// Difference between coordinate system of this view and that of the scroll view.
+    var progressHandler: ((CGFloat) -> Void)?
+
+    /// Difference between the vertical component of the scroll view's coordinate system
+    /// and that of the navigation bar. It is expected that this view and the scroll view
+    /// will have the same coordinate system (at least with respect to the vertical dimension).
     var coordinateOffset: CGFloat = 0.0
 
-    // TODO: replace separate insets with `titleEdgeInsets`?
-
-    /// Space above the 'title bar' (occupied by the status bar).
-    var inset: CGFloat = 0.0
-
-    /// Left inset for title label.
-    // TODO: use enum with cases for number of bar button items?
-    var leftLabelInset: CGFloat = 56.0 {
-        didSet {
-            titleLeftConstraint.constant = leftLabelInset
-        }
-    }
-
-    /// Right inset for title label
-    var rightLabelInset: CGFloat = 110.0 {
-        didSet {
-            titleRightConstraint.constant = -rightLabelInset
-        }
-    }
-
-    var text: String = "" {
-        didSet {
-            titleLabel.text = text
-        }
-    }
-
-    var textColor: UIColor = .black {
-        didSet {
-            titleLabel.textColor = textColor
-        }
-    }
-
-    var font: UIFont = .systemFont(ofSize: 17.0, weight: .semibold) {
-        didSet {
-            titleLabel.font = font
-        }
-    }
+    /// Additional offset to apply.
+    var additionalOffset: CGFloat = 0.0
 
     private(set) var progress: CGFloat = 0.0 {
         didSet {
             guard progress != oldValue else {
                 return
             }
-            updateLabel(for: progress)
             updateAlpha(for: progress)
+            progressHandler?(progress)
         }
     }
 
+    private var coveringHeightConstraint: NSLayoutConstraint!
+
     // MARK: - Subviews
 
-    // TODO: make lazy?
-    private var titleTopConstraint: NSLayoutConstraint!
-    private var titleLeftConstraint: NSLayoutConstraint!
-    private var titleRightConstraint: NSLayoutConstraint!
-    private var backgroundHeightConstraint: NSLayoutConstraint!
-
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
-        label.font = font
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let backgroundView: UIView = {
+    private let coveringView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     // MARK: - Lifecycle
-
-    // TODO: init(leftBarItems: Int, rightBarItems: Int) { ... }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -97,31 +51,22 @@ final class ParallaxBarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    //deinit { print("\(#function) - \(String(describing: self))") }
+
     private func configure() {
         clipsToBounds = true
-        addSubview(backgroundView)
-        addSubview(titleLabel)
+        addSubview(coveringView)
         isUserInteractionEnabled = false
         configureConstraints()
     }
 
     private func configureConstraints() {
-        backgroundHeightConstraint = backgroundView.heightAnchor.constraint(equalToConstant: 0.0)
-        titleTopConstraint = titleLabel.topAnchor.constraint(equalTo: bottomAnchor, constant: 0.0)
-        // FIXME: use layoutMarginsGuide
-        titleLeftConstraint = titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leftLabelInset)
-        titleRightConstraint = titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -rightLabelInset)
-
+        coveringHeightConstraint = coveringView.heightAnchor.constraint(equalToConstant: 0.0)
         NSLayoutConstraint.activate([
-            // backgroundView
-            backgroundHeightConstraint,
-            backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            // titleLabel
-            titleTopConstraint,
-            titleLeftConstraint,
-            titleRightConstraint
+            coveringHeightConstraint,
+            coveringView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            coveringView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            coveringView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
 
@@ -131,38 +76,28 @@ final class ParallaxBarView: UIView {
     ///
     /// - Parameter yOffset: y value of scrollview `contentOffset`
     func updateProgress(yOffset: CGFloat) {
-        let relativeHeight = -yOffset + coordinateOffset
-        if relativeHeight >= frame.height {
-            backgroundHeightConstraint.constant = 0
+        let relativeHeight = -yOffset + additionalOffset
+        if relativeHeight >= bounds.height {
+            coveringHeightConstraint.constant = 0
             progress = 0.0
-        } else if relativeHeight <= inset {
-            backgroundHeightConstraint.constant = frame.height
+        } else if relativeHeight <= coordinateOffset {
+            coveringHeightConstraint.constant = frame.height
             progress = 1.0
         } else {
             // calculate progress
-            guard frame.height > 0 else {
-                backgroundHeightConstraint.constant = 0
+            guard bounds.height > 0 else {
+                coveringHeightConstraint.constant = 0
                 progress = 0.0
                 return
             }
-            let distance = frame.height - relativeHeight
-            backgroundHeightConstraint.constant = distance
-            progress = distance / (frame.height - inset)
+            // Calculate distance from top of scroll view's content to bottom of navigation bar
+            let distance = bounds.height - relativeHeight
+            coveringHeightConstraint.constant = distance
+            progress = distance / (bounds.height - coordinateOffset)
         }
     }
 
     // MARK: - Helper Methods
-
-    private func updateLabel(for progress: CGFloat) {
-        let labelHeight = titleLabel.intrinsicContentSize.height
-
-        /// space between bottom of label and bottom of view in final position
-        let bottomPadding = (frame.height - labelHeight - inset) * 0.5
-        /// space between top of label  and bottom of view in final position
-        let yOffset = bottomPadding + labelHeight
-
-        titleTopConstraint.constant = -(progress * yOffset)
-    }
 
     private func updateAlpha(for progress: CGFloat) {
         let bgColor = (backgroundColor ?? .red).withAlphaComponent(progress)
@@ -173,10 +108,7 @@ final class ParallaxBarView: UIView {
 // MARK: - Themeable
 extension ParallaxBarView: Themeable {
     func apply(theme: ColorTheme) {
-        // backgroundColor
         backgroundColor = theme.systemBackground.withAlphaComponent(progress)
-        backgroundView.backgroundColor = theme.systemBackground
-        // foreground
-        titleLabel.textColor = theme.label
+        coveringView.backgroundColor = theme.systemBackground
     }
 }

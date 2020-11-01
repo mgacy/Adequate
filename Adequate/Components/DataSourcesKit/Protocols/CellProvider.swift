@@ -15,4 +15,4 @@ public protocol CellFactory {
     func cell(for model: CellType.ModelType, in view: ViewType, at indexPath: IndexPath) -> CellType
 }
 
-// TODO: add ` AsyncCellFactory: CellFactory` with alternate method for cells using asynchronously configured cells
+// TODO: add `AsyncCellFactory: CellFactory` with alternate method for cells using asynchronously configured cells

@@ -7,7 +7,7 @@
 import UIKit
 
 // TODO: consider removing restriction to `UIView`
-public struct Style<T: UIView> {
+public struct Style<T> {
     private let callback: (T) -> Void
 
     public init(_ callback: @escaping (T) -> Void) {
