@@ -54,8 +54,6 @@ class ParallaxTitleView: UIView {
         label.text = text
         label.textColor = textColor
         label.font = font
-        //label.isHidden = true
-        //label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -117,7 +115,7 @@ class ParallaxTitleView: UIView {
     }
 }
 
-/*
+// MARK: - UITraitEnvironment
 extension ParallaxTitleView {
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -127,13 +125,12 @@ extension ParallaxTitleView {
         }
     }
 
-    private func configureView(for traitCollection: UITraitCollection) {
+    func configureView(for traitCollection: UITraitCollection) {
         let contentSize = traitCollection.preferredContentSizeCategory
         font = .systemFont(ofSize: contentSize.navigationBarFontSize, weight: .semibold)
-        //updateLabel(for: progress)
     }
 }
-*/
+
 // MARK: - Themeable
 extension ParallaxTitleView: Themeable {
     func apply(theme: ColorTheme) {
