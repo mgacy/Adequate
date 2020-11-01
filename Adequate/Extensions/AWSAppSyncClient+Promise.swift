@@ -29,7 +29,7 @@ extension AWSAppSyncClient {
             self.fetch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
                 if let error = error {
                     // TODO: should I wrap in SyncClientError here or higher up?
-                    reject(SyncClientError.network(error: error))
+                    reject(SyncClientError.wrap(error))
                 } else if let result = result {
                     if let data = result.data {
                         fulfill(data)
@@ -57,7 +57,7 @@ extension AWSAppSyncClient {
         return Promise<Mutation.Data> { fulfill, reject in
             self.perform(mutation: mutation, queue: queue, optimisticUpdate: nil, conflictResolutionBlock: nil) { result, error in
                 if let error = error {
-                    reject(SyncClientError.network(error: error))
+                    reject(SyncClientError.wrap(error))
                 } else if let result = result {
                     if let errors = result.errors {
                         // TODO: should we reject if there are errors but possibly also data?

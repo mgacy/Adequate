@@ -10,6 +10,7 @@ import AWSAppSync
 
 public enum SyncClientError: Error {
     case network(error: Error) // Capture any underlying Error
+    case authentication(error: Error)
     case graphQL(errors: [Error])
     case missingData(data: GraphQLSelectionSet) // TODO: rename `noData`
     case missingClient
@@ -31,18 +32,20 @@ extension SyncClientError {
             // to show users.
              */
             switch appSyncError {
-            case .requestFailed(_, _, let error):
+            case .requestFailed(_, _, let underlyingError):
                 // TODO: look at response / data
-                log.error("\(#function) - AWSAppSyncClientError.appSyncError: \(error?.localizedDescription ?? "No Error") ")
+                log.error("\(#function) - AWSAppSyncClientError.appSyncError: \(underlyingError?.localizedDescription ?? "No Error") ")
             case .noData(let response):
                 log.error("\(#function) - AWSAppSyncClientError.noData: \(response) ")
-            case .parseError(_, _, let error):
-                log.error("\(#function) - AWSAppSyncClientError.parseError: \(error?.localizedDescription ?? "No Error") ")
-            case .authenticationError(let error):
-                log.error("\(#function) - AWSAppSyncClientError.authenticationError: \(error.localizedDescription) ")
+            case .parseError(_, _, let underlyingError):
+                log.error("\(#function) - AWSAppSyncClientError.parseError: \(underlyingError?.localizedDescription ?? "No Error") ")
+            case .authenticationError(let underlyingError):
+                log.error("\(#function) - AWSAppSyncClientError.authenticationError: \(underlyingError.localizedDescription) ")
+                return .authentication(error: underlyingError)
             }
             return .network(error: appSyncError)
         } else {
+            // TODO: would this be unknown or just .network?
             return .unknown(error: error)
         }
     }
@@ -54,6 +57,8 @@ extension SyncClientError: LocalizedError {
         switch self {
         case .network(let error):
             return "Network Error: \(error.localizedDescription)"
+        case .authentication(let error):
+            return "Authentication Error: \(error.localizedDescription)"
         case .graphQL(let errors):
             return errors.map { $0.localizedDescription }.joined(separator: "\n")
         case .missingData(let data):
