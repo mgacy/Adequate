@@ -96,6 +96,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Background App Refresh
 
+    // FIXME: remove
+    // see https://developer.apple.com/forums/thread/130138 about this method being called if `content-availble: 1`
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        log.error("****\(#function) was called for some reason")
+        completionHandler(.newData)
+    }
+
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // Called for silent notifications.
         // FIXME: this can be called a second time when user presses notification
