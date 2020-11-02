@@ -46,13 +46,13 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
     // MARK: - Subviews
 
     private lazy var stateView: StateView = {
-        let view = StateView()
+        let view = StateView(frame: UIScreen.main.bounds)
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.onRetry = { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.getDeal(withID: strongSelf.dealFragment.id)
         }
         view.preservesSuperviewLayoutMargins = true
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
@@ -157,12 +157,6 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
 
         // Shared
         NSLayoutConstraint.activate([
-            // stateView
-            stateView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            stateView.topAnchor.constraint(equalTo: guide.topAnchor),
-            stateView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            stateView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
-            // barBackingView
             barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
             barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor),

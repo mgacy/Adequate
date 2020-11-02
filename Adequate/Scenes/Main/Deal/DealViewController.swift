@@ -31,13 +31,13 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
     // MARK: - Subviews
 
     private lazy var stateView: StateView = {
-        let view = StateView()
+        let view = StateView(frame: UIScreen.main.bounds)
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.onRetry = { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.getDeal()
         }
         view.preservesSuperviewLayoutMargins = true
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
@@ -155,11 +155,6 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
     func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            // stateView
-            stateView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            stateView.topAnchor.constraint(equalTo: guide.topAnchor),
-            stateView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            stateView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
             // footerViewController
             footerViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             footerViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
