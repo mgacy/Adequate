@@ -199,7 +199,7 @@
 		C9DAC475214768C600D6558B /* AppDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC474214768C600D6558B /* AppDependency.swift */; };
 		C9DAC477214768CF00D6558B /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC476214768CF00D6558B /* AppCoordinator.swift */; };
 		C9DAC48121476A2900D6558B /* ErrorAlertDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC48021476A2900D6558B /* ErrorAlertDisplayable.swift */; };
-		C9DAC48321476A4000D6558B /* HasProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC48221476A4000D6558B /* HasProtocols.swift */; };
+		C9DAC48321476A4000D6558B /* DependencyProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC48221476A4000D6558B /* DependencyProtocols.swift */; };
 		C9DAC48521476A7A00D6558B /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC48421476A7A00D6558B /* Reusable.swift */; };
 		C9DAC48721476AA100D6558B /* Themeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC48621476AA100D6558B /* Themeable.swift */; };
 		C9DAC48921476AC300D6558B /* DateFormatter+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC48821476AC300D6558B /* DateFormatter+Ext.swift */; };
@@ -540,7 +540,7 @@
 		C9DAC474214768C600D6558B /* AppDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependency.swift; sourceTree = "<group>"; };
 		C9DAC476214768CF00D6558B /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		C9DAC48021476A2900D6558B /* ErrorAlertDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlertDisplayable.swift; sourceTree = "<group>"; };
-		C9DAC48221476A4000D6558B /* HasProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasProtocols.swift; sourceTree = "<group>"; };
+		C9DAC48221476A4000D6558B /* DependencyProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyProtocols.swift; sourceTree = "<group>"; };
 		C9DAC48421476A7A00D6558B /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		C9DAC48621476AA100D6558B /* Themeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themeable.swift; sourceTree = "<group>"; };
 		C9DAC48821476AC300D6558B /* DateFormatter+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Ext.swift"; sourceTree = "<group>"; };
@@ -1175,7 +1175,7 @@
 				C93BD90222B1B33800FAD8AA /* Model Protocols */,
 				C9F92263218A4EB2001C257A /* DismissalDelegate.swift */,
 				C9DAC48021476A2900D6558B /* ErrorAlertDisplayable.swift */,
-				C9DAC48221476A4000D6558B /* HasProtocols.swift */,
+				C9DAC48221476A4000D6558B /* DependencyProtocols.swift */,
 				C93F79032256EBE8004B4DD6 /* LoggingType.swift */,
 				C9DAC48621476AA100D6558B /* Themeable.swift */,
 			);
@@ -2082,7 +2082,7 @@
 				C9DAC48D21476AF600D6558B /* UIColor+Ext.swift in Sources */,
 				C95CD616230FB0E60011585F /* DeepLink.swift in Sources */,
 				C9BFB274253566E60002EAE5 /* Style.swift in Sources */,
-				C9DAC48321476A4000D6558B /* HasProtocols.swift in Sources */,
+				C9DAC48321476A4000D6558B /* DependencyProtocols.swift in Sources */,
 				C93CBEDA2320C8C70033DCD0 /* DebugCoordinator.swift in Sources */,
 				C937EFE922DFFF1400C363C8 /* Optional+Prism.swift in Sources */,
 				C9AE54D32179733E00818F11 /* ZoomOutAnimator.swift in Sources */,

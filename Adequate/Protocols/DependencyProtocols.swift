@@ -1,5 +1,5 @@
 //
-//  HasProtocols.swift
+//  DependencyProtocols.swift
 //  Adequate
 //
 //  Created by Mathew Gacy on 9/10/18.
@@ -7,6 +7,8 @@
 //
 
 import Foundation
+
+// MARK: - HasDependency Protocols
 
 protocol HasImageService {
     var imageService: ImageServiceType { get }
