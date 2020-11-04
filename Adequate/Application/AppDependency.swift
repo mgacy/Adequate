@@ -9,12 +9,9 @@
 import AWSAppSync
 import AWSMobileClient
 
-class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, HasThemeManager, HasUserDefaultsManager {
+class AppDependency: HasDataProvider, HasImageService, HasThemeManager, HasUserDefaultsManager {
     let dataProvider: DataProviderType
     let imageService: ImageServiceType
-    // TODO: should we always carry this, or provide factory method so callers can create / destroy as needed?
-    //func makeNotificationManager() -> NotificationManagerType {}
-    let notificationManager: NotificationManagerType
     let themeManager: ThemeManagerType
     let userDefaultsManager: UserDefaultsManagerType
 
@@ -30,14 +27,6 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
 
         let userDefaultsManager = UserDefaultsManager(defaults: .standard)
         self.userDefaultsManager = userDefaultsManager
-
-        // Notifications
-        self.notificationManager = NotificationManager()
-        if userDefaultsManager.showNotifications {
-            notificationManager.registerForPushNotifications().catch({ error in
-                log.error("Unable to register for push notifications: \(error)")
-            })
-        }
 
         let theme = AppTheme(interfaceStyle: userDefaultsManager.interfaceStyle)
         self.themeManager = ThemeManager(dataProvider: dataProvider, theme: theme)
@@ -61,5 +50,13 @@ class AppDependency: HasDataProvider, HasImageService, HasNotificationManager, H
         decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
 
         return NetworkClient(configuration: configuration, decoder: decoder)
+    }
+}
+
+// MARK: - NotificationManagerProvider
+extension AppDependency: NotificationManagerProvider {
+
+    func makeNotificationManager() -> NotificationManagerType {
+        return NotificationManager()
     }
 }

@@ -21,7 +21,7 @@ protocol SettingsViewControllerDelegate: AnyObject {
 // MARK: - View
 
 final class SettingsViewController: UITableViewController {
-    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager & HasThemeManager
+    typealias Dependencies = HasUserDefaultsManager & HasThemeManager & NotificationManagerProvider
 
     weak var delegate: SettingsViewControllerDelegate? = nil
     private let notificationManager: NotificationManagerType
@@ -112,7 +112,7 @@ final class SettingsViewController: UITableViewController {
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
-        self.notificationManager = dependencies.notificationManager
+        self.notificationManager = dependencies.makeNotificationManager()
         self.themeManager = dependencies.themeManager
         self.userDefaultsManager = dependencies.userDefaultsManager
         super.init(style: .insetGrouped)

@@ -9,7 +9,7 @@
 import UIKit
 
 final class HistoryListCoordinator: Coordinator {
-    typealias Dependencies = HasDataProvider & HasImageService & HasNotificationManager & HasThemeManager & HasUserDefaultsManager
+    typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager & HasUserDefaultsManager & NotificationManagerProvider
     typealias DealFragment = DealHistoryQuery.Data.DealHistory.Item
 
     private let dependencies: Dependencies

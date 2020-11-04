@@ -11,7 +11,7 @@ import SafariServices
 
 final class SettingsCoordinator: BaseCoordinator {
     typealias CoordinationResult = Void
-    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager & HasThemeManager
+    typealias Dependencies = HasUserDefaultsManager & HasThemeManager & NotificationManagerProvider
 
     private let router: RouterType
     private let dependencies: Dependencies

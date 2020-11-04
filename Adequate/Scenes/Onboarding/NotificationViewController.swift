@@ -10,7 +10,7 @@ import UIKit
 import Promise
 
 final class NotificationViewController: UIViewController {
-    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
+    typealias Dependencies = HasUserDefaultsManager & NotificationManagerProvider
 
     // TODO: improve handling of .init
     let notificationManager: NotificationManagerType
@@ -74,7 +74,7 @@ final class NotificationViewController: UIViewController {
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
-        self.notificationManager = dependencies.notificationManager
+        self.notificationManager = dependencies.makeNotificationManager()
         self.userDefaultsManager = dependencies.userDefaultsManager
         super.init(nibName: nil, bundle: nil)
     }

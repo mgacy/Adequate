@@ -14,10 +14,6 @@ protocol HasImageService {
     var imageService: ImageServiceType { get }
 }
 
-protocol HasNotificationManager {
-    var notificationManager: NotificationManagerType { get }
-}
-
 protocol HasUserDefaultsManager {
     var userDefaultsManager: UserDefaultsManagerType { get }
 }
@@ -28,4 +24,10 @@ protocol HasThemeManager {
 
 protocol HasDataProvider {
     var dataProvider: DataProviderType { get }
+}
+
+// MARK: - Provider Protocols
+
+protocol NotificationManagerProvider {
+    func makeNotificationManager() -> NotificationManagerType
 }
