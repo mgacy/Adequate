@@ -51,7 +51,7 @@ final class DealCoordinator: Coordinator {
             let dealViewController = DealViewController(dependencies: dependencies)
             dealViewController.delegate = self
             router.setRootModule(dealViewController, hideBar: false)
-        case .pad:
+        case .pad, .carPlay:
             let dealViewController = PadDealViewController(dependencies: dependencies)
             dealViewController.delegate = self
             router.setRootModule(dealViewController, hideBar: false)

@@ -45,6 +45,7 @@ final class ImageCell: UICollectionViewCell, FetchingCellConfigurable {
         view.onRetry = { [weak self] in
             self?.didPressRetry()
         }
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         return view
     }()
 
@@ -71,8 +72,11 @@ final class ImageCell: UICollectionViewCell, FetchingCellConfigurable {
     override func layoutSubviews() {
         super.layoutSubviews()
         imageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
-        stateView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
     }
+
+    //deinit {
+    //    invalidatableQueue.invalidate()
+    //}
 
     // MARK: - Configuration
 
