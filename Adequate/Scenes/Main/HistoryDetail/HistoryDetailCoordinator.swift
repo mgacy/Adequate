@@ -55,7 +55,7 @@ final class HistoryDetailCoordinator: Coordinator {
             router.setRootModule(viewController, hideBar: false)
 
             router.toPresent().presentationController?.delegate = self
-        case .pad:
+        case .pad, .carPlay:
             let viewController = PadHistoryDetailViewController(dependencies: dependencies, deal: deal)
             viewController.delegate = self
             router.setRootModule(viewController, hideBar: false)
