@@ -36,10 +36,10 @@ extension AWSAppSyncClient {
                     } else if let errors = result.errors {
                         reject(SyncClientError.graphQL(errors: errors))
                     } else {
-                        fatalError("Something has gone horribly wrong: neither data nor errors.")
+                        reject(SyncClientError.myError(message: "Neither data nor errors"))
                     }
                 } else {
-                    fatalError("Something has gone horribly wrong: neither result nor error.")
+                    reject(SyncClientError.myError(message: "Neither data nor errors"))
                 }
             }
         }
@@ -65,10 +65,10 @@ extension AWSAppSyncClient {
                     } else if let data = result.data {
                         fulfill(data)
                     } else {
-                        fatalError("Something has gone horribly wrong: neither data nor errors.")
+                        reject(SyncClientError.myError(message: "Neither data nor errors"))
                     }
                 } else {
-                    fatalError("Something has gone horribly wrong: neither result nor error.")
+                    reject(SyncClientError.myError(message: "Neither data nor errors"))
                 }
             }
         }
