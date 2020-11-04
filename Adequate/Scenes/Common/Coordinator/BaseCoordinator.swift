@@ -7,31 +7,40 @@
 //
 
 import UIKit
-//import UserNotifications
 
 class BaseCoordinator: NSObject, CoordinatorType {
 
     /// Unique identifier.
     internal let identifier = UUID()
 
+    /// Dictionary of the child coordinators. Every child coordinator should be added
+    /// to that dictionary in order to keep it in memory.
+    /// Key is an `identifier` of the child coordinator and value is the coordinator itself.
     private var childCoordinators = [UUID: CoordinatorType]()
 
+    /// Stores the coordinator to the `childCoordinators` dictionary.
+    /// - Parameter coordinator: Child coordinator to store.
     func store(coordinator: CoordinatorType) {
         childCoordinators[coordinator.identifier] = coordinator
     }
 
-    // TODO: accept optional to avoid weak/strong dance in onFinishFlow
+    /// Releases the coordinator from the `childCoordinators` dictionary.
+    /// - Parameter coordinator: Child coordinator to release.
     func free(coordinator: CoordinatorType) {
+        // TODO: accept optional to avoid weak/strong dance in onFinishFlow
         // TODO: recursively free children coordinators?
         childCoordinators[coordinator.identifier] = nil
     }
 
     // MARK: A
 
+    /// Starts the job of the coordinator.
     public func start() {
         start(with: nil)
     }
 
+    /// Starts the job of the coordinator or any children handling `deepLink`.
+    /// - Parameter deepLink: DeepLink.
     public func start(with deepLink: DeepLink?) {
         // ...
     }

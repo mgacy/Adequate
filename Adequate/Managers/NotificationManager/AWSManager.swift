@@ -33,6 +33,9 @@ class AWSManager: NotificationServiceManager {
 
     // MARK: - NotificationServiceManager
 
+    /// Register device with AWS SNS
+    /// - Parameter token: Unique token identifying this device with Apple Push Notification service.
+    /// - Returns: ARN for SNS subscription.
     func registerDevice(with token: String) -> Promise<String> {
         UserDefaults.standard.set(token, forKey: "deviceTokenForSNS")
 

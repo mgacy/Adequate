@@ -10,5 +10,9 @@ import Promise
 
 /// Register device with push notification provider server.
 protocol NotificationServiceManager {
+
+    /// Register device with push notification service provider.
+    /// - Parameter token: Unique token identifying this device with Apple Push Notification service.
+    /// - Returns: Identifier from push notification service provider.
     func registerDevice(with token: String) -> Promise<String>
 }

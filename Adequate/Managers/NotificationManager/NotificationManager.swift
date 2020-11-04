@@ -29,6 +29,7 @@ class NotificationManager: NSObject, NotificationManagerType {
 
     // MARK: - NotificationManagerType
 
+    /// Returns the notification authorization status for this app.
     func isAuthorized() -> Promise<Bool> {
         return notificationCenter.getNotificationSettings().then({ settings -> Bool in
             switch settings.authorizationStatus {
@@ -40,11 +41,14 @@ class NotificationManager: NSObject, NotificationManagerType {
         })
     }
 
+    /// Request authorization to interact with the user when local and remote notifications are delivered to their
+    /// device.
     func requestAuthorization() -> Promise<Bool> {
         let options: UNAuthorizationOptions = [.alert, .sound]
         return notificationCenter.requestAuthorization(options: options)
     }
 
+    /// Register to receive remote notifications via Apple Push Notification service.
     func registerForPushNotifications() -> Promise<Void> {
         return requestAuthorization()
             .ensure({ $0 })
@@ -57,6 +61,7 @@ class NotificationManager: NSObject, NotificationManagerType {
             })
     }
 
+    /// Unregister for all remote notifications received via Apple Push Notification service.
     func unregisterForRemoteNotifications() {
         UIApplication.shared.unregisterForRemoteNotifications()
     }
