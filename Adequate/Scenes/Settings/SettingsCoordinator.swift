@@ -9,18 +9,17 @@
 import UIKit
 import SafariServices
 
-final class SettingsCoordinator: BaseCoordinator {
+final class SettingsCoordinator: Coordinator {
     typealias CoordinationResult = Void
     typealias Dependencies = HasUserDefaultsManager & HasThemeManager & NotificationManagerProvider
 
-    private let router: RouterType
     private let dependencies: Dependencies
 
     var onFinishFlow: ((CoordinationResult) -> Void)? = nil
 
     init(router: RouterType, dependencies: Dependencies) {
         self.dependencies = dependencies
-        self.router = router
+        super.init(router: router)
     }
 
     override func start(with deepLink: DeepLink?) {
@@ -36,13 +35,6 @@ final class SettingsCoordinator: BaseCoordinator {
 
     //deinit { print("\(#function) - \(String(describing: self))") }
 
-}
-
-// MARK: - Presentable
-extension SettingsCoordinator: Presentable {
-    func toPresent() -> UIViewController {
-        return router.toPresent()
-    }
 }
 
 // MARK: - SettingsViewControllerDelegate
