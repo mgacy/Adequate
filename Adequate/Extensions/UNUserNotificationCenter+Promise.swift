@@ -32,8 +32,8 @@ extension UNUserNotificationCenter {
 
     func requestAuthorization(options: UNAuthorizationOptions = []) -> Promise<Bool> {
         return Promise<Bool>(work: { [weak self] fulfill, reject in
-            self?.requestAuthorization(options: options) { (granted, error) in
-                if let error = error {
+            self?.requestAuthorization(options: options) { (granted, maybeError) in
+                if let error = maybeError {
                     reject(error)
                 } else {
                     fulfill(granted)
