@@ -22,3 +22,18 @@ extension Coordinator: Presentable {
         return router.toPresent()
     }
 }
+
+// MARK: - FinishableCoordinator
+class FinishableCoordinator<ResultType>: Coordinator, FinishableCoordinatorType {
+
+    /// Typealias which allows access to ResultType of the Coordinator by `CoordinatorName.CoordinationResult`.
+    typealias CoordinationResult = ResultType
+
+    typealias FinishHandler = (ResultType) -> Void
+
+    var onFinishFlow: FinishHandler?
+
+}
+
+// MARK: - VoidDismissalDelegate
+extension FinishableCoordinator: VoidDismissalDelegate where CoordinationResult == Void {}

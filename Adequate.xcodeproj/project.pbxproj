@@ -31,6 +31,7 @@
 		C911E268246D1E100056C84A /* RefreshManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C911E267246D1E100056C84A /* RefreshManager.swift */; };
 		C913919822CD91F2006C2E19 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C913919722CD91F2006C2E19 /* UILabel+Ext.swift */; };
 		C91F856D254D1268005192D4 /* ParallaxTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91F856C254D1268005192D4 /* ParallaxTitleView.swift */; };
+		C921165C255394A600E70FF1 /* FinishableCoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C921165B255394A600E70FF1 /* FinishableCoordinatorType.swift */; };
 		C9221565225453920001FF3F /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9221564225453920001FF3F /* DimmingPresentationController.swift */; };
 		C92215672254632D0001FF3F /* SlideAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92215662254632D0001FF3F /* SlideAnimationController.swift */; };
 		C923838A22B1B427003BB1DA /* ItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C923838922B1B427003BB1DA /* ItemType.swift */; };
@@ -258,7 +259,6 @@
 		C9F01F22234FE3C500A77447 /* ColorCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F01F21234FE3C500A77447 /* ColorCompatibility.swift */; };
 		C9F3671122B2EE8700606EAB /* PriceRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3671022B2EE8700606EAB /* PriceRange.swift */; };
 		C9F7166F221F138B00733D17 /* HistoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7166E221F138B00733D17 /* HistoryDetailViewController.swift */; };
-		C9F92264218A4EB2001C257A /* DismissalDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F92263218A4EB2001C257A /* DismissalDelegate.swift */; };
 		C9F92266218A88D0001C257A /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F92265218A88D0001C257A /* UserDefaultsManager.swift */; };
 		C9FABAE9236E0CD100C1E523 /* MDUnorderedListItemParagraphStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FABAE8236E0CD100C1E523 /* MDUnorderedListItemParagraphStyler.swift */; };
 		C9FABAEC2372472900C1E523 /* DataProviderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FABAEB2372472900C1E523 /* DataProviderType.swift */; };
@@ -368,6 +368,7 @@
 		C911E267246D1E100056C84A /* RefreshManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshManager.swift; sourceTree = "<group>"; };
 		C913919722CD91F2006C2E19 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
 		C91F856C254D1268005192D4 /* ParallaxTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxTitleView.swift; sourceTree = "<group>"; };
+		C921165B255394A600E70FF1 /* FinishableCoordinatorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishableCoordinatorType.swift; sourceTree = "<group>"; };
 		C9221564225453920001FF3F /* DimmingPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
 		C92215662254632D0001FF3F /* SlideAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideAnimationController.swift; sourceTree = "<group>"; };
 		C923838922B1B427003BB1DA /* ItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemType.swift; sourceTree = "<group>"; };
@@ -596,7 +597,6 @@
 		C9F01F21234FE3C500A77447 /* ColorCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCompatibility.swift; sourceTree = "<group>"; };
 		C9F3671022B2EE8700606EAB /* PriceRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceRange.swift; sourceTree = "<group>"; };
 		C9F7166E221F138B00733D17 /* HistoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailViewController.swift; sourceTree = "<group>"; };
-		C9F92263218A4EB2001C257A /* DismissalDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissalDelegate.swift; sourceTree = "<group>"; };
 		C9F92265218A88D0001C257A /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		C9FABAE8236E0CD100C1E523 /* MDUnorderedListItemParagraphStyler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDUnorderedListItemParagraphStyler.swift; sourceTree = "<group>"; };
 		C9FABAEB2372472900C1E523 /* DataProviderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderType.swift; sourceTree = "<group>"; };
@@ -874,6 +874,7 @@
 			isa = PBXGroup;
 			children = (
 				C95CD617230FB1530011585F /* CoordinatorType.swift */,
+				C921165B255394A600E70FF1 /* FinishableCoordinatorType.swift */,
 				C95CD611230FAF810011585F /* RouterType.swift */,
 				C95CD613230FB02E0011585F /* Presentable.swift */,
 			);
@@ -1173,7 +1174,6 @@
 			isa = PBXGroup;
 			children = (
 				C93BD90222B1B33800FAD8AA /* Model Protocols */,
-				C9F92263218A4EB2001C257A /* DismissalDelegate.swift */,
 				C9DAC48021476A2900D6558B /* ErrorAlertDisplayable.swift */,
 				C9DAC48221476A4000D6558B /* DependencyProtocols.swift */,
 				C93F79032256EBE8004B4DD6 /* LoggingType.swift */,
@@ -1954,7 +1954,6 @@
 				C9B90D0322837D140070ADE9 /* ParallaxScrollView.swift in Sources */,
 				C9DAC49B21476BB500D6558B /* Story.swift in Sources */,
 				C95CD60D230F36FD0011585F /* TableBackgroundView.swift in Sources */,
-				C9F92264218A4EB2001C257A /* DismissalDelegate.swift in Sources */,
 				C9DAC4A721476C8600D6558B /* NetworkClientError.swift in Sources */,
 				C989E11B223734C800DEAE89 /* API.swift in Sources */,
 				C94D2CEF230E143700043431 /* UIFont+Ext.swift in Sources */,
@@ -2046,6 +2045,7 @@
 				C9DAC4AF21476D3F00D6558B /* DealViewController.swift in Sources */,
 				C99EF3C022BD4FDD00BF4410 /* Strings.generated.swift in Sources */,
 				C9F3671122B2EE8700606EAB /* PriceRange.swift in Sources */,
+				C921165C255394A600E70FF1 /* FinishableCoordinatorType.swift in Sources */,
 				C9C0C0C423072F800011EFB4 /* MDParagraphStyleCollection.swift in Sources */,
 				C98B324A222DC1F0003A8669 /* HistoryListCell.swift in Sources */,
 				C9DA48FE2528352F008A990D /* AppIconViewController.swift in Sources */,
