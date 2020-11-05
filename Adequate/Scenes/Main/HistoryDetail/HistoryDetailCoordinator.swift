@@ -10,16 +10,13 @@ import UIKit
 import SafariServices
 import Promise
 
-final class HistoryDetailCoordinator: Coordinator {
-    typealias CoordinationResult = Void
+final class HistoryDetailCoordinator: FinishableCoordinator<Void> {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
     typealias Deal = DealHistoryQuery.Data.DealHistory.Item
     typealias Topic = GetDealQuery.Data.GetDeal.Topic
 
     private let dependencies: Dependencies
     private let deal: Deal
-
-    var onFinishFlow: ((CoordinationResult) -> Void)? = nil
 
     // MARK: - Lifecycle
 
@@ -76,13 +73,6 @@ final class HistoryDetailCoordinator: Coordinator {
 
 }
 
-// MARK: - VoidDismissalDelegate
-extension HistoryDetailCoordinator: VoidDismissalDelegate {
-    func dismiss() {
-        onFinishFlow?(())
-    }
-}
-
 // MARK: - UIAdaptivePresentationControllerDelegate
 extension HistoryDetailCoordinator: UIAdaptivePresentationControllerDelegate {
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
@@ -110,10 +100,3 @@ extension HistoryDetailCoordinator: FullScreenImageDelegate {
         router.dismissModule(animated: true, completion: nil)
     }
 }
-
-//// MARK: - SettingsViewControllerDelegate
-//extension HistoryDetailCoordinator: SettingsViewControllerDelegate {
-//    func dismiss(_ result: CoordinationResult) {
-//        onFinishFlow?(result)
-//    }
-//}

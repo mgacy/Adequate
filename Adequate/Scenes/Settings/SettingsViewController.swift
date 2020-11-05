@@ -10,12 +10,11 @@ import UIKit
 
 // MARK: - Delegate Protocol
 
-protocol SettingsViewControllerDelegate: AnyObject {
+protocol SettingsViewControllerDelegate: VoidDismissalDelegate {
     func showAppIcon()
     func showTheme()
     func showAbout()
     func showReview()
-    func dismiss(_: Void)
 }
 
 // MARK: - View
@@ -172,7 +171,7 @@ final class SettingsViewController: UITableViewController {
     // MARK: - Actions
 
     @objc private func didPressDone(_ sender: UIBarButtonItem) {
-        delegate?.dismiss(())
+        delegate?.dismiss()
     }
 
     @objc private func tappedSwitch(_ sender: UISwitch) {

@@ -8,12 +8,17 @@
 
 import UIKit
 
+// MARK: - Delegate
+protocol OnboardingDismissalDelegate: AnyObject {
+    func finish(with: OnboardingResult)
+}
+
 final class OnboardingPageViewController: UIPageViewController {
     typealias Dependencies = HasUserDefaultsManager & NotificationManagerProvider
 
     let dependencies: Dependencies
     var pages = [UIViewController]()
-    weak var dismissalDelegate: VoidDismissalDelegate?
+    weak var dismissalDelegate: OnboardingDismissalDelegate?
 
     // MARK: - Lifecycle
 
@@ -93,10 +98,10 @@ extension OnboardingPageViewController: UIPageViewControllerDataSource {
 }
 
 // MARK: - VoidDismissalDelegate
-extension OnboardingPageViewController: VoidDismissalDelegate {
+extension OnboardingPageViewController: OnboardingDismissalDelegate {
 
-    func dismiss() {
-        dismissalDelegate?.dismiss()
+    func finish(with result: OnboardingResult) {
+        dismissalDelegate?.finish(with: result)
     }
 }
 

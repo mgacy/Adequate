@@ -15,7 +15,7 @@ final class NotificationViewController: UIViewController {
     // TODO: improve handling of .init
     let notificationManager: NotificationManagerType
     let userDefaultsManager: UserDefaultsManagerType
-    weak var delegate: VoidDismissalDelegate?
+    weak var delegate: OnboardingDismissalDelegate?
 
     // MARK: - Subviews
 
@@ -115,15 +115,20 @@ final class NotificationViewController: UIViewController {
     @objc private func handleNotNowTapped(_ sender: UIButton) {
         userDefaultsManager.showNotifications = false
         userDefaultsManager.hasShownOnboarding = true
-        delegate?.dismiss()
+        delegate?.finish(with: .noNotifications)
     }
 
     @objc private func handleOKTapped(_ sender: UIButton) {
         notificationManager.requestAuthorization()
-            .ensure({ $0 })
-            .then({ _ -> Promise<Void> in
-                self.userDefaultsManager.showNotifications = true
-                return self.notificationManager.registerForPushNotifications()
+            .then({ [self] allowNotifications in
+                // Hand off
+                self.userDefaultsManager.showNotifications = allowNotifications
+                switch allowNotifications {
+                case true:
+                    self.delegate?.finish(with: .allowNotifications(notificationManager))
+                case false:
+                    self.delegate?.finish(with: .noNotifications)
+                }
             })
             .catch({ error in
                 log.error("\(#function): \(error)")
@@ -131,7 +136,6 @@ final class NotificationViewController: UIViewController {
             })
             .always({
                 self.userDefaultsManager.hasShownOnboarding = true
-                self.delegate?.dismiss()
             })
     }
 }

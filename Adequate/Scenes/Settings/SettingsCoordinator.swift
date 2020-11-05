@@ -9,13 +9,10 @@
 import UIKit
 import SafariServices
 
-final class SettingsCoordinator: Coordinator {
-    typealias CoordinationResult = Void
+final class SettingsCoordinator: FinishableCoordinator<Void> {
     typealias Dependencies = HasUserDefaultsManager & HasThemeManager & NotificationManagerProvider
 
     private let dependencies: Dependencies
-
-    var onFinishFlow: ((CoordinationResult) -> Void)? = nil
 
     init(router: RouterType, dependencies: Dependencies) {
         self.dependencies = dependencies
@@ -67,9 +64,6 @@ extension SettingsCoordinator: SettingsViewControllerDelegate {
         UIApplication.shared.open(writeReviewURL)
     }
 
-    func dismiss(_ result: CoordinationResult) {
-        onFinishFlow?(result)
-    }
 }
 
 // MARK: - AboutViewControllerDelegate
