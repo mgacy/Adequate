@@ -219,7 +219,6 @@
 		C9DAC4A321476C3A00D6558B /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4A221476C3A00D6558B /* NetworkClient.swift */; };
 		C9DAC4A521476C5E00D6558B /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4A421476C5E00D6558B /* ImageService.swift */; };
 		C9DAC4A721476C8600D6558B /* NetworkClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4A621476C8600D6558B /* NetworkClientError.swift */; };
-		C9DAC4A921476C9D00D6558B /* MehService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4A821476C9D00D6558B /* MehService.swift */; };
 		C9DAC4AC21476CEA00D6558B /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4AB21476CEA00D6558B /* MainCoordinator.swift */; };
 		C9DAC4AF21476D3F00D6558B /* DealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4AE21476D3F00D6558B /* DealViewController.swift */; };
 		C9DAC4B1214785DF00D6558B /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4B0214785DF00D6558B /* BaseCoordinator.swift */; };
@@ -560,7 +559,6 @@
 		C9DAC4A221476C3A00D6558B /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		C9DAC4A421476C5E00D6558B /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		C9DAC4A621476C8600D6558B /* NetworkClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientError.swift; sourceTree = "<group>"; };
-		C9DAC4A821476C9D00D6558B /* MehService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MehService.swift; sourceTree = "<group>"; };
 		C9DAC4AB21476CEA00D6558B /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		C9DAC4AE21476D3F00D6558B /* DealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealViewController.swift; sourceTree = "<group>"; };
 		C9DAC4B0214785DF00D6558B /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
@@ -1209,7 +1207,6 @@
 				C9DAC4A221476C3A00D6558B /* NetworkClient.swift */,
 				C9DAC4A621476C8600D6558B /* NetworkClientError.swift */,
 				C995C07422A8E01C00C2289F /* FileCache.swift */,
-				C9DAC4A821476C9D00D6558B /* MehService.swift */,
 				C9093CC22228A27800C9DA0C /* ObservationToken.swift */,
 			);
 			path = Services;
@@ -1829,7 +1826,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#check if env-vars.sh exists\nif [ -f ./env-vars.sh ]\nthen\nsource ./env-vars.sh\nfi\n#no `else` case needed if the CI works as expected\nsourcery --sources . --templates ./templates/AppSecrets.stencil --output ./Adequate/Application --args apikey=$API_KEY,identity_pool_id=$IDENTITY_POOL_ID,platform_application_arn=$PLATFORM_APPLICATION_ARN,platform_application_arn_prod=$PLATFORM_APPLICATION_ARN_PROD,topic_arn=$TOPIC_ARN,logger_app_id=$LOGGER_APP_ID,logger_app_secret=$LOGGER_APP_SECRET,logger_encryption_key=$LOGGER_ENCRYPTION_KEY\n\n";
+			shellScript = "#check if env-vars.sh exists\nif [ -f ./env-vars.sh ]\nthen\nsource ./env-vars.sh\nfi\n#no `else` case needed if the CI works as expected\nsourcery --sources . --templates ./templates/AppSecrets.stencil --output ./Adequate/Application --args identity_pool_id=$IDENTITY_POOL_ID,platform_application_arn=$PLATFORM_APPLICATION_ARN,platform_application_arn_prod=$PLATFORM_APPLICATION_ARN_PROD,topic_arn=$TOPIC_ARN,logger_app_id=$LOGGER_APP_ID,logger_app_secret=$LOGGER_APP_SECRET,logger_encryption_key=$LOGGER_ENCRYPTION_KEY\n\n";
 		};
 		DB6458F974A6AE33EE2730DC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2020,7 +2017,6 @@
 				C96CA86A2182DB2500C3459E /* OnboardingCoordinator.swift in Sources */,
 				C979335622D7E27400132A00 /* CompletionWrapper.swift in Sources */,
 				C94D2CED230E11C300043431 /* FontBook.swift in Sources */,
-				C9DAC4A921476C9D00D6558B /* MehService.swift in Sources */,
 				C9DAC48F21476B2400D6558B /* URL+Ext.swift in Sources */,
 				C9BFB28A2537D4C40002EAE5 /* StyleBook.swift in Sources */,
 				C9C0C0BE23072DC50011EFB4 /* NSMutableAttributedString+Attributes.swift in Sources */,
