@@ -9,8 +9,17 @@
 import Promise
 
 protocol NotificationManagerType {
+
+    /// Returns the notification authorization status for this app.
     func isAuthorized() -> Promise<Bool>
+
+    /// Request authorization to interact with the user when local and remote notifications are delivered to their
+    /// device.
     func requestAuthorization() -> Promise<Bool>
+
+    /// Register to receive remote notifications via Apple Push Notification service.
     func registerForPushNotifications() -> Promise<Void>
+
+    /// Unregister for all remote notifications received via Apple Push Notification service.
     func unregisterForRemoteNotifications()
 }

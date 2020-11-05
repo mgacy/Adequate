@@ -10,18 +10,17 @@ import UIKit
 
 // MARK: - Delegate Protocol
 
-protocol SettingsViewControllerDelegate: AnyObject {
+protocol SettingsViewControllerDelegate: VoidDismissalDelegate {
     func showAppIcon()
     func showTheme()
     func showAbout()
     func showReview()
-    func dismiss(_: Void)
 }
 
 // MARK: - View
 
 final class SettingsViewController: UITableViewController {
-    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager & HasThemeManager
+    typealias Dependencies = HasUserDefaultsManager & HasThemeManager & NotificationManagerProvider
 
     weak var delegate: SettingsViewControllerDelegate? = nil
     private let notificationManager: NotificationManagerType
@@ -112,7 +111,7 @@ final class SettingsViewController: UITableViewController {
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
-        self.notificationManager = dependencies.notificationManager
+        self.notificationManager = dependencies.makeNotificationManager()
         self.themeManager = dependencies.themeManager
         self.userDefaultsManager = dependencies.userDefaultsManager
         super.init(style: .insetGrouped)
@@ -172,7 +171,7 @@ final class SettingsViewController: UITableViewController {
     // MARK: - Actions
 
     @objc private func didPressDone(_ sender: UIBarButtonItem) {
-        delegate?.dismiss(())
+        delegate?.dismiss()
     }
 
     @objc private func tappedSwitch(_ sender: UISwitch) {

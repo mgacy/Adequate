@@ -28,6 +28,8 @@ class AppCoordinator: BaseCoordinator {
     private let window: UIWindow
     private let dependencies: AppDependency
 
+    private var notificationManager: NotificationManagerType?
+
     init(window: UIWindow) {
         self.window = window
         self.dependencies = AppDependency()
@@ -54,6 +56,11 @@ class AppCoordinator: BaseCoordinator {
                 showMain()
             }
         }
+
+        // TODO: does this violate single responsibility? Should we skip when starting w/ DeepLink.remoteNotification?
+        if dependencies.userDefaultsManager.showNotifications {
+            registerForPushNotifications(with: dependencies.makeNotificationManager())
+        }
     }
 
     // MARK: - Flows
@@ -61,6 +68,9 @@ class AppCoordinator: BaseCoordinator {
     private func showOnboarding() {
         let coordinator = OnboardingCoordinator(window: window, dependencies: dependencies)
         coordinator.onFinishFlow = { [weak self, weak coordinator] result in
+            if case .allowNotifications(let manager) = result {
+                self?.registerForPushNotifications(with: manager)
+            }
             if let strongCoordinator = coordinator {
                 self?.free(coordinator: strongCoordinator)
             }
@@ -108,5 +118,24 @@ extension AppCoordinator {
             return
         }
         dependencies.dataProvider.updateDealInBackground(delta, fetchCompletionHandler: completion)
+    }
+}
+
+// MARK: - Notifications
+// TODO: should these be pushed into an `AppController` / `AppManager` object??
+extension AppCoordinator {
+
+    func registerForPushNotifications(with manager: NotificationManagerType) {
+        notificationManager = manager
+        notificationManager?.registerForPushNotifications()
+            .then({
+                log.verbose("Registered for notifications")
+            })
+            .catch({ error in
+                log.error("Unable to register for push notifications: \(error)")
+            })
+            .always {
+                self.notificationManager = nil
+            }
     }
 }

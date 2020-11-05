@@ -8,10 +8,14 @@
 import Foundation
 
 protocol CoordinatorType: AnyObject {
-    //associatedtype CoordinationResult
-    //associatedtype Transition
-    //associatedtype Scene
+
+    /// Unique identifier.
     var identifier: UUID { get }
+
+    /// Starts the job of the coordinator.
     func start()
+
+    /// Starts the job of the coordinator or any children handling `deepLink`.
+    /// - Parameter deepLink: DeepLink.
     func start(with: DeepLink?)
 }
