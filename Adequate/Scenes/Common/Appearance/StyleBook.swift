@@ -24,8 +24,21 @@ enum StyleBook {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
+        // TODO: rename `regularFont`?
+        static let regular = Style<UIButton> {
+            $0.titleLabel?.font = FontBook.regularButton
+        }
+
         static let bold = Style<UIButton> {
-            $0.titleLabel?.font = FontBook.boldButton
+            $0.titleLabel?.font = FontBook.mediumButton
+        }
+
+        static let standardInsets = Style<UIButton> {
+            $0.contentEdgeInsets = UIEdgeInsets(horizontal: 8.0, vertical: 6.0)
+        }
+
+        static let wideInsets = Style<UIButton> {
+            $0.contentEdgeInsets = UIEdgeInsets(horizontal: 15.0, vertical: 5.0)
         }
 
         // MARK: Standard Button
@@ -42,12 +55,12 @@ enum StyleBook {
         // MARK: Secondary Button
 
         static let secondaryBase = Style<UIButton> {
-            //$0.titleLabel?.font = FontBook.boldButton
+            $0.titleLabel?.font = FontBook.regularButton
             $0.layer.borderWidth = 1.0
             $0.backgroundColor = .clear
         }
 
-        static let secondary = Button.base <> Button.secondaryBase
+        static let secondary = Button.base <> Button.secondaryBase <> Button.standardInsets
 
         static let secondaryWide = Style<UIButton> {
             $0.contentEdgeInsets = UIEdgeInsets(horizontal: 15.0, vertical: 5.0)
@@ -65,7 +78,7 @@ enum StyleBook {
 
         // FooterViewController.buyButton
         static let x = Style<UIButton> {
-            // TODO: should we make a func and pass titleColor?
+            // TODO: should we make a func and pass titleColor or ColorTheme?
             $0.setTitleColor($0.tintColor, for: .normal)
             $0.backgroundColor = .systemBackground
         }
