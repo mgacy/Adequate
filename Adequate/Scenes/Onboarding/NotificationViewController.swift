@@ -32,6 +32,7 @@ final class NotificationViewController: UIViewController {
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.text = L10n.welcomeNotificationsBody
+        label.setContentCompressionResistancePriority(.defaultHigh - 1, for: .horizontal)
         return label
     }()
 
@@ -58,18 +59,9 @@ final class NotificationViewController: UIViewController {
         let button = UIButton(style: StyleBook.Button.standard)
         button.setTitle(L10n.ok, for: .normal)
         button.addTarget(self, action: #selector(handleOKTapped(_:)), for: .touchUpInside)
+        button.setContentCompressionResistancePriority(.defaultHigh - 1, for: .horizontal)
         // TODO: add button.accessibilityLabel
         return button
-    }()
-
-    private lazy var buttonStack: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [notNowButton, okButton])
-        view.axis = .horizontal
-        view.alignment = .firstBaseline
-        view.distribution = .fillEqually
-        view.spacing = 8.0
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
     }()
 
     // MARK: - Lifecycle
@@ -93,7 +85,8 @@ final class NotificationViewController: UIViewController {
 
     private func setupView() {
         view.addSubview(labelStack)
-        view.addSubview(buttonStack)
+        view.addSubview(notNowButton)
+        view.addSubview(okButton)
         setupConstraints()
     }
 
@@ -101,16 +94,26 @@ final class NotificationViewController: UIViewController {
         let guide = view.readableContentGuide
 
         let titleBaseline = titleLabel.lastBaselineAnchor.constraint(equalTo: view.centerYAnchor)
+        titleBaseline.priority = UILayoutPriority(750)
 
+        let buttonWidthConstraint = notNowButton.widthAnchor.constraint(equalTo: okButton.widthAnchor, multiplier: 1.0)
+        buttonWidthConstraint.priority = UILayoutPriority(250)
         NSLayoutConstraint.activate([
             titleBaseline,
             // labelStack
+            labelStack.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
+            labelStack.bottomAnchor.constraint(lessThanOrEqualTo: notNowButton.topAnchor),
             labelStack.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             labelStack.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-            // buttonStack
-            buttonStack.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
-            buttonStack.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-            buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0.0)
+            // notNowButton
+            notNowButton.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            notNowButton.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            notNowButton.heightAnchor.constraint(equalTo: okButton.heightAnchor),
+            // okButton
+            okButton.leadingAnchor.constraint(equalTo: notNowButton.trailingAnchor, constant: AppTheme.spacing),
+            okButton.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
+            okButton.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            buttonWidthConstraint
         ])
     }
 
