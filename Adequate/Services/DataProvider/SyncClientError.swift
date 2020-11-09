@@ -35,6 +35,9 @@ extension SyncClientError {
             case .requestFailed(_, _, let underlyingError):
                 // TODO: look at response / data
                 log.error("\(#function) - AWSAppSyncClientError.appSyncError: \(underlyingError?.localizedDescription ?? "No Error") ")
+                if let _underlyingError = underlyingError {
+                    return .network(error: _underlyingError)
+                }
             case .noData(let response):
                 log.error("\(#function) - AWSAppSyncClientError.noData: \(response) ")
             case .parseError(_, _, let underlyingError):
