@@ -14,17 +14,16 @@ final class WelcomeViewController: UIViewController {
 
     private let titleLabel: UILabel = {
         let label = UILabel(style: StyleBook.Label.base)
+        label.font = FontBook.largeTitle
         label.text = L10n.appName
-        // TODO: use FontBook
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         return label
     }()
 
     private let bodyLabel: UILabel = {
         let label = UILabel(style: StyleBook.Label.base)
         label.numberOfLines = 0
-        label.text = L10n.welcomeMessage
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.text = L10n.welcomeMessage
         return label
     }()
 
@@ -32,8 +31,9 @@ final class WelcomeViewController: UIViewController {
         let view = UIStackView(arrangedSubviews: [titleLabel, bodyLabel])
         view.axis = .vertical
         view.alignment = .fill
-        view.distribution = .fillEqually
-        //view.spacing = 8.0
+        view.distribution = .fill
+        view.spacing = UIStackView.spacingUseSystem
+        view.isBaselineRelativeArrangement = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -54,9 +54,8 @@ final class WelcomeViewController: UIViewController {
 
     private func setupConstraints() {
         let guide = view.readableContentGuide
-        //let guide = view.layoutMarginsGuide
         NSLayoutConstraint.activate([
-            labelStack.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0),
+            titleLabel.lastBaselineAnchor.constraint(equalTo: view.centerYAnchor),
             labelStack.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             labelStack.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
         ])

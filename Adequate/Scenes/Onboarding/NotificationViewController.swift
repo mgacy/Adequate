@@ -21,8 +21,8 @@ final class NotificationViewController: UIViewController {
 
     private let titleLabel: UILabel = {
         let label = UILabel(style: StyleBook.Label.base)
-        // TODO: use FontBook
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.numberOfLines = 0
+        label.font = FontBook.largeTitle
         label.text = L10n.welcomeNotificationsTitle
         return label
     }()
@@ -30,7 +30,7 @@ final class NotificationViewController: UIViewController {
     private let bodyLabel: UILabel = {
         let label = UILabel(style: StyleBook.Label.base)
         label.numberOfLines = 0
-        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.text = L10n.welcomeNotificationsBody
         return label
     }()
@@ -39,8 +39,9 @@ final class NotificationViewController: UIViewController {
         let view = UIStackView(arrangedSubviews: [titleLabel, bodyLabel])
         view.axis = .vertical
         view.alignment = .fill
-        view.distribution = .fillEqually
-        //view.spacing = 8.0
+        view.distribution = .fill
+        view.spacing = UIStackView.spacingUseSystem
+        view.isBaselineRelativeArrangement = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -98,9 +99,12 @@ final class NotificationViewController: UIViewController {
 
     private func setupConstraints() {
         let guide = view.readableContentGuide
+
+        let titleBaseline = titleLabel.lastBaselineAnchor.constraint(equalTo: view.centerYAnchor)
+
         NSLayoutConstraint.activate([
+            titleBaseline,
             // labelStack
-            labelStack.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0),
             labelStack.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             labelStack.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
             // buttonStack
