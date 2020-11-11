@@ -1,5 +1,5 @@
 //
-//  AWSManager.swift
+//  SNSManager.swift
 //  Adequate
 //
 //  Created by Mathew Gacy on 10/9/18.
@@ -10,13 +10,13 @@ import AWSSNS
 import Promise
 
 // MARK: - Errors
-enum AWSManagerError: Error {
+enum SNSManagerError: Error {
     case invalidInput
     case missingARN
 }
 
 // MARK: - Implementation
-class AWSManager: NotificationServiceManager {
+class SNSManager: NotificationServiceManager {
     private typealias ServiceARN = String
 
     private var sns: AWSSNS!
@@ -60,7 +60,7 @@ class AWSManager: NotificationServiceManager {
 
     private func createPlatformEndpoint(with token: String) -> Promise<ServiceARN> {
         guard let request = AWSSNSCreatePlatformEndpointInput() else {
-            return Promise(error: AWSManagerError.invalidInput)
+            return Promise(error: SNSManagerError.invalidInput)
         }
         request.token = token
         #if DEBUG
@@ -75,7 +75,7 @@ class AWSManager: NotificationServiceManager {
 
     private func subscribeToTopic(topicArn: ServiceARN, endpointArn: ServiceARN) -> Promise<ServiceARN> {
         guard let request = AWSSNSSubscribeInput() else {
-            return Promise(error: AWSManagerError.invalidInput)
+            return Promise(error: SNSManagerError.invalidInput)
         }
         request.protocols = "application"
         request.topicArn = topicArn
@@ -87,7 +87,7 @@ class AWSManager: NotificationServiceManager {
     /*
     private func confirmSubscription(topicArn: String, deviceToken: String) -> Promise<ServiceARN> {
         guard let request = AWSSNSConfirmSubscriptionInput() else {
-            return Promise(error: AWSManagerError.invalidInput)
+            return Promise(error: SNSManagerError.invalidInput)
         }
         request.topicArn = topicArn
         request.token = deviceToken
