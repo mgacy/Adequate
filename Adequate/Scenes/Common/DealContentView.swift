@@ -85,6 +85,7 @@ final class DealContentView: UIView {
 
     let forumButton: UIButton = {
         let button = UIButton(style: StyleBook.Button.standard)
+        //StyleBook.Button.wideInsets.apply(to: button)
         button.backgroundColor = button.tintColor
         button.setTitle(L10n.Comments.count(0), for: .normal)
         return button
@@ -126,6 +127,7 @@ final class DealContentView: UIView {
     }
 
     private func setupConstraints() {
+        // TODO: if not using button insets, make button some multiplier of view width
         let buttonWidth: CGFloat = 200.0
         NSLayoutConstraint.activate([
             // titleLabel
