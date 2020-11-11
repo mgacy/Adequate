@@ -8,7 +8,8 @@
 
 import Foundation
 
-// https://nshipster.com/xcconfig/
+/// Access build settings defined in `xcconfig` files and stored in `Info.plist`
+/// https://nshipster.com/xcconfig/
 enum Configuration {
 
     enum Environment: String {
@@ -40,6 +41,7 @@ enum Configuration {
     }
 }
 
+// TODO: define corresponding protocol?
 extension Configuration {
 
     static var configuration: String {
