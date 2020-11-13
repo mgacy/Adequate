@@ -15,6 +15,7 @@ let log = Logger.self
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    private var appDependency: AppDependency!
     private var appCoordinator: AppCoordinator!
     private var notificationServiceManager: NotificationServiceManager?
 
@@ -23,12 +24,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
 
         // TODO: should we just make `AppCoordinator` the delegate since we currently handle by passing off to it anyway?
+        // Or should we make a separate `AppController` and maintain single role of `AppCoordinator`?
         UNUserNotificationCenter.current().delegate = self
 
         let deepLink = DeepLink.build(with: launchOptions)
 
-        // TODO: create NotificationManager here and inject into AppCoordinator / create delegate protocol?
-        self.appCoordinator = AppCoordinator(window: self.window!)
+        self.appDependency = AppDependency()
+        self.appCoordinator = AppCoordinator(window: self.window!, dependencies: self.appDependency)
         self.appCoordinator.start(with: deepLink)
         return true
     }
@@ -84,8 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        // FIXME: remove hard-coded region
-        notificationServiceManager = SNSManager(region: .USWest2)
+        notificationServiceManager = appDependency.makeNotificationServiceManager()
         notificationServiceManager?.registerDevice(with: token)
             .then({ [weak self] subscriptionArn in
                 self?.notificationServiceManager = nil

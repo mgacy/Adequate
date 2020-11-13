@@ -30,9 +30,9 @@ class AppCoordinator: BaseCoordinator {
 
     private var notificationManager: NotificationManagerType?
 
-    init(window: UIWindow) {
+    init(window: UIWindow, dependencies: AppDependency) {
         self.window = window
-        self.dependencies = AppDependency()
+        self.dependencies = dependencies
     }
 
     override func start(with deepLink: DeepLink?) {

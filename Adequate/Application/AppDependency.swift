@@ -60,3 +60,11 @@ extension AppDependency: NotificationManagerProvider {
         return NotificationManager()
     }
 }
+
+// MARK: - NotificationServiceManagerProvider
+extension AppDependency: NotificationServiceManagerProvider {
+
+    func makeNotificationServiceManager() -> NotificationServiceManager {
+        return SNSManager(region: .USWest2)
+    }
+}
