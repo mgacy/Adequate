@@ -37,15 +37,15 @@ class SNSManager: NotificationServiceManager {
     /// - Parameter token: Unique token identifying this device with Apple Push Notification service.
     /// - Returns: ARN for SNS subscription.
     func registerDevice(with token: String) -> Promise<String> {
-        UserDefaults.standard.set(token, forKey: "deviceTokenForSNS")
+        UserDefaults.standard.set(token, forKey: UserDefaultsKey.SNSToken.rawValue)
 
         return createPlatformEndpoint(with: token)
             .then(on: queue, { endpointArn -> Promise<String> in
-                UserDefaults.standard.set(endpointArn, forKey: "endpointArnForSNS")
+                UserDefaults.standard.set(endpointArn, forKey: UserDefaultsKey.SNSEndpoint.rawValue)
                 return self.subscribeToTopic(topicArn: AppSecrets.topicArn, endpointArn: endpointArn)
             })
             .then({ subscriptionArn in
-                UserDefaults.standard.set(subscriptionArn, forKey: "subscriptionArnForSNS")
+                UserDefaults.standard.set(subscriptionArn, forKey: UserDefaultsKey.SNSSubscription.rawValue)
             })
     }
 
