@@ -63,11 +63,7 @@ class SNSManager: NotificationServiceManager {
             return Promise(error: SNSManagerError.invalidInput)
         }
         request.token = token
-        #if DEBUG
         request.platformApplicationArn = AppSecrets.platformApplicationArn
-        #else
-        request.platformApplicationArn = AppSecrets.platformApplicationArnProd
-        #endif
 
         return sns.createPlatformEndpoint(request: request)
             .then({ try $0.endpointArn.unwrap() })
