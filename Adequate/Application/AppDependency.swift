@@ -10,14 +10,15 @@ import AWSAppSync
 import AWSMobileClient
 
 class AppDependency: HasDataProvider, HasImageService, HasThemeManager, HasUserDefaultsManager {
+    let credentialsProvider: AWSCredentialsProvider
     let dataProvider: DataProviderType
     let imageService: ImageServiceType
     let themeManager: ThemeManagerType
     let userDefaultsManager: UserDefaultsManagerType
 
     init() {
-        // https://aws-amplify.github.io/docs/ios/authentication
         let credentialsProvider = AWSMobileClient.default()
+        self.credentialsProvider = credentialsProvider
 
         // Initialize dataProvider
         self.dataProvider = DataProvider(credentialsProvider: credentialsProvider)
@@ -65,6 +66,6 @@ extension AppDependency: NotificationManagerProvider {
 extension AppDependency: NotificationServiceManagerProvider {
 
     func makeNotificationServiceManager() -> NotificationServiceManager {
-        return SNSManager(region: .USWest2)
+        return SNSManager(configuration: AppSecrets.self, credentialsProvider: credentialsProvider)
     }
 }

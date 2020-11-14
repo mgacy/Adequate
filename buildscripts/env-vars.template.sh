@@ -1,5 +1,8 @@
 #!/bin/bash
 # AWS
+# This stretches the meaning of "secret", but it lets us keep additional AWS config together
+# TODO: replace `awsconfiguration.json` with this
+export SERVICE_REGION="USWest2"
 case $ENV_NAME in
 	development)
 		export PLATFORM_APPLICATION_ARN="arn:aws:sns:xx-xxxx-1:xxxxxxxxxxxx:app/APNS_SANDBOX/Adequate-Development" 

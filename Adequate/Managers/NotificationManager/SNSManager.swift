@@ -15,18 +15,29 @@ enum SNSManagerError: Error {
     case missingARN
 }
 
+// MARK: - Configuration
+protocol SNSManagerConfiguration {
+    static var serviceRegion: AWSRegionType { get }
+    static var platformApplicationArn: String { get }
+    static var topicArn: String { get }
+}
+
+extension AppSecrets: SNSManagerConfiguration {}
+
 // MARK: - Implementation
 class SNSManager: NotificationServiceManager {
     private typealias ServiceARN = String
 
-    private var sns: AWSSNS!
+    private let configuration: SNSManagerConfiguration.Type
+    private let sns: AWSSNS
     private let queue = DispatchQueue(label: "com.mgacy.aws-queue", qos: .userInitiated, attributes: [.concurrent])
 
     // MARK: - Lifecycle
 
-    init(region: AWSRegionType) {
-        configureService(region: region)
-        self.sns = AWSSNS.default()
+    init(configuration: SNSManagerConfiguration.Type, credentialsProvider: AWSCredentialsProvider) {
+        self.configuration = configuration
+        self.sns = SNSManager.configureService(region: configuration.serviceRegion,
+                                               credentialsProvider: credentialsProvider)
     }
 
     //deinit { print("\(#function) - \(String(describing: self))") }
@@ -40,9 +51,9 @@ class SNSManager: NotificationServiceManager {
         UserDefaults.standard.set(token, forKey: UserDefaultsKey.SNSToken.rawValue)
 
         return createPlatformEndpoint(with: token)
-            .then(on: queue, { endpointArn -> Promise<String> in
+            .then(on: queue, { [unowned self] endpointArn -> Promise<String> in
                 UserDefaults.standard.set(endpointArn, forKey: UserDefaultsKey.SNSEndpoint.rawValue)
-                return self.subscribeToTopic(topicArn: AppSecrets.topicArn, endpointArn: endpointArn)
+                return self.subscribeToTopic(topicArn: self.configuration.topicArn, endpointArn: endpointArn)
             })
             .then({ subscriptionArn in
                 UserDefaults.standard.set(subscriptionArn, forKey: UserDefaultsKey.SNSSubscription.rawValue)
@@ -51,11 +62,11 @@ class SNSManager: NotificationServiceManager {
 
     // MARK: - Private
 
-    private func configureService(region: AWSRegionType) {
-        let credentialsProvider = AWSCognitoCredentialsProvider(regionType: region,
-                                                                identityPoolId: AppSecrets.identityPoolId)
+    private static func configureService(region: AWSRegionType, credentialsProvider: AWSCredentialsProvider) -> AWSSNS {
+        // TODO: should this be done in `AppDependency`?
         let configuration = AWSServiceConfiguration(region: region, credentialsProvider: credentialsProvider)
         AWSServiceManager.default().defaultServiceConfiguration = configuration
+        return AWSSNS.default()
     }
 
     private func createPlatformEndpoint(with token: String) -> Promise<ServiceARN> {
@@ -63,7 +74,7 @@ class SNSManager: NotificationServiceManager {
             return Promise(error: SNSManagerError.invalidInput)
         }
         request.token = token
-        request.platformApplicationArn = AppSecrets.platformApplicationArn
+        request.platformApplicationArn = configuration.platformApplicationArn
 
         return sns.createPlatformEndpoint(request: request)
             .then({ try $0.endpointArn.unwrap() })
