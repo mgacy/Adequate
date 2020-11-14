@@ -39,7 +39,7 @@ extension AWSAppSyncClient {
                         reject(SyncClientError.myError(message: "Neither data nor errors"))
                     }
                 } else {
-                    reject(SyncClientError.myError(message: "Neither data nor errors"))
+                    reject(SyncClientError.myError(message: "Neither result nor errors"))
                 }
             }
         }
@@ -68,7 +68,7 @@ extension AWSAppSyncClient {
                         reject(SyncClientError.myError(message: "Neither data nor errors"))
                     }
                 } else {
-                    reject(SyncClientError.myError(message: "Neither data nor errors"))
+                    reject(SyncClientError.myError(message: "Neither result nor errors"))
                 }
             }
         }

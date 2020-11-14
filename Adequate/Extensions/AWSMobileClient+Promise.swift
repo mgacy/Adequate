@@ -20,7 +20,6 @@ extension AWSMobileClient {
                 } else if let userState = userState {
                     fulfill(userState)
                 } else {
-                    //fatalError("Something has gone horribly wrong.")
                     reject(AWSMobileClientError.unknown(message: "Neither result nor error"))
                 }
             }
@@ -42,7 +41,6 @@ extension AWSMobileClient {
                 } else if let signInResult = signInResult {
                     fulfill(signInResult)
                 } else {
-                    //fatalError("Something has gone horribly wrong.")
                     reject(AWSMobileClientError.unknown(message: "Neither result nor error"))
                 }
             }
@@ -65,7 +63,6 @@ extension AWSMobileClient {
                 } else if let signUpResult = signUpResult {
                     fulfill(signUpResult)
                 } else {
-                    //fatalError("Something has gone horribly wrong.")
                     reject(AWSMobileClientError.unknown(message: "Neither result nor error"))
                 }
             }
@@ -86,7 +83,6 @@ extension AWSMobileClient {
                 } else if let result = signUpResult {
                     fulfill(result)
                 } else {
-                    //fatalError("Something has gone horribly wrong.")
                     reject(AWSMobileClientError.unknown(message: "Neither result nor error"))
                 }
             }
@@ -119,7 +115,6 @@ extension AWSMobileClient {
                 } else if let credentials = credentials {
                     fulfill(credentials)
                 } else {
-                    //fatalError("Something has gone horribly wrong.")
                     reject(AWSMobileClientError.unknown(message: "Neither result nor error"))
                 }
             }
@@ -138,7 +133,6 @@ extension AWSMobileClient {
                 } else if let tokens = tokens {
                     fulfill(tokens)
                 } else {
-                    //fatalError("Something has gone horribly wrong.")
                     reject(AWSMobileClientError.unknown(message: "Neither result nor error"))
                 }
             }
