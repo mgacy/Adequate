@@ -32,7 +32,7 @@ class NotificationService: UNNotificationServiceExtension {
             let attachmentID = "image"
 
             // Download image and modify notification content
-            downloader.downloadFile(from: url, as: attachmentID) { url in
+            downloader.downloadFile(from: url, as: attachmentID) { [weak self] url in
                 guard
                     let url = url,
                     let attachment = try? UNNotificationAttachment(identifier: attachmentID, url: url) else {
@@ -41,7 +41,7 @@ class NotificationService: UNNotificationServiceExtension {
                 bestAttemptContent.attachments.append(attachment)
 
                 let fileName = url.lastPathComponent
-                self.fileCache.storeFile(at: url, as: fileName)
+                self?.fileCache.storeFile(at: url, as: fileName)
 
                 contentHandler(bestAttemptContent)
             }
