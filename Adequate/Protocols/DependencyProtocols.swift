@@ -31,3 +31,7 @@ protocol HasDataProvider {
 protocol NotificationManagerProvider {
     func makeNotificationManager() -> NotificationManagerType
 }
+
+protocol NotificationServiceManagerProvider {
+    func makeNotificationServiceManager() -> NotificationServiceManager
+}

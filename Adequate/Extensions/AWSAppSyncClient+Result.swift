@@ -43,7 +43,6 @@ public extension AWSAppSyncClient {
                     resultHandler(.failure(.myError(message: "Neither data nor errors")))
                 }
             } else {
-                //fatalError("Something has gone horribly wrong: neither result nor error.")
                 resultHandler(.failure(.myError(message: "Neither result nor error")))
             }
         }
@@ -78,7 +77,6 @@ public extension AWSAppSyncClient {
                     resultHandler(.failure(.myError(message: "Neither data nor errors")))
                 }
             } else {
-                //fatalError("Something has gone horribly wrong: neither result nor error.")
                 resultHandler(.failure(.myError(message: "Neither result nor error")))
             }
         }
@@ -117,7 +115,6 @@ public extension AWSAppSyncClient {
                                 resultHandler(.failure(.myError(message: "Neither data nor errors")))
                             }
                         } else {
-                            //fatalError("Something has gone horribly wrong: neither result nor error.")
                             resultHandler(.failure(.myError(message: "Neither result nor error")))
                         }
         }
