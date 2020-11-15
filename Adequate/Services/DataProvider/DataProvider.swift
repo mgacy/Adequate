@@ -20,13 +20,7 @@ class DataProvider: DataProviderType {
     private var dealState: ViewState<Deal> {
         didSet {
             // TODO: check that viewState != oldValue before calling completions?
-
-            if case .result(let deal) = dealState {
-                log.verbose("New dealState: Result: Deal(title: \(deal.title), launchStatus: \(String(describing: deal.launchStatus)))")
-            } else {
-                log.verbose("New dealState: \(dealState)")
-            }
-
+            log.verbose("New dealState: \(dealState)")
             callObservations(with: dealState)
         }
     }
