@@ -149,8 +149,10 @@ class DataProvider: DataProviderType {
         }
         guard currentDealWatcher == nil else {
             log.error("currentDealWatcher has already been configured")
+            // TODO: call `refetchCurrentDeal(showLoading:)`?
             return
         }
+        // TODO: is it really necessary that dealState == ViewState.empty?
         guard dealState == ViewState<Deal>.empty else {
             log.error(".dealState is not empty")
             return
@@ -270,16 +272,12 @@ class DataProvider: DataProviderType {
                 }
 
                 // FIXME: change schema so `items` is non-nullable?
-                guard let items = data.items else {
+                guard let items = data.items, !items.isEmpty else {
                     self?.historyState = .empty
                     return
                 }
 
-                if items.isEmpty {
-                    self?.historyState = .empty
-                } else {
-                    self?.historyState = .result(items.compactMap { $0 })
-                }
+                self?.historyState = .result(items.compactMap { $0 })
             }.catch { error in
                 log.error("\(#function): \(error.localizedDescription)")
                 // TODO: always show error?
@@ -299,6 +297,7 @@ class DataProvider: DataProviderType {
             if let currentPendingRefreshEvent = pendingRefreshEvent {
                 log.warning("AWSMobileClient not initialized - deferring RefreshEvent: \(event) - replacing: \(currentPendingRefreshEvent)")
                 // TODO: add logic to determine whether the new event should replace the current one
+                // TODO: wrap pending refreshEvents in wrapper containing `createdAt` so we can discard old ones?
                 pendingRefreshEvent = event
             } else {
                 log.warning("AWSMobileClient not initialized - deferring RefreshEvent: \(event)")
@@ -617,12 +616,5 @@ extension DataProvider {
             }
         }
         return observer
-    }
-}
-
-// MARK: - Constants
-extension DataProvider {
-    private enum Constants {
-        static let cacheKey: String = "id"
     }
 }
