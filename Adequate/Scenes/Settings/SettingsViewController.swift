@@ -475,7 +475,7 @@ extension SettingsViewController {
     enum SupportAddress: String {
         case web = "example.com"
         case email = "app@mgacy.com"
-        case twitter = "@example"
+        case twitter = "@AdequateApp"
 
         var url: URL? {
             switch self {
