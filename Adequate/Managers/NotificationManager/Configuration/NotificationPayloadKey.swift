@@ -30,8 +30,10 @@ enum NotificationPayloadKey {
     /// Key for the associated value of the `DeltaType` carried by the notification.
     static let deltaValue = "delta-value"
 
-    /// Values allowed for `deltaType`
-    enum DeltaType: String {
+    // TODO: embed `DeltaTypeValue` and any future types of similar purpose in `NotificationPayloadValue` enum?
+
+    /// Values allowed for `deltaType`. Corresponds to `DeltaType`.
+    enum DeltaTypeValue: String {
         case newDeal
         case commentCount
         case launchStatus

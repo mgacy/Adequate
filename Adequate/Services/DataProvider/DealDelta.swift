@@ -32,7 +32,7 @@ enum DeltaType {
     init?(userInfo: [AnyHashable : Any]) {
         if
             let updateTypeString = userInfo[NotificationPayloadKey.deltaType] as? String,
-            let updateType = NotificationPayloadKey.DeltaType(rawValue: updateTypeString) {
+            let updateType = NotificationPayloadKey.DeltaTypeValue(rawValue: updateTypeString) {
 
             switch updateType {
             //case .newDeal:
