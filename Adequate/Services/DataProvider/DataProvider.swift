@@ -39,9 +39,10 @@ class DataProvider: DataProviderType {
     }
 
     private let credentialsProvider: CredentialsProvider
-    private var credentialsProviderIsInitialized: Bool = false
 
     private let client: MehSyncClientType
+
+    private let refreshManager: RefreshManager
 
     private var currentDealWatcher: GraphQLQueryWatcher<GetDealQuery>?
 
@@ -51,10 +52,19 @@ class DataProvider: DataProviderType {
     private var fetchCompletionObserver: CompletionWrapper<UIBackgroundFetchResult>?
     private var refreshHistoryObserver: CompletionWrapper<Void>?
 
+    private var credentialsProviderIsInitialized: Bool = false
+
+    /// Used by currentDealWatcher's resultHandler to determine whether to update .lastDealResponse.
+    private var haveInitializedWatcher: Bool = false // TODO: replace with check of `GraphQLResult.source` in handler
+
     // TODO: use a task queue (`OperationQueue`) for RefreshEvents / fetches? See `AWSPerformMutationQueue`
     private var pendingRefreshEvent: RefreshEvent?
 
-    private let refreshManager: RefreshManager
+    /// Token identifying request to run in background when app is launched in background from notification.
+    private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
+
+    /// Reference to fetch query operation used to return current deal in response to background app refresh.
+    private var cancellable: Cancellable? // FIXME: use better name
 
     // MARK: - Lifecycle
 
@@ -135,9 +145,6 @@ class DataProvider: DataProviderType {
     }
 
     // MARK: - CurrentDealWatcher
-
-    /// Used by currentDealWatcher's resultHandler to determine whether to update .lastDealResponse.
-    private var haveInitializedWatcher: Bool = false
 
     // TODO: make throwing
     private func configureWatcher(cachePolicy: CachePolicy) {
@@ -286,9 +293,6 @@ class DataProvider: DataProviderType {
     }
 
     // MARK: - Refresh
-
-    var backgroundTask: UIBackgroundTaskIdentifier = .invalid
-    var cancellable: Cancellable?
 
     func refreshDeal(for event: RefreshEvent) {
         log.verbose("\(#function) - \(event)")
