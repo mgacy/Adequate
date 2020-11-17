@@ -31,6 +31,8 @@ class NotificationService: UNNotificationServiceExtension {
             // TODO: make NotificationConstants an enum and define attachmentID as property of it?
             let attachmentID = "image"
 
+            let fileName = url.lastPathComponent
+
             // Download image and modify notification content
             downloader.downloadFile(from: url, as: attachmentID) { [weak self] url in
                 guard
@@ -39,8 +41,6 @@ class NotificationService: UNNotificationServiceExtension {
                         return
                 }
                 bestAttemptContent.attachments.append(attachment)
-
-                let fileName = url.lastPathComponent
                 self?.fileCache.storeFile(at: url, as: fileName)
 
                 contentHandler(bestAttemptContent)
