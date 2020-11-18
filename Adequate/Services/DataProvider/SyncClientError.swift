@@ -9,13 +9,27 @@
 import AWSAppSync
 
 public enum SyncClientError: Error {
-    case network(error: Error) // Capture any underlying Error
-    case authentication(error: Error)
-    case graphQL(errors: [Error])
-    case missingData(data: GraphQLSelectionSet) // TODO: rename `noData`
+    /// Capture an underlying network error.
+    case network(error: Error)
+    /// Unable to initialize client.
     case missingClient
-    case myError(message: String)
+    /// Failed to authenticate request.
+    case authentication(error: Error)
+    /// Response contained GraphQL errors.
+    case graphQL(errors: [GraphQLError])
+    /// Result data was missing expected field.
+    /// Raised if, for example, `GetDealQuery.Data.getDeal` were `nil` in absence of other errors.
+    case missingField(selectionSet: GraphQLSelectionSet) // TODO: pass String of expected field?
+    // TODO: isn't `missingField` really only about missing current Deal?
+    /// Capture any other unexpected error.
     case unknown(error: Error)
+
+    // The following errors should not happen, but I have been encountering `.emptyOperationHandler` at least
+
+    /// `OperationResultHandler` returned neither result nor error.
+    case emptyOperationHandler
+    /// `GraphQLResult` contained neither data nor errors.
+    case emptyResult // TODO: include `GraphQLResult.source`?
 }
 
 extension SyncClientError {
@@ -33,16 +47,20 @@ extension SyncClientError {
              */
             switch appSyncError {
             case .requestFailed(_, _, let underlyingError):
+                // "Did not receive a successful HTTP code."
                 // TODO: look at response / data
                 log.error("\(#function) - AWSAppSyncClientError.appSyncError: \(underlyingError?.localizedDescription ?? "No Error") ")
                 if let _underlyingError = underlyingError {
                     return .network(error: _underlyingError)
                 }
             case .noData(let response):
+                // "No Data received in response."
                 log.error("\(#function) - AWSAppSyncClientError.noData: \(response) ")
             case .parseError(_, _, let underlyingError):
+                // "Could not parse response data."
                 log.error("\(#function) - AWSAppSyncClientError.parseError: \(underlyingError?.localizedDescription ?? "No Error") ")
             case .authenticationError(let underlyingError):
+                // "Failed to authenticate request."
                 log.error("\(#function) - AWSAppSyncClientError.authenticationError: \(underlyingError.localizedDescription) ")
                 return .authentication(error: underlyingError)
             }
@@ -56,22 +74,25 @@ extension SyncClientError {
 
 // MARK: - LocalizedError
 extension SyncClientError: LocalizedError {
+    // FIXME: actually localize these descriptions
     public var errorDescription: String? {
         switch self {
         case .network(let error):
             return "Network Error: \(error.localizedDescription)"
+        case .missingClient:
+            return "Unable to initialize client"
         case .authentication(let error):
             return "Authentication Error: \(error.localizedDescription)"
         case .graphQL(let errors):
             return errors.map { $0.localizedDescription }.joined(separator: "\n")
-        case .missingData(let data):
+        case .missingField(let data):
             return "Missing data for \(String(describing: data))"
-        case .missingClient:
-            return "Unable to initialize client"
-        case .myError(let message):
-            return message
         case .unknown(let error):
             return "Unknown Error: \(error.localizedDescription)"
+        case .emptyOperationHandler:
+            return "Operation returned neither result not error."
+        case .emptyResult:
+            return "Result contained neither data nor error."
         }
     }
 }

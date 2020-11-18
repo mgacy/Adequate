@@ -55,7 +55,7 @@ class DataProviderMock: DataProviderType {
         case .failure(let error):
             return Promise(error: error)
         case .none:
-            return Promise(error: SyncClientError.myError(message: "Missing AWSAppSyncClient"))
+            return Promise(error: SyncClientError.missingClient)
         }
     }
 

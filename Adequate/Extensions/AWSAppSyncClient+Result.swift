@@ -22,7 +22,6 @@ public extension AWSAppSyncClient {
     ///   - queue: A dispatch queue on which the result handler will be called. Defaults to the main queue.
     ///   - resultHandler: A  closure that is called when query results are available or when an error occurs.
     /// - Returns: An object that can be used to cancel an in progress fetch.
-
     @discardableResult
     func fetch<Query: GraphQLQuery>(query: Query,
                                     cachePolicy: CachePolicy = .returnCacheDataElseFetch,
@@ -39,11 +38,10 @@ public extension AWSAppSyncClient {
                 } else if let errors = result.errors {
                     resultHandler(.failure(.graphQL(errors: errors)))
                 } else {
-                    //fatalError("Something has gone horribly wrong: neither data nor errors.")
-                    resultHandler(.failure(.myError(message: "Neither data nor errors")))
+                    resultHandler(.failure(.emptyResult))
                 }
             } else {
-                resultHandler(.failure(.myError(message: "Neither result nor error")))
+                resultHandler(.failure(.emptyOperationHandler))
             }
         }
     }
@@ -65,7 +63,6 @@ public extension AWSAppSyncClient {
     ) -> GraphQLQueryWatcher<Query> {
         return watch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
             if let error = error {
-                // TODO: should I wrap in SyncClientError here or higher up?
                 resultHandler(.failure(SyncClientError.wrap(error)))
             } else if let result = result {
                 if let data = result.data {
@@ -73,11 +70,10 @@ public extension AWSAppSyncClient {
                 } else if let errors = result.errors {
                     resultHandler(.failure(.graphQL(errors: errors)))
                 } else {
-                    //fatalError("Something has gone horribly wrong: neither data nor errors.")
-                    resultHandler(.failure(.myError(message: "Neither data nor errors")))
+                    resultHandler(.failure(.emptyResult))
                 }
             } else {
-                resultHandler(.failure(.myError(message: "Neither result nor error")))
+                resultHandler(.failure(.emptyOperationHandler))
             }
         }
     }
@@ -103,7 +99,6 @@ public extension AWSAppSyncClient {
         return perform(mutation: mutation, queue: queue, optimisticUpdate: optimisticUpdate,
                        conflictResolutionBlock: conflictResolutionBlock) { result, error in
                         if let error = error {
-                            // TODO: should I wrap in SyncClientError here or higher up?
                             resultHandler(.failure(SyncClientError.wrap(error)))
                         } else if let result = result {
                             if let errors = result.errors {
@@ -111,11 +106,10 @@ public extension AWSAppSyncClient {
                             } else if let data = result.data {
                                 resultHandler(.success(data))
                             } else {
-                                //fatalError("Something has gone horribly wrong: neither data nor errors.")
-                                resultHandler(.failure(.myError(message: "Neither data nor errors")))
+                                resultHandler(.failure(.emptyResult))
                             }
                         } else {
-                            resultHandler(.failure(.myError(message: "Neither result nor error")))
+                            resultHandler(.failure(.emptyOperationHandler))
                         }
         }
     }

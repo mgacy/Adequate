@@ -28,7 +28,6 @@ extension AWSAppSyncClient {
         return Promise<Query.Data> { fulfill, reject in
             self.fetch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
                 if let error = error {
-                    // TODO: should I wrap in SyncClientError here or higher up?
                     reject(SyncClientError.wrap(error))
                 } else if let result = result {
                     if let data = result.data {
@@ -36,10 +35,10 @@ extension AWSAppSyncClient {
                     } else if let errors = result.errors {
                         reject(SyncClientError.graphQL(errors: errors))
                     } else {
-                        reject(SyncClientError.myError(message: "Neither data nor errors"))
+                        reject(SyncClientError.emptyResult)
                     }
                 } else {
-                    reject(SyncClientError.myError(message: "Neither result nor errors"))
+                    reject(SyncClientError.emptyOperationHandler)
                 }
             }
         }
@@ -65,10 +64,10 @@ extension AWSAppSyncClient {
                     } else if let data = result.data {
                         fulfill(data)
                     } else {
-                        reject(SyncClientError.myError(message: "Neither data nor errors"))
+                        reject(SyncClientError.emptyResult)
                     }
                 } else {
-                    reject(SyncClientError.myError(message: "Neither result nor errors"))
+                    reject(SyncClientError.emptyOperationHandler)
                 }
             }
         }

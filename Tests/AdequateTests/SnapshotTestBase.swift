@@ -60,7 +60,7 @@ extension SnapshotTestBase {
         let snapshot = getSnapshot(named: "getDeal", from: jsonObject) as! JSONObject
         let getDeal = try GetDealQuery.Data.GetDeal(jsonObject: snapshot)
         guard let deal = Deal(getDeal) else {
-            throw SyncClientError.missingData(data: getDeal)
+            throw SyncClientError.missingField(selectionSet: getDeal)
         }
         return deal
     }

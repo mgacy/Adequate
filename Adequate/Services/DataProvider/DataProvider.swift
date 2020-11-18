@@ -252,7 +252,7 @@ class DataProvider: DataProviderType {
         return client.fetchDeal(withID: id,cachePolicy: .fetchIgnoringCacheData)
             .then({ result -> GetDealQuery.Data.GetDeal in
                 guard let deal = result.getDeal else {
-                    throw SyncClientError.missingData(data: result)
+                    throw SyncClientError.missingField(selectionSet: result)
                 }
                 return deal
             }).recover({ error in
@@ -275,7 +275,7 @@ class DataProvider: DataProviderType {
             .then { [weak self] result in
                 // FIXME: how to handle this?
                 guard let data = result.dealHistory else {
-                    throw SyncClientError.missingData(data: result)
+                    throw SyncClientError.missingField(selectionSet: result)
                 }
 
                 // FIXME: change schema so `items` is non-nullable?
