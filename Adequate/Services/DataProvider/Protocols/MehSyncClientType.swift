@@ -7,15 +7,27 @@
 //
 
 import AWSAppSync
-import class Promise.Promise // import class to avoid name collision with AWSAppSync.Promise
+import class Promise.Promise
 
 protocol MehSyncClientType {
-    // Specify `Swift.Result` to avoid interference with `AWSAppSync.Result`
-    typealias DealResultHandler = (Swift.Result<Deal?, SyncClientError>) -> Void
 
-    func fetchCurrentDeal(cachePolicy: CachePolicy, queue: DispatchQueue, resultHandler: @escaping DealResultHandler) -> Cancellable
+    // MARK: - Result Handler
+
+    typealias DealResultHandler = OperationResultHandler<Deal?>
+
+    func watchCurrentDeal(cachePolicy: CachePolicy,
+                          queue: DispatchQueue,
+                          resultHandler: @escaping DealResultHandler) throws -> GraphQLQueryWatcher<GetDealQuery>
+
+    func fetchCurrentDeal(cachePolicy: CachePolicy,
+                          queue: DispatchQueue,
+                          resultHandler: @escaping DealResultHandler) -> Cancellable
+
+    // MARK: - Promise
+
     func fetchDeal(withID id: GraphQLID, cachePolicy: CachePolicy) -> Promise<GetDealQuery.Data>
+
     func fetchDealHistory(limit: Int, nextToken: String?, cachePolicy: CachePolicy) -> Promise<DealHistoryQuery.Data>
-    func watchCurrentDeal(cachePolicy: CachePolicy, queue: DispatchQueue, resultHandler: @escaping DealResultHandler) throws -> GraphQLQueryWatcher<GetDealQuery>
+
     func updateCache(for deal: Deal, delta: DealDelta) -> Promise<Void>
 }

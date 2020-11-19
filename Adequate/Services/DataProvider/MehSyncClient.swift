@@ -50,32 +50,27 @@ class MehSyncClient: MehSyncClientType {
 
     func fetchCurrentDeal(cachePolicy: CachePolicy,
                           queue: DispatchQueue = DispatchQueue.main,
-                          resultHandler: @escaping MehSyncClientType.DealResultHandler) -> Cancellable {
+                          resultHandler: @escaping OperationResultHandler<Deal?>
+    ) -> Cancellable {
         let query = GetDealQuery(id: Constants.currentDealID)
-        return fetchDeal(query: query, cachePolicy: cachePolicy, resultHandler: resultHandler)
+        return fetch(query: query, cachePolicy: cachePolicy) { result in
+            let dealResult = result.map({ envelope -> DataEnvelope<Deal?> in
+                envelope.map({ Deal($0) })
+            })
+            resultHandler(dealResult)
+        }
     }
 
-    func fetchDeal(query: GetDealQuery,
-                   cachePolicy: CachePolicy,
-                   queue: DispatchQueue = .main,
-                   resultHandler: @escaping MehSyncClientType.DealResultHandler) -> Cancellable {
+    func fetch<Query: ResultSelectableQuery>(query: Query,
+                                             cachePolicy: CachePolicy,
+                                             queue: DispatchQueue = .main,
+                                             resultHandler: @escaping OperationResultHandler<Query.Data.ResultType?>
+    ) -> Cancellable {
         guard let client = appSyncClient else {
             resultHandler(.failure(SyncClientError.missingClient))
             return EmptyCancellable()
         }
-
-        return client.fetch(query: query, cachePolicy: cachePolicy, queue: queue) { result in
-            switch result {
-            case .success(let data):
-                if let getDeal = data.getDeal, let deal = Deal(getDeal) {
-                    resultHandler(.success(deal))
-                } else {
-                    resultHandler(.success(nil))
-                }
-            case .failure(let error):
-                resultHandler(.failure(error))
-            }
-        }
+        return client.fetch(query: query, cachePolicy: cachePolicy, queue: queue, resultHandler: resultHandler)
     }
 
     // MARK: - Fetch (Promise)
@@ -102,23 +97,18 @@ class MehSyncClient: MehSyncClientType {
 
     func watchCurrentDeal(cachePolicy: CachePolicy = .returnCacheDataAndFetch,
                           queue: DispatchQueue = .main,
-                          resultHandler: @escaping MehSyncClientType.DealResultHandler) throws -> GraphQLQueryWatcher<GetDealQuery> {
+                          resultHandler: @escaping OperationResultHandler<Deal?>
+    ) throws -> GraphQLQueryWatcher<GetDealQuery> {
         guard let appSyncClient = appSyncClient else {
             throw SyncClientError.missingClient
         }
 
         let query = GetDealQuery(id: Constants.currentDealID)
         return appSyncClient.watch(query: query, cachePolicy: cachePolicy, queue: queue) { result in
-            switch result {
-            case .success(let data):
-                if let deal = Deal(data.getDeal) {
-                    resultHandler(.success(deal))
-                } else {
-                    resultHandler(.success(nil))
-                }
-            case .failure(let error):
-                resultHandler(.failure(error))
-            }
+            let dealResult = result.map({ envelope -> DataEnvelope<Deal?> in
+                envelope.map({ Deal($0) })
+            })
+            resultHandler(dealResult)
         }
     }
 

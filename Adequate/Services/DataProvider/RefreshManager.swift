@@ -90,6 +90,9 @@ final class RefreshManager: NSObject {
         case .response(let deal):
             lastDealResponse = dateProvider()
             lastDealCreatedAt = deal.createdAt
+        case .responseEnvelope(let envelope):
+            guard case .server = envelope.source, let deal = envelope.data else { return }
+            update(.response(deal))
         }
     }
 }
@@ -102,6 +105,7 @@ extension RefreshManager {
         //case update(DealDelta)
         // TODO: pass both `oldDeal: Deal?` and `newDeal: Deal`?
         case response(Deal)
+        case responseEnvelope(DataEnvelope<Deal?>)
     }
 
     enum CacheCondition {

@@ -54,9 +54,6 @@ class DataProvider: DataProviderType {
 
     private var credentialsProviderIsInitialized: Bool = false
 
-    /// Used by currentDealWatcher's resultHandler to determine whether to update .lastDealResponse.
-    private var haveInitializedWatcher: Bool = false // TODO: replace with check of `GraphQLResult.source` in handler
-
     // TODO: use a task queue (`OperationQueue`) for RefreshEvents / fetches? See `AWSPerformMutationQueue`
     private var pendingRefreshEvent: RefreshEvent?
 
@@ -176,43 +173,35 @@ class DataProvider: DataProviderType {
         do {
             currentDealWatcher = try client.watchCurrentDeal(cachePolicy: cachePolicy, queue: .main) { result in
                 switch result {
-                case .success(let maybeDeal):
-                    guard let deal = maybeDeal else {
+                case .success(let envelope):
+                    guard let deal = envelope.data else {
                         log.error("Query failed to return result.")
                         self.dealState = .empty
-                        self.haveInitializedWatcher = true
                         return
                     }
                     //log.verbose("Deal: \(deal)")
 
-                    // FIXME: use GraphQLResult.source
-                    if self.haveInitializedWatcher {
-                        // We have already fetched a result that may have been from the cache; this is from the server.
+                    //self.refreshManager.update(.responseEnvelope(envelope))
+                    if case .server = envelope.source {
                         self.refreshManager.update(.response(deal))
-                    } else {
-                        // This is the first time fetching
-                        if case .fetchIgnoringCacheData = cachePolicy {
-                            self.refreshManager.update(.response(deal))
-                        }
                     }
 
-                    if case .result(let oldDeal) = self.dealState {
-                        if oldDeal != deal {
-                            self.dealState = .result(deal)
-                        }
-                    } else {
-                        self.dealState = .result(deal)
+                    // Don't call `callObservations(with:)` in `currentDeal` setter if no changes
+                    // TODO: should this just be handled in the setter itself?
+                    if case .result(let oldDeal) = self.dealState, oldDeal == deal {
+                        log.verbose("\(#function) - No change, bailing: OLD: \(oldDeal) - NEW: \(deal)")
+                        return
                     }
-
-                    self.haveInitializedWatcher = true
+                    self.dealState = .result(deal)
                 case .failure(let error):
                     log.error("Error: \(error.localizedDescription)")
-                    if !self.haveInitializedWatcher {
+                    switch self.dealState {
+                    case .result:
+                        // TODO: should we display an error after initial configuration?
+                        return
+                    default:
                         self.dealState = .error(error)
-                        self.haveInitializedWatcher = true // ?
                     }
-                    // TODO: should we display an error after initial configuration?
-                    // TODO: check existing dealState; .loading -> .error
                 }
             }
         } catch {
@@ -352,8 +341,8 @@ class DataProvider: DataProviderType {
 
             cancellable = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
                 switch result {
-                case .success(let maybeDeal):
-                    self.dealState = maybeDeal != nil ? .result(maybeDeal!) : .empty
+                case .success(let envelope):
+                    self.dealState = envelope.data != nil ? .result(envelope.data!) : .empty
                 case .failure(let error):
                     log.error("\(error)")
                 }
@@ -423,8 +412,8 @@ class DataProvider: DataProviderType {
 
         cancellable = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
             switch result {
-            case .success(let maybeDeal):
-                guard let newDeal = maybeDeal else {
+            case .success(let envelope):
+                guard let newDeal = envelope.data else {
                     log.error("BACKGROUND_APP_REFRESH: failed - Deal was nil")
                     //self.dealState = .error(SyncClientError.myError("Deal was nil")
                     completionHandler(.failed)

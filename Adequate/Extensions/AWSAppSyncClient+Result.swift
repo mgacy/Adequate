@@ -10,71 +10,48 @@ import AWSAppSync
 
 public extension AWSAppSyncClient {
 
-    typealias QueryResultHandler<Query> = (Swift.Result<Query.Data, SyncClientError>) -> Void where Query : GraphQLQuery
-    typealias MutationResultHandler<Mutation> = (Swift.Result<Mutation.Data, SyncClientError>) -> Void where Mutation : GraphQLMutation
+    typealias ResultHandler<T> = (OperationResult<T>) -> Void
 
     /// Fetches a query from the server or from the local cache, depending on the current contents of the cache and the
     /// specified cache policy.
     ///
     /// - Parameters:
     ///   - query: The query to fetch.
-    ///   - cachePolicy: A cache policy that specifies when results should be fetched from the server and when data should be loaded from the local cache.
+    ///   - cachePolicy: A cache policy that specifies when results should be fetched from the server and when data
+    ///                  should be loaded from the local cache.
     ///   - queue: A dispatch queue on which the result handler will be called. Defaults to the main queue.
     ///   - resultHandler: A  closure that is called when query results are available or when an error occurs.
     /// - Returns: An object that can be used to cancel an in progress fetch.
     @discardableResult
-    func fetch<Query: GraphQLQuery>(query: Query,
-                                    cachePolicy: CachePolicy = .returnCacheDataElseFetch,
-                                    queue: DispatchQueue = DispatchQueue.main,
-                                    resultHandler: @escaping QueryResultHandler<Query>
+    func fetch<Query: ResultSelectableQuery>(query: Query,
+                                             cachePolicy: CachePolicy = .returnCacheDataElseFetch,
+                                             queue: DispatchQueue = DispatchQueue.main,
+                                             resultHandler: @escaping ResultHandler<Query.Data.ResultType?>
     ) -> Cancellable {
         return fetch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
-            if let error = error {
-                // TODO: should I wrap in SyncClientError here or higher up?
-                resultHandler(.failure(SyncClientError.wrap(error)))
-            } else if let result = result {
-                if let data = result.data {
-                    resultHandler(.success(data))
-                } else if let errors = result.errors {
-                    resultHandler(.failure(.graphQL(errors: errors)))
-                } else {
-                    resultHandler(.failure(.emptyResult))
-                }
-            } else {
-                resultHandler(.failure(.emptyOperationHandler))
-            }
+            resultHandler(GraphQLResult.handleOperationResult(result: result, error: error))
         }
     }
 
-    /// Watches a query by first fetching an initial result from the server or from the local cache, depending on the current contents
-    /// of the cache and the specified cache policy. After the initial fetch, the returned query watcher object will get notified whenever
-    /// any of the data the query result depends on changes in the local cache, and calls the result handler again with the new result.
+    /// Watches a query by first fetching an initial result from the server or from the local cache, depending on the
+    /// current contents of the cache and the specified cache policy. After the initial fetch, the returned query
+    /// watcher object will get notified whenever any of the data the query result depends on changes in the local
+    /// cache, and calls the result handler again with the new result.
     ///
     /// - Parameters:
     ///   - query: The query to fetch.
-    ///   - cachePolicy: A cache policy that specifies when results should be fetched from the server or from the local cache.
+    ///   - cachePolicy: A cache policy that specifies when results should be fetched from the server or from the local
+    ///                  cache.
     ///   - queue: A dispatch queue on which the result handler will be called. Defaults to the main queue.
     ///   - resultHandler: A closure that is called when query results are available or when an error occurs.
     /// - Returns: A query watcher object that can be used to control the watching behavior.
-    func watch<Query: GraphQLQuery>(query: Query,
-                                    cachePolicy: CachePolicy = .returnCacheDataElseFetch,
-                                    queue: DispatchQueue = DispatchQueue.main,
-                                    resultHandler: @escaping QueryResultHandler<Query>
+    func watch<Query: ResultSelectableQuery>(query: Query,
+                                             cachePolicy: CachePolicy = .returnCacheDataElseFetch,
+                                             queue: DispatchQueue = DispatchQueue.main,
+                                             resultHandler: @escaping ResultHandler<Query.Data.ResultType?>
     ) -> GraphQLQueryWatcher<Query> {
         return watch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
-            if let error = error {
-                resultHandler(.failure(SyncClientError.wrap(error)))
-            } else if let result = result {
-                if let data = result.data {
-                    resultHandler(.success(data))
-                } else if let errors = result.errors {
-                    resultHandler(.failure(.graphQL(errors: errors)))
-                } else {
-                    resultHandler(.failure(.emptyResult))
-                }
-            } else {
-                resultHandler(.failure(.emptyOperationHandler))
-            }
+            resultHandler(GraphQLResult.handleOperationResult(result: result, error: error))
         }
     }
 
@@ -85,33 +62,21 @@ public extension AWSAppSyncClient {
     /// - Parameters:
     ///   - mutation: The mutation to perform.
     ///   - queue: A dispatch queue on which the result handler will be called. Defaults to the main queue.
-    ///   - optimisticUpdate: An optional closure which gets executed before making the network call, should be used to update local store using the `transaction` object.
+    ///   - optimisticUpdate: An optional closure which gets executed before making the network call, should be used to
+    ///                       update local store using the `transaction` object.
     ///   - conflictResolutionBlock: An optional closure that is called when mutation results into a conflict.
     ///   - resultHandler: A closure that is called when mutation results are available or when an error occurs.
     /// - Returns: An object that can be used to cancel an in progress mutation.
     @discardableResult
-    func perform<Mutation: GraphQLMutation>(mutation: Mutation,
-                                            queue: DispatchQueue = .main,
-                                            optimisticUpdate: OptimisticResponseBlock? = nil,
-                                            conflictResolutionBlock: MutationConflictHandler<Mutation>? = nil,
-                                            resultHandler: @escaping MutationResultHandler<Mutation>
+    func perform<Mutation: ResultSelectableMutation>(mutation: Mutation,
+                                                     queue: DispatchQueue = .main,
+                                                     optimisticUpdate: OptimisticResponseBlock? = nil,
+                                                     conflictResolutionBlock: MutationConflictHandler<Mutation>? = nil,
+                                                     resultHandler: @escaping ResultHandler<Mutation.Data.ResultType?>
     ) -> Cancellable {
         return perform(mutation: mutation, queue: queue, optimisticUpdate: optimisticUpdate,
                        conflictResolutionBlock: conflictResolutionBlock) { result, error in
-                        if let error = error {
-                            resultHandler(.failure(SyncClientError.wrap(error)))
-                        } else if let result = result {
-                            if let errors = result.errors {
-                                resultHandler(.failure(.graphQL(errors: errors)))
-                            } else if let data = result.data {
-                                resultHandler(.success(data))
-                            } else {
-                                resultHandler(.failure(.emptyResult))
-                            }
-                        } else {
-                            resultHandler(.failure(.emptyOperationHandler))
-                        }
+            resultHandler(GraphQLResult.handleOperationResult(result: result, error: error))
         }
     }
-
 }

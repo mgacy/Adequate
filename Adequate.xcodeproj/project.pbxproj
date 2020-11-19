@@ -49,6 +49,9 @@
 		C937EFE522DFFD4800C363C8 /* Affine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C937EFE422DFFD4800C363C8 /* Affine.swift */; };
 		C937EFE722DFFE5100C363C8 /* Prism.swift in Sources */ = {isa = PBXBuildFile; fileRef = C937EFE622DFFE5100C363C8 /* Prism.swift */; };
 		C937EFE922DFFF1400C363C8 /* Optional+Prism.swift in Sources */ = {isa = PBXBuildFile; fileRef = C937EFE822DFFF1400C363C8 /* Optional+Prism.swift */; };
+		C9385B8925659A9A00F7AFB5 /* ResultSelectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9385B8825659A9A00F7AFB5 /* ResultSelectable.swift */; };
+		C9385B9225659D0F00F7AFB5 /* API+ResultSelectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9385B9125659D0F00F7AFB5 /* API+ResultSelectable.swift */; };
+		C9385BA02565B7A000F7AFB5 /* DataEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9385B9F2565B7A000F7AFB5 /* DataEnvelope.swift */; };
 		C93BD90422B1B38100FAD8AA /* ItemAttributeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD90322B1B38100FAD8AA /* ItemAttributeType.swift */; };
 		C93CBED72320ADCE0033DCD0 /* DealViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CBED62320ADCE0033DCD0 /* DealViewControllerDelegate.swift */; };
 		C93CBEDA2320C8C70033DCD0 /* DebugCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CBED92320C8C70033DCD0 /* DebugCoordinator.swift */; };
@@ -385,6 +388,9 @@
 		C937EFE422DFFD4800C363C8 /* Affine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Affine.swift; sourceTree = "<group>"; };
 		C937EFE622DFFE5100C363C8 /* Prism.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prism.swift; sourceTree = "<group>"; };
 		C937EFE822DFFF1400C363C8 /* Optional+Prism.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Prism.swift"; sourceTree = "<group>"; };
+		C9385B8825659A9A00F7AFB5 /* ResultSelectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultSelectable.swift; sourceTree = "<group>"; };
+		C9385B9125659D0F00F7AFB5 /* API+ResultSelectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+ResultSelectable.swift"; sourceTree = "<group>"; };
+		C9385B9F2565B7A000F7AFB5 /* DataEnvelope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataEnvelope.swift; sourceTree = "<group>"; };
 		C93BD90322B1B38100FAD8AA /* ItemAttributeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAttributeType.swift; sourceTree = "<group>"; };
 		C93CBED62320ADCE0033DCD0 /* DealViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealViewControllerDelegate.swift; sourceTree = "<group>"; };
 		C93CBED92320C8C70033DCD0 /* DebugCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugCoordinator.swift; sourceTree = "<group>"; };
@@ -1378,6 +1384,8 @@
 				C9FABAF32372A3E200C1E523 /* Protocols */,
 				C989E11A223734C800DEAE89 /* API.swift */,
 				C989E11C223738ED00DEAE89 /* API+Ext.swift */,
+				C9385B9125659D0F00F7AFB5 /* API+ResultSelectable.swift */,
+				C9385B9F2565B7A000F7AFB5 /* DataEnvelope.swift */,
 				C979335522D7E27400132A00 /* CompletionWrapper.swift */,
 				C9093CC42228A76D00C9DA0C /* DataProvider.swift */,
 				C9FABAED2372498100C1E523 /* MehSyncClient.swift */,
@@ -1396,6 +1404,7 @@
 				C98282F8237B9418002B55D9 /* CredentialsProvider.swift */,
 				C9FABAEB2372472900C1E523 /* DataProviderType.swift */,
 				C9FABAF12372908100C1E523 /* MehSyncClientType.swift */,
+				C9385B8825659A9A00F7AFB5 /* ResultSelectable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1969,6 +1978,7 @@
 				C96CA86E2182DD1A00C3459E /* WelcomeViewController.swift in Sources */,
 				C9B90D0322837D140070ADE9 /* ParallaxScrollView.swift in Sources */,
 				C9DAC49B21476BB500D6558B /* Story.swift in Sources */,
+				C9385B8925659A9A00F7AFB5 /* ResultSelectable.swift in Sources */,
 				C95CD60D230F36FD0011585F /* TableBackgroundView.swift in Sources */,
 				C9DAC4A721476C8600D6558B /* NetworkClientError.swift in Sources */,
 				C989E11B223734C800DEAE89 /* API.swift in Sources */,
@@ -2073,6 +2083,7 @@
 				C9DAC49721476BA000D6558B /* Poll.swift in Sources */,
 				C9E07FD0232C32B700CA2F8E /* DebugButtonComponentView.swift in Sources */,
 				C9A0ED002453F4210051103F /* FooterViewController.swift in Sources */,
+				C9385B9225659D0F00F7AFB5 /* API+ResultSelectable.swift in Sources */,
 				C9DAC4B52147872700D6558B /* Router.swift in Sources */,
 				C9CDA59725217DFD0044A2A3 /* CurrentDeal.swift in Sources */,
 				C928547B216DCE44001E5993 /* SNSManager.swift in Sources */,
@@ -2096,6 +2107,7 @@
 				C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */,
 				C9DAC48D21476AF600D6558B /* UIColor+Ext.swift in Sources */,
 				C95CD616230FB0E60011585F /* DeepLink.swift in Sources */,
+				C9385BA02565B7A000F7AFB5 /* DataEnvelope.swift in Sources */,
 				C9BFB274253566E60002EAE5 /* Style.swift in Sources */,
 				C9DAC48321476A4000D6558B /* DependencyProtocols.swift in Sources */,
 				C93CBEDA2320C8C70033DCD0 /* DebugCoordinator.swift in Sources */,
