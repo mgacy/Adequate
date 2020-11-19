@@ -43,11 +43,17 @@ struct Deal: Codable {
 
 // MARK: - Equatable
 extension Deal: Equatable {
+    /*
+    // TODO: is there really a an appreciable advantage to limiting check to only these properties?
     static func == (lhs: Deal, rhs: Deal) -> Bool {
         return lhs.id == rhs.id
+            && lhs.dealID == rhs.dealID
             && lhs.soldOutAt == rhs.soldOutAt
+            && lhs.launches == rhs.launches
+            && lhs.launchStatus == rhs.launchStatus
             && lhs.topic == rhs.topic
     }
+    */
 }
 
 // MARK: - CustomStringConvertible
