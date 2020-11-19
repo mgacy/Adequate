@@ -13,7 +13,6 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
     typealias DealFragment = DealHistoryQuery.Data.DealHistory.Item
     typealias Deal = GetDealQuery.Data.GetDeal
-    typealias Topic = GetDealQuery.Data.GetDeal.Topic
     typealias GraphQLID = String
 
     weak var delegate: HistoryDetailViewControllerDelegate?

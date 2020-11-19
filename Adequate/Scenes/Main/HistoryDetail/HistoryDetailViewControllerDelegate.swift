@@ -9,6 +9,5 @@
 import Foundation
 
 protocol HistoryDetailViewControllerDelegate: VoidDismissalDelegate, FullScreenImagePresenting {
-    typealias Topic = GetDealQuery.Data.GetDeal.Topic
-    func showForum(with: Topic)
+    func showForum(with: TopicType)
 }

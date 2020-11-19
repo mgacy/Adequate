@@ -86,7 +86,7 @@ extension HistoryDetailCoordinator: FullScreenImagePresenting {}
 // MARK: - HistoryDetailViewControllerDelegate
 extension HistoryDetailCoordinator: HistoryDetailViewControllerDelegate {
 
-    func showForum(with topic: Topic) {
+    func showForum(with topic: TopicType) {
         guard let topicURL = URL(string: topic.url) else {
             return
         }

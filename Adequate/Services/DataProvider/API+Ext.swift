@@ -79,6 +79,8 @@ extension GetDealQuery.Data.GetDeal.Topic: TopicType {}
 
 // MARK: - DealHistoryQuery + Model Protocols
 
+extension DealHistoryQuery.Data.DealHistory.Item.Item: ItemType {}
+
 extension DealHistoryQuery.Data.DealHistory.Item.Theme: ThemeType {}
 
 // MARK: - DealHistoryQuery + Equatable
