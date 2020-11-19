@@ -144,7 +144,7 @@ class MehSyncClient: MehSyncClientType {
             store.withinReadWriteTransaction { transaction in
                 let query = GetDealQuery(id: deal.id)
                 try transaction.update(query: query) { (data: inout GetDealQuery.Data) in
-                    // Should we compare `dealID`?
+                    // FIXME: compare `dealID`
                     switch delta.deltaType {
                     case .commentCount(let newCount):
                         data.getDeal?.topic?.commentCount = newCount

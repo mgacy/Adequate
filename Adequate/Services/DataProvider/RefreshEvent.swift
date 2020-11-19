@@ -6,7 +6,7 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
-import UIKit
+import enum UIKit.UIBackgroundFetchResult
 
 enum RefreshEvent {
     /// Application did finish launching.

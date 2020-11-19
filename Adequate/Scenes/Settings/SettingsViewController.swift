@@ -32,6 +32,7 @@ final class SettingsViewController: UITableViewController {
 
     // MARK: - Subviews
 
+    // TODO: check `UIApplication.shared.supportsAlternateIcons` before displaying `appIconCell`?
     // TODO: add cell with switch to enable / disable sound for notification (see Drafts.app)
 
     private lazy var notificationCell: UITableViewCell = {

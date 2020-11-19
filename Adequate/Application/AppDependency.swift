@@ -20,6 +20,8 @@ class AppDependency: HasDataProvider, HasImageService, HasThemeManager, HasUserD
         let credentialsProvider = AWSMobileClient.default()
         self.credentialsProvider = credentialsProvider
 
+        // TODO: go ahead and configure AWSServiceManager.default().defaultServiceConfiguration here?
+
         // Initialize dataProvider
         self.dataProvider = DataProvider(credentialsProvider: credentialsProvider)
 

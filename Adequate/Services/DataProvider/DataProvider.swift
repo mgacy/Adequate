@@ -458,7 +458,6 @@ class DataProvider: DataProviderType {
         // FIXME: this prevents fetch if there was an error last time
         guard case .result(let currentDeal) = dealState else {
             // TODO: for `launchStatus` and `commentCount`, verify that the delta applies to currentDeal
-            //  - but the `id` of `currentDeal` is simply going to be `current_deal`, not meh's actual `id`
             // TODO: try to fetch from cache and see if that is the correct one?
             log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
             if fetchCompletionObserver != nil {
@@ -472,6 +471,7 @@ class DataProvider: DataProviderType {
         case .newDeal:
             refreshDealInBackground(fetchCompletionHandler: completionHandler)
         case .launchStatus(let newStatus):
+            // TODO: verify delta.dealID matches that of currentDeal
             if currentDeal.launchStatus != newStatus {
                 let launchStatusLens = Deal.lens.launchStatus
                 let updatedDeal = launchStatusLens.set(newStatus)(currentDeal)
@@ -489,6 +489,7 @@ class DataProvider: DataProviderType {
                 completionHandler(.noData)
             }
         case .commentCount(let newCount):
+            // TODO: verify delta.dealID matches that of currentDeal
             if let currentTopic = currentDeal.topic {
                 if currentTopic.commentCount != newCount {
                     let dealAffine = Deal.lens.topic.toAffine()
@@ -497,6 +498,7 @@ class DataProvider: DataProviderType {
                     let composed = dealAffine.then(topicPrism).then(topicAffine)
 
                     guard let updatedDeal = composed.trySet(newCount)(currentDeal) else {
+                        // TODO: should this be more forgiving? When can this actually fail?
                         fatalError("Problem with Affine composition for Deal.topic.commentCount")
                     }
                     dealState = .result(updatedDeal)
