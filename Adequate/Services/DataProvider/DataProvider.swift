@@ -248,8 +248,11 @@ class DataProvider: DataProviderType {
     // MARK: - Get
 
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
-        // TODO: if id != Constants.currentDealID, we should be able to use `.returnCacheDataElseFetch`
-        return client.fetchDeal(withID: id,cachePolicy: .fetchIgnoringCacheData)
+        // This should't be used to fetch the currentDeal and performing this check introduces coupling with
+        // `MehSyncClient`
+        let cachePolicy: CachePolicy = id == MehSyncClient.Constants.currentDealID ?
+            .fetchIgnoringCacheData : .returnCacheDataElseFetch
+        return client.fetchDeal(withID: id,cachePolicy: cachePolicy)
             .then({ result -> GetDealQuery.Data.GetDeal in
                 guard let deal = result.getDeal else {
                     throw SyncClientError.missingField(selectionSet: result)

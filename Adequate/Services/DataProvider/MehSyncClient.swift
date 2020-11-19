@@ -202,7 +202,7 @@ extension MehSyncClient {
 // MARK: - Types
 extension MehSyncClient {
 
-    private enum Constants {
+    enum Constants {
         static let cacheKey: String = "id"
         static let currentDealID: String = "current_deal"
     }
