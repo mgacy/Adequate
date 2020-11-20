@@ -60,8 +60,9 @@ extension Deal: Equatable {
 extension Deal: CustomStringConvertible {
     var description: String {
         let status = launchStatus != nil ? ".\(launchStatus!.rawValue)" : "nil"
-        // TODO: include topic as well?
-        // `topic: Topic(commentCount: \(topic.commentCount), createdAt: \(topic.createdAt), id: \(topic.id))`
+        if let topic = topic {
+            return "Deal(id: \"\(id)\", dealID: \"\(dealID)\", title: \"\(title)\", launchStatus: \(status)), topic: Topic(commentCount: \(topic.commentCount), createdAt: \(topic.createdAt), id: \(topic.id))"
+        }
         return "Deal(id: \"\(id)\", dealID: \"\(dealID)\", title: \"\(title)\", launchStatus: \(status))"
     }
 }

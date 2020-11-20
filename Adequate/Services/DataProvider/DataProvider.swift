@@ -16,6 +16,7 @@ import class Promise.Promise // import class to avoid name collision with AWSApp
 class DataProvider: DataProviderType {
     typealias DealHistory = DealHistoryQuery.Data.DealHistory
 
+    // TODO: before transitioning .result -> .loading we could store `Deal` to enable comparison with result
     // TODO: rename `ViewState<T>` as `ResourceState<T>`?
     private var dealState: ViewState<Deal> {
         didSet {
@@ -258,6 +259,7 @@ class DataProvider: DataProviderType {
         getDealHistory(cachePolicy: .fetchIgnoringCacheData)
     }
 
+    // TODO: what is the memory cost for holding 60?
     private func getDealHistory(limit: Int = 60, nextToken: String? = nil, cachePolicy: CachePolicy = .fetchIgnoringCacheData) {
         log.debug("\(#function) - \(cachePolicy)")
         //guard historyState != ViewState<[DealHistory]>.loading else { return }
@@ -320,6 +322,7 @@ class DataProvider: DataProviderType {
 
             configureWatcher(cachePolicy: cachePolicy)
         case .launchFromNotification:
+            // TODO: convert userInfo associated value into type and use that to determine response
             // FIXME: `DeepLink.build(with:)` does not distinguish different types of notifications
             // In the future, we will need to handle DealDeltas differently
 
