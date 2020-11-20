@@ -1,5 +1,5 @@
 //
-//  NotificationCategoryIdentifier.swift
+//  NotificationCategoryIdentifier+Ext.swift
 //  Adequate
 //
 //  Created by Mathew Gacy on 9/5/20.
@@ -8,9 +8,8 @@
 
 import UserNotifications
 
-enum NotificationCategoryIdentifier: String {
-    case dailyDeal = "MGDailyDealCategory"
-    //case launchStatus = "MGLaunchStatus"
+// MARK: - NotificationCategoryIdentifier + Ext
+extension NotificationCategoryIdentifier {
 
     /// The actions to display when a notification of this type is presented.
     var actions: [NotificationAction] {
@@ -37,6 +36,7 @@ enum NotificationCategoryIdentifier: String {
     }
 }
 
+/// Actions to display when a notification is presented.
 enum NotificationAction: String {
     case buyAction = "MGBuyAction"
     //case mehAction = "MGMehAction"
