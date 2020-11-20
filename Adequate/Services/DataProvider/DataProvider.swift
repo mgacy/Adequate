@@ -172,7 +172,7 @@ class DataProvider: DataProviderType {
 
         dealState = .loading
         do {
-            currentDealWatcher = try client.watchCurrentDeal(cachePolicy: cachePolicy, queue: .main) { result in
+            currentDealWatcher = try client.watchCurrentDeal(cachePolicy: cachePolicy, queue: .main) { [unowned self] result in
                 switch result {
                 case .success(let envelope):
                     guard let deal = envelope.data else {
