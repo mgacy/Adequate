@@ -17,7 +17,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
     private let dataProvider: DataProviderType
     private let imageService: ImageServiceType
     private let themeManager: ThemeManagerType
-    private let selectionFeedback = UISelectionFeedbackGenerator()
+    private let feedbackGenerator = UISelectionFeedbackGenerator()
 
     private var viewState: ViewState<Deal> = .empty {
         didSet {
@@ -320,8 +320,7 @@ extension DealViewController: DealFooterDelegate {
         guard case .result(let deal) = viewState else {
             return
         }
-        selectionFeedback.prepare()
-        selectionFeedback.selectionChanged()
+        feedbackGenerator.selectionChanged()
         delegate?.showPurchase(for: deal)
     }
 }
