@@ -172,25 +172,25 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
             barBackingView.widthAnchor.constraint(equalTo: rootView.scrollView.widthAnchor),
         ])
 
-            let horizontalMargin: CGFloat = 40.0
+        let horizontalMargin: CGFloat = 40.0
 
-            let topConstraint = pagedImageView.topAnchor.constraint(equalTo: rootView.secondaryColumnGuide.topAnchor)
-            topConstraint.priority = UILayoutPriority(650)
+        let topConstraint = pagedImageView.topAnchor.constraint(equalTo: rootView.secondaryColumnGuide.topAnchor)
+        topConstraint.priority = UILayoutPriority(650)
 
-            let widthConstraint = pagedImageView.widthAnchor.constraint(equalTo: rootView.secondaryColumnGuide.widthAnchor,
-                                                                        constant: horizontalMargin)
-            widthConstraint.priority = UILayoutPriority(750)
+        let widthConstraint = pagedImageView.widthAnchor.constraint(equalTo: rootView.secondaryColumnGuide.widthAnchor,
+                                                                    constant: horizontalMargin)
+        widthConstraint.priority = UILayoutPriority(750)
 
-            sharedRegularConstraints = [
-                pagedImageView.centerYAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerYAnchor),
-                pagedImageView.centerXAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerXAnchor),
-                pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
-                                                       constant: pagedImageView.pageControlHeight - horizontalMargin),
-                pagedImageView.topAnchor.constraint(greaterThanOrEqualTo: rootView.secondaryColumnGuide.topAnchor),
-                pagedImageView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor),
-                topConstraint,
-                widthConstraint
-            ]
+        sharedRegularConstraints = [
+            pagedImageView.centerYAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerYAnchor),
+            pagedImageView.centerXAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerXAnchor),
+            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
+                                                   constant: pagedImageView.pageControlHeight - horizontalMargin),
+            pagedImageView.topAnchor.constraint(greaterThanOrEqualTo: rootView.secondaryColumnGuide.topAnchor),
+            pagedImageView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor),
+            topConstraint,
+            widthConstraint
+        ]
     }
 
     override func setupObservations() -> [ObservationToken] {
