@@ -10,7 +10,7 @@ import UIKit
 
 class FileCache: ImageCaching {
 
-    let maxFileCount: Int = 5
+    let maxFileCount: Int = Constants.maxFileCount
 
     private let fileManager: FileManager = .default
     private let containerURL: URL
@@ -19,7 +19,7 @@ class FileCache: ImageCaching {
 
     init(appGroupID: String){
         let appGroupURL = fileManager.containerURL(forSecurityApplicationGroupIdentifier: appGroupID)!
-        self.containerURL = appGroupURL.appendingPathComponent("Library/Caches", isDirectory: true)
+        self.containerURL = appGroupURL.appendingPathComponent(Constants.cacheDirectory, isDirectory: true)
 
         // TODO: should this just maintain an array of files to minimize file operations?
         //let currentFiles = try fileManager.contentsOfDirectory(at: url, includingPropertiesForKeys: keys, options: .skipsHiddenFiles)
@@ -140,5 +140,15 @@ class FileCache: ImageCaching {
         } else {
             return nil
         }
+    }
+}
+
+// MARK: - Types
+extension FileCache {
+
+    // TODO: make `struct Config` and initialize?
+    enum Constants {
+        static var cacheDirectory: String = "Library/Caches"
+        static var maxFileCount: Int = 5
     }
 }
