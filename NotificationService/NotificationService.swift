@@ -15,36 +15,35 @@ class NotificationService: UNNotificationServiceExtension {
     var contentHandler: ((UNNotificationContent) -> Void)?
     var bestAttemptContent: UNMutableNotificationContent?
 
-    override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
+    override func didReceive(_ request: UNNotificationRequest,
+                             withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void
+    ) {
+        // Store for use in `serviceExtensionTimeWillExpire()`
         self.contentHandler = contentHandler
-        bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
-        
-        if let bestAttemptContent = bestAttemptContent {
+        self.bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
 
-            // Parse image url from bestAttemptContent?.userInfo
+        guard let bestAttemptContent = bestAttemptContent,
+              let urlString = bestAttemptContent.userInfo[NotificationPayloadKey.imageURL] as? String,
+              let imageURL = URL(string: urlString)?.secure() else {
+            contentHandler(request.content)
+            return
+        }
+        // TODO: get `request.content.categoryIdentifier` and pass content to corresponding method
+
+        let attachmentID = NotificationAttachmentID.image.rawValue
+        let fileName = imageURL.lastPathComponent
+
+        // Download image and modify notification content
+        downloader.downloadFile(from: imageURL, as: attachmentID) { [weak self] url in
             guard
-                let urlString = bestAttemptContent.userInfo[NotificationPayloadKey.imageURL] as? String,
-                let url = URL(string: urlString)?.secure() else {
-                    return contentHandler(request.content)
+                let url = url,
+                let attachment = try? UNNotificationAttachment(identifier: attachmentID, url: url) else {
+                    return
             }
+            self?.fileCache.storeFile(at: url, as: fileName)
+            bestAttemptContent.attachments.append(attachment)
 
-            // TODO: make NotificationConstants an enum and define attachmentID as property of it?
-            let attachmentID = "image"
-
-            let fileName = url.lastPathComponent
-
-            // Download image and modify notification content
-            downloader.downloadFile(from: url, as: attachmentID) { [weak self] url in
-                guard
-                    let url = url,
-                    let attachment = try? UNNotificationAttachment(identifier: attachmentID, url: url) else {
-                        return
-                }
-                bestAttemptContent.attachments.append(attachment)
-                self?.fileCache.storeFile(at: url, as: fileName)
-
-                contentHandler(bestAttemptContent)
-            }
+            contentHandler(bestAttemptContent)
         }
     }
     
@@ -56,4 +55,11 @@ class NotificationService: UNNotificationServiceExtension {
         }
     }
 
+}
+
+// MARK: - Support
+enum NotificationAttachmentID: String {
+
+    /// Identifier for Deal image notification attachments.
+    case image // `newDealImage`?
 }
