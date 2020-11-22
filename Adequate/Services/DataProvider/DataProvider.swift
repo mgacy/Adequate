@@ -220,30 +220,6 @@ class DataProvider: DataProviderType {
         }
     }
 
-    private func refetchCurrentDeal(showLoading: Bool) {
-        // TODO: verify credentialsProvider.currentUserState?
-        guard credentialsProviderIsInitialized else {
-            log.error("\(#function) - credentialsProvider has not been initialized")
-            // TODO: try to initialze credentialsProvider again?
-            return
-        }
-        guard let currentDealWatcher = currentDealWatcher else {
-            log.error("\(#function) - currentDealWatcher not configured")
-            //currentDealWatcher = configureWatcher(cachePolicy: .fetchIgnoringCacheData)
-            return
-        }
-
-        // TODO: how to handle different dealStates?
-        log.verbose("\(#function) - \(showLoading) - \(dealState)")
-
-        if showLoading {
-            dealState = .loading
-        }
-
-        refreshManager.update(.request)
-        currentDealWatcher.refetch()
-    }
-
     // MARK: - Refresh
 
     func refreshDeal(for event: RefreshEvent) {
@@ -338,75 +314,6 @@ class DataProvider: DataProviderType {
         }
     }
 
-    private func endTask() {
-        log.debug("Cancelling background tasks ...")
-        cancellable?.cancel() // TODO: do we need any logic to skip if fetch already completed?
-        UIApplication.shared.endBackgroundTask(backgroundTask)
-        backgroundTask = .invalid
-    }
-
-    // TODO: rename `fetchDealInBackground()`
-    private func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        log.verbose("\(#function)")
-        // TODO: should we start a timer to ensure that the completionHandler is called within the next 30 - cushion seconds?
-
-        // TEMP:
-        if backgroundTask != .invalid {
-            log.warning("\(#function) - backgroundTask appears to be in progress")
-        }
-
-        if !credentialsProviderIsInitialized {
-            log.error("Trying to refresh Deal before initializing credentials provider")
-            // TODO: check if we are replacing existing pendingRefreshEvent
-            pendingRefreshEvent = .silentNotification(completionHandler)
-            return
-        }
-
-        refreshManager.update(.request)
-        // FIXME: this does not necessarily ensure we are not already fetching the current deal, since we may have called `refreshDeal(showLoading: false, cachePolicy:)`
-        guard dealState != ViewState<Deal>.loading else {
-            // TODO: check RefreshManager.lastDealRequest to ensure it is a recent request
-            log.debug("Already fetching Deal; setting .fetchCompletionObserver")
-            if fetchCompletionObserver != nil {
-                log.error("Replacing existing .fetchCompletionObserver")
-            }
-            fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
-            return
-        }
-
-        cancellable = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
-            switch result {
-            case .success(let envelope):
-                guard let newDeal = envelope.data else {
-                    log.error("BACKGROUND_APP_REFRESH: failed - Deal was nil")
-                    //self.dealState = .error(SyncClientError.myError("Deal was nil")
-                    completionHandler(.failed)
-                    return
-                }
-                self.refreshManager.update(.response(newDeal))
-                if case .result(let oldDeal) = self.dealState {
-                    if oldDeal != newDeal {
-                        log.debug("BACKGROUND_APP_REFRESH: newData")
-                        // TODO: start background task to download image
-                        self.dealState = .result(newDeal)
-                        completionHandler(.newData)
-                    } else {
-                        log.debug("BACKGROUND_APP_REFRESH: noData")
-                        completionHandler(.noData)
-                    }
-                } else {
-                    log.debug("BACKGROUND_APP_REFRESH: newData")
-                    self.dealState = .result(newDeal)
-                    completionHandler(.newData)
-                }
-            case .failure(let error):
-                log.error("BACKGROUND_APP_REFRESH: failed - \(error.localizedDescription)")
-                //self.dealState = .error(error)
-                completionHandler(.failed)
-            }
-        }
-    }
-
     // MARK: - Update
 
     func updateDealInBackground(_ delta: DealDelta,
@@ -476,6 +383,100 @@ class DataProvider: DataProviderType {
                 refreshDealInBackground(fetchCompletionHandler: completionHandler)
             }
         }
+    }
+
+    private func refetchCurrentDeal(showLoading: Bool) {
+        // TODO: verify credentialsProvider.currentUserState?
+        guard credentialsProviderIsInitialized else {
+            log.error("\(#function) - credentialsProvider has not been initialized")
+            // TODO: try to initialze credentialsProvider again?
+            return
+        }
+        guard let currentDealWatcher = currentDealWatcher else {
+            log.error("\(#function) - currentDealWatcher not configured")
+            //currentDealWatcher = configureWatcher(cachePolicy: .fetchIgnoringCacheData)
+            return
+        }
+
+        // TODO: how to handle different dealStates?
+        log.verbose("\(#function) - \(showLoading) - \(dealState)")
+
+        if showLoading {
+            dealState = .loading
+        }
+
+        refreshManager.update(.request)
+        currentDealWatcher.refetch()
+    }
+
+    // TODO: rename `fetchDealInBackground()`
+    private func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        log.verbose("\(#function)")
+        // TODO: should we start a timer to ensure that the completionHandler is called within the next 30 - cushion seconds?
+
+        // TEMP:
+        if backgroundTask != .invalid {
+            log.warning("\(#function) - backgroundTask appears to be in progress")
+        }
+
+        if !credentialsProviderIsInitialized {
+            log.error("Trying to refresh Deal before initializing credentials provider")
+            // TODO: check if we are replacing existing pendingRefreshEvent
+            pendingRefreshEvent = .silentNotification(completionHandler)
+            return
+        }
+
+        refreshManager.update(.request)
+        // FIXME: this does not necessarily ensure we are not already fetching the current deal, since we may have
+        // called `refreshDeal(showLoading: false, cachePolicy:)`
+        guard dealState != ViewState<Deal>.loading else {
+            // TODO: check RefreshManager.lastDealRequest to ensure it is a recent request
+            log.debug("Already fetching Deal; setting .fetchCompletionObserver")
+            if fetchCompletionObserver != nil {
+                log.error("Replacing existing .fetchCompletionObserver")
+            }
+            fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
+            return
+        }
+
+        cancellable = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
+            switch result {
+            case .success(let envelope):
+                guard let newDeal = envelope.data else {
+                    log.error("BACKGROUND_APP_REFRESH: failed - Deal was nil")
+                    //self.dealState = .error(SyncClientError.myError("Deal was nil")
+                    completionHandler(.failed)
+                    return
+                }
+                self.refreshManager.update(.response(newDeal))
+                if case .result(let oldDeal) = self.dealState {
+                    if oldDeal != newDeal {
+                        log.debug("BACKGROUND_APP_REFRESH: newData")
+                        // TODO: start background task to download image
+                        self.dealState = .result(newDeal)
+                        completionHandler(.newData)
+                    } else {
+                        log.debug("BACKGROUND_APP_REFRESH: noData")
+                        completionHandler(.noData)
+                    }
+                } else {
+                    log.debug("BACKGROUND_APP_REFRESH: newData")
+                    self.dealState = .result(newDeal)
+                    completionHandler(.newData)
+                }
+            case .failure(let error):
+                log.error("BACKGROUND_APP_REFRESH: failed - \(error.localizedDescription)")
+                //self.dealState = .error(error)
+                completionHandler(.failed)
+            }
+        }
+    }
+
+    private func endTask() {
+        log.debug("Cancelling background tasks ...")
+        cancellable?.cancel() // TODO: do we need any logic to skip if fetch already completed?
+        UIApplication.shared.endBackgroundTask(backgroundTask)
+        backgroundTask = .invalid
     }
 }
 
