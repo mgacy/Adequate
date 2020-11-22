@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Representation of notification content.
 struct DealDelta {
     let dealID: String
     let deltaType: DeltaType
@@ -24,15 +25,14 @@ struct DealDelta {
 }
 
 enum DeltaType {
-    case newDeal
-    //case newDeal(dealURL: URL, imageURL: URL)
+    case newDeal//(dealURL: URL, imageURL: URL)
     case commentCount(Int)
     case launchStatus(LaunchStatus)
 
     init?(userInfo: [AnyHashable : Any]) {
         if
             let updateTypeString = userInfo[NotificationPayloadKey.deltaType] as? String,
-            let updateType = NotificationPayloadKey.DeltaTypeValue(rawValue: updateTypeString) {
+            let updateType = ValueType(rawValue: updateTypeString) {
 
             switch updateType {
             //case .newDeal:
@@ -49,10 +49,6 @@ enum DeltaType {
                         return nil
                 }
                 self = .launchStatus(launchStatus)
-            //case .multiple:
-            //    return nil
-            default:
-                return nil
             }
         } else {
             self = .newDeal
@@ -66,5 +62,11 @@ enum DeltaType {
             //}
             //self = .newDeal(dealURL: dealURL, imageURL: imageURL)
         }
+    }
+
+    /// Values for `NotificationPayloadKey.deltaType`
+    enum ValueType: String {
+        case commentCount
+        case launchStatus
     }
 }
