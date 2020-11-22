@@ -151,7 +151,7 @@ class DataProvider: DataProviderType {
         }
     }
 
-    // MARK: - CurrentDealWatcher
+    // MARK: - CurrentDealWatcher Config
 
     // TODO: make throwing
     private func configureWatcher(cachePolicy: CachePolicy) {
@@ -242,57 +242,6 @@ class DataProvider: DataProviderType {
 
         refreshManager.update(.request)
         currentDealWatcher.refetch()
-    }
-
-    // MARK: - Get
-
-    func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
-        // This should't be used to fetch the currentDeal and performing this check introduces coupling with
-        // `MehSyncClient`
-        let cachePolicy: CachePolicy = id == MehSyncClient.Constants.currentDealID ?
-            .fetchIgnoringCacheData : .returnCacheDataElseFetch
-        return client.fetchDeal(withID: id,cachePolicy: cachePolicy)
-            .then({ result -> GetDealQuery.Data.GetDeal in
-                guard let deal = result.getDeal else {
-                    throw SyncClientError.missingField(selectionSet: result)
-                }
-                return deal
-            }).recover({ error in
-                log.error("\(#function): \(error.localizedDescription)")
-                throw error
-            })
-    }
-
-    func getDealHistory() {
-        // FIXME: decide on CachePolicy: .fetchIgnoringCacheData / .returnCacheDataAndFetch
-        getDealHistory(cachePolicy: .fetchIgnoringCacheData)
-    }
-
-    // TODO: what is the memory cost for holding 60?
-    private func getDealHistory(limit: Int = 60, nextToken: String? = nil, cachePolicy: CachePolicy = .fetchIgnoringCacheData) {
-        log.debug("\(#function) - \(cachePolicy)")
-        //guard historyState != ViewState<[DealHistory]>.loading else { return }
-
-        historyState = .loading
-        client.fetchDealHistory(limit: limit, nextToken: nextToken, cachePolicy: cachePolicy)
-            .then { [weak self] result in
-                // FIXME: how to handle this?
-                guard let data = result.dealHistory else {
-                    throw SyncClientError.missingField(selectionSet: result)
-                }
-
-                // FIXME: change schema so `items` is non-nullable?
-                guard let items = data.items, !items.isEmpty else {
-                    self?.historyState = .empty
-                    return
-                }
-
-                self?.historyState = .result(items.compactMap { $0 })
-            }.catch { error in
-                log.error("\(#function): \(error.localizedDescription)")
-                // TODO: always show error?
-                self.historyState = .error(error)
-            }
     }
 
     // MARK: - Refresh
@@ -396,6 +345,7 @@ class DataProvider: DataProviderType {
         backgroundTask = .invalid
     }
 
+    // TODO: rename `fetchDealInBackground()`
     private func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.verbose("\(#function)")
         // TODO: should we start a timer to ensure that the completionHandler is called within the next 30 - cushion seconds?
@@ -459,7 +409,9 @@ class DataProvider: DataProviderType {
 
     // MARK: - Update
 
-    func updateDealInBackground(_ delta: DealDelta, fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    func updateDealInBackground(_ delta: DealDelta,
+                                fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    ) {
         log.verbose("\(#function) - \(delta)")
         // FIXME: this prevents fetch if there was an error last time
         guard case .result(let currentDeal) = dealState else {
@@ -524,6 +476,59 @@ class DataProvider: DataProviderType {
                 refreshDealInBackground(fetchCompletionHandler: completionHandler)
             }
         }
+    }
+}
+
+// MARK: - Get
+extension DataProvider {
+
+    func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
+        // This should't be used to fetch the currentDeal and performing this check introduces coupling with
+        // `MehSyncClient`
+        let cachePolicy: CachePolicy = id == MehSyncClient.Constants.currentDealID ?
+            .fetchIgnoringCacheData : .returnCacheDataElseFetch
+        return client.fetchDeal(withID: id,cachePolicy: cachePolicy)
+            .then({ result -> GetDealQuery.Data.GetDeal in
+                guard let deal = result.getDeal else {
+                    throw SyncClientError.missingField(selectionSet: result)
+                }
+                return deal
+            }).recover({ error in
+                log.error("\(#function): \(error.localizedDescription)")
+                throw error
+            })
+    }
+
+    func getDealHistory() {
+        // FIXME: decide on CachePolicy: .fetchIgnoringCacheData / .returnCacheDataAndFetch
+        getDealHistory(cachePolicy: .fetchIgnoringCacheData)
+    }
+
+    // TODO: what is the memory cost for holding 60?
+    private func getDealHistory(limit: Int = 60, nextToken: String? = nil, cachePolicy: CachePolicy = .fetchIgnoringCacheData) {
+        log.debug("\(#function) - \(cachePolicy)")
+        //guard historyState != ViewState<[DealHistory]>.loading else { return }
+
+        historyState = .loading
+        client.fetchDealHistory(limit: limit, nextToken: nextToken, cachePolicy: cachePolicy)
+            .then { [weak self] result in
+                // FIXME: how to handle this?
+                guard let data = result.dealHistory else {
+                    throw SyncClientError.missingField(selectionSet: result)
+                }
+
+                // FIXME: change schema so `items` is non-nullable?
+                guard let items = data.items, !items.isEmpty else {
+                    self?.historyState = .empty
+                    return
+                }
+
+                self?.historyState = .result(items.compactMap { $0 })
+            }.catch { error in
+                log.error("\(#function): \(error.localizedDescription)")
+                // TODO: always show error?
+                self.historyState = .error(error)
+            }
     }
 }
 
