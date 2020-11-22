@@ -114,6 +114,11 @@ class DataProvider: DataProviderType {
             }
             let currentDealManager = CurrentDealManager()
             currentDealManager.saveDeal(currentDeal)
+
+            // FIXME: we should really only reload for a change in status
+            if #available(iOS 14, *) {
+                WidgetCenter.shared.reloadAllTimelines()
+            }
         }
 
         switch credentialsProvider.currentUserState {
@@ -131,6 +136,10 @@ class DataProvider: DataProviderType {
                 }
         case .guest:
             credentialsProviderIsInitialized = true
+            if let refreshEvent = pendingRefreshEvent {
+                refreshDeal(for: refreshEvent)
+                pendingRefreshEvent = nil
+            }
         case .signedIn:
             log.debug("currentUserState: \(credentialsProvider.currentUserState)")
         case .signedOut:
