@@ -131,6 +131,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         log.debug("\(#function) - \(notification)")
         // TODO: prepare for other `response.notification.request.content.categoryIdentifier`
+        // TODO: pass completion handler as associated value?
         appCoordinator.refreshDeal(for: .foregroundNotification)
 
         completionHandler([.alert, .sound])

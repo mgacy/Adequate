@@ -86,6 +86,7 @@ class AppCoordinator: BaseCoordinator {
         refreshDeal(for: refreshEvent)
         let mainCoordinator = MainCoordinator(window: window, dependencies: dependencies)
         store(coordinator: mainCoordinator)
+        // TODO: if .launchFromNotification, should DealNotification.notificationType influence coordinator?
         mainCoordinator.start()
     }
 
@@ -102,6 +103,8 @@ class AppCoordinator: BaseCoordinator {
         coordinator.start()
     }
 }
+
+// TODO: should these be pushed into an `AppController` object?
 
 // MARK: - Refresh
 extension AppCoordinator {
@@ -122,7 +125,6 @@ extension AppCoordinator {
 }
 
 // MARK: - Notifications
-// TODO: should these be pushed into an `AppController` / `AppManager` object??
 extension AppCoordinator {
 
     func registerForPushNotifications(with manager: NotificationManagerType) {

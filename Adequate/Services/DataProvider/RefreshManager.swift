@@ -43,7 +43,7 @@ final class RefreshManager: NSObject {
     /// The last time we tried to fetch the current Deal (in response to Notification)
     // TODO: replace with property wrapper
     // https://medium.com/@kahseng.lee123/create-the-perfect-userdefaults-wrapper-using-property-wrapper-42ca76005ac8
-    private var lastDealRequest: Date {
+    private(set) var lastDealRequest: Date {
         get {
             return defaults.object(forKey: UserDefaultsKey.lastDealRequest.rawValue) as? Date ?? Date.distantPast
         }

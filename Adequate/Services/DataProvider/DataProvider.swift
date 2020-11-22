@@ -309,6 +309,7 @@ class DataProvider: DataProviderType {
         case .manual:
             guard currentDealWatcher != nil else {
                 log.error("\(#function) - \(event) - currentDealWatcher not configured)")
+                // FIXME: this will also make a `CompletionWrapper` to refresh history; do we want that?
                 refreshDeal(for: .launch)
                 return
             }
@@ -405,6 +406,7 @@ class DataProvider: DataProviderType {
         refreshManager.update(.request)
         // FIXME: this does not necessarily ensure we are not already fetching the current deal, since we may have called `refreshDeal(showLoading: false, cachePolicy:)`
         guard dealState != ViewState<Deal>.loading else {
+            // TODO: check RefreshManager.lastDealRequest to ensure it is a recent request
             log.debug("Already fetching Deal; setting .fetchCompletionObserver")
             if fetchCompletionObserver != nil {
                 log.error("Replacing existing .fetchCompletionObserver")
