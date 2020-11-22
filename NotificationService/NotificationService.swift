@@ -30,26 +30,28 @@ class NotificationService: UNNotificationServiceExtension {
         }
         // TODO: get `request.content.categoryIdentifier` and pass content to corresponding method
 
-        let attachmentID = NotificationAttachmentID.image.rawValue
         let fileName = imageURL.lastPathComponent
 
         // Download image and modify notification content
-        downloader.downloadFile(from: imageURL, as: attachmentID) { [weak self] url in
-            guard
-                let url = url,
-                let attachment = try? UNNotificationAttachment(identifier: attachmentID, url: url) else {
-                    return
+        downloader.downloadFile(from: imageURL) { [weak fileCache] result in
+            guard let url = try? result.get() else {
+                contentHandler(bestAttemptContent)
+                return
             }
-            self?.fileCache.storeFile(at: url, as: fileName)
-            bestAttemptContent.attachments.append(attachment)
 
+            fileCache?.storeFile(at: url, as: fileName)
+
+            if let imageAttachment = try? UNNotificationAttachment(identifier: .image, url: url) {
+                bestAttemptContent.attachments.append(imageAttachment)
+            }
             contentHandler(bestAttemptContent)
         }
     }
-    
+
     override func serviceExtensionTimeWillExpire() {
         // Called just before the extension will be terminated by the system.
-        // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
+        // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push
+        // payload will be used.
         if let contentHandler = contentHandler, let bestAttemptContent =  bestAttemptContent {
             contentHandler(bestAttemptContent)
         }
@@ -62,4 +64,15 @@ enum NotificationAttachmentID: String {
 
     /// Identifier for Deal image notification attachments.
     case image // `newDealImage`?
+}
+
+// MARK: - UNNotificationAttachment + NotificationAttachmentID
+extension UNNotificationAttachment {
+
+    convenience init(identifier: NotificationAttachmentID,
+                     url: URL,
+                     options: [AnyHashable : Any]? = nil
+    ) throws {
+        try self.init(identifier: identifier.rawValue, url: url, options: options)
+    }
 }
