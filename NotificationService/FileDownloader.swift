@@ -18,25 +18,42 @@ class FileDownloader {
         self.containerURL = appGroupURL //.appendingPathComponent("images", isDirectory: true)
     }
 
-    func downloadFile(from url: URL, as fileName: String, completion: @escaping (URL?) -> Void) {
-        // TODO: let destinationUrl = containerURL.appendingPathComponent(url.lastPathComponent)?
-        let destinationUrl = containerURL
-            .appendingPathComponent(fileName)
-            .appendingPathExtension(url.pathExtension)
+    typealias ResultHandler = (Result<URL, FileDownloadError>) -> Void
 
-        session.downloadTask(with: url) { (fileUrl, _, _) in
+    func downloadFile(from url: URL, completion: @escaping ResultHandler) {
+        let destinationUrl = containerURL
+            .appendingPathComponent(url.lastPathComponent)
+
+        session.downloadTask(with: url) { (fileUrl, _, error) in
+            if let error = error {
+                completion(.failure(.network(error)))
+            }
+
             guard let fileUrl = fileUrl else {
-                return completion(nil)
+                completion(.failure(.missingFile))
+                return
             }
 
             do {
-                try FileManager.default.moveItem(at: fileUrl, to: destinationUrl)
-                completion(destinationUrl)
+                // Unlike `FileManager.default.moveItem(at:to:)`, this doesn't throw if file already exists
+                guard let url = try FileManager.default.replaceItemAt(destinationUrl, withItemAt: fileUrl) else {
+                    throw FileDownloadError.missingFile
+                }
+                completion(.success(url))
             } catch let error {
-                print("ERROR: \(error)")
-                completion(nil)
+                completion(.failure(.file(error)))
             }
         }
         .resume()
+    }
+}
+
+// MARK: - Support Types
+extension FileDownloader {
+
+    enum FileDownloadError: Error {
+        case network(Error)
+        case file(Error) // `(Error, URLResponse?)`?
+        case missingFile
     }
 }

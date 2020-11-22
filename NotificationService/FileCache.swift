@@ -10,7 +10,7 @@ import UIKit
 
 class FileCache {
 
-    let maxFileCount: Int = 5
+    let maxFileCount: Int = Constants.maxFileCount
 
     private let fileManager: FileManager = .default
     private let containerURL: URL
@@ -19,7 +19,7 @@ class FileCache {
 
     init(appGroupID: AppGroupID){
         let appGroupURL = fileManager.containerURL(forSecurityApplicationGroupIdentifier: appGroupID.rawValue)!
-        self.containerURL = appGroupURL.appendingPathComponent("Library/Caches", isDirectory: true)
+        self.containerURL = appGroupURL.appendingPathComponent(Constants.cacheDirectory, isDirectory: true)
     }
 
     // MARK: - Write
@@ -90,5 +90,15 @@ class FileCache {
         } else {
             return nil
         }
+    }
+}
+
+// MARK: - Types
+extension FileCache {
+
+    // TODO: make `struct Config` and initialize?
+    enum Constants {
+        static var cacheDirectory: String = "Library/Caches"
+        static var maxFileCount: Int = 5
     }
 }
