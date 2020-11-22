@@ -41,8 +41,8 @@ class AppCoordinator: BaseCoordinator {
             switch deepLink {
             case .onboarding:
                 showOnboarding()
-            case .remoteNotification(let payload):
-                showMain(notificationPayload: payload)
+            case .remoteNotification(let delta):
+                showMain(dealDelta: delta)
             case .debug:
                 showDebug()
             default:
@@ -80,8 +80,8 @@ class AppCoordinator: BaseCoordinator {
         coordinator.start()
     }
 
-    private func showMain(notificationPayload payload: [String : AnyObject]? = nil) {
-        let refreshEvent: RefreshEvent = payload != nil ? .launchFromNotification(payload!) : .launch
+    private func showMain(dealDelta: DealDelta? = nil) {
+        let refreshEvent: RefreshEvent = dealDelta != nil ? .launchFromNotification(dealDelta!) : .launch
         // TODO: skip `refreshDeal(for:) if `launchFromNotification` and wait for `AppDelegate` methods?
         refreshDeal(for: refreshEvent)
         let mainCoordinator = MainCoordinator(window: window, dependencies: dependencies)

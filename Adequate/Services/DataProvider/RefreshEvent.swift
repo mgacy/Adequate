@@ -12,7 +12,7 @@ enum RefreshEvent {
     /// Application did finish launching.
     case launch
     /// Application did finish launching from notification.
-    case launchFromNotification([String: AnyObject])
+    case launchFromNotification(DealDelta)
     /// Application will enter foreground.
     case foreground
     // TODO: add case for coming back online?
