@@ -232,7 +232,7 @@ class DataProvider: DataProviderType {
                 // TODO: wrap pending refreshEvents in wrapper containing `createdAt` so we can discard old ones?
                 pendingRefreshEvent = event
             } else {
-                log.warning("AWSMobileClient not initialized - deferring RefreshEvent: \(event)")
+                log.verbose("AWSMobileClient not initialized - deferring RefreshEvent: \(event)")
                 pendingRefreshEvent = event
             }
             return
@@ -384,6 +384,9 @@ class DataProvider: DataProviderType {
         }
     }
 
+    /// Refetch current Deal using `currentDealWatcher`.
+    /// - Parameter showLoading: Pass `true` to change `currentDeal` to `.loading` before fetching; otherwise, pass
+    ///                          `false`.
     private func refetchCurrentDeal(showLoading: Bool) {
         // TODO: verify credentialsProvider.currentUserState?
         guard credentialsProviderIsInitialized else {
@@ -393,7 +396,7 @@ class DataProvider: DataProviderType {
         }
         guard let currentDealWatcher = currentDealWatcher else {
             log.error("\(#function) - currentDealWatcher not configured")
-            //currentDealWatcher = configureWatcher(cachePolicy: .fetchIgnoringCacheData)
+            configureWatcher(cachePolicy: .fetchIgnoringCacheData)
             return
         }
 
@@ -409,6 +412,11 @@ class DataProvider: DataProviderType {
     }
 
     // TODO: rename `fetchDealInBackground()`
+
+    /// Fetch current Deal from server in response to background notification.
+    /// - Parameter completionHandler: The block to execute when the download operation is complete. When calling this
+    ///                                block, pass in the fetch result value that best describes the results of your
+    ///                                download operation.
     private func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.verbose("\(#function)")
         // TODO: should we start a timer to ensure that the completionHandler is called within the next 30 - cushion seconds?
@@ -451,7 +459,7 @@ class DataProvider: DataProviderType {
                 if case .result(let oldDeal) = self.dealState {
                     if oldDeal != newDeal {
                         log.debug("BACKGROUND_APP_REFRESH: newData")
-                        // TODO: start background task to download image
+                        // TODO: start background task to download first deal image
                         self.dealState = .result(newDeal)
                         completionHandler(.newData)
                     } else {
@@ -460,6 +468,7 @@ class DataProvider: DataProviderType {
                     }
                 } else {
                     log.debug("BACKGROUND_APP_REFRESH: newData")
+                    // TODO: start background task to download first deal image
                     self.dealState = .result(newDeal)
                     completionHandler(.newData)
                 }
@@ -474,6 +483,7 @@ class DataProvider: DataProviderType {
     private func endTask() {
         log.debug("Cancelling background tasks ...")
         cancellable?.cancel() // TODO: do we need any logic to skip if fetch already completed?
+        // TODO: check if case .dealState = .loading { // would this ever be the case?
         UIApplication.shared.endBackgroundTask(backgroundTask)
         backgroundTask = .invalid
     }
