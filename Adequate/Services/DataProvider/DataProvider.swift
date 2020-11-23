@@ -316,70 +316,69 @@ class DataProvider: DataProviderType {
 
     // MARK: - Update
 
+    /// Update current Deal in response to background notification.
+    /// - Parameters:
+    ///   - delta: `DealDelta` representing the content of the notification.
+    ///   - completionHandler: The block to execute when the download operation is complete. When calling this block,
+    ///                        pass in the fetch result value that best describes the results of your download
+    ///                        operation.
     func updateDealInBackground(_ delta: DealDelta,
                                 fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
     ) {
         log.verbose("\(#function) - \(delta)")
-        // FIXME: this prevents fetch if there was an error last time
-        guard case .result(let currentDeal) = dealState else {
-            // TODO: for `launchStatus` and `commentCount`, verify that the delta applies to currentDeal
-            // TODO: try to fetch from cache and see if that is the correct one?
-            log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
-            if fetchCompletionObserver != nil {
-                log.error("Replacing existing .fetchCompletionObserver")
-            }
-            fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
-            return
-        }
-
         switch delta.deltaType {
         case .newDeal:
-            refreshDealInBackground(fetchCompletionHandler: completionHandler)
-        case .launchStatus(let newStatus):
-            // TODO: verify delta.dealID matches that of currentDeal
-            if currentDeal.launchStatus != newStatus {
-                let launchStatusLens = Deal.lens.launchStatus
-                let updatedDeal = launchStatusLens.set(newStatus)(currentDeal)
-                dealState = .result(updatedDeal)
-
-                client.updateCache(for: updatedDeal, delta: delta)
-                    .then({ _ in
-                        // TODO: update `lastDealResponse`?
-                        completionHandler(.newData)
-                    }).catch({ error in
-                        log.error("Unable to update cache: \(error)")
-                        completionHandler(.failed)
-                    })
-            } else {
-                completionHandler(.noData)
+            switch dealState {
+            case .loading:
+                // TODO: check that `refreshManager.lastDealRequest` is recent (last 30 seconds?)
+                // TODO: try to fetch from cache and see if that is the correct one?
+                log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
+                if fetchCompletionObserver != nil {
+                    // TODO: log more information; what does RefreshManager have?
+                    log.error("Replacing existing .fetchCompletionObserver")
+                    // FIXME: should we be calling the associated completion handler
+                }
+                fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
+                return
+            default:
+                refreshDealInBackground(fetchCompletionHandler: completionHandler)
             }
-        case .commentCount(let newCount):
-            // TODO: verify delta.dealID matches that of currentDeal
-            if let currentTopic = currentDeal.topic {
-                if currentTopic.commentCount != newCount {
-                    let dealAffine = Deal.lens.topic.toAffine()
-                    let topicPrism = Optional<Topic>.prism.toAffine()
-                    let topicAffine = Topic.lens.commentCount.toAffine()
-                    let composed = dealAffine.then(topicPrism).then(topicAffine)
 
-                    guard let updatedDeal = composed.trySet(newCount)(currentDeal) else {
-                        // TODO: should this be more forgiving? When can this actually fail?
-                        fatalError("Problem with Affine composition for Deal.topic.commentCount")
+        // DealDelta
+        default:
+            switch dealState {
+            case .loading:
+                log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
+                if fetchCompletionObserver != nil {
+                    // TODO: check that `refreshManager.lastDealRequest` is recent (last 30 seconds?)
+                    log.error("Replacing existing .fetchCompletionObserver")
+                    // FIXME: should we be calling the associated completion handler
+                }
+                fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
+            case .result(let currentDeal):
+                do {
+                    guard let updatedDeal = try delta.apply(to: currentDeal) else {
+                        log.info("No changes from applying \(delta) to \(currentDeal)")
+                        completionHandler(.noData)
+                        return
                     }
-                    dealState = .result(updatedDeal)
 
                     client.updateCache(for: updatedDeal, delta: delta)
                         .then({ _ in
                             // TODO: update `lastDealResponse`?
+                            //refreshManager?.update(.response(updatedDeal))
                             completionHandler(.newData)
                         }).catch({ error in
                             log.error("Unable to update cache: \(error)")
                             completionHandler(.failed)
                         })
-                } else {
-                    completionHandler(.noData)
+                } catch {
+                    log.error("Error applying \(delta) to \(currentDeal): \(error); calling refreshDealInBackground()")
+                    refreshDealInBackground(fetchCompletionHandler: completionHandler)
                 }
-            } else {
+            default:
+                // TODO: refetch
+                log.warning("Unable to apply \(delta) to \(dealState); calling refreshDealInBackground()")
                 refreshDealInBackground(fetchCompletionHandler: completionHandler)
             }
         }

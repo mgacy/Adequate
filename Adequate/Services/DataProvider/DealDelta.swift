@@ -70,3 +70,57 @@ enum DeltaType {
         case launchStatus
     }
 }
+
+extension DealDelta {
+
+    enum DeltaApplicationError: Error {
+        /// The `DealDelta` does not apply to `deal`.
+        case invalidID
+        /// The `DealDelta` involves changes to a missing object.
+        case missingParentProperty // incompleteGraph
+        /// `Affine.trySet` returned nil
+        case nilTrySet // `opticFailure`?
+        /// Tried to apply `DeltaType.newDeal` to a `Deal`, which doesn't really make sense.
+        case invalidOperation
+    }
+
+    // TODO: throw `Error` or return `Result`?
+    func apply(to deal: Deal) throws -> Deal? {
+        guard deal.dealID == dealID else {
+            throw DeltaApplicationError.invalidID
+        }
+        switch deltaType {
+        case .newDeal:
+            // TODO: how best to handle this? Trying to apply `DeltaType.newDeal` to a `Deal` is really a programming
+            // error. The notification indicates we need to fetch the new current deal, but we already have it.
+            // Alternatively, we could return `nil` and assume that we already have the updated Deal indicated by the
+            // notification.
+            throw DeltaApplicationError.invalidOperation
+        case .commentCount(let newCount):
+            guard let currentTopic = deal.topic else {
+                throw DeltaApplicationError.missingParentProperty
+            }
+
+            if newCount == currentTopic.commentCount {
+                return nil
+            }
+
+            let dealAffine = Deal.lens.topic.toAffine()
+            let topicPrism = Optional<Topic>.prism.toAffine()
+            let topicAffine = Topic.lens.commentCount.toAffine()
+            let composed = dealAffine.then(topicPrism).then(topicAffine)
+
+            guard let updatedDeal = composed.trySet(newCount)(deal) else {
+                throw DeltaApplicationError.nilTrySet
+            }
+            return updatedDeal
+        case .launchStatus(let newStatus):
+            if newStatus == deal.launchStatus {
+                return nil
+            }
+
+            let launchStatusLens = Deal.lens.launchStatus
+            return launchStatusLens.set(newStatus)(deal)
+        }
+    }
+}
