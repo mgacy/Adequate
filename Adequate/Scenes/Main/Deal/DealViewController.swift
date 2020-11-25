@@ -84,6 +84,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
 
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
+        view.delegate = self
         view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -125,9 +126,6 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         navigationItem.rightBarButtonItems = [storyButton, shareButton]
         StyleBook.NavigationItem.transparent.apply(to: navigationItem)
 
-        // TODO: move to `setupSubViews()`?
-        pagedImageView.delegate = self
-
         add(footerViewController)
         view.insertSubview(stateView, at: 0)
         view.addSubview(barBackingView)
@@ -163,7 +161,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
             barBackingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
             barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor),
+            barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor)
         ])
     }
 

@@ -88,6 +88,7 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
 
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
+        view.delegate = self
         view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -136,30 +137,27 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
         navigationItem.rightBarButtonItems = [storyButton, shareButton]
         StyleBook.NavigationItem.transparent.apply(to: navigationItem)
 
-        pagedImageView.delegate = self
-
         // TODO: set closure on DealContentView instead?
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
-
-        // barBackingView
-        if let navBar = navigationController?.navigationBar {
-            barBackingView.coordinateOffset = navBar.convert(navBar.bounds, to: rootView.scrollView).minY
-        }
-
-        // scrollView
-        rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
-            barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
-        }
+        setupParallaxScrollView()
 
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(ensureVisibleImageLoaded),
                                        name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
+    func setupParallaxScrollView() {
+        if let navBar = navigationController?.navigationBar {
+            barBackingView.coordinateOffset = navBar.convert(navBar.bounds, to: rootView.scrollView).minY
+        }
+
+        rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
+            barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
+        }
+    }
+
     private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
-
-        // Shared
         NSLayoutConstraint.activate([
             // footerView
             footerViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),

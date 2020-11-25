@@ -181,13 +181,9 @@ extension PagedImageView {
         let provider: UICollectionViewCompositionalLayoutSectionProvider = { _, layoutEnvironment in
             // Item
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                 heightDimension: .fractionalHeight(1.0))
+                                                  heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            if case .compact = layoutEnvironment.traitCollection.horizontalSizeClass {
-                item.contentInsets = NSDirectionalEdgeInsets(horizontal: 16.0)
-            } else {
-                item.contentInsets = NSDirectionalEdgeInsets(horizontal: 20.0)
-            }
+            item.contentInsets = layoutEnvironment.traitCollection.horizontalSizeClass.directionalEdgeInsets
 
             // Group
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -271,6 +267,10 @@ extension PagedImageView: ViewAnimatedTransitioning {
     }
 
     func makeTransitioningView() -> UIView? {
+        // TODO: should we just make the datasource responsible for this? It's not much different from providing a
+        // UICollectionViewCell. We could pass the collectionView so that PagedImageViewDataSource can use the actual
+        // dataSource's methods to get the cell (allowing us to get the image that way, in case the cache has been
+        // cleared.
         let v: UIView
         if let visibleImageView = dataSource.imageSource(for: IndexPath(item: currentPage, section: 0)).value {
             v = UIImageView(image: visibleImageView)
@@ -316,5 +316,25 @@ extension PagedImageView: Themeable {
             }
         }
         */
+    }
+}
+
+// MARK: - Helper
+fileprivate extension UIUserInterfaceSizeClass {
+
+    /// Insets for `PagedImageView.collectionView`.
+    var edgeInsets: UIEdgeInsets {
+        switch self {
+        case .compact: return .init(horizontal: 16.0)
+        default: return .init(horizontal: 20.0)
+        }
+    }
+
+    /// Insets used for `NSCollectionLayoutItem.contentInset` in `PagedImageView.collectionView`.
+    var directionalEdgeInsets: NSDirectionalEdgeInsets {
+        switch self {
+        case .compact: return .init(horizontal: 16.0)
+        default: return .init(horizontal: 20.0)
+        }
     }
 }
