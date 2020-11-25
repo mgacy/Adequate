@@ -259,7 +259,7 @@ extension PagedImageView {
 extension PagedImageView: ViewAnimatedTransitioning {
 
     var originFrame: CGRect {
-        return convert(collectionView.frame, to: nil)
+        return convert(collectionView.frame.inset(by: traitCollection.horizontalSizeClass.edgeInsets), to: nil)
     }
 
     var originView: UIView {
