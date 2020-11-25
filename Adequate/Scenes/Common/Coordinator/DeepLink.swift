@@ -21,6 +21,7 @@ enum DeepLink {
     case share(title: String, url: URL)
     /// Show debug view.
     case debug
+    // TODO: add case to allow widget to add a reminder for relaunch / reserve
 }
 
 // MARK: - Builders

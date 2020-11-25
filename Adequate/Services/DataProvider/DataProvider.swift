@@ -82,12 +82,15 @@ class DataProvider: DataProviderType {
             currentDealManager.saveDeal(currentDeal)
 
             // FIXME: we should really only reload for a change in status
+            // FIXME: should this be run as a completion handler on CurrentDealManager.saveDeal() so we don't reload
+            // until after it has saved?
             if #available(iOS 14, *) {
                 WidgetCenter.shared.reloadAllTimelines()
             }
         }
 
         // TODO: should we indicate that we are in the process of initializing?
+        log.debug("\(#function) - currentUserState: \(credentialsProvider.currentUserState)")
         credentialsProvider.initialize()
             .then { [weak self] userState in
                 self?.credentialsProviderIsInitialized = true
@@ -167,6 +170,7 @@ class DataProvider: DataProviderType {
             return
         }
         // TODO: is it really necessary that dealState == ViewState.empty?
+        // TODO: simply make changing dealState to .loading contingent on dealState rather than bailing?
         guard dealState == ViewState<Deal>.empty else {
             log.error(".dealState is not empty")
             return
@@ -257,9 +261,7 @@ class DataProvider: DataProviderType {
 
             configureWatcher(cachePolicy: cachePolicy)
         case .launchFromNotification:
-            // TODO: convert userInfo associated value into type and use that to determine response
-            // FIXME: `DeepLink.build(with:)` does not distinguish different types of notifications
-            // In the future, we will need to handle DealDeltas differently
+            // TODO: use associated `DealDelta` value to determine response
 
             // TODO: should we first check `UIApplication.shared.backgroundRefreshStatus`?
 
@@ -272,14 +274,17 @@ class DataProvider: DataProviderType {
             }
 
             // TODO: improve handling
+            // TODO: should we (a) configure watcher after fetching deal or (b) skip altogether?
             // - if it was merely a deal delta notification, there is still some value to cached data
             // TODO: use .returnCacheDataDontFetch and rely on notification fetching?
             // TODO: configure watcher in closure for .fetchCurrentDeal?
             configureWatcher(cachePolicy: .returnCacheDataDontFetch)  // or use .returnCacheDataElseFetch?
 
+            // TODO: **if dealDelta.deltaType == .newDeal, call refreshDealInBackground() { _ in ... self.endTask() }
             cancellable = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
                 switch result {
                 case .success(let envelope):
+                    //self.refreshManager.update(.response(newDeal))
                     self.dealState = envelope.data != nil ? .result(envelope.data!) : .empty
                 case .failure(let error):
                     log.error("\(error)")
@@ -365,6 +370,7 @@ class DataProvider: DataProviderType {
 
                     client.updateCache(for: updatedDeal, delta: delta)
                         .then({ _ in
+                            log.verbose("Updated cache")
                             // TODO: update `lastDealResponse`?
                             //refreshManager?.update(.response(updatedDeal))
                             completionHandler(.newData)

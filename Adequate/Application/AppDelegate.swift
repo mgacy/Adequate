@@ -117,8 +117,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // FIXME: this can be called a second time when user presses notification
         // TODO: see: https://stackoverflow.com/a/33778990/4472195, https://stackoverflow.com/q/16393673
         log.debug("\(#function) - \(userInfo) - \(application.applicationState.rawValue)")
-        //appCoordinator.refreshDeal(for: .silentNotification(completionHandler))
         appCoordinator.updateDealInBackground(userInfo: userInfo, completion: completionHandler)
+        // TODO: implement
+        //guard let notification = DealNotification(userInfo: userInfo) else {
+        //    log.error("Unable to parse DealNotification from notification: \(userInfo)")
+        //    completionHandler(.failed)
+        //    return
+        //}
+        //appCoordinator.refreshDeal(for: .silentNotification(notification: notification, handler: completionHandler))
     }
 }
 
