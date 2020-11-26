@@ -265,10 +265,8 @@ class DataProvider: DataProviderType {
 
             // TODO: should we first check `UIApplication.shared.backgroundRefreshStatus`?
 
-            // NOTE: we might need to call this method earlier as this method requests the task
-            // assertion asynchronously and the system might suspend the app before that assertion
-            // is granted. We could request it at the beginning of this method, but that would
-            // require some logic to check if we have already started a background task.
+            // NOTE: this method requests the task assertion asynchronously; it is possible that the system could
+            // suspend the app before that assertion is granted, though I have not seen any evidence of that happening.
             backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "NotificationBackgroundTask") { () -> Void in
                 self.endTask()
             }
@@ -285,7 +283,7 @@ class DataProvider: DataProviderType {
             cancellable = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
                 switch result {
                 case .success(let envelope):
-                    //self.refreshManager.update(.response(newDeal))
+                    self.refreshManager.update(.responseEnvelope(envelope))
                     self.dealState = envelope.data != nil ? .result(envelope.data!) : .empty
                 case .failure(let error):
                     log.error("\(error)")
@@ -436,7 +434,9 @@ class DataProvider: DataProviderType {
 
         if !credentialsProviderIsInitialized {
             log.error("Trying to refresh Deal before initializing credentials provider")
-            // TODO: check if we are replacing existing pendingRefreshEvent
+            if pendingRefreshEvent != nil {
+                log.warning("Replacing pendingRefreshEvent '\(pendingRefreshEvent!)' with '.silentNotification'")
+            }
             pendingRefreshEvent = .silentNotification(completionHandler)
             return
         }
