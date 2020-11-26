@@ -146,7 +146,7 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
                                        name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
-    func setupParallaxScrollView() {
+    private func setupParallaxScrollView() {
         if let navBar = navigationController?.navigationBar {
             barBackingView.coordinateOffset = navBar.convert(navBar.bounds, to: rootView.scrollView).minY
         }

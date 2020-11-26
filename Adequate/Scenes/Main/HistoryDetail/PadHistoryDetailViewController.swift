@@ -137,24 +137,23 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
         pagedImageView.delegate = self
 
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
-
-        // barBackingView
-        //if let navBar = navigationController?.navigationBar {
-        //    barBackingView.coordinateOffset = navBar.convert(navBar.bounds, to: rootView.scrollView).minY
-        //}
-
-        // scrollView
-        rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
-            barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
-        }
+        setupParallaxScrollView()
 
         getDeal(withID: dealFragment.id)
     }
 
+    private func setupParallaxScrollView() {
+        //if let navBar = navigationController?.navigationBar {
+        //    barBackingView.coordinateOffset = navBar.convert(navBar.bounds, to: rootView.scrollView).minY
+        //}
+
+        rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
+            barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
+        }
+    }
+
     private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
-
-        // Shared
         NSLayoutConstraint.activate([
             barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
             barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
