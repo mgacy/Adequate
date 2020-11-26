@@ -226,6 +226,9 @@ class DataProvider: DataProviderType {
 
     // MARK: - Refresh
 
+    /// Update current Deal in response to application event. Observers added through `addDealObserver(_:closure:)` will
+    /// be notified of the result.
+    /// - Parameter for: The application event to which the provider should respond.
     func refreshDeal(for event: RefreshEvent) {
         log.verbose("\(#function) - \(event)")
 
@@ -495,6 +498,8 @@ class DataProvider: DataProviderType {
 // MARK: - Get
 extension DataProvider {
 
+    /// Return `Deal` from server.
+    /// - Parameter id: The `id` of the `Deal` to fetch.
     func getDeal(withID id: GraphQLID) -> Promise<GetDealQuery.Data.GetDeal> {
         // This should't be used to fetch the currentDeal and performing this check introduces coupling with
         // `MehSyncClient`
@@ -512,6 +517,8 @@ extension DataProvider {
             })
     }
 
+    /// Fetch recent Deals from server. Observers added through `addHistoryObserver(_:closure:)` will be notified of
+    /// result.
     func getDealHistory() {
         // FIXME: decide on CachePolicy: .fetchIgnoringCacheData / .returnCacheDataAndFetch
         getDealHistory(cachePolicy: .fetchIgnoringCacheData)
@@ -548,6 +555,10 @@ extension DataProvider {
 // MARK: - Observers
 extension DataProvider {
 
+    /// Add observer to be notified of changes to current Deal.
+    /// - Parameters:
+    ///   - : The observer.
+    ///   - closure: Closure to execute on changes to current Deal.
     @discardableResult
     func addDealObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, ViewState<Deal>) -> Void) -> ObservationToken {
         let id = UUID()
@@ -567,6 +578,10 @@ extension DataProvider {
         }
     }
 
+    /// Add observer to be notified of changes to Deal history.
+    /// - Parameters:
+    ///   - : The observer.
+    ///   - closure: Closure to execute on changes to Deal history.
     func addHistoryObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, ViewState<[DealHistory.Item]>) -> Void) -> ObservationToken {
         let id = UUID()
         historyObservations[id] = { [weak self, weak observer] state in
