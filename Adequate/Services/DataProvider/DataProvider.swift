@@ -351,12 +351,14 @@ class DataProvider: DataProviderType {
         currentDealWatcher.refetch()
     }
 
+    //typealias FetchCompletionHandler = (UIBackgroundFetchResult) -> Void
+
     /// Update current Deal in response to background notification.
     /// - Parameters:
     ///   - notification: `DealNotification` representing the content of the notification.
     ///   - completionHandler: The block to execute when the download operation is complete.
-    func updateDealInBackground(_ notification: DealNotification,
-                                fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    private func updateDealInBackground(_ notification: DealNotification,
+                                        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
     ) {
         log.verbose("\(#function) - \(notification)")
         switch notification {

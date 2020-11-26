@@ -19,8 +19,6 @@ protocol DataProviderType {
     /// - Parameter for: The application event to which the provider should respond.
     func refreshDeal(for: RefreshEvent)
 
-    func updateDealInBackground(_: DealNotification, fetchCompletionHandler: @escaping (UIBackgroundFetchResult) -> Void)
-
     // MARK: Fetch
 
     /// Return `Deal` from server.

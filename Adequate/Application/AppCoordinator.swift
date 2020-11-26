@@ -108,19 +108,9 @@ class AppCoordinator: BaseCoordinator {
 
 // MARK: - Refresh
 extension AppCoordinator {
-    typealias FetchCompletionHandler = (UIBackgroundFetchResult) -> Void
 
     func refreshDeal(for event: RefreshEvent) {
         dependencies.dataProvider.refreshDeal(for: event)
-    }
-
-    func updateDealInBackground(userInfo: [AnyHashable : Any], completion: @escaping FetchCompletionHandler) {
-        guard let notification = DealNotification(userInfo: userInfo) else {
-            log.error("Unable to parse DealNotification from notification: \(userInfo)")
-            completion(.failed)
-            return
-        }
-        dependencies.dataProvider.updateDealInBackground(notification, fetchCompletionHandler: completion)
     }
 }
 
