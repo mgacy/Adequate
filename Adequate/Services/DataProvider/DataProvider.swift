@@ -280,7 +280,7 @@ class DataProvider: DataProviderType {
             // TODO: configure watcher in closure for .fetchCurrentDeal?
             configureWatcher(cachePolicy: .returnCacheDataDontFetch)  // or use .returnCacheDataElseFetch?
 
-            // TODO: **if dealDelta.deltaType == .newDeal, call refreshDealInBackground() { _ in ... self.endTask() }
+            // TODO: **if dealNotification.deltaType == .newDeal, call refreshDealInBackground() { _ in ... self.endTask() }
             cancellable = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
                 switch result {
                 case .success(let envelope):
@@ -368,7 +368,7 @@ class DataProvider: DataProviderType {
                         return
                     }
 
-                    client.updateCache(for: updatedDeal, delta: notification)
+                    client.updateCache(for: updatedDeal, notification: notification)
                         .then({ _ in
                             log.verbose("Updated cache")
                             // TODO: update `lastDealResponse`?

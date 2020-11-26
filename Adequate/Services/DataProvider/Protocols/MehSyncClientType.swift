@@ -29,5 +29,5 @@ protocol MehSyncClientType {
 
     func fetchDealHistory(limit: Int, nextToken: String?, cachePolicy: CachePolicy) -> Promise<DealHistoryQuery.Data>
 
-    func updateCache(for deal: Deal, delta: DealNotification) -> Promise<Void>
+    func updateCache(for deal: Deal, notification: DealNotification) -> Promise<Void>
 }

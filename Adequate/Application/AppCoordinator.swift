@@ -41,8 +41,8 @@ class AppCoordinator: BaseCoordinator {
             switch deepLink {
             case .onboarding:
                 showOnboarding()
-            case .remoteNotification(let delta):
-                showMain(dealDelta: delta)
+            case .remoteNotification(let notification):
+                showMain(dealNotification: notification)
             case .debug:
                 showDebug()
             default:
@@ -80,8 +80,8 @@ class AppCoordinator: BaseCoordinator {
         coordinator.start()
     }
 
-    private func showMain(dealDelta: DealNotification? = nil) {
-        let refreshEvent: RefreshEvent = dealDelta != nil ? .launchFromNotification(dealDelta!) : .launch
+    private func showMain(dealNotification: DealNotification? = nil) {
+        let refreshEvent: RefreshEvent = dealNotification != nil ? .launchFromNotification(dealNotification!) : .launch
         // TODO: skip `refreshDeal(for:) if `launchFromNotification` and wait for `AppDelegate` methods?
         refreshDeal(for: refreshEvent)
         let mainCoordinator = MainCoordinator(window: window, dependencies: dependencies)
@@ -115,12 +115,12 @@ extension AppCoordinator {
     }
 
     func updateDealInBackground(userInfo: [AnyHashable : Any], completion: @escaping FetchCompletionHandler) {
-        guard let delta = DealNotification(userInfo: userInfo) else {
+        guard let notification = DealNotification(userInfo: userInfo) else {
             log.error("Unable to parse DealNotification from notification: \(userInfo)")
             completion(.failed)
             return
         }
-        dependencies.dataProvider.updateDealInBackground(delta, fetchCompletionHandler: completion)
+        dependencies.dataProvider.updateDealInBackground(notification, fetchCompletionHandler: completion)
     }
 }
 

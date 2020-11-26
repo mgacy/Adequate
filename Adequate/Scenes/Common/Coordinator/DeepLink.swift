@@ -38,10 +38,10 @@ extension DeepLink {
 
     static func build(with launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> DeepLink? {
         guard let notification = launchOptions?[.remoteNotification] as? [String: AnyObject],
-              let dealDelta = DealNotification(userInfo: notification) else {
+              let dealNotification = DealNotification(userInfo: notification) else {
             return nil
         }
-        return .remoteNotification(dealDelta)
+        return .remoteNotification(dealNotification)
     }
 
     static func build(with url: URL) -> DeepLink? {
