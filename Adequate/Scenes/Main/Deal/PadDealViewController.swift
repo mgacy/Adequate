@@ -160,17 +160,21 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             // footerView
+            footerViewController.view.widthAnchor.constraint(equalTo: rootView.scrollView.widthAnchor),
             footerViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             footerViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            footerViewController.view.widthAnchor.constraint(equalTo: rootView.scrollView.widthAnchor),
             // barBackingView
+            barBackingView.widthAnchor.constraint(equalTo: rootView.scrollView.widthAnchor),
             barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
             barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor),
-            barBackingView.widthAnchor.constraint(equalTo: rootView.scrollView.widthAnchor),
+            barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor)
         ])
 
-        let horizontalMargin: CGFloat = 40.0
+        sharedRegularConstraints = makeRegularConstraints()
+    }
+
+    private func makeRegularConstraints() -> [NSLayoutConstraint] {
+        let horizontalMargin: CGFloat = 40.0 // 2 * `NSCollectionLayoutItem.contentInsets` in `PagedImageView`
 
         let topConstraint = pagedImageView.topAnchor.constraint(equalTo: rootView.secondaryColumnGuide.topAnchor)
         topConstraint.priority = UILayoutPriority(650)
@@ -179,7 +183,7 @@ final class PadDealViewController: BaseViewController<ScrollablePadView<DealCont
                                                                     constant: horizontalMargin)
         widthConstraint.priority = UILayoutPriority(750)
 
-        sharedRegularConstraints = [
+        return [
             pagedImageView.centerYAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerYAnchor),
             pagedImageView.centerXAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerXAnchor),
             pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,

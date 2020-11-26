@@ -155,19 +155,23 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
     private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
+            barBackingView.widthAnchor.constraint(equalTo: rootView.scrollView.widthAnchor),
             barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
             barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor),
-            barBackingView.widthAnchor.constraint(equalTo: rootView.scrollView.widthAnchor),
+            barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor)
         ])
 
-        sharedRegularConstraints = [
+        sharedRegularConstraints = makeRegularConstraints()
+    }
+
+    private func makeRegularConstraints() -> [NSLayoutConstraint] {
+        let horizontalMargin: CGFloat = 40.0 // 2 * `NSCollectionLayoutItem.contentInsets` in `PagedImageView`
+        return [
             pagedImageView.centerYAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerYAnchor),
             pagedImageView.centerXAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerXAnchor),
             pagedImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            // Subtract 40 to compensate for margins on either side of PagedImageView.collectionView
             pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
-                                                   constant: pagedImageView.pageControlHeight - 40)
+                                                   constant: pagedImageView.pageControlHeight - horizontalMargin)
         ]
     }
 
