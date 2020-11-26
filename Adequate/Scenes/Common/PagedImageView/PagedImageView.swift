@@ -281,8 +281,8 @@ extension PagedImageView: ViewAnimatedTransitioning {
             v.contentMode = .scaleAspectFit
             //v.frame = originFrame
         } else {
-            v = UIView(frame: originFrame)
-            v.backgroundColor = .red
+            // Alternatively, we could just add an loading image resource
+            v = LoadingView(frame: originFrame)
         }
         return v
     }

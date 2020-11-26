@@ -62,6 +62,7 @@
 		C93F79062256FCBD004B4DD6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F79052256FCBD004B4DD6 /* Logger.swift */; };
 		C940BB07254B9BB30092AFA2 /* CellProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C940BB06254B9BB30092AFA2 /* CellProvider.swift */; };
 		C943E5B02238695C00DE0675 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C943E5AF2238695C00DE0675 /* StateView.swift */; };
+		C9444F3B256F39EC002DD6E3 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9444F3A256F39EC002DD6E3 /* LoadingView.swift */; };
 		C94825662538D48C0009446D /* Semigroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94825652538D48C0009446D /* Semigroup.swift */; };
 		C948257A2538D52B0009446D /* Monoid.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94825792538D52B0009446D /* Monoid.swift */; };
 		C94D2CED230E11C300043431 /* FontBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2CEC230E11C300043431 /* FontBook.swift */; };
@@ -402,6 +403,7 @@
 		C93F79052256FCBD004B4DD6 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		C940BB06254B9BB30092AFA2 /* CellProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellProvider.swift; sourceTree = "<group>"; };
 		C943E5AF2238695C00DE0675 /* StateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
+		C9444F3A256F39EC002DD6E3 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		C94825652538D48C0009446D /* Semigroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Semigroup.swift; sourceTree = "<group>"; };
 		C94825792538D52B0009446D /* Monoid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monoid.swift; sourceTree = "<group>"; };
 		C94D2CEC230E11C300043431 /* FontBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontBook.swift; sourceTree = "<group>"; };
@@ -1313,6 +1315,7 @@
 				C9AE54C62179270C00818F11 /* FullScreenImageViewController.swift */,
 				C928547C21704C72001E5993 /* ImageCell.swift */,
 				C9AE54C8217927B500818F11 /* ZoomingImageView.swift */,
+				C9444F3A256F39EC002DD6E3 /* LoadingView.swift */,
 				C951885B21797E440097F49E /* Animator */,
 				C951885A21797D990097F49E /* Protocols */,
 			);
@@ -2099,6 +2102,7 @@
 				C9C2109822D8FFA300C4F66F /* Lens.swift in Sources */,
 				C9DAC49321476B5100D6558B /* MehResponse.swift in Sources */,
 				C95CD61F230FE2020011585F /* PadDealViewController.swift in Sources */,
+				C9444F3B256F39EC002DD6E3 /* LoadingView.swift in Sources */,
 				C9221565225453920001FF3F /* DimmingPresentationController.swift in Sources */,
 				C9DAC4B32147864A00D6558B /* ViewState.swift in Sources */,
 				C99C23F72357FF28004493B3 /* ColorTheme.swift in Sources */,
