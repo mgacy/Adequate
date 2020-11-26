@@ -279,7 +279,7 @@ class DataProvider: DataProviderType {
             // TODO: configure watcher in closure for .fetchCurrentDeal?
             configureWatcher(cachePolicy: .returnCacheDataDontFetch)  // or use .returnCacheDataElseFetch?
 
-            // TODO: **if case .new = dealNotification, call refreshDealInBackground() { _ in ... self.endTask() }
+            // TODO: **if case .new = dealNotification, call fetchDealInBackground() { _ in ... self.endTask() }
             cancellable = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
                 switch result {
                 case .success(let envelope):
@@ -324,9 +324,7 @@ class DataProvider: DataProviderType {
     /// Update current Deal in response to background notification.
     /// - Parameters:
     ///   - notification: `DealNotification` representing the content of the notification.
-    ///   - completionHandler: The block to execute when the download operation is complete. When calling this block,
-    ///                        pass in the fetch result value that best describes the results of your download
-    ///                        operation.
+    ///   - completionHandler: The block to execute when the download operation is complete.
     func updateDealInBackground(_ notification: DealNotification,
                                 fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
     ) {
@@ -346,7 +344,7 @@ class DataProvider: DataProviderType {
                 fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
                 return
             default:
-                refreshDealInBackground(fetchCompletionHandler: completionHandler)
+                fetchDealInBackground(fetchCompletionHandler: completionHandler)
             }
 
         // DealDelta
@@ -380,17 +378,17 @@ class DataProvider: DataProviderType {
                         })
                 } catch {
                     log.error("Error applying \(notification) to \(currentDeal): \(error); calling refreshDealInBackground()")
-                    refreshDealInBackground(fetchCompletionHandler: completionHandler)
+                    fetchDealInBackground(fetchCompletionHandler: completionHandler)
                 }
             default:
                 // TODO: refetch
                 log.warning("Unable to apply \(notification) to \(dealState); calling refreshDealInBackground()")
-                refreshDealInBackground(fetchCompletionHandler: completionHandler)
+                fetchDealInBackground(fetchCompletionHandler: completionHandler)
             }
         }
     }
 
-    // FIXME: group updateDealInBackground(_:fetchCompletionHandler:) and refreshDealInBackground(fetchCompletionHandler:) together
+    // FIXME: group updateDealInBackground(_:fetchCompletionHandler:) and fetchDealInBackground(fetchCompletionHandler:) together
 
     /// Refetch current Deal using `currentDealWatcher`.
     /// - Parameter showLoading: Pass `true` to change `currentDeal` to `.loading` before fetching; otherwise, pass
@@ -419,13 +417,9 @@ class DataProvider: DataProviderType {
         currentDealWatcher.refetch()
     }
 
-    // TODO: rename `fetchDealInBackground()`
-
     /// Fetch current Deal from server in response to background notification.
-    /// - Parameter completionHandler: The block to execute when the download operation is complete. When calling this
-    ///                                block, pass in the fetch result value that best describes the results of your
-    ///                                download operation.
-    private func refreshDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    /// - Parameter completionHandler: The block to execute when the download operation is complete.
+    private func fetchDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.verbose("\(#function)")
         // TODO: should we start a timer to ensure that the completionHandler is called within the next 30 - cushion seconds?
 
