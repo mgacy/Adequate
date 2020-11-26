@@ -14,6 +14,19 @@ final class ZoomingImageView: UIScrollView {
     var imageView: UIImageView = UIImageView()
 
     var originFrame: CGRect {
+        // Fix for `.zero` size when `imageView.image` is `nil` due to loading image.
+        guard imageView.frame.size.width > .zero else {
+            switch traitCollection.horizontalSizeClass {
+            case .compact:
+                let yOrigin = (frame.height - frame.width) * 0.5
+                return CGRect(origin: CGPoint(x: 0, y: yOrigin), size: CGSize(width: frame.width, height: frame.width))
+            default:
+                let imageSize = CGSize(width: 600, height: 600) // The image size returned from meh API
+                let origin = CGPoint(x: (frame.width - imageSize.width) * 0.5,
+                                     y: (frame.height - imageSize.height) * 0.5)
+                return CGRect(origin: origin, size: imageSize)
+            }
+        }
         return CGRect(x: imageView.frame.minX - contentOffset.x,
                       y: imageView.frame.minY - contentOffset.y,
                       width: imageView.frame.width,
