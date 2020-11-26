@@ -314,8 +314,8 @@ class DataProvider: DataProviderType {
 
             // TODO: still refresh if backgroundRefreshStatus == .available?
             refetchCurrentDeal(showLoading: true)
-        case .silentNotification(let completionHandler):
-            refreshDealInBackground(fetchCompletionHandler: completionHandler)
+        case .silentNotification(let notification, let completionHandler):
+            updateDealInBackground(notification, fetchCompletionHandler: completionHandler)
         }
     }
 
@@ -390,6 +390,8 @@ class DataProvider: DataProviderType {
         }
     }
 
+    // FIXME: group updateDealInBackground(_:fetchCompletionHandler:) and refreshDealInBackground(fetchCompletionHandler:) together
+
     /// Refetch current Deal using `currentDealWatcher`.
     /// - Parameter showLoading: Pass `true` to change `currentDeal` to `.loading` before fetching; otherwise, pass
     ///                          `false`.
@@ -437,7 +439,8 @@ class DataProvider: DataProviderType {
             if pendingRefreshEvent != nil {
                 log.warning("Replacing pendingRefreshEvent '\(pendingRefreshEvent!)' with '.silentNotification'")
             }
-            pendingRefreshEvent = .silentNotification(completionHandler)
+            // FIXME: this is ugly
+            pendingRefreshEvent = .silentNotification(notification: .new("fake_id"), handler: completionHandler)
             return
         }
 

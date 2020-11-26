@@ -20,9 +20,7 @@ enum RefreshEvent {
     case foregroundNotification
 
     /// Application received silent notification.
-    case silentNotification((UIBackgroundFetchResult) -> Void)
-    // TODO: implement
-    //case silentNotification(notification: DealNotification, handler: (UIBackgroundFetchResult) -> Void)
+    case silentNotification(notification: DealNotification, handler: (UIBackgroundFetchResult) -> Void)
     /// Manual refresh.
     case manual
 }
