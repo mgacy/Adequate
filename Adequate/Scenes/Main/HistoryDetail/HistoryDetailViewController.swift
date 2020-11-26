@@ -8,12 +8,12 @@
 
 import UIKit
 import Promise
+import typealias AWSAppSync.GraphQLID // = String
 
 final class HistoryDetailViewController: BaseViewController<ScrollableView<DealContentView>>, SwipeDismissable {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
     typealias DealFragment = DealHistoryQuery.Data.DealHistory.Item
     typealias Deal = GetDealQuery.Data.GetDeal
-    typealias GraphQLID = String
 
     weak var delegate: HistoryDetailViewControllerDelegate?
 

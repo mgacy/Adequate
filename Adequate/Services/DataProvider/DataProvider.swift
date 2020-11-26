@@ -11,7 +11,7 @@ import WidgetKit
 #endif
 import AWSAppSync
 import AWSMobileClient
-import class Promise.Promise // import class to avoid name collision with AWSAppSync.Promise
+import class Promise.Promise // avoid name collision with AWSAppSync.Promise
 
 class DataProvider: DataProviderType {
     typealias DealHistory = DealHistoryQuery.Data.DealHistory

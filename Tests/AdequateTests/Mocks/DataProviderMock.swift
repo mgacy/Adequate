@@ -7,7 +7,7 @@
 //
 
 import AWSAppSync
-import class Promise.Promise // import class to avoid name collision with AWSAppSync.Promise
+import class Promise.Promise // avoid name collision with AWSAppSync.Promise
 @testable import Adequate
 
 class DataProviderMock: DataProviderType {
