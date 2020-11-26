@@ -117,7 +117,7 @@ class MehSyncClient: MehSyncClientType {
 
     // MARK: - Cache
 
-    func updateCache(for deal: Deal, delta: DealDelta) -> Promise<Void> {
+    func updateCache(for deal: Deal, delta: DealNotification) -> Promise<Void> {
         if case .newDeal = delta.deltaType {
             preconditionFailure("Unable to update DealDelta.newDeal")
         }

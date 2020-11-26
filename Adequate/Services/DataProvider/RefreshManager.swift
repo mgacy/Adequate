@@ -102,7 +102,7 @@ extension RefreshManager {
 
     enum Event {
         case request
-        //case update(DealDelta)
+        //case update(DealNotification)
         // TODO: pass both `oldDeal: Deal?` and `newDeal: Deal`?
         case response(Deal)
         case responseEnvelope(DataEnvelope<Deal?>)

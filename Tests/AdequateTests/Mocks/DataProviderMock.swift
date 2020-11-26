@@ -67,7 +67,7 @@ class DataProviderMock: DataProviderType {
 
     // MARK: - Update
 
-    func updateDealInBackground(_: DealDelta, fetchCompletionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    func updateDealInBackground(_: DealNotification, fetchCompletionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // TODO: check and notify if we are replacing existing handler?
         backgroundUpdateHandler = fetchCompletionHandler
         fetchCompletionHandler(.failed)

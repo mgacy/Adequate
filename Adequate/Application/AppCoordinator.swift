@@ -80,7 +80,7 @@ class AppCoordinator: BaseCoordinator {
         coordinator.start()
     }
 
-    private func showMain(dealDelta: DealDelta? = nil) {
+    private func showMain(dealDelta: DealNotification? = nil) {
         let refreshEvent: RefreshEvent = dealDelta != nil ? .launchFromNotification(dealDelta!) : .launch
         // TODO: skip `refreshDeal(for:) if `launchFromNotification` and wait for `AppDelegate` methods?
         refreshDeal(for: refreshEvent)
@@ -115,8 +115,8 @@ extension AppCoordinator {
     }
 
     func updateDealInBackground(userInfo: [AnyHashable : Any], completion: @escaping FetchCompletionHandler) {
-        guard let delta = DealDelta(userInfo: userInfo) else {
-            log.error("Unable to parse DealDelta from notification: \(userInfo)")
+        guard let delta = DealNotification(userInfo: userInfo) else {
+            log.error("Unable to parse DealNotification from notification: \(userInfo)")
             completion(.failed)
             return
         }

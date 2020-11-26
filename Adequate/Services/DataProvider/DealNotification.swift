@@ -1,5 +1,5 @@
 //
-//  DealDelta.swift
+//  DealNotification.swift
 //  Adequate
 //
 //  Created by Mathew Gacy on 7/22/19.
@@ -9,7 +9,7 @@
 import Foundation
 
 /// Representation of notification content.
-struct DealDelta {
+struct DealNotification {
     let dealID: String
     let deltaType: DeltaType
 
@@ -71,7 +71,7 @@ enum DeltaType {
     }
 }
 
-extension DealDelta {
+extension DealNotification {
 
     enum DeltaApplicationError: Error {
         /// The `DealDelta` does not apply to `deal`.

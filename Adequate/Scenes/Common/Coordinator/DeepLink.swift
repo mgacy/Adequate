@@ -12,7 +12,7 @@ enum DeepLink {
     /// Show onboarding scene.
     case onboarding
     /// Respond to launch from remote notification.
-    case remoteNotification(DealDelta)
+    case remoteNotification(DealNotification)
     /// Show current deal scene.
     case deal
     /// Show purchase page for current deal.
@@ -38,7 +38,7 @@ extension DeepLink {
 
     static func build(with launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> DeepLink? {
         guard let notification = launchOptions?[.remoteNotification] as? [String: AnyObject],
-              let dealDelta = DealDelta(userInfo: notification) else {
+              let dealDelta = DealNotification(userInfo: notification) else {
             return nil
         }
         return .remoteNotification(dealDelta)

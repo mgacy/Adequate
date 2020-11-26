@@ -261,7 +261,7 @@ class DataProvider: DataProviderType {
 
             configureWatcher(cachePolicy: cachePolicy)
         case .launchFromNotification:
-            // TODO: use associated `DealDelta` value to determine response
+            // TODO: use associated `DealNotification` value to determine response
 
             // TODO: should we first check `UIApplication.shared.backgroundRefreshStatus`?
 
@@ -323,15 +323,15 @@ class DataProvider: DataProviderType {
 
     /// Update current Deal in response to background notification.
     /// - Parameters:
-    ///   - delta: `DealDelta` representing the content of the notification.
+    ///   - notification: `DealNotification` representing the content of the notification.
     ///   - completionHandler: The block to execute when the download operation is complete. When calling this block,
     ///                        pass in the fetch result value that best describes the results of your download
     ///                        operation.
-    func updateDealInBackground(_ delta: DealDelta,
+    func updateDealInBackground(_ notification: DealNotification,
                                 fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
     ) {
-        log.verbose("\(#function) - \(delta)")
-        switch delta.deltaType {
+        log.verbose("\(#function) - \(notification)")
+        switch notification.deltaType {
         case .newDeal:
             switch dealState {
             case .loading:
@@ -362,13 +362,13 @@ class DataProvider: DataProviderType {
                 fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
             case .result(let currentDeal):
                 do {
-                    guard let updatedDeal = try delta.apply(to: currentDeal) else {
-                        log.info("No changes from applying \(delta) to \(currentDeal)")
+                    guard let updatedDeal = try notification.apply(to: currentDeal) else {
+                        log.info("No changes from applying \(notification) to \(currentDeal)")
                         completionHandler(.noData)
                         return
                     }
 
-                    client.updateCache(for: updatedDeal, delta: delta)
+                    client.updateCache(for: updatedDeal, delta: notification)
                         .then({ _ in
                             log.verbose("Updated cache")
                             // TODO: update `lastDealResponse`?
@@ -379,12 +379,12 @@ class DataProvider: DataProviderType {
                             completionHandler(.failed)
                         })
                 } catch {
-                    log.error("Error applying \(delta) to \(currentDeal): \(error); calling refreshDealInBackground()")
+                    log.error("Error applying \(notification) to \(currentDeal): \(error); calling refreshDealInBackground()")
                     refreshDealInBackground(fetchCompletionHandler: completionHandler)
                 }
             default:
                 // TODO: refetch
-                log.warning("Unable to apply \(delta) to \(dealState); calling refreshDealInBackground()")
+                log.warning("Unable to apply \(notification) to \(dealState); calling refreshDealInBackground()")
                 refreshDealInBackground(fetchCompletionHandler: completionHandler)
             }
         }

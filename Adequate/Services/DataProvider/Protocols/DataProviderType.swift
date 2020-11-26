@@ -17,7 +17,7 @@ protocol DataProviderType {
     // Refresh
     func refreshDeal(for: RefreshEvent)
     // Update
-    func updateDealInBackground(_: DealDelta, fetchCompletionHandler: @escaping (UIBackgroundFetchResult) -> Void)
+    func updateDealInBackground(_: DealNotification, fetchCompletionHandler: @escaping (UIBackgroundFetchResult) -> Void)
     // Observers
     func addDealObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<Deal>) -> Void) -> ObservationToken
     func addHistoryObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<[DealHistory]>) -> Void) -> ObservationToken
