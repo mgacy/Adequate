@@ -261,7 +261,7 @@ class DataProvider: DataProviderType {
 
             configureWatcher(cachePolicy: cachePolicy)
         case .launchFromNotification:
-            // TODO: use associated `DealNotification` value to determine response
+            // TODO: switch on associated `DealNotification` value to determine response
 
             // TODO: should we first check `UIApplication.shared.backgroundRefreshStatus`?
 
@@ -274,13 +274,14 @@ class DataProvider: DataProviderType {
             }
 
             // TODO: improve handling
-            // TODO: should we (a) configure watcher after fetching deal or (b) skip altogether?
-            // - if it was merely a deal delta notification, there is still some value to cached data
-            // TODO: use .returnCacheDataDontFetch and rely on notification fetching?
+            // - `DealNotification.new`: should we (a) configure watcher after fetching deal or (b) skip altogether?
+            // - `DealNotification.delta`: should we try configuring watcher with .returnCacheDataDontFetch and then
+            // try to apply the DealDelta, falling back to calling client.fetchCurrentDeal(cachePolicy:queue:) if
+            // `dealID`s don't match?
             // TODO: configure watcher in closure for .fetchCurrentDeal?
             configureWatcher(cachePolicy: .returnCacheDataDontFetch)  // or use .returnCacheDataElseFetch?
 
-            // TODO: **if dealNotification.deltaType == .newDeal, call refreshDealInBackground() { _ in ... self.endTask() }
+            // TODO: **if case .new = dealNotification, call refreshDealInBackground() { _ in ... self.endTask() }
             cancellable = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
                 switch result {
                 case .success(let envelope):
@@ -306,6 +307,7 @@ class DataProvider: DataProviderType {
 
         // Notifications
         case .foregroundNotification:
+            // TODO: check case of `DealNotification` and just use DealDelta.apply(to:) for DealNotification.delta
             guard currentDealWatcher != nil else {
                 log.error("\(#function) - \(event) - currentDealWatcher not configured)")
                 refreshDeal(for: .launch)
@@ -331,8 +333,8 @@ class DataProvider: DataProviderType {
                                 fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
     ) {
         log.verbose("\(#function) - \(notification)")
-        switch notification.deltaType {
-        case .newDeal:
+        switch notification {
+        case .new: // TODO: get dealID associated value?
             switch dealState {
             case .loading:
                 // TODO: check that `refreshManager.lastDealRequest` is recent (last 30 seconds?)
@@ -350,7 +352,7 @@ class DataProvider: DataProviderType {
             }
 
         // DealDelta
-        default:
+        case .delta(let dealDelta):
             switch dealState {
             case .loading:
                 log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
@@ -362,13 +364,13 @@ class DataProvider: DataProviderType {
                 fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
             case .result(let currentDeal):
                 do {
-                    guard let updatedDeal = try notification.apply(to: currentDeal) else {
+                    guard let updatedDeal = try dealDelta.apply(to: currentDeal) else {
                         log.info("No changes from applying \(notification) to \(currentDeal)")
                         completionHandler(.noData)
                         return
                     }
 
-                    client.updateCache(for: updatedDeal, notification: notification)
+                    client.updateCache(for: updatedDeal, dealDelta: dealDelta)
                         .then({ _ in
                             log.verbose("Updated cache")
                             // TODO: update `lastDealResponse`?

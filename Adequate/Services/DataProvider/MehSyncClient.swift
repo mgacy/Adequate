@@ -117,9 +117,10 @@ class MehSyncClient: MehSyncClientType {
 
     // MARK: - Cache
 
-    func updateCache(for deal: Deal, notification: DealNotification) -> Promise<Void> {
-        if case .newDeal = notification.deltaType {
-            preconditionFailure("Unable to update DeltaType.newDeal")
+    func updateCache(for deal: Deal, dealDelta delta: DealDelta) -> Promise<Void> {
+        guard deal.dealID == delta.dealID else {
+            // TODO: is this the most appropriate error to throw?
+            return Promise(error: DealDelta.DeltaApplicationError.invalidID)
         }
         guard let client = appSyncClient, let store = client.store else {
             // FIXME: this could (maybe?) be inaccurate since the problem might be a missing store
@@ -134,14 +135,11 @@ class MehSyncClient: MehSyncClientType {
             store.withinReadWriteTransaction { transaction in
                 let query = GetDealQuery(id: deal.id)
                 try transaction.update(query: query) { (data: inout GetDealQuery.Data) in
-                    // FIXME: compare `dealID`
-                    switch notification.deltaType {
+                    switch delta.deltaType {
                     case .commentCount(let newCount):
                         data.getDeal?.topic?.commentCount = newCount
                     case .launchStatus(let newStatus):
                         data.getDeal?.launchStatus = newStatus
-                    default:
-                        break
                     }
                     fulfill(())
                 }
