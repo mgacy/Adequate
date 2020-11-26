@@ -20,7 +20,7 @@ class FooterViewController: UIViewController {
 
     private lazy var formatter: PriceFormatting = PriceFormatter()
 
-    // TODO: replace delegate with simple closure
+    // TODO: replace delegate with simple closure? Delegate works well for future expansion
     weak var delegate: DealFooterDelegate?
     //var buttonTapHandler: (() -> Void)?
 
@@ -112,7 +112,6 @@ class FooterViewController: UIViewController {
 
 // MARK: - ViewStateRenderable
 extension FooterViewController: ViewStateRenderable {
-    typealias ResultType = Deal
 
     func render(_ viewState: ViewState<Deal>) {
         switch viewState {

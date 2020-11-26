@@ -255,6 +255,9 @@ extension DealViewController {
 
     override func viewWillLayoutSubviews() {
         if !initialSetupDone {
+            // TODO: look at `PadDealViewController.viewLayoutMarginsDidChange()` for another way to handle
+            // TODO: will this cause accessability problems? Disable this behavior at a given text size?
+            // Fix excessive bottom padding on devices with home indicator.
             switch view.safeAreaInsets.bottom {
             case 0.0..<8.0:
                 footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
@@ -262,9 +265,6 @@ extension DealViewController {
                 footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 0.0, right: 16.0)
             case 22.0...40.0:
                 footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 0.0, right: 16.0)
-
-                // Fix excessive bottom padding on iPhone X, etc.
-                // TODO: will this cause accessability problems? Disable this behavior at a given text size?
                 //footerView.insetsLayoutMarginsFromSafeArea = false
                 //let new = view.safeAreaInsets.bottom - 8.0
                 //footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: new, right: 16.0)

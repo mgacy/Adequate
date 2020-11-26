@@ -267,6 +267,10 @@ extension PagedImageView: ViewAnimatedTransitioning {
     }
 
     func makeTransitioningView() -> UIView? {
+        // FIXME: whenever app enters background, the memory cache evicts all objects. This causes problems if user
+        // returns and then tries to display a fullscreen image since dataSource.imageSource(for:) will refetch image
+        // and this method will return the fake image view
+
         // TODO: should we just make the datasource responsible for this? It's not much different from providing a
         // UICollectionViewCell. We could pass the collectionView so that PagedImageViewDataSource can use the actual
         // dataSource's methods to get the cell (allowing us to get the image that way, in case the cache has been
