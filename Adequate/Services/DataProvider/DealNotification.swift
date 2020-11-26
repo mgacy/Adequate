@@ -27,10 +27,9 @@ enum DealNotification {
             self = .delta(DealDelta(dealID: dealID, deltaType: deltaType))
         } else {
             // We could try to extract NotificationPayloadKey.dealURL, NotificationPayloadKey.imageURL and initialize
-            // `NewDeal` struct as a way to validate data
+            // `NewDeal` struct. This would provide additional data validation.
             self = .new(dealID)
         }
-        return nil
     }
 }
 
@@ -121,9 +120,8 @@ extension DealDelta {
                 }
                 self = .commentCount(count)
             case .launchStatus:
-                guard
-                    let status = userInfo[NotificationPayloadKey.deltaValue] as? String,
-                    let launchStatus = LaunchStatus(rawValue: status) else {
+                guard let status = userInfo[NotificationPayloadKey.deltaValue] as? String,
+                      let launchStatus = LaunchStatus(rawValue: status) else {
                     return nil
                 }
                 self = .launchStatus(launchStatus)
