@@ -321,6 +321,33 @@ class DataProvider: DataProviderType {
 
     // MARK: - Update
 
+    /// Refetch current Deal using `currentDealWatcher`.
+    /// - Parameter showLoading: Pass `true` to change `currentDeal` to `.loading` before fetching; otherwise, pass
+    ///                          `false`.
+    private func refetchCurrentDeal(showLoading: Bool) {
+        // TODO: verify credentialsProvider.currentUserState?
+        guard credentialsProviderIsInitialized else {
+            log.error("\(#function) - credentialsProvider has not been initialized")
+            // TODO: try to initialze credentialsProvider again?
+            return
+        }
+        guard let currentDealWatcher = currentDealWatcher else {
+            log.error("\(#function) - currentDealWatcher not configured")
+            configureWatcher(cachePolicy: .fetchIgnoringCacheData)
+            return
+        }
+
+        // TODO: how to handle different dealStates?
+        log.verbose("\(#function) - \(showLoading) - \(dealState)")
+
+        if showLoading {
+            dealState = .loading
+        }
+
+        refreshManager.update(.request)
+        currentDealWatcher.refetch()
+    }
+
     /// Update current Deal in response to background notification.
     /// - Parameters:
     ///   - notification: `DealNotification` representing the content of the notification.
@@ -386,35 +413,6 @@ class DataProvider: DataProviderType {
                 fetchDealInBackground(fetchCompletionHandler: completionHandler)
             }
         }
-    }
-
-    // FIXME: group updateDealInBackground(_:fetchCompletionHandler:) and fetchDealInBackground(fetchCompletionHandler:) together
-
-    /// Refetch current Deal using `currentDealWatcher`.
-    /// - Parameter showLoading: Pass `true` to change `currentDeal` to `.loading` before fetching; otherwise, pass
-    ///                          `false`.
-    private func refetchCurrentDeal(showLoading: Bool) {
-        // TODO: verify credentialsProvider.currentUserState?
-        guard credentialsProviderIsInitialized else {
-            log.error("\(#function) - credentialsProvider has not been initialized")
-            // TODO: try to initialze credentialsProvider again?
-            return
-        }
-        guard let currentDealWatcher = currentDealWatcher else {
-            log.error("\(#function) - currentDealWatcher not configured")
-            configureWatcher(cachePolicy: .fetchIgnoringCacheData)
-            return
-        }
-
-        // TODO: how to handle different dealStates?
-        log.verbose("\(#function) - \(showLoading) - \(dealState)")
-
-        if showLoading {
-            dealState = .loading
-        }
-
-        refreshManager.update(.request)
-        currentDealWatcher.refetch()
     }
 
     /// Fetch current Deal from server in response to background notification.
