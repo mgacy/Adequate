@@ -14,22 +14,22 @@ class LoadingView: UIView {
 
     private let activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
+        view.overrideUserInterfaceStyle = .dark
+        view.color = .secondaryLabel
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    //private lazy var imageView: UIImageView = {
-    //    let view = UIImageView()
-    //    view.contentMode = contentMode
-    //    return view
-    //}()
+    private lazy var fakeImageView: UIView = {
+        let view = UIView()
+        view.overrideUserInterfaceStyle = .dark
+        view.layer.cornerRadius = AppTheme.CornerRadius.small
+        view.backgroundColor = .systemGray2
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     // MARK: - Lifecycle
-
-    //convenience init(frame: CGRect, contentMode: ContentMode = .scaleAspectFit) {
-    //    self.init(frame: frame)
-    //    self.contentMode = contentMode
-    //}
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,9 +44,7 @@ class LoadingView: UIView {
     // MARK: - Configuration
 
     private func configure() {
-        overrideUserInterfaceStyle = .dark
-        layer.cornerRadius = 8.0
-        backgroundColor = .systemGray2
+        addSubview(fakeImageView)
 
         addSubview(activityIndicator)
         setupConstraints()
@@ -55,8 +53,16 @@ class LoadingView: UIView {
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            // activityIndicator
             activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
+            // fakeImageView
+            fakeImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            fakeImageView.topAnchor.constraint(equalTo: topAnchor),
+            fakeImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            fakeImageView.widthAnchor.constraint(equalTo: fakeImageView.heightAnchor)
         ])
+        // Needed to ensure layout by time view is presented
+        layoutIfNeeded()
     }
 }
