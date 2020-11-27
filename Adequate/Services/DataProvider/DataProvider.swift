@@ -111,6 +111,7 @@ class DataProvider: DataProviderType {
         self.client = client
         self.refreshManager = RefreshManager()
 
+        // TODO: do work on another thread
         addDealObserver(self) { dp, viewState in
             guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
                 return
@@ -119,6 +120,8 @@ class DataProvider: DataProviderType {
             currentDealManager.saveDeal(currentDeal)
 
             // FIXME: we should really only reload for a change in status
+            // FIXME: should this be run as a completion handler on CurrentDealManager.saveDeal() so we don't reload
+            // until after it has saved?
             if #available(iOS 14, *) {
                 WidgetCenter.shared.reloadAllTimelines()
             }

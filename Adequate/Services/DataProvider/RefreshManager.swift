@@ -11,6 +11,8 @@ import AWSAppSync
 final class RefreshManager: NSObject {
 
     private let dateProvider: () -> Date
+
+    /// Minimal interval between refresh requests.
     private let minimumRefreshInterval: TimeInterval = 60
 
     // TODO: initialize with UserDefaultsManager; use AppGroup
@@ -101,10 +103,13 @@ final class RefreshManager: NSObject {
 extension RefreshManager {
 
     enum Event {
+        /// Request current Deal from server.
         case request
         //case update(DealNotification)
         // TODO: pass both `oldDeal: Deal?` and `newDeal: Deal`?
+        /// Received a response from the server.
         case response(Deal)
+        /// Received a response from the server
         case responseEnvelope(DataEnvelope<Deal?>)
     }
 

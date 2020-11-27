@@ -12,6 +12,7 @@ public typealias OperationResult<Data> = Swift.Result<DataEnvelope<Data>, SyncCl
 
 public typealias OperationResultHandler<Data> = (OperationResult<Data>) -> Void
 
+/// Represents the result of a GraphQL operation.
 public struct DataEnvelope<Data> {
 
     /// Represents source of data.
@@ -47,6 +48,7 @@ public struct DataEnvelope<Data> {
     }
 }
 
+// MARK: - Operations
 public extension DataEnvelope {
 
     func map<NewData>(_ transform: (Data) -> NewData) -> DataEnvelope<NewData> {
