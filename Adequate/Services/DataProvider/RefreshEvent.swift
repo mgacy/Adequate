@@ -7,6 +7,7 @@
 //
 
 import enum UIKit.UIBackgroundFetchResult
+import struct UIKit.UNNotificationPresentationOptions
 
 enum RefreshEvent {
     /// Application did finish launching.
@@ -17,7 +18,7 @@ enum RefreshEvent {
     case foreground
     // TODO: add case for coming back online?
     /// Application received foreground notification.
-    case foregroundNotification
+    case foregroundNotification(notification: DealNotification, handler: (UNNotificationPresentationOptions) -> Void)
 
     /// Application received silent notification.
     case silentNotification(notification: DealNotification, handler: (UIBackgroundFetchResult) -> Void)

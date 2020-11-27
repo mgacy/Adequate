@@ -307,16 +307,28 @@ class DataProvider: DataProviderType {
             refetchCurrentDeal(showLoading: cacheCondition.showLoading)
 
         // Notifications
-        case .foregroundNotification:
+        case .foregroundNotification(_, let completionHandler):
             // TODO: check case of `DealNotification` and just use DealDelta.apply(to:) for DealNotification.delta
-            guard currentDealWatcher != nil else {
+
+            let presentationOptions: UNNotificationPresentationOptions
+            if #available(iOS 14.0, *) {
+                presentationOptions = [.list, .sound] // Use .list or .banner?
+            } else {
+                presentationOptions = [.alert, .sound]
+            }
+
+            guard currentDealWatcher != nil else {  // This really shouldn't be possible
                 log.error("\(#function) - \(event) - currentDealWatcher not configured)")
                 refreshDeal(for: .launch)
+                completionHandler(presentationOptions)
                 return
             }
 
             // TODO: still refresh if backgroundRefreshStatus == .available?
             refetchCurrentDeal(showLoading: true)
+
+            // TODO: improve handling; call handler via `CompletionWrapper`?
+            completionHandler(presentationOptions)
         case .silentNotification(let notification, let completionHandler):
             updateDealInBackground(notification, fetchCompletionHandler: completionHandler)
         }
