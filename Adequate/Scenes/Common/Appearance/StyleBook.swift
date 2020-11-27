@@ -15,11 +15,11 @@ enum StyleBook {
 
         //static let dynamic = Style<UIButton> { $0.titleLabel?.adjustsFontForContentSizeCategory = true }
         //static let autolayout = Style<UIButton> { $0.translatesAutoresizingMaskIntoConstraints = false }
-        //static let rounded = Style<UIButton> { $0.layer.cornerRadius = 5.0 }
+        //static let rounded = Style<UIButton> { $0.layer.cornerRadius = AppTheme.CornerRadius.extraSmall }
 
         static let base = Style<UIButton> {
             $0.contentEdgeInsets = UIEdgeInsets(horizontal: 8.0, vertical: 6.0)
-            $0.layer.cornerRadius = 5.0
+            $0.layer.cornerRadius = AppTheme.CornerRadius.extraSmall
             $0.titleLabel?.adjustsFontForContentSizeCategory = true // ?
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -64,7 +64,7 @@ enum StyleBook {
 
         static let secondaryWide = Style<UIButton> {
             $0.contentEdgeInsets = UIEdgeInsets(horizontal: 15.0, vertical: 5.0)
-            $0.layer.cornerRadius = 5.0
+            $0.layer.cornerRadius = AppTheme.CornerRadius.extraSmall
             $0.titleLabel?.adjustsFontForContentSizeCategory = true // ?
             $0.translatesAutoresizingMaskIntoConstraints = false
         } <> secondaryBase

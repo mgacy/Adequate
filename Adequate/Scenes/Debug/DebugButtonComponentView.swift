@@ -46,7 +46,7 @@ class DebugButtonComponentView: UIView {
 
     lazy var button: UIButton = {
         let button = UIButton(type: .custom)
-        button.layer.cornerRadius = 5.0
+        button.layer.cornerRadius = AppTheme.CornerRadius.extraSmall
         button.backgroundColor = button.tintColor
         button.addTarget(self, action: #selector(didPressButton(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

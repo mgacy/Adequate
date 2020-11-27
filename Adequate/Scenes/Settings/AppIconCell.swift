@@ -36,7 +36,7 @@ final class AppIconCell: UITableViewCell {
     }
 
     private func setupView() {
-        imageView?.layer.cornerRadius = 5.0
+        imageView?.layer.cornerRadius = AppTheme.CornerRadius.extraSmall
         imageView?.clipsToBounds = true
     }
 

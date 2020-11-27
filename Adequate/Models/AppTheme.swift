@@ -11,8 +11,11 @@ import UIKit
 // sourcery: lens
 struct AppTheme: Equatable {
 
-    enum CornerRadius: CGFloat {
-        case small = 5.0
+    enum CornerRadius {
+        /// An extra small corner radius.
+        static var extraSmall: CGFloat = 5.0
+        /// A small corner radius.
+        static var small: CGFloat = 8.0
     }
 
     // Basic Layout

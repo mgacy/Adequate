@@ -17,7 +17,7 @@ final class HistoryListCell: UITableViewCell {
 
     private let cardView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 5.0
+        view.layer.cornerRadius = AppTheme.CornerRadius.extraSmall
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -197,7 +197,7 @@ extension HistoryListCell {
 extension HistoryListCell {
     fileprivate enum ViewConfig {
         // X
-        static let cardCornerRadius: CGFloat = 5.0
+        static let cardCornerRadius: AppTheme.CornerRadius.extraSmall
         // Spacing
         static let spacing: CGFloat = 8.0
         static let sideMargin: CGFloat = 12.0
