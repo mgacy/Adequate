@@ -118,6 +118,7 @@
 		C9908F26254A04AB002948E1 /* CellConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9908F25254A04AB002948E1 /* CellConfigurable.swift */; };
 		C9908F30254B6202002948E1 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9908F2F254B6202002948E1 /* Models.swift */; };
 		C9908F44254B62DE002948E1 /* DiffableDataSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9908F43254B62DE002948E1 /* DiffableDataSourceProvider.swift */; };
+		C9921733257189FB00741650 /* NSLayoutConstraint+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9921732257189FB00741650 /* NSLayoutConstraint+Ext.swift */; };
 		C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992D1DD216D93F000B373D5 /* Optional+Ext.swift */; };
 		C995C07322A8B63600C2289F /* ParallaxBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07222A8B63600C2289F /* ParallaxBarView.swift */; };
 		C995C07522A8E01C00C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07422A8E01C00C2289F /* FileCache.swift */; };
@@ -461,6 +462,7 @@
 		C9908F25254A04AB002948E1 /* CellConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellConfigurable.swift; sourceTree = "<group>"; };
 		C9908F2F254B6202002948E1 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		C9908F43254B62DE002948E1 /* DiffableDataSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableDataSourceProvider.swift; sourceTree = "<group>"; };
+		C9921732257189FB00741650 /* NSLayoutConstraint+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Ext.swift"; sourceTree = "<group>"; };
 		C992D1DD216D93F000B373D5 /* Optional+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Ext.swift"; sourceTree = "<group>"; };
 		C995C07222A8B63600C2289F /* ParallaxBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxBarView.swift; sourceTree = "<group>"; };
 		C995C07422A8E01C00C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
@@ -1165,6 +1167,7 @@
 				C94D94B0253287610000328D /* Insets+Ext.swift */,
 				C992D1DD216D93F000B373D5 /* Optional+Ext.swift */,
 				C9DAC48A21476ADA00D6558B /* String+Ext.swift */,
+				C9921732257189FB00741650 /* NSLayoutConstraint+Ext.swift */,
 				C9DAC48C21476AF600D6558B /* UIColor+Ext.swift */,
 				C961F35922F4CF0D00405CA3 /* UIDevice+Ext.swift */,
 				C94D2CEE230E143700043431 /* UIFont+Ext.swift */,
@@ -2035,6 +2038,7 @@
 				C95CD618230FB1530011585F /* CoordinatorType.swift in Sources */,
 				C9A3BD3425049E99008F0D30 /* NotificationServiceManager.swift in Sources */,
 				C9DAC475214768C600D6558B /* AppDependency.swift in Sources */,
+				C9921733257189FB00741650 /* NSLayoutConstraint+Ext.swift in Sources */,
 				C9908F26254A04AB002948E1 /* CellConfigurable.swift in Sources */,
 				C9DAC4A321476C3A00D6558B /* NetworkClient.swift in Sources */,
 				C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */,
