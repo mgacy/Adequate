@@ -11,6 +11,8 @@ import AWSAppSync
 final class RefreshManager: NSObject {
 
     private let dateProvider: () -> Date
+
+    /// Minimal interval between refresh requests.
     private let minimumRefreshInterval: TimeInterval = 60
 
     // TODO: initialize with UserDefaultsManager; use AppGroup
@@ -43,7 +45,7 @@ final class RefreshManager: NSObject {
     /// The last time we tried to fetch the current Deal (in response to Notification)
     // TODO: replace with property wrapper
     // https://medium.com/@kahseng.lee123/create-the-perfect-userdefaults-wrapper-using-property-wrapper-42ca76005ac8
-    private var lastDealRequest: Date {
+    private(set) var lastDealRequest: Date {
         get {
             return defaults.object(forKey: UserDefaultsKey.lastDealRequest.rawValue) as? Date ?? Date.distantPast
         }
@@ -101,10 +103,13 @@ final class RefreshManager: NSObject {
 extension RefreshManager {
 
     enum Event {
+        /// Request current Deal from server.
         case request
-        //case update(DealDelta)
+        //case update(DealNotification)
         // TODO: pass both `oldDeal: Deal?` and `newDeal: Deal`?
+        /// Received a response from the server.
         case response(Deal)
+        /// Received a response from the server
         case responseEnvelope(DataEnvelope<Deal?>)
     }
 

@@ -12,7 +12,7 @@ enum DeepLink {
     /// Show onboarding scene.
     case onboarding
     /// Respond to launch from remote notification.
-    case remoteNotification([String : AnyObject])
+    case remoteNotification(DealNotification)
     /// Show current deal scene.
     case deal
     /// Show purchase page for current deal.
@@ -21,6 +21,7 @@ enum DeepLink {
     case share(title: String, url: URL)
     /// Show debug view.
     case debug
+    // TODO: add case to allow widget to add a reminder for relaunch / reserve
 }
 
 // MARK: - Builders
@@ -36,11 +37,11 @@ extension DeepLink {
     }
 
     static func build(with launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> DeepLink? {
-        guard let notification = launchOptions?[.remoteNotification] as? [String: AnyObject] else {
+        guard let notification = launchOptions?[.remoteNotification] as? [String: AnyObject],
+              let dealNotification = DealNotification(userInfo: notification) else {
             return nil
         }
-        // TODO: perform any further verifications of structure?
-        return .remoteNotification(notification)
+        return .remoteNotification(dealNotification)
     }
 
     static func build(with url: URL) -> DeepLink? {

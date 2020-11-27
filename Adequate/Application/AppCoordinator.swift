@@ -41,8 +41,8 @@ class AppCoordinator: BaseCoordinator {
             switch deepLink {
             case .onboarding:
                 showOnboarding()
-            case .remoteNotification(let payload):
-                showMain(notificationPayload: payload)
+            case .remoteNotification(let notification):
+                showMain(dealNotification: notification)
             case .debug:
                 showDebug()
             default:
@@ -80,12 +80,13 @@ class AppCoordinator: BaseCoordinator {
         coordinator.start()
     }
 
-    private func showMain(notificationPayload payload: [String : AnyObject]? = nil) {
-        let refreshEvent: RefreshEvent = payload != nil ? .launchFromNotification(payload!) : .launch
+    private func showMain(dealNotification: DealNotification? = nil) {
+        let refreshEvent: RefreshEvent = dealNotification != nil ? .launchFromNotification(dealNotification!) : .launch
         // TODO: skip `refreshDeal(for:) if `launchFromNotification` and wait for `AppDelegate` methods?
         refreshDeal(for: refreshEvent)
         let mainCoordinator = MainCoordinator(window: window, dependencies: dependencies)
         store(coordinator: mainCoordinator)
+        // TODO: if .launchFromNotification, should DealNotification.notificationType influence coordinator?
         mainCoordinator.start()
     }
 
@@ -103,26 +104,17 @@ class AppCoordinator: BaseCoordinator {
     }
 }
 
+// TODO: should these be pushed into an `AppController` object?
+
 // MARK: - Refresh
 extension AppCoordinator {
-    typealias FetchCompletionHandler = (UIBackgroundFetchResult) -> Void
 
     func refreshDeal(for event: RefreshEvent) {
         dependencies.dataProvider.refreshDeal(for: event)
     }
-
-    func updateDealInBackground(userInfo: [AnyHashable : Any], completion: @escaping FetchCompletionHandler) {
-        guard let delta = DealDelta(userInfo: userInfo) else {
-            log.error("Unable to parse DealDelta from notification: \(userInfo)")
-            completion(.failed)
-            return
-        }
-        dependencies.dataProvider.updateDealInBackground(delta, fetchCompletionHandler: completion)
-    }
 }
 
 // MARK: - Notifications
-// TODO: should these be pushed into an `AppController` / `AppManager` object??
 extension AppCoordinator {
 
     func registerForPushNotifications(with manager: NotificationManagerType) {

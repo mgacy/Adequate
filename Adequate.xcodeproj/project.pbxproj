@@ -15,7 +15,7 @@
 		C9058DF1215C7CB600FF7B4C /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9058DF0215C7CB600FF7B4C /* SettingsCoordinator.swift */; };
 		C9058DF3215C7CC400FF7B4C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9058DF2215C7CC400FF7B4C /* SettingsViewController.swift */; };
 		C9058DF5215C7E4C00FF7B4C /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9058DF4215C7E4C00FF7B4C /* NotificationManager.swift */; };
-		C9088C2D22E6A418007C35CC /* DealDelta.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9088C2C22E6A418007C35CC /* DealDelta.swift */; };
+		C9088C2D22E6A418007C35CC /* DealNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9088C2C22E6A418007C35CC /* DealNotification.swift */; };
 		C9093CB9221FBD1E00C9DA0C /* StoryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CB8221FBD1E00C9DA0C /* StoryCoordinator.swift */; };
 		C9093CBB221FBD6E00C9DA0C /* HistoryListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CBA221FBD6E00C9DA0C /* HistoryListCoordinator.swift */; };
 		C9093CBD221FBE9400C9DA0C /* DealCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CBC221FBE9400C9DA0C /* DealCoordinator.swift */; };
@@ -357,7 +357,7 @@
 		C9058DF0215C7CB600FF7B4C /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		C9058DF2215C7CC400FF7B4C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		C9058DF4215C7E4C00FF7B4C /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
-		C9088C2C22E6A418007C35CC /* DealDelta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealDelta.swift; sourceTree = "<group>"; };
+		C9088C2C22E6A418007C35CC /* DealNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealNotification.swift; sourceTree = "<group>"; };
 		C9093CB8221FBD1E00C9DA0C /* StoryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCoordinator.swift; sourceTree = "<group>"; };
 		C9093CBA221FBD6E00C9DA0C /* HistoryListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListCoordinator.swift; sourceTree = "<group>"; };
 		C9093CBC221FBE9400C9DA0C /* DealCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealCoordinator.swift; sourceTree = "<group>"; };
@@ -1397,7 +1397,7 @@
 				C9093CC42228A76D00C9DA0C /* DataProvider.swift */,
 				C9FABAED2372498100C1E523 /* MehSyncClient.swift */,
 				C911E267246D1E100056C84A /* RefreshManager.swift */,
-				C9088C2C22E6A418007C35CC /* DealDelta.swift */,
+				C9088C2C22E6A418007C35CC /* DealNotification.swift */,
 				C9C2109322D8126700C4F66F /* RefreshEvent.swift */,
 				C989E1222237459300DEAE89 /* SyncClientError.swift */,
 				C9A0ECFB245284F70051103F /* UITestingConfig.swift */,
@@ -2072,7 +2072,7 @@
 				C9C2109422D8126700C4F66F /* RefreshEvent.swift in Sources */,
 				C940BB07254B9BB30092AFA2 /* CellProvider.swift in Sources */,
 				C93CBEDC2320C8D80033DCD0 /* DebugViewController.swift in Sources */,
-				C9088C2D22E6A418007C35CC /* DealDelta.swift in Sources */,
+				C9088C2D22E6A418007C35CC /* DealNotification.swift in Sources */,
 				C9102F96224FED1900B06679 /* AboutViewController.swift in Sources */,
 				C96CA86C2182DCC800C3459E /* OnboardingPageViewController.swift in Sources */,
 				C9DAC4AF21476D3F00D6558B /* DealViewController.swift in Sources */,
