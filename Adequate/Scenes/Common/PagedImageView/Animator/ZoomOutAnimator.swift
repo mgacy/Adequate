@@ -45,6 +45,10 @@ final class ZoomOutAnimator: ZoomAnimator {
         // Animation
         let animator = transitionAnimator(using: transitionContext)
         animator.addAnimations {
+            // Fix for status bar not updating on interactive dismissal start
+            if #available(iOS 14.0, *) {
+                fromVC.modalPresentationCapturesStatusBarAppearance = false
+            }
             toVC.setNeedsStatusBarAppearanceUpdate() // Is this necessary?
             transitionView.frame = self.toDelegate.originFrame
             fromVC.view.alpha = 0.0
@@ -59,12 +63,21 @@ final class ZoomOutAnimator: ZoomAnimator {
             transitionView.removeFromSuperview()
 
             switch position {
+            case .start:
+                // Fix for status bar not updating on interactive dismissal start
+                if #available(iOS 14.0, *) {
+                    fromVC.modalPresentationCapturesStatusBarAppearance = true
+                }
+                transitionContext.cancelInteractiveTransition()
+                transitionContext.completeTransition(false)
+            case .current:
+                transitionContext.cancelInteractiveTransition()
+                transitionContext.completeTransition(false)
             case .end:
                 transitionContext.finishInteractiveTransition()
                 transitionContext.completeTransition(true)
-            default:
-                transitionContext.cancelInteractiveTransition()
-                transitionContext.completeTransition(false)
+            @unknown default:
+                fatalError("Unrecognized position: \(position)")
             }
         }
 
