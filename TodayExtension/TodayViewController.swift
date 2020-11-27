@@ -38,7 +38,7 @@ class TodayViewController: UIViewController {
     private lazy var imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
-        view.layer.cornerRadius = 8.0
+        view.layer.cornerRadius = Style.cornerRadius
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -107,7 +107,6 @@ class TodayViewController: UIViewController {
         // ...
     }
     */
-    //deinit { print("\(#function) - \(String(describing: self))") }
 
     // MARK: - View Setup
 
@@ -281,6 +280,7 @@ struct DealWrapper {
 // MARK: - Style
 // TODO: use ColorTheme (or AppTheme?)
 enum Style {
+    static let cornerRadius: CGFloat = 8.0
     // Colors
     static let primaryTextColor = UIColor.label
     static let secondaryTextColor = UIColor.secondaryLabel
