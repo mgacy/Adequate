@@ -76,6 +76,7 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
 
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
+        view.delegate = self
         view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -125,8 +126,6 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
         navigationItem.titleView = titleView
         navigationItem.rightBarButtonItem = dismissButton
         StyleBook.NavigationItem.transparent.apply(to: navigationItem)
-
-        pagedImageView.delegate = self
 
         view.insertSubview(stateView, at: 0)
         view.addSubview(barBackingView)

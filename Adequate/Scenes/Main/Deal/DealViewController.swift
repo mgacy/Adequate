@@ -140,7 +140,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
                                        name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
-    func setupParallaxScrollView() {
+    private func setupParallaxScrollView() {
         if let navBar = navigationController?.navigationBar {
             barBackingView.coordinateOffset = navBar.convert(navBar.bounds, to: rootView.scrollView).minY
         }
@@ -150,7 +150,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         }
     }
 
-    func setupConstraints() {
+    private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             // footerViewController

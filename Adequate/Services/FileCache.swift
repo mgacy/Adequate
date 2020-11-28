@@ -88,7 +88,7 @@ class FileCache: ImageCaching {
             log.verbose("Failed to retrieve image for \(key)")
             return nil
         }
-        log.verbose("Succeeded in retrieving image for \(key)")
+        //log.verbose("Succeeded in retrieving image for \(key)")
         // TODO: make more generic; just return Data and have other components handle UIImage
         return UIImage(data: data)
     }
