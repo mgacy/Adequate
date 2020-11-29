@@ -119,6 +119,8 @@
 		C9908F30254B6202002948E1 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9908F2F254B6202002948E1 /* Models.swift */; };
 		C9908F44254B62DE002948E1 /* DiffableDataSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9908F43254B62DE002948E1 /* DiffableDataSourceProvider.swift */; };
 		C9921733257189FB00741650 /* NSLayoutConstraint+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9921732257189FB00741650 /* NSLayoutConstraint+Ext.swift */; };
+		C992173C2571E0A200741650 /* PrimaryViewControllerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992173B2571E0A200741650 /* PrimaryViewControllerType.swift */; };
+		C992174A2571E20C00741650 /* SplitLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99217492571E20C00741650 /* SplitLayout.swift */; };
 		C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992D1DD216D93F000B373D5 /* Optional+Ext.swift */; };
 		C995C07322A8B63600C2289F /* ParallaxBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07222A8B63600C2289F /* ParallaxBarView.swift */; };
 		C995C07522A8E01C00C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07422A8E01C00C2289F /* FileCache.swift */; };
@@ -463,6 +465,8 @@
 		C9908F2F254B6202002948E1 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		C9908F43254B62DE002948E1 /* DiffableDataSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableDataSourceProvider.swift; sourceTree = "<group>"; };
 		C9921732257189FB00741650 /* NSLayoutConstraint+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Ext.swift"; sourceTree = "<group>"; };
+		C992173B2571E0A200741650 /* PrimaryViewControllerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryViewControllerType.swift; sourceTree = "<group>"; };
+		C99217492571E20C00741650 /* SplitLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitLayout.swift; sourceTree = "<group>"; };
 		C992D1DD216D93F000B373D5 /* Optional+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Ext.swift"; sourceTree = "<group>"; };
 		C995C07222A8B63600C2289F /* ParallaxBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxBarView.swift; sourceTree = "<group>"; };
 		C995C07422A8E01C00C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
@@ -945,6 +949,15 @@
 				C9908F43254B62DE002948E1 /* DiffableDataSourceProvider.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		C992173A2571E07E00741650 /* SplitViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C992173B2571E0A200741650 /* PrimaryViewControllerType.swift */,
+				C99217492571E20C00741650 /* SplitLayout.swift */,
+			);
+			path = SplitViewController;
 			sourceTree = "<group>";
 		};
 		C99EF3AF22BB695500BF4410 /* AdequateUITests */ = {
@@ -1976,6 +1989,7 @@
 				C989E11722330B1C00DEAE89 /* SlideTransitionController.swift in Sources */,
 				C9AE54CF21795D7A00818F11 /* FullScreenImageDelegate.swift in Sources */,
 				C973270D238CCF1600ADBAEE /* StoryContentView.swift in Sources */,
+				C992174A2571E20C00741650 /* SplitLayout.swift in Sources */,
 				C92215672254632D0001FF3F /* SlideAnimationController.swift in Sources */,
 				C98282F9237B9419002B55D9 /* CredentialsProvider.swift in Sources */,
 				C9093CBD221FBE9400C9DA0C /* DealCoordinator.swift in Sources */,
@@ -2098,6 +2112,7 @@
 				C9385B9225659D0F00F7AFB5 /* API+ResultSelectable.swift in Sources */,
 				C9DAC4B52147872700D6558B /* Router.swift in Sources */,
 				C9CDA59725217DFD0044A2A3 /* CurrentDeal.swift in Sources */,
+				C992173C2571E0A200741650 /* PrimaryViewControllerType.swift in Sources */,
 				C928547B216DCE44001E5993 /* SNSManager.swift in Sources */,
 				C95B83C3218017FD0051B72B /* ThemeManager.swift in Sources */,
 				C9058DEE215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift in Sources */,
