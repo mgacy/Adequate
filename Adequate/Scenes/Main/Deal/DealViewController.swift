@@ -127,9 +127,11 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         StyleBook.NavigationItem.transparent.apply(to: navigationItem)
 
         add(footerViewController)
-        view.insertSubview(stateView, at: 0)
         view.addSubview(barBackingView)
-        rootView.scrollView.headerView = pagedImageView
+
+        if case .phone = UIDevice.current.userInterfaceIdiom {
+            setupForPhone()
+        }
 
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupConstraints()
@@ -148,6 +150,11 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
             barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
         }
+    }
+
+    private func setupForPhone() {
+        view.insertSubview(stateView, at: 0)
+        collapseSecondaryView(pagedImageView)
     }
 
     private func setupConstraints() {
