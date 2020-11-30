@@ -249,9 +249,9 @@ extension DealViewController {
             switch view.safeAreaInsets.bottom {
             case 0.0..<8.0:
                 footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
-            case 8.0..<22.0:
+            case 8.0..<22.0: // iPad Pro (11", 12.9"): 20.0; iPhone X, etc. (Landscape): 21.0
                 footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 0.0, right: 16.0)
-            case 22.0...40.0:
+            case 22.0...40.0: // iPhone X, etc. (Portrait): 34.0
                 footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 0.0, right: 16.0)
                 //footerView.insetsLayoutMarginsFromSafeArea = false
                 //let new = view.safeAreaInsets.bottom - 8.0
