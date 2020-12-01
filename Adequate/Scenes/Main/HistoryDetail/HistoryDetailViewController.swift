@@ -251,10 +251,12 @@ extension HistoryDetailViewController: ViewStateRenderable {
         case .empty:
             //stateView.render(viewState)
             //stateView.isHidden = false
+            pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         case .loading:
             //stateView.render(viewState)
             //stateView.isHidden = false
+            pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         case .result(let deal):
             //stateView.render(viewState)
@@ -269,11 +271,13 @@ extension HistoryDetailViewController: ViewStateRenderable {
                 .compactMap { URL(string: $0) }
                 .compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
+            pagedImageView.isHidden = false
             rootView.scrollView.isHidden = false
             // TODO: animate display
         case .error:
             //stateView.render(viewState)
             //stateView.isHidden = false
+            pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         }
     }
@@ -317,3 +321,55 @@ extension HistoryDetailViewController: Themeable {
 
 // MARK: - ForegroundThemeable
 extension HistoryDetailViewController: ForegroundThemeable {}
+
+// MARK: - PrimaryViewControllerType
+extension HistoryDetailViewController: PrimaryViewControllerType {
+
+    func makeBackgroundView() -> UIView? {
+        return stateView
+    }
+
+    //func makeSecondaryView() -> UIView? {
+    //    return pagedImageView
+    //}
+
+    func configureConstraints(with secondaryColumnGuide: UILayoutGuide, in parentView: UIView) -> [NSLayoutConstraint] {
+        let horizontalMargin: CGFloat = 40.0 // 2 * `NSCollectionLayoutItem.contentInsets` in `PagedImageView`
+        return [
+            pagedImageView.centerYAnchor.constraint(equalTo: secondaryColumnGuide.centerYAnchor),
+            pagedImageView.centerXAnchor.constraint(equalTo: secondaryColumnGuide.centerXAnchor),
+            pagedImageView.leadingAnchor.constraint(equalTo: secondaryColumnGuide.leadingAnchor),
+            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
+                                                   constant: pagedImageView.pageControlHeight - horizontalMargin)
+        ]
+    }
+
+    func collapseSecondaryView(_ secondaryView: UIView) {
+        rootView.scrollView.headerView = secondaryView
+        //rootView.scrollView.headerHeight = view.contentWidth + pagedImageView.pageControlHeight // ?
+    }
+
+    func separateSecondaryView() -> UIView? {
+        rootView.scrollView.removeHeaderView()
+        rootView.scrollView.headerHeight = 0
+        // Return `pagedImageView` directly, rather than the result of `ParallaxScrollView.removeHeaderView()`, so
+        // `SplitViewController` can call this method during initial configuration without requiring that we
+        // needlessly add it to the scroll view.
+        return pagedImageView
+    }
+}
+
+extension HistoryDetailViewController: RotationManaging {
+
+    func beforeRotation() {
+        pagedImageView.beginRotation()
+    }
+
+    func alongsideRotation(_ context: UIViewControllerTransitionCoordinatorContext) {
+        pagedImageView.layoutIfNeeded()
+    }
+
+    func completeRotation(_ context: UIViewControllerTransitionCoordinatorContext) {
+        pagedImageView.completeRotation()
+    }
+}

@@ -320,9 +320,11 @@ extension DealViewController: ViewStateRenderable {
         switch viewState {
         case .empty:
             stateView.render(viewState)
+            pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         case .loading:
             stateView.render(viewState)
+            pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
             shareButton.isEnabled = false
             storyButton.isEnabled = false
@@ -342,11 +344,13 @@ extension DealViewController: ViewStateRenderable {
                 self.stateView.render(viewState)
                 // FIXME: can't animate `isHidden`
                 // see: https://stackoverflow.com/a/29080894
+                self.pagedImageView.isHidden = false
                 self.rootView.scrollView.isHidden = false
                 //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
             })
         case .error:
             stateView.render(viewState)
+            pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         }
     }
@@ -389,3 +393,66 @@ extension DealViewController: Themeable {
 
 // MARK: - ForegroundThemeable
 //extension DealViewController: ForegroundThemeable {}
+
+// MARK: - PrimaryViewControllerType
+extension DealViewController: PrimaryViewControllerType {
+
+    func makeBackgroundView() -> UIView? {
+        return stateView
+    }
+
+    //func makeSecondaryView() -> UIView? {
+    //    return pagedImageView
+    //}
+
+    func configureConstraints(with secondaryColumnGuide: UILayoutGuide, in parentView: UIView) -> [NSLayoutConstraint] {
+        let horizontalMargin: CGFloat = 40.0 // 2 * `NSCollectionLayoutItem.contentInsets` in `PagedImageView`
+
+        let topConstraint = pagedImageView.topAnchor.constraint(equalTo: secondaryColumnGuide.topAnchor)
+        topConstraint.priority = UILayoutPriority(650)
+
+        let widthConstraint = pagedImageView.widthAnchor.constraint(equalTo: secondaryColumnGuide.widthAnchor,
+                                                                    constant: horizontalMargin)
+        widthConstraint.priority = UILayoutPriority(750)
+
+        return [
+            pagedImageView.centerYAnchor.constraint(equalTo: secondaryColumnGuide.centerYAnchor),
+            pagedImageView.centerXAnchor.constraint(equalTo: secondaryColumnGuide.centerXAnchor),
+            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
+                                                   constant: pagedImageView.pageControlHeight - horizontalMargin),
+            pagedImageView.topAnchor.constraint(greaterThanOrEqualTo: secondaryColumnGuide.topAnchor),
+            pagedImageView.leadingAnchor.constraint(greaterThanOrEqualTo: parentView.leadingAnchor),
+            topConstraint,
+            widthConstraint
+        ]
+    }
+
+    func collapseSecondaryView(_ secondaryView: UIView) {
+        rootView.scrollView.headerView = secondaryView
+        //rootView.scrollView.headerHeight = view.contentWidth + pagedImageView.pageControlHeight // ?
+    }
+
+    func separateSecondaryView() -> UIView? {
+        rootView.scrollView.removeHeaderView()
+        rootView.scrollView.headerHeight = 0
+        // Return `pagedImageView` directly, rather than the result of `ParallaxScrollView.removeHeaderView()`, so
+        // `SplitViewController` can call this method during initial configuration without requiring that we
+        // needlessly add it to the scroll view.
+        return pagedImageView
+    }
+}
+
+extension DealViewController: RotationManaging {
+
+    func beforeRotation() {
+        pagedImageView.beginRotation()
+    }
+
+    func alongsideRotation(_ context: UIViewControllerTransitionCoordinatorContext) {
+        pagedImageView.layoutIfNeeded()
+    }
+
+    func completeRotation(_ context: UIViewControllerTransitionCoordinatorContext) {
+        pagedImageView.completeRotation()
+    }
+}
