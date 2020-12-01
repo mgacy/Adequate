@@ -43,6 +43,7 @@ protocol RotationManaging {
     /// Perform additional preparation before animating changes.
     func beforeRotation()
 
+    // TODO: pass `size` as well?
     /// Perform additional animations alongside the transition animation..
     /// - Parameter : The contextual information for performing the animations provided by the transition coordinator
     ///               object managing the size change.

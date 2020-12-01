@@ -245,7 +245,7 @@ extension DealViewController {
         if !initialSetupDone {
             // TODO: look at `PadDealViewController.viewLayoutMarginsDidChange()` for another way to handle
             // TODO: will this cause accessability problems? Disable this behavior at a given text size?
-            // Fix excessive bottom padding on devices with home indicator.
+            // Add additional bottom padding on devices without home indicator.
             switch view.safeAreaInsets.bottom {
             case 0.0..<8.0:
                 footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
@@ -270,6 +270,7 @@ extension DealViewController {
     }
 
     override func viewDidLayoutSubviews() {
+        // We use this to update insets when text size changes; move to traitCollectionDidChange()
         let footerHeight = footerViewController.view.frame.size.height - view.safeAreaInsets.bottom
         rootView.scrollView.contentInset.bottom = footerHeight
     }
