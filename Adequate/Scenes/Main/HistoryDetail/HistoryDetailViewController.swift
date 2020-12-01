@@ -338,7 +338,7 @@ extension HistoryDetailViewController: PrimaryViewControllerType {
         return [
             pagedImageView.centerYAnchor.constraint(equalTo: secondaryColumnGuide.centerYAnchor),
             pagedImageView.centerXAnchor.constraint(equalTo: secondaryColumnGuide.centerXAnchor),
-            pagedImageView.leadingAnchor.constraint(equalTo: secondaryColumnGuide.leadingAnchor),
+            pagedImageView.leadingAnchor.constraint(equalTo: parentView.leadingAnchor),
             pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
                                                    constant: pagedImageView.pageControlHeight - horizontalMargin)
         ]
