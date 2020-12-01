@@ -36,6 +36,8 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
         }
     }
 
+    private var initialSetupDone = false
+
     // MARK: - Subviews
 
     private lazy var stateView: StateView = {
@@ -194,13 +196,26 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
 extension HistoryDetailViewController {
 
     override func viewWillLayoutSubviews() {
-        rootView.scrollView.headerHeight = view.contentWidth + pagedImageView.pageControlHeight
-        // TODO: adjust barBackingView.inset?
-    }
+        if !initialSetupDone {
+            switch traitCollection.horizontalSizeClass {
+            case .compact:
+                rootView.scrollView.headerHeight = rootView.contentWidth + pagedImageView.pageControlHeight
+            case .regular:
+                rootView.scrollView.headerHeight = 0.0
+            default:
+                log.error("Unexpected horizontalSizeClass: \(traitCollection.horizontalSizeClass)")
+            }
 
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        rootView.scrollView.headerHeight = size.width + pagedImageView.pageControlHeight
+            initialSetupDone = true
+        }
+
+        // Help animation during rotation on iPad
+        // On iOS 14.2, `viewWillTransition(to:with:)` was being called with an inaccurate `size`
+        guard case .pad = UIDevice.current.userInterfaceIdiom,
+              case .compact = traitCollection.horizontalSizeClass else {
+            return
+        }
+        rootView.scrollView.headerHeight = rootView.contentWidth + pagedImageView.pageControlHeight
     }
 }
 
