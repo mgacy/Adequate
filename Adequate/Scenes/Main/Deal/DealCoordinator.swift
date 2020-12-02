@@ -52,9 +52,11 @@ final class DealCoordinator: Coordinator {
             dealViewController.delegate = self
             router.setRootModule(dealViewController, hideBar: false)
         case .pad, .carPlay:
-            let dealViewController = PadDealViewController(dependencies: dependencies)
+            let dealViewController = DealViewController(dependencies: dependencies)
             dealViewController.delegate = self
-            router.setRootModule(dealViewController, hideBar: false)
+            let splitViewController = SplitViewController(primaryChild: dealViewController)
+            splitViewController.rotationManager = dealViewController
+            router.setRootModule(splitViewController, hideBar: false)
         default:
             fatalError("Invalid device")
         }

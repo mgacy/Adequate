@@ -53,10 +53,11 @@ final class HistoryDetailCoordinator: FinishableCoordinator<Void> {
 
             router.toPresent().presentationController?.delegate = self
         case .pad, .carPlay:
-            let viewController = PadHistoryDetailViewController(dependencies: dependencies, deal: deal)
+            let viewController = HistoryDetailViewController(dependencies: dependencies, deal: deal)
             viewController.delegate = self
-            router.setRootModule(viewController, hideBar: false)
-
+            let splitViewController = SplitViewController(primaryChild: viewController)
+            splitViewController.rotationManager = viewController
+            router.setRootModule(splitViewController, hideBar: false)
             router.toPresent().presentationController?.delegate = self
         default:
             fatalError("Invalid device")

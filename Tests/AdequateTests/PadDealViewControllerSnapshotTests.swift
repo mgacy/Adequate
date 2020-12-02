@@ -13,7 +13,8 @@ import SnapshotTesting
 class PadDealViewControllerSnapshotTests: SnapshotTestBase {
 
     override func makeSUT() throws -> UIViewController {
-        let vc = UINavigationController(rootViewController: PadDealViewController(dependencies: dependencies))
+        let dealVC = DealViewController(dependencies: dependencies)
+        let vc = UINavigationController(rootViewController: SplitViewController(primaryChild: dealVC))
         let rootPageViewController = RootPageViewController(dependencies: dependencies)
         rootPageViewController.setPages([vc], displayIndex: 0, animated: false)
         return rootPageViewController
