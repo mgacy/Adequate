@@ -23,7 +23,7 @@ class MehSyncClientTests: XCTestCase {
     }
 
     // MARK: - A
-
+    /*
     func testFetchDeal_NilResponse() throws {
         let credentialsProvider = AWSMobileClient.default()
         let client = MehSyncClient(credentialsProvider: credentialsProvider)
@@ -54,5 +54,5 @@ class MehSyncClientTests: XCTestCase {
 
         wait(for: [userStatePromise, queryPromise], timeout: 10)
     }
-
+    */
 }
