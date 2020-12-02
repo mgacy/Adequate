@@ -77,8 +77,8 @@ class SplitViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init(primaryViewController: UIViewController & PrimaryViewControllerType) {
-        self.primaryChild = primaryViewController
+    init(primaryChild: UIViewController & PrimaryViewControllerType) {
+        self.primaryChild = primaryChild
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -163,6 +163,9 @@ extension SplitViewController {
     ) {
         super.willTransition(to: newCollection, with: coordinator)
 
+        // TODO: at some size, the accessibility `UIContentSizeCategory` cases should trigger an layout change as
+        // 2 columns don't make sense at small--but still regular--sizes.
+
         // If app starts in split screen, this method will be called for changes from `UIUserInterfaceLevel.base` to
         // `.elevated` before the view has been loaded and `setupView()` has been called.
         guard isViewLoaded else {
@@ -229,7 +232,7 @@ extension SplitViewController {
             switch traitCollection.horizontalSizeClass {
             case .compact:
                 primaryWidthConstraint.isActive = true
-                if let secondaryView = primaryChild.separateSecondaryView() { // This seems a bit ugly
+                if let secondaryView = primaryChild.separateSecondaryView() { // This is kinda ugly
                     primaryChild.collapseSecondaryView(secondaryView)
                 }
             case .regular:
