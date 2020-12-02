@@ -45,6 +45,7 @@ final class ScrollableView<T: UIView>: UIView {
         scrollView.alwaysBounceHorizontal = false
         //scrollView.preservesSuperviewLayoutMargins = true
         //contentView.preservesSuperviewLayoutMargins = true
+        contentView.insetsLayoutMarginsFromSafeArea = false
 
         addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -73,11 +74,11 @@ final class ScrollableView<T: UIView>: UIView {
     }
 
     override func layoutMarginsDidChange() {
-        let currentMargins = contentView.layoutMargins
-        contentView.layoutMargins = UIEdgeInsets(top: currentMargins.top,
-                                                 left: layoutMargins.left,
-                                                 bottom: currentMargins.bottom,
-                                                 right: layoutMargins.left)
+        let currentMargins = contentView.directionalLayoutMargins
+        contentView.directionalLayoutMargins = .init(top: currentMargins.top,
+                                                     leading: directionalLayoutMargins.leading,
+                                                     bottom: currentMargins.bottom,
+                                                     trailing: directionalLayoutMargins.trailing)
     }
 }
 

@@ -36,6 +36,8 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
         }
     }
 
+    private var initialSetupDone = false
+
     // MARK: - Subviews
 
     private lazy var stateView: StateView = {
@@ -76,6 +78,7 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
 
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
+        view.delegate = self
         view.backgroundColor = ColorCompatibility.systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -126,11 +129,11 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
         navigationItem.rightBarButtonItem = dismissButton
         StyleBook.NavigationItem.transparent.apply(to: navigationItem)
 
-        pagedImageView.delegate = self
-
-        view.insertSubview(stateView, at: 0)
         view.addSubview(barBackingView)
-        rootView.scrollView.headerView = pagedImageView
+
+        if case .phone = UIDevice.current.userInterfaceIdiom {
+            setupForPhone()
+        }
 
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupConstraints()
@@ -145,6 +148,11 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
         rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
             barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
         }
+    }
+
+    private func setupForPhone() {
+        view.insertSubview(stateView, at: 0)
+        collapseSecondaryView(pagedImageView)
     }
 
     private func setupConstraints() {
@@ -188,13 +196,26 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
 extension HistoryDetailViewController {
 
     override func viewWillLayoutSubviews() {
-        rootView.scrollView.headerHeight = view.contentWidth + pagedImageView.pageControlHeight
-        // TODO: adjust barBackingView.inset?
-    }
+        if !initialSetupDone {
+            switch traitCollection.horizontalSizeClass {
+            case .compact:
+                rootView.scrollView.headerHeight = rootView.contentWidth + pagedImageView.pageControlHeight
+            case .regular:
+                rootView.scrollView.headerHeight = 0.0
+            default:
+                log.error("Unexpected horizontalSizeClass: \(traitCollection.horizontalSizeClass)")
+            }
 
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        rootView.scrollView.headerHeight = size.width + pagedImageView.pageControlHeight
+            initialSetupDone = true
+        }
+
+        // Help animation during rotation on iPad
+        // On iOS 14.2, `viewWillTransition(to:with:)` was being called with an inaccurate `size`
+        guard case .pad = UIDevice.current.userInterfaceIdiom,
+              case .compact = traitCollection.horizontalSizeClass else {
+            return
+        }
+        rootView.scrollView.headerHeight = rootView.contentWidth + pagedImageView.pageControlHeight
     }
 }
 
@@ -245,10 +266,12 @@ extension HistoryDetailViewController: ViewStateRenderable {
         case .empty:
             //stateView.render(viewState)
             //stateView.isHidden = false
+            pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         case .loading:
             //stateView.render(viewState)
             //stateView.isHidden = false
+            pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         case .result(let deal):
             //stateView.render(viewState)
@@ -263,11 +286,13 @@ extension HistoryDetailViewController: ViewStateRenderable {
                 .compactMap { URL(string: $0) }
                 .compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
+            pagedImageView.isHidden = false
             rootView.scrollView.isHidden = false
             // TODO: animate display
         case .error:
             //stateView.render(viewState)
             //stateView.isHidden = false
+            pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         }
     }
@@ -311,3 +336,55 @@ extension HistoryDetailViewController: Themeable {
 
 // MARK: - ForegroundThemeable
 extension HistoryDetailViewController: ForegroundThemeable {}
+
+// MARK: - PrimaryViewControllerType
+extension HistoryDetailViewController: PrimaryViewControllerType {
+
+    func makeBackgroundView() -> UIView? {
+        return stateView
+    }
+
+    //func makeSecondaryView() -> UIView? {
+    //    return pagedImageView
+    //}
+
+    func configureConstraints(with secondaryColumnGuide: UILayoutGuide, in parentView: UIView) -> [NSLayoutConstraint] {
+        let horizontalMargin: CGFloat = 40.0 // 2 * `NSCollectionLayoutItem.contentInsets` in `PagedImageView`
+        return [
+            pagedImageView.centerYAnchor.constraint(equalTo: secondaryColumnGuide.centerYAnchor),
+            pagedImageView.centerXAnchor.constraint(equalTo: secondaryColumnGuide.centerXAnchor),
+            pagedImageView.leadingAnchor.constraint(equalTo: parentView.leadingAnchor),
+            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
+                                                   constant: pagedImageView.pageControlHeight - horizontalMargin)
+        ]
+    }
+
+    func collapseSecondaryView(_ secondaryView: UIView) {
+        rootView.scrollView.headerView = secondaryView
+        //rootView.scrollView.headerHeight = view.contentWidth + pagedImageView.pageControlHeight // ?
+    }
+
+    func separateSecondaryView() -> UIView? {
+        rootView.scrollView.removeHeaderView()
+        rootView.scrollView.headerHeight = 0
+        // Return `pagedImageView` directly, rather than the result of `ParallaxScrollView.removeHeaderView()`, so
+        // `SplitViewController` can call this method during initial configuration without requiring that we
+        // needlessly add it to the scroll view.
+        return pagedImageView
+    }
+}
+
+extension HistoryDetailViewController: RotationManaging {
+
+    func beforeRotation() {
+        pagedImageView.beginRotation()
+    }
+
+    func alongsideRotation(_ context: UIViewControllerTransitionCoordinatorContext) {
+        pagedImageView.layoutIfNeeded()
+    }
+
+    func completeRotation(_ context: UIViewControllerTransitionCoordinatorContext) {
+        pagedImageView.completeRotation()
+    }
+}

@@ -20,8 +20,8 @@ class PadHistoryDetailViewControllerSnapshotTests: SnapshotTestBase {
         dataProvider.dealResponse = .success(historyDetail)
 
         let dealFragment = historyList[0]
-        let detailVC = PadHistoryDetailViewController(dependencies: dependencies, deal: dealFragment)
-        let vc = UINavigationController(rootViewController: detailVC)
+        let detailVC = HistoryDetailViewController(dependencies: dependencies, deal: dealFragment)
+        let vc = UINavigationController(rootViewController: SplitViewController(primaryChild: detailVC))
 
         detailVC.loadViewIfNeeded()
         detailVC.render(.result(historyDetail))

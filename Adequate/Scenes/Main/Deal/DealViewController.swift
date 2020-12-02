@@ -94,6 +94,8 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
 
     private lazy var footerViewController: FooterViewController = {
         let controller = FooterViewController()
+        controller.view.directionalLayoutMargins = .init(top: 8.0, leading: 0.0, bottom: 0.0, trailing: 0.0)
+        controller.view.preservesSuperviewLayoutMargins = true
         controller.view.translatesAutoresizingMaskIntoConstraints = false
         controller.delegate = self
         return controller
@@ -127,9 +129,11 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         StyleBook.NavigationItem.transparent.apply(to: navigationItem)
 
         add(footerViewController)
-        view.insertSubview(stateView, at: 0)
         view.addSubview(barBackingView)
-        rootView.scrollView.headerView = pagedImageView
+
+        if case .phone = UIDevice.current.userInterfaceIdiom {
+            setupForPhone()
+        }
 
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupConstraints()
@@ -140,7 +144,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
                                        name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
-    func setupParallaxScrollView() {
+    private func setupParallaxScrollView() {
         if let navBar = navigationController?.navigationBar {
             barBackingView.coordinateOffset = navBar.convert(navBar.bounds, to: rootView.scrollView).minY
         }
@@ -150,7 +154,12 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         }
     }
 
-    func setupConstraints() {
+    private func setupForPhone() {
+        view.insertSubview(stateView, at: 0)
+        collapseSecondaryView(pagedImageView)
+    }
+
+    private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             // footerViewController
@@ -231,57 +240,52 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
 
 }
 
-// MARK: - UIContentContainer
-extension DealViewController {
-
-    // TODO: remove now that we use PadDealViewController on iPad?
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        //let parallaxHeight: CGFloat = size.width + pagedImageView.pageControlHeight
-        coordinator.animate(
-            alongsideTransition: { [weak self] (context) -> Void in
-                self?.pagedImageView.beginRotation()
-            },
-            completion: { [weak self] (context) -> Void in
-                self?.pagedImageView.completeRotation()
-                //self?.rootView.scrollView.headerHeight = parallaxHeight
-            }
-        )
-    }
-}
-
 // MARK: - Layout
 extension DealViewController {
 
     override func viewWillLayoutSubviews() {
         if !initialSetupDone {
-            // TODO: look at `PadDealViewController.viewLayoutMarginsDidChange()` for another way to handle
-            // TODO: will this cause accessability problems? Disable this behavior at a given text size?
-            // Fix excessive bottom padding on devices with home indicator.
+            // TODO: will this cause accessability problems? Disable this behavior at a given `UIContentSizeCategory`?
+            // Add additional bottom padding on devices without home indicator.
+            //let bottomInset: CGFloat = view.safeAreaInsets.bottom > 8.0 ? 0.0 : 8.0
             switch view.safeAreaInsets.bottom {
             case 0.0..<8.0:
-                footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
-            case 8.0..<22.0:
-                footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 0.0, right: 16.0)
-            case 22.0...40.0:
-                footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 0.0, right: 16.0)
-                //footerView.insetsLayoutMarginsFromSafeArea = false
+                footerViewController.view.directionalLayoutMargins = .init(top: 8, leading: 0, bottom: 8, trailing: 0)
+            case 8.0..<22.0: // iPad Pro (11", 12.9"): 20.0; iPhone X, etc. (Landscape): 21.0
+                footerViewController.view.directionalLayoutMargins = .init(top: 8, leading: 0, bottom: 0, trailing: 0)
+            case 22.0...40.0: // iPhone X, etc. (Portrait): 34.0
+                footerViewController.view.directionalLayoutMargins = .init(top: 8, leading: 0, bottom: 0, trailing: 0)
+                //footerViewController.view.insetsLayoutMarginsFromSafeArea = false
                 //let new = view.safeAreaInsets.bottom - 8.0
-                //footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: new, right: 16.0)
+                //footerViewController.view.directionalLayoutMargins = .init(top: 8, left: 0, bottom: new, right: 0)
             default:
                 log.error("Unexpected bottom safe area inset")
-                footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
+                footerViewController.view.directionalLayoutMargins = .init(top: 8, leading: 0, bottom: 8, trailing: 0)
             }
 
-            rootView.scrollView.headerHeight = view.contentWidth + pagedImageView.pageControlHeight
-
-            // TODO: adjust barBackingView.inset?
+            switch traitCollection.horizontalSizeClass {
+            case .compact:
+                rootView.scrollView.headerHeight = rootView.contentWidth + pagedImageView.pageControlHeight
+            case .regular:
+                rootView.scrollView.headerHeight = 0.0
+            default:
+                log.error("Unexpected horizontalSizeClass: \(traitCollection.horizontalSizeClass)")
+            }
 
             initialSetupDone = true
         }
+
+        // Help animation during rotation on iPad
+        // TODO: is this still needed with our override of `viewWillTransition(to:with:)`?
+        guard case .pad = UIDevice.current.userInterfaceIdiom,
+              case .compact = traitCollection.horizontalSizeClass else {
+            return
+        }
+        rootView.scrollView.headerHeight = rootView.contentWidth + pagedImageView.pageControlHeight
     }
 
     override func viewDidLayoutSubviews() {
+        // We use this to update insets when text size changes; move to traitCollectionDidChange()
         let footerHeight = footerViewController.view.frame.size.height - view.safeAreaInsets.bottom
         rootView.scrollView.contentInset.bottom = footerHeight
     }
@@ -332,9 +336,11 @@ extension DealViewController: ViewStateRenderable {
         switch viewState {
         case .empty:
             stateView.render(viewState)
+            pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         case .loading:
             stateView.render(viewState)
+            pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
             shareButton.isEnabled = false
             storyButton.isEnabled = false
@@ -354,11 +360,13 @@ extension DealViewController: ViewStateRenderable {
                 self.stateView.render(viewState)
                 // FIXME: can't animate `isHidden`
                 // see: https://stackoverflow.com/a/29080894
+                self.pagedImageView.isHidden = false
                 self.rootView.scrollView.isHidden = false
                 //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
             })
         case .error:
             stateView.render(viewState)
+            pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         }
     }
@@ -401,3 +409,84 @@ extension DealViewController: Themeable {
 
 // MARK: - ForegroundThemeable
 //extension DealViewController: ForegroundThemeable {}
+
+// MARK: - UIContentContainer
+extension DealViewController {
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(
+            alongsideTransition: { [weak self] context in
+                if case .compact = self?.traitCollection.horizontalSizeClass, let rootView = self?.rootView {
+                    let margins = rootView.directionalLayoutMargins.leading + rootView.directionalLayoutMargins.trailing
+                    let pageControlHeight = self?.pagedImageView.pageControlHeight ?? 0.0
+                    rootView.scrollView.headerHeight = size.width + pageControlHeight - margins
+                }
+            },
+            completion: nil
+        )
+    }
+}
+
+// MARK: - PrimaryViewControllerType
+extension DealViewController: PrimaryViewControllerType {
+
+    func makeBackgroundView() -> UIView? {
+        return stateView
+    }
+
+    //func makeSecondaryView() -> UIView? {
+    //    return pagedImageView
+    //}
+
+    func configureConstraints(with secondaryColumnGuide: UILayoutGuide, in parentView: UIView) -> [NSLayoutConstraint] {
+        let horizontalMargin: CGFloat = 40.0 // 2 * `NSCollectionLayoutItem.contentInsets` in `PagedImageView`
+
+        let topConstraint = pagedImageView.topAnchor.constraint(equalTo: secondaryColumnGuide.topAnchor)
+        topConstraint.priority = UILayoutPriority(650)
+
+        let widthConstraint = pagedImageView.widthAnchor.constraint(equalTo: secondaryColumnGuide.widthAnchor,
+                                                                    constant: horizontalMargin)
+        widthConstraint.priority = UILayoutPriority(750)
+
+        return [
+            pagedImageView.centerYAnchor.constraint(equalTo: secondaryColumnGuide.centerYAnchor),
+            pagedImageView.centerXAnchor.constraint(equalTo: secondaryColumnGuide.centerXAnchor),
+            pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
+                                                   constant: pagedImageView.pageControlHeight - horizontalMargin),
+            pagedImageView.topAnchor.constraint(greaterThanOrEqualTo: secondaryColumnGuide.topAnchor),
+            pagedImageView.leadingAnchor.constraint(greaterThanOrEqualTo: parentView.leadingAnchor),
+            topConstraint,
+            widthConstraint
+        ]
+    }
+
+    func collapseSecondaryView(_ secondaryView: UIView) {
+        rootView.scrollView.headerView = secondaryView
+        //rootView.scrollView.headerHeight = view.contentWidth + pagedImageView.pageControlHeight // ?
+    }
+
+    func separateSecondaryView() -> UIView? {
+        rootView.scrollView.removeHeaderView()
+        rootView.scrollView.headerHeight = 0
+        // Return `pagedImageView` directly, rather than the result of `ParallaxScrollView.removeHeaderView()`, so
+        // `SplitViewController` can call this method during initial configuration without requiring that we
+        // needlessly add it to the scroll view.
+        return pagedImageView
+    }
+}
+
+extension DealViewController: RotationManaging {
+
+    func beforeRotation() {
+        pagedImageView.beginRotation()
+    }
+
+    func alongsideRotation(_ context: UIViewControllerTransitionCoordinatorContext) {
+        pagedImageView.layoutIfNeeded()
+    }
+
+    func completeRotation(_ context: UIViewControllerTransitionCoordinatorContext) {
+        pagedImageView.completeRotation()
+    }
+}
