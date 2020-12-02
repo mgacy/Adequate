@@ -94,6 +94,8 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
 
     private lazy var footerViewController: FooterViewController = {
         let controller = FooterViewController()
+        controller.view.directionalLayoutMargins = .init(top: 8.0, leading: 0.0, bottom: 0.0, trailing: 0.0)
+        controller.view.preservesSuperviewLayoutMargins = true
         controller.view.translatesAutoresizingMaskIntoConstraints = false
         controller.delegate = self
         return controller
@@ -243,30 +245,43 @@ extension DealViewController {
 
     override func viewWillLayoutSubviews() {
         if !initialSetupDone {
-            // TODO: look at `PadDealViewController.viewLayoutMarginsDidChange()` for another way to handle
-            // TODO: will this cause accessability problems? Disable this behavior at a given text size?
+            // TODO: will this cause accessability problems? Disable this behavior at a given `UIContentSizeCategory`?
             // Add additional bottom padding on devices without home indicator.
+            //let bottomInset: CGFloat = view.safeAreaInsets.bottom > 8.0 ? 0.0 : 8.0
             switch view.safeAreaInsets.bottom {
             case 0.0..<8.0:
-                footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
+                footerViewController.view.directionalLayoutMargins = .init(top: 8, leading: 0, bottom: 8, trailing: 0)
             case 8.0..<22.0: // iPad Pro (11", 12.9"): 20.0; iPhone X, etc. (Landscape): 21.0
-                footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 0.0, right: 16.0)
+                footerViewController.view.directionalLayoutMargins = .init(top: 8, leading: 0, bottom: 0, trailing: 0)
             case 22.0...40.0: // iPhone X, etc. (Portrait): 34.0
-                footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 0.0, right: 16.0)
-                //footerView.insetsLayoutMarginsFromSafeArea = false
+                footerViewController.view.directionalLayoutMargins = .init(top: 8, leading: 0, bottom: 0, trailing: 0)
+                //footerViewController.view.insetsLayoutMarginsFromSafeArea = false
                 //let new = view.safeAreaInsets.bottom - 8.0
-                //footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: new, right: 16.0)
+                //footerViewController.view.directionalLayoutMargins = .init(top: 8, left: 0, bottom: new, right: 0)
             default:
                 log.error("Unexpected bottom safe area inset")
-                footerViewController.view.layoutMargins = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
+                footerViewController.view.directionalLayoutMargins = .init(top: 8, leading: 0, bottom: 8, trailing: 0)
             }
 
-            rootView.scrollView.headerHeight = view.contentWidth + pagedImageView.pageControlHeight
-
-            // TODO: adjust barBackingView.inset?
+            switch traitCollection.horizontalSizeClass {
+            case .compact:
+                rootView.scrollView.headerHeight = rootView.contentWidth + pagedImageView.pageControlHeight
+            case .regular:
+                rootView.scrollView.headerHeight = 0.0
+            default:
+                log.error("Unexpected horizontalSizeClass: \(traitCollection.horizontalSizeClass)")
+            }
 
             initialSetupDone = true
         }
+
+        // Help animation during rotation on iPad
+        // TODO: is this still needed with our override of `viewWillTransition(to:with:)`?
+        guard case .pad = UIDevice.current.userInterfaceIdiom,
+              case .compact = traitCollection.horizontalSizeClass else {
+            return
+        }
+        rootView.scrollView.headerHeight = rootView.contentWidth + pagedImageView.pageControlHeight
     }
 
     override func viewDidLayoutSubviews() {
@@ -394,6 +409,24 @@ extension DealViewController: Themeable {
 
 // MARK: - ForegroundThemeable
 //extension DealViewController: ForegroundThemeable {}
+
+// MARK: - UIContentContainer
+extension DealViewController {
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(
+            alongsideTransition: { [weak self] context in
+                if case .compact = self?.traitCollection.horizontalSizeClass, let rootView = self?.rootView {
+                    let margins = rootView.directionalLayoutMargins.leading + rootView.directionalLayoutMargins.trailing
+                    let pageControlHeight = self?.pagedImageView.pageControlHeight ?? 0.0
+                    rootView.scrollView.headerHeight = size.width + pageControlHeight - margins
+                }
+            },
+            completion: nil
+        )
+    }
+}
 
 // MARK: - PrimaryViewControllerType
 extension DealViewController: PrimaryViewControllerType {

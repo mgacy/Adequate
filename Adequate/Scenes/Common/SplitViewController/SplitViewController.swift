@@ -16,6 +16,12 @@ class SplitViewController: UIViewController {
 
     var primaryChild: UIViewController & PrimaryViewControllerType // `primaryChild`?
 
+    /// Value of top directional edge inset applied to `primaryChild` when layout margins are updated.
+    var defaultTopInsetForChild: CGFloat = 0.0
+
+    /// Value of the bottom directional edge inset applied to `primaryChild` when layout margins are updated.
+    var defaultBottomInsetForChild: CGFloat = 0.0
+
     // FIXME: the fact that we continue to use same set of `regularConstraints` means this needs to remain the same
     // view throughout lifetime of of view controller. Should we maintain reference and replace
     // `separateSecondaryView() -> UIView?` with `willRemoveSecondaryView()`?
@@ -79,6 +85,7 @@ class SplitViewController: UIViewController {
 
     init(primaryChild: UIViewController & PrimaryViewControllerType) {
         self.primaryChild = primaryChild
+        // Set `defaultTopInsetForChild`, `defaultBottomInsetForChild` from current values of `primaryChild.view`?
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -126,15 +133,14 @@ class SplitViewController: UIViewController {
 
     //deinit { print("\(#function) - \(self.description)") }
 
-    // TODO: use `UIViewController.setOverrideTraitCollection(_:forChild:)`? to force `primaryChild` to use
-    // compact-width size class?
-
     // MARK: - View Methods
 
     func setupView() {
         view.backgroundColor = .systemBackground
         add(primaryChild)
-        primaryChild.view.preservesSuperviewLayoutMargins = true
+
+        // Force compact-wdth size class?
+        //setOverrideTraitCollection(UITraitCollection(horizontalSizeClass: .compact), forChild: primaryChild)
 
         if let backgroundView = primaryChild.makeBackgroundView() {
             view.insertSubview(backgroundView, at: 0)
@@ -248,6 +254,18 @@ extension SplitViewController {
             initialSetupDone = true
         }
     }
+
+    // This is called before `.viewWillLayoutSubviews()`
+    override func viewLayoutMarginsDidChange() {
+        super.viewLayoutMarginsDidChange()
+        // Communicate changes in leading margin to primary child
+        // TODO: should we add a custom property to control this behavior?
+        let newMargins = view.directionalLayoutMargins
+        primaryChild.view.directionalLayoutMargins = .init(top: defaultTopInsetForChild,
+                                                           leading: newMargins.leading,
+                                                           bottom: defaultBottomInsetForChild,
+                                                           trailing: newMargins.trailing)
+    }
 }
 
 // MARK: - Layout Helpers
@@ -319,17 +337,6 @@ extension SplitViewController {
 
         NSLayoutConstraint.activate(secondaryColumnConstraints)
         NSLayoutConstraint.activate(regularConstraints)
-    }
-}
-
-extension SplitViewController {
-
-    // At least on iPad, this seems to be called before `.viewWillLayoutSubviews`
-    override func viewLayoutMarginsDidChange() {
-        super.viewLayoutMarginsDidChange()
-        if primaryChild.view.preservesSuperviewLayoutMargins {
-            primaryChild.view.layoutMargins = view.layoutMargins
-        }
     }
 }
 
