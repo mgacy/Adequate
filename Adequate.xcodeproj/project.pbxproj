@@ -1870,7 +1870,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${INFOPLIST_FILE}\"\n";
+			shellScript = "buildscripts/increment_build_number.sh\n";
 		};
 		C9A56FEA2154CE0B00BECB15 /* Run Script - Sourcery */ = {
 			isa = PBXShellScriptBuildPhase;
