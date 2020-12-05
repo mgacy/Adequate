@@ -529,6 +529,7 @@
 		C9C0C0C523072FBD0011EFB4 /* MDFontCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDFontCollection.swift; sourceTree = "<group>"; };
 		C9C0C0C7230730020011EFB4 /* MDColorCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDColorCollection.swift; sourceTree = "<group>"; };
 		C9C0C0C9230730E30011EFB4 /* MDStylerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDStylerConfiguration.swift; sourceTree = "<group>"; };
+		C9C20A5C257B2C81003DEA97 /* WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetExtension.entitlements; sourceTree = "<group>"; };
 		C9C2109322D8126700C4F66F /* RefreshEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshEvent.swift; sourceTree = "<group>"; };
 		C9C2109722D8FFA300C4F66F /* Lens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lens.swift; sourceTree = "<group>"; };
 		C9C914602458C7BF0006190C /* FullScreenImagePresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImagePresenting.swift; sourceTree = "<group>"; };
@@ -1052,6 +1053,7 @@
 		C9CDA4FE252174B00044A2A3 /* WidgetExtension */ = {
 			isa = PBXGroup;
 			children = (
+				C9C20A5C257B2C81003DEA97 /* WidgetExtension.entitlements */,
 				C9CDA5A625217FC50044A2A3 /* DealEntry.swift */,
 				C9CDA54B2521793A0044A2A3 /* DealProvider.swift */,
 				C9CDA55F25217ACD0044A2A3 /* DealWidgetEntryView.swift */,
@@ -2388,6 +2390,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
@@ -2730,6 +2733,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
@@ -3032,6 +3036,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
