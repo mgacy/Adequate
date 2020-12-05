@@ -18,12 +18,12 @@ struct DealProvider: TimelineProvider {
         DealEntry.placeholder
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (Entry) -> ()) {
+    func getSnapshot(in context: Context, completion: @escaping (Entry) -> Void) {
         // if context.isPreview { ... } else { ... }
         completion(.placeholder)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         let currentDeal = currentDealManager.readDeal() ?? .placeholder
         let dealImage = currentDealManager.readImage() ?? .placeholder
 
