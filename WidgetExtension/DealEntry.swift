@@ -34,7 +34,7 @@ extension CurrentDeal {
 // MARK: - UIImage+placeholder
 extension UIImage {
     static var placeholder: UIImage {
-        return UIColor.separator.image(CGSize(width: 375.0, height: 375.0))
+        return #imageLiteral(resourceName: "PlaceholderDealImage")
     }
 }
 
