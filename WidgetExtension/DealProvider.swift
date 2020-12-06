@@ -35,9 +35,13 @@ struct DealProvider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         let currentDeal = currentDealManager.readDeal() ?? .placeholder
+        // TODO: add alternative image asset or use photo symbol to represent image load errors?
         let dealImage = currentDealManager.readImage() ?? .placeholder
 
-        let timeline = Timeline(entries: [DealEntry(deal: currentDeal, image: dealImage)], policy: .never)
+        // Request a timeline refresh after 2.5 hours.
+        let date = Calendar.current.date(byAdding: .minute, value: 150, to: Date())!
+        let timeline = Timeline(entries: [DealEntry(deal: currentDeal, image: dealImage)],
+                                policy: .after(date))
         completion(timeline)
     }
 }
