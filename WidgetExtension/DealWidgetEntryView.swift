@@ -10,6 +10,7 @@
 import WidgetKit
 import SwiftUI
 
+// TODO: add view model
 struct InfoView: View {
     @Environment(\.widgetFamily) var size
     var deal: CurrentDeal
@@ -22,13 +23,20 @@ struct InfoView: View {
         return formatter
     }()
 
-    var priceString: String {
-        let formattedMinPrice = formatter.string(from: deal.minPrice as NSNumber) ?? "\(deal.minPrice)"
-        if let maxPrice = deal.maxPrice {
-            let formattedMaxPrice = formatter.string(from: maxPrice as NSNumber) ?? "\(maxPrice)"
-            return "$\(formattedMinPrice) - \(formattedMaxPrice)"
-        } else {
-            return "$\(formattedMinPrice)"
+    var secondaryString: String {
+        switch deal.launchStatus {
+        case .launch, .relaunch, .reserve:
+            let formattedMinPrice = formatter.string(from: deal.minPrice as NSNumber) ?? "\(deal.minPrice)"
+            if let maxPrice = deal.maxPrice {
+                let formattedMaxPrice = formatter.string(from: maxPrice as NSNumber) ?? "\(maxPrice)"
+                return "$\(formattedMinPrice) - \(formattedMaxPrice)"
+            } else {
+                return "$\(formattedMinPrice)"
+            }
+        case .none, .launchSoldOut, .relaunchSoldOut, .soldOut, .unknown:
+            return L10n.soldOut
+        case .expired:
+            return "----"
         }
     }
 
@@ -56,11 +64,21 @@ struct InfoView: View {
         }
     }
 
-    var priceFont: Font {
+    var secondaryFont: Font {
         if case .systemSmall = size {
             return .caption
         } else {
             return .footnote
+        }
+    }
+
+    var secondaryColor: Color {
+        switch deal.launchStatus {
+        case .launch, .relaunch, .reserve: return .secondary
+        case .launchSoldOut: return Color(.systemOrange)
+        case .relaunchSoldOut, .soldOut: return Color(.systemRed)
+        case .expired: return Color(.systemRed)
+        case .none, .unknown: return Color(.systemRed)
         }
     }
 
@@ -69,9 +87,9 @@ struct InfoView: View {
             Text(deal.title)
                 .font(titleFont)
                 .lineLimit(lineLimit)
-            Text(priceString)
-                .foregroundColor(.secondary)
-                .font(priceFont)
+            Text(secondaryString)
+                .foregroundColor(secondaryColor)
+                .font(secondaryFont)
         }
     }
 }
