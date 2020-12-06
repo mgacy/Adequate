@@ -64,6 +64,9 @@ class DataProvider: DataProviderType {
     /// Reference to fetch query operation used to return current deal in response to background app refresh.
     private var cancellable: Cancellable? // FIXME: use better name
 
+    // FIXME: this is ugly
+    private var shouldRefreshWidget: Bool = false
+
     // MARK: - Lifecycle
 
     init(credentialsProvider: CredentialsProvider) {
@@ -85,8 +88,11 @@ class DataProvider: DataProviderType {
             // FIXME: should this be run as a completion handler on CurrentDealManager.saveDeal() so we don't reload
             // until after it has saved?
             if #available(iOS 14, *) {
-                WidgetCenter.shared.reloadAllTimelines()
+                if dp.shouldRefreshWidget {
+                    WidgetCenter.shared.reloadAllTimelines()
+                }
             }
+            dp.shouldRefreshWidget = false
         }
 
         // TODO: should we indicate that we are in the process of initializing?
@@ -123,8 +129,11 @@ class DataProvider: DataProviderType {
             // FIXME: should this be run as a completion handler on CurrentDealManager.saveDeal() so we don't reload
             // until after it has saved?
             if #available(iOS 14, *) {
-                WidgetCenter.shared.reloadAllTimelines()
+                if dp.shouldRefreshWidget {
+                    WidgetCenter.shared.reloadAllTimelines()
+                }
             }
+            dp.shouldRefreshWidget = false
         }
 
         switch credentialsProvider.currentUserState {
@@ -207,8 +216,10 @@ class DataProvider: DataProviderType {
                     // TODO: should this just be handled in the setter itself?
                     if case .result(let oldDeal) = self.dealState, oldDeal == deal {
                         log.verbose("\(#function) - No change, bailing: OLD: \(oldDeal) - NEW: \(deal)")
+                        // TODO: `self.shouldRefreshWidget = false`?
                         return
                     }
+                    // TODO: `self.shouldRefreshWidget = true`?
                     self.dealState = .result(deal)
                 case .failure(let error):
                     log.error("Error: \(error.localizedDescription)")
@@ -265,16 +276,24 @@ class DataProvider: DataProviderType {
             // Update Deal history after fetching current Deal
             refreshHistoryObserver = makeRefreshHistoryObserver(cachePolicy: cachePolicy)
 
+            // TODO: should we refresh widget?
             configureWatcher(cachePolicy: cachePolicy)
-        case .launchFromNotification:
-            // TODO: switch on associated `DealNotification` value to determine response
-
+        case .launchFromNotification(let notification):
             // TODO: should we first check `UIApplication.shared.backgroundRefreshStatus`?
 
             // NOTE: this method requests the task assertion asynchronously; it is possible that the system could
             // suspend the app before that assertion is granted, though I have not seen any evidence of that happening.
             backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "NotificationBackgroundTask") { () -> Void in
                 self.endTask()
+            }
+
+            switch notification {
+            case .new:
+                shouldRefreshWidget = true
+            case .delta(let dealDelta):
+                if case .launchStatus = dealDelta.deltaType {
+                    shouldRefreshWidget = true
+                }
             }
 
             // TODO: improve handling
@@ -289,9 +308,11 @@ class DataProvider: DataProviderType {
             cancellable = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
                 switch result {
                 case .success(let envelope):
+                    self.shouldRefreshWidget = true
                     self.refreshManager.update(.responseEnvelope(envelope))
                     self.dealState = envelope.data != nil ? .result(envelope.data!) : .empty
                 case .failure(let error):
+                    self.shouldRefreshWidget = false
                     log.error("\(error)")
                 }
                 self.endTask()
@@ -326,6 +347,8 @@ class DataProvider: DataProviderType {
                 completionHandler(presentationOptions)
                 return
             }
+
+            shouldRefreshWidget = true
 
             // TODO: still refresh if backgroundRefreshStatus == .available?
             refetchCurrentDeal(showLoading: true)
@@ -388,6 +411,7 @@ class DataProvider: DataProviderType {
                     log.error("Replacing existing .fetchCompletionObserver")
                     // FIXME: should we be calling the associated completion handler
                 }
+                shouldRefreshWidget = true
                 fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
                 return
             default:
@@ -396,6 +420,10 @@ class DataProvider: DataProviderType {
 
         // DealDelta
         case .delta(let dealDelta):
+            if case .launchStatus = dealDelta.deltaType {
+                shouldRefreshWidget = true
+            }
+
             switch dealState {
             case .loading:
                 log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
@@ -409,6 +437,7 @@ class DataProvider: DataProviderType {
                 do {
                     guard let updatedDeal = try dealDelta.apply(to: currentDeal) else {
                         log.info("No changes from applying \(notification) to \(currentDeal)")
+                        shouldRefreshWidget = false
                         completionHandler(.noData)
                         return
                     }
@@ -419,8 +448,9 @@ class DataProvider: DataProviderType {
                             // TODO: update `lastDealResponse`?
                             //refreshManager?.update(.response(updatedDeal))
                             completionHandler(.newData)
-                        }).catch({ error in
+                        }).catch({ [weak self] error in
                             log.error("Unable to update cache: \(error)")
+                            self?.shouldRefreshWidget = false
                             completionHandler(.failed)
                         })
                 } catch {
@@ -440,6 +470,8 @@ class DataProvider: DataProviderType {
     private func fetchDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.verbose("\(#function)")
         // TODO: should we start a timer to ensure that the completionHandler is called within the next 30 - cushion seconds?
+
+        shouldRefreshWidget = true
 
         // TEMP:
         if backgroundTask != .invalid {
@@ -497,6 +529,8 @@ class DataProvider: DataProviderType {
                 }
             case .failure(let error):
                 log.error("BACKGROUND_APP_REFRESH: failed - \(error.localizedDescription)")
+                // FIXME: widget should reflect this error state, which suggests the current deal is outdated
+                self.shouldRefreshWidget = false
                 //self.dealState = .error(error)
                 completionHandler(.failed)
             }
