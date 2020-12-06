@@ -25,5 +25,10 @@ extension CurrentDeal {
         }
         self.minPrice = minPrice
         self.maxPrice = minPrice != maxPrice ? maxPrice : nil
+        if let statusString = deal.launchStatus?.rawValue {
+            self.launchStatus = LaunchStatus(rawValue: statusString)
+        } else {
+            self.launchStatus = nil
+        }
     }
 }
