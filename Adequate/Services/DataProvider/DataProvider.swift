@@ -96,7 +96,6 @@ class DataProvider: DataProviderType {
         }
 
         // TODO: should we indicate that we are in the process of initializing?
-        log.debug("\(#function) - currentUserState: \(credentialsProvider.currentUserState)")
         credentialsProvider.initialize()
             .then { [weak self] userState in
                 self?.credentialsProviderIsInitialized = true
@@ -207,10 +206,7 @@ class DataProvider: DataProviderType {
                     }
                     //log.verbose("Deal: \(deal)")
 
-                    //self.refreshManager.update(.responseEnvelope(envelope))
-                    if case .server = envelope.source {
-                        self.refreshManager.update(.response(deal))
-                    }
+                    self.refreshManager.update(.responseEnvelope(envelope))
 
                     // Don't call `callObservations(with:)` in `currentDeal` setter if no changes
                     // TODO: should this just be handled in the setter itself?
@@ -281,6 +277,11 @@ class DataProvider: DataProviderType {
         case .launchFromNotification(let notification):
             // TODO: should we first check `UIApplication.shared.backgroundRefreshStatus`?
 
+            // On iOS 13, it seemed that `AppDelegate.application(_:didReceiveRemoteNotification:fetchCompletionHandler:)`
+            // was not being called when app was launched for a background notification, so we will start a
+            // backgroundTask to ensure sufficient time to update deal in respnose. It looks like that might have been
+            // fixed on iOS 14.
+
             // NOTE: this method requests the task assertion asynchronously; it is possible that the system could
             // suspend the app before that assertion is granted, though I have not seen any evidence of that happening.
             backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "NotificationBackgroundTask") { () -> Void in
@@ -298,8 +299,8 @@ class DataProvider: DataProviderType {
 
             // TODO: improve handling
             // - `DealNotification.new`: should we (a) configure watcher after fetching deal or (b) skip altogether?
-            // - `DealNotification.delta`: should we try configuring watcher with .returnCacheDataDontFetch and then
-            // try to apply the DealDelta, falling back to calling client.fetchCurrentDeal(cachePolicy:queue:) if
+            // - `DealNotification.delta`: should we try configuring watcher with `.returnCacheDataDontFetch` and then
+            // try to apply the `DealDelta`, falling back to calling `client.fetchCurrentDeal(cachePolicy:queue:)` if
             // `dealID`s don't match?
             // TODO: configure watcher in closure for .fetchCurrentDeal?
             configureWatcher(cachePolicy: .returnCacheDataDontFetch)  // or use .returnCacheDataElseFetch?
@@ -356,6 +357,8 @@ class DataProvider: DataProviderType {
             // TODO: improve handling; call handler via `CompletionWrapper`?
             completionHandler(presentationOptions)
         case .silentNotification(let notification, let completionHandler):
+            // FIXME: make `updateDealInBackground(_:fetchCompletionHandler:)` handle `DealDelta` only and switch on
+            // `notification`
             updateDealInBackground(notification, fetchCompletionHandler: completionHandler)
         }
     }
@@ -398,6 +401,8 @@ class DataProvider: DataProviderType {
     private func updateDealInBackground(_ notification: DealNotification,
                                         fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
     ) {
+        // FIXME: (1) now that `AppDelegate` calls `refreshDeal(for:)` for background notifications, this method should
+        // be just for handling `DealDelta`s
         log.verbose("\(#function) - \(notification)")
         switch notification {
         case .new: // TODO: get dealID associated value?
@@ -409,7 +414,7 @@ class DataProvider: DataProviderType {
                 if fetchCompletionObserver != nil {
                     // TODO: log more information; what does RefreshManager have?
                     log.error("Replacing existing .fetchCompletionObserver")
-                    // FIXME: should we be calling the associated completion handler
+                    // FIXME: should we be calling the associated completion handler?
                 }
                 shouldRefreshWidget = true
                 fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
@@ -492,10 +497,12 @@ class DataProvider: DataProviderType {
         // FIXME: this does not necessarily ensure we are not already fetching the current deal, since we may have
         // called `refreshDeal(showLoading: false, cachePolicy:)`
         guard dealState != ViewState<Deal>.loading else {
-            // TODO: check RefreshManager.lastDealRequest to ensure it is a recent request
-            log.debug("Already fetching Deal; setting .fetchCompletionObserver")
+            // TODO: check that `refreshManager.lastDealRequest` is recent (last 30 seconds?)
+            log.debug("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
             if fetchCompletionObserver != nil {
+                // TODO: log more information; what does RefreshManager have?
                 log.error("Replacing existing .fetchCompletionObserver")
+                // FIXME: should we be calling the associated completion handler?
             }
             fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
             return

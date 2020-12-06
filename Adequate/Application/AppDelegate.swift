@@ -78,6 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         let deepLink = DeepLink.build(with: url)
+        log.verbose("\(#function) - url: \(url) - options: \(options) - deepLink: \(String(describing:deepLink))")
         appCoordinator.start(with: deepLink)
         return true
     }

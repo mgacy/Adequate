@@ -296,6 +296,7 @@ extension PagedImageView: UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // TODO: try to get image directly from cell to avoid problem with emptied cache
         delegate?.displayFullScreenImage(dataSource: dataSource, indexPath: IndexPath(item: primaryVisiblePage, section: 0))
     }
 }
