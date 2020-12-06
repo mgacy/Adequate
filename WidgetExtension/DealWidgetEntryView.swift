@@ -94,6 +94,7 @@ struct DealWidgetEntryView: View {
                 InfoView(deal: entry.deal)
             }
             .padding()
+            .background(Color("DealWidgetBackground"))
 
         case .systemMedium:
             HStack(alignment: .top) {
@@ -105,6 +106,7 @@ struct DealWidgetEntryView: View {
                 Spacer()
             }
             .padding()
+            .background(Color("DealWidgetBackground"))
 
         case .systemLarge:
             VStack(alignment: .leading) {
@@ -118,6 +120,7 @@ struct DealWidgetEntryView: View {
                 InfoView(deal: entry.deal)
             }
             .padding()
+            .background(Color("DealWidgetBackground"))
 
         @unknown default:
             VStack(alignment: .leading) {
@@ -128,6 +131,7 @@ struct DealWidgetEntryView: View {
                 InfoView(deal: entry.deal)
             }
             .padding()
+            .background(Color("DealWidgetBackground"))
         }
     }
     //.widgetURL(DEEPLINK)
@@ -135,8 +139,12 @@ struct DealWidgetEntryView: View {
 
 struct WidgetExtension_Previews: PreviewProvider {
     static var previews: some View {
-        DealWidgetEntryView(entry: .placeholder)
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        Group {
+            DealWidgetEntryView(entry: .placeholder)
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
+            DealWidgetEntryView(entry: .placeholder).environment(\.colorScheme, .dark)
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
+        }
         DealWidgetEntryView(entry: .placeholder)
             .previewContext(WidgetPreviewContext(family: .systemMedium))
         DealWidgetEntryView(entry: .placeholder)
