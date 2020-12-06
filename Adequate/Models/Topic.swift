@@ -13,9 +13,9 @@ struct Topic: Codable, Equatable {
     let commentCount: Int
     let createdAt: Date
     let id: String
-    let replyCount: Int
+    //let replyCount: Int
     let url: URL
-    let voteCount: Int
+    //let voteCount: Int
 }
 
 // MARK: - Initializers
@@ -31,9 +31,9 @@ extension Topic {
         self.commentCount = topic.commentCount
         self.createdAt = createdAt
         self.id = topic.id
-        self.replyCount = topic.replyCount
+        //self.replyCount = topic.replyCount
         self.url = url
-        self.voteCount = topic.voteCount
+        //self.voteCount = topic.voteCount
     }
 
     init?(_ topic: TopicType?) {
