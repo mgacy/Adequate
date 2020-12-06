@@ -1053,11 +1053,11 @@
 		C9CDA4FE252174B00044A2A3 /* WidgetExtension */ = {
 			isa = PBXGroup;
 			children = (
-				C9C20A5C257B2C81003DEA97 /* WidgetExtension.entitlements */,
 				C9CDA5A625217FC50044A2A3 /* DealEntry.swift */,
 				C9CDA54B2521793A0044A2A3 /* DealProvider.swift */,
 				C9CDA55F25217ACD0044A2A3 /* DealWidgetEntryView.swift */,
 				C9CDA4FF252174B00044A2A3 /* WidgetExtension.swift */,
+				C9C20A5C257B2C81003DEA97 /* WidgetExtension.entitlements */,
 				C9CDA5442521784F0044A2A3 /* WidgetExtensionRelease.entitlements */,
 				C9CDA501252174B20044A2A3 /* Assets.xcassets */,
 				C9CDA503252174B20044A2A3 /* Info.plist */,
