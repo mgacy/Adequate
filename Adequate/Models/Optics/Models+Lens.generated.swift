@@ -177,7 +177,7 @@ extension Topic {
       get: { $0.commentCount },
       set: { part in 
         { whole in
-          Topic.init(commentCount: part, createdAt: whole.createdAt, id: whole.id, replyCount: whole.replyCount, url: whole.url, voteCount: whole.voteCount)
+          Topic.init(commentCount: part, createdAt: whole.createdAt, id: whole.id, url: whole.url)
         }
       }
     )
@@ -185,7 +185,7 @@ extension Topic {
       get: { $0.createdAt },
       set: { part in 
         { whole in
-          Topic.init(commentCount: whole.commentCount, createdAt: part, id: whole.id, replyCount: whole.replyCount, url: whole.url, voteCount: whole.voteCount)
+          Topic.init(commentCount: whole.commentCount, createdAt: part, id: whole.id, url: whole.url)
         }
       }
     )
@@ -193,15 +193,7 @@ extension Topic {
       get: { $0.id },
       set: { part in 
         { whole in
-          Topic.init(commentCount: whole.commentCount, createdAt: whole.createdAt, id: part, replyCount: whole.replyCount, url: whole.url, voteCount: whole.voteCount)
-        }
-      }
-    )
-    static let replyCount = Lens<Topic, Int>(
-      get: { $0.replyCount },
-      set: { part in 
-        { whole in
-          Topic.init(commentCount: whole.commentCount, createdAt: whole.createdAt, id: whole.id, replyCount: part, url: whole.url, voteCount: whole.voteCount)
+          Topic.init(commentCount: whole.commentCount, createdAt: whole.createdAt, id: part, url: whole.url)
         }
       }
     )
@@ -209,15 +201,7 @@ extension Topic {
       get: { $0.url },
       set: { part in 
         { whole in
-          Topic.init(commentCount: whole.commentCount, createdAt: whole.createdAt, id: whole.id, replyCount: whole.replyCount, url: part, voteCount: whole.voteCount)
-        }
-      }
-    )
-    static let voteCount = Lens<Topic, Int>(
-      get: { $0.voteCount },
-      set: { part in 
-        { whole in
-          Topic.init(commentCount: whole.commentCount, createdAt: whole.createdAt, id: whole.id, replyCount: whole.replyCount, url: whole.url, voteCount: part)
+          Topic.init(commentCount: whole.commentCount, createdAt: whole.createdAt, id: whole.id, url: part)
         }
       }
     )
