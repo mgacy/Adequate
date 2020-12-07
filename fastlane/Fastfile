@@ -39,6 +39,8 @@ platform :ios do
   desc "Build, test and upload a new build to TestFlight"
   # desc "This will **not** send an email to all testers, it will only be uploaded to the new TestFlight. "
   lane :beta do
+
+    # changelog = File.read("../Changelog.txt")
   
     build_app(scheme: "Adequate Staging")
     # pilot
