@@ -18,24 +18,41 @@ public struct DealEntry: TimelineEntry {
 
 // MARK: - DealEntry+placeholder
 extension DealEntry {
+
     static var placeholder: DealEntry {
-        return DealEntry(deal: .placeholder, image: .placeholder)
+        DealEntry(deal: .placeholder, image: .placeholder)
+    }
+
+    static var appStoreMock: DealEntry {
+        DealEntry(deal: .appStoreMock, image: .appStoreMock)
     }
 }
 
 // MARK: - CurrentDeal+placeholder
 extension CurrentDeal {
+
     static var placeholder: CurrentDeal {
         let imageURL = URL(string: "https://via.placeholder.com/600/d32776")!
         return CurrentDeal(id: "fake_id", title: L10n.widgetExtensionPlaceholderTitle, imageURL: imageURL,
                            minPrice: 10.99, maxPrice: 19.99, launchStatus: .launch)
     }
+
+    static var appStoreMock: CurrentDeal {
+        let imageURL = URL(string: "https://via.placeholder.com/600/d32776")!
+        return CurrentDeal(id: "fake_id", title: "2-Pack: Mophie Powerstation Plus Mini 12W Chargers with Integrated USB-C Cable",
+                           imageURL: imageURL, minPrice: 18, maxPrice: nil, launchStatus: .launch)
+    }
 }
 
 // MARK: - UIImage+placeholder
 extension UIImage {
+
     static var placeholder: UIImage {
         return #imageLiteral(resourceName: "PlaceholderDealImage")
+    }
+
+    static var appStoreMock: UIImage {
+        return #imageLiteral(resourceName: "MockDealImage")
     }
 }
 
