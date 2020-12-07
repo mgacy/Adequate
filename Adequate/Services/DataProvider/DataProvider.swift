@@ -357,9 +357,12 @@ class DataProvider: DataProviderType {
             // TODO: improve handling; call handler via `CompletionWrapper`?
             completionHandler(presentationOptions)
         case .silentNotification(let notification, let completionHandler):
-            // FIXME: make `updateDealInBackground(_:fetchCompletionHandler:)` handle `DealDelta` only and switch on
-            // `notification`
-            updateDealInBackground(notification, fetchCompletionHandler: completionHandler)
+            switch notification {
+            case .new(let dealID):
+                fetchDealInBackground(dealID: dealID, fetchCompletionHandler: completionHandler)
+            case .delta(let dealDelta):
+                updateDealInBackground(dealDelta, fetchCompletionHandler: completionHandler)
+            }
         }
     }
 
@@ -392,87 +395,67 @@ class DataProvider: DataProviderType {
         currentDealWatcher.refetch()
     }
 
-    //typealias FetchCompletionHandler = (UIBackgroundFetchResult) -> Void
+    typealias FetchCompletionHandler = (UIBackgroundFetchResult) -> Void
 
-    /// Update current Deal in response to background notification.
+    /// Update current Deal in response to background notification carrying deal update.
     /// - Parameters:
-    ///   - notification: `DealNotification` representing the content of the notification.
+    ///   - dealDelta: `DealDelta` representing the update carried by the notification.
     ///   - completionHandler: The block to execute when the download operation is complete.
-    private func updateDealInBackground(_ notification: DealNotification,
-                                        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    private func updateDealInBackground(_ dealDelta: DealDelta,
+                                        fetchCompletionHandler completionHandler: @escaping FetchCompletionHandler
     ) {
-        // FIXME: (1) now that `AppDelegate` calls `refreshDeal(for:)` for background notifications, this method should
-        // be just for handling `DealDelta`s
-        log.verbose("\(#function) - \(notification)")
-        switch notification {
-        case .new: // TODO: get dealID associated value?
-            switch dealState {
-            case .loading:
+        log.verbose("\(#function) - \(dealDelta)")
+        if case .launchStatus = dealDelta.deltaType {
+            shouldRefreshWidget = true
+        }
+
+        switch dealState {
+        case .loading:
+            log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
+            if fetchCompletionObserver != nil {
                 // TODO: check that `refreshManager.lastDealRequest` is recent (last 30 seconds?)
-                // TODO: try to fetch from cache and see if that is the correct one?
-                log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
-                if fetchCompletionObserver != nil {
-                    // TODO: log more information; what does RefreshManager have?
-                    log.error("Replacing existing .fetchCompletionObserver")
-                    // FIXME: should we be calling the associated completion handler?
-                }
-                shouldRefreshWidget = true
-                fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
-                return
-            default:
-                fetchDealInBackground(fetchCompletionHandler: completionHandler)
+                log.error("Replacing existing .fetchCompletionObserver")
+                // FIXME: should we be calling the associated completion handler
             }
-
-        // DealDelta
-        case .delta(let dealDelta):
-            if case .launchStatus = dealDelta.deltaType {
-                shouldRefreshWidget = true
-            }
-
-            switch dealState {
-            case .loading:
-                log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
-                if fetchCompletionObserver != nil {
-                    // TODO: check that `refreshManager.lastDealRequest` is recent (last 30 seconds?)
-                    log.error("Replacing existing .fetchCompletionObserver")
-                    // FIXME: should we be calling the associated completion handler
+            fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
+        case .result(let currentDeal):
+            do {
+                guard let updatedDeal = try dealDelta.apply(to: currentDeal) else {
+                    log.info("No changes from applying \(dealDelta) to \(currentDeal)")
+                    shouldRefreshWidget = false
+                    completionHandler(.noData)
+                    return
                 }
-                fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
-            case .result(let currentDeal):
-                do {
-                    guard let updatedDeal = try dealDelta.apply(to: currentDeal) else {
-                        log.info("No changes from applying \(notification) to \(currentDeal)")
-                        shouldRefreshWidget = false
-                        completionHandler(.noData)
-                        return
-                    }
 
-                    client.updateCache(for: updatedDeal, dealDelta: dealDelta)
-                        .then({ _ in
-                            log.verbose("Updated cache")
-                            // TODO: update `lastDealResponse`?
-                            //refreshManager?.update(.response(updatedDeal))
-                            completionHandler(.newData)
-                        }).catch({ [weak self] error in
-                            log.error("Unable to update cache: \(error)")
-                            self?.shouldRefreshWidget = false
-                            completionHandler(.failed)
-                        })
-                } catch {
-                    log.error("Error applying \(notification) to \(currentDeal): \(error); calling refreshDealInBackground()")
-                    fetchDealInBackground(fetchCompletionHandler: completionHandler)
-                }
-            default:
-                // TODO: refetch
-                log.warning("Unable to apply \(notification) to \(dealState); calling refreshDealInBackground()")
-                fetchDealInBackground(fetchCompletionHandler: completionHandler)
+                client.updateCache(for: updatedDeal, dealDelta: dealDelta)
+                    .then({ _ in
+                        log.verbose("Updated cache")
+                        // TODO: update `lastDealResponse`?
+                        //refreshManager?.update(.response(updatedDeal))
+                        completionHandler(.newData)
+                    }).catch({ [weak self] error in
+                        log.error("Unable to update cache: \(error)")
+                        self?.shouldRefreshWidget = false
+                        completionHandler(.failed)
+                    })
+            } catch {
+                log.error("Error applying \(dealDelta) to \(currentDeal): \(error); calling refreshDealInBackground()")
+                fetchDealInBackground(dealID: dealDelta.dealID, fetchCompletionHandler: completionHandler)
             }
+        default:
+            // TODO: refetch
+            log.warning("Unable to apply \(dealDelta) to \(dealState); calling refreshDealInBackground()")
+            fetchDealInBackground(dealID: dealDelta.dealID, fetchCompletionHandler: completionHandler)
         }
     }
 
     /// Fetch current Deal from server in response to background notification.
-    /// - Parameter completionHandler: The block to execute when the download operation is complete.
-    private func fetchDealInBackground(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    /// - Parameters:
+    ///   - dealID: Id of the new `Deal` expected as current deal.
+    ///   - completionHandler: The block to execute when the download operation is complete.
+    private func fetchDealInBackground(dealID: GraphQLID,
+                                       fetchCompletionHandler completionHandler: @escaping FetchCompletionHandler
+    ) {
         log.verbose("\(#function)")
         // TODO: should we start a timer to ensure that the completionHandler is called within the next 30 - cushion seconds?
 
@@ -488,8 +471,7 @@ class DataProvider: DataProviderType {
             if pendingRefreshEvent != nil {
                 log.warning("Replacing pendingRefreshEvent '\(pendingRefreshEvent!)' with '.silentNotification'")
             }
-            // FIXME: this is ugly
-            pendingRefreshEvent = .silentNotification(notification: .new("fake_id"), handler: completionHandler)
+            pendingRefreshEvent = .silentNotification(notification: .new(dealID), handler: completionHandler)
             return
         }
 
@@ -499,6 +481,7 @@ class DataProvider: DataProviderType {
         guard dealState != ViewState<Deal>.loading else {
             // TODO: check that `refreshManager.lastDealRequest` is recent (last 30 seconds?)
             log.debug("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
+            log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
             if fetchCompletionObserver != nil {
                 // TODO: log more information; what does RefreshManager have?
                 log.error("Replacing existing .fetchCompletionObserver")
