@@ -49,7 +49,17 @@ class AdequateUITests: XCTestCase {
         snapshot("01Deal")
 
         let elementsQuery = app.scrollViews.otherElements
-        let adequateDealviewNavigationBar = elementsQuery.navigationBars["Adequate.DealView"]
+
+        let adequateDealviewNavigationBar: XCUIElement
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            adequateDealviewNavigationBar = elementsQuery.navigationBars["Adequate.DealView"]
+        case .pad:
+            adequateDealviewNavigationBar = elementsQuery.navigationBars["Adequate.SplitView"]
+        default:
+            XCTFail("Error: unable to handle userInterfaceIdiom: \(UIDevice.current.userInterfaceIdiom)")
+            fatalError("meh")
+        }
 
         // Show Story
         adequateDealviewNavigationBar.buttons[L10n.Accessibility.storyButton].tap()
