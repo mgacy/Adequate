@@ -46,7 +46,7 @@ class AdequateUITests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
 
         // TODO: wait for loading to finish?
-        snapshot("01Deal")
+        snapshot(.deal)
 
         let elementsQuery = app.scrollViews.otherElements
 
@@ -63,14 +63,14 @@ class AdequateUITests: XCTestCase {
 
         // Show Story
         adequateDealviewNavigationBar.buttons[L10n.Accessibility.storyButton].tap()
-        snapshot("04Story")
+        snapshot(.story)
 
         // Back to Deal
         elementsQuery.navigationBars["Story"].buttons[L10n.Accessibility.leftChevronButton].tap()
 
         // Show History
         adequateDealviewNavigationBar.buttons[L10n.Accessibility.historyButton].tap()
-        snapshot("03History")
+        snapshot(.history)
 
         // Show Settings
         //elementsQuery.navigationBars["History"].buttons["SettingsNavBar"].tap()
@@ -98,7 +98,28 @@ class AdequateUITests: XCTestCase {
 
     func testDarkMode() {
         // TODO: wait for loading to finish?
-        snapshot("05DarkMode")
+        snapshot(.darkMode)
     }
 
+}
+
+// MARK: - Types
+extension AdequateUITests {
+
+    enum SnapshotName: String {
+        case deal = "01Deal"
+        case notifications = "02Notifications"
+        case history = "03History"
+        case story = "04Story"
+        case storyPad = "04StoryPad"
+        case darkMode = "05DarkMode"
+        case widgets = "06Widgets"
+    }
+}
+
+/// - Parameters:
+///   - name: The name of the snapshot
+///   - timeout: Amount of seconds to wait until the network loading indicator disappears. Pass `0` if you don't want to wait.
+func snapshot(_ name: AdequateUITests.SnapshotName, timeWaitingForIdle timeout: TimeInterval = 20) {
+    Snapshot.snapshot(name.rawValue, timeWaitingForIdle: timeout)
 }
