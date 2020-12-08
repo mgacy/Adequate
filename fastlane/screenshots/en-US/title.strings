@@ -1,10 +1,14 @@
 
 "Deal" = "Today's Deal";
 
-"History" = "Crap You Missed";
+"History" = "Stuff You Missed";
 
-"Story" = "Enjoy Meh's\n Writing";
+"StoryPhone" = "Enjoy Meh's\n Writing";
+
+"StoryPad" = "Enjoy Meh's Writing";
 
 "Notifications" = "New Deal Alerts";
 
 "DarkMode" = "Dark Mode";
+
+"Widgets" = "Widgets!";
