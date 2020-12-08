@@ -97,6 +97,10 @@ class AdequateUITests: XCTestCase {
         // ...
 
         //app.swipeLeft() // This results in swiping on the paged image view
+
+        // https://stackoverflow.com/a/39107876/4472195
+        //XCUIDevice.shared.press(.home)
+        //snapshot(.widgets)
     }
 
     func testDarkMode() {
