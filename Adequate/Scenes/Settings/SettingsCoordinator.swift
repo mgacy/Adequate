@@ -70,7 +70,7 @@ extension SettingsCoordinator: SettingsViewControllerDelegate {
 extension SettingsCoordinator: AboutViewControllerDelegate {
 
     func showAcknowledgements() {
-        let viewController = AcknowledgementsViewController()
+        let viewController = AcknowledgementsViewController(dependencies: dependencies)
         router.push(viewController, animated: true, completion: nil)
     }
 
