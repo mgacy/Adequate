@@ -104,6 +104,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>_CONFIGURATION</key>
 	<string>$(CONFIGURATION)</string>
 	<key>_ENV_NAME</key>
