@@ -19,8 +19,18 @@ platform :ios do
 
   desc "Generate new localized screenshots"
   lane :screenshots do
-    capture_screenshots(workspace: "Adequate.xcworkspace", scheme: "AdequateUITests", testplan: "ScreenshotsLight", dark_mode: false)
-    capture_screenshots(workspace: "Adequate.xcworkspace", scheme: "AdequateUITests", testplan: "ScreenshotsDark", dark_mode: true)
+    capture_screenshots(
+      workspace: "Adequate.xcworkspace", 
+      scheme: "AdequateUITests", 
+      testplan: "ScreenshotsLight", 
+      dark_mode: false
+    )
+    capture_screenshots(
+      workspace: "Adequate.xcworkspace", 
+      scheme: "AdequateUITests", 
+      testplan: "ScreenshotsDark", 
+      dark_mode: true
+    )
     frame_screenshots(path: "./fastlane/screenshots/en-US")
     # upload_to_app_store(skip_binary_upload: true, skip_metadata: true)
   end
@@ -40,10 +50,38 @@ platform :ios do
   # desc "This will **not** send an email to all testers, it will only be uploaded to the new TestFlight. "
   lane :beta do
 
-    # changelog = File.read("../Changelog.txt")
-  
-    build_app(scheme: "Adequate Staging")
-    # pilot
+    # ensure_git_branch(
+    #   branch: "(master|release\\S+|hotfix\\S+)"
+    # )
+
+    # Ensure that your git status is not dirty
+    # ensure_git_status_clean
+
+    # TODO: bump build number and commit changes
+
+    # get_certificates           # invokes cert
+    # get_provisioning_profile   # invokes sigh
+
+    # https://docs.fastlane.tools/actions/gym/#parameters
+    build_app(
+      scheme: "Adequate Staging",
+      silent: true,                               # Hide all information that's not necessary while building
+      suppress_xcode_output: true,                # Suppress output of `xcodebuild` to stdout (it's saved in `buildlog_path`)
+      clean: true,                                # Clean the project before building it
+      include_symbols: true,
+      export_xcargs: "-allowProvisioningUpdates"  # Enable automatic signing via `xcodebuild`
+    )
+
+    changelog = File.read("./testflight_changelog.txt")
+
+    # https://docs.fastlane.tools/actions/upload_to_testflight/#parameters
+    upload_to_testflight(
+      beta_app_feedback_email: "app@mgacy.com",
+      beta_app_description: "Basic client for the meh.com daily deals site. Provides notifications displaying new daily deal.",
+      changelog: changelog,
+      distribute_external: true
+      # skip_submission: true, # Default: `false`
+    )
 
     # rescue => exception
     #   on_error(exception)
@@ -61,8 +99,35 @@ platform :ios do
   desc "This will **not** submit the app for review."
   lane :release do
     # snapshot
-    build_app(scheme: "Adequate Production")
-    # upload_to_app_store
+    
+    # ensure_git_branch(
+    #   branch: "(master|release\\S+|hotfix\\S+)"
+    # )
+    
+    # Ensure that your git status is not dirty
+    # ensure_git_status_clean
+    
+    # TODO: bump build number and commit changes
+    
+    # Ensure push notification certificate valid for 2+ weeks or create new one
+    get_push_certificate
+
+    # https://docs.fastlane.tools/actions/gym/#parameters
+    build_app(
+      scheme: "Adequate Production",
+      silent: true,
+      clean: true,
+      # include_bitcode: true,
+      include_symbols: true
+    )
+    
+    # https://docs.fastlane.tools/actions/upload_to_app_store/#parameters
+    upload_to_app_store(
+      # overwrite_screenshots: true,
+      submit_for_review: false,
+      force: true,                                # If `true`, skips verification of the HTML preview before actual upload
+      # automatic_release: true
+    )
   end
 
 end
