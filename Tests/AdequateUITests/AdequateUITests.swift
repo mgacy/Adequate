@@ -46,21 +46,34 @@ class AdequateUITests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
 
         // TODO: wait for loading to finish?
-        snapshot("01Deal")
+        snapshot(.deal)
 
         let elementsQuery = app.scrollViews.otherElements
-        let adequateDealviewNavigationBar = elementsQuery.navigationBars["Adequate.DealView"]
+
+        let adequateDealviewNavigationBar: XCUIElement
+        let storySnapshotName: SnapshotName
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            adequateDealviewNavigationBar = elementsQuery.navigationBars["Adequate.DealView"]
+            storySnapshotName = .storyPhone
+        case .pad:
+            adequateDealviewNavigationBar = elementsQuery.navigationBars["Adequate.SplitView"]
+            storySnapshotName = .storyPad
+        default:
+            XCTFail("Error: unable to handle userInterfaceIdiom: \(UIDevice.current.userInterfaceIdiom)")
+            fatalError("meh")
+        }
 
         // Show Story
         adequateDealviewNavigationBar.buttons[L10n.Accessibility.storyButton].tap()
-        snapshot("04Story")
+        snapshot(storySnapshotName)
 
         // Back to Deal
         elementsQuery.navigationBars["Story"].buttons[L10n.Accessibility.leftChevronButton].tap()
 
         // Show History
         adequateDealviewNavigationBar.buttons[L10n.Accessibility.historyButton].tap()
-        snapshot("03History")
+        snapshot(.history)
 
         // Show Settings
         //elementsQuery.navigationBars["History"].buttons["SettingsNavBar"].tap()
@@ -84,11 +97,36 @@ class AdequateUITests: XCTestCase {
         // ...
 
         //app.swipeLeft() // This results in swiping on the paged image view
+
+        // https://stackoverflow.com/a/39107876/4472195
+        //XCUIDevice.shared.press(.home)
+        //snapshot(.widgets)
     }
 
     func testDarkMode() {
         // TODO: wait for loading to finish?
-        snapshot("05DarkMode")
+        snapshot(.darkMode)
     }
 
+}
+
+// MARK: - Types
+extension AdequateUITests {
+
+    enum SnapshotName: String {
+        case deal = "01Deal"
+        case notifications = "02Notifications"
+        case history = "03History"
+        case storyPhone = "04StoryPhone"
+        case storyPad = "04StoryPad"
+        case darkMode = "05DarkMode"
+        case widgets = "06Widgets"
+    }
+}
+
+/// - Parameters:
+///   - name: The name of the snapshot
+///   - timeout: Amount of seconds to wait until the network loading indicator disappears. Pass `0` if you don't want to wait.
+func snapshot(_ name: AdequateUITests.SnapshotName, timeWaitingForIdle timeout: TimeInterval = 20) {
+    Snapshot.snapshot(name.rawValue, timeWaitingForIdle: timeout)
 }

@@ -407,9 +407,14 @@ extension SettingsViewController {
         case (3, 0):
             delegate?.showAbout()
         case (3, 1):
-            // FIXME: enable
-            //delegate?.showReview()
-            showDisabledReviewAlert()
+            switch Configuration.environment {
+            case .development:
+                showDisabledReviewAlert()
+            case .staging:
+                showDisabledReviewAlert()
+            case .production:
+                delegate?.showReview()
+            }
         default:
             return
         }
@@ -474,7 +479,7 @@ extension SettingsViewController: Themeable {
 // MARK: - Config
 extension SettingsViewController {
     enum SupportAddress: String {
-        case web = "example.com"
+        case web = "mgacy.github.io/Adequate"
         case email = "app@mgacy.com"
         case twitter = "@AdequateApp"
 

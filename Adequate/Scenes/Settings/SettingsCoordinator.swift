@@ -54,8 +54,8 @@ extension SettingsCoordinator: SettingsViewControllerDelegate {
     }
 
     func showReview() {
-        let productURL = URL(string: Constants.productURLString)!
-        var components = URLComponents(url: productURL, resolvingAgainstBaseURL: false)
+        var components = URLComponents(string: Constants.baseReviewURLString)
+        components?.path = "/app/id\(Constants.appID)"
         components?.queryItems = [URLQueryItem(name: "action", value: "write-review")]
     
         guard let writeReviewURL = components?.url else {
@@ -70,7 +70,7 @@ extension SettingsCoordinator: SettingsViewControllerDelegate {
 extension SettingsCoordinator: AboutViewControllerDelegate {
 
     func showAcknowledgements() {
-        let viewController = AcknowledgementsViewController()
+        let viewController = AcknowledgementsViewController(dependencies: dependencies)
         router.push(viewController, animated: true, completion: nil)
     }
 
@@ -90,7 +90,7 @@ extension SettingsCoordinator: AboutViewControllerDelegate {
 extension SettingsCoordinator {
     private enum Constants {
         static let privacyPolicyURLString = "https://mgacy.github.io/Adequate/privacy"
-        // FIXME: replace with actual URL
-        static let productURLString = "https://example.com"
+        static let baseReviewURLString = "https://apps.apple.com"
+        static let appID = "1438986355"
     }
 }

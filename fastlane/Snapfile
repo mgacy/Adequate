@@ -9,9 +9,14 @@ devices([
   # "iPhone SE (2nd generation)",             # 4.7 inch
   # "iPhone 8 Plus",                          # 5.5 inch - Required
   # "iPhone 11 Pro",                          # 5.8 inch
+  # "iPhone 12 mini",                         # 5.8 inch
   "iPhone 11 Pro Max",                      # 6.5 inch - Required
+  # "iPhone 12 Pro Max",                      # 6.5 inch - Required / Unsupported
+  # "iPad (8th generation)",                  # 10.5 inch
+  # "iPad Air (4th generation)",              # 11.0 inch
   # "iPad Pro (12.9-inch) (2nd generation)",  # 12.9 inch - Required
-  # "iPad Pro (12.9-inch) (4th generation)"   # 12.9 inch - Required
+  # "iPad Pro (12.9-inch) (3rd generation)",  # 12.9 inch - Required
+  # "iPad Pro (12.9-inch) (4th generation)"   # 12.9 inch - Required / Unsupported
 ])
 
 # languages([
@@ -27,8 +32,20 @@ devices([
 # The name of the scheme which contains the UI Tests
 # scheme("AdequateUITests")
 
+# The configuration to use when building the app. Defaults to 'Release'
+# configuration("Release")
+
+# The testplan associated with the scheme that should be used for testing
+# testplan()
+
+# Array of strings matching Test Bundle/Test Suite/Test Cases to run
+# only_testing([])
+
+# Array of strings matching Test Bundle/Test Suite/Test Cases to skip
+# skip_testing([])
+
 # Where should the resulting screenshots be stored?
-# output_directory("./screenshots")
+output_directory("./fastlane/screenshots")
 
 # Clear all previously generated screenshots before creating new ones
 # clear_previous_screenshots(true)
@@ -44,6 +61,24 @@ skip_open_summary(true)
 
 # Use dark mode
 # dark_mode(true)
+
+# Should the project be cleaned before building it?
+# clean(false)
+
+# The number of times a test can fail before snapshot should stop retrying
+# number_of_retries(1)
+
+# Should snapshot stop immediately after the tests completely failed on one device?
+# stop_after_first_error(false)
+
+# Take snapshots on multiple simulators concurrently. Note: This option is only applicable when running against Xcode 9
+# concurrent_simulators(true)
+
+# Disable the simulator from showing the 'Slide to type' prompt
+# disable_slide_to_type(false)
+
+# Suppress the output of xcodebuild to stdout. Output is still saved in buildlog_path
+# suppress_xcode_output(true)
 
 # For more information about all available options run
 # fastlane action snapshot

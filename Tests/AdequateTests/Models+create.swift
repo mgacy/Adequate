@@ -152,7 +152,7 @@ extension Topic {
         url: URL = URL.create(),
         voteCount: Int = 0
     ) -> Topic {
-        return Topic(commentCount: commentCount, createdAt: createdAt, id: id, replyCount: replyCount, url: url, voteCount: voteCount)
+        return Topic(commentCount: commentCount, createdAt: createdAt, id: id, url: url)
     }
 }
 

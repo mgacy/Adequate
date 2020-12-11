@@ -1,0 +1,2 @@
+- Added support for Widgets
+- Numerous bug fixes

@@ -1,0 +1,58 @@
+[
+  {
+    "category": "CUSTOMER_SUPPORT",
+    "purposes": [
+      "APP_FUNCTIONALITY"
+    ],
+    "data_protections": [
+      "DATA_LINKED_TO_YOU"
+    ]
+  },
+  {
+    "category": "USER_ID",
+    "purposes": [
+      "APP_FUNCTIONALITY"
+    ],
+    "data_protections": [
+      "DATA_LINKED_TO_YOU"
+    ]
+  },
+  {
+    "category": "DEVICE_ID",
+    "purposes": [
+      "APP_FUNCTIONALITY"
+    ],
+    "data_protections": [
+      "DATA_LINKED_TO_YOU"
+    ]
+  },
+  {
+    "category": "CRASH_DATA",
+    "purposes": [
+      "APP_FUNCTIONALITY"
+    ],
+    "data_protections": [
+      "DATA_LINKED_TO_YOU"
+    ]
+  },
+  {
+    "category": "PERFORMANCE_DATA",
+    "purposes": [
+      "APP_FUNCTIONALITY"
+    ],
+    "data_protections": [
+      "DATA_LINKED_TO_YOU"
+    ]
+  },
+  {
+    "category": "OTHER_DATA",
+    "purposes": [
+      "ANALYTICS",
+      "APP_FUNCTIONALITY"
+    ],
+    "data_protections": [
+      "DATA_LINKED_TO_YOU",
+      "DATA_USED_TO_TRACK_YOU"
+    ]
+  }
+]

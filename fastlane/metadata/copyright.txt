@@ -1,1 +1,1 @@
-Copyright (c) 2020 Mathew Gacy
+copyright("#{Time.now.year} Mathew Gacy")
