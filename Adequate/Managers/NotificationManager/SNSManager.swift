@@ -31,13 +31,18 @@ class SNSManager: NotificationServiceManager {
     private let configuration: SNSManagerConfiguration.Type
     private let sns: AWSSNS
     private let queue = DispatchQueue(label: "com.mgacy.aws-queue", qos: .userInitiated, attributes: [.concurrent])
+    private let defaults: UserDefaults
 
     // MARK: - Lifecycle
 
-    init(configuration: SNSManagerConfiguration.Type, credentialsProvider: AWSCredentialsProvider) {
+    init(configuration: SNSManagerConfiguration.Type,
+         credentialsProvider: AWSCredentialsProvider,
+         defaults: UserDefaults = .standard
+    ) {
         self.configuration = configuration
         self.sns = SNSManager.configureService(region: configuration.serviceRegion,
                                                credentialsProvider: credentialsProvider)
+        self.defaults = defaults
     }
 
     //deinit { print("\(#function) - \(String(describing: self))") }
@@ -48,15 +53,15 @@ class SNSManager: NotificationServiceManager {
     /// - Parameter token: Unique token identifying this device with Apple Push Notification service.
     /// - Returns: ARN for SNS subscription.
     func registerDevice(with token: String) -> Promise<String> {
-        UserDefaults.standard.set(token, forKey: UserDefaultsKey.SNSToken.rawValue)
+        defaults.set(token, for: .SNSToken)
 
         return createPlatformEndpoint(with: token)
             .then(on: queue, { [unowned self] endpointArn -> Promise<String> in
-                UserDefaults.standard.set(endpointArn, forKey: UserDefaultsKey.SNSEndpoint.rawValue)
+                self.defaults.set(endpointArn, for: .SNSEndpoint)
                 return self.subscribeToTopic(topicArn: self.configuration.topicArn, endpointArn: endpointArn)
             })
-            .then({ subscriptionArn in
-                UserDefaults.standard.set(subscriptionArn, forKey: UserDefaultsKey.SNSSubscription.rawValue)
+            .then({ [weak defaults] subscriptionArn in
+                defaults?.set(subscriptionArn, for: .SNSSubscription)
             })
     }
 
