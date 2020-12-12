@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SafariServices
 
 final class MainCoordinator: BaseCoordinator {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager & HasUserDefaultsManager & NotificationManagerProvider & AppUsageCounterProvider
@@ -137,4 +136,3 @@ extension MainCoordinator: Presentable {
         return pageViewController
     }
 }
-
