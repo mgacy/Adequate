@@ -215,7 +215,7 @@ class DataProvider: DataProviderType {
                         // TODO: `self.shouldRefreshWidget = false`?
                         return
                     }
-                    // TODO: `self.shouldRefreshWidget = true`?
+                    self.shouldRefreshWidget = true
                     self.dealState = .result(deal)
                 case .failure(let error):
                     log.error("Error: \(error.localizedDescription)")
