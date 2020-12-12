@@ -65,6 +65,14 @@ class SNSManager: NotificationServiceManager {
             })
     }
 
+    /// Unsubscribe device from push notification service provider.
+    func unsubscribeDevice() -> Promise<Void> {
+        guard let subscriptionArn = defaults.string(for: .SNSSubscription) else {
+            return Promise(error: SNSManagerError.missingARN)
+        }
+        return unsubscribe(subscriptionArn: subscriptionArn)
+    }
+
     // MARK: - Private
 
     private static func configureService(region: AWSRegionType, credentialsProvider: AWSCredentialsProvider) -> AWSSNS {
@@ -108,4 +116,11 @@ class SNSManager: NotificationServiceManager {
             .then({ try $0.subscriptionArn.unwrap() })
     }
     */
+    private func unsubscribe(subscriptionArn: ServiceARN) -> Promise<Void> {
+        guard let request = AWSSNSUnsubscribeInput() else {
+            return Promise(error: SNSManagerError.invalidInput)
+        }
+        request.subscriptionArn = subscriptionArn
+        return sns.unsubscribe(request: request)
+    }
 }

@@ -69,4 +69,15 @@ extension AWSSNS {
         })
     }
 
+    func unsubscribe(request: AWSSNSUnsubscribeInput) -> Promise<Void> {
+        return Promise<Void>(work: { [weak self] fulfill, reject in
+            self?.unsubscribe(request) { maybeError in
+                if let error = maybeError {
+                    reject(error)
+                } else {
+                    fulfill(())
+                }
+            }
+        })
+    }
 }

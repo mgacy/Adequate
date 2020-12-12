@@ -15,4 +15,7 @@ protocol NotificationServiceManager {
     /// - Parameter token: Unique token identifying this device with Apple Push Notification service.
     /// - Returns: Identifier from push notification service provider.
     func registerDevice(with token: String) -> Promise<String>
+
+    /// Unsubscribe device from push notification service provider.
+    func unsubscribeDevice() -> Promise<Void>
 }

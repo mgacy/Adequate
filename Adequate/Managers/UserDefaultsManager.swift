@@ -103,6 +103,10 @@ extension UserDefaults {
         return integer(forKey: key.rawValue)
     }
 
+    func string(for key: UserDefaultsKey) -> String? {
+        return string(forKey: key.rawValue)
+    }
+
     // MARK: - Write
 
     func set(_ value: Bool, for key: UserDefaultsKey) {
@@ -116,6 +120,10 @@ extension UserDefaults {
     }
 
     func set(_ value: Int, for key: UserDefaultsKey) {
+        set(value, forKey: key.rawValue)
+    }
+
+    func set(_ value: String, for key: UserDefaultsKey) {
         set(value, forKey: key.rawValue)
     }
 
