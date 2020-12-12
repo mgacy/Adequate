@@ -11,6 +11,13 @@ import UIKit
 // MARK: - Keys
 enum UserDefaultsKey: String {
     case hasShownOnboarding = "hasShownOnboarding"
+    // App Usage
+    case appLaunchCount
+    case pressedBuyCount
+    case sharedDealCount
+    // App Store Reviews
+    case firstAppLaunch
+    case lastVersionPromptedForReview
     // Settings
     case showNotifications = "showNotifications"
     case interfaceStyle = "interfaceStyle"
@@ -109,6 +116,10 @@ extension UserDefaults {
     }
 
     func set(_ value: Int, for key: UserDefaultsKey) {
+        set(value, forKey: key.rawValue)
+    }
+
+    func set(_ value: String?, for key: UserDefaultsKey) {
         set(value, forKey: key.rawValue)
     }
 }

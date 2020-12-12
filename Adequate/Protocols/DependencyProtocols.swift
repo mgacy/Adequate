@@ -28,6 +28,10 @@ protocol HasDataProvider {
 
 // MARK: - Provider Protocols
 
+protocol AppUsageCounterProvider {
+    func makeAppUsageCounter() -> AppUsageCounting
+}
+
 protocol NotificationManagerProvider {
     func makeNotificationManager() -> NotificationManagerType
 }
