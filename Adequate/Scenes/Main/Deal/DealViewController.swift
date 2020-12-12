@@ -10,13 +10,14 @@ import UIKit
 import Promise
 
 final class DealViewController: BaseViewController<ScrollableView<DealContentView>> {
-    typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
+    typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager & AppUsageCounterProvider
 
     weak var delegate: DealViewControllerDelegate?
 
     private let dataProvider: DataProviderType
     private let imageService: ImageServiceType
     private let themeManager: ThemeManagerType
+    private let counterProvider: AppUsageCounterProvider
     private let feedbackGenerator = UISelectionFeedbackGenerator()
 
     private var viewState: ViewState<Deal> = .empty {
@@ -107,6 +108,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         self.dataProvider = dependencies.dataProvider
         self.imageService = dependencies.imageService
         self.themeManager = dependencies.themeManager
+        self.counterProvider = dependencies
         //self.viewState = .empty
         super.init(nibName: nil, bundle: nil)
     }
@@ -192,6 +194,8 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         guard case .result(let deal) = viewState else {
             return
         }
+        let counter = counterProvider.makeAppUsageCounter()
+        counter.userDid(perform: .shareDeal)
         shareDeal(title: deal.title, url: deal.url)
     }
 
@@ -322,6 +326,8 @@ extension DealViewController: DealFooterDelegate {
         guard case .result(let deal) = viewState else {
             return
         }
+        let counter = counterProvider.makeAppUsageCounter()
+        counter.userDid(perform: .pressBuy)
         feedbackGenerator.selectionChanged()
         delegate?.showPurchase(for: deal)
     }

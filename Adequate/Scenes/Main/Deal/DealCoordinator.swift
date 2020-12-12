@@ -11,7 +11,7 @@ import SafariServices
 import Promise
 
 final class DealCoordinator: Coordinator {
-    typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
+    typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager & AppUsageCounterProvider
 
     private let dependencies: Dependencies
 

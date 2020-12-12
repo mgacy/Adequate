@@ -54,6 +54,8 @@ class AppCoordinator: BaseCoordinator {
                 showOnboarding()
             case .main:
                 showMain()
+                let counter = dependencies.makeAppUsageCounter()
+                counter.userDid(perform: .launchApp)
             }
         }
 

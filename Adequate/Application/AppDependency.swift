@@ -56,6 +56,13 @@ class AppDependency: HasDataProvider, HasImageService, HasThemeManager, HasUserD
     }
 }
 
+// MARK: - AppUsageCounterProvider
+extension AppDependency: AppUsageCounterProvider {
+    func makeAppUsageCounter() -> AppUsageCounting {
+        return AppUsageCounter(defaults: .standard)
+    }
+}
+
 // MARK: - NotificationManagerProvider
 extension AppDependency: NotificationManagerProvider {
 
