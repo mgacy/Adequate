@@ -41,8 +41,13 @@ class AppCoordinator: BaseCoordinator {
             switch deepLink {
             case .onboarding:
                 showOnboarding()
+                return
             case .remoteNotification(let notification):
                 showMain(dealNotification: notification)
+                // Apple suggests registering for notifications each time app launches because the token will change if
+                // the user restores backup data to a new device or reinstalls OS. If we are receiving remote
+                // notifications, that isn't an issue.
+                return
             case .debug:
                 showDebug()
             default:
@@ -51,7 +56,9 @@ class AppCoordinator: BaseCoordinator {
         } else {
             switch LaunchInstructor.configure(with: dependencies.userDefaultsManager) {
             case .onboarding:
+                // TODO: record initial launch
                 showOnboarding()
+                return
             case .main:
                 showMain()
                 let counter = dependencies.makeAppUsageCounter()
