@@ -13,6 +13,7 @@ import Promise
 enum SNSManagerError: Error {
     case invalidInput
     case missingARN
+    case timeout
 }
 
 // MARK: - Configuration
@@ -56,9 +57,13 @@ class SNSManager: NotificationServiceManager {
         defaults.set(token, for: .SNSToken)
 
         return createPlatformEndpoint(with: token)
-            .then(on: queue, { [unowned self] endpointArn -> Promise<String> in
-                self.defaults.set(endpointArn, for: .SNSEndpoint)
-                return self.subscribeToTopic(topicArn: self.configuration.topicArn, endpointArn: endpointArn)
+            .then(on: queue, { [weak self] endpointArn -> Promise<String> in
+                guard let strongSelf = self else {
+                    throw SNSManagerError.timeout
+                }
+                strongSelf.defaults.set(endpointArn, for: .SNSEndpoint)
+                return strongSelf.subscribeToTopic(topicArn: strongSelf.configuration.topicArn,
+                                                   endpointArn: endpointArn)
             })
             .then({ [weak defaults] subscriptionArn in
                 defaults?.set(subscriptionArn, for: .SNSSubscription)
