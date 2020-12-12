@@ -30,6 +30,7 @@
 		C9116E562161781F0084934B /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9116E552161781F0084934B /* Appearance.swift */; };
 		C911E268246D1E100056C84A /* RefreshManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C911E267246D1E100056C84A /* RefreshManager.swift */; };
 		C913919822CD91F2006C2E19 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C913919722CD91F2006C2E19 /* UILabel+Ext.swift */; };
+		C919B70D2582B46700A0FB7F /* AppUsageCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C919B70C2582B46700A0FB7F /* AppUsageCounter.swift */; };
 		C91F856D254D1268005192D4 /* ParallaxTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91F856C254D1268005192D4 /* ParallaxTitleView.swift */; };
 		C921165C255394A600E70FF1 /* FinishableCoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C921165B255394A600E70FF1 /* FinishableCoordinatorType.swift */; };
 		C9221565225453920001FF3F /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9221564225453920001FF3F /* DimmingPresentationController.swift */; };
@@ -377,6 +378,7 @@
 		C9116E552161781F0084934B /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		C911E267246D1E100056C84A /* RefreshManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshManager.swift; sourceTree = "<group>"; };
 		C913919722CD91F2006C2E19 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
+		C919B70C2582B46700A0FB7F /* AppUsageCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUsageCounter.swift; sourceTree = "<group>"; };
 		C91F856C254D1268005192D4 /* ParallaxTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxTitleView.swift; sourceTree = "<group>"; };
 		C921165B255394A600E70FF1 /* FinishableCoordinatorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishableCoordinatorType.swift; sourceTree = "<group>"; };
 		C9221564225453920001FF3F /* DimmingPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
@@ -786,6 +788,7 @@
 			isa = PBXGroup;
 			children = (
 				C9A3BD2E2504939B008F0D30 /* NotificationManager */,
+				C919B70C2582B46700A0FB7F /* AppUsageCounter.swift */,
 				C95B83C2218017FD0051B72B /* ThemeManager.swift */,
 				C9F92265218A88D0001C257A /* UserDefaultsManager.swift */,
 				C9B3FAC52245649E00B8524A /* CurrentDeal+Init.swift */,
@@ -2147,6 +2150,7 @@
 				C9DAC48D21476AF600D6558B /* UIColor+Ext.swift in Sources */,
 				C95CD616230FB0E60011585F /* DeepLink.swift in Sources */,
 				C9385BA02565B7A000F7AFB5 /* DataEnvelope.swift in Sources */,
+				C919B70D2582B46700A0FB7F /* AppUsageCounter.swift in Sources */,
 				C9BFB274253566E60002EAE5 /* Style.swift in Sources */,
 				C9DAC48321476A4000D6558B /* DependencyProtocols.swift in Sources */,
 				C93CBEDA2320C8C70033DCD0 /* DebugCoordinator.swift in Sources */,

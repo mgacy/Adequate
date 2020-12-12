@@ -11,6 +11,10 @@ import UIKit
 // MARK: - Keys
 enum UserDefaultsKey: String {
     case hasShownOnboarding = "hasShownOnboarding"
+    // App Usage
+    case appLaunchCount
+    case pressedBuyCount
+    case sharedDealCount
     // Settings
     case showNotifications = "showNotifications"
     case interfaceStyle = "interfaceStyle"
