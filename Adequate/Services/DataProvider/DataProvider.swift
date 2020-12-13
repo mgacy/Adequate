@@ -169,7 +169,7 @@ class DataProvider: DataProviderType {
 
     // TODO: make throwing
     private func configureWatcher(cachePolicy: CachePolicy) {
-        log.verbose("\(#function) - \(cachePolicy)")
+        log.info("\(#function) - \(cachePolicy)")
         // TODO: verify credentialsProvider.currentUserState?
         guard credentialsProviderIsInitialized else {
             log.error("credentialsProvider not yet initialized")
@@ -240,7 +240,7 @@ class DataProvider: DataProviderType {
     /// be notified of the result.
     /// - Parameter for: The application event to which the provider should respond.
     func refreshDeal(for event: RefreshEvent) {
-        log.verbose("\(#function) - \(event)")
+        log.info("\(#function) - \(event)")
 
         guard credentialsProviderIsInitialized else {
             if let currentPendingRefreshEvent = pendingRefreshEvent {
@@ -404,7 +404,7 @@ class DataProvider: DataProviderType {
     private func updateDealInBackground(_ dealDelta: DealDelta,
                                         fetchCompletionHandler completionHandler: @escaping FetchCompletionHandler
     ) {
-        log.verbose("\(#function) - \(dealDelta)")
+        log.info("\(#function) - \(dealDelta)")
         if case .launchStatus = dealDelta.deltaType {
             shouldRefreshWidget = true
         }
@@ -480,7 +480,6 @@ class DataProvider: DataProviderType {
         // called `refreshDeal(showLoading: false, cachePolicy:)`
         guard dealState != ViewState<Deal>.loading else {
             // TODO: check that `refreshManager.lastDealRequest` is recent (last 30 seconds?)
-            log.debug("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
             log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
             if fetchCompletionObserver != nil {
                 // TODO: log more information; what does RefreshManager have?
@@ -666,10 +665,10 @@ extension DataProvider {
             switch viewState {
             case .result:
                 // TODO: ideally, we should store previous deal to decide between .newData / .noData
-                log.debug("BACKGROUND_APP_REFRESH: newData")
+                log.info("BACKGROUND_APP_REFRESH: newData")
                 wrapper.complete(with: .newData)
             case .error:
-                log.debug("BACKGROUND_APP_REFRESH: failed")
+                log.info("BACKGROUND_APP_REFRESH: failed")
                 wrapper.complete(with: .failed)
             case .empty:
                 // FIXME: this is sometimes getting called as soon as we add the observer since the dealState is still .empty
