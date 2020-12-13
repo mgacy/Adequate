@@ -130,7 +130,11 @@ extension AppIconViewController {
             return
         }
         appIcon = selectedIcon
-        UIApplication.shared.setAlternateIconName(selectedIcon.iconName, completionHandler: nil)
+        UIApplication.shared.setAlternateIconName(selectedIcon.iconName) { maybeError in
+            if let error = maybeError {
+                log.error("Unable to change icon: \(error)")
+            }
+        }
     }
 }
 
