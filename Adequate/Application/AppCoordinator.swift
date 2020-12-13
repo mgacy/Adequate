@@ -100,7 +100,10 @@ class AppCoordinator: BaseCoordinator {
     }
 
     private func showDebug() {
-        // TODO: is there any danger to allowing users to run this flow?
+        if case .production = Configuration.environment {
+            showMain()
+            return
+        }
         let coordinator = DebugCoordinator(window: window, dependencies: dependencies)
         coordinator.onFinishFlow = { [weak self, weak coordinator] result in
             if let strongCoordinator = coordinator {
