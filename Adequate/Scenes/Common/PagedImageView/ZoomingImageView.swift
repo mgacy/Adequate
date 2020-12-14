@@ -101,6 +101,9 @@ final class ZoomingImageView: UIScrollView {
         let heightScale = viewSize.height / imageSize.height
 
         let minScale = min(widthScale, heightScale)
+        guard minScale > 0 else {
+            return
+        }
         minimumZoomScale = minScale
         zoomScale = minScale
     }
