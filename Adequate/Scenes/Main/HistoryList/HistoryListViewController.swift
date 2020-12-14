@@ -71,14 +71,25 @@ final class HistoryListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+    }
+
+    //override func viewWillAppear(_ animated: Bool) {
+    //    super.viewWillAppear(animated)
+    //    if case .empty = viewState {
+    //        getDealHistory()
+    //    }
+    //}
+
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
+        // Ensure we wait until tableView is in the view hierarchy before potentially telling it to layout its visible
+        // cells
+        if observationTokens.isEmpty {
+            observationTokens = setupObservations()
+        }
         if case .empty = viewState {
             getDealHistory()
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     deinit { observationTokens.forEach { $0.cancel() } }
@@ -102,7 +113,6 @@ final class HistoryListViewController: UITableViewController {
         //tableView.backgroundColor = ColorCompatibility.systemBackground
 
         setupTableView()
-        observationTokens = setupObservations()
     }
 
     private func setupTableView() {
