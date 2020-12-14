@@ -12,6 +12,7 @@ public protocol RouterType: Presentable {
     var rootViewController: UIViewController? { get }
 
     func present(_ module: Presentable, animated: Bool)
+    func present(_ module: Presentable, animated: Bool, completion: (() -> Void)?)
     func push(_ module: Presentable, animated: Bool, completion: (() -> Void)?)
     func popModule(animated: Bool)
     func dismissModule(animated: Bool, completion: (() -> Void)?)

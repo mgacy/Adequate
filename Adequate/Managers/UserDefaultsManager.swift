@@ -21,6 +21,7 @@ enum UserDefaultsKey: String {
     // Settings
     case showNotifications = "showNotifications"
     case interfaceStyle = "interfaceStyle"
+    //case openLinksInSafari = "openLinksInSafari"
     // AWS SNS
     case SNSEndpoint = "endpointArnForSNS"
     case SNSToken = "deviceTokenForSNS"

@@ -73,15 +73,18 @@ final class DealCoordinator: Coordinator {
         dealViewController.shareDeal(title: title, url: url)
     }
 
-    private func showWebPage(with url: URL, animated: Bool) {
+    private func showWebPage(with url: URL, animated: Bool, completion: (() -> Void)? = nil) {
         router.dismissModule(animated: false, completion: nil)
         let configuration = SFSafariViewController.Configuration()
         configuration.barCollapsingEnabled = false
 
         let viewController = SFSafariViewController(url: url, configuration: configuration)
-        router.present(viewController, animated: animated)
+        router.present(viewController, animated: animated, completion: completion)
     }
 
+    private func openURL(_ url: URL, completion: ((Bool) -> Void)? = nil) {
+        UIApplication.shared.open(url, completionHandler: completion)
+    }
 }
 
 // MARK: - FullScreenImagePresenting
