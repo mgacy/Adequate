@@ -164,6 +164,21 @@ extension FullScreenImageViewController {
     }
 }
 
+// MARK: - UIContentContainer
+extension FullScreenImageViewController {
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(
+            alongsideTransition: { [weak zoomingImageView] context in
+                zoomingImageView?.updateZoomScale()
+                zoomingImageView?.updateOffsetForSize()
+            },
+            completion: nil
+        )
+    }
+}
+
 // MARK: - Transition
 // TODO: Specify as conformance to a new protocol; move method to default implementation?
 extension FullScreenImageViewController {

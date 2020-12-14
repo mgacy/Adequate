@@ -106,6 +106,18 @@ final class ZoomingImageView: UIScrollView {
         }
         minimumZoomScale = minScale
         zoomScale = minScale
+        maximumZoomScale = 2.0
+    }
+
+    // TODO: pass CGSize?
+    func updateOffsetForSize() {
+        //let imageSize = imageView.image?.size ?? CGSize(width: 1, height: 1)
+        let viewSize = bounds.size
+
+        let offsetX = (viewSize.width > contentSize.width) ? (viewSize.width - contentSize.width) / 2 : 0
+        let offsetY = (viewSize.height > contentSize.height) ? (viewSize.height - contentSize.height) / 2 : 0
+
+        imageView.center = CGPoint(x: offsetX + (contentSize.width / 2), y: offsetY + (contentSize.height / 2))
     }
 
     // MARK: - Private
@@ -118,17 +130,6 @@ final class ZoomingImageView: UIScrollView {
                 setZoomScale(minimumZoomScale, animated: true)
             }
         }
-    }
-
-    // TODO: pass CGSize?
-    private func updateOffsetForSize() {
-        //let imageSize = imageView.image?.size ?? CGSize(width: 1, height: 1)
-        let viewSize = bounds.size
-
-        let offsetX = (viewSize.width > contentSize.width) ? (viewSize.width - contentSize.width) / 2 : 0
-        let offsetY = (viewSize.height > contentSize.height) ? (viewSize.height - contentSize.height) / 2 : 0
-
-        imageView.center = CGPoint(x: offsetX + (contentSize.width / 2), y: offsetY + (contentSize.height / 2))
     }
 }
 
