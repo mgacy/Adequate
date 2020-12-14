@@ -85,7 +85,7 @@ final class ScrollableView<T: UIView>: UIView {
 // MARK: - Themeable
 extension ScrollableView: Themeable where T: Themeable {
     func apply(theme: ColorTheme) {
-        backgroundColor = theme.systemBackground
+        //backgroundColor = theme.systemBackground
         contentView.apply(theme: theme)
     }
 }
