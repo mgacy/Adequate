@@ -116,7 +116,6 @@
 		C98B324A222DC1F0003A8669 /* HistoryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B3249222DC1F0003A8669 /* HistoryListCell.swift */; };
 		C98C61EC245D02B400BF1129 /* ZoomAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98C61EB245D02B400BF1129 /* ZoomAnimator.swift */; };
 		C98D1C8B215FED5B008F876B /* AWSSNS+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */; };
-		C98F787123C674FB00FB5391 /* ScrollablePadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98F787023C674FB00FB5391 /* ScrollablePadView.swift */; };
 		C9908F26254A04AB002948E1 /* CellConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9908F25254A04AB002948E1 /* CellConfigurable.swift */; };
 		C9908F30254B6202002948E1 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9908F2F254B6202002948E1 /* Models.swift */; };
 		C9908F44254B62DE002948E1 /* DiffableDataSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9908F43254B62DE002948E1 /* DiffableDataSourceProvider.swift */; };
@@ -466,7 +465,6 @@
 		C98B3249222DC1F0003A8669 /* HistoryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListCell.swift; sourceTree = "<group>"; };
 		C98C61EB245D02B400BF1129 /* ZoomAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomAnimator.swift; sourceTree = "<group>"; };
 		C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSSNS+Promise.swift"; sourceTree = "<group>"; };
-		C98F787023C674FB00FB5391 /* ScrollablePadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollablePadView.swift; sourceTree = "<group>"; };
 		C9908F25254A04AB002948E1 /* CellConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellConfigurable.swift; sourceTree = "<group>"; };
 		C9908F2F254B6202002948E1 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		C9908F43254B62DE002948E1 /* DiffableDataSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableDataSourceProvider.swift; sourceTree = "<group>"; };
@@ -1276,7 +1274,6 @@
 				C992173A2571E07E00741650 /* SplitViewController */,
 				C97AC2D723B6988C00B721AC /* BaseViewController.swift */,
 				C97AC2D923B6AA3000B721AC /* ScrollableView.swift */,
-				C98F787023C674FB00FB5391 /* ScrollablePadView.swift */,
 				C943E5AF2238695C00DE0675 /* StateView.swift */,
 				C9DAC4B22147864A00D6558B /* ViewState.swift */,
 				C95CD61C230FB46C0011585F /* DealContentView.swift */,
@@ -1986,7 +1983,6 @@
 				C923838A22B1B427003BB1DA /* ItemType.swift in Sources */,
 				C9C0C0C8230730020011EFB4 /* MDColorCollection.swift in Sources */,
 				C9C0C0C623072FBD0011EFB4 /* MDFontCollection.swift in Sources */,
-				C98F787123C674FB00FB5391 /* ScrollablePadView.swift in Sources */,
 				C989E1212237432600DEAE89 /* AWSMobileClient+Promise.swift in Sources */,
 				C9AE54C521791E4200818F11 /* PagedImageViewDelegate.swift in Sources */,
 				C995C07322A8B63600C2289F /* ParallaxBarView.swift in Sources */,
