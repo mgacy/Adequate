@@ -14,7 +14,7 @@ class SplitViewController: UIViewController {
 
     // TODO: add optional delegate and if provided, call that instead of `primaryChild`?
 
-    var primaryChild: UIViewController & PrimaryViewControllerType // `primaryChild`?
+    var primaryChild: UIViewController & PrimaryViewControllerType
 
     /// Value of top directional edge inset applied to `primaryChild` when layout margins are updated.
     var defaultTopInsetForChild: CGFloat = 0.0
@@ -219,6 +219,7 @@ extension SplitViewController {
                     } else {
                         self.updateWidth(for: .regularPortrait)
                     }
+                    self.view.layoutIfNeeded()
                 //} else if self.traitCollection.horizontalSizeClass == .compact {
                 }
                 self.rotationManager?.alongsideRotation(context)
