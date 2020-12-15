@@ -17,6 +17,16 @@ default_platform(:ios)
 
 platform :ios do
 
+  desc "Update metadata"
+  lane :update_metadata do
+    upload_to_app_store(
+      # app_rating_config_path: "./fastlane/metadata/rating_config.json",
+      skip_screenshots: true,
+      # force: true,                                # If `true`, skips verification of the HTML preview before actual upload
+      skip_binary_upload: true
+    )
+  end
+
   desc "Generate new localized screenshots"
   lane :screenshots do
     capture_screenshots(
@@ -79,7 +89,8 @@ platform :ios do
       beta_app_feedback_email: "app@mgacy.com",
       beta_app_description: "Basic client for the meh.com daily deals site. Provides notifications displaying new daily deal.",
       changelog: changelog,
-      distribute_external: true
+      distribute_external: true,
+      groups: "Friends and Family"
       # skip_submission: true, # Default: `false`
     )
 
@@ -116,9 +127,11 @@ platform :ios do
     build_app(
       scheme: "Adequate Production",
       silent: true,
+      # suppress_xcode_output: true,                # Suppress output of `xcodebuild` to stdout (it's saved in `buildlog_path`)
       clean: true,
       # include_bitcode: true,
-      include_symbols: true
+      include_symbols: true,
+      export_xcargs: "-allowProvisioningUpdates"  # Enable automatic signing via `xcodebuild`
     )
     
     # https://docs.fastlane.tools/actions/upload_to_app_store/#parameters
@@ -126,7 +139,11 @@ platform :ios do
       # overwrite_screenshots: true,
       submit_for_review: false,
       force: true,                                # If `true`, skips verification of the HTML preview before actual upload
-      # automatic_release: true
+      # skip_screenshots: true,
+      # skip_metadata: true,
+      # app_rating_config_path: "./fastlane/metadata/rating_config.json",
+      # price_tier:
+      automatic_release: false
     )
   end
 

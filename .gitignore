@@ -42,10 +42,12 @@ AppSecrets.generated.swift
 
 # Generated
 /API.swift
+/fastlane/Preview.html
 /fastlane/README.md
 /fastlane/report.xml
 /fastlane/screenshots/screenshots.html
 **/fastlane/screenshots/en-US/*.png
+/Adequate.ipa
 
 # AppCode
 /.idea

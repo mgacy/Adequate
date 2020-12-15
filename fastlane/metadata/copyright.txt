@@ -1,1 +1,1 @@
-copyright("#{Time.now.year} Mathew Gacy")
+2020 Mathew Gacy
