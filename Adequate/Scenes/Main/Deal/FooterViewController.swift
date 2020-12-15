@@ -122,7 +122,7 @@ extension FooterViewController: ViewStateRenderable {
         case .result(let deal):
             do {
                 let priceData: PriceFormatter.PriceData
-                priceData =  try formatter.parsePriceData(from: deal)
+                priceData = try formatter.parsePriceData(from: deal)
                 view.isHidden = false
 
                 // Price Comparison
