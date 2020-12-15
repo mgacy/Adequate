@@ -69,7 +69,6 @@ final class DealCoordinator: Coordinator {
             return
         }
         router.dismissModule(animated: false, completion: nil)
-        // TODO: make coordinator responsible for showing share sheet?
         dealViewController.shareDeal(title: title, url: url)
     }
 
@@ -84,6 +83,14 @@ final class DealCoordinator: Coordinator {
 
     private func openURL(_ url: URL, completion: ((Bool) -> Void)? = nil) {
         UIApplication.shared.open(url, completionHandler: completion)
+    }
+
+    private func showActivityViewController(_ activityViewController: UIActivityViewController) {
+        router.present(activityViewController, animated: true) { [weak self] in
+            if let counter = self?.dependencies.makeAppUsageCounter() {
+                counter.userDid(perform: .shareDeal)
+            }
+        }
     }
 }
 
@@ -111,10 +118,26 @@ extension DealCoordinator: DealViewControllerDelegate {
         let dealURL = deal.url.appendingPathComponent("checkout")
         // TODO: pass to PurchaseManager
         // show web page / open Safari
-        // increment purchase count in user defaults
-        showWebPage(with: dealURL, animated: true)
+        showWebPage(with: dealURL, animated: true) { [weak self] in
+            if let counter = self?.dependencies.makeAppUsageCounter() {
+                counter.userDid(perform: .pressBuy)
+            }
+        }
     }
 
+    func showShareSheet(activityItems: [Any], from sourceView: UIView) {
+        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = sourceView
+        //activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+        showActivityViewController(activityViewController)
+    }
+
+    func showShareSheet(activityItems: [Any], from barButtonItem: UIBarButtonItem) {
+        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.barButtonItem = barButtonItem
+        //activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+        showActivityViewController(activityViewController)
+    }
 }
 
 // MARK: - FullScreenImageDelegate

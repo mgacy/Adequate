@@ -10,14 +10,13 @@ import UIKit
 import Promise
 
 final class DealViewController: BaseViewController<ScrollableView<DealContentView>> {
-    typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager & AppUsageCounterProvider
+    typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
 
     weak var delegate: DealViewControllerDelegate?
 
     private let dataProvider: DataProviderType
     private let imageService: ImageServiceType
     private let themeManager: ThemeManagerType
-    private let counterProvider: AppUsageCounterProvider
     private let feedbackGenerator = UISelectionFeedbackGenerator()
 
     private var viewState: ViewState<Deal> = .empty {
@@ -108,7 +107,6 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         self.dataProvider = dependencies.dataProvider
         self.imageService = dependencies.imageService
         self.themeManager = dependencies.themeManager
-        self.counterProvider = dependencies
         //self.viewState = .empty
         super.init(nibName: nil, bundle: nil)
     }
@@ -194,26 +192,19 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         guard case .result(let deal) = viewState else {
             return
         }
-        let counter = counterProvider.makeAppUsageCounter()
-        counter.userDid(perform: .shareDeal)
         shareDeal(title: deal.title, url: deal.url)
     }
 
     func shareDeal(title: String, url: URL) {
-        log.debug("\(#function) ...")
-
         // TODO: add price to text?
         let text = "\(L10n.sharingActivityText): \(title)"
-
-        // set up activity view controller
         let textToShare: [Any] = [ text, url ]
-        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
-
-        // exclude some activity types from the list (optional)
-        //activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
-
-        present(activityViewController, animated: true, completion: nil)
+        switch traitCollection.horizontalSizeClass {
+        case .regular:
+            delegate?.showShareSheet(activityItems: textToShare, from: shareButton)
+        default:
+            delegate?.showShareSheet(activityItems: textToShare, from: view)
+        }
     }
 
     @objc func ensureVisibleImageLoaded(){
@@ -326,8 +317,6 @@ extension DealViewController: DealFooterDelegate {
         guard case .result(let deal) = viewState else {
             return
         }
-        let counter = counterProvider.makeAppUsageCounter()
-        counter.userDid(perform: .pressBuy)
         feedbackGenerator.selectionChanged()
         delegate?.showPurchase(for: deal)
     }
