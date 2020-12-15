@@ -417,6 +417,7 @@
 		C94D2CEE230E143700043431 /* UIFont+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Ext.swift"; sourceTree = "<group>"; };
 		C94D94B0253287610000328D /* Insets+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Insets+Ext.swift"; sourceTree = "<group>"; };
 		C94FACEF250889EA00C190ED /* ScreenshotsDark.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ScreenshotsDark.xctestplan; sourceTree = "<group>"; };
+		C958359F2588547A006DD2D8 /* Project.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
 		C95B83C2218017FD0051B72B /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		C95B83C421811DFA0051B72B /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		C95CD60C230F36FD0011585F /* TableBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableBackgroundView.swift; sourceTree = "<group>"; };
@@ -1092,6 +1093,7 @@
 		C9CDA6402521951A0044A2A3 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				C958359F2588547A006DD2D8 /* Project.xcconfig */,
 				C9CDA6582521A2D30044A2A3 /* Shared.xcconfig */,
 				C9CDA641252195530044A2A3 /* Development.xcconfig */,
 				C9CDA6432521956D0044A2A3 /* Staging.xcconfig */,
@@ -2257,6 +2259,7 @@
 /* Begin XCBuildConfiguration section */
 		C934763D2523AB8700BCEF07 /* Debug (Production) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C958359F2588547A006DD2D8 /* Project.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2434,6 +2437,7 @@
 		};
 		C93476442523AB9700BCEF07 /* Release (Production) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C958359F2588547A006DD2D8 /* Project.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2600,6 +2604,7 @@
 		};
 		C934764B2523AB9C00BCEF07 /* Debug (Staging) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C958359F2588547A006DD2D8 /* Project.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2777,6 +2782,7 @@
 		};
 		C93476522523ABA300BCEF07 /* Release (Staging) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C958359F2588547A006DD2D8 /* Project.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -3064,6 +3070,7 @@
 		};
 		C9DAC46B2147688500D6558B /* Debug (Development) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C958359F2588547A006DD2D8 /* Project.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -3124,6 +3131,7 @@
 		};
 		C9DAC46C2147688500D6558B /* Release (Development) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C958359F2588547A006DD2D8 /* Project.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
