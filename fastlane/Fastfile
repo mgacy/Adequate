@@ -100,12 +100,12 @@ platform :ios do
   lane :release do
     # snapshot
     
-    # ensure_git_branch(
-    #   branch: "(master|release\\S+|hotfix\\S+)"
-    # )
+    ensure_git_branch(
+      branch: "(master|release\\S+|hotfix\\S+)"
+    )
     
     # Ensure that your git status is not dirty
-    # ensure_git_status_clean
+    ensure_git_status_clean
     
     # TODO: bump build number and commit changes
     
