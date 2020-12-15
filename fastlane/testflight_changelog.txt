@@ -1,2 +1,2 @@
-- Added support for Widgets
-- Numerous bug fixes
+- Fix crash
+- Minor improvements
