@@ -1513,7 +1513,6 @@
 				C9DAC44E2147688500D6558B /* Resources */,
 				2E4A23393150B3687D7CFDEE /* [CP] Embed Pods Frameworks */,
 				C9EF22D7216C616D00D9DD22 /* Embed App Extensions */,
-				C928547E21711A7C001E5993 /* Run Script - Increment Build Number */,
 			);
 			buildRules = (
 			);
@@ -1862,20 +1861,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "buildscripts/aws_config.sh\n";
-		};
-		C928547E21711A7C001E5993 /* Run Script - Increment Build Number */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script - Increment Build Number";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "buildscripts/increment_build_number.sh\n";
 		};
 		C9A56FEA2154CE0B00BECB15 /* Run Script - Sourcery */ = {
 			isa = PBXShellScriptBuildPhase;
