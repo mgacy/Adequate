@@ -9,3 +9,5 @@ include_in_header: true
 <br>
 
 ### Latest
+
+- Initial release
