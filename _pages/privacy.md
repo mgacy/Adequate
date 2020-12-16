@@ -1,7 +1,9 @@
 ---
-layout: default
-title: Privacy
+layout: page
+title: Privacy Policy
+include_in_header: false
 ---
+
 # Privacy Policy
 
 This policy applies to all information collected or submitted on Adequate’s website and our apps for iPhone and any other devices and platforms.
