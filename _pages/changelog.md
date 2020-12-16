@@ -8,4 +8,4 @@ include_in_header: true
 
 <br>
 
-### `Latest
+### Latest
