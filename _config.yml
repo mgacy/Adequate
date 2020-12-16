@@ -42,21 +42,21 @@ features                                  :
     description                           : See old stuff you can't buy anymore.
     fontawesome_icon_name                 : history
 
-  - title                                 : No Ads
-    description                           : Nobody wants to see them.
-    fontawesome_icon_name                 : ban
+  - title                                 : Widgets
+    description                           : See today's deal at a glance.
+    fontawesome_icon_name                 : eye
 
-  - title                                 : Meh
-    description                           : Something.
-    fontawesome_icon_name                 : sync
-
-  - title                                 : Blah
-    description                           : Another thing.
-    fontawesome_icon_name                 : adjust
+  - title                                 : Optimized for iPad
+    description                           : Take advantage of that big screen.
+    fontawesome_icon_name                 : tablet
   
   - title                                 : Dark Mode
     description                           : Light or Dark.
     fontawesome_icon_name                 : moon
+
+  - title                                 : No Ads
+    description                           : Nobody wants to see them.
+    fontawesome_icon_name                 : ban
 
 
 
