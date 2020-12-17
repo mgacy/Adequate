@@ -1510,6 +1510,7 @@
 				DB6458F974A6AE33EE2730DC /* [CP] Check Pods Manifest.lock */,
 				C9A56FEA2154CE0B00BECB15 /* Run Script - Sourcery */,
 				C92116DF2554E28E00E70FF1 /* Run Script - AWS Config */,
+				C90BF729258BF95200017E1D /* Run Script - Lint */,
 				C9DAC44C2147688500D6558B /* Sources */,
 				C9DAC44D2147688500D6558B /* Frameworks */,
 				C9DAC44E2147688500D6558B /* Resources */,
@@ -1845,6 +1846,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AdequateTests/Pods-AdequateTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		C90BF729258BF95200017E1D /* Run Script - Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Lint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildscripts/lint.sh\n";
 		};
 		C92116DF2554E28E00E70FF1 /* Run Script - AWS Config */ = {
 			isa = PBXShellScriptBuildPhase;
