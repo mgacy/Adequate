@@ -127,7 +127,7 @@ platform :ios do
     build_app(
       scheme: "Adequate Production",
       silent: true,
-      # suppress_xcode_output: true,                # Suppress output of `xcodebuild` to stdout (it's saved in `buildlog_path`)
+      suppress_xcode_output: true,                # Suppress output of `xcodebuild` to stdout (it's saved in `buildlog_path`)
       clean: true,
       # include_bitcode: true,
       include_symbols: true,
