@@ -3,6 +3,8 @@
 
 excluded: # paths to ignore during linting. Takes precedence over `included`.
   - Pods
+  - Adequate/Services/DataProvider/API.swift
+  - Tests/AdequateUITests/SnapshotHelper.swift
 
 # configurable rules can be customized from this configuration file
 # binary rules can set their severity level
@@ -16,10 +18,13 @@ force_try:
 identifier_name:
   excluded:
     - bs
+    - dx
+    - dy
     - id
     - in
     - of
     - vc
+  allowed_symbols: ["_"]
 
 large_tuple: # warn user when using 3 values in tuple, give error if there are 4
    - 3
@@ -37,6 +42,9 @@ type_name:
   max_length:      # warning and error
     warning: 30
     error: 35
-  excluded: iPhone # excluded via string
-  excluded: in
+  excluded: 
+    - iPhone # excluded via string
+    - in
+    - Key
+
 reporter: "xcode"
