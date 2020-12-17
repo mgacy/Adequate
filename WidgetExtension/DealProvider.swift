@@ -45,4 +45,15 @@ struct DealProvider: TimelineProvider {
         completion(timeline)
     }
 }
+
+// MARK: - Helpers for Fastlane Snapshots
+extension DealProvider {
+
+    func mockTimelineForSnapshot(in context: Context) -> Timeline<DealEntry> {
+        let currentDeal = CurrentDeal.appStoreMock
+        let dealImage = UIImage.appStoreMock
+        return Timeline(entries: [DealEntry(deal: currentDeal, image: dealImage)], policy: .never)
+    }
+}
+
 #endif
