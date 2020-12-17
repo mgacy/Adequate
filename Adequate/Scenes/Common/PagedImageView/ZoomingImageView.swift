@@ -14,6 +14,19 @@ final class ZoomingImageView: UIScrollView {
     var imageView: UIImageView = UIImageView()
 
     var originFrame: CGRect {
+        // Fix for `.zero` size when `imageView.image` is `nil` due to loading image.
+        guard imageView.frame.size.width > .zero else {
+            switch traitCollection.horizontalSizeClass {
+            case .compact:
+                let yOrigin = (frame.height - frame.width) * 0.5
+                return CGRect(origin: CGPoint(x: 0, y: yOrigin), size: CGSize(width: frame.width, height: frame.width))
+            default:
+                let imageSize = CGSize(width: 600, height: 600) // The image size returned from meh API
+                let origin = CGPoint(x: (frame.width - imageSize.width) * 0.5,
+                                     y: (frame.height - imageSize.height) * 0.5)
+                return CGRect(origin: origin, size: imageSize)
+            }
+        }
         return CGRect(x: imageView.frame.minX - contentOffset.x,
                       y: imageView.frame.minY - contentOffset.y,
                       width: imageView.frame.width,
@@ -79,6 +92,34 @@ final class ZoomingImageView: UIScrollView {
         updateOffsetForSize()
     }
 
+    func updateZoomScale() {
+        let imageSize = imageView.image?.size ?? CGSize(width: 1, height: 1)
+        //let imageSize = imageView.bounds.size
+        let viewSize = bounds.size
+
+        let widthScale = viewSize.width / imageSize.width
+        let heightScale = viewSize.height / imageSize.height
+
+        let minScale = min(widthScale, heightScale)
+        guard minScale > 0 else {
+            return
+        }
+        minimumZoomScale = minScale
+        zoomScale = minScale
+        maximumZoomScale = 2.0
+    }
+
+    // TODO: pass CGSize?
+    func updateOffsetForSize() {
+        //let imageSize = imageView.image?.size ?? CGSize(width: 1, height: 1)
+        let viewSize = bounds.size
+
+        let offsetX = (viewSize.width > contentSize.width) ? (viewSize.width - contentSize.width) / 2 : 0
+        let offsetY = (viewSize.height > contentSize.height) ? (viewSize.height - contentSize.height) / 2 : 0
+
+        imageView.center = CGPoint(x: offsetX + (contentSize.width / 2), y: offsetY + (contentSize.height / 2))
+    }
+
     // MARK: - Private
 
     @objc private func handleDoubleTap(_ sender: UIGestureRecognizer) {
@@ -89,30 +130,6 @@ final class ZoomingImageView: UIScrollView {
                 setZoomScale(minimumZoomScale, animated: true)
             }
         }
-    }
-
-    func updateZoomScale() {
-        let imageSize = imageView.image?.size ?? CGSize(width: 1, height: 1)
-        //let imageSize = imageView.bounds.size
-        let viewSize = bounds.size
-
-        let widthScale = viewSize.width / imageSize.width
-        let heightScale = viewSize.height / imageSize.height
-
-        let minScale = min(widthScale, heightScale)
-        minimumZoomScale = minScale
-        zoomScale = minScale
-    }
-
-    // TODO: pass CGSize?
-    private func updateOffsetForSize() {
-        //let imageSize = imageView.image?.size ?? CGSize(width: 1, height: 1)
-        let viewSize = bounds.size
-
-        let offsetX = (viewSize.width > contentSize.width) ? (viewSize.width - contentSize.width) / 2 : 0
-        let offsetY = (viewSize.height > contentSize.height) ? (viewSize.height - contentSize.height) / 2 : 0
-
-        imageView.center = CGPoint(x: offsetX + (contentSize.width / 2), y: offsetY + (contentSize.height / 2))
     }
 }
 

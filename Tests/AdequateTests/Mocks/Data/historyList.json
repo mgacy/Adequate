@@ -1,0 +1,2030 @@
+{
+    "data": {
+        "dealHistory": {
+            "__typename": "DealHistoryConnection",
+            "items": [
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kSimQAE",
+                    "title": "Eternal Home Neck and Shoulder Shiatsu Massager with 38 Modes",
+                    "createdAt": "2020-08-20T04:00:00.917Z",
+                    "dealYear": "2020",
+                    "monthDay": "0820",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "130412",
+                            "condition": "New",
+                            "price": 20.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/iu6fx1abei52hwxf6zf5.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/iu6fx1abei52hwxf6zf5.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mqstc7etrz5pieldoves.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/fjcfavmtfoxno3oinl9f.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/wmiqyuhgtoziqbcilfei.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/jolzdmou1fh3voo6f8dy.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/o9vuc0vuon6tv6lvsdyr.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/xzr8dhz2qzqbdgebvdyj.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bytkzbhga2dhk2udaiga.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/yxwn3ntm8ckpifcxhc0z.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/vkd7jkqed9fgkgd6iinx.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#4a4f4c",
+                        "backgroundColor": "#cef9dd",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/fywzf9kvggbg3gefhqm0.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV51QAE",
+                    "title": "Stealth Meh Shirts",
+                    "createdAt": "2020-08-20T03:40:08.244Z",
+                    "dealYear": "2020",
+                    "monthDay": "0820",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "151056",
+                            "condition": "New",
+                            "price": 13.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ew50rztax9i3bcdqwfwu.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151055",
+                            "condition": "New",
+                            "price": 12.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ew50rztax9i3bcdqwfwu.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151054",
+                            "condition": "New",
+                            "price": 11.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ew50rztax9i3bcdqwfwu.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151053",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ew50rztax9i3bcdqwfwu.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151050",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ew50rztax9i3bcdqwfwu.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151066",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151065",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151052",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ew50rztax9i3bcdqwfwu.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151047",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ew50rztax9i3bcdqwfwu.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151046",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ew50rztax9i3bcdqwfwu.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151063",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151061",
+                            "condition": "New",
+                            "price": 11.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151051",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ew50rztax9i3bcdqwfwu.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151049",
+                            "condition": "New",
+                            "price": 12.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ew50rztax9i3bcdqwfwu.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151048",
+                            "condition": "New",
+                            "price": 11.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ew50rztax9i3bcdqwfwu.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151045",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ew50rztax9i3bcdqwfwu.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151062",
+                            "condition": "New",
+                            "price": 12.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151044",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ew50rztax9i3bcdqwfwu.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151093",
+                            "condition": "New",
+                            "price": 11.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151090",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151088",
+                            "condition": "New",
+                            "price": 12.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151085",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151069",
+                            "condition": "New",
+                            "price": 13.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151067",
+                            "condition": "New",
+                            "price": 11.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151068",
+                            "condition": "New",
+                            "price": 12.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151078",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151064",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151059",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151057",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151079",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151070",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151060",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151058",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151082",
+                            "condition": "New",
+                            "price": 13.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151081",
+                            "condition": "New",
+                            "price": 12.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151074",
+                            "condition": "New",
+                            "price": 11.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151071",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151087",
+                            "condition": "New",
+                            "price": 11.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151080",
+                            "condition": "New",
+                            "price": 11.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151072",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151094",
+                            "condition": "New",
+                            "price": 12.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151077",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151095",
+                            "condition": "New",
+                            "price": 13.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151076",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151075",
+                            "condition": "New",
+                            "price": 12.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151073",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151092",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151091",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151089",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151086",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151083",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "151084",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u2l2zo0vs5obleupankj.gif",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/qxhbtiyfczs0lxsn3fgv.gif",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bbm7ypyg1utgkgegbasz.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#408de5",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/uiq0epsdiwpt6e5gaivm.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV3KQAU",
+                    "title": "Ultra Plush 13\" Emoji Pillows",
+                    "createdAt": "2020-08-20T03:20:09.255Z",
+                    "dealYear": "2020",
+                    "monthDay": "0820",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "145327",
+                            "condition": "New",
+                            "price": 4.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/wdt4ruvkatcoivlx9cei.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/wdt4ruvkatcoivlx9cei.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/y92tgvbwflqhxlafq8fs.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/uxeyhocqsn3bs3hztfw9.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/tdyfwiivc7s71z3gahsg.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#ae7794",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/hjgztdvoov88wtydgvg3.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUmTQAU",
+                    "title": "2-Pack: Mophie Powerstation 8000mAh Powerbank with 3A USB-C Port",
+                    "createdAt": "2020-08-20T03:00:03.590Z",
+                    "dealYear": "2020",
+                    "monthDay": "0820",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "145554",
+                            "condition": "New",
+                            "price": 20.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/co5cbvamzkxchewj80lb.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "149153",
+                            "condition": "New",
+                            "price": 20.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/cpvuyinkeou8hovwx01v.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "149154",
+                            "condition": "New",
+                            "price": 20.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/co204gkpchr6hn98am8r.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/qaertyrpeqokhppaaemb.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/z8alpnyuiu6hzzlk70tg.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/co5cbvamzkxchewj80lb.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/omenwottahtphehxfpiu.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ibct8eda2bd12d22qasc.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/hr2ylv8dwkbebgo6dgks.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/unjmwusreopzt0xy6c8n.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ifdeftvyotssx27co8q9.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/dpwaje0gf4zvklwmuqr7.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/uxwcdjmabuwui4mqj9q2.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/es3uh7dnnlfbo8t9g7pp.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/xtkpnkvlzc38mt93pqdg.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/rmwsjtrawpktac9tkubd.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/vq1gdcdl9bdexfgbnln7.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ryobr7x3wyv5h3orx79f.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/p23xqm3kqi7lgjvvndzo.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/pdvyddgkfk9aqp8ufhvn.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#9477ad",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/lhlrwlm0sodys3eafdsx.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV3jQAE",
+                    "title": "Cleer Audio Edge Pulse In-Ear Wireless Heart Rate Headphones",
+                    "createdAt": "2020-08-20T02:45:08.346Z",
+                    "dealYear": "2020",
+                    "monthDay": "0820",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "145403",
+                            "condition": "New",
+                            "price": 18.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bla983izfnhuzuws4pp2.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "145402",
+                            "condition": "New",
+                            "price": 18.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kvgivf2f2cwlrh7xnr0a.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/d7x7rfpbz07ayo3f4eob.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/tu8nsc7adbewkwipivbp.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kvgivf2f2cwlrh7xnr0a.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/tavx09uirtlcpqhitqsh.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bla983izfnhuzuws4pp2.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/j1n9wqipyx9yermoqz8z.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/xjxnplwsyiz89ksrkamb.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/tc2zspncnroktoamcvyd.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#675ec7",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/bxkaxgll2tzlu2sigcah.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUjAQAU",
+                    "title": "B'PODS+ Wireless Charging Earbuds with Charging Case",
+                    "createdAt": "2020-08-20T02:30:08.431Z",
+                    "dealYear": "2020",
+                    "monthDay": "0820",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "129491",
+                            "condition": "New",
+                            "price": 15.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/adcvb2yddkhbo8ouscnk.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/adcvb2yddkhbo8ouscnk.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/oqcbrnzx6wfbn9opqqxv.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/j4kg8nglwkt0tfygebqu.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mtv72si57rqalqblvnmy.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/rlow7k2djdv5jyhoyleo.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/r8ydkwjixhp4rl7uecc1.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/dbb8drvwb3p3qc0b83b8.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/a1hz3qxyi0cdluhepcxl.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#96b86c",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/khzqebmttutpkc3bszbz.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUszQAE",
+                    "title": "Instant Regret Kit",
+                    "createdAt": "2020-08-20T02:20:06.210Z",
+                    "dealYear": "2020",
+                    "monthDay": "0820",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "101505",
+                            "condition": "New",
+                            "price": 5.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/g3x9buswpv6qfz36dttg.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/g3x9buswpv6qfz36dttg.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/isrrrldehhtkliaqwahn.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#98ad75",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/gelmpcyc1mxmfrz7wvln.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV27QAE",
+                    "title": "Bellapierre Hand Sanitizer (12-pack or 24-pack)",
+                    "createdAt": "2020-08-20T02:05:00.346Z",
+                    "dealYear": "2020",
+                    "monthDay": "0820",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "149221",
+                            "condition": "New",
+                            "price": 29.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/yjo1x7sllyuswljzrm1r.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "149222",
+                            "condition": "New",
+                            "price": 19.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/wqv1ineh3jhc0gmoa0qr.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/twjjfg0mgcnvhjqbqxb1.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/oi6tttq9inpalglyyp33.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ckqnwlbboelfwg5th7un.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/rxmtjdfax8l5hcplsabb.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/omyv4g7vm66apxonv8hp.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/pve0omrn3t3xw7qdb4b2.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/danqbqi1g43llpzbydcm.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/nj2dgeiejbv0oinnjyvj.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/cd1dsktfcwcxugx2uoy7.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ctbszjwzwbera4lulrsf.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#96b86c",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/qwdgyhpisoxh5valdrsc.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV30QAE",
+                    "title": "Libratone Zipp 360° Bluetooth/WiFi Speaker with Airplay 2",
+                    "createdAt": "2020-08-20T01:49:08.044Z",
+                    "dealYear": "2020",
+                    "monthDay": "0820",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "149124",
+                            "condition": "New",
+                            "price": 98.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/evhzn7xjakdrsaoatjub.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "149121",
+                            "condition": "New",
+                            "price": 98.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/hylcqjueqn7x3a7tispi.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "149113",
+                            "condition": "New",
+                            "price": 89.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/sf0ezxcqze45rpqimadl.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "149104",
+                            "condition": "New",
+                            "price": 98.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ngc6b4sw3pa7ntpfmhrq.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "149129",
+                            "condition": "New",
+                            "price": 98.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/nfvbeiadxkshn6twnnco.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "149105",
+                            "condition": "New",
+                            "price": 89.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ph0ny9wdswitjxjoek2t.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/sk7bt2naypexxkgrlu4i.gif",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ntttgddkiiuk0aleeybe.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ngc6b4sw3pa7ntpfmhrq.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/sf0ezxcqze45rpqimadl.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ph0ny9wdswitjxjoek2t.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/evhzn7xjakdrsaoatjub.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/hylcqjueqn7x3a7tispi.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/dhs0myjomfky4tkr83p4.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/nfvbeiadxkshn6twnnco.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/a4cvxescxknob8gctfaf.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/rcwzyztftk9meh2qa7rj.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bw4fu4zoahrusi2oce6p.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#dc9948",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/yfiqcoherwapuozchsdu.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV3PQAU",
+                    "title": "Hauteness BYOB BlendMe Bottle Blending Makeup Sponges",
+                    "createdAt": "2020-08-20T01:12:09.361Z",
+                    "dealYear": "2020",
+                    "monthDay": "0820",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "144637",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/s8ny4pfwrkyh2rfy4hxy.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/s8ny4pfwrkyh2rfy4hxy.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/nfayxhnlhldgk161iu5i.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/n6rvtxbkkhpi5fbeksnt.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#af9a87",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/f81fh6z7zmj7aohbojrt.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUpSQAU",
+                    "title": "Neumark Santoku 2-Piece Knife Set",
+                    "createdAt": "2020-08-20T00:52:08.768Z",
+                    "dealYear": "2020",
+                    "monthDay": "0820",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "147077",
+                            "condition": "New",
+                            "price": 8.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/qhobtv0pw73v9oxt2omt.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/qhobtv0pw73v9oxt2omt.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/olyi1u7tlze9mfzj7e3s.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/gfngff9snagrojaxtmxk.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#dc9948",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/niq1fjkuwel5jrv2ma19.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUqzQAE",
+                    "title": "Instant Regret Kit",
+                    "createdAt": "2020-08-20T00:41:10.326Z",
+                    "dealYear": "2020",
+                    "monthDay": "0820",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "101505",
+                            "condition": "New",
+                            "price": 5.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ka5qd3d01nh4o6wue0ck.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ka5qd3d01nh4o6wue0ck.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/rj6uihsadtrld81lydop.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#c65e5f",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/oakmkk5axklcvfdlvmj9.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV1nQAE",
+                    "title": "Accusor Advanced Gaming Keyboard",
+                    "createdAt": "2020-08-20T00:30:05.535Z",
+                    "dealYear": "2020",
+                    "monthDay": "0820",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "149387",
+                            "condition": "New",
+                            "price": 18.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bmourhbl0kry5ojazluw.gif"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bmourhbl0kry5ojazluw.gif",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/dcdig7f2h7nd6mjoycq4.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/tz010kw8smhk8srpfev1.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/fpgvrxaofkz7p48mmlvc.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/gpvlwsovycgt7dgikxvc.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/wgkzu2gthde12av0drtn.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/zj6t2kiqlu6szfsc7rx6.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/entt9hy2gbdgi8mdecul.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/atlyjjsgqgktm5lu0mik.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/eajdoce37mxf6au480pg.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/tdr09q1nwivoibrbwbae.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kronpa8ppbqh4gs1xtre.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#b35ec6",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/td7nnuicog8ogaqesqnl.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV0uQAE",
+                    "title": "2-Pack: Unsimply Stitched Men's Boot Socks",
+                    "createdAt": "2020-08-20T00:19:09.038Z",
+                    "dealYear": "2020",
+                    "monthDay": "0820",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "137156",
+                            "condition": "New",
+                            "price": 8.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/cd7hm0abwsjz4xmuvb6k.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/cd7hm0abwsjz4xmuvb6k.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/pmqqvjnnxtxb2chf0qxo.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#675ec7",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/uao9ea8f1geqz5wg3o9o.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV19QAE",
+                    "title": "Unsimply Stitched 3-Pack Dress Socks",
+                    "createdAt": "2020-08-19T23:58:00.477Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "144749",
+                            "condition": "New",
+                            "price": 8.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/dlfk0yv40fsseau6xyns.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "144752",
+                            "condition": "New",
+                            "price": 8.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/sh95up7dkkvlxtvzom5b.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "144751",
+                            "condition": "New",
+                            "price": 8.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/eop1dfyrafk32dmup6wd.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "144750",
+                            "condition": "New",
+                            "price": 8.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/iszccquxlk8ce9y1r1rc.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/d7hnrhqv8kmovehdxkz4.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/dlfk0yv40fsseau6xyns.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/sh95up7dkkvlxtvzom5b.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/eop1dfyrafk32dmup6wd.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/iszccquxlk8ce9y1r1rc.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#5e84c5",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/tjscgsfuyjyi0yya9gzp.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUyxQAE",
+                    "title": "Peacock Alley Dream at Home 100% Cotton Robe",
+                    "createdAt": "2020-08-19T23:47:08.782Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "140884",
+                            "condition": "New",
+                            "price": 20.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/k6hbxkwkgd52jgf1wdyt.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "140888",
+                            "condition": "New",
+                            "price": 20.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/odudat48yfbi7s4v4ufv.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "140889",
+                            "condition": "New",
+                            "price": 20.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/b2g6h6eydg1ufq4biaxj.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "140891",
+                            "condition": "New",
+                            "price": 20.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/cimsnucsz3bfmnxpnqf8.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/sytdbgq8iwkpqg5oixph.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/njcng49unclzu5p6apgg.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/je0okrynof6tl23c8wor.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/sna4czodjngbvdgdodyd.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kke0tnijdamkst43biir.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/eou2ewhmcsbizeo48f10.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/jl4o5vkgl7k9uqpzg7je.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/cd0a9vfjoabaxmgrugvn.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ehbhmewkbtxdxqmginl6.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ua8sw9nt03h0dqd6qbuk.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#5ec6af",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/sumqkooet49lrejdmmz6.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV4NQAU",
+                    "title": "Hedgren Boarding S 20\" Hardside Luggage",
+                    "createdAt": "2020-08-19T23:36:05.502Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "146414",
+                            "condition": "New",
+                            "price": 39.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ngpk5pamribqdsueipjy.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "146404",
+                            "condition": "New",
+                            "price": 39.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/jlziepuzt7xjojngw7nz.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "146415",
+                            "condition": "New",
+                            "price": 39.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/qdgjm5xtue4tnwtw0cjt.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/cm85kah32nah5sisjcip.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ngpk5pamribqdsueipjy.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/qygyfltslzljqnuxpgns.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/iux53ulzgbxrkyzi1dku.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/jlziepuzt7xjojngw7nz.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/lavveuoejv0rgf76ymnk.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/qdgjm5xtue4tnwtw0cjt.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/gs6ifbzicj0tyr8hykm6.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/b4iocjvrwzcf25n7a7rs.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#84c55d",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/t9abckgi2ms2c8lm93a9.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV1EQAU",
+                    "title": "2-Pack: 8L Stainless Steel Waste Bin",
+                    "createdAt": "2020-08-19T23:25:08.482Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "150056",
+                            "condition": "New",
+                            "price": 16.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/s6c2e0kzvjbabvnvmpdr.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "150057",
+                            "condition": "New",
+                            "price": 16.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kgmsk68kvib3h26objyg.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/dawxigk6jfxxljqtzl3e.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kgmsk68kvib3h26objyg.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/hl87fbor0czqouevgwi4.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/s6c2e0kzvjbabvnvmpdr.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/iwzvfef8mewjblwf9xnh.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#c6ab5e",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/kbwwclz8fabekfezqhue.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUskQAE",
+                    "title": "Instant Regret Kit",
+                    "createdAt": "2020-08-19T23:15:03.071Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "101505",
+                            "condition": "New",
+                            "price": 5.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ithgonxvcgixwev4xltc.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ithgonxvcgixwev4xltc.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/yupklm85loqikmtrxozb.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#c65e5f",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/k2g0mbeyufr1pmdsolmy.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV3tQAE",
+                    "title": "Cleer Trek Active Noise Cancelling Wired Headphones",
+                    "createdAt": "2020-08-19T22:44:10.222Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "144765",
+                            "condition": "New",
+                            "price": 13.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/splhuobrfgok0sfd5tbe.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "144766",
+                            "condition": "New",
+                            "price": 13.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/fnhcrzgyvizipctlvvnw.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/yzfy1a54zc0bxl74rttr.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/oejk6xlzddyupouhugm5.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/hsouatp8ou3vaeuytcuu.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/smlvi4g7uzsuekjgo1yi.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/dj3nhkhwn9je4w7fq7tu.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/sggfcgp0tc8hibzybsxi.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bctozalemx7acemney4z.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bbc8ugreoznl0im4ckpu.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/op4igwfzofxw8gjna74f.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/almm3mh5gbpuebcsykwm.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/yoce5079oqbct9im4how.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#6cb877",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/mobdg1uq6v2nrawnevss.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUt9QAE",
+                    "title": "72-Pack: Lucas AAA Alkaline Batteries",
+                    "createdAt": "2020-08-19T22:33:05.924Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "120936",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/fnams3ukdbbxtdg5xand.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/fnams3ukdbbxtdg5xand.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/a2cv9apgjp0pqwmjcbau.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#b7a06c",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/xuwhddly14xrmsdpqub7.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUpXQAU",
+                    "title": "Neumark 3 Piece Knife Set",
+                    "createdAt": "2020-08-19T22:03:00.481Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "147075",
+                            "condition": "New",
+                            "price": 9.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/i18xkpel29ad0wyfaatu.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/i18xkpel29ad0wyfaatu.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/nckyo2amkkmrx6lukooq.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/a77veojv9k9li3ud8vvo.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#b86c76",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/mggrzgtgc5rlzsiqemos.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV1xQAE",
+                    "title": "2-Pack: Toilet Tree Nose Trimmer with Cases",
+                    "createdAt": "2020-08-19T22:00:00.000Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "148157",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/cidtnqrotumadzvqesr9.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/cidtnqrotumadzvqesr9.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/hbcecxtmnxoanj5jjyqz.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/q6zxytkqrm1jgne56cwc.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/fpuyrqccbym0hnmxpamj.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ein0xayf0dq3xm1peyuv.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kywsoupi9pt19mqbrnvd.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/inilswimnhnl8x6dejo5.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/pooborxmrcjooo7grfuz.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#5e84c5",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/wcbis84f0buociv4ohaz.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUkhQAE",
+                    "title": "2-Pack of Window Wonderland Deluxe Holiday Projectors",
+                    "createdAt": "2020-08-19T21:33:02.967Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "127538",
+                            "condition": "New",
+                            "price": 8.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/l3xpb4r0zirjatjw2jlj.gif"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/l3xpb4r0zirjatjw2jlj.gif",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/jahcid3fh7n315rvlnt9.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/espig1nuftkucbaqnhxq.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/xmwiff9hptmephea6vhr.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/k0tol6ipulzfxz9fyayt.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ecozdpsjltwgwyh2mbvy.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kqmquzllybih4dplcrv0.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/aoimwn0vedm5zkpdfg7w.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mrtvwmhxqnyzz7b5zgzu.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/lq991ujikogr2k3f3t9k.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/iimkspsar6ccuba6atjk.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/qggyhmyxtyo6lnfrgjoy.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#ac6cb8",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/glbiys5pm0yjvlyletru.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV1TQAU",
+                    "title": "808 Audio HEX SL Portable BT Speaker (Refurbished)",
+                    "createdAt": "2020-08-19T21:22:00.366Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "129140",
+                            "condition": "Refurbished",
+                            "price": 14.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/v4tqy9smcuto3skxw28b.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/v4tqy9smcuto3skxw28b.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/uxa6wfydnzlp56cmogvb.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/uem6xnh9d87g3cposqfs.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/lpvdipo9r87zefanjybb.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/b4blpefggptsc2n3xt4i.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/tda4rlrode6pjrbwpjop.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#6d6cb8",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/izlwb61iovjsoaig6xsc.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV48QAE",
+                    "title": "Chefman XL 8-Quart Programmable Multi-Function Pressure Cooker",
+                    "createdAt": "2020-08-19T21:11:00.443Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "148910",
+                            "condition": "New",
+                            "price": 49.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/prruifhic3gjegbqalf1.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/prruifhic3gjegbqalf1.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ga1dtjavrataoxhpcy3x.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bevdbvcsonuevfqnkkhi.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/gcjcvxrlgqzaeiw79fck.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/i4afdcvbus3qmerhbugq.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kv6yibqc1foah60dg8lx.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mgdoccsjdjcwvsdxzqtr.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/irbpean49mjpo0dqxaro.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mnig4qf9s4c9r2o7eyji.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/fxjfpq4rd1x5grsyfxnb.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/gwltdhmipuucbpygvwyb.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kolxxoftm3uoi10vacfr.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#6cb3b9",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/vuzfcozqfjlurfsrysx6.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV4DQAU",
+                    "title": "2-Pack: iWalk Faux Leather 7.5W/10W Quick Charge Wireless Chargers",
+                    "createdAt": "2020-08-19T21:00:01.701Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "128411",
+                            "condition": "New",
+                            "price": 15.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/sa3vf9kcjzoiu4pqdxs3.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/sa3vf9kcjzoiu4pqdxs3.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/hta3rboej4omwf2uv37t.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kepgyr3eovoqthx2hwke.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/sfrhe1ieq2y39ubkgqah.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/yyspsmz6lb5xy9rdq3rx.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/gbehynp3pms1y9ws6qap.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/j5znngtg2jdg5y7rjqxl.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/cvsmcfgvjxdzrsznb0gy.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#6cb78c",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/ex1apn5cgsy0y5no865q.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUphQAE",
+                    "title": "360Fly POV Pole, Floating Handgrip and Adapter",
+                    "createdAt": "2020-08-19T20:49:11.979Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "145332",
+                            "condition": "New",
+                            "price": 7.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/tf20pexb37r33mntfbex.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/tf20pexb37r33mntfbex.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/jokqssnmtfykckoyeyzy.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ubgr2hhlc6ivoaezntdh.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/qoo1dagrv2qit3l9zb9z.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#96b86c",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/o889dgmkp0c0jvee9dvd.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUn7QAE",
+                    "title": "2-Pack of Premium Corkscrew Wine Openers",
+                    "createdAt": "2020-08-19T20:39:00.440Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "104216",
+                            "condition": "New",
+                            "price": 6.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ghg9zahalvo7sjju9hpo.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ghg9zahalvo7sjju9hpo.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/n2uvsgx6ec7vz1wef9mg.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ryk4tdqkgbalm23r9e9r.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#94ad76",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/ede7wtbtychxghp0sa6r.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUnCQAU",
+                    "title": "X-mini MAX Capsule Speaker",
+                    "createdAt": "2020-08-19T20:27:03.094Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "103817",
+                            "condition": "New",
+                            "price": 2.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/xqix1wuaj0giekn9p6du.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ugebtcil3uungyroq3bz.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bga8wap2pzdlpt4zyc42.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/gnzxnri7gckxcvdelerp.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#adaa77",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/lilecrcfzddpvkwsqdfj.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUrTQAU",
+                    "title": "Instant Regret Kit",
+                    "createdAt": "2020-08-19T20:22:00.701Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "101505",
+                            "condition": "New",
+                            "price": 5.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/txee8950t69bryebk9qc.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/txee8950t69bryebk9qc.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/hwp2slsgfjutrstcysvd.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#5ec6af",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/xpllgnjbqhltdz7axzxa.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV2RQAU",
+                    "title": "4-Pack: Primula Insulated Food Jars",
+                    "createdAt": "2020-08-19T20:00:02.945Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "144683",
+                            "condition": "New",
+                            "price": 19.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/b2xtg3kq41v2epxzplca.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "144684",
+                            "condition": "New",
+                            "price": 19.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/skuogdsc7tfpvu2funqn.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "144685",
+                            "condition": "New",
+                            "price": 19.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/dui9avvicm2lrumwxjlh.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/gge6clfpiidyxdr4l6vj.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/b2xtg3kq41v2epxzplca.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/uieiy5s3hvrupn50r1ze.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/odrni5wyyuvezngrsehl.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/u5cgr9bufehc8n2ffrph.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/j9uystepfeyv8evmi1nq.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/h6uv9kbmnessujzhyeja.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/pjqtltfufrcsejzgyv3p.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/g3ki6qjj7mufjznlnggn.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/d8rpxlnxovjskgmz22ov.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/yyzl65ssvvjrfcryr8qq.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mgk1ejvi3gnbd5gxwnlw.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/f9wecw8ulvyaedxgqx4u.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/w5zhocprt4g0yvoot1oj.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kk0miu8fwmuweq2rbavj.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/gtsufvllkovn6stzk5rt.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/dsdtxfswaoj58gx5fyit.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/x1ex4k4ew9xlibjz97z9.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#9477ad",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/kfqdjuy0jvsltxvenl7j.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUjZQAU",
+                    "title": "Braven BRV-105 Waterproof Rugged Portable Bluetooth Speaker",
+                    "createdAt": "2020-08-19T19:34:09.204Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "149214",
+                            "condition": "New",
+                            "price": 20.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ilxuis5zbf799nqmrpwx.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ilxuis5zbf799nqmrpwx.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/vfiulxb9mdmifhawfscf.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/um7jjhlzblgkcsubczef.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/xs2c645cx6bj78ioh4cx.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/evllazi0m5dyngk6k871.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#76ad85",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/cqtr2uhxd8gp5fq6keyc.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV4IQAU",
+                    "title": "Coccot 6-Piece Meal Prep Glass Storage with Utensils",
+                    "createdAt": "2020-08-19T19:23:02.283Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "146079",
+                            "condition": "New",
+                            "price": 19.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/taxfkhxmj520fh3ibrmr.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/taxfkhxmj520fh3ibrmr.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bji5xarplorirlofxuqi.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/fi7ibsh1ti9vsowcl8ui.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/eigluswuj2sgkkgl2npt.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ktyzxssclp5dgjrppkan.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/exl2xgon553qf9rc0vha.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#99ae76",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/ugj2vwnwgik1msm3mqxy.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUxOQAU",
+                    "title": "Incase Hardshell Case for 13-inch MacBook Air",
+                    "createdAt": "2020-08-19T19:12:00.536Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "145334",
+                            "condition": "New",
+                            "price": 5.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ysuwnnnqlewabq6xh8af.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/pw7hmeehxl85rbpg2phq.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/vpnpxvvifipnyihmnesc.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/absnvk6skoogzqx0bray.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bjy9kzhhmmeow5rv5zfr.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/oick5fpt4q4wixaea1xh.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/vm8qdsvtgmmjcwrkyt7q.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/pupgbhodlrflwrizhdmv.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/dvwobg0u7my9atbbun3a.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#ad7777",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/jiksyegslhu3dl17ohiv.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUxdQAE",
+                    "title": "Incase Snap Jacket for 13-inch MacBook Pro or Air",
+                    "createdAt": "2020-08-19T19:01:03.150Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "145342",
+                            "condition": "New",
+                            "price": 5.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ciopahedhkseehpj1ls0.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "145356",
+                            "condition": "New",
+                            "price": 5.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/vtt758nsya2rxseppl5e.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/jnqm7hjwiehrjbtvfkxs.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/vnhaohfqlrryvy4oh4ul.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/artgeqltqsk499syy3re.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/x3yhscnc5ac0cisgmaa2.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/b7skqnhsitvkfr0aotgj.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/rl2xllpzfoe0n4dzproo.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/utxb4h4lvjsnp4oeeyr5.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ntwentwtxnfgfqlr8ng8.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/vrfvoepqbzfdktxympl4.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#9bb68d",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/xkanrxrftlr4h6vc82tp.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV3FQAU",
+                    "title": "50-Pack: Disposable 3-Layer Face Masks",
+                    "createdAt": "2020-08-19T18:50:00.398Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "148845",
+                            "condition": "New",
+                            "price": 12.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mvjswdzr3ttwv8inlsn1.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mvjswdzr3ttwv8inlsn1.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/pqws0snav7zu3206vvcs.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/q7bzsrhpfyzszbyblbwb.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/aio3rffdafqnzt8liqrl.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/cr7qu8wccwa0g4gqpkit.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/i68cg1axsiwryflcwxz6.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/llnolywyn4ppfowtg7me.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/sczmgcrc74js3242mldp.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#b68c8d",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/yjpthoihaahls63mzajp.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV3ZQAU",
+                    "title": "2-Pack Floral Printed 4000 mAh Powerbank part of The Macbeth Collection",
+                    "createdAt": "2020-08-19T18:38:02.958Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "137058",
+                            "condition": "New",
+                            "price": 5.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/oe3ez3wdu7fyyqovfdh1.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/oe3ez3wdu7fyyqovfdh1.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ubkeoithkgmu8spdro3u.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#af9a87",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/tbixmfrjivqrldghlzbl.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUj0QAE",
+                    "title": "6-Pack: Vivo per Lei Vitamin C Wipes (180 total)",
+                    "createdAt": "2020-08-19T18:27:00.415Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "150499",
+                            "condition": "New",
+                            "price": 10.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bpmvjnzmzqxuj74dsbnf.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/m4km9wlbzm73gvyqjl07.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/inlel8ple5erfj2jq4u8.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bccfyw5hzivgbbxdanpp.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/v4osa7yuyzfbbkptqhmm.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kgf29pwqbh5ipw8mavow.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/secuhhbomlcamqan2jiv.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ijfn8iwiiiovu6e6ih5k.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/kqhsgb0l67icrqq3hrzx.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/tobogollqr2q44ya6k8w.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#dc9948",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/ory2r02wjmvzmkh6didb.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUqfQAE",
+                    "title": "SwissTek Double Layer Windproof UV Protection Umbrella",
+                    "createdAt": "2020-08-19T18:16:00.368Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "115424",
+                            "condition": "New",
+                            "price": 16.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/fb4tnyzi0x9bcyzfgxzc.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "127873",
+                            "condition": "New",
+                            "price": 16.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/r4z49p0u5ll2uzbkqykm.png"
+                        },
+                        {
+                            "__typename": "Item",
+                            "id": "127874",
+                            "condition": "New",
+                            "price": 16.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/odajavbegas9sed7284s.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/gqjcn5nrwqzbbdutw4ve.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mlj8ypll0nuc0e27vbnt.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ifclmuthdld0wmtgaqji.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/x6vyiqjthluw6syrhaf0.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/jxfqdst6xljks7jvgrct.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/lp49k6nbkxyumkueus0s.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#c65e79",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/v1raa2fpslpy9zbs1lr7.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUmxQAE",
+                    "title": "3-Pack: Dinosaur Egg Slime (Assorted Colors)",
+                    "createdAt": "2020-08-19T18:04:03.211Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "149192",
+                            "condition": "New",
+                            "price": 6.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/jfkbdqnmis0k3bjrbeqa.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/jfkbdqnmis0k3bjrbeqa.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ygdf0dnpspgxdvnu9tpa.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ol54w4iicz0da1iafviq.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#675ec7",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/eglvhz3vfi6sosmkfrpe.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV4wQAE",
+                    "title": "True & Tidy Multi Surface Steam Mop",
+                    "createdAt": "2020-08-19T17:53:00.522Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "115330",
+                            "condition": "New",
+                            "price": 25.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/zmmzhhoxvrll6pfitiwz.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/zmmzhhoxvrll6pfitiwz.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/umvcwmrogzdtewcmdyqd.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/pczakf5edmwfvzgof8xg.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/tbikjimm8mnn43r0nfkj.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/fq6rpi8f6wbjxxdtr3wx.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#5e84c5",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/l88ssjuua1tpcdtufngl.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUrOQAU",
+                    "title": "Instant Regret Kit",
+                    "createdAt": "2020-08-19T17:46:00.489Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "101505",
+                            "condition": "New",
+                            "price": 5.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/shktpazcbk7gqacoswhk.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/shktpazcbk7gqacoswhk.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/pmp96hgxtrnhtmffh1a8.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#5ec6af",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/asofeefrdirhklewy94q.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kV4rQAE",
+                    "title": "4-Pack: Bormioli Rocco Momenti Wine Glasses (White)",
+                    "createdAt": "2020-08-19T17:35:05.627Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "107831",
+                            "condition": "New",
+                            "price": 8.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/drg5sfg4niz2qlxbtb6s.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/dr5vkqrrfqs3ldjv6o8p.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/h23of8a8ozl7jxz1fumc.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#84c55d",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/hfs4lpgwibty10pdcacw.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUmEQAU",
+                    "title": "Winix Triple Action HEPA 2-in-1 Air Purifier & Humidifier with PlasmaWave",
+                    "createdAt": "2020-08-19T17:15:18.422Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "143090",
+                            "condition": "New",
+                            "price": 119.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mtzoevvgnhyw3psjzl4v.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mtzoevvgnhyw3psjzl4v.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ydcqmnwjuge7gzd4wljh.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ozth2sa9iflaoeaffsra.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/mps1efwzoq6sfe2qvhoi.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/i2l7jcnbshica9zbbtki.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/sedlmagnlhq1erc6xdmm.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/zuqcdvl30fxjj7ghn52g.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bz8voeictzjf3sqre4gd.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/riirjelcd4ktr3cmix2j.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#c6ab5e",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/i3u4hdfqy5tnzpeavmin.jpg",
+                        "foreground": "dark"
+                    }
+                },
+                {
+                    "__typename": "DealHistoryResult",
+                    "id": "a6k5A000000kUlVQAU",
+                    "title": "12-Pack: Eternal Living Premium Solar Pathway Lights",
+                    "createdAt": "2020-08-19T17:04:02.936Z",
+                    "dealYear": "2020",
+                    "monthDay": "0819",
+                    "items": [
+                        {
+                            "__typename": "Item",
+                            "id": "147093",
+                            "condition": "New",
+                            "price": 16.0,
+                            "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/stdwl5zwimphdctw5efi.png"
+                        }
+                    ],
+                    "photos": [
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/stdwl5zwimphdctw5efi.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/njeqi75oh8x2orjzclqz.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/xcjtbeff5b54vik4mbnm.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ojqkmdycjyudvvrikxht.png",
+                        "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/v6fmypib3lps76zur1z0.png"
+                    ],
+                    "theme": {
+                        "__typename": "Theme",
+                        "accentColor": "#000000",
+                        "backgroundColor": "#c65e5f",
+                        "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/evh8bqf6l15gz6cdez1e.jpg",
+                        "foreground": "dark"
+                    }
+                }
+            ],
+            "nextToken": "eyJ2ZXJzaW9uIjoyLCJ0b2tlbiI6IkFRSUNBSGkrT2loUXVpRWFIT0Z5TUMwK3VKSzMvK0F1Y0hzR2NIdFljYlA4YytlNy9nRjlFcTNpWUk4aC9ONmdOMmpYbjU1S0FBQURTakNDQTBZR0NTcUdTSWIzRFFFSEJxQ0NBemN3Z2dNekFnRUFNSUlETEFZSktvWklodmNOQVFjQk1CNEdDV0NHU0FGbEF3UUJMakFSQkF6NVhrLzNFNFllU0RiUEl2RUNBUkNBZ2dMOVhSNXFkNFQ5aUtTVEpEWklaNjhHNk5Nd0QvU29SbDRhaXVFb1FVSlZCZ2tiQ0dLc1FCME5mU0MwV05lSkZONXdyTERJTkFoQlBPMWJNSENIZlU3a3k1ckREN0hWdWR5MzZTa2JRb3N1UVdGbDBQNlhsb05Zai8yWEZtRHRXZUM1c3dzYUJoRW54N0xlcTF1UjdQUnhDZ050ZjlhWDc4Tk90dG5Tbk05dVB4RHMzVG1yV0NGclkwQ1g0K3hzZ0ZrTWJ3WWdvZTlaZ0ZXR0FGaUtabEpIL3RINGlyaThzQnVqOTJoZTlvdnBZWkNvL1NxdDRVQlBxek1oQjBaNHhzZWVRR1NXVzNkKzZWeXYrM21VU2MyZlBITUVTZWJzVlJiQWpadks0OEJTR3R5Nm5DRlZaZ1JMa0h5WEZLL2t2U0lyZmRXc044L0pZaDdmTjJNWTcvdEFQLzgyWUlkRGtGT0tTT1ZOUzduU1JVd0NBWnZOTERsaWRSenR5bitXVmlHN042TFdaUTljS1UrdEd3ZzM3aVlKeEVDblZ1dllzVEtVdkVJRDhEeWdsSnBZdVVPVGJKMXF2MFRXYlBCc3BXTHplMm1nQ05pVC9nQVFiV2U2dkxBM3dJVFVkUUQvb2t1aXZCQ2tsU2poZzRzSHhBRVVET2ZYaittbm5KSG1hdVBwVWJEdC9RZWdYSEZpSGRIMnI0ekI1U1hZcTRnM1JkNXU5MmJLSnpnYzFsbHJJOFNucDA5RGRxUWlYTzJKNFAxVDVjaFlwV1d4bkZEVktLckFrditRTUlZcndEN1BRcG03bkh0by9FdTlwcm5CYTF6VUZwejZOL1NEQjFvaDB6QUdFK3hONFoxWkRlRkJGdDRyS1djbVJXNnI1bGd2bU96NE9EVjBzTkhBOExOa0krZFhFVmNKS2d4TXNtV0tyRU5FMmdZMC9MTkU4NUNaei9VRjZpdjRkemVLdFNrak1EY1dKemtQdHVvKzJ2TnUxb2tWT2YvQ2JNZlF4c2ZuUE1qQlQ4M3VvUyt3Z1FyRGNMSi9yckJwdWd3V2xsRkwvcFVlMFMyYTB6QXdYZElVdkRsZTJQS3lyLzRZcUVYalQzeEVUcXZUbVhKRWN0UDBUeUM1MUJaakZ3VUllM3JQZnEvamRTc0ZMSU82L3BMdHNwZlBNTmRKNEZ3bERJTnl5elNxYnU1dXF4VU90U05QdnBjU21vTGE2YXl3emw3Njk5RlVZdUNZZnA3UklsS2xTZThoU2ZXMDdqQ1g3MHVnL2tIVjh0aytjUWthUlpFZ2lQcWprM21oNTYyZmp1dnQ2blRNNEh5R2lTdmJPRXp1SC91OU83SCtmQXZqenRXSSJ9",
+            "startedAt": null
+        }
+    }
+}

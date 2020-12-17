@@ -34,11 +34,26 @@
 "twitter" = "Twitter";
 "unofficial_app_disclaimer" = "This is an unofficial app. Please direct any issues to the developer, not to Meh.";
 "web" = "Web";
-"welcome_message" = "An app to see the crap meh is trying to sell you today.";
+"welcome_message" = "See the crap meh is selling today.";
 
 /* Alerts */
 "disabled_email_alert_body" = "Device is not configured to send email.";
 "disabled_notification_alert_body" = "Notifications are disabled. Please allow Adequate to access notifications in Settings.";
+"disabled_icon_change_alert_body" = "Sorry, Adequate is not allowed to change its icon.";
+
+/* Settings - Theme */
+"appearance" = "Appearance";
+"theme" = "Theme";
+"theme_system" = "System";
+"theme_light" = "Light";
+"theme_dark" = "Dark";
+
+/* Settings - App Icon */
+"app_icon" = "App Icon";
+"default_icon" = "Default";
+"default_dark_icon" = "Default (Dark)";
+"alt_light_icon" = "Alt (Light)";
+"alt_dark_icon" = "Alt (Dark)";
 
 /* Welcome - Notifications Scene */
 "welcome_notifications_body" = "Enable notifications so Adequate can alert you when meh offers a new daily deal.";
@@ -53,4 +68,12 @@
 "accessibility.history_button" = "Show History";
 "accessibility.share_button" = "Share Deal";
 "accessibility.story_button" = "Show Story";
+"accessibility.left_chevron_button" = "Left Chevron Button";
+"accessibility.right_chevron_button" = "Right Chevron Button";
+"accessibility.settings_button" = "Show Settings";
 /*"accessibility." = "";*/
+
+/* Extension - WidgetExtension */
+"widget_extension_name" = "Current Deal";
+"widget_extension_description" = "View the current deal on Meh.";
+"widget_extension_placeholder_title" = "Some Great New Deal";

@@ -1,0 +1,27 @@
+{
+  "configurations" : [
+    {
+      "id" : "80CB0EB0-E9C7-486F-98B3-EB303B1069A1",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "selectedTests" : [
+        "AdequateUITests\/testDarkMode()"
+      ],
+      "target" : {
+        "containerPath" : "container:Adequate.xcodeproj",
+        "identifier" : "C99EF3AD22BB695500BF4410",
+        "name" : "AdequateUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

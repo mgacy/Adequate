@@ -28,9 +28,11 @@ class AppCoordinator: BaseCoordinator {
     private let window: UIWindow
     private let dependencies: AppDependency
 
-    init(window: UIWindow) {
+    private var notificationManager: NotificationManagerType?
+
+    init(window: UIWindow, dependencies: AppDependency) {
         self.window = window
-        self.dependencies = AppDependency()
+        self.dependencies = dependencies
     }
 
     override func start(with deepLink: DeepLink?) {
@@ -39,8 +41,13 @@ class AppCoordinator: BaseCoordinator {
             switch deepLink {
             case .onboarding:
                 showOnboarding()
-            case .remoteNotification(let payload):
-                showMain(notificationPayload: payload)
+                return
+            case .remoteNotification(let notification):
+                showMain(dealNotification: notification)
+                // Apple suggests registering for notifications each time app launches because the token will change if
+                // the user restores backup data to a new device or reinstalls OS. If we are receiving remote
+                // notifications, that isn't an issue.
+                return
             case .debug:
                 showDebug()
             default:
@@ -49,10 +56,19 @@ class AppCoordinator: BaseCoordinator {
         } else {
             switch LaunchInstructor.configure(with: dependencies.userDefaultsManager) {
             case .onboarding:
+                // TODO: record initial launch
                 showOnboarding()
+                return
             case .main:
                 showMain()
+                let counter = dependencies.makeAppUsageCounter()
+                counter.userDid(perform: .launchApp)
             }
+        }
+
+        // TODO: does this violate single responsibility? Should we skip when starting w/ DeepLink.remoteNotification?
+        if dependencies.userDefaultsManager.showNotifications {
+            registerForPushNotifications(with: dependencies.makeNotificationManager())
         }
     }
 
@@ -61,6 +77,9 @@ class AppCoordinator: BaseCoordinator {
     private func showOnboarding() {
         let coordinator = OnboardingCoordinator(window: window, dependencies: dependencies)
         coordinator.onFinishFlow = { [weak self, weak coordinator] result in
+            if case .allowNotifications(let manager) = result {
+                self?.registerForPushNotifications(with: manager)
+            }
             if let strongCoordinator = coordinator {
                 self?.free(coordinator: strongCoordinator)
             }
@@ -70,16 +89,21 @@ class AppCoordinator: BaseCoordinator {
         coordinator.start()
     }
 
-    private func showMain(notificationPayload payload: [String : AnyObject]? = nil) {
-        let refreshEvent: RefreshEvent = payload != nil ? .launchFromNotification(payload!) : .launch
+    private func showMain(dealNotification: DealNotification? = nil) {
+        let refreshEvent: RefreshEvent = dealNotification != nil ? .launchFromNotification(dealNotification!) : .launch
         // TODO: skip `refreshDeal(for:) if `launchFromNotification` and wait for `AppDelegate` methods?
         refreshDeal(for: refreshEvent)
         let mainCoordinator = MainCoordinator(window: window, dependencies: dependencies)
         store(coordinator: mainCoordinator)
+        // TODO: if .launchFromNotification, should DealNotification.notificationType influence coordinator?
         mainCoordinator.start()
     }
 
     private func showDebug() {
+        if case .production = Configuration.environment {
+            showMain()
+            return
+        }
         let coordinator = DebugCoordinator(window: window, dependencies: dependencies)
         coordinator.onFinishFlow = { [weak self, weak coordinator] result in
             if let strongCoordinator = coordinator {
@@ -92,16 +116,30 @@ class AppCoordinator: BaseCoordinator {
     }
 }
 
+// TODO: should these be pushed into an `AppController` object?
+
 // MARK: - Refresh
 extension AppCoordinator {
-    typealias FetchCompletionHandler = (UIBackgroundFetchResult) -> Void
 
     func refreshDeal(for event: RefreshEvent) {
         dependencies.dataProvider.refreshDeal(for: event)
     }
+}
 
-    func updateDealInBackground(userInfo: [AnyHashable : Any], completion: @escaping FetchCompletionHandler) {
-        let delta = DealDelta(userInfo: userInfo) ?? .newDeal
-        dependencies.dataProvider.updateDealInBackground(delta, fetchCompletionHandler: completion)
+// MARK: - Notifications
+extension AppCoordinator {
+
+    func registerForPushNotifications(with manager: NotificationManagerType) {
+        notificationManager = manager
+        notificationManager?.registerForPushNotifications()
+            .then({
+                log.verbose("Registered for notifications")
+            })
+            .catch({ error in
+                log.error("Unable to register for push notifications: \(error)")
+            })
+            .always {
+                self.notificationManager = nil
+            }
     }
 }

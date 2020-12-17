@@ -13,26 +13,17 @@ final class WelcomeViewController: UIViewController {
     // MARK: - Subviews
 
     private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
+        let label = UILabel(style: StyleBook.Label.base)
+        label.font = FontBook.largeTitle
         label.text = L10n.appName
-        label.textColor = ColorCompatibility.label
-        //label.textAlignment = .center
-        // TODO: use FontBook
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        //label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let bodyLabel: UILabel = {
-        let label = UILabel()
+        let label = UILabel(style: StyleBook.Label.base)
         label.numberOfLines = 0
-        label.text = L10n.welcomeMessage
-        label.textColor = ColorCompatibility.secondaryLabel
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        //label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = L10n.welcomeMessage
         return label
     }()
 
@@ -40,8 +31,9 @@ final class WelcomeViewController: UIViewController {
         let view = UIStackView(arrangedSubviews: [titleLabel, bodyLabel])
         view.axis = .vertical
         view.alignment = .fill
-        view.distribution = .fillEqually
-        //view.spacing = 8.0
+        view.distribution = .fill
+        view.spacing = UIStackView.spacingUseSystem
+        view.isBaselineRelativeArrangement = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -56,18 +48,26 @@ final class WelcomeViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        view.backgroundColor = ColorCompatibility.systemBackground
         view.addSubview(labelStack)
         setupConstraints()
     }
 
     private func setupConstraints() {
         let guide = view.readableContentGuide
-        //let guide = view.layoutMarginsGuide
         NSLayoutConstraint.activate([
-            labelStack.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0),
+            titleLabel.lastBaselineAnchor.constraint(equalTo: view.centerYAnchor),
             labelStack.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             labelStack.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
         ])
+    }
+}
+
+// MARK: - Themeable
+extension WelcomeViewController: Themeable {
+
+    func apply(theme: ColorTheme) {
+        view.backgroundColor = theme.systemBackground
+        titleLabel.textColor = theme.label
+        bodyLabel.textColor = theme.secondaryLabel
     }
 }

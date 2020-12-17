@@ -12,7 +12,7 @@ enum DeepLink {
     /// Show onboarding scene.
     case onboarding
     /// Respond to launch from remote notification.
-    case remoteNotification([String : AnyObject])
+    case remoteNotification(DealNotification)
     /// Show current deal scene.
     case deal
     /// Show purchase page for current deal.
@@ -21,6 +21,11 @@ enum DeepLink {
     case share(title: String, url: URL)
     /// Show debug view.
     case debug
+    // TODO: add case to allow widget to add a reminder for relaunch / reserve
+}
+
+// MARK: - Builders
+extension DeepLink {
 
     static func build(with dict: [String: AnyObject]?) -> DeepLink? {
         guard let id = dict?["launch_id"] as? String else { return nil }
@@ -32,11 +37,11 @@ enum DeepLink {
     }
 
     static func build(with launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> DeepLink? {
-        guard let notification = launchOptions?[.remoteNotification] as? [String: AnyObject] else {
+        guard let notification = launchOptions?[.remoteNotification] as? [String: AnyObject],
+              let dealNotification = DealNotification(userInfo: notification) else {
             return nil
         }
-        // TODO: perform any further verifications of structure?
-        return .remoteNotification(notification)
+        return .remoteNotification(dealNotification)
     }
 
     static func build(with url: URL) -> DeepLink? {
@@ -59,17 +64,17 @@ enum DeepLink {
             switch notificationResponse.actionIdentifier {
             case NotificationAction.buyAction.rawValue:
                 guard
-                    let urlString = userInfo[NotificationConstants.dealKey] as? String,
+                    let urlString = userInfo[NotificationPayloadKey.dealURL] as? String,
                     let buyURL = URL(string: urlString) else {
-                        log.error("ERROR: unable to parse \(NotificationConstants.dealKey) from Notification")
+                        log.error("ERROR: unable to parse \(NotificationPayloadKey.dealURL) from Notification")
                         return nil
                 }
                 return .buy(buyURL)
             case NotificationAction.shareAction.rawValue:
                 guard
-                    let urlString = userInfo[NotificationConstants.dealKey] as? String,
+                    let urlString = userInfo[NotificationPayloadKey.dealURL] as? String,
                     let dealURL = URL(string: urlString)?.deletingLastPathComponent() else {
-                        log.error("ERROR: unable to parse \(NotificationConstants.dealKey) from Notification")
+                        log.error("ERROR: unable to parse \(NotificationPayloadKey.dealURL) from Notification")
                         return nil
                 }
                 let title = notificationResponse.notification.request.content.body

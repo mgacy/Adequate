@@ -17,23 +17,16 @@ final class HistoryListCell: UITableViewCell {
 
     private let cardView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 5.0
+        view.layer.cornerRadius = AppTheme.CornerRadius.extraSmall
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-     private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 2
-        label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-     }()
+    private let titleLabel = UILabel(style: StyleBook.Label.cellTitle)
 
     private let dateLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
+        // TODO: use `Style`; aside from `textColor`, this uses `StyleBook.Label.secondary`
+        let label = UILabel(style: StyleBook.Label.base)
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -42,11 +35,8 @@ final class HistoryListCell: UITableViewCell {
 
     private lazy var stackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [titleLabel, dateLabel])
-        view.axis = .vertical
-        view.alignment = .leading
-        view.distribution = .fill
-        view.spacing = 2.0 // FIXME: use constant
-        view.translatesAutoresizingMaskIntoConstraints = false
+        // FIXME: use constant for spacing
+        StyleBook.StackView.vertical(spacing: 2.0).apply(to: view)
         return view
     }()
 
@@ -174,9 +164,9 @@ final class HistoryListCell: UITableViewCell {
 
 }
 
-// MARK: - Configuration
-extension HistoryListCell {
-    typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+// MARK: - CellConfigurable
+extension HistoryListCell: CellConfigurable {
+    typealias Deal = DealHistoryQuery.Data.DealHistory.Item
 
     func configure(with deal: Deal) {
         apply(theme: Theme(deal.theme))
@@ -189,7 +179,6 @@ extension HistoryListCell {
     }
 }
 
-// MARK: - Themeable
 extension HistoryListCell {
 
     func apply(theme: Theme) {
@@ -208,7 +197,7 @@ extension HistoryListCell {
 extension HistoryListCell {
     fileprivate enum ViewConfig {
         // X
-        static let cardCornerRadius: CGFloat = 5.0
+        static let cardCornerRadius: AppTheme.CornerRadius.extraSmall
         // Spacing
         static let spacing: CGFloat = 8.0
         static let sideMargin: CGFloat = 12.0

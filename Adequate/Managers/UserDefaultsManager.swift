@@ -6,12 +6,22 @@
 //  Copyright © 2018 Mathew Gacy. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 // MARK: - Keys
 enum UserDefaultsKey: String {
     case hasShownOnboarding = "hasShownOnboarding"
+    // App Usage
+    case appLaunchCount
+    case pressedBuyCount
+    case sharedDealCount
+    // App Store Reviews
+    case firstAppLaunch
+    case lastVersionPromptedForReview
+    // Settings
     case showNotifications = "showNotifications"
+    case interfaceStyle = "interfaceStyle"
+    //case openLinksInSafari = "openLinksInSafari"
     // AWS SNS
     case SNSEndpoint = "endpointArnForSNS"
     case SNSToken = "deviceTokenForSNS"
@@ -19,13 +29,17 @@ enum UserDefaultsKey: String {
     // DataProvider
     case lastDealRequest = "lastDealRequest"
     case lastDealResponse = "lastDealResponse"
-    //case lastDealCreatedAt = "lastDealCreatedAt"
+    case lastDealCreatedAt = "lastDealCreatedAt"
 }
 
 // MARK: - Protocol
-protocol UserDefaultsManagerType: class {
+protocol UserDefaultsManagerType: AnyObject {
     var hasShownOnboarding: Bool { get set }
+    // Settings
     var showNotifications: Bool { get set }
+    // TODO: use Int or struct mirroring UIUserInterfaceStyle
+    var interfaceStyle: UIUserInterfaceStyle { get set }
+    // TODO: add `isMehVmp: Bool`
 }
 
 // MARK: - Implementation
@@ -36,23 +50,29 @@ final class UserDefaultsManager: UserDefaultsManagerType {
 
     var hasShownOnboarding: Bool {
         get {
-            //return defaults.bool(forKey: UserDefaultsKey.hasShownOnboarding.rawValue)
-            return bool(for: .hasShownOnboarding)
+            return defaults.bool(for: .hasShownOnboarding)
         }
         set {
-            //defaults.set(newValue, forKey: UserDefaultsKey.hasShownOnboarding.rawValue)
-            set(newValue, for: .hasShownOnboarding)
+            defaults.set(newValue, for: .hasShownOnboarding)
+        }
+    }
+
+    var interfaceStyle: UIUserInterfaceStyle {
+        get {
+            let rawValue = defaults.integer(for: .interfaceStyle)
+            return UIUserInterfaceStyle(rawValue: rawValue) ?? .unspecified
+        }
+        set {
+            defaults.set(newValue.rawValue, for: .interfaceStyle)
         }
     }
 
     var showNotifications: Bool {
         get {
-            //return defaults.bool(forKey: UserDefaultsKey.showNotifications.rawValue)
-            return bool(for: .showNotifications)
+            return defaults.bool(for: .showNotifications)
         }
         set {
-            //defaults.set(newValue, forKey: UserDefaultsKey.showNotifications.rawValue)
-            set(newValue, for: .showNotifications)
+            defaults.set(newValue, for: .showNotifications)
         }
     }
 
@@ -61,17 +81,54 @@ final class UserDefaultsManager: UserDefaultsManagerType {
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
     }
+}
+
+// MARK: - UserDefaults+UserDefaultsKey
+extension UserDefaults {
 
     // MARK: - Read
 
     func bool(for key: UserDefaultsKey) -> Bool {
-        return defaults.bool(forKey: key.rawValue)
+        return bool(forKey: key.rawValue)
+    }
+
+    func codable<T: Codable>(for key: UserDefaultsKey) throws -> T? {
+        guard let data = object(forKey: key.rawValue) as? Data else {
+            return nil
+        }
+        let decoder = JSONDecoder()
+        return try decoder.decode(T.self, from: data)
+    }
+
+    func integer(for key: UserDefaultsKey) -> Int {
+        return integer(forKey: key.rawValue)
+    }
+
+    func string(for key: UserDefaultsKey) -> String? {
+        return string(forKey: key.rawValue)
     }
 
     // MARK: - Write
 
     func set(_ value: Bool, for key: UserDefaultsKey) {
-        defaults.set(value, forKey: key.rawValue)
+        set(value, forKey: key.rawValue)
     }
 
+    func set<T: Codable>(_ value: T, for key: UserDefaultsKey) throws {
+        let encoder = JSONEncoder()
+        let encoded = try encoder.encode(value)
+        set(encoded, forKey: key.rawValue)
+    }
+
+    func set(_ value: Int, for key: UserDefaultsKey) {
+        set(value, forKey: key.rawValue)
+    }
+
+    func set(_ value: String, for key: UserDefaultsKey) {
+        set(value, forKey: key.rawValue)
+    }
+
+    func set(_ value: String?, for key: UserDefaultsKey) {
+        set(value, forKey: key.rawValue)
+    }
 }

@@ -1,0 +1,7 @@
+app_identifier "com.mgacy.Adequate"
+
+copyright "#{Time.now.year} Mathew Gacy"
+
+app_rating_config_path "./fastlane/metadata/rating_config.json"
+
+price_tier 0 # free app

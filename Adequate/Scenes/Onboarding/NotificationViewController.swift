@@ -10,34 +10,29 @@ import UIKit
 import Promise
 
 final class NotificationViewController: UIViewController {
-    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
+    typealias Dependencies = HasUserDefaultsManager & NotificationManagerProvider
 
     // TODO: improve handling of .init
     let notificationManager: NotificationManagerType
     let userDefaultsManager: UserDefaultsManagerType
-    weak var delegate: VoidDismissalDelegate?
+    weak var delegate: OnboardingDismissalDelegate?
 
     // MARK: - Subviews
 
     private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
+        let label = UILabel(style: StyleBook.Label.base)
+        label.numberOfLines = 0
+        label.font = FontBook.largeTitle
         label.text = L10n.welcomeNotificationsTitle
-        // TODO: use FontBook
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        //label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let bodyLabel: UILabel = {
-        let label = UILabel()
+        let label = UILabel(style: StyleBook.Label.base)
         label.numberOfLines = 0
-        label.text = L10n.welcomeNotificationsBody
-        label.textColor = ColorCompatibility.secondaryLabel
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        //label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = L10n.welcomeNotificationsBody
+        label.setContentCompressionResistancePriority(.defaultHigh - 1, for: .horizontal)
         return label
     }()
 
@@ -45,61 +40,34 @@ final class NotificationViewController: UIViewController {
         let view = UIStackView(arrangedSubviews: [titleLabel, bodyLabel])
         view.axis = .vertical
         view.alignment = .fill
-        view.distribution = .fillEqually
-        //view.spacing = 8.0
+        view.distribution = .fill
+        view.spacing = UIStackView.spacingUseSystem
+        view.isBaselineRelativeArrangement = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     private let notNowButton: UIButton = {
-        let button = UIButton(type: .custom)
-        // TODO: use bolder font?
-        //button.titleLabel?.font = FontBook.boldButton
-        //button.titleLabel?.adjustsFontForContentSizeCategory = true
+        let button = UIButton(style: StyleBook.Button.secondary)
         button.setTitle(L10n.nowNow, for: .normal)
-        button.layer.cornerRadius = 5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = button.tintColor.cgColor
-        button.setTitleColor(button.tintColor, for: .normal)
-        //button.layer.masksToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .clear
         button.addTarget(self, action: #selector(handleNotNowTapped(_:)), for: .touchUpInside)
         // TODO: add button.accessibilityLabel
         return button
     }()
 
     private let okButton: UIButton = {
-        let button = UIButton(type: .custom)
-        // TODO: use bolder font?
-        //button.titleLabel?.font = FontBook.boldButton
-        //button.titleLabel?.adjustsFontForContentSizeCategory = true
+        let button = UIButton(style: StyleBook.Button.standard)
         button.setTitle(L10n.ok, for: .normal)
-        button.layer.cornerRadius = 5
-        //button.clipsToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = button.tintColor
         button.addTarget(self, action: #selector(handleOKTapped(_:)), for: .touchUpInside)
+        button.setContentCompressionResistancePriority(.defaultHigh - 1, for: .horizontal)
         // TODO: add button.accessibilityLabel
         return button
-    }()
-
-    private lazy var buttonStack: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [notNowButton, okButton])
-        view.axis = .horizontal
-        //view.alignment = .fill
-        view.alignment = .firstBaseline
-        //view.alignment = .center
-        view.distribution = .fillEqually
-        view.spacing = 8.0
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
     }()
 
     // MARK: - Lifecycle
 
     init(dependencies: Dependencies) {
-        self.notificationManager = dependencies.notificationManager
+        self.notificationManager = dependencies.makeNotificationManager()
         self.userDefaultsManager = dependencies.userDefaultsManager
         super.init(nibName: nil, bundle: nil)
     }
@@ -116,24 +84,36 @@ final class NotificationViewController: UIViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        view.backgroundColor = ColorCompatibility.systemBackground
         view.addSubview(labelStack)
-        view.addSubview(buttonStack)
+        view.addSubview(notNowButton)
+        view.addSubview(okButton)
         setupConstraints()
     }
 
     private func setupConstraints() {
         let guide = view.readableContentGuide
-        //let guide = view.layoutMarginsGuide
+
+        let titleBaseline = titleLabel.lastBaselineAnchor.constraint(equalTo: view.centerYAnchor)
+        titleBaseline.priority = UILayoutPriority(750)
+
+        let buttonWidthConstraint = notNowButton.widthAnchor.constraint(equalTo: okButton.widthAnchor, multiplier: 1.0)
+        buttonWidthConstraint.priority = UILayoutPriority(250)
         NSLayoutConstraint.activate([
+            titleBaseline,
             // labelStack
-            labelStack.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0),
+            labelStack.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
+            labelStack.bottomAnchor.constraint(lessThanOrEqualTo: notNowButton.topAnchor),
             labelStack.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             labelStack.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-            // buttonStack
-            buttonStack.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
-            buttonStack.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-            buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0.0)
+            // notNowButton
+            notNowButton.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            notNowButton.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            notNowButton.heightAnchor.constraint(equalTo: okButton.heightAnchor),
+            // okButton
+            okButton.leadingAnchor.constraint(equalTo: notNowButton.trailingAnchor, constant: AppTheme.spacing),
+            okButton.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
+            okButton.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            buttonWidthConstraint
         ])
     }
 
@@ -142,15 +122,20 @@ final class NotificationViewController: UIViewController {
     @objc private func handleNotNowTapped(_ sender: UIButton) {
         userDefaultsManager.showNotifications = false
         userDefaultsManager.hasShownOnboarding = true
-        delegate?.dismiss()
+        delegate?.finish(with: .noNotifications)
     }
 
     @objc private func handleOKTapped(_ sender: UIButton) {
         notificationManager.requestAuthorization()
-            .ensure({ $0 })
-            .then({ _ -> Promise<Void> in
-                self.userDefaultsManager.showNotifications = true
-                return self.notificationManager.registerForPushNotifications()
+            .then({ [self] allowNotifications in
+                // Hand off
+                self.userDefaultsManager.showNotifications = allowNotifications
+                switch allowNotifications {
+                case true:
+                    self.delegate?.finish(with: .allowNotifications(notificationManager))
+                case false:
+                    self.delegate?.finish(with: .noNotifications)
+                }
             })
             .catch({ error in
                 log.error("\(#function): \(error)")
@@ -158,7 +143,36 @@ final class NotificationViewController: UIViewController {
             })
             .always({
                 self.userDefaultsManager.hasShownOnboarding = true
-                self.delegate?.dismiss()
             })
+    }
+}
+
+// MARK: - UITraitEnvironment
+extension NotificationViewController {
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            // We need to handle `CALayer` manually
+            let resovedColor = UIColor.label.resolvedColor(with: traitCollection)
+            notNowButton.layer.borderColor = resovedColor.cgColor
+        }
+    }
+}
+
+// MARK: - Themeable
+extension NotificationViewController: Themeable {
+
+    func apply(theme: ColorTheme) {
+        view.backgroundColor = theme.systemBackground
+        titleLabel.textColor = theme.label
+        bodyLabel.textColor = theme.secondaryLabel
+
+        //StyleBook.Button.secondary(color: theme.label).apply(to: notNowButton)
+        notNowButton.layer.borderColor = theme.label.cgColor
+        notNowButton.setTitleColor(theme.label, for: .normal)
+
+        okButton.backgroundColor = theme.label
+        okButton.setTitleColor(theme.systemBackground, for: .normal)
     }
 }

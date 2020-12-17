@@ -13,6 +13,7 @@ protocol ThemeManagerType {
     var useDealTheme: Bool { get }
     var theme: AppTheme { get }
     func addObserver<T: AnyObject & ThemeObserving>(_ observer: T) -> ObservationToken
+    func applyUserInterfaceStyle(_ style: UIUserInterfaceStyle)
 }
 
 // MARK: - Implementation
@@ -53,6 +54,12 @@ class ThemeManager: ThemeManagerType {
 
         // home indicator
         // https://stackoverflow.com/questions/46194557/how-to-change-home-indicator-background-color-on-iphone-x
+    }
+
+    func applyUserInterfaceStyle(_ style: UIUserInterfaceStyle) {
+        let themeForeground = ThemeForeground(userInterfaceStyle: style)
+        let updatedTheme = AppTheme.lens.foreground.set(themeForeground)(theme)
+        theme = updatedTheme
     }
 
     // MARK: - Observation

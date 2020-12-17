@@ -16,9 +16,137 @@
 default_platform(:ios)
 
 platform :ios do
+
+  desc "Update metadata"
+  lane :update_metadata do
+    upload_to_app_store(
+      # app_rating_config_path: "./fastlane/metadata/rating_config.json",
+      skip_screenshots: true,
+      # force: true,                                # If `true`, skips verification of the HTML preview before actual upload
+      skip_binary_upload: true
+    )
+  end
+
   desc "Generate new localized screenshots"
   lane :screenshots do
-    capture_screenshots(workspace: "Adequate.xcworkspace", scheme: "AdequateUITests")
+    capture_screenshots(
+      workspace: "Adequate.xcworkspace", 
+      scheme: "AdequateUITests", 
+      testplan: "ScreenshotsLight", 
+      dark_mode: false
+    )
+    capture_screenshots(
+      workspace: "Adequate.xcworkspace", 
+      scheme: "AdequateUITests", 
+      testplan: "ScreenshotsDark", 
+      dark_mode: true
+    )
+    frame_screenshots(path: "./fastlane/screenshots/en-US")
     # upload_to_app_store(skip_binary_upload: true, skip_metadata: true)
   end
+  
+  desc "Frame current screenshots"
+  lane :frame do
+    frame_screenshots(path: "./fastlane/screenshots/en-US")
+  end
+
+  desc "Build and test application"
+  lane :tests do
+    run_tests(scheme: "Adequate Production",
+              devices: ["iPhone 11"])               
+  end
+
+  desc "Build, test and upload a new build to TestFlight"
+  # desc "This will **not** send an email to all testers, it will only be uploaded to the new TestFlight. "
+  lane :beta do
+
+    # ensure_git_branch(
+    #   branch: "(master|release\\S+|hotfix\\S+)"
+    # )
+
+    # Ensure that your git status is not dirty
+    ensure_git_status_clean
+
+    # TODO: bump build number and commit changes
+
+    # get_certificates           # invokes cert
+    # get_provisioning_profile   # invokes sigh
+
+    # https://docs.fastlane.tools/actions/gym/#parameters
+    build_app(
+      scheme: "Adequate Staging",
+      silent: true,                               # Hide all information that's not necessary while building
+      suppress_xcode_output: true,                # Suppress output of `xcodebuild` to stdout (it's saved in `buildlog_path`)
+      clean: true,                                # Clean the project before building it
+      include_symbols: true,
+      export_xcargs: "-allowProvisioningUpdates"  # Enable automatic signing via `xcodebuild`
+    )
+
+    changelog = File.read("./testflight_changelog.txt")
+
+    # https://docs.fastlane.tools/actions/upload_to_testflight/#parameters
+    upload_to_testflight(
+      beta_app_feedback_email: "app@mgacy.com",
+      beta_app_description: "Basic client for the meh.com daily deals site. Provides notifications displaying new daily deal.",
+      changelog: changelog,
+      distribute_external: true,
+      groups: "Friends and Family"
+      # skip_submission: true, # Default: `false`
+    )
+
+    # rescue => exception
+    #   on_error(exception)
+    # end
+  end
+
+  desc "Build, sign and upload a new build to the App Store."
+  desc "This will do the following:"
+  desc ""
+  desc "- Create new screenshots and store them in `./fastlane/screenshots`"
+  desc "- Collect the app metadata from `./fastlane/metadata`"
+  desc "- Upload screenshots + app metadata"
+  desc "- Build, sign and upload the app"
+  desc ""
+  desc "This will **not** submit the app for review."
+  lane :release do
+    # snapshot
+    
+    ensure_git_branch(
+      branch: "(master|release\\S+|hotfix\\S+)"
+    )
+    
+    # Ensure that your git status is not dirty
+    ensure_git_status_clean
+    
+    # TODO: bump build number and commit changes
+    
+    # Ensure push notification certificate valid for 2+ weeks or create new one
+    get_push_certificate
+
+    # https://docs.fastlane.tools/actions/gym/#parameters
+    build_app(
+      scheme: "Adequate Production",
+      silent: true,
+      suppress_xcode_output: true,                # Suppress output of `xcodebuild` to stdout (it's saved in `buildlog_path`)
+      clean: true,
+      # include_bitcode: true,
+      include_symbols: true,
+      export_xcargs: "-allowProvisioningUpdates"  # Enable automatic signing via `xcodebuild`
+    )
+    
+    # https://docs.fastlane.tools/actions/upload_to_app_store/#parameters
+    upload_to_app_store(
+      # overwrite_screenshots: true,
+      submit_for_review: false,
+      force: true,                                # If `true`, skips verification of the HTML preview before actual upload
+      skip_screenshots: true,
+      skip_metadata: true,
+      # app_rating_config_path: "./fastlane/metadata/rating_config.json",
+      automatic_release: false
+    )
+  end
+
 end
+
+# def on_error(exception)
+# end

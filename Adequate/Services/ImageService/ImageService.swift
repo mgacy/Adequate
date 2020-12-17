@@ -10,9 +10,9 @@ import UIKit
 import Promise
 
 public class ImageService: ImageServiceType {
-    // TODO: rename memoryCache and diskCache
-    private let cache = ImageCache()
-    private let secondaryCache: FileCache
+
+    private let memoryCache: ImageCaching
+    private let diskCache: ImageCaching
     private let client: NetworkClientType
     /*
     struct Task {
@@ -21,14 +21,15 @@ public class ImageService: ImageServiceType {
         let queue = InvalidatableQueue()
     }
     */
-    // TODO: do we need to handle cacheing or removal of pending tasks on a lockQueue?
+    // TODO: do we need to handle caching or removal of pending tasks on a lockQueue?
     //private let lockQueue = DispatchQueue(label: "image_service_lock_queue", qos: .userInitiated)
     private var pendingTasks = Dictionary<String, Promise<UIImage>>()
     //private var pendingTasks = Dictionary<String, Task>()
 
     public init(client: NetworkClientType) {
         self.client = client
-        self.secondaryCache = FileCache(appGroupID: "group.mgacy.com.currentDeal")
+        self.memoryCache = Cache<URL, UIImage>()
+        self.diskCache = FileCache(appGroupID: "group.mgacy.com.currentDeal")
     }
 
     /*
@@ -47,7 +48,7 @@ public class ImageService: ImageServiceType {
         } else {
             // TODO: do this on background thread / lockQueue?
             let promise: Promise<UIImage> = client.request(url).then({ [weak self] image in
-                self?.cache.saveImageToCache(image: image, url: url)
+                self?.memoryCache.insert(image, for: url)
             }).always({ [weak self] in
                 self?.pendingTasks[url.absoluteString] = nil
             })
@@ -58,28 +59,29 @@ public class ImageService: ImageServiceType {
 
     public func fetchedImage(for url: URL, tryingSecondary: Bool = false) -> UIImage? {
         //log.debug("url: \(url) - secondary: \(tryingSecondary)")
-        if let result = cache.imageFromCache(for: url) {
+        if let result = memoryCache.value(for: url) {
             //log.verbose("Primary Cache")
             return result
-        } else if tryingSecondary, let file = secondaryCache.imageFromCache(for: url) {
-            //log.verbose("Secondary Cache")
-            cache.saveImageToCache(image: file, url: url)
+        } else if tryingSecondary, let file = diskCache.value(for: url) {
+            //log.verbose("Found image for \(url) in diskCache")
+            memoryCache.insert(file, for: url)
             return file
         } else {
             //log.verbose("Neither Cache")
             return nil
         }
     }
-
+    /*
     public func cancelFetch(_ url: URL) {
         // TODO: does any of this need to be performed on the lockQueue?
         // TODO: add guard?
-        //let task = pendingTasks[url.absoluteString]
-        //task.queue.invalidate()
-        //pendingTasks[url.absoluteString] = nil
+        let task = pendingTasks[url.absoluteString]
+        task.queue.invalidate()
+        pendingTasks[url.absoluteString] = nil
     }
-    
+    */
     public func clearCache() {
-        cache.clearCache()
+        memoryCache.removeAll()
+        // TODO: `diskCache.removeAll()`?
     }
 }

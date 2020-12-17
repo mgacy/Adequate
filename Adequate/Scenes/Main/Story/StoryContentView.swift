@@ -42,21 +42,12 @@ final class StoryContentView: UIView {
 
     // MARK: - Subviews
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = FontBook.mainTitle
-        label.textAlignment = .left
-        label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let titleLabel = UILabel(style: StyleBook.Label.title)
 
     private let bodyText: MDTextView = {
         let styler = MDStyler()
         let view = MDTextView(styler: styler)
-        view.adjustsFontForContentSizeCategory = true
-        view.translatesAutoresizingMaskIntoConstraints = false
+        StyleBook.TextView.base.apply(to: view)
         return view
     }()
 

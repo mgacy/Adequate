@@ -8,6 +8,7 @@
 
 import Foundation
 
+// sourcery: lens
 struct Deal: Codable {
 
     struct PurchaseQuantity: Codable, Equatable {
@@ -19,17 +20,21 @@ struct Deal: Codable {
         let soldOutAt: String?
     }
 
-    let features: String
     let id: String
+    let dealID: String
+    let title: String
+    let features: String
     let items: [Item]
     let photos: [URL]
     let purchaseQuantity: PurchaseQuantity?
-    let title: String
     let specifications: String
     let story: Story
     let theme: Theme
     let url: URL
-    //let createdAt: Date
+    let createdAt: Date
+    //let updatedAt: Date
+    //let lastChangedAt:
+    //let endDate: Date?
     let soldOutAt: Date?
     let launches: [Launch]?
     let launchStatus: LaunchStatus?
@@ -38,10 +43,27 @@ struct Deal: Codable {
 
 // MARK: - Equatable
 extension Deal: Equatable {
+    /*
+    // TODO: is there really a an appreciable advantage to limiting check to only these properties?
     static func == (lhs: Deal, rhs: Deal) -> Bool {
         return lhs.id == rhs.id
+            && lhs.dealID == rhs.dealID
             && lhs.soldOutAt == rhs.soldOutAt
+            && lhs.launches == rhs.launches
+            && lhs.launchStatus == rhs.launchStatus
             && lhs.topic == rhs.topic
+    }
+    */
+}
+
+// MARK: - CustomStringConvertible
+extension Deal: CustomStringConvertible {
+    var description: String {
+        let status = launchStatus != nil ? ".\(launchStatus!.rawValue)" : "nil"
+        if let topic = topic {
+            return "Deal(id: \"\(id)\", dealID: \"\(dealID)\", title: \"\(title)\", launchStatus: \(status)), topic: Topic(commentCount: \(topic.commentCount), createdAt: \(topic.createdAt), id: \(topic.id))"
+        }
+        return "Deal(id: \"\(id)\", dealID: \"\(dealID)\", title: \"\(title)\", launchStatus: \(status))"
     }
 }
 
@@ -59,6 +81,7 @@ extension Deal {
 
         self.features = deal.features
         self.id = deal.id
+        self.dealID = deal.dealId
         self.items = deal.items.compactMap { Item($0) }
         self.photos = deal.photos.compactMap { URL(string: $0) }
         self.purchaseQuantity = PurchaseQuantity(deal.purchaseQuantity)
@@ -67,7 +90,7 @@ extension Deal {
         self.story = story
         self.theme = Theme(deal.theme)
         self.url = url
-        //self.createdAt = DateFormatter.iso8601Full.date(from: deal.createdAt)
+        self.createdAt = DateFormatter.iso8601Full.date(from: deal.createdAt) ?? .distantPast
         if let soldOutAt = deal.soldOutAt {
             self.soldOutAt = DateFormatter.iso8601Full.date(from: soldOutAt)
         } else {
@@ -116,124 +139,5 @@ extension Deal.PurchaseQuantity {
     init?(_ purchaseQuantity: PurchaseQuantityType?) {
         guard let purchaseQuantity = purchaseQuantity else { return nil }
         self.init(purchaseQuantity)
-    }
-}
-
-// MARK: - Lens
-
-extension Deal {
-    enum lens {
-        static let features = Lens<Deal, String>(
-            get: { $0.features },
-            set: { part in
-                { whole in
-                    Deal.init(features: part, id: whole.id, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, title: whole.title, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
-                }
-        }
-        )
-        static let id = Lens<Deal, String>(
-            get: { $0.id },
-            set: { part in
-                { whole in
-                    Deal.init(features: whole.features, id: part, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, title: whole.title, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
-                }
-        }
-        )
-        static let items = Lens<Deal, [Item]>(
-            get: { $0.items },
-            set: { part in
-                { whole in
-                    Deal.init(features: whole.features, id: whole.id, items: part, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, title: whole.title, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
-                }
-        }
-        )
-        static let photos = Lens<Deal, [URL]>(
-            get: { $0.photos },
-            set: { part in
-                { whole in
-                    Deal.init(features: whole.features, id: whole.id, items: whole.items, photos: part, purchaseQuantity: whole.purchaseQuantity, title: whole.title, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
-                }
-        }
-        )
-        static let purchaseQuantity = Lens<Deal, PurchaseQuantity?>(
-            get: { $0.purchaseQuantity },
-            set: { part in
-                { whole in
-                    Deal.init(features: whole.features, id: whole.id, items: whole.items, photos: whole.photos, purchaseQuantity: part, title: whole.title, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
-                }
-        }
-        )
-        static let title = Lens<Deal, String>(
-            get: { $0.title },
-            set: { part in
-                { whole in
-                    Deal.init(features: whole.features, id: whole.id, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, title: part, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
-                }
-        }
-        )
-        static let specifications = Lens<Deal, String>(
-            get: { $0.specifications },
-            set: { part in
-                { whole in
-                    Deal.init(features: whole.features, id: whole.id, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, title: whole.title, specifications: part, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
-                }
-        }
-        )
-        static let story = Lens<Deal, Story>(
-            get: { $0.story },
-            set: { part in
-                { whole in
-                    Deal.init(features: whole.features, id: whole.id, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, title: whole.title, specifications: whole.specifications, story: part, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
-                }
-        }
-        )
-        static let theme = Lens<Deal, Theme>(
-            get: { $0.theme },
-            set: { part in
-                { whole in
-                    Deal.init(features: whole.features, id: whole.id, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, title: whole.title, specifications: whole.specifications, story: whole.story, theme: part, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
-                }
-        }
-        )
-        static let url = Lens<Deal, URL>(
-            get: { $0.url },
-            set: { part in
-                { whole in
-                    Deal.init(features: whole.features, id: whole.id, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, title: whole.title, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: part, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
-                }
-        }
-        )
-        static let soldOutAt = Lens<Deal, Date?>(
-            get: { $0.soldOutAt },
-            set: { part in
-                { whole in
-                    Deal.init(features: whole.features, id: whole.id, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, title: whole.title, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: part, launches: whole.launches, launchStatus: whole.launchStatus, topic: whole.topic)
-                }
-        }
-        )
-        static let launches = Lens<Deal, [Launch]?>(
-            get: { $0.launches },
-            set: { part in
-                { whole in
-                    Deal.init(features: whole.features, id: whole.id, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, title: whole.title, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: part, launchStatus: whole.launchStatus, topic: whole.topic)
-                }
-        }
-        )
-        static let launchStatus = Lens<Deal, LaunchStatus?>(
-            get: { $0.launchStatus },
-            set: { part in
-                { whole in
-                    Deal.init(features: whole.features, id: whole.id, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, title: whole.title, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: part, topic: whole.topic)
-                }
-        }
-        )
-        static let topic = Lens<Deal, Topic?>(
-            get: { $0.topic },
-            set: { part in
-                { whole in
-                    Deal.init(features: whole.features, id: whole.id, items: whole.items, photos: whole.photos, purchaseQuantity: whole.purchaseQuantity, title: whole.title, specifications: whole.specifications, story: whole.story, theme: whole.theme, url: whole.url, soldOutAt: whole.soldOutAt, launches: whole.launches, launchStatus: whole.launchStatus, topic: part)
-                }
-        }
-        )
     }
 }

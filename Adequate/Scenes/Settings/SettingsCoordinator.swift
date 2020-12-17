@@ -9,18 +9,14 @@
 import UIKit
 import SafariServices
 
-final class SettingsCoordinator: BaseCoordinator {
-    typealias CoordinationResult = Void
-    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
+final class SettingsCoordinator: FinishableCoordinator<Void> {
+    typealias Dependencies = HasUserDefaultsManager & HasThemeManager & NotificationManagerProvider
 
-    private let router: RouterType
     private let dependencies: Dependencies
-
-    var onFinishFlow: ((CoordinationResult) -> Void)? = nil
 
     init(router: RouterType, dependencies: Dependencies) {
         self.dependencies = dependencies
-        self.router = router
+        super.init(router: router)
     }
 
     override func start(with deepLink: DeepLink?) {
@@ -38,15 +34,18 @@ final class SettingsCoordinator: BaseCoordinator {
 
 }
 
-// MARK: - Presentable
-extension SettingsCoordinator: Presentable {
-    func toPresent() -> UIViewController {
-        return router.toPresent()
-    }
-}
-
 // MARK: - SettingsViewControllerDelegate
 extension SettingsCoordinator: SettingsViewControllerDelegate {
+
+    func showAppIcon() {
+        let viewController = AppIconViewController()
+        router.push(viewController, animated: true, completion: nil)
+    }
+
+    func showTheme() {
+        let viewController = ThemeViewController(dependencies: dependencies)
+        router.push(viewController, animated: true, completion: nil)
+    }
 
     func showAbout() {
         let viewController = AboutViewController()
@@ -55,8 +54,8 @@ extension SettingsCoordinator: SettingsViewControllerDelegate {
     }
 
     func showReview() {
-        let productURL = URL(string: Constants.productURLString)!
-        var components = URLComponents(url: productURL, resolvingAgainstBaseURL: false)
+        var components = URLComponents(string: Constants.baseReviewURLString)
+        components?.path = "/app/id\(Constants.appID)"
         components?.queryItems = [URLQueryItem(name: "action", value: "write-review")]
     
         guard let writeReviewURL = components?.url else {
@@ -65,16 +64,13 @@ extension SettingsCoordinator: SettingsViewControllerDelegate {
         UIApplication.shared.open(writeReviewURL)
     }
 
-    func dismiss(_ result: CoordinationResult) {
-        onFinishFlow?(result)
-    }
 }
 
 // MARK: - AboutViewControllerDelegate
 extension SettingsCoordinator: AboutViewControllerDelegate {
 
     func showAcknowledgements() {
-        let viewController = AcknowledgementsViewController()
+        let viewController = AcknowledgementsViewController(dependencies: dependencies)
         router.push(viewController, animated: true, completion: nil)
     }
 
@@ -94,7 +90,7 @@ extension SettingsCoordinator: AboutViewControllerDelegate {
 extension SettingsCoordinator {
     private enum Constants {
         static let privacyPolicyURLString = "https://mgacy.github.io/Adequate/privacy"
-        // FIXME: replace with actual URL
-        static let productURLString = "https://example.com"
+        static let baseReviewURLString = "https://apps.apple.com"
+        static let appID = "1438986355"
     }
 }

@@ -1,0 +1,118 @@
+{
+    "data": {
+        "getDeal": {
+            "__typename": "Deal",
+            "id": "current_deal",
+            "dealID": "a6k5A000000bzmBQAQ",
+            "dealYear": "2020",
+            "monthDay": "0825",
+            "title": "2-Pack: Mophie Powerstation Plus Mini 12W Chargers with Integrated USB-C Cable",
+            "features": "- Two 4000mAh powerbanks with built-in USB-C cables\r\n- Sleek and cool looking, with 12w output\r\n- Each one also has a USB port for plugging in other stuff\r\n- Model: **4161_PSPLUS-USBC-4K-MBK, 4181_PSPLUS-USBC-4K-CPR**, because it'll give your phone CPR! (We ignored everything but those last 3 letters)",
+            "specifications": "Specs\r\n====\r\n - Name: 2-Pack: Mophie Powerstation Plus Mini 12W Chargers wtih Integrated USB-C Cable\r\n - Model: 4161_PSPLUS-USBC-4K-MBK, 4181_PSPLUS-USBC-4K-CPR\r\n - Condition: New\r\n - Available in 2x Black, 2x Copper or 1x Black & 1x Copper \r\n - Dimensions: 2.5 x 5.13 x 0.37in\r\n - Weight: 0.247 lb\r\n - Capacity: 4,000 mAh\r\n - Input: USB Type-C\r\n - Output: USB Type-C, USB Type-A \r\n - This advanced 4,000 mAh rechargeable battery has enough power to provide up to 15 total hours of extra battery\r\n - 12W USB-C PD fast charge\r\n - Charge a variety of USB-C devices using the convenient and discrete, built-in USB-C cable\r\n - Connect the powerstation battery to a wall adapter in the evening and pass-through charging will send power to a connected device first, then recharges the powerstation battery so both are fully charged when you wake up\r\n - Press the power indicator button to check the charging status and battery levels\r\n\r\n\r\nWhat's in the Box?\r\n====\r\n- 2x Mophie Powerstation Plus Mini 12W Chargers with Integrated USB-C Cables In Your Color Choice \r\n- 2x Manuals \r\n\r\nPrice Comparison\r\n====\r\n[$41.98 at Amazon for 2x Black](https://www.amazon.com/mophie-powerstation-Plus-Mini-USB-C/dp/B07CHNG27V/?tag=meh0ec-20)",
+            "url": "https://meh.com/deals/2-pack-mophie-powerstation-plus-mini-12w-chargers-wtih-integrated-usb-c-cable",
+            "createdAt": "2020-08-25T04:00:09.365Z",
+            "endDate": null,
+            "soldOutAt": null,
+            "items": [
+                {
+                    "__typename": "Item",
+                    "id": "151349",
+                    "attributes": [
+                        {
+                            "__typename": "ItemAttribute",
+                            "key": "Color",
+                            "value": "2x Black"
+                        }
+                    ],
+                    "condition": "New",
+                    "price": 18.00,
+                    "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/z2ypi24xbtkscfswjhod.png"
+                },
+                {
+                    "__typename": "Item",
+                    "id": "151350",
+                    "attributes": [
+                        {
+                            "__typename": "ItemAttribute",
+                            "key": "Color",
+                            "value": "2x Copper"
+                        }
+                    ],
+                    "condition": "New",
+                    "price": 18.00,
+                    "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/bfah3ufxglfdmfyju8ru.png"
+                },
+                {
+                    "__typename": "Item",
+                    "id": "151351",
+                    "attributes": [
+                        {
+                            "__typename": "ItemAttribute",
+                            "key": "Color",
+                            "value": "1x Black & 1x Copper"
+                        }
+                    ],
+                    "condition": "New",
+                    "price": 18.00,
+                    "photo": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/tx5thm2b8nhloxrrhwra.png"
+                }
+            ],
+            "modelNumbers": [
+
+            ],
+            "photos": [
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/g34t3bkua3ui0kvoqxgo.gif",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/jps8u3dgry2xtcbguxuz.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/movdv76maooyqb1a6ehp.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/abcfyn1nxhbzzvl0prcm.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/khz5pmnhbek9dzrlow02.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/gu4h75durhrjfxcjzrts.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/dyi9llsnqvwqmosijtr0.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/fv1bqmhfzexxq0xvxtud.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/ztczecuwitazjzi60n6q.png",
+                "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/c_pad,f_auto,h_600,q_auto,w_600/z5hy3j8tntar205qtliv.png"
+            ],
+            "story": {
+                "__typename": "Story",
+                "title": "Powerless",
+                "body": "A two-pack of powerbanks, you say? \r\n\r\nThere was a time that I might've thought that to be excessive. Or assumed that you take one and give the other to your friend or your parents. Because c'mon: each one is a 4000mAh brick of power. It can probably give your phone a couple complete charges. Why would you need two? \r\n\r\nAnd then, a couple weeks ago, I was sitting out on my deck here in Des Moines, Iowa, getting some work done. And the sky started to get dark. And the wind picked up. And the storm sirens went off. And I thought: hey, maybe I shouldn't be outside. \r\n\r\nWhat followed was something called a 'derecho,' basically a land-based hurricane, and what followed the derecho was just over three full days without power.\r\n\r\nI remember a few prolonged power outages when I was a child. April snowstorms  downed tree limbs that cut power lines and left us without lights for a few days. It was fun. I recall delighting in the candles coming out, playing board games at dusk, perhaps running a generator here and there to keep the food in the fridge from spoiling. I remember we had a portable battery-powered black-and-white television someone gave us, and we'd spend hours trying (and mostly failing) to find any real signal. \r\n\r\nNow, I am in my 30s and completely addicted to technology. The joy of a candlelit house does very little to override the stress of having no electricity when almost every single aspect of my life plays out on either my phone or my laptop. Hell, we even have a white noise app on our tablet for sleeping at night. \r\n\r\nAnd I mention none of this for pity. Many people had it worse than us. Rather, I hope only to illustrate a point: a 2-pack of powerbanks is not one powerbank and an extra powerbank. It's maybe a tenth of the powerbanks you'll need if you lose power for a few days. So why not buy two. Or four. Or six. Charge them up, stash them in a drawer. Maybe you won't need more than one for when you travel or when you go camping or whatever. \r\n\r\nBut if you do find yourself in a prolonged power drought, you'll be happy to have some backups."
+            },
+            "topic": {
+                "__typename": "Topic",
+                "id": "5f448cc9c647f61040c5f1d9",
+                "commentCount": 17,
+                "createdAt": "2020-08-25T04:00:09.365Z",
+                "replyCount": 20,
+                "url": "https://meh.com/forum/topics/2-pack-mophie-powerstation-plus-mini-12w-chargers-with-integrated-usb-c-cable",
+                "voteCount": 1
+            },
+            "theme": {
+                "__typename": "Theme",
+                "accentColor": "#3f4c3b",
+                "backgroundColor": "#9fbe94",
+                "backgroundImage": "https://d2b8wt72ktn9a2.cloudfront.net/mediocre/image/upload/f_auto,h_1042,q_auto,w_1042/urlbhz8qa2vznrhixsnr.jpg",
+                "foreground": "dark"
+            },
+            "purchaseQuantity": {
+                "__typename": "PurchaseQuantity",
+                "maximumLimit": 3,
+                "minimumLimit": 1
+            },
+            "launches": [
+                {
+                    "__typename": "Launch",
+                    "soldOutAt": null
+                },
+                {
+                    "__typename": "Launch",
+                    "soldOutAt": null
+                }
+            ],
+            "launchStatus": "launch",
+            "_version": 1,
+            "_deleted": null,
+            "_lastChangedAt": 1598414506073,
+            "updatedAt": "2020-08-26T04:01:46.042Z"
+        }
+    }
+}

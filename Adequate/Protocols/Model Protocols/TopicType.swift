@@ -10,7 +10,7 @@ protocol TopicType {
     var commentCount: Int { get }
     var createdAt: String { get }
     var id: String { get }
-    var replyCount: Int { get }
+    //var replyCount: Int { get }
     var url: String { get }
-    var voteCount: Int { get }
+    //var voteCount: Int { get }
 }

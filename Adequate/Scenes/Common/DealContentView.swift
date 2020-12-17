@@ -74,14 +74,7 @@ final class DealContentView: UIView {
 
     // MARK: - Subviews
 
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = FontBook.mainTitle
-        label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    let titleLabel = UILabel(style: StyleBook.Label.title)
 
     lazy var featuresText: MDTextView = {
         let view = MDTextView(styler: styler)
@@ -91,12 +84,10 @@ final class DealContentView: UIView {
     }()
 
     let forumButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle(L10n.Comments.count(0), for: .normal)
-        button.layer.cornerRadius = 5
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        let button = UIButton(style: StyleBook.Button.standard)
+        //StyleBook.Button.wideInsets.apply(to: button)
         button.backgroundColor = button.tintColor
+        button.setTitle(L10n.Comments.count(0), for: .normal)
         return button
     }()
 
@@ -136,6 +127,7 @@ final class DealContentView: UIView {
     }
 
     private func setupConstraints() {
+        // TODO: if not using button insets, make button some multiplier of view width
         let buttonWidth: CGFloat = 200.0
         NSLayoutConstraint.activate([
             // titleLabel
@@ -149,6 +141,7 @@ final class DealContentView: UIView {
             // forumButton
             forumButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             forumButton.topAnchor.constraint(equalTo: featuresText.bottomAnchor, constant: AppTheme.spacing * 2.0),
+            // TODO: replace with setting button insets
             forumButton.widthAnchor.constraint(equalToConstant: buttonWidth),
             // specsText
             specsText.leadingAnchor.constraint(equalTo: readableContentGuide.leadingAnchor),

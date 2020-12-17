@@ -8,10 +8,14 @@
 
 import UIKit
 
+// sourcery: lens
 struct AppTheme: Equatable {
 
-    enum CornerRadius: CGFloat {
-        case small = 5.0
+    enum CornerRadius {
+        /// An extra small corner radius.
+        static var extraSmall: CGFloat = 5.0
+        /// A small corner radius.
+        static var small: CGFloat = 8.0
     }
 
     // Basic Layout
@@ -19,15 +23,24 @@ struct AppTheme: Equatable {
     static let sideMargin: CGFloat = 16.0
     static let widthInset: CGFloat = -32.0
 
+    // UIPageControl
+    //static let inactivePageIndicatorAlpha: CGFloat = 0.3
+
     // Meh
     let baseTheme: ColorTheme
     let dealTheme: ColorTheme?
+    // FIXME: this now represents `UIUserInterfaceStyle` more than `ThemeForeground`
     let foreground: ThemeForeground?
 }
 
 // MARK: - Initializers
 extension AppTheme {
 
+    init(interfaceStyle: UIUserInterfaceStyle) {
+        self.baseTheme = ColorTheme.system
+        self.dealTheme = nil
+        self.foreground = ThemeForeground(userInterfaceStyle: interfaceStyle)
+    }
 }
 
 // MARK: - Default

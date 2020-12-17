@@ -11,8 +11,3 @@
 enum AppGroupID: String {
     case currentDeal = "group.mgacy.com.currentDeal"
 }
-
-struct NotificationConstants {
-    static let dealKey = "adequate-deal-url"
-    static let imageKey = "adequate-image-url"
-}

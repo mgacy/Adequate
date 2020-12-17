@@ -63,7 +63,7 @@ extension ViewState: Equatable where Element: Equatable {
     }
 }
 
-protocol ViewStateRenderable: class {
+protocol ViewStateRenderable: AnyObject {
     associatedtype ResultType
     func render(_: ViewState<ResultType>)
 }

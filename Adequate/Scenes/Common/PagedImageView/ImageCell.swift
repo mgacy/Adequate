@@ -11,17 +11,17 @@ import Promise
 
 // MARK: - Delegate
 
-protocol ImageCellDelegate: class {
+protocol ImageCellDelegate: AnyObject {
     func retry(imageURL: URL) -> Promise<UIImage>
 }
 
 // MARK: - Cell
 
-final class ImageCell: UICollectionViewCell {
+final class ImageCell: UICollectionViewCell, FetchingCellConfigurable {
 
     // MARK: - A
     weak var delegate: ImageCellDelegate?
-    var imageURL: URL!
+    var modelID: URL?
     private var invalidatableQueue = InvalidatableQueue()
     private(set) var viewState: ViewState<UIImage> {
         didSet {
@@ -65,14 +65,18 @@ final class ImageCell: UICollectionViewCell {
         invalidatableQueue.invalidate()
         invalidatableQueue = InvalidatableQueue()
         viewState = .empty
+        modelID = nil
     }
 
     override func layoutSubviews() {
-        // TODO: do we need to call super?
         super.layoutSubviews()
         imageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         stateView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
     }
+
+    //deinit {
+    //    invalidatableQueue.invalidate()
+    //}
 
     // MARK: - Configuration
 
@@ -84,12 +88,11 @@ final class ImageCell: UICollectionViewCell {
     // MARK: - Actions
 
     private func didPressRetry() {
-        // FIXME: this doesn't look right
-        guard delegate != nil else {
+        guard let delegate = delegate, let imageURL = modelID else {
             return
         }
         viewState = .loading
-        delegate?.retry(imageURL: imageURL)
+        delegate.retry(imageURL: imageURL)
             .then(on: invalidatableQueue, { [weak self] image in
                 self?.viewState = .result(image)
             }).catch({ [weak self] error in
@@ -97,20 +100,23 @@ final class ImageCell: UICollectionViewCell {
                 self?.viewState = .error(error)
             })
     }
+}
 
-    // MARK: - Configuration
-
-    func configure(with image: UIImage) {
-        viewState = .result(image)
-    }
+// MARK: - CellConfigurable
+extension ImageCell: CellConfigurable {
 
     func configure(with promise: Promise<UIImage>) {
         if let imageValue = promise.value {
             viewState = .result(imageValue)
             return
+        } else if let error = promise.error {
+            log.warning("IMAGE ERROR: \(error)")
+            viewState = .error(error)
+            return
         }
         viewState = .loading
         promise.then(on: invalidatableQueue, { [weak self] image in
+            // TODO: ideally, we would want to compare URL of fetched resource to modelID
             self?.viewState = .result(image)
         }).catch({ [weak self] error in
             log.warning("IMAGE ERROR: \(error)")

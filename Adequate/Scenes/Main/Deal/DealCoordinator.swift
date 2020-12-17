@@ -11,7 +11,7 @@ import SafariServices
 import Promise
 
 final class DealCoordinator: Coordinator {
-    typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
+    typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager & AppUsageCounterProvider
 
     private let dependencies: Dependencies
 
@@ -51,10 +51,12 @@ final class DealCoordinator: Coordinator {
             let dealViewController = DealViewController(dependencies: dependencies)
             dealViewController.delegate = self
             router.setRootModule(dealViewController, hideBar: false)
-        case .pad:
-            let dealViewController = PadDealViewController(dependencies: dependencies)
+        case .pad, .carPlay:
+            let dealViewController = DealViewController(dependencies: dependencies)
             dealViewController.delegate = self
-            router.setRootModule(dealViewController, hideBar: false)
+            let splitViewController = SplitViewController(primaryChild: dealViewController)
+            splitViewController.rotationManager = dealViewController
+            router.setRootModule(splitViewController, hideBar: false)
         default:
             fatalError("Invalid device")
         }
@@ -67,20 +69,33 @@ final class DealCoordinator: Coordinator {
             return
         }
         router.dismissModule(animated: false, completion: nil)
-        // TODO: make coordinator responsible for showing share sheet?
         dealViewController.shareDeal(title: title, url: url)
     }
 
-    private func showWebPage(with url: URL, animated: Bool) {
+    private func showWebPage(with url: URL, animated: Bool, completion: (() -> Void)? = nil) {
         router.dismissModule(animated: false, completion: nil)
         let configuration = SFSafariViewController.Configuration()
         configuration.barCollapsingEnabled = false
 
         let viewController = SFSafariViewController(url: url, configuration: configuration)
-        router.present(viewController, animated: animated)
+        router.present(viewController, animated: animated, completion: completion)
     }
 
+    private func openURL(_ url: URL, completion: ((Bool) -> Void)? = nil) {
+        UIApplication.shared.open(url, completionHandler: completion)
+    }
+
+    private func showActivityViewController(_ activityViewController: UIActivityViewController) {
+        router.present(activityViewController, animated: true) { [weak self] in
+            if let counter = self?.dependencies.makeAppUsageCounter() {
+                counter.userDid(perform: .shareDeal)
+            }
+        }
+    }
 }
+
+// MARK: - FullScreenImagePresenting
+extension DealCoordinator: FullScreenImagePresenting {}
 
 // MARK: - DealViewControllerDelegate
 extension DealCoordinator: DealViewControllerDelegate {
@@ -99,21 +114,30 @@ extension DealCoordinator: DealViewControllerDelegate {
         showWebPage(with: topic.url, animated: true)
     }
 
-    func showImage(animatingFrom pagedImageView: PagedImageView) {
-        let viewController = FullScreenImageViewController(imageSource: pagedImageView.visibleImage)
-        viewController.delegate = self
-        viewController.setupTransitionController(animatingFrom: pagedImageView)
-        router.present(viewController, animated: true)
-    }
-
     func showPurchase(for deal: Deal) {
         let dealURL = deal.url.appendingPathComponent("checkout")
         // TODO: pass to PurchaseManager
         // show web page / open Safari
-        // increment purchase count in user defaults
-        showWebPage(with: dealURL, animated: true)
+        showWebPage(with: dealURL, animated: true) { [weak self] in
+            if let counter = self?.dependencies.makeAppUsageCounter() {
+                counter.userDid(perform: .pressBuy)
+            }
+        }
     }
 
+    func showShareSheet(activityItems: [Any], from sourceView: UIView) {
+        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = sourceView
+        //activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+        showActivityViewController(activityViewController)
+    }
+
+    func showShareSheet(activityItems: [Any], from barButtonItem: UIBarButtonItem) {
+        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.barButtonItem = barButtonItem
+        //activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+        showActivityViewController(activityViewController)
+    }
 }
 
 // MARK: - FullScreenImageDelegate

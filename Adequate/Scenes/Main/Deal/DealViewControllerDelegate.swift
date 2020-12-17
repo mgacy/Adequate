@@ -6,12 +6,13 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-protocol DealViewControllerDelegate: class {
-    func showImage(animatingFrom: PagedImageView)
+protocol DealViewControllerDelegate: AnyObject, FullScreenImagePresenting {
     func showPurchase(for: Deal)
     func showForum(with: Topic)
+    func showShareSheet(activityItems: [Any], from sourceView: UIView)
+    func showShareSheet(activityItems: [Any], from barButtonItem: UIBarButtonItem)
     func showHistoryList()
     func showStory()
 }

@@ -9,9 +9,11 @@
 import Foundation
 
 struct PriceComparison: Equatable {
-    let price: String
+    let price: String // FIXME: shouldn't this really be a Double?
+    //let quantity: Int? // FIXME: should this be optional, or should the default value simply be 1?
+    //let description: String?
     let store: String
-    let url: URL
+    let url: URL?
 
     // TODO: add failable init accepting `specifications: String`?
 

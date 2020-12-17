@@ -8,9 +8,9 @@
 
 import UIKit
 
-public struct Appearance {
+public enum Appearance {
 
-    static var stylesheet = """
+    static let stylesheet = """
     * { font: -apple-system-body; }
     h1, h2, h3, h4, h5, h6, strong { font-weight: bold; }
     em { font-style: italic; }
@@ -20,6 +20,4 @@ public struct Appearance {
     h4 { font-size: 115%; }
     h5 { font-style: italic; }
     """
-
-    private init() {}
 }

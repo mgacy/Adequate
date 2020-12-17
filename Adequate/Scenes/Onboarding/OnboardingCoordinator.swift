@@ -8,20 +8,29 @@
 
 import UIKit
 
-final class OnboardingCoordinator: BaseCoordinator {
-    typealias CoordinationResult = Void
-    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
+// MARK: - ResultType
+enum OnboardingResult {
+    /// User opted to allow notifications and provided authorization.
+    case allowNotifications(NotificationManagerType)
+    // TODO: User tapped "OK" but then denied authorization to show notifications.?
+    //case disallowNotifications
+    /// User opted not to allow notifications.
+    case noNotifications
+    // TODO: User opted to allow notifications but aurhorization failed an error.?
+    //case authRequestError(Error)
+}
+
+// MARK: - Coordinator
+final class OnboardingCoordinator: FinishableCoordinator<OnboardingResult> {
+    typealias Dependencies = HasUserDefaultsManager & NotificationManagerProvider
 
     private let window: UIWindow
     private let dependencies: Dependencies
-    private let router: RouterType
-
-    var onFinishFlow: ((CoordinationResult) -> Void)?
 
     init(window: UIWindow, dependencies: Dependencies) {
         self.window = window
         self.dependencies = dependencies
-        self.router = Router(navigationController: UINavigationController())
+        super.init(router: Router())
     }
 
     override func start(with deepLink: DeepLink?) {
@@ -47,16 +56,5 @@ final class OnboardingCoordinator: BaseCoordinator {
 
 }
 
-// MARK: - Presentable
-extension OnboardingCoordinator: Presentable {
-    func toPresent() -> UIViewController {
-        return router.toPresent()
-    }
-}
-
-// MARK: - VoidDismissalDelegate
-extension OnboardingCoordinator: VoidDismissalDelegate {
-    func dismiss() {
-        onFinishFlow?(())
-    }
-}
+// MARK: - OnboardingDismissalDelegate
+extension OnboardingCoordinator: OnboardingDismissalDelegate {}

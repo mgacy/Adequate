@@ -10,7 +10,7 @@ import Foundation
 
 extension CurrentDeal {
     init?(deal: Deal) {
-        self.id = deal.id
+        self.id = deal.dealID
         self.title = deal.title
 
         guard let imageURL = deal.photos.first?.secure() else {
@@ -25,5 +25,10 @@ extension CurrentDeal {
         }
         self.minPrice = minPrice
         self.maxPrice = minPrice != maxPrice ? maxPrice : nil
+        if let statusString = deal.launchStatus?.rawValue {
+            self.launchStatus = LaunchStatus(rawValue: statusString)
+        } else {
+            self.launchStatus = nil
+        }
     }
 }

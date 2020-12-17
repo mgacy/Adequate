@@ -31,27 +31,41 @@ class Logger: LoggingType {
     private static var loggerLoaded = false
 
     private static func setupLogger() {
-        let console = ConsoleDestination()
+        let logLevel = SwiftyBeaver.Level(rawValue: Configuration.logLevel) ?? .verbose
+
         let file = FileDestination()
+        file.minLevel = logLevel
+        file.format = "$Dyyyy-MM-dd HH:mm:ss.SSS$d $C$L$c $N.$F:$l - $M"
+        // 2020-09-30 17:15:00.256 💚 DEBUG AppDelegate.application():22 - application(_:didFinishLaunchingWithOptions:) - nil
 
-        // use custom format and set console output to short time, log level & message
-        //console.format = "$DHH:mm:ss$d $L $M"
-        // or use this for JSON output: console.format = "$J"
+        SwiftyBeaver.addDestination(file)
 
-        // Filters
-
+        // Don't add `SBPlatformDestination` in simulator
         #if !(arch(i386) || arch(x86_64)) && os(iOS)
-        let platform = SBPlatformDestination(appID: AppSecrets.loggerAppID,
-                                             appSecret: AppSecrets.loggerAppSecret,
-                                             encryptionKey: AppSecrets.loggerEncryptionKey)
-        //platform.analyticsUserName = "userName"
-        // TODO: try to get minLevel from defaults (so user can set verbose logging)
-        platform.minLevel = .verbose
-        SwiftyBeaver.addDestination(platform)
+        switch Configuration.environment {
+        case .development:
+            let console = ConsoleDestination()
+            SwiftyBeaver.addDestination(console)
+
+            let platform = SBPlatformDestination(appID: AppSecrets.loggerAppID,
+                                                 appSecret: AppSecrets.loggerAppSecret,
+                                                 encryptionKey: AppSecrets.loggerEncryptionKey)
+            platform.minLevel = logLevel
+            SwiftyBeaver.addDestination(platform)
+        case .staging:
+            let platform = SBPlatformDestination(appID: AppSecrets.loggerAppID,
+                                                 appSecret: AppSecrets.loggerAppSecret,
+                                                 encryptionKey: AppSecrets.loggerEncryptionKey)
+            platform.minLevel = logLevel
+            SwiftyBeaver.addDestination(platform)
+        default:
+            break
+        }
+        #else
+        let console = ConsoleDestination()
+        SwiftyBeaver.addDestination(console)
         #endif
 
-        SwiftyBeaver.addDestination(console)
-        SwiftyBeaver.addDestination(file)
         loggerLoaded = true
     }
 

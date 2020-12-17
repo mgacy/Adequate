@@ -6,6 +6,6 @@
 //  Copyright © 2018 Mathew Gacy. All rights reserved.
 //
 
-protocol FullScreenImageDelegate: class {
+protocol FullScreenImageDelegate: AnyObject {
     func dismissFullScreenImage()
 }

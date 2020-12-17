@@ -1,39 +1,50 @@
 PODS:
-  - AWSAppSync (2.15.0):
-    - AWSCore (~> 2.12.0)
-    - ReachabilitySwift (~> 4.3.1)
+  - AppSyncRealTimeClient (1.4.2):
+    - Starscream (~> 3.1.0)
+  - AWSAppSync (3.1.12):
+    - AppSyncRealTimeClient (~> 1.4)
+    - AWSCore (~> 2.20.0)
+    - ReachabilitySwift (~> 5.0.0)
     - SQLite.swift (~> 0.12.2)
-  - AWSAuthCore (2.12.1):
-    - AWSCore (= 2.12.1)
-  - AWSCognitoIdentityProvider (2.12.1):
-    - AWSCognitoIdentityProviderASF (= 1.0.1)
-    - AWSCore (= 2.12.1)
-  - AWSCognitoIdentityProviderASF (1.0.1)
-  - AWSCore (2.12.1)
-  - AWSMobileClient (2.12.1):
-    - AWSAuthCore (= 2.12.1)
-    - AWSCognitoIdentityProvider (= 2.12.1)
-  - AWSSNS (2.12.1):
-    - AWSCore (= 2.12.1)
-  - Down (0.9.0)
+  - AWSAuthCore (2.20.0):
+    - AWSCore (= 2.20.0)
+  - AWSCognitoIdentityProvider (2.20.0):
+    - AWSCognitoIdentityProviderASF (= 2.20.0)
+    - AWSCore (= 2.20.0)
+  - AWSCognitoIdentityProviderASF (2.20.0)
+  - AWSCore (2.20.0)
+  - AWSMobileClient (2.20.0):
+    - AWSAuthCore (= 2.20.0)
+    - AWSCognitoIdentityProvider (= 2.20.0)
+    - AWSCognitoIdentityProviderASF (= 2.20.0)
+    - AWSCore (= 2.20.0)
+  - AWSSNS (2.20.0):
+    - AWSCore (= 2.20.0)
+  - Down (0.9.4)
   - Promises (2.0.4)
-  - ReachabilitySwift (4.3.1)
+  - ReachabilitySwift (5.0.0)
+  - SnapshotTesting (1.8.2)
   - SQLite.swift (0.12.2):
     - SQLite.swift/standard (= 0.12.2)
   - SQLite.swift/standard (0.12.2)
-  - SwiftyBeaver (1.8.3)
+  - Starscream (3.1.1)
+  - Swifter (1.5.0)
+  - SwiftyBeaver (1.9.3)
 
 DEPENDENCIES:
   - AWSAppSync
   - AWSCore
   - AWSMobileClient
   - AWSSNS
-  - Down (from `https://github.com/mgacy/Down.git`, branch `hotfix/public-initializers`)
+  - Down
   - Promises
+  - SnapshotTesting (~> 1.8.2)
+  - Swifter (~> 1.5.0)
   - SwiftyBeaver
 
 SPEC REPOS:
   trunk:
+    - AppSyncRealTimeClient
     - AWSAppSync
     - AWSAuthCore
     - AWSCognitoIdentityProvider
@@ -41,35 +52,33 @@ SPEC REPOS:
     - AWSCore
     - AWSMobileClient
     - AWSSNS
+    - Down
     - Promises
     - ReachabilitySwift
+    - SnapshotTesting
     - SQLite.swift
+    - Starscream
+    - Swifter
     - SwiftyBeaver
 
-EXTERNAL SOURCES:
-  Down:
-    :branch: hotfix/public-initializers
-    :git: https://github.com/mgacy/Down.git
-
-CHECKOUT OPTIONS:
-  Down:
-    :commit: 3bccd0573ec065a1a846e54401e297ca8c789126
-    :git: https://github.com/mgacy/Down.git
-
 SPEC CHECKSUMS:
-  AWSAppSync: 38d681c93c2909e7fb8d4e1d1f0e816684f9f64f
-  AWSAuthCore: fa908a4df2feb3c978dfabb9a0927dffc69b112d
-  AWSCognitoIdentityProvider: 4b453fa8ae677dd9646fe5cb137b520105f33d08
-  AWSCognitoIdentityProviderASF: f94f1a502e72ef3d0a1de93e10bf7a79c8698118
-  AWSCore: 0a4431f74d9dbf084d420b887a6a21042b423c5c
-  AWSMobileClient: b178cd21ba500030e727c6afcc00dda438b1fecd
-  AWSSNS: 4deb2335662fe860216c0b95ba2e8f907eb27f48
-  Down: 1cdbca4963b542d0ef34ebb3e10ff48382bdf761
+  AppSyncRealTimeClient: 7fb160294d067b6c0c4b3c4ab91e953fd4cfba30
+  AWSAppSync: fa18a26cef8ff5d8e56d88dc937e9e2668b59e38
+  AWSAuthCore: 6a5f0fdbbd65d917deab61e2f5035afecafaa687
+  AWSCognitoIdentityProvider: f9031fc36af73a1e6a3c7476cbd536c1d4f7591c
+  AWSCognitoIdentityProviderASF: c126563dd240709a5acf2c15910ea4c872c65df3
+  AWSCore: e8748f1d2e97874ff5638fe7c3c31431ad223b4a
+  AWSMobileClient: f98f4d3eb4d0f893a128b5546a31fd2cbc88e2ef
+  AWSSNS: 342f6c4c158b300234d9438b540e3e56a0748f97
+  Down: 276f2c3eeeaf30345873bdad25f44b2640fcfa3a
   Promises: fcb83dc6be43294a8d30c343636ed1a45a8d2e0a
-  ReachabilitySwift: 4032e2f59586e11e3b0ebe15b167abdd587a388b
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  SnapshotTesting: 38947050d13960d57a4a9c166fcf51bca7d56970
   SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
-  SwiftyBeaver: 3d3e93a12d648bd400b6f2948a7ef128b5b183c7
+  Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
+  Swifter: e71dd674404923d7f03ebb03f3f222d1c570bc8e
+  SwiftyBeaver: 2e8acd6fc90c6d0a27055867a290794926d57c02
 
-PODFILE CHECKSUM: 089da915f9f5c4f08fd0532d7054049cde8db30d
+PODFILE CHECKSUM: 569bfeb0e1e0486c387ad92acf71b3618b04e793
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.10.0

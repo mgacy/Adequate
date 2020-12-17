@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Delegate Protocol
 
-protocol AboutViewControllerDelegate: class {
+protocol AboutViewControllerDelegate: AnyObject {
     func showAcknowledgements()
     func showPrivacyPolicy()
 }
@@ -49,7 +49,7 @@ final class AboutViewController: UITableViewController {
 
     init() {
         //self.themeManager = dependencies.themeManager
-        super.init(style: .grouped)
+        super.init(style: .insetGrouped)
     }
 
     required init?(coder aDecoder: NSCoder) {

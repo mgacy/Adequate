@@ -11,10 +11,11 @@ import Promise
 
 // MARK: - Protocol
 
-protocol PagedImageViewDataSourceType: UICollectionViewDataSource, Themeable {
-    func updateImages(with urls: [URL])
-    func imageSource(for indexPath: IndexPath) -> Promise<UIImage>
-}
+ protocol PagedImageViewDataSourceType: Themeable {
+     func addDataSource(toCollectionView: UICollectionView)
+     func update(with: [URL], animatingDifferences: Bool, completion: (() -> Void)?)
+     func imageSource(for indexPath: IndexPath) -> Promise<UIImage>
+ }
 
 // MARK: - Implementation
 
@@ -23,9 +24,15 @@ final class PagedImageViewDataSource: NSObject, PagedImageViewDataSourceType {
     private let imageService: ImageServiceType
 
     private var theme: ColorTheme?
-    private var urls: [URL] = [URL]()
+    // TODO: should we just initialize with UICollectionView and make this implicitly unwrapped?
+    private var dataSource: UICollectionViewDiffableDataSource<SingleSection, URL>?
 
     // MARK: - Lifecycle
+
+    convenience init(imageService: ImageServiceType, collectionView: UICollectionView) {
+        self.init(imageService: imageService)
+        addDataSource(toCollectionView: collectionView)
+    }
 
     init(imageService: ImageServiceType) {
         self.imageService = imageService
@@ -33,46 +40,58 @@ final class PagedImageViewDataSource: NSObject, PagedImageViewDataSourceType {
 
     // MARK: - PagedImageViewDataSourceType
 
-    func updateImages(with urls: [URL]) {
-        self.urls = urls
+    func update(with new: [URL], animatingDifferences: Bool = true, completion: (() -> Void)? = nil) {
+        let snapshot = SingleSection.makeSnapshot(for: new)
+        dataSource?.apply(snapshot, animatingDifferences: animatingDifferences, completion: completion)
     }
 
     func imageSource(for indexPath: IndexPath) -> Promise<UIImage> {
-        let imageURL = urls[indexPath.row]
-        let imageSource: Promise<UIImage>
-        if let cachedImage = imageService.fetchedImage(for: imageURL, tryingSecondary: indexPath.row == 0) {
-            imageSource = Promise<UIImage>(value: cachedImage)
-        } else {
-            imageSource = imageService.fetchImage(for: imageURL)
+        guard let imageURL = dataSource?.itemIdentifier(for: indexPath) else {
+            // FIXME: use better error; add error type for data source?
+            let error = NetworkClientError.myError(message: "Missing URLs")
+            return Promise<UIImage>(error: error)
         }
-        return imageSource
+        if let cachedImage = imageService.fetchedImage(for: imageURL, tryingSecondary: indexPath.row == 0) {
+            return Promise<UIImage>(value: cachedImage)
+        } else {
+            return imageService.fetchImage(for: imageURL)
+        }
     }
 }
 
-// MARK: - UICollectionViewDataSource
-extension PagedImageViewDataSource: UICollectionViewDataSource {
+// MARK: - Configuration
+extension PagedImageViewDataSource {
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return urls.count
+    func addDataSource(toCollectionView collectionView: UICollectionView) {
+        self.dataSource = makeDataSource(for: collectionView)
+        collectionView.dataSource = dataSource
+        dataSource?.apply(SingleSection.makeSnapshot(for: [URL]()),
+                          animatingDifferences: false)
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: ImageCell = collectionView.dequeueReusableCell(for: indexPath)
-        let imageURL = urls[indexPath.row]
+    func makeDataSource(
+        for collectionView: UICollectionView
+    ) -> UICollectionViewDiffableDataSource<SingleSection, URL> {
+        return UICollectionViewDiffableDataSource(
+            collectionView: collectionView,
+            cellProvider: { [weak self] collectionView, indexPath, imageURL in
+                let cell: ImageCell = collectionView.dequeueReusableCell(for: indexPath)
+                cell.modelID = imageURL
+                cell.delegate = self
 
-        cell.imageURL = imageURL
-        // TODO: have cell observe data source for theme changes?
-        if let theme = theme {
-            cell.apply(theme: theme)
-        }
-        cell.delegate = self
+                // TODO: have cell observe data source for theme changes?
+                if let theme = self?.theme {
+                    cell.apply(theme: theme)
+                }
 
-        if let cachedImage = imageService.fetchedImage(for: imageURL, tryingSecondary: indexPath.row == 0) {
-            cell.configure(with: Promise<UIImage>(value: cachedImage))
-        } else {
-            cell.configure(with: imageService.fetchImage(for: imageURL))
-        }
-        return cell
+                if let cachedImage = self?.imageService.fetchedImage(for: imageURL, tryingSecondary: indexPath.row == 0) {
+                    cell.configure(with: Promise<UIImage>(value: cachedImage))
+                } else if let imageService = self?.imageService {
+                    cell.configure(with: imageService.fetchImage(for: imageURL))
+                }
+
+                return cell
+            })
     }
 }
 

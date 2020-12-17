@@ -10,24 +10,20 @@ import UIKit
 import SafariServices
 import Promise
 
-final class HistoryDetailCoordinator: BaseCoordinator {
-    typealias CoordinationResult = Void
+final class HistoryDetailCoordinator: FinishableCoordinator<Void> {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
-    typealias Deal = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias Deal = DealHistoryQuery.Data.DealHistory.Item
     typealias Topic = GetDealQuery.Data.GetDeal.Topic
 
-    private let router: RouterType
     private let dependencies: Dependencies
     private let deal: Deal
-
-    var onFinishFlow: ((CoordinationResult) -> Void)? = nil
 
     // MARK: - Lifecycle
 
     init(router: RouterType, dependencies: Dependencies, deal: Deal) {
-        self.router = router
         self.dependencies = dependencies
         self.deal = deal
+        super.init(router: router)
     }
 
     override func start(with deepLink: DeepLink?) {
@@ -55,21 +51,14 @@ final class HistoryDetailCoordinator: BaseCoordinator {
             viewController.delegate = self
             router.setRootModule(viewController, hideBar: false)
 
-            if #available(iOS 13, *) {
-                router.toPresent().presentationController?.delegate = self
-            } else {
-                viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
-            } 
-        case .pad:
-            let viewController = PadHistoryDetailViewController(dependencies: dependencies, deal: deal)
+            router.toPresent().presentationController?.delegate = self
+        case .pad, .carPlay:
+            let viewController = HistoryDetailViewController(dependencies: dependencies, deal: deal)
             viewController.delegate = self
-            router.setRootModule(viewController, hideBar: false)
-
-            if #available(iOS 13, *) {
-                router.toPresent().presentationController?.delegate = self
-            } else {
-                viewController.attachTransitionController() { [weak self] in self?.onFinishFlow?(()) }
-            }
+            let splitViewController = SplitViewController(primaryChild: viewController)
+            splitViewController.rotationManager = viewController
+            router.setRootModule(splitViewController, hideBar: false)
+            router.toPresent().presentationController?.delegate = self
         default:
             fatalError("Invalid device")
         }
@@ -85,20 +74,6 @@ final class HistoryDetailCoordinator: BaseCoordinator {
 
 }
 
-// MARK: - Presentable
-extension HistoryDetailCoordinator: Presentable {
-    func toPresent() -> UIViewController {
-        return router.toPresent()
-    }
-}
-
-// MARK: - VoidDismissalDelegate
-extension HistoryDetailCoordinator: VoidDismissalDelegate {
-    func dismiss() {
-        onFinishFlow?(())
-    }
-}
-
 // MARK: - UIAdaptivePresentationControllerDelegate
 extension HistoryDetailCoordinator: UIAdaptivePresentationControllerDelegate {
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
@@ -106,16 +81,13 @@ extension HistoryDetailCoordinator: UIAdaptivePresentationControllerDelegate {
     }
 }
 
+// MARK: - FullScreenImagePresenting
+extension HistoryDetailCoordinator: FullScreenImagePresenting {}
+
 // MARK: - HistoryDetailViewControllerDelegate
 extension HistoryDetailCoordinator: HistoryDetailViewControllerDelegate {
-    func showImage(animatingFrom pagedImageView: PagedImageView) {
-        let viewController = FullScreenImageViewController(imageSource: pagedImageView.visibleImage)
-        viewController.delegate = self
-        viewController.setupTransitionController(animatingFrom: pagedImageView)
-        router.present(viewController, animated: true)
-    }
 
-    func showForum(with topic: Topic) {
+    func showForum(with topic: TopicType) {
         guard let topicURL = URL(string: topic.url) else {
             return
         }
@@ -129,10 +101,3 @@ extension HistoryDetailCoordinator: FullScreenImageDelegate {
         router.dismissModule(animated: true, completion: nil)
     }
 }
-
-//// MARK: - SettingsViewControllerDelegate
-//extension HistoryDetailCoordinator: SettingsViewControllerDelegate {
-//    func dismiss(_ result: CoordinationResult) {
-//        onFinishFlow?(result)
-//    }
-//}

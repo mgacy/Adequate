@@ -8,10 +8,10 @@
 
 import AWSAppSync
 import AWSMobileClient
-import class Promise.Promise // import class to avoid name collision with AWSAppSync.Promise
+import class Promise.Promise // avoid name collision with AWSAppSync.Promise
 
 class MehSyncClient: MehSyncClientType {
-    typealias DealHistory = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias DealHistory = DealHistoryQuery.Data.DealHistory
 
     private var appSyncClient: AWSAppSyncClient?
 
@@ -46,22 +46,42 @@ class MehSyncClient: MehSyncClientType {
         appSyncClient.apolloClient?.cacheKeyForObject = { $0[Constants.cacheKey] }
     }
 
-    // MARK: - Fetch
+    // MARK: - Fetch (Cancellable)
 
-    func fetchCurrentDeal(cachePolicy: CachePolicy) -> Promise<GetDealQuery.Data> {
+    func fetchCurrentDeal(cachePolicy: CachePolicy,
+                          queue: DispatchQueue = DispatchQueue.main,
+                          resultHandler: @escaping OperationResultHandler<Deal?>
+    ) -> Cancellable {
         let query = GetDealQuery(id: Constants.currentDealID)
-        return fetch(query: query, cachePolicy: cachePolicy)
+        return fetch(query: query, cachePolicy: cachePolicy) { result in
+            let dealResult = result.map({ envelope -> DataEnvelope<Deal?> in
+                envelope.map({ Deal($0) })
+            })
+            resultHandler(dealResult)
+        }
     }
+
+    func fetch<Query: ResultSelectableQuery>(query: Query,
+                                             cachePolicy: CachePolicy,
+                                             queue: DispatchQueue = .main,
+                                             resultHandler: @escaping OperationResultHandler<Query.Data.ResultType?>
+    ) -> Cancellable {
+        guard let client = appSyncClient else {
+            resultHandler(.failure(SyncClientError.missingClient))
+            return EmptyCancellable()
+        }
+        return client.fetch(query: query, cachePolicy: cachePolicy, queue: queue, resultHandler: resultHandler)
+    }
+
+    // MARK: - Fetch (Promise)
 
     func fetchDeal(withID id: GraphQLID, cachePolicy: CachePolicy = .fetchIgnoringCacheData) -> Promise<GetDealQuery.Data> {
         let query = GetDealQuery(id: id)
         return fetch(query: query, cachePolicy: cachePolicy)
     }
 
-    func fetchDealHistory(from startDate: Date, to endDate: Date, cachePolicy: CachePolicy) -> Promise<ListDealsForPeriodQuery.Data> {
-        let startDateString = DateFormatter.yyyyMMddEST.string(from: startDate)
-        let endDateString = DateFormatter.yyyyMMddEST.string(from: endDate)
-        let query = ListDealsForPeriodQuery(startDate: startDateString, endDate: endDateString)
+    func fetchDealHistory(limit: Int, nextToken: String?, cachePolicy: CachePolicy) -> Promise<DealHistoryQuery.Data> {
+        let query = DealHistoryQuery(filter: nil, limit: 60, nextToken: nil)
         return fetch(query: query, cachePolicy: cachePolicy)
     }
 
@@ -75,92 +95,58 @@ class MehSyncClient: MehSyncClientType {
 
     // MARK: - Watch
 
-    // Specify `Swift.Result` to avoid interference with `AWSAppSync.Result`
-    typealias DealResultHandler = (Swift.Result<Deal, SyncClientError>) -> Void
-
-    func watchCurrentDeal(cachePolicy: CachePolicy = .returnCacheDataAndFetch, queue: DispatchQueue = .main, resultHandler: @escaping DealResultHandler) throws -> GraphQLQueryWatcher<GetDealQuery> {
+    func watchCurrentDeal(cachePolicy: CachePolicy = .returnCacheDataAndFetch,
+                          queue: DispatchQueue = .main,
+                          resultHandler: @escaping OperationResultHandler<Deal?>
+    ) throws -> GraphQLQueryWatcher<GetDealQuery> {
         guard let appSyncClient = appSyncClient else {
             throw SyncClientError.missingClient
         }
 
         let query = GetDealQuery(id: Constants.currentDealID)
-        return appSyncClient.watch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
-            if let appSyncError = error as? AWSAppSyncClientError {
-                /*
-                // TODO: handle different AWSAppSyncClientError
-                // https://techlife.cookpad.com/entry/2019/06/14/160000
-                // For `.requestFailed`, the Cocoa error can be extracted and `.localizedDescription` shown to the user.
-                // Other cases probably aren't that useful. `AWSAppSyncClientError` conforms to `LocalizedError`,
-                // but the error messages are English only and usually add various codes that would probably be unideal
-                // to show users.
-                 */
-                switch appSyncError {
-                case .requestFailed(_, _, let error):
-                    // TODO: look at response / data
-                    log.error("\(#function) - AWSAppSyncClientError.appSyncError: \(error?.localizedDescription ?? "No Error") ")
-                case .noData(let response):
-                    log.error("\(#function) - AWSAppSyncClientError.noData: \(response) ")
-                case .parseError(_, _, let error):
-                    log.error("\(#function) - AWSAppSyncClientError.parseError: \(error?.localizedDescription ?? "No Error") ")
-                case .authenticationError(let error):
-                    log.error("\(#function) - AWSAppSyncClientError.authenticationError: \(error.localizedDescription) ")
-                }
-                resultHandler(.failure(SyncClientError.network(error: appSyncError)))
-            } else if let unknownError = error {
-                resultHandler(.failure(SyncClientError.unknown(error: unknownError)))
-            } else if let result = result, let data = result.data {
-                // According to the GraphQL spec, result can contain both data and a non-empty list of (untyped) errors
-                if let graphQLErrors = result.errors, !graphQLErrors.isEmpty {
-                    log.error("\(#function) - fetch returned data and errors: \(graphQLErrors.map { $0.localizedDescription })")
-                }
-
-                guard let deal = Deal(data.getDeal) else {
-                    return resultHandler(.failure(SyncClientError.missingData(data: data)))
-                }
-                resultHandler(.success(deal))
-            } else {
-                resultHandler(.failure(SyncClientError.myError(message: "Something has gone horribly wrong.")))
-            }
+        return appSyncClient.watch(query: query, cachePolicy: cachePolicy, queue: queue) { result in
+            let dealResult = result.map({ envelope -> DataEnvelope<Deal?> in
+                envelope.map({ Deal($0) })
+            })
+            resultHandler(dealResult)
         }
     }
 
     // TODO: add private watch<T: GraphQLQuery>(query:cachePolicy:queue:resultHandler:) -> GraphQLQueryWatcher<T> method?
-    // TODO: how would we handle the type of the result?
+    // TODO: would we need to handle the type of the result using type erasure?
 
     // MARK: - Cache
 
-    // TODO: simply return Promise?
-    func updateCache(for deal: Deal, delta: DealDelta) throws {
-        // TODO: improve handling / reporting of cases below
-        guard let client = appSyncClient, let store = client.store else {
-            log.error("Unable to get store")
-            return
-            // FIXME: throw error (what type?)
+    func updateCache(for deal: Deal, dealDelta delta: DealDelta) -> Promise<Void> {
+        guard deal.dealID == delta.dealID else {
+            // TODO: is this the most appropriate error to throw?
+            return Promise(error: DealDelta.DeltaApplicationError.invalidID)
         }
-        // TODO: throw error and make caller handler it
-        if case .newDeal = delta {
-            log.error("Unable to update cache for \(delta)")
-            return
-            // FIXME: throw error (what type?)
+        guard let client = appSyncClient, let store = client.store else {
+            // FIXME: this could (maybe?) be inaccurate since the problem might be a missing store
+            return Promise<Void>(error: SyncClientError.missingClient)
         }
 
-        // NOTE: this uses AWSAppSync.Promise (from Apollo)
-        store.withinReadWriteTransaction { transaction in
-            let query = GetDealQuery(id: deal.id)
-            try transaction.update(query: query) { (data: inout GetDealQuery.Data) in
-                switch delta {
-                case .commentCount(let newCount):
-                    data.getDeal?.topic?.commentCount = newCount
-                case .launchStatus(let newStatus):
-                    data.getDeal?.launchStatus = newStatus
-                default:
-                    break
+        // Wrapping Apollo.Promise in Promise is ugly, but we don't have access to `ApolloStore.queue` and thus can't
+        // extend the class to accept a completion handler that we might use with Promise directly.
+        // TODO: should I be using a capture list: `... { [store] fulfill, reject in`?
+        return Promise<Void> { fulfill, reject in
+            // NOTE: this uses AWSAppSync.Promise (from Apollo)
+            store.withinReadWriteTransaction { transaction in
+                let query = GetDealQuery(id: deal.id)
+                try transaction.update(query: query) { (data: inout GetDealQuery.Data) in
+                    switch delta.deltaType {
+                    case .commentCount(let newCount):
+                        data.getDeal?.topic?.commentCount = newCount
+                    case .launchStatus(let newStatus):
+                        data.getDeal?.launchStatus = newStatus
+                    }
+                    fulfill(())
                 }
-            }
-        }.catch({ error in
-            // FIXME: is there anything else we can do?
-            log.error("\(error.localizedDescription)")
-        })
+            }.catch({ error in
+                reject(error)
+            })
+        }
     }
 }
 
@@ -176,13 +162,24 @@ extension MehSyncClient {
 // MARK: - Configuration Factory
 extension MehSyncClient {
     static func makeClientConfiguration(credentialsProvider: AWSCredentialsProvider, connectionStateChangeHandler: ConnectionStateChangeHandler? = nil) throws -> AWSAppSyncClientConfiguration {
+
+        var awsCredentialsProvider: AWSCredentialsProvider? = credentialsProvider
+        var serviceConfig: AWSAppSyncServiceConfigProvider?
+        #if DEBUG
+        if CommandLine.arguments.contains("ENABLE-UI-TESTING") {
+            serviceConfig = UITestingConfig()
+            awsCredentialsProvider = nil
+        }
+        #endif
+
+        let appSyncServiceConfig = serviceConfig != nil ? serviceConfig! : try AWSAppSyncServiceConfig()
         let cacheConfiguration = try AWSAppSyncCacheConfiguration()
         let retryStrategy: AWSAppSyncRetryStrategy = .aggressive  // OPTIONS: .aggressive, .exponential
 
         // https://aws-amplify.github.io/docs/ios/api#iam
         // https://github.com/aws-samples/aws-mobile-appsync-events-starter-ios/blob/master/EventsApp/AppDelegate.swift
-        return try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
-                                                 credentialsProvider: credentialsProvider,
+        return try AWSAppSyncClientConfiguration(appSyncServiceConfig: appSyncServiceConfig,
+                                                 credentialsProvider: awsCredentialsProvider,
                                                  urlSessionConfiguration: URLSessionConfiguration.default,
                                                  cacheConfiguration: cacheConfiguration,
                                                  connectionStateChangeHandler: connectionStateChangeHandler,
@@ -190,10 +187,18 @@ extension MehSyncClient {
     }
 }
 
-// MARK: - Constants
+// MARK: - Types
 extension MehSyncClient {
-    private enum Constants {
-        static var cacheKey: String { return "id" }
-        static var currentDealID: String { return "current_deal" }
+
+    enum Constants {
+        static let cacheKey: String = "id"
+        static let currentDealID: String = "current_deal"
+    }
+
+    /// A class to return when we need to bail out of something which still needs to return `Cancellable`.
+    private final class EmptyCancellable: Cancellable {
+        func cancel() {
+            // An error occured to there is nothing to cancel.
+        }
     }
 }

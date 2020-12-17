@@ -8,12 +8,17 @@
 
 import UIKit
 
+// MARK: - Delegate
+protocol OnboardingDismissalDelegate: AnyObject {
+    func finish(with: OnboardingResult)
+}
+
 final class OnboardingPageViewController: UIPageViewController {
-    typealias Dependencies = HasNotificationManager & HasUserDefaultsManager
+    typealias Dependencies = HasUserDefaultsManager & NotificationManagerProvider
 
     let dependencies: Dependencies
     var pages = [UIViewController]()
-    weak var dismissalDelegate: VoidDismissalDelegate?
+    weak var dismissalDelegate: OnboardingDismissalDelegate?
 
     // MARK: - Lifecycle
 
@@ -40,7 +45,6 @@ final class OnboardingPageViewController: UIPageViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        view.backgroundColor = ColorCompatibility.systemBackground
         self.dataSource = self
 
         let page1 = WelcomeViewController()
@@ -51,13 +55,8 @@ final class OnboardingPageViewController: UIPageViewController {
         self.pages.append(page2)
         setViewControllers([pages[0]], direction: .forward, animated: true, completion: nil)
 
-        // pageControl
-        let pageControlAppearance = UIPageControl.appearance(whenContainedInInstancesOf: [UIPageViewController.self])
-        let tintColor = UIButton().tintColor
-        pageControlAppearance.pageIndicatorTintColor = tintColor?.withAlphaComponent(0.5)
-        pageControlAppearance.currentPageIndicatorTintColor = tintColor
+        apply(theme: .system)
     }
-
 }
 
 // MARK: - UIPageViewControllerDataSource
@@ -96,14 +95,26 @@ extension OnboardingPageViewController: UIPageViewControllerDataSource {
             return 0
         }
     }
-
 }
 
 // MARK: - VoidDismissalDelegate
-extension OnboardingPageViewController: VoidDismissalDelegate {
+extension OnboardingPageViewController: OnboardingDismissalDelegate {
 
-    func dismiss() {
-        dismissalDelegate?.dismiss()
+    func finish(with result: OnboardingResult) {
+        dismissalDelegate?.finish(with: result)
     }
+}
 
+// MARK: - Themeable
+extension OnboardingPageViewController: Themeable {
+
+    func apply(theme: ColorTheme) {
+        view.backgroundColor = theme.systemBackground
+
+        let pageControlAppearance = UIPageControl.appearance(whenContainedInInstancesOf: [UIPageViewController.self])
+        pageControlAppearance.currentPageIndicatorTintColor = theme.tint
+        pageControlAppearance.pageIndicatorTintColor = theme.tertiaryTint
+
+        pages.compactMap { $0 as? Themeable }.forEach { $0.apply(theme: theme) }
+    }
 }

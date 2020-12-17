@@ -11,7 +11,7 @@ import Down
 
 // MARK: - Delegate
 
-protocol StoryViewControllerDelegate: class {
+protocol StoryViewControllerDelegate: AnyObject {
     func showDeal()
 }
 
@@ -35,6 +35,7 @@ final class StoryViewController: BaseViewController<ScrollableView<StoryContentV
 
     private lazy var dealButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "LeftChevronNavBar"), style: .plain, target: self, action: #selector(didPressDeal(_:)))
+        button.accessibilityLabel = L10n.Accessibility.leftChevronButton
         return button
     }()
 
@@ -42,10 +43,10 @@ final class StoryViewController: BaseViewController<ScrollableView<StoryContentV
 
     // MARK: - Lifecycle
 
-    init(depenedencies: Dependencies) {
+    init(dependencies: Dependencies) {
         self.viewState = .empty
-        self.dataProvider = depenedencies.dataProvider
-        self.themeManager = depenedencies.themeManager
+        self.dataProvider = dependencies.dataProvider
+        self.themeManager = dependencies.themeManager
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -99,9 +100,9 @@ extension StoryViewController: ViewStateRenderable {
 extension StoryViewController: ThemeObserving {
     func apply(theme: AppTheme) {
         apply(theme: theme.dealTheme ?? theme.baseTheme)
-        if let foreground = theme.foreground {
-            apply(foreground: foreground)
-        }
+        //if let foreground = theme.foreground {
+        //    apply(foreground: foreground)
+        //}
     }
 }
 
@@ -127,4 +128,4 @@ extension StoryViewController: Themeable {
 }
 
 // MARK: - ForegroundThemeable
-extension StoryViewController: ForegroundThemeable {}
+//extension StoryViewController: ForegroundThemeable {}

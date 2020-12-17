@@ -5,16 +5,15 @@
 //  Created by Mathew Gacy on 9/18/19.
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
-
+/*
 import UIKit
 import Promise
+import typealias AWSAppSync.GraphQLID // = String
 
 final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView<DealContentView>>, SwipeDismissable {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
-    typealias DealFragment = ListDealsForPeriodQuery.Data.ListDealsForPeriod
+    typealias DealFragment = DealHistoryQuery.Data.DealHistory.Item
     typealias Deal = GetDealQuery.Data.GetDeal
-    typealias Topic = GetDealQuery.Data.GetDeal.Topic
-    typealias GraphQLID = String
 
     weak var delegate: HistoryDetailViewControllerDelegate?
 
@@ -46,17 +45,23 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
     // MARK: - Subviews
 
     private lazy var stateView: StateView = {
-        let view = StateView()
+        let view = StateView(frame: UIScreen.main.bounds)
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.onRetry = { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.getDeal(withID: strongSelf.dealFragment.id)
         }
         view.preservesSuperviewLayoutMargins = true
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     // Navigation Bar
+
+    private lazy var titleView: ParallaxTitleView = {
+        let view = ParallaxTitleView(frame: CGRect(x: 0, y: 0, width: 800, height: 60))
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return view
+    }()
 
     private lazy var dismissButton: UIBarButtonItem = {
         UIBarButtonItem(image: #imageLiteral(resourceName: "CloseNavBar"), style: .plain, target: self, action: #selector(didPressDismiss(_:)))
@@ -66,7 +71,11 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
 
     private lazy var barBackingView: ParallaxBarView = {
         let view = ParallaxBarView()
-        view.rightLabelInset = AppTheme.sideMargin
+        view.additionalOffset = 8.0 // DealContentView.layoutMargins.top
+        view.progressHandler = { [weak self] progress in
+            self?.titleView.progress = progress
+            self?.rootView.contentView.titleLabel.alpha = 1 - progress
+        }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -95,12 +104,6 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
         fatalError("init(coder:) has not been implemented")
     }
 
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        //setupView()
-//        getDeal(withID: dealFragment.id)
-//    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Ensure correct navigation bar style after aborted dismissal
@@ -115,74 +118,66 @@ final class PadHistoryDetailViewController: BaseViewController<ScrollablePadView
         // Dispose of any resources that can be recreated.
     }
 
+    //deinit { print("\(#function) - \(String(describing: self))") }
+
     // MARK: - View Methods
 
-    override func setupView() {
+    private func setupSubviews() {
         view.insertSubview(stateView, at: 0)
         view.addSubview(barBackingView)
         setupConstraints()
+    }
 
-        navigationItem.leftBarButtonItem = dismissButton
-        navigationController?.applyStyle(.transparent)
+    override func setupView() {
+        setupSubviews()
+
+        navigationItem.titleView = titleView
+        navigationItem.rightBarButtonItem = dismissButton
+        StyleBook.NavigationItem.transparent.apply(to: navigationItem)
         pagedImageView.delegate = self
 
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
-
-        // TODO: observe changes in themeManager.theme
-        if themeManager.useDealTheme {
-            apply(theme: ColorTheme(theme: dealFragment.theme))
-        } else {
-            apply(theme: themeManager.theme.baseTheme)
-        }
-
-        // barBackingView
-        if #available(iOS 13, *) {
-            // ...
-        } else {
-            let statusBarHeight: CGFloat = UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height
-            barBackingView.coordinateOffset = 8.0
-            barBackingView.inset = statusBarHeight
-        }
-
-        // scrollView
-        rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
-            barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
-        }
+        setupParallaxScrollView()
 
         getDeal(withID: dealFragment.id)
     }
-    /*
-    private func setupObservations() -> [ObservationToken] {
-        let themeToken = themeManager.addObserver(self)
-        return [themeToken]
+
+    private func setupParallaxScrollView() {
+        //if let navBar = navigationController?.navigationBar {
+        //    barBackingView.coordinateOffset = navBar.convert(navBar.bounds, to: rootView.scrollView).minY
+        //}
+
+        rootView.scrollView.parallaxHeaderDidScrollHandler = { [weak barBackingView] scrollView in
+            barBackingView?.updateProgress(yOffset: scrollView.contentOffset.y)
+        }
     }
-    */
 
     private func setupConstraints() {
         let guide = view.safeAreaLayoutGuide
-
-        // Shared
         NSLayoutConstraint.activate([
-            // stateView
-            stateView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            stateView.topAnchor.constraint(equalTo: guide.topAnchor),
-            stateView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            stateView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
-            // barBackingView
+            barBackingView.widthAnchor.constraint(equalTo: rootView.scrollView.widthAnchor),
             barBackingView.topAnchor.constraint(equalTo: view.topAnchor),
             barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor),
-            barBackingView.widthAnchor.constraint(equalTo: rootView.scrollView.widthAnchor),
+            barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor)
         ])
 
-        sharedRegularConstraints = [
-            // TODO: adjust constant on centerYAnchor to ensure placement below nav bar?
-            pagedImageView.centerYAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerYAnchor, constant: 0.0),
+        sharedRegularConstraints = makeRegularConstraints()
+    }
+
+    private func makeRegularConstraints() -> [NSLayoutConstraint] {
+        let horizontalMargin: CGFloat = 40.0 // 2 * `NSCollectionLayoutItem.contentInsets` in `PagedImageView`
+        return [
+            pagedImageView.centerYAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerYAnchor),
             pagedImageView.centerXAnchor.constraint(equalTo: rootView.secondaryColumnGuide.centerXAnchor),
-            pagedImageView.widthAnchor.constraint(equalTo: rootView.secondaryColumnGuide.widthAnchor),
+            pagedImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             pagedImageView.heightAnchor.constraint(equalTo: pagedImageView.widthAnchor,
-                                                   constant: pagedImageView.pageControlHeight)
+                                                   constant: pagedImageView.pageControlHeight - horizontalMargin)
         ]
+    }
+
+    override func setupObservations() -> [ObservationToken] {
+        let themeToken = themeManager.addObserver(self)
+        return [themeToken]
     }
 
     // MARK: - Navigation
@@ -235,8 +230,7 @@ extension PadHistoryDetailViewController {
 
         // PagedImageView
         // For collection view rotation see also: https://stackoverflow.com/a/43322706
-        // TODO: use pagedImageView.currentPage instead
-        let currentPage = pagedImageView.primaryVisiblePage
+        self.pagedImageView.beginRotation()
         coordinator.animate(
             alongsideTransition: { [unowned self] (context) -> Void in
                 // If we are changing size classes, this will already be the new size class
@@ -251,17 +245,17 @@ extension PadHistoryDetailViewController {
                         NSLayoutConstraint.activate(self.rootView.portraitConstraints)
                     }
                 }
-                self.pagedImageView.beginRotation()
+                self.pagedImageView.layoutIfNeeded()
             },
             completion: { [unowned self] (context) -> Void in
-                self.pagedImageView.completeRotation(page: currentPage)
+                self.pagedImageView.completeRotation()
             }
         )
     }
 
     // MARK: - Utility
 
-    /// Transition from iPad to iPhone layout
+    /// Transition from regular to compact horizonal layout
     private func transitionToCompact() {
         rootView.deactivateRegularConstraints()
         NSLayoutConstraint.deactivate(sharedRegularConstraints)
@@ -270,30 +264,23 @@ extension PadHistoryDetailViewController {
         pagedImageView.removeFromSuperview()
         rootView.scrollView.headerView = pagedImageView
 
-        // TODO: clarify meaning of this magic constant
-        barBackingView.leftLabelInset = 56.0
-
         // activate constraints
         rootView.activateCompactConstraints()
     }
 
-    /// Transition from iPhone to iPad layout
+    /// Transition from compact to regular horizontal layout
     private func transitionToRegular() {
         rootView.deactivateCompactConstraints()
 
         // Move pagedImageView
         rootView.scrollView.removeHeaderView()
-        view.addSubview(pagedImageView)
-
-        barBackingView.leftLabelInset = AppTheme.sideMargin
+        rootView.insertSubview(pagedImageView, belowSubview: rootView.scrollView)
 
         // reset scrollView
         rootView.scrollView.headerHeight = 0
 
         rootView.activateRegularConstraints()
         NSLayoutConstraint.activate(sharedRegularConstraints)
-        // IMPORTANT
-        pagedImageView.flowLayout.invalidateLayout()
     }
 }
 
@@ -305,15 +292,10 @@ extension PadHistoryDetailViewController {
             switch traitCollection.horizontalSizeClass {
             case .compact:
                 rootView.scrollView.headerView = pagedImageView
-
-                // TODO: clarify meaning of this magic constant
-                barBackingView.leftLabelInset = 56.0
-
                 rootView.activateCompactConstraints()
             case .regular:
                 rootView.activateRegularConstraints()
-                view.addSubview(pagedImageView)
-                barBackingView.leftLabelInset = AppTheme.sideMargin
+                rootView.insertSubview(pagedImageView, belowSubview: rootView.scrollView)
                 NSLayoutConstraint.activate(sharedRegularConstraints)
             default:
                 log.error("Unexpected horizontalSizeClass: \(traitCollection.horizontalSizeClass)")
@@ -335,8 +317,25 @@ extension PadHistoryDetailViewController {
 // MARK: - PagedImageViewDelegate
 extension PadHistoryDetailViewController: PagedImageViewDelegate {
 
-    func displayFullscreenImage(animatingFrom pagedImageView: PagedImageView) {
-        delegate?.showImage(animatingFrom: pagedImageView)
+    func displayFullScreenImage(dataSource: PagedImageViewDataSourceType, indexPath: IndexPath) {
+        // TODO: pass self or just pass pagedImageView as `animatingFrom`?
+        delegate?.showImage(animatingFrom: self, dataSource: dataSource, indexPath: indexPath)
+    }
+}
+
+// MARK: - ViewAnimatedTransitioning
+extension PadHistoryDetailViewController: ViewAnimatedTransitioning {
+
+    var originFrame: CGRect {
+        return pagedImageView.originFrame
+    }
+
+    var originView: UIView {
+        return pagedImageView.originView
+    }
+
+    func makeTransitioningView() -> UIView? {
+        return pagedImageView.makeTransitioningView()
     }
 }
 
@@ -370,7 +369,7 @@ extension PadHistoryDetailViewController: ViewStateRenderable {
             rootView.scrollView.isHidden = true
         case .result(let deal):
             // Update UI
-            barBackingView.text = deal.title
+            titleView.text = deal.title
             rootView.contentView.title = deal.title
             rootView.contentView.features = deal.features
             rootView.contentView.commentCount = deal.topic?.commentCount
@@ -408,10 +407,9 @@ extension PadHistoryDetailViewController: ThemeObserving {
             //apply(foreground: dealFragment.theme.foreground)
         } else {
             apply(theme: theme.baseTheme)
-
-            //if let foreground = theme.foreground {
-            //    apply(foreground: foreground)
-            //}
+            if let foreground = theme.foreground {
+                apply(foreground: foreground)
+            }
         }
     }
 }
@@ -429,6 +427,7 @@ extension PadHistoryDetailViewController: Themeable {
         //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
 
         // Subviews
+        titleView.apply(theme: theme)
         rootView.apply(theme: theme)
         pagedImageView.apply(theme: theme)
         barBackingView.apply(theme: theme)
@@ -437,4 +436,5 @@ extension PadHistoryDetailViewController: Themeable {
 }
 
 // MARK: - ForegroundThemeable
-//extension PadHistoryDetailViewController: ForegroundThemeable {}
+extension PadHistoryDetailViewController: ForegroundThemeable {}
+*/
