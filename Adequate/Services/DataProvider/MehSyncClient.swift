@@ -113,18 +113,13 @@ class MehSyncClient: MehSyncClientType {
         }
     }
 
-    // TODO: add private watch<T: GraphQLQuery>(query:cachePolicy:queue:resultHandler:) -> GraphQLQueryWatcher<T> method?
-    // TODO: would we need to handle the type of the result using type erasure?
-
     // MARK: - Cache
 
     func updateCache(for deal: Deal, dealDelta delta: DealDelta) -> Promise<Void> {
         guard deal.dealID == delta.dealID else {
-            // TODO: is this the most appropriate error to throw?
             return Promise(error: DealDelta.DeltaApplicationError.invalidID)
         }
         guard let client = appSyncClient, let store = client.store else {
-            // FIXME: this could (maybe?) be inaccurate since the problem might be a missing store
             return Promise<Void>(error: SyncClientError.missingClient)
         }
 
@@ -162,8 +157,9 @@ extension MehSyncClient {
 
 // MARK: - Configuration Factory
 extension MehSyncClient {
-    static func makeClientConfiguration(credentialsProvider: AWSCredentialsProvider, connectionStateChangeHandler: ConnectionStateChangeHandler? = nil) throws -> AWSAppSyncClientConfiguration {
-
+    static func makeClientConfiguration(credentialsProvider: AWSCredentialsProvider,
+                                        connectionStateChangeHandler: ConnectionStateChangeHandler? = nil
+    ) throws -> AWSAppSyncClientConfiguration {
         var awsCredentialsProvider: AWSCredentialsProvider? = credentialsProvider
         var serviceConfig: AWSAppSyncServiceConfigProvider?
         #if DEBUG
@@ -175,7 +171,7 @@ extension MehSyncClient {
 
         let appSyncServiceConfig = serviceConfig != nil ? serviceConfig! : try AWSAppSyncServiceConfig()
         let cacheConfiguration = try AWSAppSyncCacheConfiguration()
-        let retryStrategy: AWSAppSyncRetryStrategy = .aggressive  // OPTIONS: .aggressive, .exponential
+        let retryStrategy: AWSAppSyncRetryStrategy = .aggressive
 
         // https://aws-amplify.github.io/docs/ios/api#iam
         // https://github.com/aws-samples/aws-mobile-appsync-events-starter-ios/blob/master/EventsApp/AppDelegate.swift

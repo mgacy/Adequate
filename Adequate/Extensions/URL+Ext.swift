@@ -24,8 +24,6 @@ extension URL {
             components.scheme = "https"
             return components.url
         default:
-            // TODO: throw rather than return nil?
-            print("ERROR: unrecognized scheme: \(self)")
             return nil
         }
     }

@@ -10,7 +10,7 @@ import Foundation
 
 extension DateFormatter {
 
-    // https://grokswift.com/decodable-with-alamofire-4/
+    // https://useyourloaf.com/blog/swift-codable-with-custom-dates/
     static let iso8601Full: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
@@ -19,7 +19,7 @@ extension DateFormatter {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter
     }()
-
+    /*
     static let yyyyMMdd: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -28,18 +28,18 @@ extension DateFormatter {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter
     }()
-
+     */
     // MARK: - Eastern Time Zone
-
+    /*
     static let yyyyMMddEST: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.calendar = Calendar(identifier: .iso8601)
         formatter.timeZone = TimeZone(abbreviation: "EST")
-        formatter.locale = Locale(identifier: "en_US_POSIX") // TODO: how do TimeZone and Locale interact?
+        formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter
     }()
-
+     */
     static let veryShortEST: DateFormatter = {
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone(abbreviation: "EST")

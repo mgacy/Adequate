@@ -40,7 +40,6 @@ class ThemeManager: ThemeManagerType {
     }
 
     func applyTheme(theme: Theme) {
-        // TODO: use lenses to modify currentDealTheme
         let newTheme = AppTheme(baseTheme: self.theme.baseTheme,
                                 dealTheme: ColorTheme(theme: theme),
                                 foreground: theme.foreground)
@@ -99,7 +98,6 @@ class ThemeManager: ThemeManagerType {
 extension ThemeManager {
 
     func startDealObservation () -> ObservationToken {
-        // TODO: is this the best way to handle this?
         guard dealObservationToken == nil else {
             stopDealObservation()
             return startDealObservation()

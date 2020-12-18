@@ -67,7 +67,6 @@ class AppCoordinator: BaseCoordinator {
             }
         }
 
-        // TODO: does this violate single responsibility? Should we skip when starting w/ DeepLink.remoteNotification?
         if dependencies.userDefaultsManager.showNotifications {
             registerForPushNotifications(with: dependencies.makeNotificationManager())
         }
@@ -92,11 +91,12 @@ class AppCoordinator: BaseCoordinator {
 
     private func showMain(dealNotification: DealNotification? = nil) {
         let refreshEvent: RefreshEvent = dealNotification != nil ? .launchFromNotification(dealNotification!) : .launch
-        // TODO: skip `refreshDeal(for:) if `launchFromNotification` and wait for `AppDelegate` methods?
+        // On iOS 13, `AppDelegate.application(_:didReceiveRemoteNotification:fetchCompletionHandler:)` does not seem to
+        // be called when app launches in response to notification, so go ahead and call `refreshDeal(for:)` now,
+        // regardless of whether we would be passing `RefreshEvent.launch` or `.launchFromNotification`.
         refreshDeal(for: refreshEvent)
         let mainCoordinator = MainCoordinator(window: window, dependencies: dependencies)
         store(coordinator: mainCoordinator)
-        // TODO: if .launchFromNotification, should DealNotification.notificationType influence coordinator?
         mainCoordinator.start()
     }
 
@@ -117,7 +117,7 @@ class AppCoordinator: BaseCoordinator {
     }
 }
 
-// TODO: should these be pushed into an `AppController` object?
+// TODO: consider moving these into an `AppController` object
 
 // MARK: - Refresh
 extension AppCoordinator {

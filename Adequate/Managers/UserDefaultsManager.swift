@@ -6,11 +6,12 @@
 //  Copyright © 2018 Mathew Gacy. All rights reserved.
 //
 
-import UIKit
+import Foundation
+import enum UIKit.UIUserInterfaceStyle
 
 // MARK: - Keys
 enum UserDefaultsKey: String {
-    case hasShownOnboarding = "hasShownOnboarding"
+    case hasShownOnboarding
     // App Usage
     case appLaunchCount
     case pressedBuyCount
@@ -19,17 +20,17 @@ enum UserDefaultsKey: String {
     case firstAppLaunch
     case lastVersionPromptedForReview
     // Settings
-    case showNotifications = "showNotifications"
-    case interfaceStyle = "interfaceStyle"
-    //case openLinksInSafari = "openLinksInSafari"
+    case showNotifications
+    case interfaceStyle
+    //case openLinksInSafari
     // AWS SNS
     case SNSEndpoint = "endpointArnForSNS"
     case SNSToken = "deviceTokenForSNS"
     case SNSSubscription = "subscriptionArnForSNS"
     // DataProvider
-    case lastDealRequest = "lastDealRequest"
-    case lastDealResponse = "lastDealResponse"
-    case lastDealCreatedAt = "lastDealCreatedAt"
+    case lastDealRequest
+    case lastDealResponse
+    case lastDealCreatedAt
 }
 
 // MARK: - Protocol
@@ -37,9 +38,8 @@ protocol UserDefaultsManagerType: AnyObject {
     var hasShownOnboarding: Bool { get set }
     // Settings
     var showNotifications: Bool { get set }
-    // TODO: use Int or struct mirroring UIUserInterfaceStyle
     var interfaceStyle: UIUserInterfaceStyle { get set }
-    // TODO: add `isMehVmp: Bool`
+    //var isMehVmp: Bool
 }
 
 // MARK: - Implementation

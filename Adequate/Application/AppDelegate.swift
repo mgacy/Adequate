@@ -73,7 +73,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
         log.warning("Memory Warning")
-        // TODO: clear cache on ImageService
     }
 
     // MARK: - URL-Specified Resources
@@ -96,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         notificationServiceManager = appDependency.makeNotificationServiceManager()
         notificationServiceManager?.registerDevice(with: token)
-            .then({ [weak self] subscriptionArn in
+            .then({ [weak self] _ in
                 self?.notificationServiceManager = nil
             })
             .catch({ [weak self] error in
@@ -156,7 +155,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             completionHandler(UNNotificationPresentationOptions(rawValue: 0))  // skip notification
             return
         }
-        appCoordinator.refreshDeal(for: .foregroundNotification(notification: notification, handler: completionHandler))
+        appCoordinator.refreshDeal(for: .foregroundNotification(notification: dealNotification,
+                                                                handler: completionHandler))
     }
 
     // Called to let your app know which action was selected by the user for a given notification.
