@@ -117,11 +117,6 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
         //rootView.scrollView.headerHeight = parallaxHeight
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     // MARK: - View Methods
 
     override func setupView() {

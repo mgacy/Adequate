@@ -61,11 +61,6 @@ final class AboutViewController: UITableViewController {
         setupView()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     //deinit { observationTokens.forEach { $0.cancel() } }
 
     // MARK: - View Methods

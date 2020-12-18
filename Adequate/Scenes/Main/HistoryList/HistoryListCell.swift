@@ -61,30 +61,7 @@ final class HistoryListCell: UITableViewCell {
     }
 
     // MARK: - View Configuration
-    /*
-    func setupView() {
-        selectedBackgroundView = UIView()
-        contentView.addSubview(cardView)
-        cardView.addSubview(stackView)
-    }
 
-    func setupConstraints() {
-        let guide = contentView.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-            // cardView
-            cardView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: AppTheme.sideMargin),
-            cardView.topAnchor.constraint(equalTo: guide.topAnchor, constant: AppTheme.spacing / 2.0),
-            cardView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -AppTheme.sideMargin),
-            cardView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -AppTheme.spacing / 2.0),
-            // stackView
-            stackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: AppTheme.spacing),
-            stackView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: AppTheme.spacing),
-            stackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -AppTheme.spacing),
-            stackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -AppTheme.spacing)
-        ])
-    }
-    */
-    // NEW
     func setupView() {
         selectedBackgroundView = UIView()
         contentView.addSubview(cardView)

@@ -46,11 +46,6 @@ final class RootPageViewController: UIPageViewController {
         observationTokens = setupObservations()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     // MARK: - View Methods
 
     private func setupView() {

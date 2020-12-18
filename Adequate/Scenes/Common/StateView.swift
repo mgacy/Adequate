@@ -12,45 +12,15 @@ import UIKit
 final class StateView: UIView {
 
     var onRetry: (() -> Void)?
+
     var emptyMessageText: String = L10n.emptyMessage
+
     var loadingMessageText: String? = L10n.loadingMessage {
         didSet {
             activityMessageLabel.text = loadingMessageText
         }
     }
 
-    // MARK: - Appearance
-    /*
-    var foreground: ThemeForeground {
-        didSet {
-            // see: https://stackoverflow.com/a/57177411/4472195
-            overrideUserInterfaceStyle = foreground.userInterfaceStyle
-            let secondaryLabel = UIColor.secondaryLabel.resolvedColor(with: foreground.userInterfaceStyle)
-            // TODO: for UIKit elements, use UIColor.secondary or our resolved `secondaryLabel`?
-            switch foreground {
-            case .dark:
-                activityIndicator.color = secondaryLabel
-                activityMessageLabel.textColor = secondaryLabel
-                messageLabel.textColor = secondaryLabel
-                retryButton.layer.borderColor = secondaryLabel.cgColor
-                retryButton.setTitleColor(secondaryLabel, for: .normal)
-            case .light:
-                activityIndicator.color = secondaryLabel
-                // FIXME: should we really use white, or should it be gray instead?
-                activityMessageLabel.textColor = secondaryLabel
-                messageLabel.textColor = secondaryLabel
-                retryButton.layer.borderColor = secondaryLabel.cgColor
-                retryButton.setTitleColor(secondaryLabel, for: .normal)
-            case .unknown:
-                activityIndicator.color = secondaryLabel
-                activityMessageLabel.textColor = secondaryLabel
-                messageLabel.textColor = secondaryLabel
-                retryButton.layer.borderColor = secondaryLabel.cgColor
-                retryButton.setTitleColor(secondaryLabel, for: .normal)
-            }
-        }
-    }
-    */
     // MARK: - Subviews
 
     private let activityIndicator: UIActivityIndicatorView = {
@@ -83,20 +53,13 @@ final class StateView: UIView {
     }
 
     // MARK: - Lifecycle
-    /*
-    convenience init(foreground: ThemeForeground = .dark) {
-        self.init(frame: CGRect.zero)
-        self.foreground = foreground
-    }
-    */
+
     override init(frame: CGRect) {
-        //self.foreground = .dark
         super.init(frame: frame)
         self.configure()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        //self.foreground = .dark
         super.init(coder: aDecoder)
         self.configure()
     }
