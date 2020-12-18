@@ -94,7 +94,7 @@ internal enum L10n {
   internal static let unofficialAppDisclaimer = L10n.tr("Localizable", "unofficial_app_disclaimer")
   /// Web
   internal static let web = L10n.tr("Localizable", "web")
-  /// An app to see the crap meh is trying to sell you today.
+  /// See the crap meh is selling today.
   internal static let welcomeMessage = L10n.tr("Localizable", "welcome_message")
   /// Enable notifications so Adequate can alert you when meh offers a new daily deal.
   internal static let welcomeNotificationsBody = L10n.tr("Localizable", "welcome_notifications_body")
@@ -147,6 +147,12 @@ extension L10n {
 
 // swiftlint:disable convenience_type
 private final class BundleToken {
-  static let bundle = Bundle(for: BundleToken.self)
+  static let bundle: Bundle = {
+    #if SWIFT_PACKAGE
+    return Bundle.module
+    #else
+    return Bundle(for: BundleToken.self)
+    #endif
+  }()
 }
 // swiftlint:enable convenience_type
