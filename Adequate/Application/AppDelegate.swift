@@ -100,8 +100,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self?.notificationServiceManager = nil
             })
             .catch({ [weak self] error in
-                log.error("ERROR: \(error)")
-                // TODO: improve error handling
+                log.error("Failed to register device with notification service: \(error)")
+                // TODO: improve error handling. If failure was caused by network connectivity, try again once
+                // reconnected
                 self?.notificationServiceManager = nil
             })
     }
@@ -150,8 +151,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
         log.debug("\(#function) - \(notification)")
-        guard let notification = DealNotification(userInfo: notification.request.content.userInfo) else {
-            // TODO: how best to handle? Call with `[]`?
+        guard let dealNotification = DealNotification(userInfo: notification.request.content.userInfo) else {
+            log.error("Unable to parse DealNotification from notification: \(notification)")
             completionHandler(UNNotificationPresentationOptions(rawValue: 0))  // skip notification
             return
         }
