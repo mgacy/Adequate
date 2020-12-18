@@ -14,6 +14,7 @@
 "dismiss" = "Dismiss";
 "email" = "Email";
 "empty_message" = "There was no data";
+"empty_history_message" = "There are no deals";
 "error" = "Error";
 "forum" = "Forum";
 "history" = "History";
@@ -40,6 +41,22 @@
 "disabled_email_alert_body" = "Device is not configured to send email.";
 "disabled_notification_alert_body" = "Notifications are disabled. Please allow Adequate to access notifications in Settings.";
 "disabled_icon_change_alert_body" = "Sorry, Adequate is not allowed to change its icon.";
+
+/* SyncClientError Messages */
+"network_error" = "Network Error: %@";
+"missing_client" = "Unable to initialize client";
+"authentication_error" = "Authentication Error: %@";
+"missing_field" = "Missing data for %@";
+"unknown_error" = "Unknown Error: %@";
+"empty_operation_handler" = "Operation returned neither result not error.";
+"empty_result" = "Result contained neither data nor error.";
+
+/* NetworkClientError */
+"data_serialization_error" = "Data Serialization Error: %@";
+"json_serialization_error" = "JSON Serialization Error: %@";
+"object_serialization_error" = "Object Serialization Error: %@";
+"image_decoding_failed" = "Unable to decode image";
+"bad_request" = "Bad Request";
 
 /* Settings - Theme */
 "appearance" = "Appearance";

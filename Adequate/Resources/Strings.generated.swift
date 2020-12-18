@@ -24,12 +24,22 @@ internal enum L10n {
   internal static let appName = L10n.tr("Localizable", "app_name")
   /// Appearance
   internal static let appearance = L10n.tr("Localizable", "appearance")
+  /// Authentication Error: %@
+  internal static func authenticationError(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "authentication_error", String(describing: p1))
+  }
+  /// Bad Request
+  internal static let badRequest = L10n.tr("Localizable", "bad_request")
   /// Buy
   internal static let buy = L10n.tr("Localizable", "buy")
   /// Cancel
   internal static let cancel = L10n.tr("Localizable", "cancel")
   /// Daily Notifications
   internal static let dailyNotifications = L10n.tr("Localizable", "daily_notifications")
+  /// Data Serialization Error: %@
+  internal static func dataSerializationError(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "data_serialization_error", String(describing: p1))
+  }
   /// Default (Dark)
   internal static let defaultDarkIcon = L10n.tr("Localizable", "default_dark_icon")
   /// Default
@@ -44,22 +54,48 @@ internal enum L10n {
   internal static let dismiss = L10n.tr("Localizable", "dismiss")
   /// Email
   internal static let email = L10n.tr("Localizable", "email")
+  /// There are no deals
+  internal static let emptyHistoryMessage = L10n.tr("Localizable", "empty_history_message")
   /// There was no data
   internal static let emptyMessage = L10n.tr("Localizable", "empty_message")
+  /// Operation returned neither result not error.
+  internal static let emptyOperationHandler = L10n.tr("Localizable", "empty_operation_handler")
+  /// Result contained neither data nor error.
+  internal static let emptyResult = L10n.tr("Localizable", "empty_result")
   /// Error
   internal static let error = L10n.tr("Localizable", "error")
   /// Forum
   internal static let forum = L10n.tr("Localizable", "forum")
   /// History
   internal static let history = L10n.tr("Localizable", "history")
+  /// Unable to decode image
+  internal static let imageDecodingFailed = L10n.tr("Localizable", "image_decoding_failed")
+  /// JSON Serialization Error: %@
+  internal static func jsonSerializationError(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "json_serialization_error", String(describing: p1))
+  }
   /// LOADING
   internal static let loadingMessage = L10n.tr("Localizable", "loading_message")
   /// Meh
   internal static let meh = L10n.tr("Localizable", "meh")
+  /// Unable to initialize client
+  internal static let missingClient = L10n.tr("Localizable", "missing_client")
+  /// Missing data for %@
+  internal static func missingField(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "missing_field", String(describing: p1))
+  }
+  /// Network Error: %@
+  internal static func networkError(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "network_error", String(describing: p1))
+  }
   /// Notifications
   internal static let notifications = L10n.tr("Localizable", "notifications")
   /// Not Now
   internal static let nowNow = L10n.tr("Localizable", "now_now")
+  /// Object Serialization Error: %@
+  internal static func objectSerializationError(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "object_serialization_error", String(describing: p1))
+  }
   /// OK
   internal static let ok = L10n.tr("Localizable", "ok")
   /// Privacy Policy
@@ -90,6 +126,10 @@ internal enum L10n {
   internal static let themeSystem = L10n.tr("Localizable", "theme_system")
   /// Twitter
   internal static let twitter = L10n.tr("Localizable", "twitter")
+  /// Unknown Error: %@
+  internal static func unknownError(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "unknown_error", String(describing: p1))
+  }
   /// This is an unofficial app. Please direct any issues to the developer, not to Meh.
   internal static let unofficialAppDisclaimer = L10n.tr("Localizable", "unofficial_app_disclaimer")
   /// Web

@@ -195,7 +195,7 @@ extension HistoryListViewController: ViewStateRenderable {
                 refreshControl.endRefreshing()
             }
             // Add `lazy var backgroundView: TableBackgroundView` in order to handle AppTheme?
-            tableView.setBackgroundView(title: nil, message: "There are no deals")
+            tableView.setBackgroundView(title: nil, message: L10n.emptyHistoryMessage)
             dataSource.apply(SingleSection.makeSnapshot(for: []))
         case .loading:
             if wasRefreshedManually {

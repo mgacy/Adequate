@@ -76,25 +76,24 @@ extension SyncClientError {
 
 // MARK: - LocalizedError
 extension SyncClientError: LocalizedError {
-    // FIXME: actually localize these descriptions
     public var errorDescription: String? {
         switch self {
         case .network(let error):
-            return "Network Error: \(error.localizedDescription)"
+            return L10n.networkError(error.localizedDescription)
         case .missingClient:
-            return "Unable to initialize client"
+            return L10n.missingClient
         case .authentication(let error):
-            return "Authentication Error: \(error.localizedDescription)"
+            return L10n.authenticationError(error.localizedDescription)
         case .graphQL(let errors):
             return errors.map { $0.localizedDescription }.joined(separator: "\n")
         case .missingField(let data):
-            return "Missing data for \(String(describing: data))"
+            return L10n.missingField(String(describing: data))
         case .unknown(let error):
-            return "Unknown Error: \(error.localizedDescription)"
+            return L10n.unknownError(error.localizedDescription)
         case .emptyOperationHandler:
-            return "Operation returned neither result not error."
+            return L10n.emptyOperationHandler
         case .emptyResult:
-            return "Result contained neither data nor error."
+            return L10n.emptyResult
         }
     }
 }
