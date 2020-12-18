@@ -24,7 +24,6 @@ enum StyleBook {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
-        // TODO: rename `regularFont`?
         static let regular = Style<UIButton> {
             $0.titleLabel?.font = FontBook.regularButton
         }
@@ -117,7 +116,6 @@ enum StyleBook {
 
         // UITableView
 
-        // TODO: make name more generic?
         static let cellTitle = Style<UILabel> {
             $0.numberOfLines = 2
             $0.font = UIFont.preferredFont(forTextStyle: .headline)

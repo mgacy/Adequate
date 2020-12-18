@@ -8,8 +8,6 @@
 
 import UIKit
 
-// TODO: add optional `colorTheme: ColorTheme` param to init and UITableView extension?
-
 final class TableBackgroundView: UIView {
 
     // MARK: - Properties
@@ -24,7 +22,6 @@ final class TableBackgroundView: UIView {
         }
     }
 
-    // TODO: replace `titleColor` and `messageColor` with `foreground: ThemeForeground`? See `StateView`
     // TODO: add `retryButton` and `var onRetry: (() -> Void)?`?
 
     public var titleColor: UIColor {
@@ -119,7 +116,6 @@ final class TableBackgroundView: UIView {
 }
 
 // MARK: - UITableView + TableBackgroundView
-
 extension UITableView {
 
     /// Add `TableBackgroundView` as background view.

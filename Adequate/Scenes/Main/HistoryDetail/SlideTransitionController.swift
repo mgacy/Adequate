@@ -11,7 +11,6 @@ import UIKit
 // MARK: - Protocol
 
 protocol SwipeDismissable: AnyObject {
-    //var scrollView: UIScrollView { get }
     var shouldDismiss: Bool { get }
     var transitionController: UIViewControllerTransitioningDelegate? { get set }
     func attachTransitionController(onFinishDismissal: (() -> Void)?)
@@ -42,10 +41,10 @@ extension SwipeDismissable where Self: UIViewController {
 final class SlideTransitionController: NSObject {
     typealias ViewControllerType = UIViewController & SwipeDismissable
 
-    // TODO: replace with delegate protocol?
     var onFinishDismissal: (() -> Void)?
 
     weak var viewController: ViewControllerType!
+    
     //var isInteracting: Bool = false
 
     // Pan down transitions back to the presenting view controller

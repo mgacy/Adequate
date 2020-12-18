@@ -84,7 +84,6 @@ final class RefreshManager: NSObject {
         self.dateProvider = dateProvider
     }
 
-    // TODO: improve naming
     func update(_ event: Event) {
         switch event {
         case .request:
@@ -106,7 +105,6 @@ extension RefreshManager {
         /// Request current Deal from server.
         case request
         //case update(DealNotification)
-        // TODO: pass both `oldDeal: Deal?` and `newDeal: Deal`?
         /// Received a response from the server.
         case response(Deal)
         /// Received a response from the server
@@ -114,7 +112,6 @@ extension RefreshManager {
     }
 
     enum CacheCondition {
-        // TODO: rename
         case new            // showLoading: false, cachePolicy: returnCacheDataElseFetch
         case fresh          // showLoading: false, cachePolicy: returnCacheDataAndFetch?
         case intermediate   // showLoading: false, cachePolicy: fetchIgnoringCacheData

@@ -8,7 +8,6 @@
 
 import UIKit
 
-// TODO: rename to something more generic?
 class ZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
     private let transitionDuration: TimeInterval = 0.3

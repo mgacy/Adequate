@@ -101,12 +101,10 @@ extension DealCoordinator: FullScreenImagePresenting {}
 extension DealCoordinator: DealViewControllerDelegate {
 
     func showHistoryList() {
-        //delegate?.goToPage(.history, from: .deal, animated: true)
         onPageSelect?(.history, .deal, true)
     }
 
     func showStory() {
-        //delegate?.goToPage(.story, from: .deal, animated: true)
         onPageSelect?(.story, .deal, true)
     }
 

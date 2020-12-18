@@ -65,8 +65,6 @@ final class StateView: UIView {
         return label
     }()
 
-    // TODO: UIStackView?
-
     private let messageLabel: UILabel = {
         let label = UILabel(style: StyleBook.Label.base <> StyleBook.Label.centered)
         label.numberOfLines = 0
@@ -150,7 +148,6 @@ extension StateView {
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        // TODO: we should ideally check `ThemeManager.useDealTheme` first
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             // We need to handle `CALayer` manually
             let resovedColor = UIColor.secondaryLabel.resolvedColor(with: traitCollection)

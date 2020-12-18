@@ -139,7 +139,7 @@ class SplitViewController: UIViewController {
         view.backgroundColor = .systemBackground
         add(primaryChild)
 
-        // Force compact-wdth size class?
+        // Force compact-width size class?
         //setOverrideTraitCollection(UITraitCollection(horizontalSizeClass: .compact), forChild: primaryChild)
 
         if let backgroundView = primaryChild.makeBackgroundView() {
@@ -272,7 +272,6 @@ extension SplitViewController {
 // MARK: - Layout Helpers
 extension SplitViewController {
 
-    // TODO: rename
     private func updateWidth(for layout: SplitLayout) {
         switch layout {
         case .compact:

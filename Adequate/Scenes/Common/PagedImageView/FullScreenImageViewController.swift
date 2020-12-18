@@ -12,7 +12,6 @@ import Promise
 final class FullScreenImageViewController: UIViewController {
 
     weak var delegate: FullScreenImageDelegate?
-    // TODO: replace with pure reliance on `dataSource`
     private let imageSource: Promise<UIImage>
     private let dataSource: PagedImageViewDataSourceType
 
@@ -141,7 +140,7 @@ extension FullScreenImageViewController {
 
     override func viewWillLayoutSubviews() {
         blurredView.frame = view.frame
-        activityIndicator.center = view.center // TODO: center relative to view or safe area?
+        activityIndicator.center = view.center
         zoomingImageView.frame = view.frame
 
         // TODO: move to `ViewMetrics` type?
