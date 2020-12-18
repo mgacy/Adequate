@@ -92,7 +92,8 @@ final class TableBackgroundView: UIView {
 
     public override func didMoveToSuperview() {
         guard let safeTopAnchor = self.superview?.safeAreaLayoutGuide.topAnchor else { return }
-        titleLabel.topAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: safeTopAnchor, multiplier: 1.0).isActive = true
+        titleLabel.topAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: safeTopAnchor,
+                                        multiplier: 1.0).isActive = true
     }
 
     //deinit { print("\(#function) - \(self.description)") }

@@ -20,7 +20,7 @@ protocol AboutViewControllerDelegate: AnyObject {
 final class AboutViewController: UITableViewController {
     //typealias Dependencies = HasThemeManager
 
-    weak var delegate: AboutViewControllerDelegate? = nil
+    weak var delegate: AboutViewControllerDelegate?
     //private let themeManager: ThemeManagerType
     //private var observationTokens: [ObservationToken] = []
 
@@ -116,9 +116,9 @@ final class AboutViewController: UITableViewController {
         switch (indexPath.section, indexPath.row) {
         case (0, 0):
             return
-        case (0,1):
+        case (0, 1):
             delegate?.showPrivacyPolicy()
-        case (0,2):
+        case (0, 2):
             delegate?.showAcknowledgements()
         default:
             return

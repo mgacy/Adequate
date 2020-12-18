@@ -11,6 +11,7 @@ import XCTest
 
 typealias PurchaseQuantity = Deal.PurchaseQuantity
 
+// swiftlint:disable line_length
 class PriceFormatterTests: XCTestCase {
 
     // MARK: PurchaseQuantity

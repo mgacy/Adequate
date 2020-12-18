@@ -3,6 +3,8 @@
 
 import Foundation
 
+// swiftlint:disable all
+
 {% for type in types.structs|annotated:"lens" %}
 // MARK: - {{ type.name }} + Lens
 extension {{ type.name }} {
@@ -10,7 +12,7 @@ extension {{ type.name }} {
     {% for variable in type.variables|!static|!computed %}
     static let {{ variable.name }} = Lens<{{ type.name }}, {{ variable.typeName }}>(
       get: { $0.{{ variable.name }} },
-      set: { part in 
+      set: { part in
         { whole in
           {{ type.name }}.init({% for argument in type.variables|!static|!computed %}{{ argument.name }}: {% if variable.name == argument.name %}part{% else %}whole.{{ argument.name }}{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %})
         }

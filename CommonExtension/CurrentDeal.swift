@@ -29,6 +29,7 @@ extension CurrentDeal {
 
     // Duplicate so we don't need to include entirety of `API.swift`
     public enum LaunchStatus: RawRepresentable, Equatable, Codable {
+        // swiftlint:disable:next nesting
         public typealias RawValue = String
         case launch
         case launchSoldOut

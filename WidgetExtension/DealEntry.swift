@@ -39,6 +39,7 @@ extension CurrentDeal {
 
     static var appStoreMock: CurrentDeal {
         let imageURL = URL(string: "https://via.placeholder.com/600/d32776")!
+        // swiftlint:disable:next line_length
         return CurrentDeal(id: "fake_id", title: "2-Pack: Mophie Powerstation Plus Mini 12W Chargers with Integrated USB-C Cable",
                            imageURL: imageURL, minPrice: 18, maxPrice: nil, launchStatus: .launch)
     }

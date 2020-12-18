@@ -13,6 +13,8 @@ import AWSAppSync
 import AWSMobileClient
 import class Promise.Promise // avoid name collision with AWSAppSync.Promise
 
+// swiftlint:disable cyclomatic_complexity file_length function_body_length type_body_length
+
 class DataProvider: DataProviderType {
     typealias DealHistory = DealHistoryQuery.Data.DealHistory
 
@@ -77,6 +79,7 @@ class DataProvider: DataProviderType {
         self.refreshManager = RefreshManager()
 
         // TODO: do work on another thread
+        // swiftlint:disable:next identifier_name
         addDealObserver(self) { dp, viewState in
             guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
                 return
@@ -97,7 +100,7 @@ class DataProvider: DataProviderType {
 
         // TODO: should we indicate that we are in the process of initializing?
         credentialsProvider.initialize()
-            .then { [weak self] userState in
+            .then { [weak self] _ in
                 self?.credentialsProviderIsInitialized = true
                 if let refreshEvent = self?.pendingRefreshEvent {
                     self?.refreshDeal(for: refreshEvent)
@@ -117,6 +120,7 @@ class DataProvider: DataProviderType {
         self.refreshManager = RefreshManager()
 
         // TODO: do work on another thread
+        // swiftlint:disable:next identifier_name
         addDealObserver(self) { dp, viewState in
             guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
                 return
@@ -138,7 +142,7 @@ class DataProvider: DataProviderType {
         switch credentialsProvider.currentUserState {
         case .unknown:
             credentialsProvider.initialize()
-                .then { [weak self] userState in
+                .then { [weak self] _ in
                     self?.credentialsProviderIsInitialized = true
                     if let refreshEvent = self?.pendingRefreshEvent {
                         self?.refreshDeal(for: refreshEvent)
@@ -196,6 +200,7 @@ class DataProvider: DataProviderType {
 
         dealState = .loading
         do {
+            // swiftlint:disable:next line_length
             currentDealWatcher = try client.watchCurrentDeal(cachePolicy: cachePolicy, queue: .main) { [unowned self] result in
                 switch result {
                 case .success(let envelope):
@@ -244,6 +249,7 @@ class DataProvider: DataProviderType {
 
         guard credentialsProviderIsInitialized else {
             if let currentPendingRefreshEvent = pendingRefreshEvent {
+                // swiftlint:disable:next line_length
                 log.warning("AWSMobileClient not initialized - deferring RefreshEvent: \(event) - replacing: \(currentPendingRefreshEvent)")
                 // TODO: add logic to determine whether the new event should replace the current one
                 // TODO: wrap pending refreshEvents in wrapper containing `createdAt` so we can discard old ones?
@@ -284,6 +290,7 @@ class DataProvider: DataProviderType {
 
             // NOTE: this method requests the task assertion asynchronously; it is possible that the system could
             // suspend the app before that assertion is granted, though I have not seen any evidence of that happening.
+            // swiftlint:disable:next line_length
             backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "NotificationBackgroundTask") { () -> Void in
                 self.endTask()
             }
@@ -545,7 +552,7 @@ extension DataProvider {
         // `MehSyncClient`
         let cachePolicy: CachePolicy = id == MehSyncClient.Constants.currentDealID ?
             .fetchIgnoringCacheData : .returnCacheDataElseFetch
-        return client.fetchDeal(withID: id,cachePolicy: cachePolicy)
+        return client.fetchDeal(withID: id, cachePolicy: cachePolicy)
             .then({ result -> GetDealQuery.Data.GetDeal in
                 guard let deal = result.getDeal else {
                     throw SyncClientError.missingField(selectionSet: result)
@@ -684,6 +691,7 @@ extension DataProvider {
     }
 
     private func makeRefreshHistoryObserver(cachePolicy: CachePolicy) -> CompletionWrapper<Void> {
+        // swiftlint:disable:next multiple_closures_with_trailing_closure
         let observer: CompletionWrapper<Void> = CompletionWrapper(wrapping: { }) { [weak self] in
             self?.refreshHistoryObserver = nil
         }

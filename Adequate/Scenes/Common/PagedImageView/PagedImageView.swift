@@ -36,6 +36,7 @@ final class PagedImageView: UIView {
 
     /// Predominantly visible page; used to update `currentPage` and `pageControl.currentPage` when user is scrolling `collectionView`.
     private var primaryVisiblePage: Int {
+        // swiftlint:disable:next line_length
         return collectionView.frame.size.width > 0 ? Int(collectionView.contentOffset.x + collectionView.frame.size.width / 2) / Int(collectionView.frame.size.width) : 0
     }
 
@@ -216,7 +217,7 @@ extension PagedImageView {
             view.leadingAnchor.constraint(equalTo: leadingAnchor),
             view.topAnchor.constraint(equalTo: topAnchor),
             view.trailingAnchor.constraint(equalTo: trailingAnchor),
-            view.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -pageControlHeight),
+            view.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -pageControlHeight)
         ])
 
         layoutIfNeeded()
@@ -275,6 +276,7 @@ extension PagedImageView: ViewAnimatedTransitioning {
         // UICollectionViewCell. We could pass the collectionView so that PagedImageViewDataSource can use the actual
         // dataSource's methods to get the cell (allowing us to get the image that way, in case the cache has been
         // cleared.
+        // swiftlint:disable:next identifier_name
         let v: UIView
         if let visibleImageView = dataSource.imageSource(for: IndexPath(item: currentPage, section: 0)).value {
             v = UIImageView(image: visibleImageView)
@@ -297,7 +299,8 @@ extension PagedImageView: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // TODO: try to get image directly from cell to avoid problem with emptied cache
-        delegate?.displayFullScreenImage(dataSource: dataSource, indexPath: IndexPath(item: primaryVisiblePage, section: 0))
+        delegate?.displayFullScreenImage(dataSource: dataSource,
+                                         indexPath: IndexPath(item: primaryVisiblePage, section: 0))
     }
 }
 

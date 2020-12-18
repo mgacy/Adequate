@@ -49,41 +49,41 @@ private extension MDParagraphStyleCollection {
 
         let paragraphStyle = NSMutableParagraphStyle()
 
-        /// The indentation of the first line of the receiver.
+        // The indentation of the first line of the receiver.
         paragraphStyle.firstLineHeadIndent = 0.0
 
-        /// The indentation of the receiver’s lines other than the first.
+        // The indentation of the receiver’s lines other than the first.
         paragraphStyle.headIndent = headIndent
 
         paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 1, options: [:])]
         paragraphStyle.defaultTabInterval = indent
 
-        /// The trailing indentation of the receiver.
+        // The trailing indentation of the receiver.
         //paragraphStyle.tailIndent = 0.0
 
-        /// The mode that should be used to break lines in the receiver.
+        // The mode that should be used to break lines in the receiver.
         //paragraphStyle.lineBreakMode: NSLineBreakMode
 
-        /// The receiver’s maximum line height.
+        // The receiver’s maximum line height.
         //paragraphStyle.maximumLineHeight = 0.0
 
-        /// The receiver’s minimum height.
+        // The receiver’s minimum height.
         //paragraphStyle.minimumLineHeight = 0.0
 
-        /// The distance in points between the bottom of one line fragment and the top of the next.
+        // The distance in points between the bottom of one line fragment and the top of the next.
         //paragraphStyle.lineSpacing = 0.0
 
-        /// The space after the end of the paragraph.
+        // The space after the end of the paragraph.
         paragraphStyle.paragraphSpacing = pGraphSpacing
 
-        /// The distance between the paragraph’s top and the beginning of its text content.
+        // The distance between the paragraph’s top and the beginning of its text content.
         //paragraphStyle.paragraphSpacingBefore = pGraphSpacing
         paragraphStyle.paragraphSpacingBefore = 0.0
 
-        /// The base writing direction for the receiver.
+        // The base writing direction for the receiver.
         //paragraphStyle.baseWritingDirection: NSWritingDirection
 
-        /// The line height multiple.
+        // The line height multiple.
         //paragraphStyle.lineHeightMultiple = 0.0
 
         return paragraphStyle

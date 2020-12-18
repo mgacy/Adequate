@@ -9,6 +9,7 @@
 import UIKit
 
 final class HistoryListCoordinator: Coordinator {
+    // swiftlint:disable:next line_length
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager & HasUserDefaultsManager & NotificationManagerProvider
     typealias DealFragment = DealHistoryQuery.Data.DealHistory.Item
 

@@ -104,14 +104,14 @@ extension ThemeManager {
             stopDealObservation()
             return startDealObservation()
         }
-        return dataProvider.addDealObserver(self) { tm, dealState in
+        return dataProvider.addDealObserver(self) { themeManager, dealState in
             guard case .result(let deal) = dealState else {
                 return
             }
-            tm.applyTheme(theme: deal.theme)
+            themeManager.applyTheme(theme: deal.theme)
         }
     }
-    
+
     func stopDealObservation() {
         guard let token = dealObservationToken else {
             return

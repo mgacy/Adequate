@@ -5,6 +5,9 @@
 //  Created by Mathew Gacy on 9/18/19.
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
+
+// swiftlint:disable file_length
+
 /*
 import UIKit
 import Promise

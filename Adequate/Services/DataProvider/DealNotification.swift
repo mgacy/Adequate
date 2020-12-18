@@ -9,12 +9,14 @@
 import Foundation
 import typealias AWSAppSync.GraphQLID // = String
 
+// swiftlint:disable opening_brace nesting
+
 /// Representation of notification content.
 enum DealNotification {
     case new(GraphQLID) // Use `NewDeal` struct with dealURL, imageURL?
     case delta(DealDelta)
 
-    init?(userInfo: [AnyHashable : Any]) {
+    init?(userInfo: [AnyHashable: Any]) {
         guard let dealID = userInfo[NotificationPayloadKey.dealID] as? GraphQLID else {
             return nil
         }
@@ -38,7 +40,7 @@ struct DealDelta {
     let dealID: GraphQLID
     let deltaType: DeltaType
 
-    init?(userInfo: [AnyHashable : Any]) {
+    init?(userInfo: [AnyHashable: Any]) {
         guard let dealID = userInfo[NotificationPayloadKey.dealID] as? GraphQLID,
               let deltaType = DeltaType(userInfo: userInfo) else {
             return nil
@@ -107,7 +109,7 @@ extension DealDelta {
         /// Update `Deal.launchStatus`.
         case launchStatus(LaunchStatus)
 
-        init?(userInfo: [AnyHashable : Any]) {
+        init?(userInfo: [AnyHashable: Any]) {
             guard let updateTypeString = userInfo[NotificationPayloadKey.deltaType] as? String,
                   let updateType = ValueType(rawValue: updateTypeString) else {
                 return nil

@@ -17,7 +17,7 @@ class FileCache: ImageCaching {
 
     // MARK: - Lifecycle
 
-    init(appGroupID: String){
+    init(appGroupID: String) {
         let appGroupURL = fileManager.containerURL(forSecurityApplicationGroupIdentifier: appGroupID)!
         self.containerURL = appGroupURL.appendingPathComponent(Constants.cacheDirectory, isDirectory: true)
 

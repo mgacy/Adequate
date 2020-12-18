@@ -43,7 +43,7 @@ final class SlideTransitionController: NSObject {
     typealias ViewControllerType = UIViewController & SwipeDismissable
 
     // TODO: replace with delegate protocol?
-    var onFinishDismissal: (() -> Void)? = nil
+    var onFinishDismissal: (() -> Void)?
 
     weak var viewController: ViewControllerType!
     //var isInteracting: Bool = false

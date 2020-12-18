@@ -36,7 +36,7 @@ final class OnboardingPageViewController: UIPageViewController {
         super.viewDidLoad()
         setupView()
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

@@ -7,14 +7,16 @@
 
 import Foundation
 
-public struct Affine<Whole,Part> {
+public struct Affine<Whole, Part> {
     public let tryGet: (Whole) -> Part?
     public let trySet: (Part) -> (Whole) -> Whole?
 }
 
+// swiftlint:disable identifier_name opening_brace
+
 public extension Affine {
-    func then <Subpart> (_ other: Affine<Part,Subpart>) -> Affine<Whole,Subpart> {
-        return Affine<Whole,Subpart>.init(
+    func then <Subpart> (_ other: Affine<Part, Subpart>) -> Affine<Whole, Subpart> {
+        return Affine<Whole, Subpart>.init(
             tryGet: { s in self.tryGet(s).flatMap(other.tryGet) },
             trySet: { bp in
                 { s in

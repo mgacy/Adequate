@@ -11,7 +11,7 @@ import UIKit
 extension UILabel {
 
     func setStrikethrough(text: String, color: UIColor? = nil) {
-        var attributes: [NSAttributedString.Key : Any] = [.strikethroughStyle: NSUnderlineStyle.single.rawValue]
+        var attributes: [NSAttributedString.Key: Any] = [.strikethroughStyle: NSUnderlineStyle.single.rawValue]
         if let strikethroughColor = color {
             attributes[.strikethroughColor] = strikethroughColor
         }

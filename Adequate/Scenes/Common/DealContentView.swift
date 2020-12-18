@@ -63,13 +63,13 @@ final class DealContentView: UIView {
     // TODO: remove in favor of simply relying on apply(theme:)?
     private var _textColor: UIColor? = .black
     var textColor: UIColor? {
+        get { return _textColor }
         set {
             _textColor = newValue
             titleLabel.textColor = newValue
             featuresText.textColor = newValue
             specsText.textColor = newValue
         }
-        get { return _textColor }
     }
 
     // MARK: - Subviews

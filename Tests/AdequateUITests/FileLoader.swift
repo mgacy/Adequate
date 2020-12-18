@@ -25,6 +25,7 @@ class FileLoader {
         in bundle: Bundle = .main
     ) throws -> [String: Any] where T.RawValue == String {
         let data = try loadData(from: resource, in: bundle)
+        // swiftlint:disable:next force_cast
         return try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! [String: Any]
     }
 

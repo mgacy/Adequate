@@ -12,7 +12,6 @@ import Foundation
 
 precedencegroup AssociativityLeft { associativity: left }
 
-
 // MARK: - Function Composition
 
 infix operator >>>: AssociativityLeft
@@ -43,8 +42,7 @@ public func >>> <A, B, C>(f: @escaping (A) -> B, g: @escaping (B) -> C) -> (A) -
     return { x in g(f(x)) }
 }
 
-
-// Mark: - Lens Composition
+// MARK: - Lens Composition
 
 infix operator .. : AssociativityLeft
 
@@ -96,7 +94,7 @@ infix operator .. : AssociativityLeft
 ///    // Creates a new `Person` with an updated street
 ///
 public extension Lens {
-    static func .. <Subpart> (lhs: Lens<Whole,Part>, rhs: Lens<Part,Subpart>) -> Lens<Whole,Subpart> {
+    static func .. <Subpart> (lhs: Lens<Whole, Part>, rhs: Lens<Part, Subpart>) -> Lens<Whole, Subpart> {
         return lhs.then(rhs)
     }
 }

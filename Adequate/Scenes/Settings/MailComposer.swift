@@ -26,7 +26,8 @@ final class MailComposer: NSObject, MFMailComposeViewControllerDelegate {
                                              subject: String? = nil,
                                              message: String? = nil,
                                              attachments: [MailAttachment]? = nil,
-                                             completionHandler: @escaping CompletionHandler) -> MFMailComposeViewController? {
+                                             completionHandler: @escaping CompletionHandler
+    ) -> MFMailComposeViewController? {
         guard MailComposer.canSendMail() else {
             return nil
         }
@@ -37,10 +38,10 @@ final class MailComposer: NSObject, MFMailComposeViewControllerDelegate {
 
         // Configure the fields of the interface.
         mailComposerVC.setToRecipients(recipients)
-        if let subject = subject  {
+        if let subject = subject {
             mailComposerVC.setSubject(subject)
         }
-        if let message = message  {
+        if let message = message {
             mailComposerVC.setMessageBody(message, isHTML: false)
         }
         if let attachments = attachments {

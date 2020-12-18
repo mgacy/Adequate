@@ -7,14 +7,14 @@
 
 import Foundation
 
-public struct Prism<Whole,Part> {
+public struct Prism<Whole, Part> {
     public let tryGet: (Whole) -> Part?
     public let inject: (Part) -> Whole
 }
 
 public extension Prism {
-    func then<Subpart>(_ other: Prism<Part,Subpart>) -> Prism<Whole,Subpart> {
-        return Prism<Whole,Subpart>(
+    func then<Subpart>(_ other: Prism<Part, Subpart>) -> Prism<Whole, Subpart> {
+        return Prism<Whole, Subpart>(
             tryGet: { self.tryGet($0).flatMap(other.tryGet) },
             inject: { self.inject(other.inject($0)) })
     }
@@ -23,8 +23,8 @@ public extension Prism {
         return { whole in self.tryGet(whole).map { self.inject(transform($0)) } ?? whole }
     }
 
-    func toAffine() -> Affine<Whole,Part> {
-        return Affine<Whole,Part>.init(
+    func toAffine() -> Affine<Whole, Part> {
+        return Affine<Whole, Part>.init(
             tryGet: self.tryGet,
             trySet: { part in self.tryModify { _ in part } })
     }

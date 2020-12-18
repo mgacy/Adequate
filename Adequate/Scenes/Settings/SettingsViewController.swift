@@ -8,6 +8,8 @@
 
 import UIKit
 
+// swiftlint:disable file_length
+
 // MARK: - Delegate Protocol
 
 protocol SettingsViewControllerDelegate: VoidDismissalDelegate {
@@ -22,7 +24,7 @@ protocol SettingsViewControllerDelegate: VoidDismissalDelegate {
 final class SettingsViewController: UITableViewController {
     typealias Dependencies = HasUserDefaultsManager & HasThemeManager & NotificationManagerProvider
 
-    weak var delegate: SettingsViewControllerDelegate? = nil
+    weak var delegate: SettingsViewControllerDelegate?
     private let notificationManager: NotificationManagerType
     private let themeManager: ThemeManagerType
     private let userDefaultsManager: UserDefaultsManagerType
@@ -192,7 +194,8 @@ final class SettingsViewController: UITableViewController {
     }
 
     private func showOpenSettingsAlert() {
-        let alertController = UIAlertController (title: L10n.error, message: L10n.disabledNotificationAlertBody, preferredStyle: .alert)
+        let alertController = UIAlertController(title: L10n.error, message: L10n.disabledNotificationAlertBody,
+                                                preferredStyle: .alert)
 
         let cancelAction = UIAlertAction(title: L10n.cancel, style: .default, handler: nil)
         alertController.addAction(cancelAction)
@@ -225,13 +228,13 @@ extension SettingsViewController {
     }
 
     private func makeColorPaletteAlertController(actionHandler: @escaping (UIUserInterfaceStyle) -> Void) -> UIAlertController {
-        let systemAction = UIAlertAction(title: L10n.themeSystem, style: .default) { action in
+        let systemAction = UIAlertAction(title: L10n.themeSystem, style: .default) { _ in
             actionHandler(.unspecified)
         }
-        let lightAction = UIAlertAction(title: L10n.themeLight, style: .default) { action in
+        let lightAction = UIAlertAction(title: L10n.themeLight, style: .default) { _ in
             actionHandler(.light)
         }
-        let darkAction = UIAlertAction(title: L10n.themeDark, style: .default) { action in
+        let darkAction = UIAlertAction(title: L10n.themeDark, style: .default) { _ in
             actionHandler(.dark)
         }
         let cancelAction = UIAlertAction(title: L10n.cancel, style: .cancel)
@@ -311,6 +314,7 @@ extension SettingsViewController {
         }
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
@@ -366,6 +370,7 @@ extension SettingsViewController {
 // MARK: - UITableViewDelegate
 extension SettingsViewController {
 
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // TODO: defer {}?
         tableView.deselectRow(at: indexPath, animated: false)

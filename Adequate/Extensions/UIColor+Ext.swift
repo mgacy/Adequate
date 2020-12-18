@@ -32,6 +32,8 @@
 
 import UIKit
 
+// swiftlint:disable identifier_name
+
 // MARK: - Hex Initializer
 public extension UIColor {
 
@@ -75,7 +77,7 @@ public extension UIColor {
     }
 }
 
-// MARK - RGBA Initializer
+// MARK: - RGBA Initializer
 extension UIColor {
 
     /// Creates a color object using the specified opacity and CSS RGB values.

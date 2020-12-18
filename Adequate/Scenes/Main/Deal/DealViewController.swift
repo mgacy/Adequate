@@ -9,6 +9,8 @@
 import UIKit
 import Promise
 
+// swiftlint:disable file_length
+
 final class DealViewController: BaseViewController<ScrollableView<DealContentView>> {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
 
@@ -207,7 +209,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         }
     }
 
-    @objc func ensureVisibleImageLoaded(){
+    @objc func ensureVisibleImageLoaded() {
         guard let imageViewState = pagedImageView.visibleImageState else {
             return
         }
@@ -411,7 +413,7 @@ extension DealViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(
-            alongsideTransition: { [weak self] context in
+            alongsideTransition: { [weak self] _ in
                 if case .compact = self?.traitCollection.horizontalSizeClass, let rootView = self?.rootView {
                     let margins = rootView.directionalLayoutMargins.leading + rootView.directionalLayoutMargins.trailing
                     let pageControlHeight = self?.pagedImageView.pageControlHeight ?? 0.0

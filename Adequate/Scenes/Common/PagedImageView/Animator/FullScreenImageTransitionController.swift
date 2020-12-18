@@ -8,6 +8,7 @@
 
 import UIKit
 
+// swiftlint:disable:next type_name
 final class FullScreenImageTransitionController: NSObject {
 
     weak var presentingDelegate: ViewAnimatedTransitioning!

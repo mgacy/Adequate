@@ -6,8 +6,6 @@
 //  Copyright © 2018 Mathew Gacy. All rights reserved.
 //
 
-//import Foundation
-
 enum ViewState<Element> {
     case loading
     case result(Element)
@@ -50,13 +48,13 @@ extension ViewState: Equatable where Element: Equatable {
         switch(lhs, rhs) {
         case (.loading, .loading):
             return true
-        case (.result(let a), .result(let b)):
-            return a == b
-        case (.empty , .empty):
+        case (.result(let lhsElement), .result(let rhsElement)):
+            return lhsElement == rhsElement
+        case (.empty, .empty):
             return true
         // See the following on adding Equatable conformance to Error:
         // https://kandelvijaya.com/2018/04/21/blog_equalityonerror/
-        // case(.error(let a), .error(let b)):
+        // case(.error(let lhsError), .error(let rhsError)):
         default:
             return false
         }

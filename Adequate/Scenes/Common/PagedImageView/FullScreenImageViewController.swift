@@ -145,7 +145,9 @@ extension FullScreenImageViewController {
         zoomingImageView.frame = view.frame
 
         // TODO: move to `ViewMetrics` type?
+        // swiftlint:disable:next identifier_name
         let x = view.bounds.width - view.safeAreaInsets.left - 2 * 28.0
+        // swiftlint:disable:next identifier_name
         let y: CGFloat
         switch view.safeAreaInsets.top {
         case 0.0..<24.0:
@@ -170,7 +172,7 @@ extension FullScreenImageViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(
-            alongsideTransition: { [weak zoomingImageView] context in
+            alongsideTransition: { [weak zoomingImageView] _ in
                 zoomingImageView?.updateZoomScale()
                 zoomingImageView?.updateOffsetForSize()
             },

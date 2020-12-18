@@ -17,6 +17,7 @@ final class MDTextView: UITextView {
 
     private var _markdownText: String! = ""
     var markdownText: String! {
+        get { return _markdownText }
         set {
             guard newValue != _markdownText else {
                 return
@@ -24,7 +25,6 @@ final class MDTextView: UITextView {
             _markdownText = newValue
             try? render()
         }
-        get { return _markdownText }
     }
 
     // MARK: - Lifecycle

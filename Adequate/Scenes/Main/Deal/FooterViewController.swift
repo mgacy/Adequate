@@ -140,7 +140,7 @@ extension FooterViewController: ViewStateRenderable {
                 // LaunchStatus
                 let launchStatus = deal.launchStatus ?? (deal.soldOutAt == nil ? .launch : .soldOut)
                 updateStatus(launchStatus: launchStatus, priceText: priceData.priceText)
-            } catch  {
+            } catch {
                 log.error("Unable to parse price data: \(error)")
                 render(.error(error))
             }
@@ -183,8 +183,8 @@ extension FooterViewController: ViewStateRenderable {
             priceLabel.isHidden = true
             // TODO: display with strikethrough or different color?
             //priceLabel.text = priceText
-        case .unknown(_):
-            log.error("Unknown LaunchStatus: \(launchStatus)")
+        case .unknown(let rawValue):
+            log.error("Unknown LaunchStatus: \(rawValue)")
             // FIXME: how to handle?
             priceLabel.isHidden = true
         }

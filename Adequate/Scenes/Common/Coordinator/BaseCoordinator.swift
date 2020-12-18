@@ -73,8 +73,8 @@ extension BaseCoordinator {
     func coordinate<T: FinishableCoordinatorType>(
         to coordinator: T,
         with deepLink: DeepLink? = nil,
-        onFinish: ((T.CoordinationResult) -> Void)? = nil)
-    {
+        onFinish: ((T.CoordinationResult) -> Void)? = nil
+    ) {
         store(coordinator: coordinator)
         coordinator.onFinishFlow = onFinish
         coordinator.start(with: deepLink)

@@ -32,12 +32,12 @@ final class StoryContentView: UIView {
     // TODO: remove in favor of simply relying on apply(theme:)?
     private var _textColor: UIColor? = .black
     var textColor: UIColor? {
+        get { return _textColor }
         set {
             _textColor = newValue
             titleLabel.textColor = newValue
             bodyText.textColor = newValue
         }
-        get { return _textColor }
     }
 
     // MARK: - Subviews

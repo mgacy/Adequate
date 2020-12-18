@@ -8,6 +8,7 @@
 
 import UIKit
 
+// swiftlint:disable:next private_over_fileprivate
 fileprivate enum LaunchInstructor {
     case onboarding
     case main
@@ -105,7 +106,7 @@ class AppCoordinator: BaseCoordinator {
             return
         }
         let coordinator = DebugCoordinator(window: window, dependencies: dependencies)
-        coordinator.onFinishFlow = { [weak self, weak coordinator] result in
+        coordinator.onFinishFlow = { [weak self, weak coordinator] _ in
             if let strongCoordinator = coordinator {
                 self?.free(coordinator: strongCoordinator)
             }

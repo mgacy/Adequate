@@ -61,6 +61,7 @@ extension Deal: CustomStringConvertible {
     var description: String {
         let status = launchStatus != nil ? ".\(launchStatus!.rawValue)" : "nil"
         if let topic = topic {
+            // swiftlint:disable:next line_length
             return "Deal(id: \"\(id)\", dealID: \"\(dealID)\", title: \"\(title)\", launchStatus: \(status)), topic: Topic(commentCount: \(topic.commentCount), createdAt: \(topic.createdAt), id: \(topic.id))"
         }
         return "Deal(id: \"\(id)\", dealID: \"\(dealID)\", title: \"\(title)\", launchStatus: \(status))"

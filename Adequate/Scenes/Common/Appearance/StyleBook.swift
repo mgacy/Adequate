@@ -77,11 +77,11 @@ enum StyleBook {
         }
 
         // FooterViewController.buyButton
-        static let x = Style<UIButton> {
-            // TODO: should we make a func and pass titleColor or ColorTheme?
-            $0.setTitleColor($0.tintColor, for: .normal)
-            $0.backgroundColor = .systemBackground
-        }
+        //static let x = Style<UIButton> {
+        //    // TODO: should we make a func and pass titleColor or ColorTheme?
+        //    $0.setTitleColor($0.tintColor, for: .normal)
+        //    $0.backgroundColor = .systemBackground
+        //}
     }
 
     // MARK: - UILabel

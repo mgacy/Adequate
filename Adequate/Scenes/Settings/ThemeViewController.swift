@@ -93,11 +93,11 @@ final class ThemeViewController: UITableViewController {
             updateActiveThemeCell(for: .unspecified)
             applyUserInterfaceStyle(.unspecified)
             return
-        case (0,1):
+        case (0, 1):
             updateActiveThemeCell(for: .light)
             applyUserInterfaceStyle(.light)
             return
-        case (0,2):
+        case (0, 2):
             updateActiveThemeCell(for: .dark)
             applyUserInterfaceStyle(.dark)
             return

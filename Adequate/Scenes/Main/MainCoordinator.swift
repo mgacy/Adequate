@@ -9,6 +9,7 @@
 import UIKit
 
 final class MainCoordinator: BaseCoordinator {
+    // swiftlint:disable:next line_length
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager & HasUserDefaultsManager & NotificationManagerProvider & AppUsageCounterProvider
 
     private let window: UIWindow

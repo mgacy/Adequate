@@ -45,6 +45,7 @@ extension SyncClientError {
             // but the error messages are English only and usually add various codes that would probably be unideal
             // to show users.
              */
+            // swiftlint:disable line_length
             switch appSyncError {
             case .requestFailed(_, _, let underlyingError):
                 // "Did not receive a successful HTTP code."
@@ -64,6 +65,7 @@ extension SyncClientError {
                 log.error("\(#function) - AWSAppSyncClientError.authenticationError: \(underlyingError.localizedDescription) ")
                 return .authentication(error: underlyingError)
             }
+            // swiftlint:enable line_length
             return .network(error: appSyncError)
         } else {
             // TODO: would this be unknown or just .network?

@@ -31,8 +31,9 @@ class MehSyncClient: MehSyncClientType {
         */
 
         do {
-            let appSyncConfig = try MehSyncClient.makeClientConfiguration(credentialsProvider: credentialsProvider,
-                                                                          connectionStateChangeHandler: connectionStateChangeHandler)
+            let appSyncConfig = try MehSyncClient.makeClientConfiguration(
+                credentialsProvider: credentialsProvider,
+                connectionStateChangeHandler: connectionStateChangeHandler)
             self.appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
         } catch {
             log.error("\(error)")
