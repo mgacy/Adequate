@@ -17,7 +17,7 @@ protocol ImageCellDelegate: AnyObject {
 
 // MARK: - Cell
 
-final class ImageCell: UICollectionViewCell, FetchingCellConfigurable {
+final class ImageCell: UICollectionViewCell, AsyncCellConfigurable {
 
     // MARK: - A
     weak var delegate: ImageCellDelegate?

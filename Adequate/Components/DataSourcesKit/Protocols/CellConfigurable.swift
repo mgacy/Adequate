@@ -8,14 +8,14 @@
 
 import UIKit
 
+/// Use to configure a `UITableViewCell` or `UICollectionViewCell` with an instance of `ModelType`.
 public protocol CellConfigurable {
     associatedtype ModelType
     func configure(with: ModelType)
 }
 
-// TODO: rename `AsyncCellConfigurable`?
 /// Use when a data source's model is used to fetch `ModelType`
-public protocol FetchingCellConfigurable: CellConfigurable {
+public protocol AsyncCellConfigurable: CellConfigurable {
     associatedtype ModelIdentifierType: Hashable
 
     /// Identifier for the fetched resource that will be used to configure cell
