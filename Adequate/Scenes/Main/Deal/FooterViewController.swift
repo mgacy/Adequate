@@ -54,19 +54,6 @@ class FooterViewController: UIViewController {
         return stackView
     }()
 
-    //private var initialSetupDone = false
-    /*
-    // Gradient
-
-    // TODO: add `didSet` and call function to set gradient(?)
-    public var gradientMaskHeight: CGFloat = 8.0
-
-    private lazy var gradientMaskLayer: CAGradientLayer = {
-        let gradient = CAGradientLayer()
-        gradient.colors = [UIColor.clear.cgColor, UIColor.white.cgColor]
-        return gradient
-    }()
-    */
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -75,18 +62,12 @@ class FooterViewController: UIViewController {
         setupConstraints()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     // MARK: - View Methods
 
     func setupView() {
         buyButton.addTarget(self, action: #selector(buy(_:)), for: .touchUpInside)
         buyButton.isHidden = true
         view.addSubview(stackView)
-        //layer.mask = gradientMaskLayer
         view.layer.cornerRadius = AppTheme.CornerRadius.small
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         setupConstraints()
@@ -145,7 +126,6 @@ extension FooterViewController: ViewStateRenderable {
                 render(.error(error))
             }
         case .error:
-            // TODO: is this the best way to handle?
             view.isHidden = true
         }
     }
@@ -181,11 +161,9 @@ extension FooterViewController: ViewStateRenderable {
             priceLabel.setStrikethrough(text: priceText)
         case .expired:
             priceLabel.isHidden = true
-            // TODO: display with strikethrough or different color?
             //priceLabel.text = priceText
         case .unknown(let rawValue):
             log.error("Unknown LaunchStatus: \(rawValue)")
-            // FIXME: how to handle?
             priceLabel.isHidden = true
         }
     }
@@ -204,25 +182,3 @@ extension FooterViewController: Themeable {
         buyButton.backgroundColor = theme.tint
     }
 }
-/*
-// MARK: - GradientMask
-extension FooterViewController {
-
-    enum GradientMaskConstants {
-        static let height: CGFloat = 8.0
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        layoutGradientMask()
-    }
-
-    private func layoutGradientMask() {
-        // Adjust gradient
-        gradientMaskLayer.frame = view.bounds
-        // TODO: move the following into a separate function? - `foo(height: CGFloat, frame: CGRect)`
-        let gradientEndLocation = gradientMaskHeight / view.frame.height
-        gradientMaskLayer.locations = [0, NSNumber(value: Double(gradientEndLocation))]
-    }
-}
-*/
