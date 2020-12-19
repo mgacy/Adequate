@@ -253,7 +253,7 @@ extension SettingsViewController {
         case .unspecified:
             themeCell.detailTextLabel?.text = L10n.themeSystem
         @unknown default:
-            fatalError("Unrecognized UIUserInterfaceStyle: \(interfaceStyle)")
+            log.error("Unrecognized UIUserInterfaceStyle: \(interfaceStyle)")
         }
     }
 }
@@ -528,7 +528,6 @@ extension SettingsViewController {
     }
 
     enum UserSupportFile {
-        // TODO: use more descriptive name?
         static let log: String = "swiftybeaver.log"
     }
 }

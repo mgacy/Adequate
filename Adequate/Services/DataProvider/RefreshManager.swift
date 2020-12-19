@@ -15,8 +15,7 @@ final class RefreshManager: NSObject {
     /// Minimal interval between refresh requests.
     private let minimumRefreshInterval: TimeInterval = 60
 
-    // TODO: initialize with UserDefaultsManager; use AppGroup
-    private let defaults: UserDefaults = .standard
+    private let defaults: UserDefaults
 
     var cacheCondition: CacheCondition {
         // Can we rely on the cache?
@@ -80,7 +79,8 @@ final class RefreshManager: NSObject {
 
     // MARK: - Lifecycle
 
-    init(dateProvider: @escaping () -> Date = Date.init) {
+    init(defaults: UserDefaults = .standard, dateProvider: @escaping () -> Date = Date.init) {
+        self.defaults = defaults
         self.dateProvider = dateProvider
     }
 

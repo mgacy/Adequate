@@ -12,11 +12,11 @@ import UIKit
 enum OnboardingResult {
     /// User opted to allow notifications and provided authorization.
     case allowNotifications(NotificationManagerType)
-    // TODO: User tapped "OK" but then denied authorization to show notifications.?
+    // User tapped "OK" but then denied authorization to show notifications.
     //case disallowNotifications
     /// User opted not to allow notifications.
     case noNotifications
-    // TODO: User opted to allow notifications but aurhorization failed an error.?
+    // User opted to allow notifications but aurhorization failed with an error.
     //case authRequestError(Error)
 }
 

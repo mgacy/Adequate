@@ -161,8 +161,8 @@ extension DealDelta {
         /// The `DealDelta` does not apply to `deal`.
         case invalidID
         /// The `DealDelta` involves changes to a missing object.
-        case missingParentProperty // incompleteGraph
+        case missingParentProperty
         /// `Affine.trySet` returned nil
-        case nilTrySet // `opticFailure`?
+        case nilTrySet
     }
 }

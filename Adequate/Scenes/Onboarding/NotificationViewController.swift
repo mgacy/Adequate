@@ -12,7 +12,6 @@ import Promise
 final class NotificationViewController: UIViewController {
     typealias Dependencies = HasUserDefaultsManager & NotificationManagerProvider
 
-    // TODO: improve handling of .init
     let notificationManager: NotificationManagerType
     let userDefaultsManager: UserDefaultsManagerType
     weak var delegate: OnboardingDismissalDelegate?

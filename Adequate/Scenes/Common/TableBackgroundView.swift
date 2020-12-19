@@ -143,13 +143,12 @@ extension UITableView {
             }
             UIView.animate(withDuration: 0.3,
                            animations: { backgroundView.alpha = 0.0 },
-                           completion: { _ in
-                                // TODO: only set to nil if completed?
-                                guard self.backgroundView === backgroundView else {
+                           completion: { [weak self] _ in
+                                guard self?.backgroundView === backgroundView else {
                                     // backgroundView has already been replaced by another
                                     return
                                 }
-                                self.backgroundView = nil
+                                self?.backgroundView = nil
                             })
         } else {
             backgroundView = nil
