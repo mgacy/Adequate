@@ -96,10 +96,12 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
 
     private lazy var footerViewController: FooterViewController = {
         let controller = FooterViewController()
+        controller.buttonTapHandler = { [weak self] in
+            self?.buy()
+        }
         controller.view.directionalLayoutMargins = .init(top: 8.0, leading: 0.0, bottom: 0.0, trailing: 0.0)
         controller.view.preservesSuperviewLayoutMargins = true
         controller.view.translatesAutoresizingMaskIntoConstraints = false
-        controller.delegate = self
         return controller
     }()
 
@@ -209,6 +211,14 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         }
     }
 
+    func buy() {
+        guard case .result(let deal) = viewState else {
+            return
+        }
+        feedbackGenerator.selectionChanged()
+        delegate?.showPurchase(for: deal)
+    }
+
     @objc func ensureVisibleImageLoaded() {
         guard let imageViewState = pagedImageView.visibleImageState else {
             return
@@ -309,18 +319,6 @@ extension DealViewController: ViewAnimatedTransitioning {
 
     func makeTransitioningView() -> UIView? {
         return pagedImageView.makeTransitioningView()
-    }
-}
-
-// MARK: - DealFooterDelegate
-extension DealViewController: DealFooterDelegate {
-
-    func buy() {
-        guard case .result(let deal) = viewState else {
-            return
-        }
-        feedbackGenerator.selectionChanged()
-        delegate?.showPurchase(for: deal)
     }
 }
 

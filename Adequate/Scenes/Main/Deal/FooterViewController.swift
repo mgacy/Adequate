@@ -8,21 +8,12 @@
 
 import UIKit
 
-// MARK: - Delegate
-
-protocol DealFooterDelegate: AnyObject {
-    func buy()
-}
-
-// MARK: - View Controller
-
 class FooterViewController: UIViewController {
 
     private lazy var formatter: PriceFormatting = PriceFormatter()
 
-    // TODO: replace delegate with simple closure? Delegate works well for future expansion
-    weak var delegate: DealFooterDelegate?
-    //var buttonTapHandler: (() -> Void)?
+    /// Closure to execute when `buyButton` is pressed.
+    var buttonTapHandler: (() -> Void)?
 
     // MARK: - Subviews
 
@@ -86,8 +77,7 @@ class FooterViewController: UIViewController {
     // MARK: - Actions
 
     @objc private func buy(_ sender: UIButton) {
-        delegate?.buy()
-        //buttonTapHandler?()
+        buttonTapHandler?()
     }
 }
 
