@@ -12,6 +12,8 @@ final class TableBackgroundView: UIView {
 
     // MARK: - Properties
 
+    //var onRetry: (() -> Void)?
+
     public var title: String? {
         get {
             return titleLabel.text
@@ -21,8 +23,6 @@ final class TableBackgroundView: UIView {
             titleLabel.isHidden = newValue == nil
         }
     }
-
-    // TODO: add `retryButton` and `var onRetry: (() -> Void)?`?
 
     public var titleColor: UIColor {
         get {
@@ -52,6 +52,8 @@ final class TableBackgroundView: UIView {
     }
 
     // MARK: - Subviews
+
+    // TODO: add `retryButton`?
 
     private let titleLabel: UILabel = {
         let label = UILabel(style: StyleBook.Label.base <> StyleBook.Label.centered)

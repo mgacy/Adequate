@@ -233,11 +233,6 @@ extension HistoryListViewController: ViewStateRenderable {
 extension HistoryListViewController: ThemeObserving {
     func apply(theme: AppTheme) {
         apply(theme: theme.baseTheme)
-
-        // foreground
-        // TODO: set home indicator color?
-        //navigationController?.navigationBar.barStyle = theme.foreground.navigationBarStyle
-        //setNeedsStatusBarAppearanceUpdate()
     }
 }
 

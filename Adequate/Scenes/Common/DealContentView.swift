@@ -51,7 +51,6 @@ final class DealContentView: UIView {
 
     // MARK: - Appearance
 
-    // TODO: remove in favor of simply relying on apply(theme:)?
     override var backgroundColor: UIColor? {
         didSet {
             featuresText.backgroundColor = backgroundColor
@@ -60,7 +59,6 @@ final class DealContentView: UIView {
         }
     }
 
-    // TODO: remove in favor of simply relying on apply(theme:)?
     private var _textColor: UIColor? = .label
     var textColor: UIColor? {
         get { return _textColor }

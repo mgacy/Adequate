@@ -12,4 +12,6 @@ protocol ViewAnimatedTransitioning: AnyObject {
     var originFrame: CGRect { get }
     var originView: UIView { get }
     func makeTransitioningView() -> UIView?
+    //func transitionAnimationWillStart()
+    //func transitionAnimationDidEnd()
 }

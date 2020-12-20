@@ -22,8 +22,7 @@ final class ZoomInAnimator: ZoomAnimator {
         let containerView = transitionContext.containerView
         let finalFrame = transitionContext.finalFrame(for: toVC)
 
-        // TODO: call transitionAnimationWillStart() method on delegates
-        // TODO: is fromVC displaying image / activityIndicator (/ error?)
+        // TODO: determine whether `fromVC` displaying image / activityIndicator / error and animate accordingly
 
         toDelegate.originView.isHidden = true
         toVC.view.alpha = 0.0
@@ -45,7 +44,6 @@ final class ZoomInAnimator: ZoomAnimator {
         }
 
         animator.addCompletion { _ in
-            // TODO: call `transitionAnimationDidEnd()` method on delegates
             self.toDelegate.originView.isHidden = false
             transitionView.removeFromSuperview()
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)

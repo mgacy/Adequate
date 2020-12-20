@@ -29,14 +29,12 @@ final class StoryContentView: UIView {
 
     // MARK: - Appearance
 
-    // TODO: remove in favor of simply relying on apply(theme:)?
     override var backgroundColor: UIColor? {
         didSet {
             bodyText.backgroundColor = backgroundColor
         }
     }
 
-    // TODO: remove in favor of simply relying on apply(theme:)?
     private var _textColor: UIColor? = .label
     var textColor: UIColor? {
         get { return _textColor }
