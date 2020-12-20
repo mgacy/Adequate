@@ -79,21 +79,21 @@ extension SyncClientError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .network(let error):
-            return L10n.networkError(error.localizedDescription)
+            return L10n.Error.network(error.localizedDescription)
         case .missingClient:
-            return L10n.missingClient
+            return L10n.Error.missingClient
         case .authentication(let error):
-            return L10n.authenticationError(error.localizedDescription)
+            return L10n.Error.authentication(error.localizedDescription)
         case .graphQL(let errors):
             return errors.map { $0.localizedDescription }.joined(separator: "\n")
         case .missingField(let data):
-            return L10n.missingField(String(describing: data))
+            return L10n.Error.missingField(String(describing: data))
         case .unknown(let error):
-            return L10n.unknownError(error.localizedDescription)
+            return L10n.Error.unknown(error.localizedDescription)
         case .emptyOperationHandler:
-            return L10n.emptyOperationHandler
+            return L10n.Error.emptyOperationHandler
         case .emptyResult:
-            return L10n.emptyResult
+            return L10n.Error.emptyResult
         }
     }
 }

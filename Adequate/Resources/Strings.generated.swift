@@ -24,22 +24,12 @@ internal enum L10n {
   internal static let appName = L10n.tr("Localizable", "app_name")
   /// Appearance
   internal static let appearance = L10n.tr("Localizable", "appearance")
-  /// Authentication Error: %@
-  internal static func authenticationError(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "authentication_error", String(describing: p1))
-  }
-  /// Bad Request
-  internal static let badRequest = L10n.tr("Localizable", "bad_request")
   /// Buy
   internal static let buy = L10n.tr("Localizable", "buy")
   /// Cancel
   internal static let cancel = L10n.tr("Localizable", "cancel")
   /// Daily Notifications
   internal static let dailyNotifications = L10n.tr("Localizable", "daily_notifications")
-  /// Data Serialization Error: %@
-  internal static func dataSerializationError(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "data_serialization_error", String(describing: p1))
-  }
   /// Default (Dark)
   internal static let defaultDarkIcon = L10n.tr("Localizable", "default_dark_icon")
   /// Default
@@ -58,44 +48,20 @@ internal enum L10n {
   internal static let emptyHistoryMessage = L10n.tr("Localizable", "empty_history_message")
   /// There was no data
   internal static let emptyMessage = L10n.tr("Localizable", "empty_message")
-  /// Operation returned neither result not error.
-  internal static let emptyOperationHandler = L10n.tr("Localizable", "empty_operation_handler")
-  /// Result contained neither data nor error.
-  internal static let emptyResult = L10n.tr("Localizable", "empty_result")
   /// Error
   internal static let error = L10n.tr("Localizable", "error")
   /// Forum
   internal static let forum = L10n.tr("Localizable", "forum")
   /// History
   internal static let history = L10n.tr("Localizable", "history")
-  /// Unable to decode image
-  internal static let imageDecodingFailed = L10n.tr("Localizable", "image_decoding_failed")
-  /// JSON Serialization Error: %@
-  internal static func jsonSerializationError(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "json_serialization_error", String(describing: p1))
-  }
   /// LOADING
   internal static let loadingMessage = L10n.tr("Localizable", "loading_message")
   /// Meh
   internal static let meh = L10n.tr("Localizable", "meh")
-  /// Unable to initialize client
-  internal static let missingClient = L10n.tr("Localizable", "missing_client")
-  /// Missing data for %@
-  internal static func missingField(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "missing_field", String(describing: p1))
-  }
-  /// Network Error: %@
-  internal static func networkError(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "network_error", String(describing: p1))
-  }
   /// Notifications
   internal static let notifications = L10n.tr("Localizable", "notifications")
   /// Not Now
   internal static let nowNow = L10n.tr("Localizable", "now_now")
-  /// Object Serialization Error: %@
-  internal static func objectSerializationError(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "object_serialization_error", String(describing: p1))
-  }
   /// OK
   internal static let ok = L10n.tr("Localizable", "ok")
   /// Privacy Policy
@@ -126,10 +92,6 @@ internal enum L10n {
   internal static let themeSystem = L10n.tr("Localizable", "theme_system")
   /// Twitter
   internal static let twitter = L10n.tr("Localizable", "twitter")
-  /// Unknown Error: %@
-  internal static func unknownError(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "unknown_error", String(describing: p1))
-  }
   /// This is an unofficial app. Please direct any issues to the developer, not to Meh.
   internal static let unofficialAppDisclaimer = L10n.tr("Localizable", "unofficial_app_disclaimer")
   /// Web
@@ -148,6 +110,8 @@ internal enum L10n {
   internal static let widgetExtensionPlaceholderTitle = L10n.tr("Localizable", "widget_extension_placeholder_title")
 
   internal enum Accessibility {
+    /// Allow Notifications Button
+    internal static let allowNotificationsButton = L10n.tr("Localizable", "accessibility.allow_notifications_button")
     /// Buy
     internal static let buyButton = L10n.tr("Localizable", "accessibility.buy_button")
     /// Show Deal
@@ -156,6 +120,8 @@ internal enum L10n {
     internal static let historyButton = L10n.tr("Localizable", "accessibility.history_button")
     /// Left Chevron Button
     internal static let leftChevronButton = L10n.tr("Localizable", "accessibility.left_chevron_button")
+    /// Not Now Button
+    internal static let notNowButton = L10n.tr("Localizable", "accessibility.not_now_button")
     /// Right Chevron Button
     internal static let rightChevronButton = L10n.tr("Localizable", "accessibility.right_chevron_button")
     /// Show Settings
@@ -170,6 +136,47 @@ internal enum L10n {
     /// %d Comment(s)
     internal static func count(_ p1: Int) -> String {
       return L10n.tr("Localizable", "comments.count", p1)
+    }
+  }
+
+  internal enum Error {
+    /// Authentication Error: %@
+    internal static func authentication(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "error.authentication", String(describing: p1))
+    }
+    /// Bad Request
+    internal static let badRequest = L10n.tr("Localizable", "error.bad_request")
+    /// Data Serialization Error: %@
+    internal static func dataSerialization(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "error.data_serialization", String(describing: p1))
+    }
+    /// Operation returned neither result not error.
+    internal static let emptyOperationHandler = L10n.tr("Localizable", "error.empty_operation_handler")
+    /// Result contained neither data nor error.
+    internal static let emptyResult = L10n.tr("Localizable", "error.empty_result")
+    /// Unable to decode image
+    internal static let imageDecoding = L10n.tr("Localizable", "error.image_decoding")
+    /// JSON Serialization Error: %@
+    internal static func jsonSerialization(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "error.json_serialization", String(describing: p1))
+    }
+    /// Unable to initialize client
+    internal static let missingClient = L10n.tr("Localizable", "error.missing_client")
+    /// Missing data for %@
+    internal static func missingField(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "error.missing_field", String(describing: p1))
+    }
+    /// Network Error: %@
+    internal static func network(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "error.network", String(describing: p1))
+    }
+    /// Object Serialization Error: %@
+    internal static func objectSerialization(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "error.object_serialization", String(describing: p1))
+    }
+    /// Unknown Error: %@
+    internal static func unknown(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "error.unknown", String(describing: p1))
     }
   }
 }

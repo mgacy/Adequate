@@ -50,7 +50,7 @@ final class NotificationViewController: UIViewController {
         let button = UIButton(style: StyleBook.Button.secondary)
         button.setTitle(L10n.nowNow, for: .normal)
         button.addTarget(self, action: #selector(handleNotNowTapped(_:)), for: .touchUpInside)
-        // TODO: add button.accessibilityLabel
+        button.accessibilityLabel = L10n.Accessibility.notNowButton
         return button
     }()
 
@@ -59,7 +59,7 @@ final class NotificationViewController: UIViewController {
         button.setTitle(L10n.ok, for: .normal)
         button.addTarget(self, action: #selector(handleOKTapped(_:)), for: .touchUpInside)
         button.setContentCompressionResistancePriority(.defaultHigh - 1, for: .horizontal)
-        // TODO: add button.accessibilityLabel
+        button.accessibilityLabel = L10n.Accessibility.allowNotificationsButton
         return button
     }()
 

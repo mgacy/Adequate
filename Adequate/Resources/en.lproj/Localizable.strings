@@ -43,20 +43,20 @@
 "disabled_icon_change_alert_body" = "Sorry, Adequate is not allowed to change its icon.";
 
 /* SyncClientError Messages */
-"network_error" = "Network Error: %@";
-"missing_client" = "Unable to initialize client";
-"authentication_error" = "Authentication Error: %@";
-"missing_field" = "Missing data for %@";
-"unknown_error" = "Unknown Error: %@";
-"empty_operation_handler" = "Operation returned neither result not error.";
-"empty_result" = "Result contained neither data nor error.";
+"error.network" = "Network Error: %@";
+"error.missing_client" = "Unable to initialize client";
+"error.authentication" = "Authentication Error: %@";
+"error.missing_field" = "Missing data for %@";
+"error.unknown" = "Unknown Error: %@";
+"error.empty_operation_handler" = "Operation returned neither result not error.";
+"error.empty_result" = "Result contained neither data nor error.";
 
 /* NetworkClientError */
-"data_serialization_error" = "Data Serialization Error: %@";
-"json_serialization_error" = "JSON Serialization Error: %@";
-"object_serialization_error" = "Object Serialization Error: %@";
-"image_decoding_failed" = "Unable to decode image";
-"bad_request" = "Bad Request";
+"error.data_serialization" = "Data Serialization Error: %@";
+"error.json_serialization" = "JSON Serialization Error: %@";
+"error.object_serialization" = "Object Serialization Error: %@";
+"error.image_decoding" = "Unable to decode image";
+"error.bad_request" = "Bad Request";
 
 /* Settings - Theme */
 "appearance" = "Appearance";
@@ -88,6 +88,8 @@
 "accessibility.left_chevron_button" = "Left Chevron Button";
 "accessibility.right_chevron_button" = "Right Chevron Button";
 "accessibility.settings_button" = "Show Settings";
+"accessibility.not_now_button" = "Not Now Button";
+"accessibility.allow_notifications_button" = "Allow Notifications Button";
 /*"accessibility." = "";*/
 
 /* Extension - WidgetExtension */

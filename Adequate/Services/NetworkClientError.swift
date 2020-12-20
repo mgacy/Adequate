@@ -28,19 +28,19 @@ extension NetworkClientError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .network(let error):
-            return L10n.networkError(error.localizedDescription)
+            return L10n.Error.network(error.localizedDescription)
         case .authentication(let error):
-            return L10n.authenticationError(error.localizedDescription)
+            return L10n.Error.authentication(error.localizedDescription)
         case .dataSerialization(let error):
-            return L10n.dataSerializationError(error.localizedDescription)
+            return L10n.Error.dataSerialization(error.localizedDescription)
         case .jsonSerialization(let error):
-            return L10n.jsonSerializationError(error.localizedDescription)
+            return L10n.Error.jsonSerialization(error.localizedDescription)
         case .objectSerialization(let reason):
-            return L10n.objectSerializationError(reason)
+            return L10n.Error.objectSerialization(reason)
         case .imageDecodingFailed:
-            return L10n.imageDecodingFailed
+            return L10n.Error.imageDecoding
         case .badRequest:
-            return L10n.badRequest
+            return L10n.Error.badRequest
         case .myError(let message):
             return message
         }
