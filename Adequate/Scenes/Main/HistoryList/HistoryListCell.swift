@@ -73,9 +73,9 @@ final class HistoryListCell: UITableViewCell {
         let guide = contentView.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             // cardView
-            cardView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: AppTheme.sideMargin),
+            cardView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
             cardView.topAnchor.constraint(equalTo: guide.topAnchor, constant: AppTheme.spacing / 2.0),
-            cardView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -AppTheme.sideMargin),
+            cardView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
             cardView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -AppTheme.spacing / 2.0),
             cardView.heightAnchor.constraint(greaterThanOrEqualToConstant: 80.0),
             // titleLabel
