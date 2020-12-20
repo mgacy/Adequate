@@ -24,27 +24,27 @@ final class ZoomInAnimator: ZoomAnimator {
 
         // TODO: determine whether `fromVC` displaying image / activityIndicator / error and animate accordingly
 
-        toDelegate.originView.isHidden = true
+        toDelegate?.originView.isHidden = true
         toVC.view.alpha = 0.0
         containerView.addSubview(toVC.view)
         toVC.view.frame = finalFrame
         toVC.view.layoutIfNeeded()
 
         // transitionView
-        let transitionView = fromDelegate.makeTransitioningView() ?? makeTransitioningView()
+        let transitionView = fromDelegate?.makeTransitioningView() ?? makeTransitioningView()
         containerView.addSubview(transitionView)
-        transitionView.frame = fromDelegate.originFrame
-        fromDelegate.originView.isHidden = true
+        transitionView.frame = fromDelegate?.originFrame ?? .zero
+        fromDelegate?.originView.isHidden = true
 
         // Animation
         let animator = transitionAnimator(using: transitionContext)
         animator.addAnimations {
-            transitionView.frame = self.toDelegate.originFrame
+            transitionView.frame = self.toDelegate?.originFrame ?? .zero
             toVC.view.alpha = 1.0
         }
 
         animator.addCompletion { _ in
-            self.toDelegate.originView.isHidden = false
+            self.toDelegate?.originView.isHidden = false
             transitionView.removeFromSuperview()
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
