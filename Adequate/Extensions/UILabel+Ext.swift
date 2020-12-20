@@ -24,9 +24,9 @@ extension UILabel {
             return
         }
         let attr = NSMutableAttributedString(attributedString: currentAttributedText)
-        attr.removeAttribute(.strikethroughStyle, range: NSMakeRange(0, attr.length))
+        attr.removeAttribute(.strikethroughStyle, range: NSRange(location: 0, length: attr.length))
         if color != nil {
-            attr.removeAttribute(.strikethroughColor, range: NSMakeRange(0, attr.length))
+            attr.removeAttribute(.strikethroughColor, range: NSRange(location: 0, length: attr.length))
         }
         attributedText = attr
     }
