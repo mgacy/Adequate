@@ -31,7 +31,7 @@ class FooterViewController: UIViewController {
 
     private let buyButton: UIButton = {
         let button = UIButton(style: StyleBook.Button.standard)
-        button.backgroundColor = ColorCompatibility.systemBackground
+        button.backgroundColor = .systemBackground
         button.setTitleColor(button.tintColor, for: .normal)
         button.setTitle(L10n.buy, for: .normal)
         button.setTitle(L10n.soldOut, for: .disabled)
@@ -168,7 +168,7 @@ extension FooterViewController: Themeable {
         view.backgroundColor = theme.secondarySystemBackground
 
         buyButton.setTitleColor(theme.secondarySystemBackground, for: .normal)
-        buyButton.setTitleColor(ColorCompatibility.systemBlue, for: .selected)
+        buyButton.setTitleColor(.systemBlue, for: .selected)
         buyButton.backgroundColor = theme.tint
     }
 }

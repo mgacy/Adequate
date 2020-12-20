@@ -44,7 +44,7 @@ extension ZoomAnimator {
     func makeTransitioningView() -> UIView {
         // TODO: complete
         let view = UIView()
-        view.backgroundColor = ColorCompatibility.secondarySystemBackground
+        view.backgroundColor = .secondarySystemBackground
         // Use `photo` symbol?
         return view
     }

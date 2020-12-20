@@ -87,7 +87,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
         view.delegate = self
-        view.backgroundColor = ColorCompatibility.systemBackground
+        view.backgroundColor = .systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

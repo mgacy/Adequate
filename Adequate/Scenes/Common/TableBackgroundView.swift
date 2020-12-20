@@ -59,7 +59,7 @@ final class TableBackgroundView: UIView {
         let label = UILabel(style: StyleBook.Label.base <> StyleBook.Label.centered)
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.textColor = ColorCompatibility.secondaryLabel
+        label.textColor = .secondaryLabel
         return label
     }()
 
@@ -67,7 +67,7 @@ final class TableBackgroundView: UIView {
         let label = UILabel(style: StyleBook.Label.base <> StyleBook.Label.centered)
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.textColor = ColorCompatibility.secondaryLabel
+        label.textColor = .secondaryLabel
         return label
     }()
 

@@ -110,19 +110,19 @@ extension ColorTheme {
 // MARK: - Default
 extension ColorTheme {
     static var system: ColorTheme {
-        return ColorTheme(tint: ColorCompatibility.label,
-                          secondaryTint: ColorCompatibility.secondaryLabel,
-                          tertiaryTint: ColorCompatibility.tertiaryLabel,
-                          systemBackground: ColorCompatibility.systemBackground,
-                          secondarySystemBackground: ColorCompatibility.secondarySystemBackground,
-                          label: ColorCompatibility.label,
-                          secondaryLabel: ColorCompatibility.secondaryLabel,
-                          //tertiaryLabel: ColorCompatibility.tertiaryLabel,
-                          //quaternaryLabel: ColorCompatibility.quaternaryLabel,
-                          //placeholderText: ColorCompatibility.placeholderText,
-                          link: ColorCompatibility.link
-                          //separator: ColorCompatibility.separator,
-                          //opaqueSeparator: ColorCompatibility.opaqueSeparator
+        return ColorTheme(tint: .label,
+                          secondaryTint: .secondaryLabel,
+                          tertiaryTint: .tertiaryLabel,
+                          systemBackground: .systemBackground,
+                          secondarySystemBackground: .secondarySystemBackground,
+                          label: .label,
+                          secondaryLabel: .secondaryLabel,
+                          //tertiaryLabel: .tertiaryLabel,
+                          //quaternaryLabel: .quaternaryLabel,
+                          //placeholderText: .placeholderText,
+                          link: .link
+                          //separator: .separator,
+                          //opaqueSeparator: .opaqueSeparator
                           )
     }
 }

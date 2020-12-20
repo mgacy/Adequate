@@ -49,7 +49,7 @@ final class RootPageViewController: UIPageViewController {
     // MARK: - View Methods
 
     private func setupView() {
-        view.backgroundColor = ColorCompatibility.systemBackground
+        view.backgroundColor = .systemBackground
         self.dataSource = self
         self.delegate = self
 

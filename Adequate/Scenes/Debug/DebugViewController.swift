@@ -52,7 +52,7 @@ class DebugViewController: UIViewController {
         let view = UIScrollView()
         view.contentInsetAdjustmentBehavior = .always
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = ColorCompatibility.systemBackground
+        view.backgroundColor = .systemBackground
         return view
     }()
 
@@ -97,7 +97,7 @@ class DebugViewController: UIViewController {
     private func setupView() {
         navigationItem.leftBarButtonItems = [button1, button2]
         navigationItem.rightBarButtonItems = [button4, button3]
-        view.backgroundColor = ColorCompatibility.systemBackground
+        view.backgroundColor = .systemBackground
         title = "Debug"
         // ...
     }

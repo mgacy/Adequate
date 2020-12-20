@@ -105,13 +105,13 @@ enum StyleBook {
         // FooterViewController.priceLabel
         static let primary = Style<UILabel> {
             $0.font = FontBook.compactFooter // ?
-            $0.textColor = ColorCompatibility.label
+            $0.textColor = .label
         } <> base
 
         // FooterViewController.priceComparisonLabel
         static let secondary = Style<UILabel> {
             $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-            $0.textColor = ColorCompatibility.secondaryLabel
+            $0.textColor = .secondaryLabel
         } <> base
 
         // UITableView
