@@ -33,8 +33,6 @@
 		C919B70D2582B46700A0FB7F /* AppUsageCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C919B70C2582B46700A0FB7F /* AppUsageCounter.swift */; };
 		C91F856D254D1268005192D4 /* ParallaxTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91F856C254D1268005192D4 /* ParallaxTitleView.swift */; };
 		C921165C255394A600E70FF1 /* FinishableCoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C921165B255394A600E70FF1 /* FinishableCoordinatorType.swift */; };
-		C9221565225453920001FF3F /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9221564225453920001FF3F /* DimmingPresentationController.swift */; };
-		C92215672254632D0001FF3F /* SlideAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92215662254632D0001FF3F /* SlideAnimationController.swift */; };
 		C923838A22B1B427003BB1DA /* ItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C923838922B1B427003BB1DA /* ItemType.swift */; };
 		C923838C22B1B454003BB1DA /* LaunchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C923838B22B1B453003BB1DA /* LaunchType.swift */; };
 		C923838E22B1B483003BB1DA /* PurchaseQuantityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C923838D22B1B483003BB1DA /* PurchaseQuantityType.swift */; };
@@ -105,7 +103,6 @@
 		C98731DC252A3F0900E72A16 /* Icon-3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C98731DA252A3F0900E72A16 /* Icon-3@2x.png */; };
 		C98731DD252A3F0900E72A16 /* Icon-3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C98731DB252A3F0900E72A16 /* Icon-3@3x.png */; };
 		C9873204252ACF1D00E72A16 /* AppIconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9873203252ACF1D00E72A16 /* AppIconCell.swift */; };
-		C989E11722330B1C00DEAE89 /* SlideTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */; };
 		C989E119223734A700DEAE89 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = C989E118223734A600DEAE89 /* awsconfiguration.json */; };
 		C989E11B223734C800DEAE89 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11A223734C800DEAE89 /* API.swift */; };
 		C989E11D223738ED00DEAE89 /* API+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C989E11C223738ED00DEAE89 /* API+Ext.swift */; };
@@ -379,8 +376,6 @@
 		C919B70C2582B46700A0FB7F /* AppUsageCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUsageCounter.swift; sourceTree = "<group>"; };
 		C91F856C254D1268005192D4 /* ParallaxTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxTitleView.swift; sourceTree = "<group>"; };
 		C921165B255394A600E70FF1 /* FinishableCoordinatorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishableCoordinatorType.swift; sourceTree = "<group>"; };
-		C9221564225453920001FF3F /* DimmingPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
-		C92215662254632D0001FF3F /* SlideAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideAnimationController.swift; sourceTree = "<group>"; };
 		C923838922B1B427003BB1DA /* ItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemType.swift; sourceTree = "<group>"; };
 		C923838B22B1B453003BB1DA /* LaunchType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchType.swift; sourceTree = "<group>"; };
 		C923838D22B1B483003BB1DA /* PurchaseQuantityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseQuantityType.swift; sourceTree = "<group>"; };
@@ -453,7 +448,6 @@
 		C98731DA252A3F0900E72A16 /* Icon-3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-3@2x.png"; sourceTree = "<group>"; };
 		C98731DB252A3F0900E72A16 /* Icon-3@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-3@3x.png"; sourceTree = "<group>"; };
 		C9873203252ACF1D00E72A16 /* AppIconCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconCell.swift; sourceTree = "<group>"; };
-		C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTransitionController.swift; sourceTree = "<group>"; };
 		C989E118223734A600DEAE89 /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
 		C989E11A223734C800DEAE89 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = SOURCE_ROOT; };
 		C989E11C223738ED00DEAE89 /* API+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+Ext.swift"; sourceTree = "<group>"; };
@@ -1402,9 +1396,6 @@
 				C9093CBE2225BC0500C9DA0C /* HistoryDetailCoordinator.swift */,
 				C9F7166E221F138B00733D17 /* HistoryDetailViewController.swift */,
 				C9BEAB70233308A400C143FB /* HistoryDetailViewControllerDelegate.swift */,
-				C989E11622330B1C00DEAE89 /* SlideTransitionController.swift */,
-				C9221564225453920001FF3F /* DimmingPresentationController.swift */,
-				C92215662254632D0001FF3F /* SlideAnimationController.swift */,
 			);
 			path = HistoryDetail;
 			sourceTree = "<group>";
@@ -1998,11 +1989,9 @@
 				C9DDB20121643F9E004D7957 /* MDTextView.swift in Sources */,
 				C961F35822F3DE1E00405CA3 /* MailComposer.swift in Sources */,
 				C9093CB9221FBD1E00C9DA0C /* StoryCoordinator.swift in Sources */,
-				C989E11722330B1C00DEAE89 /* SlideTransitionController.swift in Sources */,
 				C9AE54CF21795D7A00818F11 /* FullScreenImageDelegate.swift in Sources */,
 				C973270D238CCF1600ADBAEE /* StoryContentView.swift in Sources */,
 				C992174A2571E20C00741650 /* SplitLayout.swift in Sources */,
-				C92215672254632D0001FF3F /* SlideAnimationController.swift in Sources */,
 				C98282F9237B9419002B55D9 /* CredentialsProvider.swift in Sources */,
 				C9093CBD221FBE9400C9DA0C /* DealCoordinator.swift in Sources */,
 				C9AE8BCD2409D4BF00AB32DA /* ViewAnimatedTransitioning.swift in Sources */,
@@ -2134,7 +2123,6 @@
 				C9C2109822D8FFA300C4F66F /* Lens.swift in Sources */,
 				C9DAC49321476B5100D6558B /* MehResponse.swift in Sources */,
 				C9444F3B256F39EC002DD6E3 /* LoadingView.swift in Sources */,
-				C9221565225453920001FF3F /* DimmingPresentationController.swift in Sources */,
 				C9DAC4B32147864A00D6558B /* ViewState.swift in Sources */,
 				C99C23F72357FF28004493B3 /* ColorTheme.swift in Sources */,
 				C9BEAB71233308A400C143FB /* HistoryDetailViewControllerDelegate.swift in Sources */,

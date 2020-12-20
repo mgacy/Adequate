@@ -10,20 +10,12 @@ import UIKit
 import Promise
 import typealias AWSAppSync.GraphQLID // = String
 
-final class HistoryDetailViewController: BaseViewController<ScrollableView<DealContentView>>, SwipeDismissable {
+final class HistoryDetailViewController: BaseViewController<ScrollableView<DealContentView>> {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
     typealias DealFragment = DealHistoryQuery.Data.DealHistory.Item
     typealias Deal = GetDealQuery.Data.GetDeal
 
     weak var delegate: HistoryDetailViewControllerDelegate?
-
-    var shouldDismiss: Bool {
-        return rootView.scrollView.contentOffset.y <= 0
-    }
-
-    // TODO: rename `interactionController?
-    //var transitionController: SlideTransitionController?
-    var transitionController: UIViewControllerTransitioningDelegate?
 
     private let dataProvider: DataProviderType
     private let imageService: ImageServiceType
