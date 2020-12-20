@@ -186,19 +186,9 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         return [dealToken, themeToken]
     }
 
-    // MARK: - Actions / Navigation
+    // MARK: - Public Actions
 
-    @objc func getDeal() {
-        dataProvider.refreshDeal(for: .manual)
-    }
-
-    @objc private func didPressShare(_ sender: UIBarButtonItem) {
-        guard case .result(let deal) = viewState else {
-            return
-        }
-        shareDeal(title: deal.title, url: deal.url)
-    }
-
+    // This can also be called by the coordinator
     func shareDeal(title: String, url: URL) {
         // TODO: add price to text?
         let text = "\(L10n.sharingActivityText): \(title)"
@@ -211,24 +201,14 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         }
     }
 
-    func buy() {
+    // MARK: - Private Actions
+
+    @objc private func didPressShare(_ sender: UIBarButtonItem) {
         guard case .result(let deal) = viewState else {
             return
         }
-        feedbackGenerator.selectionChanged()
-        delegate?.showPurchase(for: deal)
+        shareDeal(title: deal.title, url: deal.url)
     }
-
-    @objc func ensureVisibleImageLoaded() {
-        guard let imageViewState = pagedImageView.visibleImageState else {
-            return
-        }
-        if case .error = imageViewState {
-            pagedImageView.reloadVisibleImage()
-        }
-    }
-
-    // MARK: - Navigation
 
     @objc private func didPressForum(_ sender: UIButton) {
         guard case .result(let deal) = viewState, let topic = deal.topic else {
@@ -245,6 +225,26 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         delegate?.showStory()
     }
 
+    @objc private func getDeal() {
+        dataProvider.refreshDeal(for: .manual)
+    }
+
+    private func buy() {
+        guard case .result(let deal) = viewState else {
+            return
+        }
+        feedbackGenerator.selectionChanged()
+        delegate?.showPurchase(for: deal)
+    }
+
+    @objc private func ensureVisibleImageLoaded() {
+        guard let imageViewState = pagedImageView.visibleImageState else {
+            return
+        }
+        if case .error = imageViewState {
+            pagedImageView.reloadVisibleImage()
+        }
+    }
 }
 
 // MARK: - Layout
