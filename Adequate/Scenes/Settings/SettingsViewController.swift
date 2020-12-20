@@ -283,9 +283,15 @@ extension SettingsViewController {
             subject: SupportEmailMessage.subject,
             message: SupportEmailMessage.message,
             attachments: attachments,
-            completionHandler: { [weak self] _ in self?.mailComposer = nil }) else {
-                displayError(message: L10n.disabledEmailAlertBody)
-                return
+            completionHandler: { [weak self] result in
+                if case .failure(let error) = result {
+                    log.error("\(error.localizedDescription)")
+                }
+                self?.mailComposer = nil
+            }
+        ) else {
+            displayError(message: L10n.disabledEmailAlertBody)
+            return
         }
         mailComposer = composer
         present(mailController, animated: true)
