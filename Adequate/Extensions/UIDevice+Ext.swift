@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIDevice {
+public extension UIDevice {
 
     // https://stackoverflow.com/a/30075200
     var modelIdentifier: String {

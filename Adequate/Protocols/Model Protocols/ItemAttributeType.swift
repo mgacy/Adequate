@@ -6,7 +6,7 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
-protocol ItemAttributeType {
+public protocol ItemAttributeType {
     var key: String { get }
     var value: String { get }
 }

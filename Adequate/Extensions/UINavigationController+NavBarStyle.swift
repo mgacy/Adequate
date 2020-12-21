@@ -15,7 +15,7 @@ public enum NavBarStyle {
     case transparent
 }
 
-extension UINavigationController {
+public extension UINavigationController {
     // rename `apply(navBarStyle:)`?
     func applyStyle(_ navBarStyle: NavBarStyle) {
         switch navBarStyle {

@@ -9,36 +9,36 @@
 import Foundation
 
 // sourcery: lens
-struct Deal: Codable {
+public struct Deal: Codable {
 
-    struct PurchaseQuantity: Codable, Equatable {
-        let maximumLimit: Int
-        let minimumLimit: Int
+    public struct PurchaseQuantity: Codable, Equatable {
+        public let maximumLimit: Int
+        public let minimumLimit: Int
     }
 
-    struct Launch: Codable, Equatable {
-        let soldOutAt: String?
+    public struct Launch: Codable, Equatable {
+        public let soldOutAt: String?
     }
 
-    let id: String
-    let dealID: String
-    let title: String
-    let features: String
-    let items: [Item]
-    let photos: [URL]
-    let purchaseQuantity: PurchaseQuantity?
-    let specifications: String
-    let story: Story
-    let theme: Theme
-    let url: URL
-    let createdAt: Date
-    //let updatedAt: Date
-    //let lastChangedAt:
-    //let endDate: Date?
-    let soldOutAt: Date?
-    let launches: [Launch]?
-    let launchStatus: LaunchStatus?
-    let topic: Topic?
+    public let id: String
+    public let dealID: String
+    public let title: String
+    public let features: String
+    public let items: [Item]
+    public let photos: [URL]
+    public let purchaseQuantity: PurchaseQuantity?
+    public let specifications: String
+    public let story: Story
+    public let theme: Theme
+    public let url: URL
+    public let createdAt: Date
+    //public let updatedAt: Date
+    //public let lastChangedAt:
+    //public let endDate: Date?
+    public let soldOutAt: Date?
+    public let launches: [Launch]?
+    public let launchStatus: LaunchStatus?
+    public let topic: Topic?
 }
 
 // MARK: - Equatable
@@ -58,7 +58,8 @@ extension Deal: Equatable {
 
 // MARK: - CustomStringConvertible
 extension Deal: CustomStringConvertible {
-    var description: String {
+
+    public var description: String {
         let status = launchStatus != nil ? ".\(launchStatus!.rawValue)" : "nil"
         if let topic = topic {
             // swiftlint:disable:next line_length
@@ -72,6 +73,7 @@ extension Deal: CustomStringConvertible {
 
 // MARK: GetDealQuery.Data.GetDeal
 extension Deal {
+
     init?(_ deal: GetDealQuery.Data.GetDeal) {
         guard
             let url = URL(string: deal.url),
@@ -109,6 +111,7 @@ extension Deal {
 }
 
 extension Deal.Launch {
+
     init(_ launch: GetDealQuery.Data.GetDeal.Launch) {
         soldOutAt = launch.soldOutAt
     }
@@ -121,6 +124,7 @@ extension Deal.Launch {
 
 // MARK: Model Protocols
 extension Deal.Launch {
+
     init(_ launch: LaunchType) {
         soldOutAt = launch.soldOutAt
     }
@@ -132,6 +136,7 @@ extension Deal.Launch {
 }
 
 extension Deal.PurchaseQuantity {
+
     init(_ purchaseQuantity: PurchaseQuantityType) {
         self.minimumLimit = purchaseQuantity.minimumLimit
         self.maximumLimit = purchaseQuantity.maximumLimit

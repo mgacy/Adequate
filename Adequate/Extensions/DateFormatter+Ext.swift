@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension DateFormatter {
+public extension DateFormatter {
 
     // https://useyourloaf.com/blog/swift-codable-with-custom-dates/
     static let iso8601Full: DateFormatter = {

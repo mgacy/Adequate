@@ -8,12 +8,12 @@
 
 import Foundation
 
-struct PriceComparison: Equatable {
+public struct PriceComparison: Equatable {
     // String since extract this from `Deal.specifications` and immediately display. It remains US currency, so no
     // need to reformat
-    let price: String
-    //let quantity: Int
-    //let description: String?
-    let store: String
-    let url: URL?
+    public let price: String
+    //public let quantity: Int
+    //public let description: String?
+    public let store: String
+    public let url: URL?
 }

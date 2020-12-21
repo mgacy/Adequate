@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIFont {
+public extension UIFont {
 
     static func preferredFont(for style: TextStyle, adding symbolicTrait: UIFontDescriptor.SymbolicTraits) -> UIFont {
         let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: style)

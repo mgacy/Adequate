@@ -6,7 +6,7 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
-protocol ThemeType {
+public protocol ThemeType {
     var accentColor: String { get }
     var backgroundColor: String { get }
     var foreground: ThemeForeground { get }

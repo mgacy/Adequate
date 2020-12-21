@@ -6,7 +6,7 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
-protocol TopicType {
+public protocol TopicType {
     var commentCount: Int { get }
     var createdAt: String { get }
     var id: String { get }

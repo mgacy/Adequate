@@ -8,17 +8,17 @@
 
 import Foundation
 
-struct Poll: Codable, Equatable {
+public struct Poll: Codable, Equatable {
 
-    struct Answer: Codable, Equatable {
-        let id: String
-        let text: String
-        let voteCount: Int
+    public struct Answer: Codable, Equatable {
+        public let id: String
+        public let text: String
+        public let voteCount: Int
     }
 
-    let answers: [Answer]
-    let id: String
-    let startDate: Date
-    let title: String
-    let topic: Topic?
+    public let answers: [Answer]
+    public let id: String
+    public let startDate: Date
+    public let title: String
+    public let topic: Topic?
 }
