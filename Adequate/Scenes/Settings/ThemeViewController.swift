@@ -87,7 +87,7 @@ final class ThemeViewController: UITableViewController {
     // MARK: - UITableViewDelegate
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
+        tableView.deselectRow(at: indexPath, animated: true)
         switch (indexPath.section, indexPath.row) {
         case (0, 0):
             updateActiveThemeCell(for: .unspecified)

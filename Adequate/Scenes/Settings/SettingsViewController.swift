@@ -237,6 +237,10 @@ extension SettingsViewController {
         let alert = UIAlertController(title: L10n.theme,
                                       message: nil,
                                       preferredStyle: .actionSheet)
+        if let interfaceStyle = themeManager.theme.foreground?.userInterfaceStyle {
+            alert.overrideUserInterfaceStyle = interfaceStyle
+        }
+
         alert.addAction(systemAction)
         alert.addAction(lightAction)
         alert.addAction(darkAction)
@@ -373,9 +377,6 @@ extension SettingsViewController {
 
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: defer {}?
-        tableView.deselectRow(at: indexPath, animated: false)
-
         let application = UIApplication.shared
         switch (indexPath.section, indexPath.row) {
         case (1, 0):
@@ -383,10 +384,12 @@ extension SettingsViewController {
                 delegate?.showTheme()
             } else {
                 showChangeThemeAlert()
+                tableView.deselectRow(at: indexPath, animated: true)
             }
         case (1, 1):
             guard UIApplication.shared.supportsAlternateIcons else {
                 displayError(message: L10n.disabledIconChangeAlertBody)
+                tableView.deselectRow(at: indexPath, animated: true)
                 return
             }
             delegate?.showAppIcon()
@@ -396,8 +399,10 @@ extension SettingsViewController {
                 return
             }
             application.open(webURL)
+            tableView.deselectRow(at: indexPath, animated: true)
         case (2, 1):
             showSupportEmail()
+            tableView.deselectRow(at: indexPath, animated: true)
         case (2, 2):
             guard
                 let appURL = URL(string: "twitter://user?screen_name=\(SupportAddress.twitter.rawValue)"),
@@ -410,6 +415,7 @@ extension SettingsViewController {
             } else {
                 application.open(webURL)
             }
+            tableView.deselectRow(at: indexPath, animated: true)
         case (3, 0):
             delegate?.showAbout()
         case (3, 1):
@@ -421,6 +427,7 @@ extension SettingsViewController {
             case .production:
                 delegate?.showReview()
             }
+            tableView.deselectRow(at: indexPath, animated: true)
         default:
             return
         }

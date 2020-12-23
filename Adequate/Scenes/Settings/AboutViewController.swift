@@ -107,9 +107,9 @@ final class AboutViewController: UITableViewController {
 
     // Configure the row selection code for any cells that you want to customize the row selection
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
         switch (indexPath.section, indexPath.row) {
         case (0, 0):
+            tableView.deselectRow(at: indexPath, animated: true)
             return
         case (0, 1):
             delegate?.showPrivacyPolicy()

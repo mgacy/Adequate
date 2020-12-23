@@ -58,7 +58,6 @@ extension BaseCoordinator {
     }
 
     public func coordinate(to coordinator: CoordinatorType, with deepLink: DeepLink? = nil) {
-        // TODO: set onFinishFlow on coordinator
         store(coordinator: coordinator)
         coordinator.start(with: deepLink)
     }

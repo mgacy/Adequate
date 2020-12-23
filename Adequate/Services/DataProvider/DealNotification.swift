@@ -64,7 +64,6 @@ struct DealDelta {
 // MARK: - DealDelta + apply
 extension DealDelta {
 
-    // TODO: throw `Error` or return `Result`?
     func apply(to deal: Deal) throws -> Deal? {
         guard deal.dealID == dealID else {
             throw DeltaApplicationError.invalidID
@@ -80,7 +79,7 @@ extension DealDelta {
             }
 
             let dealAffine = Deal.lens.topic.toAffine()
-            let topicPrism = Optional<Topic>.prism.toAffine()
+            let topicPrism = Topic?.prism.toAffine()
             let topicAffine = Topic.lens.commentCount.toAffine()
             let composed = dealAffine.then(topicPrism).then(topicAffine)
 
@@ -156,7 +155,6 @@ extension DealDelta {
         }
     }
 
-    // TODO: should this be a top level type?
     enum DeltaApplicationError: Error {
         /// The `DealDelta` does not apply to `deal`.
         case invalidID

@@ -251,18 +251,12 @@ extension HistoryDetailViewController: ViewStateRenderable {
         stateView.render(viewState)
         switch viewState {
         case .empty:
-            //stateView.render(viewState)
-            //stateView.isHidden = false
             pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         case .loading:
-            //stateView.render(viewState)
-            //stateView.isHidden = false
             pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         case .result(let deal):
-            //stateView.render(viewState)
-            //stateView.isHidden = true
             titleView.text = deal.title
             rootView.contentView.title = deal.title
             rootView.contentView.features = deal.features
@@ -275,10 +269,7 @@ extension HistoryDetailViewController: ViewStateRenderable {
             pagedImageView.updateImages(with: safePhotoURLs)
             pagedImageView.isHidden = false
             rootView.scrollView.isHidden = false
-            // TODO: animate display
         case .error:
-            //stateView.render(viewState)
-            //stateView.isHidden = false
             pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         }
@@ -308,9 +299,6 @@ extension HistoryDetailViewController: Themeable {
 
         // backgroundColor
         navigationController?.view.backgroundColor = theme.systemBackground
-        // NOTE: are not changing the following:
-        //navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
 
         // Subviews
         titleView.apply(theme: theme)

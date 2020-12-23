@@ -125,8 +125,7 @@ class MehSyncClient: MehSyncClientType {
 
         // Wrapping Apollo.Promise in Promise is ugly, but we don't have access to `ApolloStore.queue` and thus can't
         // extend the class to accept a completion handler that we might use with Promise directly.
-        // TODO: should I be using a capture list: `... { [store] fulfill, reject in`?
-        return Promise<Void> { fulfill, reject in
+        return Promise<Void> { [store] fulfill, reject in
             // NOTE: this uses AWSAppSync.Promise (from Apollo)
             store.withinReadWriteTransaction { transaction in
                 let query = GetDealQuery(id: deal.id)

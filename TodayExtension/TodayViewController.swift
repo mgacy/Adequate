@@ -86,27 +86,6 @@ class TodayViewController: UIViewController {
         currentDealManager = CurrentDealManager()
         loadDeal { _ in }
     }
-    /*
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        loadDeal { _ in }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        // ...
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        // ...
-    }
-
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        // ...
-    }
-    */
 
     // MARK: - View Setup
 
