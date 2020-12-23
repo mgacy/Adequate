@@ -119,34 +119,7 @@ final class AboutViewController: UITableViewController {
             return
         }
     }
-
 }
-/*
-// MARK: - Themeable
-extension AboutViewController: Themeable {
-    func apply(theme: AppTheme) {
-        // accentColor
-        versionCell.backgroundColor = theme.accentColor
-        privacyPolicyCell.backgroundColor = theme.accentColor
-        acknowledgementsCell.backgroundColor = theme.accentColor
-
-        // backgroundColor
-        view.backgroundColor = theme.backgroundColor
-
-        // foreground
-        versionCell.textLabel?.textColor = theme.backgroundColor
-        versionCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
-        privacyPolicyCell.textLabel?.textColor = theme.backgroundColor
-        privacyPolicyCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
-        acknowledgementsCell.textLabel?.textColor = theme.backgroundColor
-        acknowledgementsCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
-    }
-
-    func apply(theme: ColorTheme) {
-        // ...
-    }
-}
-*/
 
 // MARK: - Bundle Extensions
 extension Bundle {

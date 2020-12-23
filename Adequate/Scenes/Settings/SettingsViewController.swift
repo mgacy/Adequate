@@ -441,47 +441,6 @@ extension SettingsViewController {
     }
 }
 
-/*
-// MARK: - Themeable
-extension SettingsViewController: Themeable {
-    func apply(theme: AppTheme) {
-        // accentColor
-        notificationCell.backgroundColor = theme.accentColor
-        webCell.backgroundColor = theme.accentColor
-        emailCell.backgroundColor = theme.accentColor
-        twitterCell.backgroundColor = theme.accentColor
-        aboutCell.backgroundColor = theme.accentColor
-        reviewCell.backgroundColor = theme.accentColor
-
-        // backgroundColor
-        view.backgroundColor = theme.backgroundColor
-        notificationSwitch.onTintColor = theme.backgroundColor
-
-        // foreground
-        notificationCell.textLabel?.textColor = theme.backgroundColor
-        notificationCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
-        webCell.textLabel?.textColor = theme.backgroundColor
-        webCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
-        emailCell.textLabel?.textColor = theme.backgroundColor
-        emailCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
-        twitterCell.textLabel?.textColor = theme.backgroundColor
-        twitterCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
-        aboutCell.textLabel?.textColor = theme.backgroundColor
-        reviewCell.textLabel?.textColor = theme.backgroundColor
-
-        notificationHeader.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
-        supportHeader.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
-        supportFooter.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
-    }
-
-    func apply(theme: ColorTheme) {
-        notificationHeader.textColor = theme.secondaryLabel
-        supportHeader.textColor = theme.secondaryLabel
-        supportFooter.textColor = theme.secondaryLabel
-        // FIXME: finish
-    }
-}
-*/
 // MARK: - Config
 extension SettingsViewController {
     enum SupportAddress: String {
