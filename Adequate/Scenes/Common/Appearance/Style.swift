@@ -6,7 +6,6 @@
 
 import UIKit
 
-// TODO: consider removing restriction to `UIView`
 public struct Style<T> {
     private let callback: (T) -> Void
 

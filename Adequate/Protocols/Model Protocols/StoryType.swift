@@ -6,7 +6,7 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
-protocol StoryType {
+public protocol StoryType {
     var title: String { get }
     var body: String { get }
 }

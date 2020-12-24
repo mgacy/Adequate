@@ -8,14 +8,15 @@
 
 import Foundation
 
-struct Story: Codable, Equatable {
-    let title: String
-    let body: String
+public struct Story: Codable, Equatable {
+    public let title: String
+    public let body: String
 }
 
 // MARK: - Initializers
 
-extension Story {
+public extension Story {
+
     init(_ story: StoryType) {
         self.title = story.title
         self.body = story.body

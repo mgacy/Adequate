@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension String {
+public extension String {
 
     // https://stackoverflow.com/a/45449342/4472195
     func substring(with nsrange: NSRange) -> Substring? {

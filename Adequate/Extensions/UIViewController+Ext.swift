@@ -10,7 +10,8 @@ import UIKit
 
 // MARK: - Child View Controllers
 // https://www.swiftbysundell.com/basics/child-view-controllers?rq=child
-extension UIViewController {
+public extension UIViewController {
+
     func add(_ child: UIViewController) {
         addChild(child)
         view.addSubview(child.view)
@@ -34,7 +35,7 @@ extension UIViewController {
 extension UIViewController {
 
     /// Best guess at a correct frame to use when using a custom view in `loadView()`.
-    var defaultFrame: CGRect {
+    public var defaultFrame: CGRect {
         return parent?.view.frame ?? UIScreen.main.bounds
     }
 }

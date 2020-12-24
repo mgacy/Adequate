@@ -83,7 +83,6 @@ extension DeepLink {
                 log.info("\(#function) - DefaultActionIdentifier")
                 return deal
             case UNNotificationDismissActionIdentifier:
-                // TODO: how to handle?
                 log.info("\(#function) - DismissActionIdentifier")
                 return nil
             default:

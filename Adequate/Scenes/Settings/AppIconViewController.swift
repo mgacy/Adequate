@@ -114,7 +114,7 @@ extension AppIconViewController {
 extension AppIconViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
+        tableView.deselectRow(at: indexPath, animated: true)
 
         let selectedIcon: AppIcon
         switch (indexPath.section, indexPath.row) {

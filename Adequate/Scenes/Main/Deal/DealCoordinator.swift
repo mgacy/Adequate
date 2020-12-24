@@ -101,12 +101,10 @@ extension DealCoordinator: FullScreenImagePresenting {}
 extension DealCoordinator: DealViewControllerDelegate {
 
     func showHistoryList() {
-        //delegate?.goToPage(.history, from: .deal, animated: true)
         onPageSelect?(.history, .deal, true)
     }
 
     func showStory() {
-        //delegate?.goToPage(.story, from: .deal, animated: true)
         onPageSelect?(.story, .deal, true)
     }
 
@@ -116,8 +114,7 @@ extension DealCoordinator: DealViewControllerDelegate {
 
     func showPurchase(for deal: Deal) {
         let dealURL = deal.url.appendingPathComponent("checkout")
-        // TODO: pass to PurchaseManager
-        // show web page / open Safari
+        // TODO: add option to open Safari instead (perhaps using `PurchaseManager`)
         showWebPage(with: dealURL, animated: true) { [weak self] in
             if let counter = self?.dependencies.makeAppUsageCounter() {
                 counter.userDid(perform: .pressBuy)

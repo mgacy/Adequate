@@ -2,9 +2,6 @@
 //  Reusable.swift
 //  Adequate
 //
-//  Created by Mathew Gacy on 9/10/18.
-//  Copyright © 2018 Mathew Gacy. All rights reserved.
-//
 //  Based on code from:
 //  https://cocoacasts.com/dequeueing-reusable-views-with-generics-and-protocols
 //  https://github.com/sergdort/CleanArchitectureRxSwift
@@ -58,7 +55,8 @@ extension UICollectionView {
     }
 
     public func dequeueReusableSupplementaryView<T: UICollectionReusableView>(ofKind kind: String, for indexPath: IndexPath) -> T {
-        guard let section = dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: T.reuseID, for: indexPath) as? T else {
+        guard let section = dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: T.reuseID,
+                                                             for: indexPath) as? T else {
             fatalError("Unable to dequeue reusable supplementary view: \(T.self)")
         }
         return section

@@ -6,6 +6,6 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
-protocol LaunchType {
+public protocol LaunchType {
     var soldOutAt: String? { get }
 }

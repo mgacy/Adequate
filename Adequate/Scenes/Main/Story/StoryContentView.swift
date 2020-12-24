@@ -10,7 +10,7 @@ import UIKit
 
 final class StoryContentView: UIView {
 
-    //var styler: MDStyler
+    var styler: MDStyler
 
     var title: String? {
         didSet {
@@ -29,23 +29,27 @@ final class StoryContentView: UIView {
 
     // MARK: - Appearance
 
-    // TODO: remove in favor of simply relying on apply(theme:)?
-    private var _textColor: UIColor? = .black
+    override var backgroundColor: UIColor? {
+        didSet {
+            bodyText.backgroundColor = backgroundColor
+        }
+    }
+
+    private var _textColor: UIColor? = .label
     var textColor: UIColor? {
+        get { return _textColor }
         set {
             _textColor = newValue
             titleLabel.textColor = newValue
             bodyText.textColor = newValue
         }
-        get { return _textColor }
     }
 
     // MARK: - Subviews
 
     private let titleLabel = UILabel(style: StyleBook.Label.title)
 
-    private let bodyText: MDTextView = {
-        let styler = MDStyler()
+    private lazy var bodyText: MDTextView = {
         let view = MDTextView(styler: styler)
         StyleBook.TextView.base.apply(to: view)
         return view
@@ -53,15 +57,20 @@ final class StoryContentView: UIView {
 
     // MARK: - Lifecycle
 
-    // TODO: init with MDStyler?
+    init(styler: MDStyler = MDStyler()) {
+        self.styler = styler
+        super.init(frame: CGRect.zero)
+        self.configure()
+    }
+
     override init(frame: CGRect) {
+        self.styler = MDStyler()
         super.init(frame: frame)
         self.configure()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        self.configure()
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Configuration
@@ -91,6 +100,8 @@ final class StoryContentView: UIView {
 extension StoryContentView: Themeable {
     func apply(theme: ColorTheme) {
         titleLabel.textColor = theme.label
-        bodyText.apply(theme: theme)
+
+        styler.colors = MDColorCollection(theme: theme)
+        try? bodyText.render()
     }
 }

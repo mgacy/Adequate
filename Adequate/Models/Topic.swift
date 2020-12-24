@@ -9,18 +9,18 @@
 import Foundation
 
 // sourcery: lens
-struct Topic: Codable, Equatable {
-    let commentCount: Int
-    let createdAt: Date
-    let id: String
-    //let replyCount: Int
-    let url: URL
-    //let voteCount: Int
+public struct Topic: Codable, Equatable {
+    public let commentCount: Int
+    public let createdAt: Date
+    public let id: String
+    //public let replyCount: Int
+    public let url: URL
+    //public let voteCount: Int
 }
 
 // MARK: - Initializers
 
-extension Topic {
+public extension Topic {
     init?(_ topic: TopicType) {
         guard
             let createdAt = DateFormatter.iso8601Full.date(from: topic.createdAt),

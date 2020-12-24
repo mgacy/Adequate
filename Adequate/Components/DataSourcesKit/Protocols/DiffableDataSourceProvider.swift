@@ -21,16 +21,14 @@ public protocol TableViewDiffableDataSourceProvider {
 
 public extension TableViewDiffableDataSourceProvider where CellType: Reusable, CellType.ModelType == ItemType {
 
+    /// NOTE: this doesn't help when the model is used to fetch resources asynchronously.
     func makeDataSource(
         for tableView: UITableView
     ) -> UITableViewDiffableDataSource<SectionType, ItemType> {
-        // name doesn't indicate functionality, but we could go ahead and:
-        //tableView.register(cellType: CellType.self)
         return UITableViewDiffableDataSource(
             tableView: tableView,
             cellProvider: { tableView, indexPath, model in
                 let cell: CellType = tableView.dequeueReusableCell(for: indexPath)
-                // TODO: this doesn't help when the model is used to fetch resources ...
                 cell.configure(with: model)
                 return cell
             }
@@ -51,13 +49,13 @@ public protocol CollectionViewDiffableDataSourceProvider {
 
 public extension CollectionViewDiffableDataSourceProvider where CellType: Reusable, CellType.ModelType == ItemType {
 
+    /// NOTE: this doesn't help when the model is used to fetch resources asynchronously.
     func makeDataSource(
         for collectionView: UICollectionView
     ) -> UICollectionViewDiffableDataSource<SectionType, ItemType> {
         return UICollectionViewDiffableDataSource(
             collectionView: collectionView,
             cellProvider: { collectionView, indexPath, model in
-                // TODO: this doesn't help when the model is used to fetch resources ...
                 let cell: CellType = collectionView.dequeueReusableCell(for: indexPath)
                 cell.configure(with: model)
                 return cell

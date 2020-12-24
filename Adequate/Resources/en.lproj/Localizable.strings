@@ -14,6 +14,7 @@
 "dismiss" = "Dismiss";
 "email" = "Email";
 "empty_message" = "There was no data";
+"empty_history_message" = "There are no deals";
 "error" = "Error";
 "forum" = "Forum";
 "history" = "History";
@@ -40,6 +41,22 @@
 "disabled_email_alert_body" = "Device is not configured to send email.";
 "disabled_notification_alert_body" = "Notifications are disabled. Please allow Adequate to access notifications in Settings.";
 "disabled_icon_change_alert_body" = "Sorry, Adequate is not allowed to change its icon.";
+
+/* SyncClientError Messages */
+"error.network" = "Network Error: %@";
+"error.missing_client" = "Unable to initialize client";
+"error.authentication" = "Authentication Error: %@";
+"error.missing_field" = "Missing data for %@";
+"error.unknown" = "Unknown Error: %@";
+"error.empty_operation_handler" = "Operation returned neither result not error.";
+"error.empty_result" = "Result contained neither data nor error.";
+
+/* NetworkClientError */
+"error.data_serialization" = "Data Serialization Error: %@";
+"error.json_serialization" = "JSON Serialization Error: %@";
+"error.object_serialization" = "Object Serialization Error: %@";
+"error.image_decoding" = "Unable to decode image";
+"error.bad_request" = "Bad Request";
 
 /* Settings - Theme */
 "appearance" = "Appearance";
@@ -71,6 +88,8 @@
 "accessibility.left_chevron_button" = "Left Chevron Button";
 "accessibility.right_chevron_button" = "Right Chevron Button";
 "accessibility.settings_button" = "Show Settings";
+"accessibility.not_now_button" = "Not Now Button";
+"accessibility.allow_notifications_button" = "Allow Notifications Button";
 /*"accessibility." = "";*/
 
 /* Extension - WidgetExtension */

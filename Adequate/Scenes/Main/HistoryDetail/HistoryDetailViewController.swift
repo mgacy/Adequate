@@ -10,20 +10,12 @@ import UIKit
 import Promise
 import typealias AWSAppSync.GraphQLID // = String
 
-final class HistoryDetailViewController: BaseViewController<ScrollableView<DealContentView>>, SwipeDismissable {
+final class HistoryDetailViewController: BaseViewController<ScrollableView<DealContentView>> {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
     typealias DealFragment = DealHistoryQuery.Data.DealHistory.Item
     typealias Deal = GetDealQuery.Data.GetDeal
 
     weak var delegate: HistoryDetailViewControllerDelegate?
-
-    var shouldDismiss: Bool {
-        return rootView.scrollView.contentOffset.y <= 0
-    }
-
-    // TODO: rename `interactionController?
-    //var transitionController: SlideTransitionController?
-    var transitionController: UIViewControllerTransitioningDelegate?
 
     private let dataProvider: DataProviderType
     private let imageService: ImageServiceType
@@ -79,7 +71,7 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
         view.delegate = self
-        view.backgroundColor = ColorCompatibility.systemBackground
+        view.backgroundColor = .systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -115,11 +107,6 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
         // Fix sizing when displayed on iPad on iOS 13
         //let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
         //rootView.scrollView.headerHeight = parallaxHeight
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - View Methods
@@ -264,18 +251,12 @@ extension HistoryDetailViewController: ViewStateRenderable {
         stateView.render(viewState)
         switch viewState {
         case .empty:
-            //stateView.render(viewState)
-            //stateView.isHidden = false
             pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         case .loading:
-            //stateView.render(viewState)
-            //stateView.isHidden = false
             pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         case .result(let deal):
-            //stateView.render(viewState)
-            //stateView.isHidden = true
             titleView.text = deal.title
             rootView.contentView.title = deal.title
             rootView.contentView.features = deal.features
@@ -288,10 +269,7 @@ extension HistoryDetailViewController: ViewStateRenderable {
             pagedImageView.updateImages(with: safePhotoURLs)
             pagedImageView.isHidden = false
             rootView.scrollView.isHidden = false
-            // TODO: animate display
         case .error:
-            //stateView.render(viewState)
-            //stateView.isHidden = false
             pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         }
@@ -321,9 +299,6 @@ extension HistoryDetailViewController: Themeable {
 
         // backgroundColor
         navigationController?.view.backgroundColor = theme.systemBackground
-        // NOTE: are not changing the following:
-        //navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        //navigationController?.navigationBar.layoutIfNeeded() // Animate color change
 
         // Subviews
         titleView.apply(theme: theme)

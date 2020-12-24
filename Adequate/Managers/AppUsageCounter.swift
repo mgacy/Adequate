@@ -25,9 +25,9 @@ protocol AppUsageCounting {
 // MARK: - Type
 enum AppAction {
     case launchApp
-    case pressBuy // TODO:  distinguish pressing in app vs. notification action?
+    case pressBuy
     case shareDeal
-    //case actionFromNotification // TODO: add `NotificationAction` as associated value?
+    //case actionFromNotification(NotificationAction)
     //case launchFromNotification
     //case launchFromWidget
 }

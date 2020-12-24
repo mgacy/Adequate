@@ -13,7 +13,7 @@ class FileDownloader {
     private let session: URLSession = .shared
     private let containerURL: URL
 
-    init(appGroupID: AppGroupID){
+    init(appGroupID: AppGroupID) {
         let appGroupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupID.rawValue)!
         self.containerURL = appGroupURL //.appendingPathComponent("images", isDirectory: true)
     }

@@ -8,12 +8,11 @@
 
 import UIKit
 
-// TODO: rename to something more generic?
 class ZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
     private let transitionDuration: TimeInterval = 0.3
-    let fromDelegate: ViewAnimatedTransitioning
-    let toDelegate: ViewAnimatedTransitioning
+    weak var fromDelegate: ViewAnimatedTransitioning?
+    weak var toDelegate: ViewAnimatedTransitioning?
 
     init(from fromDelegate: ViewAnimatedTransitioning, to toDelegate: ViewAnimatedTransitioning) {
         self.fromDelegate = fromDelegate
@@ -45,7 +44,7 @@ extension ZoomAnimator {
     func makeTransitioningView() -> UIView {
         // TODO: complete
         let view = UIView()
-        view.backgroundColor = ColorCompatibility.secondarySystemBackground
+        view.backgroundColor = .secondarySystemBackground
         // Use `photo` symbol?
         return view
     }

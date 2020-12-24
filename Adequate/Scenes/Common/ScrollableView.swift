@@ -12,9 +12,6 @@ final class ScrollableView<T: UIView>: UIView {
     public let scrollView = ParallaxScrollView()
     public let contentView = T()
 
-    // TODO: add stateView?
-    // TODO: add properties for ParallaxScrollView?
-
     // MARK: - Appearance
 
     override var backgroundColor: UIColor? {

@@ -46,15 +46,10 @@ final class RootPageViewController: UIPageViewController {
         observationTokens = setupObservations()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     // MARK: - View Methods
 
     private func setupView() {
-        view.backgroundColor = ColorCompatibility.systemBackground
+        view.backgroundColor = .systemBackground
         self.dataSource = self
         self.delegate = self
 
@@ -170,9 +165,9 @@ extension RootPageViewController {
 extension RootPageViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if (currentIndex == 0 && scrollView.contentOffset.x < scrollView.bounds.size.width) {
+        if currentIndex == 0 && scrollView.contentOffset.x < scrollView.bounds.size.width {
             scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
-        } else if (currentIndex == pages.count - 1 && scrollView.contentOffset.x > scrollView.bounds.size.width) {
+        } else if currentIndex == pages.count - 1 && scrollView.contentOffset.x > scrollView.bounds.size.width {
             scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
         }
     }
@@ -183,9 +178,9 @@ extension RootPageViewController: UIScrollViewDelegate {
      When bounced back, the UIPageViewController will trigger an unexpected page flip to the 2nd page.
      */
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        if (currentIndex == 0 && scrollView.contentOffset.x <= scrollView.bounds.size.width) {
+        if currentIndex == 0 && scrollView.contentOffset.x <= scrollView.bounds.size.width {
             targetContentOffset.pointee = CGPoint(x: scrollView.bounds.size.width, y: 0)
-        } else if (currentIndex == pages.count - 1 && scrollView.contentOffset.x >= scrollView.bounds.size.width) {
+        } else if currentIndex == pages.count - 1 && scrollView.contentOffset.x >= scrollView.bounds.size.width {
             targetContentOffset.pointee = CGPoint(x: scrollView.bounds.size.width, y: 0)
         }
     }

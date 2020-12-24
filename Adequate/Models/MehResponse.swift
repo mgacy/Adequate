@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct MehResponse: Codable, Equatable {
-    let deal: Deal
-    let poll: Poll?
-    let video: Video?
+public struct MehResponse: Codable, Equatable {
+    public let deal: Deal
+    public let poll: Poll?
+    public let video: Video?
 }

@@ -8,11 +8,11 @@
 
 import UIKit
 
-// TODO: add optional `colorTheme: ColorTheme` param to init and UITableView extension?
-
 final class TableBackgroundView: UIView {
 
     // MARK: - Properties
+
+    //var onRetry: (() -> Void)?
 
     public var title: String? {
         get {
@@ -23,9 +23,6 @@ final class TableBackgroundView: UIView {
             titleLabel.isHidden = newValue == nil
         }
     }
-
-    // TODO: replace `titleColor` and `messageColor` with `foreground: ThemeForeground`? See `StateView`
-    // TODO: add `retryButton` and `var onRetry: (() -> Void)?`?
 
     public var titleColor: UIColor {
         get {
@@ -56,11 +53,13 @@ final class TableBackgroundView: UIView {
 
     // MARK: - Subviews
 
+    // TODO: add `retryButton`?
+
     private let titleLabel: UILabel = {
         let label = UILabel(style: StyleBook.Label.base <> StyleBook.Label.centered)
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.textColor = ColorCompatibility.secondaryLabel
+        label.textColor = .secondaryLabel
         return label
     }()
 
@@ -68,7 +67,7 @@ final class TableBackgroundView: UIView {
         let label = UILabel(style: StyleBook.Label.base <> StyleBook.Label.centered)
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.textColor = ColorCompatibility.secondaryLabel
+        label.textColor = .secondaryLabel
         return label
     }()
 
@@ -92,7 +91,8 @@ final class TableBackgroundView: UIView {
 
     public override func didMoveToSuperview() {
         guard let safeTopAnchor = self.superview?.safeAreaLayoutGuide.topAnchor else { return }
-        titleLabel.topAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: safeTopAnchor, multiplier: 1.0).isActive = true
+        titleLabel.topAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: safeTopAnchor,
+                                        multiplier: 1.0).isActive = true
     }
 
     //deinit { print("\(#function) - \(self.description)") }
@@ -118,7 +118,6 @@ final class TableBackgroundView: UIView {
 }
 
 // MARK: - UITableView + TableBackgroundView
-
 extension UITableView {
 
     /// Add `TableBackgroundView` as background view.
@@ -146,13 +145,12 @@ extension UITableView {
             }
             UIView.animate(withDuration: 0.3,
                            animations: { backgroundView.alpha = 0.0 },
-                           completion: { _ in
-                                // TODO: only set to nil if completed?
-                                guard self.backgroundView === backgroundView else {
+                           completion: { [weak self] _ in
+                                guard self?.backgroundView === backgroundView else {
                                     // backgroundView has already been replaced by another
                                     return
                                 }
-                                self.backgroundView = nil
+                                self?.backgroundView = nil
                             })
         } else {
             backgroundView = nil

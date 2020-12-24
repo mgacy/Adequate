@@ -40,21 +40,10 @@ public extension MDFontCollection {
         body = .preferredFont(forTextStyle: .body)
 
         // code
-        // FIXME: use monospaced font
-        code = .systemFont(ofSize: 17)
-        /*
-        if #available(iOS 12.0, *) {
-            code = .monospacedSystemFont(ofSize: 17.0, weight: .regular)
-        } else if let menlo = UIFont(name: "menlo", size: 17.0) {
-            code = UIFontMetrics(forTextStyle: .body).scaledFont(for: menlo)
-        } else {
-            code = .systemFont(ofSize: 17)
-        }
-        */
+        code = .monospacedSystemFont(ofSize: 17.0, weight: .regular)
+
         // listItemPrefix
         let listFont = UIFont.monospacedDigitSystemFont(ofSize: 17, weight: .regular)
         listItemPrefix = UIFontMetrics.default.scaledFont(for: listFont)
     }
-
-    // TODO: add initializer accepting `FontBook`?
 }

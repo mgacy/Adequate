@@ -15,7 +15,7 @@ class AppDependencyMock: HasDataProvider, HasImageService, HasThemeManager {
     var imageService: ImageServiceType
     var themeManager: ThemeManagerType
 
-    init (dataProvider:  DataProviderType, imageService: ImageServiceType, themeManager: ThemeManagerType) {
+    init (dataProvider: DataProviderType, imageService: ImageServiceType, themeManager: ThemeManagerType) {
         self.dataProvider = dataProvider
         self.imageService = imageService
         self.themeManager = themeManager

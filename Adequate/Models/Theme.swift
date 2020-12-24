@@ -8,7 +8,15 @@
 
 import UIKit
 
-struct Theme: Equatable {
+public struct Theme: Equatable {
+    public let accentColor: UIColor
+    public let backgroundColor: UIColor
+    //public let backgroundImage: URL?
+    public let foreground: ThemeForeground
+}
+
+// MARK: - SubTypes
+extension Theme {
 
     private enum CodingKeys: String, CodingKey {
         case accentColor
@@ -29,15 +37,11 @@ struct Theme: Equatable {
             self.hexString = uiColor.hexDescription(true)
         }
     }
-
-    let accentColor: UIColor
-    let backgroundColor: UIColor
-    //let backgroundImage: URL?
-    let foreground: ThemeForeground
 }
 
 // MARK: - Initializers
-extension Theme {
+public extension Theme {
+
     init(_ theme: ThemeType) {
         self.accentColor = UIColor(hexString: theme.accentColor)
         self.backgroundColor = UIColor(hexString: theme.backgroundColor)
@@ -47,7 +51,8 @@ extension Theme {
 
 // MARK: - Encodable
 extension Theme: Encodable {
-    func encode(to encoder: Encoder) throws {
+
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(HexColor(uiColor: accentColor), forKey: .accentColor)
         try container.encode(HexColor(uiColor: backgroundColor), forKey: .backgroundColor)
@@ -57,7 +62,8 @@ extension Theme: Encodable {
 
 // MARK: - Decodable
 extension Theme: Decodable {
-    init(from decoder: Decoder) throws {
+
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         accentColor = try container.decode(HexColor.self, forKey: .accentColor).uiColor
         backgroundColor = try container.decode(HexColor.self, forKey: .backgroundColor).uiColor

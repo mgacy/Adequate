@@ -9,12 +9,14 @@
 import Foundation
 import typealias AWSAppSync.GraphQLID // = String
 
+// swiftlint:disable opening_brace nesting
+
 /// Representation of notification content.
 enum DealNotification {
     case new(GraphQLID) // Use `NewDeal` struct with dealURL, imageURL?
     case delta(DealDelta)
 
-    init?(userInfo: [AnyHashable : Any]) {
+    init?(userInfo: [AnyHashable: Any]) {
         guard let dealID = userInfo[NotificationPayloadKey.dealID] as? GraphQLID else {
             return nil
         }
@@ -38,7 +40,7 @@ struct DealDelta {
     let dealID: GraphQLID
     let deltaType: DeltaType
 
-    init?(userInfo: [AnyHashable : Any]) {
+    init?(userInfo: [AnyHashable: Any]) {
         guard let dealID = userInfo[NotificationPayloadKey.dealID] as? GraphQLID,
               let deltaType = DeltaType(userInfo: userInfo) else {
             return nil
@@ -62,7 +64,6 @@ struct DealDelta {
 // MARK: - DealDelta + apply
 extension DealDelta {
 
-    // TODO: throw `Error` or return `Result`?
     func apply(to deal: Deal) throws -> Deal? {
         guard deal.dealID == dealID else {
             throw DeltaApplicationError.invalidID
@@ -78,7 +79,7 @@ extension DealDelta {
             }
 
             let dealAffine = Deal.lens.topic.toAffine()
-            let topicPrism = Optional<Topic>.prism.toAffine()
+            let topicPrism = Topic?.prism.toAffine()
             let topicAffine = Topic.lens.commentCount.toAffine()
             let composed = dealAffine.then(topicPrism).then(topicAffine)
 
@@ -107,7 +108,7 @@ extension DealDelta {
         /// Update `Deal.launchStatus`.
         case launchStatus(LaunchStatus)
 
-        init?(userInfo: [AnyHashable : Any]) {
+        init?(userInfo: [AnyHashable: Any]) {
             guard let updateTypeString = userInfo[NotificationPayloadKey.deltaType] as? String,
                   let updateType = ValueType(rawValue: updateTypeString) else {
                 return nil
@@ -154,13 +155,12 @@ extension DealDelta {
         }
     }
 
-    // TODO: should this be a top level type?
     enum DeltaApplicationError: Error {
         /// The `DealDelta` does not apply to `deal`.
         case invalidID
         /// The `DealDelta` involves changes to a missing object.
-        case missingParentProperty // incompleteGraph
+        case missingParentProperty
         /// `Affine.trySet` returned nil
-        case nilTrySet // `opticFailure`?
+        case nilTrySet
     }
 }

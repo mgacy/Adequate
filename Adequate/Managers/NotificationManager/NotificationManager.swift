@@ -16,7 +16,6 @@ enum NotificationManagerError: Error {
     case general(message: String)
 }
 
-
 class NotificationManager: NSObject, NotificationManagerType {
 
     private let notificationCenter: UNUserNotificationCenter
@@ -55,7 +54,7 @@ class NotificationManager: NSObject, NotificationManagerType {
             .then(on: DispatchQueue.global(), { _ in
                 self.notificationCenter.setNotificationCategories([self.makeCategory(for: .dailyDeal)])
             })
-            .then({ settings in
+            .then({ _ in
                 // must register on main thread
                 UIApplication.shared.registerForRemoteNotifications()
             })

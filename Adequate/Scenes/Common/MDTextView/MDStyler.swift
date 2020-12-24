@@ -19,7 +19,7 @@ class MDStyler: Styler {
     // TODO: observe ThemeManager?
     //var theme: AppTheme
 
-    var listPrefixAttributes: [NSAttributedString.Key : Any] {[
+    var listPrefixAttributes: [NSAttributedString.Key: Any] {[
         .font: fonts.listItemPrefix,
         .foregroundColor: colors.listItemPrefix]
     }
@@ -84,15 +84,15 @@ class MDStyler: Styler {
         str.updateExistingAttributes(for: .font) { (currentFont: UIFont) in
             var newFont = font
 
-            if (currentFont.isMonospace) {
+            if currentFont.isMonospace {
                 newFont = newFont.monospace
             }
 
-            if (currentFont.isItalic) {
+            if currentFont.isItalic {
                 newFont = newFont.italic
             }
 
-            if (currentFont.isBold) {
+            if currentFont.isBold {
                 newFont = newFont.bold
             }
 
@@ -223,6 +223,7 @@ extension MDStyler {
 private extension NSParagraphStyle {
 
     func indented(by indentation: CGFloat) -> NSParagraphStyle {
+        // swiftlint:disable:next force_cast
         let result = mutableCopy() as! NSMutableParagraphStyle
         result.firstLineHeadIndent += indentation
         result.headIndent += indentation
@@ -240,6 +241,6 @@ private extension NSAttributedString {
     func prefix(with length: Int) -> NSAttributedString {
         guard length <= self.length else { return self }
         guard length > 0 else { return NSAttributedString() }
-        return attributedSubstring(from: NSMakeRange(0, length))
+        return attributedSubstring(from: NSRange(location: 0, length: length))
     }
 }

@@ -7,14 +7,16 @@
 
 import Foundation
 
-public struct Lens<Whole,Part> {
+// swiftlint:disable opening_brace
+
+public struct Lens<Whole, Part> {
     public let get: (Whole) -> Part
     public let set: (Part) -> (Whole) -> Whole
 }
 
 public extension Lens {
-    func then<Subpart>(_ other: Lens<Part,Subpart>) -> Lens<Whole,Subpart> {
-        return Lens<Whole,Subpart>(
+    func then<Subpart>(_ other: Lens<Part, Subpart>) -> Lens<Whole, Subpart> {
+        return Lens<Whole, Subpart>(
             get: { other.get(self.get($0)) },
             set: { (subpart: Subpart) in
                 { (whole: Whole) -> Whole in
@@ -27,8 +29,8 @@ public extension Lens {
         return { whole in self.set(transform(self.get(whole)))(whole) }
     }
 
-    func toAffine() -> Affine<Whole,Part> {
-        return Affine<Whole,Part>.init(
+    func toAffine() -> Affine<Whole, Part> {
+        return Affine<Whole, Part>.init(
             tryGet: self.get,
             trySet: self.set)
     }

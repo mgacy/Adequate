@@ -24,7 +24,6 @@ enum StyleBook {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
-        // TODO: rename `regularFont`?
         static let regular = Style<UIButton> {
             $0.titleLabel?.font = FontBook.regularButton
         }
@@ -77,11 +76,11 @@ enum StyleBook {
         }
 
         // FooterViewController.buyButton
-        static let x = Style<UIButton> {
-            // TODO: should we make a func and pass titleColor or ColorTheme?
-            $0.setTitleColor($0.tintColor, for: .normal)
-            $0.backgroundColor = .systemBackground
-        }
+        //static let x = Style<UIButton> {
+        //    // TODO: should we make a func and pass titleColor or ColorTheme?
+        //    $0.setTitleColor($0.tintColor, for: .normal)
+        //    $0.backgroundColor = .systemBackground
+        //}
     }
 
     // MARK: - UILabel
@@ -106,18 +105,17 @@ enum StyleBook {
         // FooterViewController.priceLabel
         static let primary = Style<UILabel> {
             $0.font = FontBook.compactFooter // ?
-            $0.textColor = ColorCompatibility.label
+            $0.textColor = .label
         } <> base
 
         // FooterViewController.priceComparisonLabel
         static let secondary = Style<UILabel> {
             $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-            $0.textColor = ColorCompatibility.secondaryLabel
+            $0.textColor = .secondaryLabel
         } <> base
 
         // UITableView
 
-        // TODO: make name more generic?
         static let cellTitle = Style<UILabel> {
             $0.numberOfLines = 2
             $0.font = UIFont.preferredFont(forTextStyle: .headline)

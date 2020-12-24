@@ -8,6 +8,8 @@
 
 import UIKit
 
+// swiftlint:disable file_length
+
 // MARK: - Delegate Protocol
 
 protocol SettingsViewControllerDelegate: VoidDismissalDelegate {
@@ -22,7 +24,7 @@ protocol SettingsViewControllerDelegate: VoidDismissalDelegate {
 final class SettingsViewController: UITableViewController {
     typealias Dependencies = HasUserDefaultsManager & HasThemeManager & NotificationManagerProvider
 
-    weak var delegate: SettingsViewControllerDelegate? = nil
+    weak var delegate: SettingsViewControllerDelegate?
     private let notificationManager: NotificationManagerType
     private let themeManager: ThemeManagerType
     private let userDefaultsManager: UserDefaultsManagerType
@@ -127,11 +129,6 @@ final class SettingsViewController: UITableViewController {
         setupView()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     //deinit { observationTokens.forEach { $0.cancel() } }
 
     // MARK: - View Methods
@@ -192,7 +189,8 @@ final class SettingsViewController: UITableViewController {
     }
 
     private func showOpenSettingsAlert() {
-        let alertController = UIAlertController (title: L10n.error, message: L10n.disabledNotificationAlertBody, preferredStyle: .alert)
+        let alertController = UIAlertController(title: L10n.error, message: L10n.disabledNotificationAlertBody,
+                                                preferredStyle: .alert)
 
         let cancelAction = UIAlertAction(title: L10n.cancel, style: .default, handler: nil)
         alertController.addAction(cancelAction)
@@ -225,13 +223,13 @@ extension SettingsViewController {
     }
 
     private func makeColorPaletteAlertController(actionHandler: @escaping (UIUserInterfaceStyle) -> Void) -> UIAlertController {
-        let systemAction = UIAlertAction(title: L10n.themeSystem, style: .default) { action in
+        let systemAction = UIAlertAction(title: L10n.themeSystem, style: .default) { _ in
             actionHandler(.unspecified)
         }
-        let lightAction = UIAlertAction(title: L10n.themeLight, style: .default) { action in
+        let lightAction = UIAlertAction(title: L10n.themeLight, style: .default) { _ in
             actionHandler(.light)
         }
-        let darkAction = UIAlertAction(title: L10n.themeDark, style: .default) { action in
+        let darkAction = UIAlertAction(title: L10n.themeDark, style: .default) { _ in
             actionHandler(.dark)
         }
         let cancelAction = UIAlertAction(title: L10n.cancel, style: .cancel)
@@ -239,6 +237,10 @@ extension SettingsViewController {
         let alert = UIAlertController(title: L10n.theme,
                                       message: nil,
                                       preferredStyle: .actionSheet)
+        if let interfaceStyle = themeManager.theme.foreground?.userInterfaceStyle {
+            alert.overrideUserInterfaceStyle = interfaceStyle
+        }
+
         alert.addAction(systemAction)
         alert.addAction(lightAction)
         alert.addAction(darkAction)
@@ -255,7 +257,7 @@ extension SettingsViewController {
         case .unspecified:
             themeCell.detailTextLabel?.text = L10n.themeSystem
         @unknown default:
-            fatalError("Unrecognized UIUserInterfaceStyle: \(interfaceStyle)")
+            log.error("Unrecognized UIUserInterfaceStyle: \(interfaceStyle)")
         }
     }
 }
@@ -285,9 +287,15 @@ extension SettingsViewController {
             subject: SupportEmailMessage.subject,
             message: SupportEmailMessage.message,
             attachments: attachments,
-            completionHandler: { [weak self] _ in self?.mailComposer = nil }) else {
-                displayError(message: L10n.disabledEmailAlertBody)
-                return
+            completionHandler: { [weak self] result in
+                if case .failure(let error) = result {
+                    log.error("\(error.localizedDescription)")
+                }
+                self?.mailComposer = nil
+            }
+        ) else {
+            displayError(message: L10n.disabledEmailAlertBody)
+            return
         }
         mailComposer = composer
         present(mailController, animated: true)
@@ -311,6 +319,7 @@ extension SettingsViewController {
         }
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
@@ -366,10 +375,8 @@ extension SettingsViewController {
 // MARK: - UITableViewDelegate
 extension SettingsViewController {
 
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: defer {}?
-        tableView.deselectRow(at: indexPath, animated: false)
-
         let application = UIApplication.shared
         switch (indexPath.section, indexPath.row) {
         case (1, 0):
@@ -377,10 +384,12 @@ extension SettingsViewController {
                 delegate?.showTheme()
             } else {
                 showChangeThemeAlert()
+                tableView.deselectRow(at: indexPath, animated: true)
             }
         case (1, 1):
             guard UIApplication.shared.supportsAlternateIcons else {
                 displayError(message: L10n.disabledIconChangeAlertBody)
+                tableView.deselectRow(at: indexPath, animated: true)
                 return
             }
             delegate?.showAppIcon()
@@ -390,8 +399,10 @@ extension SettingsViewController {
                 return
             }
             application.open(webURL)
+            tableView.deselectRow(at: indexPath, animated: true)
         case (2, 1):
             showSupportEmail()
+            tableView.deselectRow(at: indexPath, animated: true)
         case (2, 2):
             guard
                 let appURL = URL(string: "twitter://user?screen_name=\(SupportAddress.twitter.rawValue)"),
@@ -404,6 +415,7 @@ extension SettingsViewController {
             } else {
                 application.open(webURL)
             }
+            tableView.deselectRow(at: indexPath, animated: true)
         case (3, 0):
             delegate?.showAbout()
         case (3, 1):
@@ -415,6 +427,7 @@ extension SettingsViewController {
             case .production:
                 delegate?.showReview()
             }
+            tableView.deselectRow(at: indexPath, animated: true)
         default:
             return
         }
@@ -435,47 +448,6 @@ extension SettingsViewController {
     }
 }
 
-/*
-// MARK: - Themeable
-extension SettingsViewController: Themeable {
-    func apply(theme: AppTheme) {
-        // accentColor
-        notificationCell.backgroundColor = theme.accentColor
-        webCell.backgroundColor = theme.accentColor
-        emailCell.backgroundColor = theme.accentColor
-        twitterCell.backgroundColor = theme.accentColor
-        aboutCell.backgroundColor = theme.accentColor
-        reviewCell.backgroundColor = theme.accentColor
-
-        // backgroundColor
-        view.backgroundColor = theme.backgroundColor
-        notificationSwitch.onTintColor = theme.backgroundColor
-
-        // foreground
-        notificationCell.textLabel?.textColor = theme.backgroundColor
-        notificationCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
-        webCell.textLabel?.textColor = theme.backgroundColor
-        webCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
-        emailCell.textLabel?.textColor = theme.backgroundColor
-        emailCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
-        twitterCell.textLabel?.textColor = theme.backgroundColor
-        twitterCell.detailTextLabel?.textColor = theme.backgroundColor.withAlphaComponent(0.5)
-        aboutCell.textLabel?.textColor = theme.backgroundColor
-        reviewCell.textLabel?.textColor = theme.backgroundColor
-
-        notificationHeader.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
-        supportHeader.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
-        supportFooter.textColor = theme.foreground.textColor.withAlphaComponent(0.5)
-    }
-
-    func apply(theme: ColorTheme) {
-        notificationHeader.textColor = theme.secondaryLabel
-        supportHeader.textColor = theme.secondaryLabel
-        supportFooter.textColor = theme.secondaryLabel
-        // FIXME: finish
-    }
-}
-*/
 // MARK: - Config
 extension SettingsViewController {
     enum SupportAddress: String {
@@ -528,7 +500,6 @@ extension SettingsViewController {
     }
 
     enum UserSupportFile {
-        // TODO: use more descriptive name?
         static let log: String = "swiftybeaver.log"
     }
 }

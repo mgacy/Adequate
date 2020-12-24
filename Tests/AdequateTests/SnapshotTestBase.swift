@@ -28,7 +28,8 @@ class SnapshotTestBase: XCTestCase {
         dataProvider = DataProviderMock()
         imageService = ImageServiceMock()
         themeManager = ThemeManagerMock(theme: .system)
-        dependencies = AppDependencyMock(dataProvider: dataProvider, imageService: imageService, themeManager: themeManager)
+        dependencies = AppDependencyMock(dataProvider: dataProvider, imageService: imageService,
+                                         themeManager: themeManager)
         try super.setUpWithError()
     }
 
@@ -47,6 +48,7 @@ class SnapshotTestBase: XCTestCase {
 }
 
 // MARK: - Factory Methods
+// swiftlint:disable force_cast
 extension SnapshotTestBase {
 
     func getSnapshot(named snapshotName: String, from jsonObject: JSONObject) -> JSONValue {

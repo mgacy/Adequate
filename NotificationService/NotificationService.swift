@@ -71,7 +71,7 @@ extension UNNotificationAttachment {
 
     convenience init(identifier: NotificationAttachmentID,
                      url: URL,
-                     options: [AnyHashable : Any]? = nil
+                     options: [AnyHashable: Any]? = nil
     ) throws {
         try self.init(identifier: identifier.rawValue, url: url, options: options)
     }

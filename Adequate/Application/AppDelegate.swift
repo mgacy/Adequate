@@ -19,7 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private var appCoordinator: AppCoordinator!
     private var notificationServiceManager: NotificationServiceManager?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
         log.debug("\(#function) - \(String(describing: launchOptions))")
         self.window = UIWindow(frame: UIScreen.main.bounds)
 
@@ -71,35 +73,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
         log.warning("Memory Warning")
-        // TODO: clear cache on ImageService
     }
 
     // MARK: - URL-Specified Resources
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication,
+                     open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+    ) -> Bool {
         let deepLink = DeepLink.build(with: url)
-        log.verbose("\(#function) - url: \(url) - options: \(options) - deepLink: \(String(describing:deepLink))")
+        log.verbose("\(#function) - url: \(url) - options: \(options) - deepLink: \(String(describing: deepLink))")
         appCoordinator.start(with: deepLink)
         return true
     }
 
     // MARK: - Notifications
 
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    ) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         notificationServiceManager = appDependency.makeNotificationServiceManager()
         notificationServiceManager?.registerDevice(with: token)
-            .then({ [weak self] subscriptionArn in
+            .then({ [weak self] _ in
                 self?.notificationServiceManager = nil
             })
             .catch({ [weak self] error in
-                log.error("ERROR: \(error)")
-                // TODO: improve error handling
+                log.error("Failed to register device with notification service: \(error)")
+                // TODO: improve error handling. If failure was caused by network connectivity, try again once
+                // reconnected
                 self?.notificationServiceManager = nil
             })
     }
 
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    func application(_ application: UIApplication,
+                     didFailToRegisterForRemoteNotificationsWithError error: Error
+    ) {
         log.error("Failed to register for remote notifications with error: \(error)")
         // TODO: disable notification-related functions
     }
@@ -108,12 +117,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // FIXME: remove
     // see https://developer.apple.com/forums/thread/130138 about this method being called if `content-availble: 1`
-    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication,
+                     performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    ) {
         log.error("****\(#function) was called for some reason")
         completionHandler(.newData)
     }
 
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    ) {
         // Called for silent notifications.
         // FIXME: this can be called a second time when user presses notification
         // TODO: see: https://stackoverflow.com/a/33778990/4472195, https://stackoverflow.com/q/16393673
@@ -133,14 +147,16 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     // Called when a notification is delivered to a foreground app.
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
         log.debug("\(#function) - \(notification)")
-        guard let notification = DealNotification(userInfo: notification.request.content.userInfo) else {
-            // TODO: how best to handle? Call with `[]`?
+        guard let dealNotification = DealNotification(userInfo: notification.request.content.userInfo) else {
+            log.error("Unable to parse DealNotification from notification: \(notification)")
             completionHandler(UNNotificationPresentationOptions(rawValue: 0))  // skip notification
             return
         }
-        appCoordinator.refreshDeal(for: .foregroundNotification(notification: notification, handler: completionHandler))
+        appCoordinator.refreshDeal(for: .foregroundNotification(notification: dealNotification,
+                                                                handler: completionHandler))
     }
 
     // Called to let your app know which action was selected by the user for a given notification.

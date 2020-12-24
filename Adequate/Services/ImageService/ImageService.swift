@@ -23,7 +23,7 @@ public class ImageService: ImageServiceType {
     */
     // TODO: do we need to handle caching or removal of pending tasks on a lockQueue?
     //private let lockQueue = DispatchQueue(label: "image_service_lock_queue", qos: .userInitiated)
-    private var pendingTasks = Dictionary<String, Promise<UIImage>>()
+    private var pendingTasks = [String: Promise<UIImage>]()
     //private var pendingTasks = Dictionary<String, Task>()
 
     public init(client: NetworkClientType) {

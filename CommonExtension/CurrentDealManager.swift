@@ -34,7 +34,7 @@ public class CurrentDealManager {
     // MARK: - Lifecycle
 
     // TODO: init with groupID?
-    init(){
+    init() {
         let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: CurrentDealConstants.groupID)!
         //self.defaults = defaults
         //self.session = Self.makeSession()
@@ -199,7 +199,7 @@ fileprivate extension UIImage {
         let renderFormat = UIGraphicsImageRendererFormat.default()
         renderFormat.opaque = false // enable transparency
         let renderer = UIGraphicsImageRenderer(size: newSize, format: renderFormat)
-        return renderer.image { context in
+        return renderer.image { _ in
             draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: newSize))
         }
     }

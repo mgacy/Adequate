@@ -37,7 +37,6 @@ protocol DataProviderType {
     ///   - closure: Closure to execute on changes to current Deal.
     func addDealObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<Deal>) -> Void) -> ObservationToken
 
-
     /// Add observer to be notified of changes to Deal history.
     /// - Parameters:
     ///   - : The observer.

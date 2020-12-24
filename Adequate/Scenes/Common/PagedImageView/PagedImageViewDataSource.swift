@@ -83,7 +83,7 @@ extension PagedImageViewDataSource {
                 if let theme = self?.theme {
                     cell.apply(theme: theme)
                 }
-
+                // swiftlint:disable:next line_length
                 if let cachedImage = self?.imageService.fetchedImage(for: imageURL, tryingSecondary: indexPath.row == 0) {
                     cell.configure(with: Promise<UIImage>(value: cachedImage))
                 } else if let imageService = self?.imageService {

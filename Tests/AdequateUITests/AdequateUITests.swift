@@ -8,6 +8,7 @@
 
 import XCTest
 
+// swiftlint:disable force_try
 class AdequateUITests: XCTestCase {
 
     var app: XCUIApplication!

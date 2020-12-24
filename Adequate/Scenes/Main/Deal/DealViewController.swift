@@ -9,6 +9,8 @@
 import UIKit
 import Promise
 
+// swiftlint:disable file_length
+
 final class DealViewController: BaseViewController<ScrollableView<DealContentView>> {
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager
 
@@ -85,7 +87,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
     private lazy var pagedImageView: PagedImageView = {
         let view = PagedImageView(imageService: self.imageService)
         view.delegate = self
-        view.backgroundColor = ColorCompatibility.systemBackground
+        view.backgroundColor = .systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -94,10 +96,12 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
 
     private lazy var footerViewController: FooterViewController = {
         let controller = FooterViewController()
+        controller.buttonTapHandler = { [weak self] in
+            self?.buy()
+        }
         controller.view.directionalLayoutMargins = .init(top: 8.0, leading: 0.0, bottom: 0.0, trailing: 0.0)
         controller.view.preservesSuperviewLayoutMargins = true
         controller.view.translatesAutoresizingMaskIntoConstraints = false
-        controller.delegate = self
         return controller
     }()
 
@@ -182,19 +186,9 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         return [dealToken, themeToken]
     }
 
-    // MARK: - Actions / Navigation
+    // MARK: - Public Actions
 
-    @objc func getDeal() {
-        dataProvider.refreshDeal(for: .manual)
-    }
-
-    @objc private func didPressShare(_ sender: UIBarButtonItem) {
-        guard case .result(let deal) = viewState else {
-            return
-        }
-        shareDeal(title: deal.title, url: deal.url)
-    }
-
+    // This can also be called by the coordinator
     func shareDeal(title: String, url: URL) {
         // TODO: add price to text?
         let text = "\(L10n.sharingActivityText): \(title)"
@@ -207,16 +201,14 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         }
     }
 
-    @objc func ensureVisibleImageLoaded(){
-        guard let imageViewState = pagedImageView.visibleImageState else {
+    // MARK: - Private Actions
+
+    @objc private func didPressShare(_ sender: UIBarButtonItem) {
+        guard case .result(let deal) = viewState else {
             return
         }
-        if case .error = imageViewState {
-            pagedImageView.reloadVisibleImage()
-        }
+        shareDeal(title: deal.title, url: deal.url)
     }
-
-    // MARK: - Navigation
 
     @objc private func didPressForum(_ sender: UIButton) {
         guard case .result(let deal) = viewState, let topic = deal.topic else {
@@ -233,6 +225,26 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         delegate?.showStory()
     }
 
+    @objc private func getDeal() {
+        dataProvider.refreshDeal(for: .manual)
+    }
+
+    private func buy() {
+        guard case .result(let deal) = viewState else {
+            return
+        }
+        feedbackGenerator.selectionChanged()
+        delegate?.showPurchase(for: deal)
+    }
+
+    @objc private func ensureVisibleImageLoaded() {
+        guard let imageViewState = pagedImageView.visibleImageState else {
+            return
+        }
+        if case .error = imageViewState {
+            pagedImageView.reloadVisibleImage()
+        }
+    }
 }
 
 // MARK: - Layout
@@ -310,18 +322,6 @@ extension DealViewController: ViewAnimatedTransitioning {
     }
 }
 
-// MARK: - DealFooterDelegate
-extension DealViewController: DealFooterDelegate {
-
-    func buy() {
-        guard case .result(let deal) = viewState else {
-            return
-        }
-        feedbackGenerator.selectionChanged()
-        delegate?.showPurchase(for: deal)
-    }
-}
-
 // MARK: - ViewStateRenderable
 extension DealViewController: ViewStateRenderable {
     typealias ResultType = Deal
@@ -350,15 +350,9 @@ extension DealViewController: ViewStateRenderable {
             // images
             let safePhotoURLs = deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
-
-            UIView.animate(withDuration: 0.3, animations: {
-                self.stateView.render(viewState)
-                // FIXME: can't animate `isHidden`
-                // see: https://stackoverflow.com/a/29080894
-                self.pagedImageView.isHidden = false
-                self.rootView.scrollView.isHidden = false
-                //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
-            })
+            stateView.render(viewState)
+            pagedImageView.isHidden = false
+            rootView.scrollView.isHidden = false
         case .error:
             stateView.render(viewState)
             pagedImageView.isHidden = true
@@ -411,7 +405,7 @@ extension DealViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(
-            alongsideTransition: { [weak self] context in
+            alongsideTransition: { [weak self] _ in
                 if case .compact = self?.traitCollection.horizontalSizeClass, let rootView = self?.rootView {
                     let margins = rootView.directionalLayoutMargins.leading + rootView.directionalLayoutMargins.trailing
                     let pageControlHeight = self?.pagedImageView.pageControlHeight ?? 0.0

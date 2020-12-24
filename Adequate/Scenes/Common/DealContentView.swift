@@ -51,7 +51,6 @@ final class DealContentView: UIView {
 
     // MARK: - Appearance
 
-    // TODO: remove in favor of simply relying on apply(theme:)?
     override var backgroundColor: UIColor? {
         didSet {
             featuresText.backgroundColor = backgroundColor
@@ -60,16 +59,15 @@ final class DealContentView: UIView {
         }
     }
 
-    // TODO: remove in favor of simply relying on apply(theme:)?
-    private var _textColor: UIColor? = .black
+    private var _textColor: UIColor? = .label
     var textColor: UIColor? {
+        get { return _textColor }
         set {
             _textColor = newValue
             titleLabel.textColor = newValue
             featuresText.textColor = newValue
             specsText.textColor = newValue
         }
-        get { return _textColor }
     }
 
     // MARK: - Subviews
@@ -78,8 +76,7 @@ final class DealContentView: UIView {
 
     lazy var featuresText: MDTextView = {
         let view = MDTextView(styler: styler)
-        view.adjustsFontForContentSizeCategory = true
-        view.translatesAutoresizingMaskIntoConstraints = false
+        StyleBook.TextView.base.apply(to: view)
         return view
     }()
 
@@ -93,8 +90,7 @@ final class DealContentView: UIView {
 
     lazy var specsText: MDTextView = {
         let view = MDTextView(styler: styler)
-        view.adjustsFontForContentSizeCategory = true
-        view.translatesAutoresizingMaskIntoConstraints = false
+        StyleBook.TextView.base.apply(to: view)
         return view
     }()
 
