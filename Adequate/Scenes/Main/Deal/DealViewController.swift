@@ -350,15 +350,9 @@ extension DealViewController: ViewStateRenderable {
             // images
             let safePhotoURLs = deal.photos.compactMap { $0.secure() }
             pagedImageView.updateImages(with: safePhotoURLs)
-
-            UIView.animate(withDuration: 0.3, animations: {
-                self.stateView.render(viewState)
-                // FIXME: can't animate `isHidden`
-                // see: https://stackoverflow.com/a/29080894
-                self.pagedImageView.isHidden = false
-                self.rootView.scrollView.isHidden = false
-                //(self.themeManager.applyTheme >>> self.apply)(deal.theme)
-            })
+            stateView.render(viewState)
+            pagedImageView.isHidden = false
+            rootView.scrollView.isHidden = false
         case .error:
             stateView.render(viewState)
             pagedImageView.isHidden = true
