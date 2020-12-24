@@ -19,7 +19,8 @@ extension CurrentDeal {
         self.imageURL = imageURL
 
         // Prices
-        let prices = deal.items.map { $0.price }
+        let minQuantity = Double(deal.purchaseQuantity?.minimumLimit ?? 1)
+        let prices = deal.items.map { $0.price * minQuantity }
         guard let minPrice = prices.min(), let maxPrice = prices.max() else {
             return nil
         }

@@ -51,6 +51,7 @@ class TodayViewController: UIViewController {
         label.textColor = Style.primaryTextColor
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentCompressionResistancePriority(.defaultHigh - 1, for: .vertical)
         return label
     }()
 
