@@ -54,7 +54,6 @@ final class DealContentView: UIView {
     override var backgroundColor: UIColor? {
         didSet {
             featuresText.backgroundColor = backgroundColor
-            forumButton.setTitleColor(backgroundColor, for: .normal)
             specsText.backgroundColor = backgroundColor
         }
     }
@@ -65,8 +64,6 @@ final class DealContentView: UIView {
         set {
             _textColor = newValue
             titleLabel.textColor = newValue
-            featuresText.textColor = newValue
-            specsText.textColor = newValue
         }
     }
 
@@ -80,8 +77,9 @@ final class DealContentView: UIView {
         return view
     }()
 
-    let forumButton: UIButton = {
-        let button = UIButton(style: StyleBook.Button.standard)
+    let forumButton: MGButton<ButtonAnimator> = {
+        let button = MGButton(animationDelegate: ButtonAnimator.self)
+        StyleBook.Button.standard.apply(to: button)
         //StyleBook.Button.wideInsets.apply(to: button)
         button.backgroundColor = button.tintColor
         button.setTitle(L10n.Comments.count(0), for: .normal)
@@ -151,19 +149,10 @@ final class DealContentView: UIView {
 // MARK: - Themeable
 extension DealContentView: Themeable {
     func apply(theme: ColorTheme) {
-        // accentColor
-        forumButton.backgroundColor = theme.tint
-
-        // backgroundColor
         backgroundColor = theme.systemBackground
-        featuresText.backgroundColor = theme.systemBackground
-        forumButton.setTitleColor(theme.systemBackground, for: .normal)
-        // TODO: forumButton.setTitleColor(theme.?, for: .disabled)
-        specsText.backgroundColor = theme.systemBackground
+        textColor = theme.label
 
-        // foreground - text
-        titleLabel.textColor = theme.label
-
+        StyleBook.Button.standard(theme: theme).apply(to: forumButton)
         styler.colors = MDColorCollection(theme: theme)
         try? featuresText.render()
         try? specsText.render()
