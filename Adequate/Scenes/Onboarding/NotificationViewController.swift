@@ -46,16 +46,18 @@ final class NotificationViewController: UIViewController {
         return view
     }()
 
-    private let notNowButton: UIButton = {
-        let button = UIButton(style: StyleBook.Button.secondary)
+    private let notNowButton: MGButton<OutlineButtonAnimator> = {
+        let button = MGButton(animationDelegate: OutlineButtonAnimator.self)
+        StyleBook.Button.secondary.apply(to: button)
         button.setTitle(L10n.nowNow, for: .normal)
         button.addTarget(self, action: #selector(handleNotNowTapped(_:)), for: .touchUpInside)
         button.accessibilityLabel = L10n.Accessibility.notNowButton
         return button
     }()
 
-    private let okButton: UIButton = {
-        let button = UIButton(style: StyleBook.Button.standard)
+    private let okButton: MGButton<ButtonAnimator> = {
+        let button = MGButton(animationDelegate: ButtonAnimator.self)
+        StyleBook.Button.standard.apply(to: button)
         button.setTitle(L10n.ok, for: .normal)
         button.addTarget(self, action: #selector(handleOKTapped(_:)), for: .touchUpInside)
         button.setContentCompressionResistancePriority(.defaultHigh - 1, for: .horizontal)
@@ -167,11 +169,7 @@ extension NotificationViewController: Themeable {
         titleLabel.textColor = theme.label
         bodyLabel.textColor = theme.secondaryLabel
 
-        //StyleBook.Button.secondary(color: theme.label).apply(to: notNowButton)
-        notNowButton.layer.borderColor = theme.label.cgColor
-        notNowButton.setTitleColor(theme.label, for: .normal)
-
-        okButton.backgroundColor = theme.label
-        okButton.setTitleColor(theme.systemBackground, for: .normal)
+        StyleBook.Button.secondary(theme: theme).apply(to: notNowButton)
+        StyleBook.Button.standard(theme: theme).apply(to: okButton)
     }
 }

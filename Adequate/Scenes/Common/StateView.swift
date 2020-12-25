@@ -41,8 +41,9 @@ final class StateView: UIView {
         return label
     }()
 
-    private let retryButton: UIButton = {
-        let button = UIButton(style: StyleBook.Button.secondaryWide)
+    private let retryButton: MGButton<OutlineButtonAnimator> = {
+        let button = MGButton(animationDelegate: OutlineButtonAnimator.self)
+        StyleBook.Button.secondaryWide.apply(to: button)
         button.setTitle(L10n.retry, for: .normal)
         return button
     }()
@@ -158,7 +159,7 @@ extension StateView: Themeable {
         activityIndicator.color = theme.secondaryLabel
         activityMessageLabel.textColor = theme.secondaryLabel
         messageLabel.textColor = theme.secondaryLabel
-        retryButton.layer.borderColor = theme.secondaryLabel.cgColor
-        retryButton.setTitleColor(theme.secondaryLabel, for: .normal)
+
+        StyleBook.Button.secondarySupplementary(theme: theme).apply(to: retryButton)
     }
 }

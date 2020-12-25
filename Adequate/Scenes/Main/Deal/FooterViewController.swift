@@ -29,8 +29,9 @@ class FooterViewController: UIViewController {
         return view
     }()
 
-    private let buyButton: UIButton = {
-        let button = UIButton(style: StyleBook.Button.standard)
+    private let buyButton: MGButton<ButtonAnimator> = {
+        let button = MGButton(animationDelegate: ButtonAnimator.self)
+        StyleBook.Button.standard.apply(to: button)
         button.backgroundColor = .systemBackground
         button.setTitleColor(button.tintColor, for: .normal)
         button.setTitle(L10n.buy, for: .normal)
@@ -164,11 +165,8 @@ extension FooterViewController: Themeable {
     func apply(theme: ColorTheme) {
         priceLabel.textColor = theme.label
         priceComparisonLabel.textColor = theme.secondaryLabel
-
         view.backgroundColor = theme.secondarySystemBackground
 
-        buyButton.setTitleColor(theme.secondarySystemBackground, for: .normal)
-        buyButton.setTitleColor(.systemBlue, for: .selected)
-        buyButton.backgroundColor = theme.tint
+        StyleBook.Button.standardElevated(theme: theme).apply(to: buyButton)
     }
 }

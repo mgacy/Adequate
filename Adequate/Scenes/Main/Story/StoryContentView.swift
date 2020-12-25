@@ -41,7 +41,6 @@ final class StoryContentView: UIView {
         set {
             _textColor = newValue
             titleLabel.textColor = newValue
-            bodyText.textColor = newValue
         }
     }
 
@@ -99,7 +98,7 @@ final class StoryContentView: UIView {
 // MARK: - Themeable
 extension StoryContentView: Themeable {
     func apply(theme: ColorTheme) {
-        titleLabel.textColor = theme.label
+        textColor = theme.label
 
         styler.colors = MDColorCollection(theme: theme)
         try? bodyText.render()
