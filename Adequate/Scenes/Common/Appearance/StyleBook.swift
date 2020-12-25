@@ -13,43 +13,38 @@ enum StyleBook {
     // MARK: - UIButton
     enum Button {
 
-        //static let dynamic = Style<UIButton> { $0.titleLabel?.adjustsFontForContentSizeCategory = true }
-        //static let autolayout = Style<UIButton> { $0.translatesAutoresizingMaskIntoConstraints = false }
-        //static let rounded = Style<UIButton> { $0.layer.cornerRadius = AppTheme.CornerRadius.extraSmall }
-
+        /// - layer.cornerRadius = AppTheme.CornerRadius.extraSmall
+        /// - adjustsFontForContentSizeCategory = true
+        /// - translatesAutoresizingMaskIntoConstraints = false
         static let base = Style<UIButton> {
-            $0.contentEdgeInsets = UIEdgeInsets(horizontal: 8.0, vertical: 6.0)
             $0.layer.cornerRadius = AppTheme.CornerRadius.extraSmall
-            $0.titleLabel?.adjustsFontForContentSizeCategory = true // ?
+            $0.titleLabel?.adjustsFontForContentSizeCategory = true
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
-        static let regular = Style<UIButton> {
+        static let regularFont = Style<UIButton> {
             $0.titleLabel?.font = FontBook.regularButton
         }
 
-        static let bold = Style<UIButton> {
+        static let mediumFont = Style<UIButton> {
             $0.titleLabel?.font = FontBook.mediumButton
         }
 
+        /// - horizontal edge insets = 8.0
+        /// - vertical edge insets = 6.0
         static let standardInsets = Style<UIButton> {
             $0.contentEdgeInsets = UIEdgeInsets(horizontal: 8.0, vertical: 6.0)
         }
 
+        /// - horizontal edge insets = 15.0
+        /// - vertical edge insets = 5.0
         static let wideInsets = Style<UIButton> {
             $0.contentEdgeInsets = UIEdgeInsets(horizontal: 15.0, vertical: 5.0)
         }
 
         // MARK: Standard Button
 
-        static let standard = Button.base <> Button.bold
-
-        //static func standard(color: UIColor) -> Style<UIButton> {
-        //    return .init {
-        //        $0.backgroundColor =
-        //        $0.setTitleColor(color, for: .normal)
-        //    }
-        //}
+        static let standard: Style<UIButton> = base <> mediumFont <> standardInsets
 
         // MARK: Secondary Button
 
@@ -59,28 +54,19 @@ enum StyleBook {
             $0.backgroundColor = .clear
         }
 
-        static let secondary = Button.base <> Button.secondaryBase <> Button.standardInsets
+        static let secondary: Style<UIButton> = base <> secondaryBase <> standardInsets
 
-        static let secondaryWide = Style<UIButton> {
-            $0.contentEdgeInsets = UIEdgeInsets(horizontal: 15.0, vertical: 5.0)
-            $0.layer.cornerRadius = AppTheme.CornerRadius.extraSmall
-            $0.titleLabel?.adjustsFontForContentSizeCategory = true // ?
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        } <> secondaryBase
+        static let secondaryWide: Style<UIButton> = base <> secondaryBase <> wideInsets
 
         static func secondary(color: UIColor) -> Style<UIButton> {
             return .init {
                 $0.layer.borderColor = color.cgColor
                 $0.setTitleColor(color, for: .normal)
+                //$0.setTitleColor(?, for: .disabled)
             } <> base <> secondaryBase
         }
 
         // FooterViewController.buyButton
-        //static let x = Style<UIButton> {
-        //    // TODO: should we make a func and pass titleColor or ColorTheme?
-        //    $0.setTitleColor($0.tintColor, for: .normal)
-        //    $0.backgroundColor = .systemBackground
-        //}
     }
 
     // MARK: - UILabel
@@ -192,6 +178,7 @@ enum StyleBook {
     // MARK: - UIView
     enum View {
 
+        /// - translatesAutoresizingMaskIntoConstraints = false
         static let autolayout = Style<UIView> {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
