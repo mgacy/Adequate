@@ -84,8 +84,11 @@ final class HistoryListViewController: UITableViewController {
         super.didMove(toParent: parent)
         // Ensure we wait until tableView is in the view hierarchy before potentially telling it to layout its visible
         // cells
-        if observationTokens.isEmpty {
-            observationTokens = setupObservations()
+        if observationTokens.count < 2 {
+            let historyToken = dataProvider.addHistoryObserver(self) { vc, viewState in
+                vc.viewState = viewState
+            }
+            observationTokens.append(historyToken)
         }
         if case .empty = viewState {
             getDealHistory()
@@ -113,6 +116,7 @@ final class HistoryListViewController: UITableViewController {
         //tableView.backgroundColor = ColorCompatibility.systemBackground
 
         setupTableView()
+        observationTokens = setupObservations()
     }
 
     private func setupTableView() {
@@ -130,11 +134,8 @@ final class HistoryListViewController: UITableViewController {
     }
 
     private func setupObservations() -> [ObservationToken] {
-        let historyToken = dataProvider.addHistoryObserver(self) { vc, viewState in
-            vc.viewState = viewState
-        }
         let themeToken = themeManager.addObserver(self)
-        return [historyToken, themeToken]
+        return [themeToken]
     }
 
     // MARK: - DataProvider
