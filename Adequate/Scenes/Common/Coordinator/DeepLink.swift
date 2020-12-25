@@ -45,7 +45,10 @@ extension DeepLink {
     }
 
     static func build(with url: URL) -> DeepLink? {
-        switch url.host {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
+            return nil
+        }
+        switch components.path {
         case DeepLinkURLConstants.deal: return .deal
         default: return nil
         }
