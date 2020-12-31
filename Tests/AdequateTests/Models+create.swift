@@ -82,13 +82,14 @@ extension Item.ItemAttribute {
 
 extension Item {
     static func create(
-        attributes: [Item.ItemAttribute] = [],
+        //attributes: [Item.ItemAttribute] = [],
         condition: String = "",
         id: String = "",
         price: Double = 0.0,
         photo: URL = URL.create()
     ) -> Item {
-        return Item(attributes: attributes, condition: condition, id: id, price: price, photo: photo)
+        //return Item(attributes: attributes, condition: condition, id: id, price: price, photo: photo)
+        return Item(condition: condition, id: id, price: price, photo: photo)
     }
 }
 
