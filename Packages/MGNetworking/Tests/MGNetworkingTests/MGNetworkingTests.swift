@@ -9,8 +9,4 @@ final class MGNetworkingTests: XCTestCase {
         // results.
         //XCTAssertEqual(MGNetworking().text, "Hello, World!")
     }
-
-    static var allTests = [
-        ("testExample", testExample)
-    ]
 }
