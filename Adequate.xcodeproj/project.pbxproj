@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -124,7 +124,6 @@
 		C992174A2571E20C00741650 /* SplitLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99217492571E20C00741650 /* SplitLayout.swift */; };
 		C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992D1DD216D93F000B373D5 /* Optional+Ext.swift */; };
 		C995C07322A8B63600C2289F /* ParallaxBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07222A8B63600C2289F /* ParallaxBarView.swift */; };
-		C995C07522A8E01C00C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07422A8E01C00C2289F /* FileCache.swift */; };
 		C995C07722A8F9E600C2289F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995C07622A8F9E600C2289F /* FileCache.swift */; };
 		C996E20F24D258D800F5F173 /* MehSyncClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C996E20E24D258D700F5F173 /* MehSyncClientTests.swift */; };
 		C996E21124D26C3200F5F173 /* AWSAppSyncClient+Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C996E21024D26C3200F5F173 /* AWSAppSyncClient+Result.swift */; };
@@ -265,6 +264,8 @@
 		C9EF22DB216D195600D9DD22 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF22DA216D195600D9DD22 /* Constants.swift */; };
 		C9EF22DC216D1A3D00D9DD22 /* URL+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC48E21476B2400D6558B /* URL+Ext.swift */; };
 		C9EF5ACB215CA82F00B5D2EC /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EF5ACA215CA82F00B5D2EC /* Operators.swift */; };
+		C9F3012C259E4C8C00071891 /* MGNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = C9F3012B259E4C8C00071891 /* MGNetworking */; };
+		C9F30134259E4E5200071891 /* FileCache+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F30133259E4E5200071891 /* FileCache+Ext.swift */; };
 		C9F3671122B2EE8700606EAB /* PriceRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3671022B2EE8700606EAB /* PriceRange.swift */; };
 		C9F7166F221F138B00733D17 /* HistoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7166E221F138B00733D17 /* HistoryDetailViewController.swift */; };
 		C9F92266218A88D0001C257A /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F92265218A88D0001C257A /* UserDefaultsManager.swift */; };
@@ -471,7 +472,6 @@
 		C99217492571E20C00741650 /* SplitLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitLayout.swift; sourceTree = "<group>"; };
 		C992D1DD216D93F000B373D5 /* Optional+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Ext.swift"; sourceTree = "<group>"; };
 		C995C07222A8B63600C2289F /* ParallaxBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxBarView.swift; sourceTree = "<group>"; };
-		C995C07422A8E01C00C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		C995C07622A8F9E600C2289F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		C996E20E24D258D700F5F173 /* MehSyncClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MehSyncClientTests.swift; sourceTree = "<group>"; };
 		C996E21024D26C3200F5F173 /* AWSAppSyncClient+Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AWSAppSyncClient+Result.swift"; sourceTree = "<group>"; };
@@ -612,6 +612,8 @@
 		C9EF22D8216C67C600D9DD22 /* FileDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDownloader.swift; sourceTree = "<group>"; };
 		C9EF22DA216D195600D9DD22 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C9EF5ACA215CA82F00B5D2EC /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
+		C9F30105259E481200071891 /* MGNetworking */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MGNetworking; sourceTree = "<group>"; };
+		C9F30133259E4E5200071891 /* FileCache+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileCache+Ext.swift"; sourceTree = "<group>"; };
 		C9F3671022B2EE8700606EAB /* PriceRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceRange.swift; sourceTree = "<group>"; };
 		C9F7166E221F138B00733D17 /* HistoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailViewController.swift; sourceTree = "<group>"; };
 		C9F92265218A88D0001C257A /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -653,6 +655,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9F3012C259E4C8C00071891 /* MGNetworking in Frameworks */,
 				4FE6C80B80EF9AF473A33424 /* Pods_Adequate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1103,6 +1106,7 @@
 				C9EF22CD216C616D00D9DD22 /* NotificationService */,
 				C9B3FAB3223C39F900B8524A /* TodayExtension */,
 				C9CDA4FE252174B00044A2A3 /* WidgetExtension */,
+				C9F30104259E47BD00071891 /* Packages */,
 				C9CDA62725218F6F0044A2A3 /* Tests */,
 				C9CDA6402521951A0044A2A3 /* Configuration */,
 				C9DAC4512147688500D6558B /* Products */,
@@ -1242,7 +1246,7 @@
 				C925EEC6233E94E600D24F38 /* ImageService */,
 				C9DAC4A221476C3A00D6558B /* NetworkClient.swift */,
 				C9DAC4A621476C8600D6558B /* NetworkClientError.swift */,
-				C995C07422A8E01C00C2289F /* FileCache.swift */,
+				C9F30133259E4E5200071891 /* FileCache+Ext.swift */,
 				C9093CC22228A27800C9DA0C /* ObservationToken.swift */,
 			);
 			path = Services;
@@ -1396,6 +1400,14 @@
 			path = NotificationService;
 			sourceTree = "<group>";
 		};
+		C9F30104259E47BD00071891 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				C9F30105259E481200071891 /* MGNetworking */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
 		C9F7166D221F135700733D17 /* HistoryDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -1516,6 +1528,9 @@
 				C9CDA505252174B20044A2A3 /* PBXTargetDependency */,
 			);
 			name = Adequate;
+			packageProductDependencies = (
+				C9F3012B259E4C8C00071891 /* MGNetworking */,
+			);
 			productName = Adequate;
 			productReference = C9DAC4502147688500D6558B /* Adequate.app */;
 			productType = "com.apple.product-type.application";
@@ -2005,7 +2020,6 @@
 				C925EEC9233E952300D24F38 /* ImageCaching.swift in Sources */,
 				C9116E5321616CA60084934B /* StoryViewController.swift in Sources */,
 				C9FABAF22372908100C1E523 /* MehSyncClientType.swift in Sources */,
-				C995C07522A8E01C00C2289F /* FileCache.swift in Sources */,
 				C96CA86E2182DD1A00C3459E /* WelcomeViewController.swift in Sources */,
 				C9B90D0322837D140070ADE9 /* ParallaxScrollView.swift in Sources */,
 				C9DAC49B21476BB500D6558B /* Story.swift in Sources */,
@@ -2092,6 +2106,7 @@
 				C989E11F223742C100DEAE89 /* AWSAppSyncClient+Promise.swift in Sources */,
 				C9FABAE9236E0CD100C1E523 /* MDUnorderedListItemParagraphStyler.swift in Sources */,
 				C93CBED72320ADCE0033DCD0 /* DealViewControllerDelegate.swift in Sources */,
+				C9F30134259E4E5200071891 /* FileCache+Ext.swift in Sources */,
 				C98C7B5C25957E8900F5A28B /* HighlightAnimatable.swift in Sources */,
 				C99DD5DB2182D4C500A38529 /* PaddingLabel.swift in Sources */,
 				C923838C22B1B454003BB1DA /* LaunchType.swift in Sources */,
@@ -2335,7 +2350,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = "$(SRCROOT)/Adequate/Supporting/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2352,7 +2370,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.NotificationService;
@@ -2372,7 +2394,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = TodayExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.TodayExtension;
@@ -2394,7 +2420,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.WidgetExtension;
@@ -2413,7 +2443,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = Tests/AdequateTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2431,7 +2465,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = Tests/AdequateUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateUITests;
@@ -2491,7 +2529,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = "Release (Production)";
@@ -2506,7 +2545,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = "$(SRCROOT)/Adequate/Supporting/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2523,7 +2565,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2542,7 +2588,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = TodayExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.TodayExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2563,7 +2613,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.WidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2581,7 +2635,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = Tests/AdequateTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2599,7 +2657,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = Tests/AdequateUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2680,7 +2742,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = "$(SRCROOT)/Adequate/Supporting/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2697,7 +2762,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.NotificationService;
@@ -2717,7 +2786,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = TodayExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.TodayExtension;
@@ -2739,7 +2812,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.WidgetExtension;
@@ -2758,7 +2835,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = Tests/AdequateTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2776,7 +2857,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = Tests/AdequateUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateUITests;
@@ -2836,7 +2921,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = "Release (Staging)";
@@ -2851,7 +2937,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = "$(SRCROOT)/Adequate/Supporting/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2868,7 +2957,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2887,7 +2980,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = TodayExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.TodayExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2908,7 +3005,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.WidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2926,7 +3027,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = Tests/AdequateTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2944,7 +3049,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = Tests/AdequateUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2963,7 +3072,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = Tests/AdequateUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateUITests;
@@ -2983,7 +3096,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = Tests/AdequateUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3002,7 +3119,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = TodayExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.TodayExtension;
@@ -3022,7 +3143,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = TodayExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.TodayExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3043,7 +3168,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.WidgetExtension;
@@ -3065,7 +3194,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.WidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3187,7 +3320,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = "Release (Development)";
@@ -3202,7 +3336,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = "$(SRCROOT)/Adequate/Supporting/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -3220,7 +3357,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = "$(SRCROOT)/Adequate/Supporting/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -3236,7 +3376,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = Tests/AdequateTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -3253,7 +3397,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = Tests/AdequateTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.AdequateTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -3271,7 +3419,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.NotificationService;
@@ -3291,7 +3443,11 @@
 				DEVELOPMENT_TEAM = 2PMX4WLK83;
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mgacy.Adequate.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3396,6 +3552,13 @@
 			defaultConfigurationName = "Release (Development)";
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C9F3012B259E4C8C00071891 /* MGNetworking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MGNetworking;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C9DAC4482147688500D6558B /* Project object */;
 }
