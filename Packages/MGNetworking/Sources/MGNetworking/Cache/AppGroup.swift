@@ -18,3 +18,10 @@ public struct AppGroup: FileLocation {
         self.containerURL = appGroupURL?.appendingPathComponent(pathComponent, isDirectory: true)
     }
 }
+
+// MARK: - CustomStringConvertible
+extension AppGroup: CustomStringConvertible {
+    public var description: String {
+        return "AppGroup: \(containerURL?.absoluteString ?? "MISSING PATH")"
+    }
+}
