@@ -21,12 +21,17 @@ public final class FileCache<T>: Caching {
 
     private let coder: Coder<T>
 
+    private var log: SystemLogger.Type?
+
     // MARK: - Lifecycle
 
     public init(fileLocation: FileLocation, coder: Coder<T>, maxFileCount: Int = 5) {
         self.maxFileCount = maxFileCount
         self.fileLocation = fileLocation
         self.coder = coder
+
+        SystemLogger.configuration = .init(subsystem: .main, category: .fileCache)
+        self.log = SystemLogger.self
 
         // TODO: should this just maintain an array of files to minimize file operations?
         //let currentFiles = try fileManager.contentsOfDirectory(at: url, includingPropertiesForKeys: keys, options: .skipsHiddenFiles)
@@ -43,7 +48,7 @@ public final class FileCache<T>: Caching {
         do {
             data = try coder.encode(value)
         } catch {
-            //log?.error("Error getting data from \(value): \(error)")
+            log?.error("Error getting data from \(value): \(error)")
             return
         }
 
@@ -63,20 +68,20 @@ public final class FileCache<T>: Caching {
                 //}
                 try data.write(to: url)
             } catch {
-                //log?.error("Error writing image: \(error)")
+                log?.error("Error writing image: \(error)")
             }
 
             // Cleanup cache
             do {
                 try cleanupCache()
             } catch {
-                //log?.error("Error cleaning up cache: \(error)")
+                log?.error("Error cleaning up cache: \(error)")
             }
         }
 
-        //if let error = error {
-        //    log?.error("Save to disk coordination failed: \(error.localizedDescription)")
-        //}
+        if let error = error {
+            log?.error("Save to disk coordination failed: \(error.localizedDescription)")
+        }
     }
 
     public func removeValue(for key: URL) {
@@ -90,13 +95,13 @@ public final class FileCache<T>: Caching {
                 try fileManager.removeItem(at: url)
             } catch {
                 guard (error as NSError).code != NSFileReadNoSuchFileError else { return }
-                //log?.error("Error clearing image: \(error)")
+                log?.error("Error clearing image: \(error)")
             }
         }
 
-        //if let error = error {
-        //    log?.error("Remove \(key) from disk coordination failed: \(error.localizedDescription)")
-        //}
+        if let error = error {
+            log?.error("Remove \(key) from disk coordination failed: \(error.localizedDescription)")
+        }
     }
 
     // MARK: - Read
@@ -114,17 +119,16 @@ public final class FileCache<T>: Caching {
                 result = try coder.decode(data)
             } catch let error as NSError {
                 guard error.code != NSFileReadNoSuchFileError else { return }
-                //log?.error("Error reading data: \(error)")
+                log?.error("Error reading data: \(error)")
             } catch {
-                //log?.error("Error reading decoding data: \(error)")
+                log?.error("Error reading decoding data: \(error)")
             }
         }
 
         // TODO: ignore NSFileReadNoSuchFileError?
-        //if let error = error {
-        //    log?.error("Read \(key) from disk coordination failed: \(error.localizedDescription)")
-        //}
-
+        if let error = error {
+            log?.error("Read \(key) from disk coordination failed: \(error.localizedDescription)")
+        }
         return result
     }
 
@@ -142,14 +146,14 @@ public final class FileCache<T>: Caching {
                 try fileManager.removeItem(at: url)
             } catch {
                 guard (error as NSError).code != NSFileReadNoSuchFileError else { return }
-                //log?.error("Error clearing image: \(error)")
+                log?.error("Error clearing image: \(error)")
             }
         }
 
         // TODO: ignore NSFileReadNoSuchFileError?
-        //if let error = error {
-        //    log?.error("Deleting cache from disk coordination failed: \(error.localizedDescription)")
-        //}
+        if let error = error {
+            log?.error("Deleting cache from disk coordination failed: \(error.localizedDescription)")
+        }
     }
 
     // MARK: - Private
@@ -172,21 +176,21 @@ public final class FileCache<T>: Caching {
             do {
                 files = try markFilesForDeletion(at: url, maxFileCount: maxFileCount)
             } catch {
-                //log?.error("Error trying to mark files for deletion: \(error)")
+                log?.error("Error trying to mark files for deletion: \(error)")
             }
         }
 
-        //if let error = error {
-        //    log?.error("Reading files for deletion from disk coordination failed: \(error.localizedDescription)")
-        //}
+        if let error = error {
+            log?.error("Reading files for deletion from disk coordination failed: \(error.localizedDescription)")
+        }
 
         //if let files = try markFilesForDeletion(at: containerURL, maxFileCount: maxFileCount) {
         if let files = files {
             let intents = files.map { NSFileAccessIntent.writingIntent(with: $0, options: .forDeleting) }
             fc.coordinate(with: intents, queue: coordinationQueue) { [weak self] accessorError in
                 guard accessorError == nil else {
-                    // wiftlint:disable:next line_length
-                    //self?.log?.error("Encountered error while awaiting access to delete cached files: \(accessorError!.localizedDescription)")
+                    // swiftlint:disable:next line_length
+                    self?.log?.error("Encountered error while awaiting access to delete cached files: \(accessorError!.localizedDescription)")
                     return
                 }
 
@@ -195,7 +199,7 @@ public final class FileCache<T>: Caching {
                         try self?.fileManager.removeItem(at: intent.url)
                     }
                 } catch {
-                    //self?.log?.error("Error trying to cleanup cache: \(error)")
+                    self?.log?.error("Error trying to cleanup cache: \(error)")
                 }
             }
         }
