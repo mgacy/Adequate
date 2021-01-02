@@ -7,6 +7,8 @@
 
 import UIKit
 
+// swiftlint:disable identifier_name
+
 // MARK: - Optional+Helper
 public extension Optional {
 
