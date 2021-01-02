@@ -25,13 +25,11 @@ class FileCacheTests: XCTestCase {
     // MARK: - A
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
         fileLocation = Self.makeFileLocation()
         XCTAssertNotNil(fileLocation.containerURL)
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         if let location = fileLocation.containerURL {
             guard fileManager.fileExists(atPath: location.path) else {
                 return
@@ -49,12 +47,8 @@ class FileCacheTests: XCTestCase {
 extension FileCacheTests {
 
     func testWrite() throws {
-        // Setup
-        let imageData = Self.makeTestPngData()
-        let imageToSave = UIImage(data: imageData)!
-
+        let imageToSave = try Self.makeTestImage()
         let imageKey = Constants.defaultKey
-        let cacheLocation = fileLocation!.containerURL!
         let expectedCachedFileLocation = cacheLocation.appendingPathComponent(imageKey.lastPathComponent)
 
         // Test
@@ -79,11 +73,8 @@ extension FileCacheTests {
         // Setup
         let imageData = Self.makeTestPngData()
         let imageKey = Constants.defaultKey
-
-        let cacheLocation = fileLocation!.containerURL!
         let expectedCachedFileLocation = cacheLocation.appendingPathComponent(imageKey.lastPathComponent)
 
-        try fileManager.createDirectory(at: cacheLocation, withIntermediateDirectories: true, attributes: nil)
         try imageData.write(to: expectedCachedFileLocation)
 
         // Test
@@ -102,7 +93,6 @@ extension FileCacheTests {
         // Setup
         let firstImage = try Self.makeTestImage()
         let imageKey = Constants.defaultKey
-        let cacheLocation = fileLocation!.containerURL!
         let expectedCachedFileLocation = cacheLocation.appendingPathComponent(imageKey.lastPathComponent)
 
         let secondImage = try Self.makeTestImage(color: .red, size: CGSize(width: 350, height: 350))
@@ -114,8 +104,6 @@ extension FileCacheTests {
 
         let cachedData = try Data(contentsOf: expectedCachedFileLocation)
         let cachedImage = UIImage(data: cachedData)
-        //let cachedImage = UIImage(contentsOfFile: expectedCachedFileLocation?.path)
-
         XCTAssertNotNil(cachedImage)
         XCTAssertNotEqual(firstImage.pngData(), cachedData, "Failed to overwrite")
         XCTAssertEqual(secondImage.pngData(), cachedData)
@@ -127,10 +115,8 @@ extension FileCacheTests {
 
     func testDelete() throws {
         let key = Constants.defaultKey
-        let cacheLocation = fileLocation!.containerURL!
         let expectedCachedFileLocation = cacheLocation.appendingPathComponent(key.lastPathComponent)
 
-        try fileManager.createDirectory(at: cacheLocation, withIntermediateDirectories: true, attributes: nil)
         try Self.makeTestPngData().write(to: expectedCachedFileLocation)
 
         // Test
@@ -142,19 +128,14 @@ extension FileCacheTests {
     }
 
     func testDeleteAll() throws {
-        let fileCount: Int = 10
-        let cacheLocation = fileLocation!.containerURL!
+        let imageCount: Int = 10
+        let testData = Self.makeTestPngData(color: .blue, size: Constants.defaultImageSize)
 
         // Write files
-        try fileManager.createDirectory(at: cacheLocation, withIntermediateDirectories: true)
-        for i in 0...fileCount {
-            let fileLocation = cacheLocation.appendingPathComponent("\(i).txt")
-            let data = "This is a test: \(i)".data(using: .utf8)!
-
-            fileManager.createFile(atPath: fileLocation.path, contents: data)
-            guard fileManager.fileExists(atPath: fileLocation.path) else {
-                fatalError("Error writing data")
-            }
+        for i in 0...imageCount {
+            let filePathComponent = String(i) + ".png"
+            let fileURL = cacheLocation.appendingPathComponent(filePathComponent)
+            try testData.write(to: fileURL)
         }
 
         let initialContents = try fileManager.contentsOfDirectory(atPath: cacheLocation.path)
@@ -174,7 +155,6 @@ extension FileCacheTests {
     func testMaxFileCountRespected() throws {
         let maxFileCount = 5
         let imageSize = CGSize(width: 600, height: 600)
-        let cacheLocation = fileLocation!.containerURL!
 
         let sut = FileCache(fileLocation: fileLocation!, coder: Coder<Any>.makeImageCoder(), maxFileCount: maxFileCount)
 
@@ -255,7 +235,7 @@ extension FileCacheTests {
     }
 
     static func makeTestImage(color: UIColor = .blue, size: CGSize = Constants.defaultImageSize) throws -> UIImage {
-        return try UIImage(data: Self.makeTestPngData(color: color, size: size)).unwrap()
+        return try XCTUnwrap(UIImage(data: Self.makeTestPngData(color: color, size: size)))
     }
 }
 
