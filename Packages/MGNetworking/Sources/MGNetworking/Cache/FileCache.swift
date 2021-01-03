@@ -11,21 +11,29 @@ public final class FileCache<T>: Caching {
 
     let maxFileCount: Int
 
-    private let fileManager: FileManager = .default
+    private let fileManager: FileManager
 
     private let fileLocation: FileLocation
-
-    private var containerURL: URL? {
-        return fileLocation.containerURL
-    }
 
     private let coder: Coder<T>
 
     private var log: SystemLogger.Type?
 
+    private let coordinationQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.name = "com.mgacy.Adequate.coordinationQueue"
+        queue.maxConcurrentOperationCount = 1
+        return queue
+    }()
+
+    private var containerURL: URL? {
+        return fileLocation.containerURL
+    }
+
     // MARK: - Lifecycle
 
     public init(fileLocation: FileLocation, coder: Coder<T>, maxFileCount: Int = 5) {
+        self.fileManager = .default
         self.maxFileCount = maxFileCount
         self.fileLocation = fileLocation
         self.coder = coder
@@ -52,10 +60,10 @@ public final class FileCache<T>: Caching {
             return
         }
 
-        var error: NSError?
+        let errorPointer: NSErrorPointer = nil
         NSFileCoordinator(filePresenter: nil).coordinate(writingItemAt: destinationURL,
                                                          options: .forReplacing,
-                                                         error: &error) { url in
+                                                         error: errorPointer) { url in
             // Write file
             do {
                 // Ensure caches directory exists
@@ -79,7 +87,7 @@ public final class FileCache<T>: Caching {
             }
         }
 
-        if let error = error {
+        if let error = errorPointer?.pointee {
             log?.error("Save to disk coordination failed: \(error.localizedDescription)")
         }
     }
@@ -87,10 +95,10 @@ public final class FileCache<T>: Caching {
     public func removeValue(for key: URL) {
         guard let containerURL = containerURL else { return }
         let destinationURL = containerURL.appendingPathComponent(key.lastPathComponent)
-        var error: NSError?
+        let errorPointer: NSErrorPointer = nil
         NSFileCoordinator(filePresenter: nil).coordinate(writingItemAt: destinationURL,
                                                          options: .forDeleting,
-                                                         error: &error) { url in
+                                                         error: errorPointer) { url in
             do {
                 try fileManager.removeItem(at: url)
             } catch {
@@ -99,7 +107,7 @@ public final class FileCache<T>: Caching {
             }
         }
 
-        if let error = error {
+        if let error = errorPointer?.pointee {
             log?.error("Remove \(key) from disk coordination failed: \(error.localizedDescription)")
         }
     }
@@ -110,10 +118,10 @@ public final class FileCache<T>: Caching {
         guard let containerURL = containerURL else { return nil }
         let destinationURL = containerURL.appendingPathComponent(key.lastPathComponent)
         var result: T?
-        var error: NSError?
+        let errorPointer: NSErrorPointer = nil
         NSFileCoordinator(filePresenter: nil).coordinate(readingItemAt: destinationURL,
                                                          options: .withoutChanges,
-                                                         error: &error) { url in
+                                                         error: errorPointer) { url in
             do {
                 let data = try Data(contentsOf: url)
                 result = try coder.decode(data)
@@ -126,9 +134,11 @@ public final class FileCache<T>: Caching {
         }
 
         // TODO: ignore NSFileReadNoSuchFileError?
-        if let error = error {
+        if let error = errorPointer?.pointee {
             log?.error("Read \(key) from disk coordination failed: \(error.localizedDescription)")
         }
+        // TESTING
+        log?.info("Result: \(String(describing: result))")
         return result
     }
 
@@ -137,10 +147,10 @@ public final class FileCache<T>: Caching {
     /// Remove all items from cache.
     public func removeAll() {
         guard let containerURL = containerURL else { return }
-        var error: NSError?
+        let errorPointer: NSErrorPointer = nil
         NSFileCoordinator(filePresenter: nil).coordinate(writingItemAt: containerURL,
                                                          options: .forDeleting,
-                                                         error: &error) { url in
+                                                         error: errorPointer) { url in
             do {
                 // TODO: remove cache directory or just its contents
                 try fileManager.removeItem(at: url)
@@ -151,28 +161,22 @@ public final class FileCache<T>: Caching {
         }
 
         // TODO: ignore NSFileReadNoSuchFileError?
-        if let error = error {
+        if let error = errorPointer?.pointee {
             log?.error("Deleting cache from disk coordination failed: \(error.localizedDescription)")
         }
     }
 
     // MARK: - Private
 
-    fileprivate let coordinationQueue: OperationQueue = {
-        let coordinationQueue = OperationQueue()
-        coordinationQueue.name = "com.mgacy.Adequate.coordinationQueue"
-        return coordinationQueue
-    }()
-
     /// Purge oldest items if number of files in cache > maxFileCount
     private func cleanupCache() throws {
         guard let containerURL = containerURL else { return }
 
         var files: [URL]?
-        var error: NSError?
+        let errorPointer: NSErrorPointer = nil
         // swiftlint:disable:next identifier_name
         let fc = NSFileCoordinator()
-        fc.coordinate(readingItemAt: containerURL, options: .withoutChanges, error: &error) { url in
+        fc.coordinate(readingItemAt: containerURL, options: .withoutChanges, error: errorPointer) { url in
             do {
                 files = try markFilesForDeletion(at: url, maxFileCount: maxFileCount)
             } catch {
@@ -180,11 +184,10 @@ public final class FileCache<T>: Caching {
             }
         }
 
-        if let error = error {
+        if let error = errorPointer?.pointee {
             log?.error("Reading files for deletion from disk coordination failed: \(error.localizedDescription)")
         }
 
-        //if let files = try markFilesForDeletion(at: containerURL, maxFileCount: maxFileCount) {
         if let files = files {
             let intents = files.map { NSFileAccessIntent.writingIntent(with: $0, options: .forDeleting) }
             fc.coordinate(with: intents, queue: coordinationQueue) { [weak self] accessorError in
