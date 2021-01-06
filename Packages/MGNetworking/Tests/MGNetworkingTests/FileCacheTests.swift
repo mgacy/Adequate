@@ -27,16 +27,23 @@ class FileCacheTests: XCTestCase {
     override func setUpWithError() throws {
         fileLocation = Self.makeFileLocation()
         XCTAssertNotNil(fileLocation.containerURL)
+        try fileManager.createDirectory(at: cacheLocation, withIntermediateDirectories: true, attributes: nil)
+
+        let initialContents = try fileManager.contentsOfDirectory(atPath: cacheLocation.path)
+        XCTAssertTrue(initialContents.isEmpty)
     }
 
     override func tearDownWithError() throws {
-        if let location = fileLocation.containerURL {
-            guard fileManager.fileExists(atPath: location.path) else {
-                return
-            }
+        let errorPointer: NSErrorPointer = nil
+        NSFileCoordinator(filePresenter: nil).coordinate(writingItemAt: cacheLocation,
+                                                         options: .forDeleting,
+                                                         error: errorPointer) { url in
+            do {
+                try fileManager.removeItem(at: url)
+            } catch {
+                guard (error as NSError).code != NSFileReadNoSuchFileError else { return }
 
-            try fileManager.removeItem(at: location)
-            fileLocation = nil
+            }
         }
     }
 }
@@ -54,6 +61,9 @@ extension FileCacheTests {
         // Test
         let sut = FileCache(fileLocation: fileLocation, coder: Coder<Any>.makeImageCoder())
         sut.insert(imageToSave, for: imageKey)
+
+        // Wait
+        sleep(1)
 
         let cachedFileExists = fileManager.fileExists(atPath: expectedCachedFileLocation.path)
         XCTAssert(cachedFileExists, "Cached file missing")
@@ -102,6 +112,9 @@ extension FileCacheTests {
         sut.insert(firstImage, for: imageKey)
         sut.insert(secondImage, for: imageKey)
 
+        // Wait
+        sleep(2)
+
         let cachedData = try Data(contentsOf: expectedCachedFileLocation)
         let cachedImage = UIImage(data: cachedData)
         XCTAssertNotNil(cachedImage)
@@ -122,6 +135,9 @@ extension FileCacheTests {
         // Test
         let sut = FileCache(fileLocation: fileLocation!, coder: Coder<Any>.makeImageCoder())
         sut.removeValue(for: key)
+
+        // Wait
+        sleep(1)
 
         let fileExists = fileManager.fileExists(atPath: expectedCachedFileLocation.path)
         XCTAssertFalse(fileExists)
@@ -145,6 +161,9 @@ extension FileCacheTests {
         let sut = FileCache(fileLocation: fileLocation!, coder: Coder<Any>.makeImageCoder())
         sut.removeAll()
 
+        // Wait
+        sleep(1)
+
         // TODO: is expected behavior that cache directory is empty or that it doesn't exist?
         let directoryExists = fileManager.fileExists(atPath: cacheLocation.path)
         XCTAssertFalse(directoryExists)
@@ -166,9 +185,11 @@ extension FileCacheTests {
             sut.insert(value, for: key)
         }
 
-        // FIXME: remove `maxFileCount` adjustment
+        // Wait
+        sleep(3)
+
         let cacheContents = try fileManager.contentsOfDirectory(atPath: cacheLocation.path)
-        XCTAssertEqual(cacheContents.count, maxFileCount + 1)
+        XCTAssertEqual(cacheContents.count, maxFileCount)
     }
 
     func testCleanup() throws {
@@ -198,10 +219,12 @@ extension FileCacheTests {
             sut.insert(value, for: key)
         }
 
-        // FIXME: remove `maxFileCount` adjustment
+        // Wait
+        sleep(3)
+
         // Verify only expected number of images remain
         let cacheContents = try fileManager.contentsOfDirectory(atPath: cacheLocation.path)
-        XCTAssertEqual(cacheContents.count, maxFileCount + 1)
+        XCTAssertEqual(cacheContents.count, maxFileCount)
 
         // Verify they are the images we expect
         expected.forEach { key, value in
@@ -213,6 +236,66 @@ extension FileCacheTests {
             // Verify cached image matches original
             XCTAssertEqual(value.pngData(), cachedImage?.pngData())
         }
+    }
+}
+
+// MARK: - Performance
+extension FileCacheTests {
+
+    func testWritePerformance() {
+        let maxFileCount = 255
+        let imageCount = 255
+        let testImage = try? Self.makeTestImage(color: .blue, size: Constants.defaultImageSize)
+
+        let testValues = Array(0...imageCount).reduce(into: [URL: UIImage]()) { r, i in
+            let urlString = Constants.mehImageBaseString + String(i) + ".png"
+            r[URL(string: urlString)!] = testImage
+        }
+
+        let sut = FileCache(fileLocation: fileLocation, coder: Coder<Any>.makeImageCoder(), maxFileCount: maxFileCount)
+
+        self.measure {
+            testValues.forEach { url, image in
+                sut.insert(image, for: url)
+            }
+        }
+    }
+
+    func testCleanupPerformance() {
+        let maxFileCount = 500
+        let initialImageCount = 1000
+        let additionalFileCount = 5
+        let imageSize = CGSize(width: 600, height: 600)
+        let testData = Self.makeTestPngData(color: .blue, size: imageSize)
+        let additionalImage = try? Self.makeTestImage(color: .red, size: imageSize)
+
+        // Files we expect to be removed
+        for i in 0..<initialImageCount {
+            let filePathComponent = String(i) + ".png"
+            let fileURL = cacheLocation.appendingPathComponent(filePathComponent)
+            try? testData.write(to: fileURL)
+        }
+
+        // Files we will be inserting into cache
+        let additional = Array(initialImageCount...(initialImageCount + additionalFileCount))
+        let additionalImages: [URL: UIImage] = additional.reduce(into: [:], { r, i in
+            let urlString = Constants.mehImageBaseString + String(i) + ".png"
+            r[URL(string: urlString)!] = additionalImage
+        })
+
+        // Test
+        let sut = FileCache(fileLocation: fileLocation!, coder: Coder<Any>.makeImageCoder(),
+                            maxFileCount: maxFileCount)
+
+        self.measure {
+            additionalImages.forEach { url, image in
+                sut.insert(image, for: url)
+            }
+        }
+
+        sleep(2)
+        let cacheContentsCount = try? fileManager.contentsOfDirectory(atPath: cacheLocation.path).count
+        XCTAssertEqual(cacheContentsCount, maxFileCount)
     }
 }
 
