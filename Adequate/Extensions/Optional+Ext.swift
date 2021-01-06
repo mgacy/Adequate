@@ -17,4 +17,11 @@ public extension Optional {
         }
         return result
     }
+
+    func unwrapOrThrow(_ error: Error) throws -> Wrapped {
+        guard let result = self else {
+            throw error
+        }
+        return result
+    }
 }

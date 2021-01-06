@@ -8,6 +8,7 @@
 
 import UIKit
 import Promise
+import MGNetworking
 
 public class ImageService: ImageServiceType {
 
@@ -29,7 +30,8 @@ public class ImageService: ImageServiceType {
     public init(client: NetworkClientType) {
         self.client = client
         self.memoryCache = Cache<URL, UIImage>()
-        self.diskCache = FileCache(appGroupID: "group.mgacy.com.currentDeal")
+        self.diskCache = FileCache(fileLocation: AppGroup.currentDeal,
+                                   coder: Coder<Any>.makeImageCoder())
     }
 
     /*
