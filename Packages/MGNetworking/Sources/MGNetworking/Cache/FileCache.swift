@@ -69,11 +69,6 @@ public final class FileCache<T>: Caching {
                 // Ensure caches directory exists
                 try fileManager.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true,
                                                 attributes: nil)
-
-                // Overwrite or just skip if file already exists?
-                //if fileManager.fileExists(atPath: url.path) {
-                //    return
-                //}
                 try data.write(to: url)
             } catch {
                 log?.error("Error writing image: \(error)")
@@ -102,8 +97,9 @@ public final class FileCache<T>: Caching {
             do {
                 try fileManager.removeItem(at: url)
             } catch {
-                guard (error as NSError).code != NSFileReadNoSuchFileError else { return }
-                log?.error("Error clearing image: \(error)")
+                if (error as NSError).code != NSFileNoSuchFileError {
+                    log?.error("Error clearing image: \(error)")
+                }
             }
         }
 
@@ -126,19 +122,17 @@ public final class FileCache<T>: Caching {
                 let data = try Data(contentsOf: url)
                 result = try coder.decode(data)
             } catch let error as NSError {
-                guard error.code != NSFileReadNoSuchFileError else { return }
-                log?.error("Error reading data: \(error)")
+                if error.code != NSFileReadNoSuchFileError {
+                    log?.error("Error reading data: \(error)")
+                }
             } catch {
                 log?.error("Error reading decoding data: \(error)")
             }
         }
 
-        // TODO: ignore NSFileReadNoSuchFileError?
         if let error = errorPointer?.pointee {
             log?.error("Read \(key) from disk coordination failed: \(error.localizedDescription)")
         }
-        // TESTING
-        log?.info("Result: \(String(describing: result))")
         return result
     }
 
@@ -155,12 +149,12 @@ public final class FileCache<T>: Caching {
                 // TODO: remove cache directory or just its contents
                 try fileManager.removeItem(at: url)
             } catch {
-                guard (error as NSError).code != NSFileReadNoSuchFileError else { return }
-                log?.error("Error clearing image: \(error)")
+                if (error as NSError).code != NSFileNoSuchFileError {
+                    log?.error("Error clearing image: \(error)")
+                }
             }
         }
 
-        // TODO: ignore NSFileReadNoSuchFileError?
         if let error = errorPointer?.pointee {
             log?.error("Deleting cache from disk coordination failed: \(error.localizedDescription)")
         }
@@ -197,12 +191,16 @@ public final class FileCache<T>: Caching {
                     return
                 }
 
-                do {
-                    for intent in intents {
+                for intent in intents {
+                    do {
                         try self?.fileManager.removeItem(at: intent.url)
+                    } catch let error as NSError {
+                        if error.code != NSFileNoSuchFileError {
+                            self?.log?.error("Error trying to cleanup cache: \(error)")
+                        }
+                    } catch {
+                        self?.log?.error("Error trying to cleanup cache: \(error)")
                     }
-                } catch {
-                    self?.log?.error("Error trying to cleanup cache: \(error)")
                 }
             }
         }
