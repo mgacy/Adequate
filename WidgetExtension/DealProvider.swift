@@ -9,6 +9,7 @@
 #if canImport(WidgetKit)
 import UIKit
 import WidgetKit
+import CurrentDealManager
 
 struct DealProvider: TimelineProvider {
     typealias Entry = DealEntry

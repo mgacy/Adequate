@@ -12,6 +12,7 @@ import WidgetKit
 import AWSAppSync
 import AWSMobileClient
 import class Promise.Promise // avoid name collision with AWSAppSync.Promise
+import CurrentDealManager
 
 // swiftlint:disable cyclomatic_complexity file_length function_body_length type_body_length
 

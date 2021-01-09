@@ -9,6 +9,7 @@
 #if canImport(WidgetKit)
 import UIKit
 import WidgetKit
+import CurrentDealManager
 
 public struct DealEntry: TimelineEntry {
     public var date: Date = Date()

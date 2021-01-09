@@ -80,6 +80,9 @@
 		C9604CC025A55A7C001E388E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C9604CBF25A55A7C001E388E /* README.md */; };
 		C961F35822F3DE1E00405CA3 /* MailComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C961F35722F3DE1E00405CA3 /* MailComposer.swift */; };
 		C961F35A22F4CF0E00405CA3 /* UIDevice+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C961F35922F4CF0D00405CA3 /* UIDevice+Ext.swift */; };
+		C9676B5C25AA3229000DE50C /* CurrentDealManager in Frameworks */ = {isa = PBXBuildFile; productRef = C9676B5B25AA3229000DE50C /* CurrentDealManager */; };
+		C9676B5E25AA3241000DE50C /* CurrentDealManager in Frameworks */ = {isa = PBXBuildFile; productRef = C9676B5D25AA3241000DE50C /* CurrentDealManager */; };
+		C9676B6025AA324A000DE50C /* CurrentDealManager in Frameworks */ = {isa = PBXBuildFile; productRef = C9676B5F25AA324A000DE50C /* CurrentDealManager */; };
 		C96B487122FA9703000A8D91 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96B487022FA9703000A8D91 /* UIViewController+Ext.swift */; };
 		C96BED9A23BD66FF00510058 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96BED9923BD66FF00510058 /* UIView+Ext.swift */; };
 		C96CA86A2182DB2500C3459E /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CA8692182DB2500C3459E /* OnboardingCoordinator.swift */; };
@@ -161,8 +164,6 @@
 		C9B3FAB5223C39F900B8524A /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAB4223C39F900B8524A /* TodayViewController.swift */; };
 		C9B3FABC223C39F900B8524A /* TodayExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9B3FAB0223C39F900B8524A /* TodayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9B3FAC12242D4E500B8524A /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4B22147864A00D6558B /* ViewState.swift */; };
-		C9B3FAC3224479B200B8524A /* CurrentDealManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */; };
-		C9B3FAC422447AAB00B8524A /* CurrentDealManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */; };
 		C9B3FAC62245649E00B8524A /* CurrentDeal+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAC52245649E00B8524A /* CurrentDeal+Init.swift */; };
 		C9B90D0322837D140070ADE9 /* ParallaxScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B90D0222837D140070ADE9 /* ParallaxScrollView.swift */; };
 		C9BADE0E244F8B15004B17F1 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC48A21476ADA00D6558B /* String+Ext.swift */; };
@@ -193,10 +194,6 @@
 		C9CDA506252174B20044A2A3 /* WidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9CDA4F9252174B00044A2A3 /* WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9CDA54C2521793A0044A2A3 /* DealProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA54B2521793A0044A2A3 /* DealProvider.swift */; };
 		C9CDA56025217ACD0044A2A3 /* DealWidgetEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA55F25217ACD0044A2A3 /* DealWidgetEntryView.swift */; };
-		C9CDA59025217DEC0044A2A3 /* CurrentDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA58F25217DEC0044A2A3 /* CurrentDeal.swift */; };
-		C9CDA59725217DFD0044A2A3 /* CurrentDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA58F25217DEC0044A2A3 /* CurrentDeal.swift */; };
-		C9CDA59825217E0B0044A2A3 /* CurrentDealManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */; };
-		C9CDA59F25217E110044A2A3 /* CurrentDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA58F25217DEC0044A2A3 /* CurrentDeal.swift */; };
 		C9CDA5A725217FC50044A2A3 /* DealEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA5A625217FC50044A2A3 /* DealEntry.swift */; };
 		C9CDA5B4252180670044A2A3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C99EF3BE22BC968300BF4410 /* Localizable.strings */; };
 		C9CDA5BB252180710044A2A3 /* Strings.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EF3BF22BD4FDD00BF4410 /* Strings.generated.swift */; };
@@ -431,6 +428,7 @@
 		C963AB022295EFB700E335D9 /* NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationService.entitlements; sourceTree = "<group>"; };
 		C96B487022FA9703000A8D91 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
 		C96BED9923BD66FF00510058 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
+		C96C0F6225AA29E500517F3E /* CurrentDealManager */ = {isa = PBXFileReference; lastKnownFileType = folder; path = CurrentDealManager; sourceTree = "<group>"; };
 		C96CA8692182DB2500C3459E /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		C96CA86B2182DCC800C3459E /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		C96CA86D2182DD1A00C3459E /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -510,7 +508,6 @@
 		C9B3FAB4223C39F900B8524A /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		C9B3FAB9223C39F900B8524A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9B3FAC0223C4EF500B8524A /* TodayExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TodayExtension.entitlements; sourceTree = "<group>"; };
-		C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDealManager.swift; sourceTree = "<group>"; };
 		C9B3FAC52245649E00B8524A /* CurrentDeal+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentDeal+Init.swift"; sourceTree = "<group>"; };
 		C9B90D0222837D140070ADE9 /* ParallaxScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxScrollView.swift; sourceTree = "<group>"; };
 		C9BADE0F244F9772004B17F1 /* FileLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLoader.swift; sourceTree = "<group>"; };
@@ -542,7 +539,6 @@
 		C9CDA5442521784F0044A2A3 /* WidgetExtensionRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetExtensionRelease.entitlements; sourceTree = "<group>"; };
 		C9CDA54B2521793A0044A2A3 /* DealProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealProvider.swift; sourceTree = "<group>"; };
 		C9CDA55F25217ACD0044A2A3 /* DealWidgetEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealWidgetEntryView.swift; sourceTree = "<group>"; };
-		C9CDA58F25217DEC0044A2A3 /* CurrentDeal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDeal.swift; sourceTree = "<group>"; };
 		C9CDA5A625217FC50044A2A3 /* DealEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealEntry.swift; sourceTree = "<group>"; };
 		C9CDA641252195530044A2A3 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
 		C9CDA642252195620044A2A3 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
@@ -640,6 +636,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9676B5E25AA3241000DE50C /* CurrentDealManager in Frameworks */,
 				C9B3FAB2223C39F900B8524A /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -649,6 +646,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9CDA4FD252174B00044A2A3 /* SwiftUI.framework in Frameworks */,
+				C9676B6025AA324A000DE50C /* CurrentDealManager in Frameworks */,
 				C9CDA4FB252174B00044A2A3 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -658,6 +656,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9F3012C259E4C8C00071891 /* MGNetworking in Frameworks */,
+				C9676B5C25AA3229000DE50C /* CurrentDealManager in Frameworks */,
 				4FE6C80B80EF9AF473A33424 /* Pods_Adequate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1072,8 +1071,6 @@
 			isa = PBXGroup;
 			children = (
 				C9385BAD25685A8100F7AFB5 /* NotificationConfig */,
-				C9CDA58F25217DEC0044A2A3 /* CurrentDeal.swift */,
-				C9B3FAC2224479B200B8524A /* CurrentDealManager.swift */,
 			);
 			path = CommonExtension;
 			sourceTree = "<group>";
@@ -1406,6 +1403,7 @@
 		C9F30104259E47BD00071891 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
+				C96C0F6225AA29E500517F3E /* CurrentDealManager */,
 				C9F30105259E481200071891 /* MGNetworking */,
 			);
 			path = Packages;
@@ -1488,6 +1486,9 @@
 			dependencies = (
 			);
 			name = TodayExtension;
+			packageProductDependencies = (
+				C9676B5D25AA3241000DE50C /* CurrentDealManager */,
+			);
 			productName = DealWidget;
 			productReference = C9B3FAB0223C39F900B8524A /* TodayExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -1505,6 +1506,9 @@
 			dependencies = (
 			);
 			name = WidgetExtension;
+			packageProductDependencies = (
+				C9676B5F25AA324A000DE50C /* CurrentDealManager */,
+			);
 			productName = WidgetExtensionExtension;
 			productReference = C9CDA4F9252174B00044A2A3 /* WidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -1533,6 +1537,7 @@
 			name = Adequate;
 			packageProductDependencies = (
 				C9F3012B259E4C8C00071891 /* MGNetworking */,
+				C9676B5B25AA3229000DE50C /* CurrentDealManager */,
 			);
 			productName = Adequate;
 			productReference = C9DAC4502147688500D6558B /* Adequate.app */;
@@ -1969,8 +1974,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9B3FAC12242D4E500B8524A /* ViewState.swift in Sources */,
-				C9CDA59F25217E110044A2A3 /* CurrentDeal.swift in Sources */,
-				C9B3FAC422447AAB00B8524A /* CurrentDealManager.swift in Sources */,
 				C9B3FAB5223C39F900B8524A /* TodayViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1980,9 +1983,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9CDA54C2521793A0044A2A3 /* DealProvider.swift in Sources */,
-				C9CDA59025217DEC0044A2A3 /* CurrentDeal.swift in Sources */,
 				C9CDA5A725217FC50044A2A3 /* DealEntry.swift in Sources */,
-				C9CDA59825217E0B0044A2A3 /* CurrentDealManager.swift in Sources */,
 				C9CDA56025217ACD0044A2A3 /* DealWidgetEntryView.swift in Sources */,
 				C9CDA500252174B00044A2A3 /* WidgetExtension.swift in Sources */,
 				C9CDA5BB252180710044A2A3 /* Strings.generated.swift in Sources */,
@@ -2059,7 +2060,6 @@
 				C9AE54CB21792ABC00818F11 /* ZoomingImageViewDelegate.swift in Sources */,
 				C9093CC1222796FD00C9DA0C /* RootPageViewController.swift in Sources */,
 				C9AE54C72179270C00818F11 /* FullScreenImageViewController.swift in Sources */,
-				C9B3FAC3224479B200B8524A /* CurrentDealManager.swift in Sources */,
 				C98C7B4625951D5B00F5A28B /* MGButton.swift in Sources */,
 				C9908F30254B6202002948E1 /* Models.swift in Sources */,
 				C992D1DE216D93F000B373D5 /* Optional+Ext.swift in Sources */,
@@ -2140,7 +2140,6 @@
 				C9385B9225659D0F00F7AFB5 /* API+ResultSelectable.swift in Sources */,
 				C992172B2571886700741650 /* SplitViewController.swift in Sources */,
 				C9DAC4B52147872700D6558B /* Router.swift in Sources */,
-				C9CDA59725217DFD0044A2A3 /* CurrentDeal.swift in Sources */,
 				C992173C2571E0A200741650 /* PrimaryViewControllerType.swift in Sources */,
 				C928547B216DCE44001E5993 /* SNSManager.swift in Sources */,
 				C95B83C3218017FD0051B72B /* ThemeManager.swift in Sources */,
@@ -3558,6 +3557,18 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C9676B5B25AA3229000DE50C /* CurrentDealManager */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CurrentDealManager;
+		};
+		C9676B5D25AA3241000DE50C /* CurrentDealManager */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CurrentDealManager;
+		};
+		C9676B5F25AA324A000DE50C /* CurrentDealManager */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CurrentDealManager;
+		};
 		C9F3012B259E4C8C00071891 /* MGNetworking */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MGNetworking;

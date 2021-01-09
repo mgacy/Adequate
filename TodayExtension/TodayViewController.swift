@@ -8,6 +8,7 @@
 
 import UIKit
 import NotificationCenter
+import CurrentDealManager
 
 // https://stackoverflow.com/questions/26037321/how-to-create-a-today-widget-programmatically-without-storyboard-on-ios8
 @objc (TodayViewController)
