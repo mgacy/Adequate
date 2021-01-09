@@ -19,7 +19,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
     private let dataProvider: DataProviderType
     private let imageService: ImageServiceType
     private let themeManager: ThemeManagerType
-    private let feedbackGenerator = UISelectionFeedbackGenerator()
+    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
 
     private var viewState: ViewState<Deal> = .empty {
         didSet {
@@ -233,7 +233,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         guard case .result(let deal) = viewState else {
             return
         }
-        feedbackGenerator.selectionChanged()
+        feedbackGenerator.impactOccurred()
         delegate?.showPurchase(for: deal)
     }
 
