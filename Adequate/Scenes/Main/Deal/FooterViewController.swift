@@ -129,25 +129,30 @@ extension FooterViewController: ViewStateRenderable {
         switch launchStatus {
         case .launch, .relaunch:
             buyButton.isEnabled = true
+            buyButton.backgroundColor = buyButton.normalColor
             priceLabel.isHidden = false
             priceLabel.removeStrikethrough()
             priceLabel.text = priceText
         case .launchSoldOut:
             buyButton.isEnabled = false
+            buyButton.backgroundColor = buyButton.disabledColor
             priceLabel.isHidden = false
             priceLabel.setStrikethrough(text: priceText)
             // TODO: show button to schedule reminder for when relaunch occurs
         case .relaunchSoldOut:
             buyButton.isEnabled = false
+            buyButton.backgroundColor = buyButton.disabledColor
             priceLabel.isHidden = false
             priceLabel.setStrikethrough(text: priceText)
         case .reserve:
             // TODO: check UserDefaults to see if `isMehVmp`; if so, enable
             buyButton.isEnabled = false
+            buyButton.backgroundColor = buyButton.disabledColor
             priceLabel.isHidden = false
             priceLabel.setStrikethrough(text: priceText)
         case .soldOut:
             buyButton.isEnabled = false
+            buyButton.backgroundColor = buyButton.disabledColor
             priceLabel.isHidden = false
             priceLabel.setStrikethrough(text: priceText)
         case .expired:
