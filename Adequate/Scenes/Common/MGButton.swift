@@ -47,7 +47,7 @@ class MGButton<T: HighlightAnimating>: UIButton, AnimatableButton where T.ViewTy
         addTarget(self, action: #selector(onTouchDown(_:)), for: .touchDown)
         addTarget(self, action: #selector(onTouchDragEnter(_:)), for: .touchDragEnter)
         addTarget(self, action: #selector(onTouchDragExit(_:)), for: .touchDragExit)
-        addTarget(self, action: #selector(onTouchUpInside(_:)), for: .touchUpInside)
+        addTarget(self, action: #selector(onTouchUpInsideB(_:)), for: .touchUpInside)
         addTarget(self, action: #selector(onTouchCancel(_:)), for: .touchCancel)
     }
 
@@ -71,7 +71,7 @@ class MGButton<T: HighlightAnimating>: UIButton, AnimatableButton where T.ViewTy
         changeState(isHighlighted: isHighlighted)
     }
 
-    @objc private func onTouchUpInside(_ sender: UIButton) {
+    @objc private func onTouchUpInsideB(_ sender: UIButton) {
         changeState(isHighlighted: false)
     }
 
