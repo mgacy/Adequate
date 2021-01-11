@@ -80,13 +80,19 @@ final class AcknowledgementsViewController: UIViewController {
     // MARK: - A
 
     private func loadAcknowledgements() -> String? {
-        guard
-            let path = Bundle.main.path(forResource: "Pods-Adequate-acknowledgements", ofType: "markdown"),
-            let content = try? String(contentsOfFile: path, encoding: String.Encoding.utf8) else {
-                log.error("Error getting Acknowledgements")
-                return nil
+        guard let path = Bundle.main.path(forResource: "Pods-Adequate-acknowledgements", ofType: "markdown"),
+              let content = try? String(contentsOfFile: path, encoding: .utf8) else {
+            log.error("Error getting Acknowledgements")
+            return nil
         }
-        return content
+
+        guard let additionalPath = Bundle.main.path(forResource: "AdditionalAcknowledgements", ofType: "markdown"),
+              let additionalContent = try? String(contentsOfFile: additionalPath, encoding: .utf8) else {
+            return content
+        }
+
+        return content + additionalContent
+        //return content
     }
 }
 

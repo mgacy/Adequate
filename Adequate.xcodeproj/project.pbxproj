@@ -271,6 +271,7 @@
 		C9FABAEC2372472900C1E523 /* DataProviderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FABAEB2372472900C1E523 /* DataProviderType.swift */; };
 		C9FABAEE2372498100C1E523 /* MehSyncClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FABAED2372498100C1E523 /* MehSyncClient.swift */; };
 		C9FABAF22372908100C1E523 /* MehSyncClientType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FABAF12372908100C1E523 /* MehSyncClientType.swift */; };
+		C9FFD69525AC19770037B77C /* AdditionalAcknowledgements.markdown in Resources */ = {isa = PBXBuildFile; fileRef = C9FFD68825AC14EF0037B77C /* AdditionalAcknowledgements.markdown */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -619,6 +620,7 @@
 		C9FABAEB2372472900C1E523 /* DataProviderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderType.swift; sourceTree = "<group>"; };
 		C9FABAED2372498100C1E523 /* MehSyncClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MehSyncClient.swift; sourceTree = "<group>"; };
 		C9FABAF12372908100C1E523 /* MehSyncClientType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MehSyncClientType.swift; sourceTree = "<group>"; };
+		C9FFD68825AC14EF0037B77C /* AdditionalAcknowledgements.markdown */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AdditionalAcknowledgements.markdown; sourceTree = "<group>"; };
 		E7276E9460828E2D94C155F2 /* Pods-AdequateTests.debug (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdequateTests.debug (staging).xcconfig"; path = "Pods/Target Support Files/Pods-AdequateTests/Pods-AdequateTests.debug (staging).xcconfig"; sourceTree = "<group>"; };
 		FB7D5C254D1E576460D1DFDB /* Pods-AdequateUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdequateUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AdequateUITests/Pods-AdequateUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1296,6 +1298,7 @@
 				C99EF3BE22BC968300BF4410 /* Localizable.strings */,
 				C997ED0322BFF6300053C62A /* Localizable.stringsdict */,
 				C9102F99224FFC1D00B06679 /* Pods-Adequate-acknowledgements.markdown */,
+				C9FFD68825AC14EF0037B77C /* AdditionalAcknowledgements.markdown */,
 				C99EF3BF22BD4FDD00BF4410 /* Strings.generated.swift */,
 			);
 			path = Resources;
@@ -1706,6 +1709,7 @@
 				C98731D2252A3E0E00E72A16 /* Icon-2@2x.png in Resources */,
 				C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */,
 				C98731D3252A3E0E00E72A16 /* Icon-1@3x.png in Resources */,
+				C9FFD69525AC19770037B77C /* AdditionalAcknowledgements.markdown in Resources */,
 				C989E119223734A700DEAE89 /* awsconfiguration.json in Resources */,
 				C9BFB2662534D27C0002EAE5 /* Icon-4@3x.png in Resources */,
 				C98731DC252A3F0900E72A16 /* Icon-3@2x.png in Resources */,
