@@ -1,0 +1,28 @@
+{
+    "UserAgent": "aws-amplify/cli",
+    "Version": "0.1.0",
+    "IdentityManager": {
+        "Default": {}
+    },
+    "AppSync": {
+        "Default": {
+            "ApiUrl": "https://xxxxxxxxxxxxxxxxxxxxxxxxxx.appsync-api.xx-xxxx-x.amazonaws.com/graphql",
+            "Region": "xx-xxxx-x",
+            "AuthMode": "AWS_IAM",
+            "ClientDatabasePrefix": "adequate_AWS_IAM"
+        }
+    },
+    "CredentialsProvider": {
+        "CognitoIdentity": {
+            "Default": {
+                "PoolId": "xx-xxxx-x:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                "Region": "xx-xxxx-x"
+            }
+        }
+    },
+    "Auth": {
+        "Default": {
+            "authenticationFlowType": "USER_SRP_AUTH"
+        }
+    }
+}
