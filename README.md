@@ -1,5 +1,7 @@
-<a href="https://apps.apple.com/us/app/adequate/id1438986355"><img src=".github/header-light.png"  alt="Adequate for iOS"></a></p>
-
+<p align="center"><a href="https://apps.apple.com/us/app/adequate/id1438986355"><img src=".github/header-light.png" alt="Adequate for iOS"></a></p>
+<br/>
+<p><img src=".github/screenshot.png"></p>
+<br/>
 Adequate is a free and open-source iOS client for the [Meh](https://meh.com) daily deals website.
 
 ## Building
