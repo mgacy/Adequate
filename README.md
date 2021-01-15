@@ -28,12 +28,12 @@ Adequate uses the following tools:
 - [Sourcery](https://github.com/krzysztofzablocki/Sourcery)
 - [SwiftGen](https://github.com/SwiftGen/SwiftGen)
 
-If have not already installed Sourcery and SwiftGen, the `bootstrap.sh` script will install them using [Homebrew](https://brew.sh). 
+If have not already installed Sourcery and SwiftGen, the `Makefile` will install them using [Homebrew](https://brew.sh). 
 
 Run:
 
 ```bash
-sh bootstrap.sh
+make
 ```
 
 ### 4. Configuration
@@ -41,12 +41,11 @@ sh bootstrap.sh
 Add the configuration files for the development, staging, and production environments:
 
 ```
-ProjectDirectory/
-  buildscripts/
-    env_configs/
-      awsconfiguration-dev.json
-      awsconfiguration-prod.json
-      awsconfiguration-stg.json
+buildscripts/
+  env_configs/
+    awsconfiguration-dev.json
+    awsconfiguration-prod.json
+    awsconfiguration-stg.json
 ```
 
 Add credentials for the SwiftyBeaver [platform](https://docs.swiftybeaver.com/article/11-log-to-swiftybeaver-platform) as well as the ARNs for your AWS SNS platform applications and SNS topics to `/buildscripts/env-vars.sh`.
