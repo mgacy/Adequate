@@ -10,6 +10,7 @@ import XCTest
 import SnapshotTesting
 @testable import Adequate
 
+// swiftlint:disable type_name
 class StoryViewControllerSnapshotTests: SnapshotTestBase {
 
     override func makeSUT() throws -> UIViewController {

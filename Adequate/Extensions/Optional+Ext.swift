@@ -6,14 +6,21 @@
 //  Copyright © 2018 Mathew Gacy. All rights reserved.
 //
 
-struct NilError: Error { }
+public struct NilError: Error { }
 
-extension Optional {
+public extension Optional {
 
     // https://github.com/khanlou/Promise
     func unwrap() throws -> Wrapped {
         guard let result = self else {
             throw NilError()
+        }
+        return result
+    }
+
+    func unwrapOrThrow(_ error: Error) throws -> Wrapped {
+        guard let result = self else {
+            throw error
         }
         return result
     }

@@ -33,14 +33,13 @@ final class ZoomOutAnimator: ZoomAnimator {
         let containerView = transitionContext.containerView
         //let finalFrame = transitionContext.finalFrame(for: toVC)
 
-        // TODO: call `transitionAnimationWillStart()` on delegates
-        toDelegate.originView.isHidden = true // Is this necessary?
+        toDelegate?.originView.isHidden = true
 
         // transitionView
-        let transitionView = fromDelegate.makeTransitioningView() ?? makeTransitioningView()
+        let transitionView = fromDelegate?.makeTransitioningView() ?? makeTransitioningView()
         containerView.addSubview(transitionView)
-        transitionView.frame = fromDelegate.originFrame
-        fromDelegate.originView.isHidden = true
+        transitionView.frame = fromDelegate?.originFrame ?? .zero
+        fromDelegate?.originView.isHidden = true
 
         // Animation
         let animator = transitionAnimator(using: transitionContext)
@@ -49,16 +48,15 @@ final class ZoomOutAnimator: ZoomAnimator {
             if #available(iOS 14.0, *) {
                 fromVC.modalPresentationCapturesStatusBarAppearance = false
             }
-            toVC.setNeedsStatusBarAppearanceUpdate() // Is this necessary?
-            transitionView.frame = self.toDelegate.originFrame
+            toVC.setNeedsStatusBarAppearanceUpdate()
+            transitionView.frame = self.toDelegate?.originFrame ?? .zero
             fromVC.view.alpha = 0.0
         }
 
         animator.addCompletion { position in
-            // TODO: call `transitionAnimationDidEnd()` on delegates
-            self.fromDelegate.originView.isHidden = false
+            self.fromDelegate?.originView.isHidden = false
             if !transitionContext.transitionWasCancelled {
-                self.toDelegate.originView.isHidden = false
+                self.toDelegate?.originView.isHidden = false
             }
             transitionView.removeFromSuperview()
 

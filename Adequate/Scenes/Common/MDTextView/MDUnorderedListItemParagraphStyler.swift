@@ -8,6 +8,8 @@
 
 import Down
 
+// swiftlint:disable type_name
+
 /// Paragraph styler for unordered list items.
 final public class MDUnorderedListItemParagraphStyler {
 
@@ -38,7 +40,6 @@ final public class MDUnorderedListItemParagraphStyler {
         self.options = options
         self.bulletPrefixWidth = prefixFont.widthOfBullet
     }
-
 
     /// The paragraph style intended for the first paragraph of the list item.
     ///

@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct Video: Codable, Equatable {
-    let id: String
-    let startDate: Date
-    let title: String
-    let url: URL
-    let topic: Topic?
+public struct Video: Codable, Equatable {
+    public let id: String
+    public let startDate: Date
+    public let title: String
+    public let url: URL
+    public let topic: Topic?
 }

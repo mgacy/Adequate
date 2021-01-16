@@ -27,6 +27,7 @@ class GraphQLQueryParser {
     func parseQueryName(from jsonString: String) throws -> NamedQuery? {
         let jsonData = jsonString.data(using: .utf8)!
         guard
+            // swiftlint:disable:next line_length
             let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as? [String: Any],
             let queryString = jsonObject["query"] as? String
             //let queryVariables = jsonObject["variables"] as? [String: Any]

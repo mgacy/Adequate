@@ -57,7 +57,7 @@ extension SettingsCoordinator: SettingsViewControllerDelegate {
         var components = URLComponents(string: Constants.baseReviewURLString)
         components?.path = "/app/id\(Constants.appID)"
         components?.queryItems = [URLQueryItem(name: "action", value: "write-review")]
-    
+
         guard let writeReviewURL = components?.url else {
             return
         }

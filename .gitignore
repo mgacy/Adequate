@@ -35,13 +35,13 @@ Pods
 env-vars.sh
 AppSecrets.generated.swift
 /awsconfiguration.json
-/buildscripts/env_configs
+/buildscripts/env_configs/awsconfiguration-*.json
 /fastlane/Appfile
 /fastlane/metadata/review_information
 /fastlane/metadata/trade_representative_contact_information
 
 # Generated
-/API.swift
+# /API.swift
 /fastlane/Preview.html
 /fastlane/README.md
 /fastlane/report.xml

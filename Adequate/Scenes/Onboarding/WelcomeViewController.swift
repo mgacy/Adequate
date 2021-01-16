@@ -57,7 +57,7 @@ final class WelcomeViewController: UIViewController {
         NSLayoutConstraint.activate([
             titleLabel.lastBaselineAnchor.constraint(equalTo: view.centerYAnchor),
             labelStack.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
-            labelStack.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
+            labelStack.trailingAnchor.constraint(equalTo: guide.trailingAnchor)
         ])
     }
 }

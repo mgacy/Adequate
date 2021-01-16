@@ -6,29 +6,33 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
-import Foundation
+import CurrentDealManager
 
 extension CurrentDeal {
     init?(deal: Deal) {
-        self.id = deal.dealID
-        self.title = deal.title
-
         guard let imageURL = deal.photos.first?.secure() else {
             return nil
         }
-        self.imageURL = imageURL
 
         // Prices
-        let prices = deal.items.map { $0.price }
+        let minQuantity = Double(deal.purchaseQuantity?.minimumLimit ?? 1)
+        let prices = deal.items.map { $0.price * minQuantity }
         guard let minPrice = prices.min(), let maxPrice = prices.max() else {
             return nil
         }
-        self.minPrice = minPrice
-        self.maxPrice = minPrice != maxPrice ? maxPrice : nil
+
+        let launchStatus: CurrentDeal.LaunchStatus?
         if let statusString = deal.launchStatus?.rawValue {
-            self.launchStatus = LaunchStatus(rawValue: statusString)
+            launchStatus = LaunchStatus(rawValue: statusString)
         } else {
-            self.launchStatus = nil
+            launchStatus = nil
         }
+
+        self.init(id: deal.dealID,
+                  title: deal.title,
+                  imageURL: imageURL,
+                  minPrice: minPrice,
+                  maxPrice: minPrice != maxPrice ? maxPrice : nil,
+                  launchStatus: launchStatus)
     }
 }

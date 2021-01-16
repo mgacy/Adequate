@@ -12,11 +12,10 @@ import Promise
 final class FullScreenImageViewController: UIViewController {
 
     weak var delegate: FullScreenImageDelegate?
-    // TODO: replace with pure reliance on `dataSource`
     private let imageSource: Promise<UIImage>
     private let dataSource: PagedImageViewDataSourceType
 
-    /// Maintain a strong reference to `transitioningDelegate`
+    // Maintain a strong reference to `transitioningDelegate`
     private var transitionController: FullScreenImageTransitionController?
 
     private var initialSetupDone = false
@@ -47,7 +46,7 @@ final class FullScreenImageViewController: UIViewController {
 
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
-        view.color = .secondaryLabel // or .white?
+        view.color = .secondaryLabel
         view.isHidden = true
         return view
     }()
@@ -55,15 +54,17 @@ final class FullScreenImageViewController: UIViewController {
     private lazy var zoomingImageView: ZoomingImageView = {
         let view = ZoomingImageView()
         //let view = ZoomingImageView(frame: UIScreen.main.bounds)
+        //view.zoomingImageDelegate = self
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         return view
     }()
 
-    // TODO: should I just make this the root view?
     lazy var blurredView: UIView = {
         let blurEffect: UIBlurEffect
         blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        return blurEffectView
+        let view = UIVisualEffectView(effect: blurEffect)
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return view
     }()
 
     // MARK: - Lifecycle
@@ -101,19 +102,21 @@ final class FullScreenImageViewController: UIViewController {
         closeButton.alpha = 0.0
     }
 
-    deinit { print("\(#function) - \(self.description)") }
+    //deinit { print("\(#function) - \(self.description)") }
 
     // MARK: - View Methods
 
     private func setupView() {
         view.backgroundColor = .clear
 
+        zoomingImageView.frame = view.frame
+        blurredView.frame = view.frame
+
         view.addSubview(activityIndicator)
         view.addSubview(zoomingImageView)
         view.addSubview(closeButton)
         view.insertSubview(blurredView, at: 0)
 
-        //zoomingImageView.zoomingImageDelegate = self
         closeButton.addTarget(self, action: #selector(dismissView(_:)), for: .touchUpInside)
 
         // image
@@ -140,12 +143,12 @@ final class FullScreenImageViewController: UIViewController {
 extension FullScreenImageViewController {
 
     override func viewWillLayoutSubviews() {
-        blurredView.frame = view.frame
-        activityIndicator.center = view.center // TODO: center relative to view or safe area?
-        zoomingImageView.frame = view.frame
+        activityIndicator.center = view.center
 
         // TODO: move to `ViewMetrics` type?
+        // swiftlint:disable:next identifier_name
         let x = view.bounds.width - view.safeAreaInsets.left - 2 * 28.0
+        // swiftlint:disable:next identifier_name
         let y: CGFloat
         switch view.safeAreaInsets.top {
         case 0.0..<24.0:
@@ -170,7 +173,7 @@ extension FullScreenImageViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(
-            alongsideTransition: { [weak zoomingImageView] context in
+            alongsideTransition: { [weak zoomingImageView] _ in
                 zoomingImageView?.updateZoomScale()
                 zoomingImageView?.updateOffsetForSize()
             },
@@ -180,7 +183,6 @@ extension FullScreenImageViewController {
 }
 
 // MARK: - Transition
-// TODO: Specify as conformance to a new protocol; move method to default implementation?
 extension FullScreenImageViewController {
 
     func setupTransitionController(animatingFrom fromDelegate: ViewAnimatedTransitioning) {
@@ -202,16 +204,13 @@ extension FullScreenImageViewController: ViewAnimatedTransitioning {
     }
 
     func makeTransitioningView() -> UIView? {
+        let transitionImageView: UIView
         if let transitionImage = imageSource.value {
-            let transitionImageView = UIImageView(image: transitionImage)
+            transitionImageView = UIImageView(image: transitionImage)
             transitionImageView.contentMode = .scaleAspectFit
-            //transitionImageView.frame = originFrame
-            return transitionImageView
         } else {
-            let transitionImageView = UIView(frame: originFrame)
-            transitionImageView.backgroundColor = .red
-            //transitionImageView.frame = originFrame
-            return transitionImageView
+            transitionImageView = LoadingView(frame: originFrame)
         }
+        return transitionImageView
     }
 }

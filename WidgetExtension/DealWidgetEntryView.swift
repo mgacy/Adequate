@@ -9,6 +9,7 @@
 #if canImport(WidgetKit)
 import WidgetKit
 import SwiftUI
+import CurrentDealManager
 
 // TODO: add view model
 struct InfoView: View {

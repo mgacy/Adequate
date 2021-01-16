@@ -50,55 +50,20 @@ extension MDColorCollection {
 // MARK: - Default
 extension MDColorCollection {
 
-    static var light: MDColorCollection {
-        // TODO: update values to match .systemTheme when UIUserInterfaceStyle == .light
-        return MDColorCollection(heading1: .black,
-                                 heading2: .black,
-                                 heading3: .black,
-                                 heading4: .black,
-                                 heading5: .black,
-                                 heading6: .black,
-                                 body: .black,
-                                 code: .black,
-                                 link: .systemBlue,
-                                 quote: .darkGray,
-                                 quoteStripe: .darkGray,
-                                 thematicBreak: UIColor(white: 0.9, alpha: 1),
-                                 listItemPrefix: .black,
-                                 codeBlockBackground: UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1))
-    }
-
-    static var dark: MDColorCollection {
-        return MDColorCollection(heading1: .white,
-                                 heading2: .white,
-                                 heading3: .white,
-                                 heading4: .white,
-                                 heading5: .white,
-                                 heading6: .white,
-                                 body: .white,
-                                 code: .white,
-                                 link: .systemBlue,
-                                 quote: .darkGray,
-                                 quoteStripe: .darkGray,
-                                 thematicBreak: UIColor(white: 0.9, alpha: 1),
-                                 listItemPrefix: .white,
-                                 codeBlockBackground: UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1))
-    }
-
     static var system: MDColorCollection {
-        return MDColorCollection(heading1: ColorCompatibility.label,
-                                 heading2: ColorCompatibility.label,
-                                 heading3: ColorCompatibility.label,
-                                 heading4: ColorCompatibility.label,
-                                 heading5: ColorCompatibility.label,
-                                 heading6: ColorCompatibility.label,
-                                 body: ColorCompatibility.label,
-                                 code: ColorCompatibility.label,
-                                 link: ColorCompatibility.link,
-                                 quote: ColorCompatibility.secondaryLabel,
-                                 quoteStripe: ColorCompatibility.secondaryLabel,
-                                 thematicBreak: ColorCompatibility.secondarySystemBackground, // ?
-                                 listItemPrefix: ColorCompatibility.label,
-                                 codeBlockBackground: ColorCompatibility.secondarySystemBackground) // ?
+        return MDColorCollection(heading1: .label,
+                                 heading2: .label,
+                                 heading3: .label,
+                                 heading4: .label,
+                                 heading5: .label,
+                                 heading6: .label,
+                                 body: .label,
+                                 code: .label,
+                                 link: .link,
+                                 quote: .secondaryLabel,
+                                 quoteStripe: .secondaryLabel,
+                                 thematicBreak: .secondarySystemBackground, // ?
+                                 listItemPrefix: .label,
+                                 codeBlockBackground: .secondarySystemBackground) // ?
     }
 }

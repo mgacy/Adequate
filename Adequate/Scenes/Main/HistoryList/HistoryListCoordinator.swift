@@ -9,6 +9,7 @@
 import UIKit
 
 final class HistoryListCoordinator: Coordinator {
+    // swiftlint:disable:next line_length
     typealias Dependencies = HasDataProvider & HasImageService & HasThemeManager & HasUserDefaultsManager & NotificationManagerProvider
     typealias DealFragment = DealHistoryQuery.Data.DealHistory.Item
 
@@ -25,7 +26,6 @@ final class HistoryListCoordinator: Coordinator {
 
     override func start(with deepLink: DeepLink?) {
         if let deepLink = deepLink {
-            // TODO: just call `startChildren(with:)` for all cases?
             switch deepLink {
             case .buy, .deal, .share:
                 startChildren(with: deepLink)
@@ -46,7 +46,6 @@ final class HistoryListCoordinator: Coordinator {
         historyListViewController.delegate = self
         router.setRootModule(historyListViewController, hideBar: false)
     }
-
 }
 
 // MARK: - HistoryListViewControllerDelegate
@@ -87,15 +86,4 @@ extension HistoryListCoordinator: HistoryListViewControllerDelegate {
         router.present(coordinator, animated: true)
         coordinator.start()
     }
-
 }
-/*
-// MARK: - VoidDismissalDelegate
-extension HistoryListCoordinator: VoidDismissalDelegate {
-
-    func dismiss() {
-        router.dismissModule(animated: true, completion: nil)
-    }
-
-}
-*/

@@ -1,1 +1,2 @@
-Initial release.
+- Bug fixes
+- Minor improvements

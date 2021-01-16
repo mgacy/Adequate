@@ -45,7 +45,10 @@ extension DeepLink {
     }
 
     static func build(with url: URL) -> DeepLink? {
-        switch url.host {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
+            return nil
+        }
+        switch components.path {
         case DeepLinkURLConstants.deal: return .deal
         default: return nil
         }
@@ -83,7 +86,6 @@ extension DeepLink {
                 log.info("\(#function) - DefaultActionIdentifier")
                 return deal
             case UNNotificationDismissActionIdentifier:
-                // TODO: how to handle?
                 log.info("\(#function) - DismissActionIdentifier")
                 return nil
             default:

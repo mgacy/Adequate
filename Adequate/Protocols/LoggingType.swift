@@ -6,7 +6,7 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
-protocol LoggingType {
+public protocol LoggingType {
 
     /// Log something generally unimportant (lowest priority)
     ///

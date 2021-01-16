@@ -44,6 +44,8 @@ internal enum L10n {
   internal static let dismiss = L10n.tr("Localizable", "dismiss")
   /// Email
   internal static let email = L10n.tr("Localizable", "email")
+  /// There are no deals
+  internal static let emptyHistoryMessage = L10n.tr("Localizable", "empty_history_message")
   /// There was no data
   internal static let emptyMessage = L10n.tr("Localizable", "empty_message")
   /// Error
@@ -94,7 +96,7 @@ internal enum L10n {
   internal static let unofficialAppDisclaimer = L10n.tr("Localizable", "unofficial_app_disclaimer")
   /// Web
   internal static let web = L10n.tr("Localizable", "web")
-  /// An app to see the crap meh is trying to sell you today.
+  /// See the crap meh is selling today.
   internal static let welcomeMessage = L10n.tr("Localizable", "welcome_message")
   /// Enable notifications so Adequate can alert you when meh offers a new daily deal.
   internal static let welcomeNotificationsBody = L10n.tr("Localizable", "welcome_notifications_body")
@@ -108,6 +110,8 @@ internal enum L10n {
   internal static let widgetExtensionPlaceholderTitle = L10n.tr("Localizable", "widget_extension_placeholder_title")
 
   internal enum Accessibility {
+    /// Allow Notifications Button
+    internal static let allowNotificationsButton = L10n.tr("Localizable", "accessibility.allow_notifications_button")
     /// Buy
     internal static let buyButton = L10n.tr("Localizable", "accessibility.buy_button")
     /// Show Deal
@@ -116,6 +120,8 @@ internal enum L10n {
     internal static let historyButton = L10n.tr("Localizable", "accessibility.history_button")
     /// Left Chevron Button
     internal static let leftChevronButton = L10n.tr("Localizable", "accessibility.left_chevron_button")
+    /// Not Now Button
+    internal static let notNowButton = L10n.tr("Localizable", "accessibility.not_now_button")
     /// Right Chevron Button
     internal static let rightChevronButton = L10n.tr("Localizable", "accessibility.right_chevron_button")
     /// Show Settings
@@ -130,6 +136,47 @@ internal enum L10n {
     /// %d Comment(s)
     internal static func count(_ p1: Int) -> String {
       return L10n.tr("Localizable", "comments.count", p1)
+    }
+  }
+
+  internal enum Error {
+    /// Authentication Error: %@
+    internal static func authentication(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "error.authentication", String(describing: p1))
+    }
+    /// Bad Request
+    internal static let badRequest = L10n.tr("Localizable", "error.bad_request")
+    /// Data Serialization Error: %@
+    internal static func dataSerialization(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "error.data_serialization", String(describing: p1))
+    }
+    /// Operation returned neither result not error.
+    internal static let emptyOperationHandler = L10n.tr("Localizable", "error.empty_operation_handler")
+    /// Result contained neither data nor error.
+    internal static let emptyResult = L10n.tr("Localizable", "error.empty_result")
+    /// Unable to decode image
+    internal static let imageDecoding = L10n.tr("Localizable", "error.image_decoding")
+    /// JSON Serialization Error: %@
+    internal static func jsonSerialization(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "error.json_serialization", String(describing: p1))
+    }
+    /// Unable to initialize client
+    internal static let missingClient = L10n.tr("Localizable", "error.missing_client")
+    /// Missing data for %@
+    internal static func missingField(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "error.missing_field", String(describing: p1))
+    }
+    /// Network Error: %@
+    internal static func network(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "error.network", String(describing: p1))
+    }
+    /// Object Serialization Error: %@
+    internal static func objectSerialization(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "error.object_serialization", String(describing: p1))
+    }
+    /// Unknown Error: %@
+    internal static func unknown(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "error.unknown", String(describing: p1))
     }
   }
 }
@@ -147,6 +194,12 @@ extension L10n {
 
 // swiftlint:disable convenience_type
 private final class BundleToken {
-  static let bundle = Bundle(for: BundleToken.self)
+  static let bundle: Bundle = {
+    #if SWIFT_PACKAGE
+    return Bundle.module
+    #else
+    return Bundle(for: BundleToken.self)
+    #endif
+  }()
 }
 // swiftlint:enable convenience_type

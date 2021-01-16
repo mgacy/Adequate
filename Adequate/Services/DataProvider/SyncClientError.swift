@@ -45,6 +45,7 @@ extension SyncClientError {
             // but the error messages are English only and usually add various codes that would probably be unideal
             // to show users.
              */
+            // swiftlint:disable line_length
             switch appSyncError {
             case .requestFailed(_, _, let underlyingError):
                 // "Did not receive a successful HTTP code."
@@ -64,6 +65,7 @@ extension SyncClientError {
                 log.error("\(#function) - AWSAppSyncClientError.authenticationError: \(underlyingError.localizedDescription) ")
                 return .authentication(error: underlyingError)
             }
+            // swiftlint:enable line_length
             return .network(error: appSyncError)
         } else {
             // TODO: would this be unknown or just .network?
@@ -74,25 +76,24 @@ extension SyncClientError {
 
 // MARK: - LocalizedError
 extension SyncClientError: LocalizedError {
-    // FIXME: actually localize these descriptions
     public var errorDescription: String? {
         switch self {
         case .network(let error):
-            return "Network Error: \(error.localizedDescription)"
+            return L10n.Error.network(error.localizedDescription)
         case .missingClient:
-            return "Unable to initialize client"
+            return L10n.Error.missingClient
         case .authentication(let error):
-            return "Authentication Error: \(error.localizedDescription)"
+            return L10n.Error.authentication(error.localizedDescription)
         case .graphQL(let errors):
             return errors.map { $0.localizedDescription }.joined(separator: "\n")
         case .missingField(let data):
-            return "Missing data for \(String(describing: data))"
+            return L10n.Error.missingField(String(describing: data))
         case .unknown(let error):
-            return "Unknown Error: \(error.localizedDescription)"
+            return L10n.Error.unknown(error.localizedDescription)
         case .emptyOperationHandler:
-            return "Operation returned neither result not error."
+            return L10n.Error.emptyOperationHandler
         case .emptyResult:
-            return "Result contained neither data nor error."
+            return L10n.Error.emptyResult
         }
     }
 }

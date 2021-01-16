@@ -39,7 +39,7 @@ final class PriceFormatter: PriceFormatting {
         formatter.numberStyle = .decimal
         formatter.roundingMode = .halfUp
         formatter.maximumFractionDigits = 2
-        // TODO: handle locale?
+        //formatter.locale = .autoupdatingCurrent
         return formatter
     }()
 
@@ -55,7 +55,6 @@ final class PriceFormatter: PriceFormatting {
     // MARK: - Parsing
 
     private func parsePriceRange(for deal: Deal) -> PriceRange {
-        // TODO: verify that minimumLimit <= maximumLimit?
         let minQuantity = Double(deal.purchaseQuantity?.minimumLimit ?? 1)
         let prices = deal.items.map { $0.price * minQuantity }
         guard let minPrice = prices.min(), let maxPrice = prices.max() else {
@@ -89,8 +88,6 @@ final class PriceFormatter: PriceFormatting {
     // MARK: - Formatting
 
     private func formatPriceComparison(_ priceComparison: PriceComparison) -> String {
-        // TODO: use formatter on this too?
-        // TODO: handle localization (including price conversion?)
         return "\(priceComparison.price) at \(priceComparison.store)"
     }
 

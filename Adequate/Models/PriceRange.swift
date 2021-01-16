@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PriceRange {
+public enum PriceRange {
     case none
     case single(Double)
     case range(min: Double, max: Double)

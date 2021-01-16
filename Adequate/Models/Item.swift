@@ -8,26 +8,27 @@
 
 import Foundation
 
-struct Item: Codable, Equatable {
+public struct Item: Codable, Equatable {
 
-    struct ItemAttribute: Codable, Equatable {
-        let key: String
-        let value: String
+    public struct ItemAttribute: Codable, Equatable {
+        public let key: String
+        public let value: String
     }
 
-    let attributes: [ItemAttribute]
-    let condition: String
-    let id: String
-    let price: Double
-    let photo: URL
+    //public let attributes: [ItemAttribute]
+    public let condition: String
+    public let id: String
+    public let price: Double
+    public let photo: URL
 }
 
 // MARK: - Initializers
 
-extension Item {
+public extension Item {
+
     init?(_ item: ItemType) {
         guard let photo = URL(string: item.photo) else { return nil }
-        self.attributes = [] // FIXME: implement
+        // self.attributes = []
         self.condition = item.condition
         self.id = item.id
         self.price = item.price
@@ -36,9 +37,10 @@ extension Item {
 }
 
 extension Item {
+
     init?(_ item: GetDealQuery.Data.GetDeal.Item) {
         guard let photo = URL(string: item.photo) else { return nil }
-        self.attributes = [] // FIXME: implement
+        // self.attributes = []
         self.condition = item.condition
         self.id = item.id
         self.price = item.price

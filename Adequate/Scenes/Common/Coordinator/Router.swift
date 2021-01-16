@@ -56,7 +56,7 @@ final public class Router: NSObject, RouterType, UINavigationControllerDelegate 
         navigationController.pushViewController(controller, animated: animated)
     }
 
-    public func popModule(animated: Bool = true)  {
+    public func popModule(animated: Bool = true) {
         if let controller = navigationController.popViewController(animated: animated) {
             runCompletion(for: controller)
         }
@@ -88,13 +88,11 @@ final public class Router: NSObject, RouterType, UINavigationControllerDelegate 
         completions.removeValue(forKey: controller)
     }
 
-
     // MARK: Presentable
 
     public func toPresent() -> UIViewController {
         return navigationController
     }
-
 
     // MARK: UINavigationControllerDelegate
 

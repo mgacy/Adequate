@@ -66,7 +66,7 @@ final class ParallaxBarView: UIView {
             coveringHeightConstraint,
             coveringView.leadingAnchor.constraint(equalTo: leadingAnchor),
             coveringView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            coveringView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            coveringView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 

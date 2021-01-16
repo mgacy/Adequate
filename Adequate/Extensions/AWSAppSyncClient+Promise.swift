@@ -54,6 +54,7 @@ extension AWSAppSyncClient {
                                                    queue: DispatchQueue = DispatchQueue.main
     ) -> Promise<Mutation.Data> {
         return Promise<Mutation.Data> { fulfill, reject in
+            // swiftlint:disable:next line_length
             self.perform(mutation: mutation, queue: queue, optimisticUpdate: nil, conflictResolutionBlock: nil) { result, error in
                 if let error = error {
                     reject(SyncClientError.wrap(error))

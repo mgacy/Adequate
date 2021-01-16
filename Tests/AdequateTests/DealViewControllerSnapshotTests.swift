@@ -11,6 +11,7 @@ import SnapshotTesting
 @testable import Adequate
 
 // NOTE: all snapshots were generated using iPad Air (3rd generation)
+// swiftlint:disable type_name
 class DealViewControllerSnapshotTests: SnapshotTestBase {
 
     override func makeSUT() throws -> UIViewController {

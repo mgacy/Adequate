@@ -8,6 +8,7 @@
 
 import Foundation
 
+// swiftlint:disable identifier_name
 extension NSAttributedString {
 
     typealias Attributes = [NSAttributedString.Key: Any]
@@ -72,5 +73,3 @@ extension NSAttributedString {
         }
     }
 }
-
-

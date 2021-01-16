@@ -23,7 +23,7 @@ extension UNUserNotificationCenter {
     }
 
     func getNotificationSettings() -> Promise<UNNotificationSettings> {
-        return Promise<UNNotificationSettings>(work: { [weak self] fulfill, reject in
+        return Promise<UNNotificationSettings>(work: { [weak self] fulfill, _ in
             self?.getNotificationSettings { settings in
                 fulfill(settings)
             }

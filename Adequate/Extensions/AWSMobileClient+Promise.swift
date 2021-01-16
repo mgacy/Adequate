@@ -14,7 +14,7 @@ extension AWSMobileClient {
     /// Initializes `AWSMobileClient` and determines the `UserState` for current user using cache.
     public func initialize() -> Promise<UserState> {
         return Promise<UserState> { fulfill, reject in
-            self.initialize() { userState, error in
+            self.initialize { userState, error in
                 if let error = error {
                     reject(error)
                 } else if let userState = userState {
@@ -57,6 +57,7 @@ extension AWSMobileClient {
     /// - Returns: A Promise with the sign up result.
     public func signUp(username: String, password: String, userAttributes: [String: String] = [:], validationData: [String: String] = [:]) -> Promise<SignUpResult> {
         return Promise<SignUpResult> { fulfill, reject in
+            // swiftlint:disable:next line_length
             self.signUp(username: username, password: password, userAttributes: userAttributes, validationData: validationData) { signUpResult, error in
                 if let error = error {
                     reject(error)
@@ -109,7 +110,7 @@ extension AWSMobileClient {
     /// Fetches the `AWSCredentials` asynchronously.
     public func getAWSCredentials() -> Promise<AWSCredentials> {
         return Promise<AWSCredentials> { fulfill, reject in
-            self.getAWSCredentials() { credentials, error in
+            self.getAWSCredentials { credentials, error in
                 if let error = error {
                     reject(error)
                 } else if let credentials = credentials {
@@ -127,7 +128,7 @@ extension AWSMobileClient {
     /// The call to wait will be synchronized so that if multiple threads call this method, they will block till the first thread gets the token.
     public func getTokens() -> Promise<Tokens> {
         return Promise<Tokens> { fulfill, reject in
-            self.getTokens() { tokens, error in
+            self.getTokens { tokens, error in
                 if let error = error {
                     reject(error)
                 } else if let tokens = tokens {

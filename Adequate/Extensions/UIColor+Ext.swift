@@ -32,6 +32,8 @@
 
 import UIKit
 
+// swiftlint:disable identifier_name
+
 // MARK: - Hex Initializer
 public extension UIColor {
 
@@ -75,8 +77,8 @@ public extension UIColor {
     }
 }
 
-// MARK - RGBA Initializer
-extension UIColor {
+// MARK: - RGBA Initializer
+public extension UIColor {
 
     /// Creates a color object using the specified opacity and CSS RGB values.
     /// - Parameter r: The red value of the color object. Values below 0 are interpreted as 0 and values above 255 are interpreted as 255.
@@ -102,10 +104,10 @@ extension UIColor {
 }
 
 // MARK: - HSB Manipulation
-extension UIColor {
+public extension UIColor {
 
     // https://stackoverflow.com/a/51865114/4472195
-    public func adjust(hueBy hue: CGFloat = 0, saturationBy saturation: CGFloat = 0, brightnessBy brightness: CGFloat = 0) -> UIColor {
+    func adjust(hueBy hue: CGFloat = 0, saturationBy saturation: CGFloat = 0, brightnessBy brightness: CGFloat = 0) -> UIColor {
         var currentHue: CGFloat = 0.0
         var currentSaturation: CGFloat = 0.0
         var currentBrigthness: CGFloat = 0.0

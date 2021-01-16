@@ -6,7 +6,7 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
-protocol PurchaseQuantityType {
+public protocol PurchaseQuantityType {
     var maximumLimit: Int { get }
     var minimumLimit: Int { get }
 }

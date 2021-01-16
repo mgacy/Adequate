@@ -10,9 +10,8 @@ import UIKit
 
 enum FontBook {
 
-    // TODO: rename
     static let largeTitle: UIFont = {
-        // LaunchScreen uses sie 34
+        // LaunchScreen uses size 34
         let font = UIFont.systemFont(ofSize: 28.0, weight: .bold)
         return UIFontMetrics(forTextStyle: .title1).scaledFont(for: font)
     }()

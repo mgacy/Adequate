@@ -8,6 +8,7 @@
 
 import XCTest
 
+// swiftlint:disable force_try
 class AdequateUITests: XCTestCase {
 
     var app: XCUIApplication!
@@ -45,7 +46,6 @@ class AdequateUITests: XCTestCase {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
 
-        // TODO: wait for loading to finish?
         snapshot(.deal)
 
         let elementsQuery = app.scrollViews.otherElements
@@ -98,16 +98,55 @@ class AdequateUITests: XCTestCase {
 
         //app.swipeLeft() // This results in swiping on the paged image view
 
-        // https://stackoverflow.com/a/39107876/4472195
-        //XCUIDevice.shared.press(.home)
-        //snapshot(.widgets)
+        if case .phone = UIDevice.current.userInterfaceIdiom {
+            todaySnapshot(.widgets)
+        }
     }
 
     func testDarkMode() {
-        // TODO: wait for loading to finish?
         snapshot(.darkMode)
     }
 
+}
+
+// MARK: - Snapshot+Helpers
+extension Snapshot {
+
+    // Based on: https://github.com/fastlane/fastlane/issues/17039#issuecomment-713145839
+    open class func todaySnapshot(_ name: String) {
+        // https://stackoverflow.com/a/39107876/4472195
+        XCUIDevice.shared.press(.home)
+
+        NSLog("snapshot: \(name)") // more information about this, check out https://docs.fastlane.tools/actions/snapshot/#how-does-it-work
+
+        if Snapshot.waitForAnimations {
+            sleep(3)
+        }
+
+        guard self.app != nil else {
+            NSLog("XCUIApplication is not set. Please call setupSnapshot(app) before snapshot().")
+            return
+        }
+
+        let screenshot = XCUIScreen.main.screenshot()
+
+        let image = XCUIDevice.shared.orientation.isLandscape ?  fixLandscapeOrientation(image: screenshot.image) : screenshot.image
+
+        guard var simulator = ProcessInfo().environment["SIMULATOR_DEVICE_NAME"], let screenshotsDir = screenshotsDirectory else { return }
+
+        do {
+            let regex = try NSRegularExpression(pattern: "Clone [0-9]+ of ")
+            let range = NSRange(location: 0, length: simulator.count)
+            simulator = regex.stringByReplacingMatches(in: simulator, range: range, withTemplate: "")
+
+            let path = screenshotsDir.appendingPathComponent("\(simulator)-\(name).png")
+            //try screenshot.pngRepresentation.write(to: path)
+            try image.pngData()?.write(to: path, options: .atomic)
+        } catch let error {
+            NSLog("Problem writing screenshot: \(name) to \(screenshotsDir)/\(simulator)-\(name).png")
+            NSLog(error.localizedDescription)
+        }
+    }
 }
 
 // MARK: - Types
@@ -129,4 +168,10 @@ extension AdequateUITests {
 ///   - timeout: Amount of seconds to wait until the network loading indicator disappears. Pass `0` if you don't want to wait.
 func snapshot(_ name: AdequateUITests.SnapshotName, timeWaitingForIdle timeout: TimeInterval = 20) {
     Snapshot.snapshot(name.rawValue, timeWaitingForIdle: timeout)
+}
+
+/// - Parameters:
+///   - name: The name of the snapshot
+func todaySnapshot(_ name: AdequateUITests.SnapshotName) {
+    Snapshot.todaySnapshot(name.rawValue)
 }

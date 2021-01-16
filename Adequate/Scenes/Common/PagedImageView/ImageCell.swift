@@ -17,7 +17,7 @@ protocol ImageCellDelegate: AnyObject {
 
 // MARK: - Cell
 
-final class ImageCell: UICollectionViewCell, FetchingCellConfigurable {
+final class ImageCell: UICollectionViewCell, AsyncCellConfigurable {
 
     // MARK: - A
     weak var delegate: ImageCellDelegate?
@@ -132,11 +132,8 @@ extension ImageCell: ViewStateRenderable {
     func render(_ viewState: ViewState<ResultType>) {
         stateView.render(viewState)
         if case .result(let image) = viewState {
-            // FIXME: cannot animate `.isHidden`
-            UIView.animate(withDuration: 0.3, animations: {
-                self.stateView.isHidden = true
-                self.imageView.image = image
-            })
+            stateView.isHidden = true
+            imageView.image = image
         } else {
             stateView.isHidden = false
             imageView.image = nil

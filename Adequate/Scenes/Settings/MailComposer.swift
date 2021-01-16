@@ -9,8 +9,7 @@
 import MessageUI
 
 final class MailComposer: NSObject, MFMailComposeViewControllerDelegate {
-    // TODO: use `Result<MFMailComposeResult, Error>`?
-    typealias CompletionHandler = (MFMailComposeResult) -> Void
+    typealias CompletionHandler = (Result<MFMailComposeResult, Error>) -> Void
 
     var completionHandler: CompletionHandler?
 
@@ -26,7 +25,8 @@ final class MailComposer: NSObject, MFMailComposeViewControllerDelegate {
                                              subject: String? = nil,
                                              message: String? = nil,
                                              attachments: [MailAttachment]? = nil,
-                                             completionHandler: @escaping CompletionHandler) -> MFMailComposeViewController? {
+                                             completionHandler: @escaping CompletionHandler
+    ) -> MFMailComposeViewController? {
         guard MailComposer.canSendMail() else {
             return nil
         }
@@ -37,10 +37,10 @@ final class MailComposer: NSObject, MFMailComposeViewControllerDelegate {
 
         // Configure the fields of the interface.
         mailComposerVC.setToRecipients(recipients)
-        if let subject = subject  {
+        if let subject = subject {
             mailComposerVC.setSubject(subject)
         }
-        if let message = message  {
+        if let message = message {
             mailComposerVC.setMessageBody(message, isHTML: false)
         }
         if let attachments = attachments {
@@ -51,13 +51,18 @@ final class MailComposer: NSObject, MFMailComposeViewControllerDelegate {
     }
 
     /// MFMailComposeViewControllerDelegate callback - dismisses the view controller when the user is finished with it
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        if let error = error {
-            // TODO: improve error handling
-            log.error("\(error.localizedDescription)")
+    func mailComposeController(_ controller: MFMailComposeViewController,
+                               didFinishWith result: MFMailComposeResult,
+                               error: Error?
+    ) {
+        controller.dismiss(animated: true) { [weak self] in
+            if let error = error {
+                self?.completionHandler?(.failure(error))
+                //} else if case .failed = result {
+            } else {
+                self?.completionHandler?(.success(result))
+            }
         }
-        controller.dismiss(animated: true, completion: nil)
-        completionHandler?(result)
     }
 }
 

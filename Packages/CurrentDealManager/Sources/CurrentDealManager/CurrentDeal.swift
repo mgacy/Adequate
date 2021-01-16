@@ -1,9 +1,8 @@
 //
 //  CurrentDeal.swift
-//  WidgetExtension
 //
-//  Created by Mathew Gacy on 9/27/20.
-//  Copyright © 2020 Mathew Gacy. All rights reserved.
+//
+//  Created by Mathew Gacy on 1/5/21.
 //
 
 import Foundation
@@ -19,6 +18,15 @@ public struct CurrentDeal: Codable {
     //public let updatedAt: Date
     //public let endDate: Date?
     public let launchStatus: LaunchStatus?
+
+    public init(id: String, title: String, imageURL: URL, minPrice: Double, maxPrice: Double?, launchStatus: LaunchStatus?) {
+        self.id = id
+        self.title = title
+        self.imageURL = imageURL
+        self.minPrice = minPrice
+        self.maxPrice = maxPrice
+        self.launchStatus = launchStatus
+    }
 }
 
 // MARK: - Equatable
@@ -29,6 +37,7 @@ extension CurrentDeal {
 
     // Duplicate so we don't need to include entirety of `API.swift`
     public enum LaunchStatus: RawRepresentable, Equatable, Codable {
+        // swiftlint:disable:next nesting
         public typealias RawValue = String
         case launch
         case launchSoldOut

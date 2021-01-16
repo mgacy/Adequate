@@ -6,7 +6,7 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
-protocol ItemType {
+public protocol ItemType {
     var condition: String { get }
     var id: String { get }
     var price: Double { get }

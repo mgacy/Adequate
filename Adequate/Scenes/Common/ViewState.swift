@@ -6,16 +6,16 @@
 //  Copyright © 2018 Mathew Gacy. All rights reserved.
 //
 
-//import Foundation
-
-enum ViewState<Element> {
+public enum ViewState<Element> {
     case loading
     case result(Element)
     case empty
     case error(Error)
 }
 
-extension ViewState {
+// MARK: - Operators
+public extension ViewState {
+
     func map<T>(_ transform: (Element) -> T) -> ViewState<T> {
         switch self {
         case .empty:
@@ -30,8 +30,10 @@ extension ViewState {
     }
 }
 
+// MARK: - CustomStringConvertible
 extension ViewState: CustomStringConvertible {
-    var description: String {
+
+    public var description: String {
         switch self {
         case .empty:
             return "Empty"
@@ -45,25 +47,28 @@ extension ViewState: CustomStringConvertible {
     }
 }
 
+// MARK: - Equatable
 extension ViewState: Equatable where Element: Equatable {
-    static func == (lhs: ViewState<Element>, rhs: ViewState<Element>) -> Bool {
+
+    public static func == (lhs: ViewState<Element>, rhs: ViewState<Element>) -> Bool {
         switch(lhs, rhs) {
         case (.loading, .loading):
             return true
-        case (.result(let a), .result(let b)):
-            return a == b
-        case (.empty , .empty):
+        case (.result(let lhsElement), .result(let rhsElement)):
+            return lhsElement == rhsElement
+        case (.empty, .empty):
             return true
         // See the following on adding Equatable conformance to Error:
         // https://kandelvijaya.com/2018/04/21/blog_equalityonerror/
-        // case(.error(let a), .error(let b)):
+        // case(.error(let lhsError), .error(let rhsError)):
         default:
             return false
         }
     }
 }
 
-protocol ViewStateRenderable: AnyObject {
+// MARK: - ViewStateRenderable
+public protocol ViewStateRenderable: AnyObject {
     associatedtype ResultType
     func render(_: ViewState<ResultType>)
 }

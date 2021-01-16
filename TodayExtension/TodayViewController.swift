@@ -8,6 +8,7 @@
 
 import UIKit
 import NotificationCenter
+import CurrentDealManager
 
 // https://stackoverflow.com/questions/26037321/how-to-create-a-today-widget-programmatically-without-storyboard-on-ios8
 @objc (TodayViewController)
@@ -51,6 +52,7 @@ class TodayViewController: UIViewController {
         label.textColor = Style.primaryTextColor
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentCompressionResistancePriority(.defaultHigh - 1, for: .vertical)
         return label
     }()
 
@@ -86,27 +88,6 @@ class TodayViewController: UIViewController {
         currentDealManager = CurrentDealManager()
         loadDeal { _ in }
     }
-    /*
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        loadDeal { _ in }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        // ...
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        // ...
-    }
-
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        // ...
-    }
-    */
 
     // MARK: - View Setup
 
@@ -157,7 +138,6 @@ class TodayViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -Style.spacing)
         ])
 
-
         guard let activeDisplayMode = extensionContext?.widgetActiveDisplayMode else {
             fatalError("Unable to get extensionContext")
         }
@@ -207,7 +187,8 @@ extension TodayViewController: NCWidgetProviding {
             NSLayoutConstraint.activate(expandedConstraints)
             titleLabel.preferredMaxLayoutWidth = maxSize.width - (2.0 * Style.spacing)
             titleLabel.setNeedsUpdateConstraints()
-            let height = maxSize.width + (2.0 * Style.spacing) + titleLabel.intrinsicContentSize.height + priceLabel.intrinsicContentSize.height
+            let height = maxSize.width + (2.0 * Style.spacing) + titleLabel.intrinsicContentSize.height
+                + priceLabel.intrinsicContentSize.height
             preferredContentSize = CGSize(width: maxSize.width, height: min(height, maxSize.height))
         @unknown default:
             fatalError("Unrecognized activeDisplayMode")

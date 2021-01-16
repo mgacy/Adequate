@@ -8,6 +8,7 @@
 
 import UIKit
 
+// swiftlint:disable:next type_name
 final class FullScreenImageTransitionController: NSObject {
 
     weak var presentingDelegate: ViewAnimatedTransitioning!
@@ -38,7 +39,7 @@ final class FullScreenImageTransitionController: NSObject {
         viewController.view.addGestureRecognizer(panGestureRecognizer)
     }
 
-    deinit { print("\(#function) - \(self.description)") }
+    //deinit { print("\(#function) - \(self.description)") }
 
     // MARK: - A
 
@@ -58,6 +59,9 @@ final class FullScreenImageTransitionController: NSObject {
             }
         case .changed:
             interactionController?.update(percent)
+        //case .cancelled:
+        //    interacting = false
+        //    interactionController = nil
         case .ended:
             let velocity = gesture.velocity(in: gesture.view)
             /// https://stackoverflow.com/a/42972283/1271826

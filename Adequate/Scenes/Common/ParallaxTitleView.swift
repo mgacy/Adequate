@@ -16,6 +16,11 @@ class ParallaxTitleView: UIView {
             guard progress != oldValue else {
                 return
             }
+            if progress == 0.0 {
+                titleLabel.isHidden = true
+            } else if oldValue == 0.0 {
+                titleLabel.isHidden = false
+            }
             updateLabelPosition(for: progress)
         }
     }

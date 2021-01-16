@@ -8,6 +8,7 @@
 
 import Foundation
 
+// swiftlint:disable identifier_name
 extension NSMutableAttributedString {
 
     func setAttributes(_ attrs: Attributes) {

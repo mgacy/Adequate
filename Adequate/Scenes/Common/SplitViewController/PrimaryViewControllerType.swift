@@ -11,8 +11,6 @@ import UIKit
 // Should `PrimaryViewControllerType` conform to `RotationManaging` so we can avoid `SplitViewController.rotationManager`?
 protocol PrimaryViewControllerType {
 
-    // TODO: should `Configuration` and `Layout` sections be separate protocols?
-
     // MARK: - Configuration
 
     // This is how we will handle the `StateView`. Should we pass anything to it?
@@ -20,13 +18,9 @@ protocol PrimaryViewControllerType {
 
     //func makeSecondaryView() -> UIView?
 
-    // use `secondaryColumnGuide` to be more explicit?
     func configureConstraints(with secondaryColumnGuide: UILayoutGuide, in parentView: UIView) -> [NSLayoutConstraint]
 
     // MARK: - Layout
-
-    // Based on `UIViewController.collapseSecondaryViewController(_:for:)`, `.separateSecondaryViewController(for:)`.
-    // TODO: is there any need to also pass the `SplitViewController` as in those methods?
 
     /// Called when a `SplitViewController` transitions to a compact-width size class.
     /// - Parameter secondaryView: The secondary view associated with the split view controller.

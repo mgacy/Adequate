@@ -10,78 +10,54 @@ import UIKit
 
 enum StyleBook {
 
-    // MARK: - UIButton
+    // MARK: - MGButton
     enum Button {
 
-        //static let dynamic = Style<UIButton> { $0.titleLabel?.adjustsFontForContentSizeCategory = true }
-        //static let autolayout = Style<UIButton> { $0.translatesAutoresizingMaskIntoConstraints = false }
-        //static let rounded = Style<UIButton> { $0.layer.cornerRadius = AppTheme.CornerRadius.extraSmall }
-
-        static let base = Style<UIButton> {
-            $0.contentEdgeInsets = UIEdgeInsets(horizontal: 8.0, vertical: 6.0)
+        /// - layer.cornerRadius = AppTheme.CornerRadius.extraSmall
+        /// - adjustsFontForContentSizeCategory = true
+        /// - translatesAutoresizingMaskIntoConstraints = false
+        static let base = Style<AnimatableButton> {
             $0.layer.cornerRadius = AppTheme.CornerRadius.extraSmall
-            $0.titleLabel?.adjustsFontForContentSizeCategory = true // ?
+            $0.titleLabel?.adjustsFontForContentSizeCategory = true
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
-        // TODO: rename `regularFont`?
-        static let regular = Style<UIButton> {
+        static let regularFont = Style<AnimatableButton> {
             $0.titleLabel?.font = FontBook.regularButton
         }
 
-        static let bold = Style<UIButton> {
+        static let mediumFont = Style<AnimatableButton> {
             $0.titleLabel?.font = FontBook.mediumButton
         }
 
-        static let standardInsets = Style<UIButton> {
+        /// - horizontal edge insets = 8.0
+        /// - vertical edge insets = 6.0
+        static let standardInsets = Style<AnimatableButton> {
             $0.contentEdgeInsets = UIEdgeInsets(horizontal: 8.0, vertical: 6.0)
         }
 
-        static let wideInsets = Style<UIButton> {
+        /// - horizontal edge insets = 15.0
+        /// - vertical edge insets = 5.0
+        static let wideInsets = Style<AnimatableButton> {
             $0.contentEdgeInsets = UIEdgeInsets(horizontal: 15.0, vertical: 5.0)
         }
 
         // MARK: Standard Button
 
-        static let standard = Button.base <> Button.bold
-
-        //static func standard(color: UIColor) -> Style<UIButton> {
-        //    return .init {
-        //        $0.backgroundColor =
-        //        $0.setTitleColor(color, for: .normal)
-        //    }
-        //}
+        static let standard: Style<AnimatableButton> = base <> mediumFont <> standardInsets
 
         // MARK: Secondary Button
 
-        static let secondaryBase = Style<UIButton> {
+        static let secondaryBase = Style<AnimatableButton> {
             $0.titleLabel?.font = FontBook.regularButton
             $0.layer.borderWidth = 1.0
             $0.backgroundColor = .clear
         }
 
-        static let secondary = Button.base <> Button.secondaryBase <> Button.standardInsets
+        static let secondary: Style<AnimatableButton> = base <> secondaryBase <> standardInsets
 
-        static let secondaryWide = Style<UIButton> {
-            $0.contentEdgeInsets = UIEdgeInsets(horizontal: 15.0, vertical: 5.0)
-            $0.layer.cornerRadius = AppTheme.CornerRadius.extraSmall
-            $0.titleLabel?.adjustsFontForContentSizeCategory = true // ?
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        } <> secondaryBase
+        static let secondaryWide: Style<AnimatableButton> = base <> secondaryBase <> wideInsets
 
-        static func secondary(color: UIColor) -> Style<UIButton> {
-            return .init {
-                $0.layer.borderColor = color.cgColor
-                $0.setTitleColor(color, for: .normal)
-            } <> base <> secondaryBase
-        }
-
-        // FooterViewController.buyButton
-        static let x = Style<UIButton> {
-            // TODO: should we make a func and pass titleColor or ColorTheme?
-            $0.setTitleColor($0.tintColor, for: .normal)
-            $0.backgroundColor = .systemBackground
-        }
     }
 
     // MARK: - UILabel
@@ -106,18 +82,17 @@ enum StyleBook {
         // FooterViewController.priceLabel
         static let primary = Style<UILabel> {
             $0.font = FontBook.compactFooter // ?
-            $0.textColor = ColorCompatibility.label
+            $0.textColor = .label
         } <> base
 
         // FooterViewController.priceComparisonLabel
         static let secondary = Style<UILabel> {
             $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-            $0.textColor = ColorCompatibility.secondaryLabel
+            $0.textColor = .secondaryLabel
         } <> base
 
         // UITableView
 
-        // TODO: make name more generic?
         static let cellTitle = Style<UILabel> {
             $0.numberOfLines = 2
             $0.font = UIFont.preferredFont(forTextStyle: .headline)
@@ -194,12 +169,56 @@ enum StyleBook {
     // MARK: - UIView
     enum View {
 
+        /// - translatesAutoresizingMaskIntoConstraints = false
         static let autolayout = Style<UIView> {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
         static func rounded(radius: CGFloat) -> Style<UIView> {
             .init { $0.layer.cornerRadius = radius }
+        }
+    }
+}
+
+// MARK: Button + ColorTheme
+extension StyleBook.Button {
+
+    static func themed(theme: ColorTheme) -> Style<AnimatableButton> {
+        return .init {
+            $0.apply(theme: theme)
+        }
+    }
+
+    static func standard(theme: ColorTheme) -> Style<AnimatableButton> {
+        return .init {
+            $0.backgroundColor = theme.tint
+            $0.setTitleColor(theme.systemBackground, for: .normal)
+        } <> themed(theme: theme)
+    }
+
+    // FooterViewController.buyButton
+    static func standardElevated(theme: ColorTheme) -> Style<AnimatableButton> {
+        return .init {
+            $0.backgroundColor = theme.tint
+            $0.setTitleColor(theme.secondarySystemBackground, for: .normal)
+        } <> themed(theme: theme)
+    }
+
+    static func secondary(theme: ColorTheme) -> Style<AnimatableButton> {
+        return secondary(color: theme.tint) <> themed(theme: theme)
+    }
+
+    static func secondarySupplementary(theme: ColorTheme) -> Style<AnimatableButton> {
+        return secondary(color: theme.secondaryLabel) <> themed(theme: theme)
+    }
+
+    // MARK: - Private Helpers
+
+    private static func secondary(color: UIColor) -> Style<AnimatableButton> {
+        return .init {
+            $0.layer.borderColor = color.cgColor
+            $0.setTitleColor(color, for: .normal)
+            //$0.setTitleColor(?, for: .disabled)
         }
     }
 }
