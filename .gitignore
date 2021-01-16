@@ -41,7 +41,7 @@ AppSecrets.generated.swift
 /fastlane/metadata/trade_representative_contact_information
 
 # Generated
-/API.swift
+# /API.swift
 /fastlane/Preview.html
 /fastlane/README.md
 /fastlane/report.xml

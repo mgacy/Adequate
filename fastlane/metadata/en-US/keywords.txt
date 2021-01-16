@@ -1,7 +1,1 @@
-meh
-bargain
-cheap price
-daily deal
-daily shopping
-discount
-shop and save
+meh,bargain,cheap price,daily deal,daily shopping,discount,shop and save
