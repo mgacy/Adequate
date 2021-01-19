@@ -143,7 +143,7 @@ platform :ios do
       automatic_release: false,
       force: true,                                # Skip HTML preview verification before actual upload
       skip_screenshots: true,
-      skip_metadata: true
+      # skip_metadata: true
     )
   end
 
