@@ -38,7 +38,11 @@ public final class FileCache<T>: Caching {
         self.fileLocation = fileLocation
         self.coder = coder
 
-        SystemLogger.configuration = .init(subsystem: .main, category: .fileCache)
+        if #available(iOS 14.0, *) {
+            SystemLogger.destination = SystemLogger.LogWrapper(subsystem: .main, category: .fileCache)
+        } else {
+            SystemLogger.destination = SystemLogger.OldWrapper(subsystem: .main, category: .fileCache)
+        }
         self.log = SystemLogger.self
 
         // TODO: should this just maintain an array of files to minimize file operations?
