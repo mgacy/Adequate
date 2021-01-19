@@ -10,9 +10,13 @@ import os.log
 
 // swiftlint:disable function_parameter_count
 
+public protocol SystemLogging {
+    func log(level: OSLogType, message: String, file: String, function: String, line: Int)
+}
+
 public class SystemLogger {
 
-    public static var configuration: Configuration?
+    public static var destination: SystemLogging?
 
     // MARK: - LoggingType
 
@@ -44,29 +48,8 @@ public class SystemLogger {
     // MARK: - Private
 
     private static func write(level: OSLogType, message: String, file: String, function: String, line: Int) {
-        switch configuration {
-        case .osLog(let log):
-            writeOld(log: log, level: level, message: message, file: file, function: function, line: line)
-        default:
-            if #available(iOS 14, *) {
-                guard case .logger(let logger) = configuration else {
-                    return
-                }
-                writeNice(logger: logger, level: level, message: message, file: file, function: function, line: line)
-            }
-        }
+        destination?.log(level: level, message: message, file: file, function: function, line: line)
     }
-
-    @available(iOS, introduced: 13, deprecated: 14, message: "Use `Configuration.logger`")
-    private static func writeOld(log: OSLog, level: OSLogType, message: String, file: String, function: String, line: Int) {
-        os_log("%{public}@:%{public}@ - %{public}@", log: log, type: level, function, line, message)
-    }
-
-    @available(iOS 14, *)
-    private static func writeNice(logger: Logger, level: OSLogType, message: String, file: String, function: String, line: Int) {
-        logger.log(level: level, "\(function):\(line) - \(message)")
-    }
-
 }
 
 // MARK: - Types
@@ -87,20 +70,33 @@ extension SystemLogger {
         case fileCache
     }
 
-    public enum Configuration {
-        // TODO: try to use `obsoleted`
-        @available(iOS, introduced: 13, deprecated: 14, message: "Use `Configuration.logger`")
-        case osLog(OSLog)
+    // MARK: - SystemLogging
 
-        @available(iOS 14.0, *)
-        case logger(Logger)
+    @available(iOS, introduced: 13, deprecated: 14, message: "Use `New`")
+    public struct OldWrapper: SystemLogging {
 
-        public init(subsystem: Subsystem, category: Category) {
-            if #available(iOS 14, *) {
-                self = .logger(Logger(subsystem: subsystem.rawValue, category: category.rawValue))
-            } else {
-                self = .osLog(OSLog(subsystem: subsystem.rawValue, category: category.rawValue))
-            }
+        private let log: OSLog
+
+        public init(subsystem: SystemLogger.Subsystem, category: SystemLogger.Category) {
+            self.log = OSLog(subsystem: subsystem.rawValue, category: category.rawValue)
+        }
+
+        public func log(level: OSLogType, message: String, file: String, function: String, line: Int) {
+            os_log("%{public}@:%{public}@ - %{public}@", log: log, type: level, function, String(line), message)
+        }
+    }
+
+    @available(iOS 14.0, *)
+    public struct LogWrapper: SystemLogging {
+
+        private let logger: Logger
+
+        public init(subsystem: SystemLogger.Subsystem, category: SystemLogger.Category) {
+            self.logger = Logger(subsystem: subsystem.rawValue, category: category.rawValue)
+        }
+
+        public func log(level: OSLogType, message: String, file: String, function: String, line: Int) {
+            logger.log(level: level, "\(function):\(line) - \(message)")
         }
     }
 }
