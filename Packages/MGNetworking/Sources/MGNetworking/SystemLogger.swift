@@ -8,8 +8,6 @@
 import Foundation
 import os.log
 
-// swiftlint:disable function_parameter_count
-
 public protocol SystemLogging {
     func log(level: OSLogType, message: String, file: String, function: String, line: Int)
 }
