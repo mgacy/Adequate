@@ -49,9 +49,10 @@ class MehSyncClient: MehSyncClientType {
 
     // MARK: - Fetch (Cancellable)
 
-    func fetchCurrentDeal(cachePolicy: CachePolicy,
-                          queue: DispatchQueue = DispatchQueue.main,
-                          resultHandler: @escaping OperationResultHandler<Deal?>
+    func fetchCurrentDeal(
+        cachePolicy: CachePolicy,
+        queue: DispatchQueue = DispatchQueue.main,
+        resultHandler: @escaping OperationResultHandler<Deal?>
     ) -> Cancellable {
         let query = GetDealQuery(id: Constants.currentDealID)
         return fetch(query: query, cachePolicy: cachePolicy) { result in
@@ -62,10 +63,11 @@ class MehSyncClient: MehSyncClientType {
         }
     }
 
-    func fetch<Query: ResultSelectableQuery>(query: Query,
-                                             cachePolicy: CachePolicy,
-                                             queue: DispatchQueue = .main,
-                                             resultHandler: @escaping OperationResultHandler<Query.Data.ResultType?>
+    func fetch<Query: ResultSelectableQuery>(
+        query: Query,
+        cachePolicy: CachePolicy,
+        queue: DispatchQueue = .main,
+        resultHandler: @escaping OperationResultHandler<Query.Data.ResultType?>
     ) -> Cancellable {
         guard let client = appSyncClient else {
             resultHandler(.failure(SyncClientError.missingClient))
@@ -76,17 +78,28 @@ class MehSyncClient: MehSyncClientType {
 
     // MARK: - Fetch (Promise)
 
-    func fetchDeal(withID id: GraphQLID, cachePolicy: CachePolicy = .fetchIgnoringCacheData) -> Promise<GetDealQuery.Data> {
+    func fetchDeal(
+        withID id: GraphQLID,
+        cachePolicy: CachePolicy = .fetchIgnoringCacheData
+    ) -> Promise<GetDealQuery.Data> {
         let query = GetDealQuery(id: id)
         return fetch(query: query, cachePolicy: cachePolicy)
     }
 
-    func fetchDealHistory(limit: Int, nextToken: String?, cachePolicy: CachePolicy) -> Promise<DealHistoryQuery.Data> {
+    func fetchDealHistory(
+        limit: Int,
+        nextToken: String?,
+        cachePolicy: CachePolicy
+    ) -> Promise<DealHistoryQuery.Data> {
         let query = DealHistoryQuery(filter: nil, limit: 60, nextToken: nil)
         return fetch(query: query, cachePolicy: cachePolicy)
     }
 
-    private func fetch<T: GraphQLQuery>(query: T, cachePolicy: CachePolicy, queue: DispatchQueue = .main) -> Promise<T.Data> {
+    private func fetch<T: GraphQLQuery>(
+        query: T,
+        cachePolicy: CachePolicy,
+        queue: DispatchQueue = .main
+    ) -> Promise<T.Data> {
         guard let appSyncClient = appSyncClient else {
             // TODO: make extension to retry initialization of client as a Promise?
             return Promise<T.Data>(error: SyncClientError.missingClient)
@@ -96,10 +109,11 @@ class MehSyncClient: MehSyncClientType {
 
     // MARK: - Watch
 
-    func watchCurrentDeal(cachePolicy: CachePolicy = .returnCacheDataAndFetch,
-                          queue: DispatchQueue = .main,
-                          resultHandler: @escaping OperationResultHandler<Deal?>
-    ) throws -> GraphQLQueryWatcher<GetDealQuery> {
+    func watchCurrentDeal(
+        cachePolicy: CachePolicy = .returnCacheDataAndFetch,
+        queue: DispatchQueue = .main,
+        resultHandler: @escaping OperationResultHandler<Deal?>
+    ) throws -> GraphQLQueryWatching {
         guard let appSyncClient = appSyncClient else {
             throw SyncClientError.missingClient
         }
@@ -156,8 +170,9 @@ extension MehSyncClient {
 
 // MARK: - Configuration Factory
 extension MehSyncClient {
-    static func makeClientConfiguration(credentialsProvider: AWSCredentialsProvider,
-                                        connectionStateChangeHandler: ConnectionStateChangeHandler? = nil
+    static func makeClientConfiguration(
+        credentialsProvider: AWSCredentialsProvider,
+        connectionStateChangeHandler: ConnectionStateChangeHandler? = nil
     ) throws -> AWSAppSyncClientConfiguration {
         var awsCredentialsProvider: AWSCredentialsProvider? = credentialsProvider
         var serviceConfig: AWSAppSyncServiceConfigProvider?

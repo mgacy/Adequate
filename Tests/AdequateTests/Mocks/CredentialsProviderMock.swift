@@ -14,22 +14,35 @@ public class CredentialsProviderMock: NSObject, CredentialsProvider {
 
     // MARK: Mock
 
-    public var initializationResult: Result<UserState, AWSMobileClientError> = .success(.signedIn)
+    public var initializationResult: Result<UserState, AWSMobileClientError>
 
-    public init(initialUserState: UserState = .unknown) {
+    var initializationPromise: Promise<UserState>!
+
+    public init(
+        initialUserState: UserState = .unknown,
+        initializationResult: Result<UserState, AWSMobileClientError> = .success(.signedIn)
+    ) {
         self.currentUserState = initialUserState
+        self.initializationResult = initializationResult
     }
 
     // MARK: CredentialsProvider
 
-    public var currentUserState: UserState = .unknown
+    public var currentUserState: UserState
 
     public func initialize() -> Promise<UserState> {
+        initializationPromise = .init()
+        return initializationPromise
+    }
+
+    // MARK: - Helpers
+
+    func completeInit() {
         switch initializationResult {
         case .success(let userState):
-            return Promise<UserState>(value: userState)
+            initializationPromise.fulfill(userState)
         case .failure(let error):
-            return Promise<UserState>(error: error)
+            initializationPromise.reject(error)
         }
     }
 }

@@ -10,6 +10,7 @@ import AWSAppSync
 
 public typealias OperationResult<Data> = Swift.Result<DataEnvelope<Data>, SyncClientError>
 
+// FIXME: rename to avoid confusion with AWSAppSync.OperationResultHandler
 public typealias OperationResultHandler<Data> = (OperationResult<Data>) -> Void
 
 /// Represents the result of a GraphQL operation.

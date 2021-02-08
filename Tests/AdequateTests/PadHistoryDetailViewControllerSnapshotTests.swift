@@ -15,9 +15,11 @@ class PadHistoryDetailViewControllerSnapshotTests: SnapshotTestBase {
 
     override func makeSUT() throws -> UIViewController {
         let historyList = try loadHistoryListData()
+        //let historyList = try DealLoader.loadHistoryList()
         dataProvider.historyState = .result(historyList)
 
         let historyDetail = try loadHistoryDetailData()
+        //let historyDetail = try DealLoader.loadHistoryDetail()
         dataProvider.dealResponse = .success(historyDetail)
 
         let dealFragment = historyList[0]

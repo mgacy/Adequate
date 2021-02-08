@@ -64,6 +64,9 @@
 		C9444F3B256F39EC002DD6E3 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9444F3A256F39EC002DD6E3 /* LoadingView.swift */; };
 		C94825662538D48C0009446D /* Semigroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94825652538D48C0009446D /* Semigroup.swift */; };
 		C948257A2538D52B0009446D /* Monoid.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94825792538D52B0009446D /* Monoid.swift */; };
+		C948F8F925CF1CA7000A674C /* MehSyncClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948F8F825CF1CA7000A674C /* MehSyncClientMock.swift */; };
+		C948F91725CF8524000A674C /* GraphQLQueryWatching.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948F91625CF8524000A674C /* GraphQLQueryWatching.swift */; };
+		C948F91F25CF96B1000A674C /* DealLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948F91E25CF96B1000A674C /* DealLoader.swift */; };
 		C94D2CED230E11C300043431 /* FontBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2CEC230E11C300043431 /* FontBook.swift */; };
 		C94D2CEF230E143700043431 /* UIFont+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2CEE230E143700043431 /* UIFont+Ext.swift */; };
 		C94D94B1253287620000328D /* Insets+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D94B0253287610000328D /* Insets+Ext.swift */; };
@@ -408,6 +411,9 @@
 		C9444F3A256F39EC002DD6E3 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		C94825652538D48C0009446D /* Semigroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Semigroup.swift; sourceTree = "<group>"; };
 		C94825792538D52B0009446D /* Monoid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monoid.swift; sourceTree = "<group>"; };
+		C948F8F825CF1CA7000A674C /* MehSyncClientMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MehSyncClientMock.swift; sourceTree = "<group>"; };
+		C948F91625CF8524000A674C /* GraphQLQueryWatching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLQueryWatching.swift; sourceTree = "<group>"; };
+		C948F91E25CF96B1000A674C /* DealLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealLoader.swift; sourceTree = "<group>"; };
 		C94D2CEC230E11C300043431 /* FontBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontBook.swift; sourceTree = "<group>"; };
 		C94D2CEE230E143700043431 /* UIFont+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Ext.swift"; sourceTree = "<group>"; };
 		C94D94B0253287610000328D /* Insets+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Insets+Ext.swift"; sourceTree = "<group>"; };
@@ -1359,9 +1365,11 @@
 			children = (
 				C9E0D7CF244D48B700032DE1 /* Data */,
 				C9E0D7BD244C1BE200032DE1 /* AppDependencyMock.swift */,
+				C948F91E25CF96B1000A674C /* DealLoader.swift */,
 				C9A5E9EF24D51BAB00AF77E5 /* CredentialsProviderMock.swift */,
 				C9E0D7B7244C10B200032DE1 /* DataProviderMock.swift */,
 				C9E0D7B1244BD6BE00032DE1 /* ImageServiceMock.swift */,
+				C948F8F825CF1CA7000A674C /* MehSyncClientMock.swift */,
 				C9E0D7B9244C19A600032DE1 /* NotificationManagerMock.swift */,
 				C9E0D7B3244BF14900032DE1 /* ThemeManagerMock.swift */,
 				C9E0D7BB244C1AFA00032DE1 /* UserDefaultsManagerMock.swift */,
@@ -1447,6 +1455,7 @@
 			children = (
 				C98282F8237B9418002B55D9 /* CredentialsProvider.swift */,
 				C9FABAEB2372472900C1E523 /* DataProviderType.swift */,
+				C948F91625CF8524000A674C /* GraphQLQueryWatching.swift */,
 				C9FABAF12372908100C1E523 /* MehSyncClientType.swift */,
 				C9385B8825659A9A00F7AFB5 /* ResultSelectable.swift */,
 			);
@@ -2132,6 +2141,7 @@
 				C9C0C0C423072F800011EFB4 /* MDParagraphStyleCollection.swift in Sources */,
 				C98B324A222DC1F0003A8669 /* HistoryListCell.swift in Sources */,
 				C9DA48FE2528352F008A990D /* AppIconViewController.swift in Sources */,
+				C948F91725CF8524000A674C /* GraphQLQueryWatching.swift in Sources */,
 				C95CD60F230F48500011585F /* UIRefreshControl+Ext.swift in Sources */,
 				C989E11D223738ED00DEAE89 /* API+Ext.swift in Sources */,
 				C9DAC4B1214785DF00D6558B /* BaseCoordinator.swift in Sources */,
@@ -2192,6 +2202,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C984810E2448F6D5005B9B69 /* PriceFormatterTests.swift in Sources */,
+				C948F91F25CF96B1000A674C /* DealLoader.swift in Sources */,
+				C948F8F925CF1CA7000A674C /* MehSyncClientMock.swift in Sources */,
 				C9DAC4692147688500D6558B /* AdequateTests.swift in Sources */,
 				C9848110244965DB005B9B69 /* Models+create.swift in Sources */,
 				C9E0D7CE244D07CF00032DE1 /* HistoryDetailViewControllerSnapshotTests.swift in Sources */,

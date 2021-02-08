@@ -48,7 +48,7 @@ class DataProvider: DataProviderType {
 
     private let refreshManager: RefreshManager
 
-    private var currentDealWatcher: GraphQLQueryWatcher<GetDealQuery>?
+    private var currentDealWatcher: GraphQLQueryWatching?
 
     private var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
     private var historyObservations: [UUID: (ViewState<[DealHistory.Item]>) -> Void] = [:]
