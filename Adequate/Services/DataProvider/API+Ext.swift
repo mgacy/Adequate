@@ -77,6 +77,90 @@ extension GetDealQuery.Data.GetDeal.Theme: ThemeType {}
 
 extension GetDealQuery.Data.GetDeal.Topic: TopicType {}
 
+// MARK: - GetDealQuery + Equatable
+
+extension GetDealQuery.Data.GetDeal: Equatable {
+
+    public static func == (lhs: GetDealQuery.Data.GetDeal, rhs: GetDealQuery.Data.GetDeal) -> Bool {
+        return lhs.id == rhs.id
+        && lhs.dealId == rhs.dealId
+        && lhs.dealYear == rhs.dealYear
+        && lhs.monthDay == rhs.monthDay
+        && lhs.title == rhs.title
+        && lhs.features == rhs.features
+        && lhs.specifications == rhs.specifications
+        && lhs.url == rhs.url
+        && lhs.createdAt == rhs.createdAt
+        && lhs.endDate == rhs.endDate
+        && lhs.soldOutAt == rhs.soldOutAt
+        && lhs.items == rhs.items
+        && lhs.modelNumbers == rhs.modelNumbers
+        && lhs.photos == rhs.photos
+        && lhs.story == rhs.story
+        && lhs.topic == rhs.topic
+        && lhs.theme == rhs.theme
+        && lhs.purchaseQuantity == rhs.purchaseQuantity
+        && lhs.launches == rhs.launches
+        // Accessing `.launchStatus` fails due to error force casting as `LaunchStatus`
+        // swiftlint:disable:next force_cast
+        && lhs.snapshot["launchStatus"]! as! String == rhs.snapshot["launchStatus"]! as! String
+        && lhs.version == rhs.version
+        && lhs.deleted == rhs.deleted
+        && lhs.lastChangedAt == rhs.lastChangedAt
+        && lhs.updatedAt == rhs.updatedAt
+    }
+}
+
+extension GetDealQuery.Data.GetDeal.Item: Equatable {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.id == rhs.id
+        //&& lhs.condition == rhs.condition
+        //&& lhs.photo == rhs.photo
+        //&& lhs.price == rhs.price
+    }
+}
+
+extension GetDealQuery.Data.GetDeal.Launch: Equatable {
+     public static func == (lhs: Self, rhs: Self) -> Bool {
+         lhs.soldOutAt == rhs.soldOutAt
+     }
+ }
+
+extension GetDealQuery.Data.GetDeal.PurchaseQuantity: Equatable {
+     public static func == (lhs: Self, rhs: Self) -> Bool {
+         return lhs.maximumLimit == rhs.maximumLimit
+             && lhs.minimumLimit == rhs.minimumLimit
+     }
+ }
+
+extension GetDealQuery.Data.GetDeal.Story: Equatable {
+     public static func == (lhs: Self, rhs: Self) -> Bool {
+         return lhs.title == rhs.title
+             && lhs.body == rhs.body
+     }
+ }
+
+extension GetDealQuery.Data.GetDeal.Theme: Equatable {
+     public static func == (lhs: Self, rhs: Self) -> Bool {
+         return lhs.accentColor == rhs.accentColor
+             && lhs.backgroundColor == rhs.backgroundColor
+            // Accessing `.foreground` fails due to error force casting as `ThemeForeground`
+            // swiftlint:disable:next force_cast
+            && lhs.snapshot["foreground"]! as! String == rhs.snapshot["foreground"]! as! String
+     }
+ }
+
+extension GetDealQuery.Data.GetDeal.Topic: Equatable {
+     public static func == (lhs: Self, rhs: Self) -> Bool {
+         return lhs.id == rhs.id
+             && lhs.commentCount == rhs.commentCount
+             && lhs.createdAt == rhs.createdAt
+             //&& lhs.replyCount == rhs.replyCount
+             && lhs.url == rhs.url
+             //&& lhs.voteCount == rhs.voteCount
+     }
+ }
+
 // MARK: - DealHistoryQuery + Model Protocols
 
 extension DealHistoryQuery.Data.DealHistory.Item.Item: ItemType {}
