@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     private var appDependency: AppDependency!
-    private var appCoordinator: AppCoordinator!
+    private var appCoordinator: AppCoordinating!
     private var notificationServiceManager: NotificationServiceManager?
 
     func application(_ application: UIApplication,

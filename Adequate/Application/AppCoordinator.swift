@@ -24,7 +24,12 @@ fileprivate enum LaunchInstructor {
 
 }
 
-class AppCoordinator: BaseCoordinator {
+protocol AppCoordinating: CoordinatorType {
+    func refreshDeal(for event: RefreshEvent)
+    func registerForPushNotifications(with manager: NotificationManagerType)
+}
+
+class AppCoordinator: BaseCoordinator, AppCoordinating {
 
     private let window: UIWindow
     private let dependencies: AppDependency

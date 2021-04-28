@@ -46,9 +46,8 @@ class DataProvider: DataProviderType {
 
     private let client: MehSyncClientType
 
-    private let refreshManager: RefreshManager
-
     private var currentDealWatcher: GraphQLQueryWatching?
+    private let refreshManager: RefreshManaging
 
     private var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
     private var historyObservations: [UUID: (ViewState<[DealHistory.Item]>) -> Void] = [:]

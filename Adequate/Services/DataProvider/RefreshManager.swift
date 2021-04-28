@@ -8,7 +8,15 @@
 
 import AWSAppSync
 
-final class RefreshManager: NSObject {
+protocol RefreshManaging {
+    var cacheCondition: RefreshManager.CacheCondition { get }
+    var lastDealRequest: Date { get }
+    var backgroundRefreshStatus: UIBackgroundRefreshStatus { get }
+
+    func update(_ event: RefreshManager.Event)
+}
+
+final class RefreshManager: NSObject, RefreshManaging {
 
     private let dateProvider: () -> Date
 
