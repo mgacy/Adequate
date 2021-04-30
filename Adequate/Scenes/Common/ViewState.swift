@@ -11,6 +11,27 @@ public enum ViewState<Element> {
     case result(Element)
     case empty
     case error(Error)
+
+    var isLoading: Bool {
+        switch self {
+        case .loading: return true
+        default: return false
+        }
+    }
+
+    var isCompletion: Bool {
+        switch self {
+        case .empty, .loading: return false
+        case .result, .error: return true
+        }
+    }
+
+    var result: Element? {
+        if case let .result(element) = self {
+            return element
+        }
+        return nil
+    }
 }
 
 // MARK: - Operators

@@ -70,6 +70,7 @@
 		C94D2CED230E11C300043431 /* FontBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2CEC230E11C300043431 /* FontBook.swift */; };
 		C94D2CEF230E143700043431 /* UIFont+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2CEE230E143700043431 /* UIFont+Ext.swift */; };
 		C94D94B1253287620000328D /* Insets+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D94B0253287610000328D /* Insets+Ext.swift */; };
+		C952BA5E25D23E5F00ACEE20 /* ViewState+Prism.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952BA5D25D23E5F00ACEE20 /* ViewState+Prism.swift */; };
 		C95B83C3218017FD0051B72B /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B83C2218017FD0051B72B /* ThemeManager.swift */; };
 		C95B83C521811DFA0051B72B /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B83C421811DFA0051B72B /* AppTheme.swift */; };
 		C95CD60D230F36FD0011585F /* TableBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95CD60C230F36FD0011585F /* TableBackgroundView.swift */; };
@@ -418,6 +419,7 @@
 		C94D2CEE230E143700043431 /* UIFont+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Ext.swift"; sourceTree = "<group>"; };
 		C94D94B0253287610000328D /* Insets+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Insets+Ext.swift"; sourceTree = "<group>"; };
 		C94FACEF250889EA00C190ED /* ScreenshotsDark.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ScreenshotsDark.xctestplan; sourceTree = "<group>"; };
+		C952BA5D25D23E5F00ACEE20 /* ViewState+Prism.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewState+Prism.swift"; sourceTree = "<group>"; };
 		C958359F2588547A006DD2D8 /* Project.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
 		C95B83C2218017FD0051B72B /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		C95B83C421811DFA0051B72B /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
@@ -807,6 +809,7 @@
 			isa = PBXGroup;
 			children = (
 				C9B3DE5A24FEE44F00A90453 /* Models+Lens.generated.swift */,
+				C952BA5D25D23E5F00ACEE20 /* ViewState+Prism.swift */,
 			);
 			path = Optics;
 			sourceTree = "<group>";
@@ -2145,6 +2148,7 @@
 				C95CD60F230F48500011585F /* UIRefreshControl+Ext.swift in Sources */,
 				C989E11D223738ED00DEAE89 /* API+Ext.swift in Sources */,
 				C9DAC4B1214785DF00D6558B /* BaseCoordinator.swift in Sources */,
+				C952BA5E25D23E5F00ACEE20 /* ViewState+Prism.swift in Sources */,
 				C9AE54C9217927B500818F11 /* ZoomingImageView.swift in Sources */,
 				C9FABAEC2372472900C1E523 /* DataProviderType.swift in Sources */,
 				C93BD90422B1B38100FAD8AA /* ItemAttributeType.swift in Sources */,
