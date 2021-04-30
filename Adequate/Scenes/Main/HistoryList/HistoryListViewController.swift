@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 // MARK: - Delegate
 
@@ -29,6 +30,7 @@ final class HistoryListViewController: UITableViewController {
     private let dataProvider: DataProviderType
     private lazy var dataSource = makeDataSource(for: tableView)
     private var observationTokens: [ObservationToken] = []
+    private var cancellables: Set<AnyCancellable> = []
     private var initialSetupDone = false
     private var wasRefreshedManually = false
 
@@ -84,11 +86,11 @@ final class HistoryListViewController: UITableViewController {
         super.didMove(toParent: parent)
         // Ensure we wait until tableView is in the view hierarchy before potentially telling it to layout its visible
         // cells
-        if observationTokens.count < 2 {
+        if observationTokens.isEmpty {
             let historyToken = dataProvider.addHistoryObserver(self) { vc, viewState in
                 vc.viewState = viewState
             }
-            observationTokens.append(historyToken)
+            observationTokens = [historyToken]
         }
         if case .empty = viewState {
             getDealHistory()
@@ -116,7 +118,12 @@ final class HistoryListViewController: UITableViewController {
         //tableView.backgroundColor = ColorCompatibility.systemBackground
 
         setupTableView()
-        observationTokens = setupObservations()
+
+        themeManager.themePublisher
+            .sink { [weak self] theme in
+                self?.apply(theme: theme)
+            }
+            .store(in: &cancellables)
     }
 
     private func setupTableView() {
@@ -131,11 +138,6 @@ final class HistoryListViewController: UITableViewController {
         tableView.separatorStyle = .none
         //tableView.cellLayoutMarginsFollowReadableWidth = true
         tableView.register(cellType: HistoryListCell.self)
-    }
-
-    private func setupObservations() -> [ObservationToken] {
-        let themeToken = themeManager.addObserver(self)
-        return [themeToken]
     }
 
     // MARK: - DataProvider

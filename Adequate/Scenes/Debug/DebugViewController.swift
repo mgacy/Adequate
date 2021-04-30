@@ -14,8 +14,6 @@ class DebugViewController: UIViewController {
     let dependencies: Dependencies
     weak var dismissalDelegate: VoidDismissalDelegate?
 
-    private var observationTokens: [ObservationToken] = []
-
     // Navigation bar actions
     var button1Action: (() -> Void)?
     var button2Action: (() -> Void)?
@@ -87,10 +85,7 @@ class DebugViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        observationTokens = setupObservations()
     }
-
-    deinit { observationTokens.forEach { $0.cancel() } }
 
     // MARK: - View Methods
 
@@ -118,10 +113,6 @@ class DebugViewController: UIViewController {
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
-    }
-
-    private func setupObservations() -> [ObservationToken] {
-        return []
     }
 
     // MARK: - Configuration

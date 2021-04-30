@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 import Down
 
 // MARK: - Delegate
@@ -60,14 +61,19 @@ final class StoryViewController: BaseViewController<ScrollableView<StoryContentV
         navigationItem.leftBarButtonItem = dealButton
         navigationController?.applyStyle(.hiddenSeparator)
         title = L10n.story
+
+        themeManager.themePublisher
+            .sink { [weak self] theme in
+                self?.apply(theme: theme)
+            }
+            .store(in: &cancellables)
     }
 
     override func setupObservations() -> [ObservationToken] {
         let dealToken = dataProvider.addDealObserver(self) { vc, viewState in
             vc.viewState = viewState
         }
-        let themeToken = themeManager.addObserver(self)
-        return [dealToken, themeToken]
+        return [dealToken]
     }
 
     // MARK: - Navigation

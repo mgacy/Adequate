@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import Combine
 
 class BaseViewController<T: UIView>: UIViewController {
     var rootView = T(frame: UIScreen.main.bounds)
 
     private var observationTokens: [ObservationToken] = []
+    var cancellables: Set<AnyCancellable> = []
 
     override func loadView() {
         view = rootView

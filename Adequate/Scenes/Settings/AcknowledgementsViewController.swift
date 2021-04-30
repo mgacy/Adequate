@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import Combine
 import Down
 
 final class AcknowledgementsViewController: UIViewController {
     typealias Dependencies = HasThemeManager
 
     private let themeManager: ThemeManagerType
-    private var observationTokens: [ObservationToken] = []
+    private var cancellables: Set<AnyCancellable> = []
 
     var styler: MDStyler
 
@@ -46,14 +47,16 @@ final class AcknowledgementsViewController: UIViewController {
         setupView()
     }
 
-    deinit { observationTokens.forEach { $0.cancel() } }
-
     // MARK: - View Methods
 
     private func setupView() {
         view.addSubview(textView)
         setupConstraints()
-        observationTokens = setupObservations()
+        themeManager.themePublisher
+            .sink { [weak self] theme in
+                self?.apply(theme: theme)
+            }
+            .store(in: &cancellables)
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             let acknowledgementsString = self?.loadAcknowledgements()
@@ -70,11 +73,6 @@ final class AcknowledgementsViewController: UIViewController {
             textView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-    }
-
-    private func setupObservations() -> [ObservationToken] {
-        let themeToken = themeManager.addObserver(self)
-        return [themeToken]
     }
 
     // MARK: - A

@@ -8,6 +8,7 @@
 
 import UIKit
 import Promise
+import Combine
 
 enum RootViewControllerPage {
     case deal
@@ -21,7 +22,7 @@ final class RootPageViewController: UIPageViewController {
     private(set) var currentIndex: Int = 0
 
     private var themeManager: ThemeManagerType
-    private var observationTokens: [ObservationToken] = []
+    private var cancellables: Set<AnyCancellable> = []
     private var pages = [UIViewController]()
 
     override var childForStatusBarStyle: UIViewController? {
@@ -43,7 +44,11 @@ final class RootPageViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        observationTokens = setupObservations()
+        themeManager.themePublisher
+            .sink { [weak self] theme in
+                self?.apply(theme: theme)
+            }
+            .store(in: &cancellables)
     }
 
     // MARK: - View Methods
@@ -60,11 +65,6 @@ final class RootPageViewController: UIPageViewController {
                 break
             }
         }
-
-    }
-
-    private func setupObservations() -> [ObservationToken] {
-        return [themeManager.addObserver(self)]
     }
 
     func setPages(_ viewControllers: [UIViewController], displayIndex: Int, animated: Bool = false) {

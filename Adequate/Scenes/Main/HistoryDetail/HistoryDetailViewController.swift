@@ -122,6 +122,12 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
             setupForPhone()
         }
 
+        themeManager.themePublisher
+            .sink { [weak self] theme in
+                self?.apply(theme: theme)
+            }
+            .store(in: &cancellables)
+
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupConstraints()
         setupParallaxScrollView()
@@ -150,11 +156,6 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
             barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor)
         ])
-    }
-
-    override func setupObservations() -> [ObservationToken] {
-        let themeToken = themeManager.addObserver(self)
-        return [themeToken]
     }
 
     // MARK: - Navigation

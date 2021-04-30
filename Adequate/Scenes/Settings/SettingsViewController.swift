@@ -28,7 +28,6 @@ final class SettingsViewController: UITableViewController {
     private let notificationManager: NotificationManagerType
     private let themeManager: ThemeManagerType
     private let userDefaultsManager: UserDefaultsManagerType
-    //private var observationTokens: [ObservationToken] = []
 
     private var mailComposer: MailComposer?
 
