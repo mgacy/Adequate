@@ -6,11 +6,20 @@
 //  Copyright © 2019 Mathew Gacy. All rights reserved.
 //
 
+import Combine
 import AWSAppSync
 import class Promise.Promise // avoid name collision with AWSAppSync.Promise
 
 protocol DataProviderType {
     typealias DealHistory = DealHistoryQuery.Data.DealHistory.Item
+
+    var dealState: ViewState<Deal> { get }
+
+    var dealPublisher: Published<ViewState<Deal>>.Publisher { get }
+
+    var historyState: ViewState<[DealHistory]> { get }
+
+    var historyPublisher: Published<ViewState<[DealHistory]>>.Publisher { get }
 
     // MARK: Refresh
 
@@ -28,18 +37,4 @@ protocol DataProviderType {
     /// Fetch recent Deals from server. Observers added through `addHistoryObserver(_:closure:)` will be notified of
     /// result.
     func getDealHistory()
-
-    // MARK: Observers
-
-    /// Add observer to be notified of changes to current Deal.
-    /// - Parameters:
-    ///   - : The observer.
-    ///   - closure: Closure to execute on changes to current Deal.
-    func addDealObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<Deal>) -> Void) -> ObservationToken
-
-    /// Add observer to be notified of changes to Deal history.
-    /// - Parameters:
-    ///   - : The observer.
-    ///   - closure: Closure to execute on changes to Deal history.
-    func addHistoryObserver<T: AnyObject>(_: T, closure: @escaping (T, ViewState<[DealHistory]>) -> Void) -> ObservationToken
 }

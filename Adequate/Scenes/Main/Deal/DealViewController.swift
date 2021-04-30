@@ -22,11 +22,8 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
     private let themeManager: ThemeManagerType
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
 
-    private var viewState: ViewState<Deal> = .empty {
-        didSet {
-            render(viewState)
-            footerViewController.render(viewState)
-        }
+    private var viewState: ViewState<Deal> {
+        dataProvider.dealState
     }
 
     private var initialSetupDone = false
@@ -135,6 +132,12 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
             setupForPhone()
         }
 
+        dataProvider.dealPublisher
+            .sink { [weak self] viewState in
+                self?.render(viewState)
+            }
+            .store(in: &cancellables)
+
         themeManager.themePublisher
             .sink { [weak self] theme in
                 self?.apply(theme: theme)
@@ -181,13 +184,6 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
             barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor)
         ])
-    }
-
-    override func setupObservations() -> [ObservationToken] {
-        let dealToken = dataProvider.addDealObserver(self) { vc, viewState in
-            vc.viewState = viewState
-        }
-        return [dealToken]
     }
 
     // MARK: - Public Actions
@@ -362,6 +358,7 @@ extension DealViewController: ViewStateRenderable {
             pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         }
+        footerViewController.render(viewState)
     }
 }
 

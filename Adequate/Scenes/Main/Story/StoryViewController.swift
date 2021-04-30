@@ -62,18 +62,17 @@ final class StoryViewController: BaseViewController<ScrollableView<StoryContentV
         navigationController?.applyStyle(.hiddenSeparator)
         title = L10n.story
 
+        dataProvider.dealPublisher
+            .sink { [weak self] viewState in
+                self?.render(viewState)
+            }
+            .store(in: &cancellables)
+
         themeManager.themePublisher
             .sink { [weak self] theme in
                 self?.apply(theme: theme)
             }
             .store(in: &cancellables)
-    }
-
-    override func setupObservations() -> [ObservationToken] {
-        let dealToken = dataProvider.addDealObserver(self) { vc, viewState in
-            vc.viewState = viewState
-        }
-        return [dealToken]
     }
 
     // MARK: - Navigation

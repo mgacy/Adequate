@@ -12,7 +12,6 @@ import Combine
 class BaseViewController<T: UIView>: UIViewController {
     var rootView = T(frame: UIScreen.main.bounds)
 
-    private var observationTokens: [ObservationToken] = []
     var cancellables: Set<AnyCancellable> = []
 
     override func loadView() {
@@ -22,19 +21,12 @@ class BaseViewController<T: UIView>: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        observationTokens = setupObservations()
     }
-
-    deinit { observationTokens.forEach { $0.cancel() } }
 
     // MARK: - View Methods
     // TODO: move methods into protocol to which this class conforms?
 
     func setupView() {
         // ...
-    }
-
-    func setupObservations() -> [ObservationToken] {
-        return []
     }
 }

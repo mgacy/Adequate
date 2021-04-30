@@ -24,7 +24,7 @@ class ThemeManager: ThemeManagerType {
     private static var animationDuration: TimeInterval = 0.3
 
     private let dataProvider: DataProviderType
-    private var dealObservationToken: ObservationToken?
+    private var cancellable: AnyCancellable?
 
     private(set) var useDealTheme: Bool = false
     @Published private(set) var theme: AppTheme
@@ -36,7 +36,7 @@ class ThemeManager: ThemeManagerType {
         self.dataProvider = dataProvider
         self.theme = theme
         if useDealTheme {
-            dealObservationToken = startDealObservation()
+            cancellable = startDealSubscription()
         }
     }
 
@@ -66,24 +66,23 @@ class ThemeManager: ThemeManagerType {
 // MARK: - DataProvider Observation
 extension ThemeManager {
 
-    func startDealObservation () -> ObservationToken {
-        guard dealObservationToken == nil else {
-            stopDealObservation()
-            return startDealObservation()
+    private func startDealSubscription() -> AnyCancellable {
+        guard cancellable == nil else {
+            stopDealSubscription()
+            return startDealSubscription()
         }
-        return dataProvider.addDealObserver(self) { themeManager, dealState in
-            guard case .result(let deal) = dealState else {
-                return
+        return dataProvider.dealPublisher
+            .compactMap { $0.result }
+            .sink { [weak self] deal in
+                self?.applyTheme(theme: deal.theme)
             }
-            themeManager.applyTheme(theme: deal.theme)
-        }
     }
 
-    func stopDealObservation() {
-        guard let token = dealObservationToken else {
+    private func stopDealSubscription() {
+        guard let cancellable = cancellable else {
             return
         }
-        token.cancel()
-        dealObservationToken = nil
+        cancellable.cancel()
+        self.cancellable = nil
     }
 }

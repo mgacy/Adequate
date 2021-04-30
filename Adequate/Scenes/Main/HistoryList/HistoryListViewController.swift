@@ -29,15 +29,12 @@ final class HistoryListViewController: UITableViewController {
     private let themeManager: ThemeManagerType
     private let dataProvider: DataProviderType
     private lazy var dataSource = makeDataSource(for: tableView)
-    private var observationTokens: [ObservationToken] = []
     private var cancellables: Set<AnyCancellable> = []
     private var initialSetupDone = false
     private var wasRefreshedManually = false
 
-    private var viewState: ViewState<[Deal]> = .empty {
-        didSet {
-            render(viewState)
-        }
+    private var viewState: ViewState<[Deal]> {
+        dataProvider.historyState
     }
 
     // MARK: - Subviews
@@ -86,18 +83,17 @@ final class HistoryListViewController: UITableViewController {
         super.didMove(toParent: parent)
         // Ensure we wait until tableView is in the view hierarchy before potentially telling it to layout its visible
         // cells
-        if observationTokens.isEmpty {
-            let historyToken = dataProvider.addHistoryObserver(self) { vc, viewState in
-                vc.viewState = viewState
-            }
-            observationTokens = [historyToken]
+        if !initialSetupDone {
+            dataProvider.historyPublisher
+                .sink { [weak self] viewState in
+                    self?.render(viewState)
+                }
+                .store(in: &cancellables)
         }
         if case .empty = viewState {
             getDealHistory()
         }
     }
-
-    deinit { observationTokens.forEach { $0.cancel() } }
 
     // MARK: - View Methods
 
