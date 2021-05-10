@@ -21,7 +21,6 @@
 		C9093CBD221FBE9400C9DA0C /* DealCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CBC221FBE9400C9DA0C /* DealCoordinator.swift */; };
 		C9093CBF2225BC0500C9DA0C /* HistoryDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CBE2225BC0500C9DA0C /* HistoryDetailCoordinator.swift */; };
 		C9093CC1222796FD00C9DA0C /* RootPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CC0222796FD00C9DA0C /* RootPageViewController.swift */; };
-		C9093CC32228A27800C9DA0C /* ObservationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CC22228A27800C9DA0C /* ObservationToken.swift */; };
 		C9093CC52228A76D00C9DA0C /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9093CC42228A76D00C9DA0C /* DataProvider.swift */; };
 		C9102F96224FED1900B06679 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9102F95224FED1900B06679 /* AboutViewController.swift */; };
 		C9102F98224FF04000B06679 /* AcknowledgementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9102F97224FF04000B06679 /* AcknowledgementsViewController.swift */; };
@@ -97,7 +96,6 @@
 		C9725D5F2255A7EE0043C4FC /* UINavigationController+NavBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9725D5E2255A7EE0043C4FC /* UINavigationController+NavBarStyle.swift */; };
 		C97274D825773904008DBFEC /* NSDirectionalEdgeInsets+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97274D725773904008DBFEC /* NSDirectionalEdgeInsets+Ext.swift */; };
 		C973270D238CCF1600ADBAEE /* StoryContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C973270C238CCF1600ADBAEE /* StoryContentView.swift */; };
-		C979335622D7E27400132A00 /* CompletionWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C979335522D7E27400132A00 /* CompletionWrapper.swift */; };
 		C97AC2D823B6988C00B721AC /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97AC2D723B6988C00B721AC /* BaseViewController.swift */; };
 		C97AC2DA23B6AA3000B721AC /* ScrollableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97AC2D923B6AA3000B721AC /* ScrollableView.swift */; };
 		C98282F9237B9419002B55D9 /* CredentialsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98282F8237B9418002B55D9 /* CredentialsProvider.swift */; };
@@ -370,7 +368,6 @@
 		C9093CBC221FBE9400C9DA0C /* DealCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealCoordinator.swift; sourceTree = "<group>"; };
 		C9093CBE2225BC0500C9DA0C /* HistoryDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailCoordinator.swift; sourceTree = "<group>"; };
 		C9093CC0222796FD00C9DA0C /* RootPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPageViewController.swift; sourceTree = "<group>"; };
-		C9093CC22228A27800C9DA0C /* ObservationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationToken.swift; sourceTree = "<group>"; };
 		C9093CC42228A76D00C9DA0C /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		C9102F95224FED1900B06679 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		C9102F97224FF04000B06679 /* AcknowledgementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcknowledgementsViewController.swift; sourceTree = "<group>"; };
@@ -446,7 +443,6 @@
 		C9725D5E2255A7EE0043C4FC /* UINavigationController+NavBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+NavBarStyle.swift"; sourceTree = "<group>"; };
 		C97274D725773904008DBFEC /* NSDirectionalEdgeInsets+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDirectionalEdgeInsets+Ext.swift"; sourceTree = "<group>"; };
 		C973270C238CCF1600ADBAEE /* StoryContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryContentView.swift; sourceTree = "<group>"; };
-		C979335522D7E27400132A00 /* CompletionWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionWrapper.swift; sourceTree = "<group>"; };
 		C97AC2D723B6988C00B721AC /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		C97AC2D923B6AA3000B721AC /* ScrollableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableView.swift; sourceTree = "<group>"; };
 		C98282F8237B9418002B55D9 /* CredentialsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsProvider.swift; sourceTree = "<group>"; };
@@ -1258,7 +1254,6 @@
 				C9DAC4A221476C3A00D6558B /* NetworkClient.swift */,
 				C9DAC4A621476C8600D6558B /* NetworkClientError.swift */,
 				C9F30133259E4E5200071891 /* FileCache+Ext.swift */,
-				C9093CC22228A27800C9DA0C /* ObservationToken.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1441,7 +1436,6 @@
 				C989E11C223738ED00DEAE89 /* API+Ext.swift */,
 				C9385B9125659D0F00F7AFB5 /* API+ResultSelectable.swift */,
 				C9385B9F2565B7A000F7AFB5 /* DataEnvelope.swift */,
-				C979335522D7E27400132A00 /* CompletionWrapper.swift */,
 				C9093CC42228A76D00C9DA0C /* DataProvider.swift */,
 				C9FABAED2372498100C1E523 /* MehSyncClient.swift */,
 				C911E267246D1E100056C84A /* RefreshManager.swift */,
@@ -2112,7 +2106,6 @@
 				C9C0C0CA230730E30011EFB4 /* MDStylerConfiguration.swift in Sources */,
 				C9F92266218A88D0001C257A /* UserDefaultsManager.swift in Sources */,
 				C96CA86A2182DB2500C3459E /* OnboardingCoordinator.swift in Sources */,
-				C979335622D7E27400132A00 /* CompletionWrapper.swift in Sources */,
 				C94D2CED230E11C300043431 /* FontBook.swift in Sources */,
 				C9DAC48F21476B2400D6558B /* URL+Ext.swift in Sources */,
 				C9BFB28A2537D4C40002EAE5 /* StyleBook.swift in Sources */,
@@ -2175,7 +2168,6 @@
 				C925EECB233E955400D24F38 /* ImageServiceType.swift in Sources */,
 				C996E21124D26C3200F5F173 /* AWSAppSyncClient+Result.swift in Sources */,
 				C94825662538D48C0009446D /* Semigroup.swift in Sources */,
-				C9093CC32228A27800C9DA0C /* ObservationToken.swift in Sources */,
 				C9DDB20A21653AA5004D7957 /* PagedImageViewDataSource.swift in Sources */,
 				C9DAC48D21476AF600D6558B /* UIColor+Ext.swift in Sources */,
 				C95CD616230FB0E60011585F /* DeepLink.swift in Sources */,
