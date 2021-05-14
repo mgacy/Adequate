@@ -39,8 +39,7 @@ class DataProvider: DataProviderType {
 
     private var credentialsProviderIsInitialized: Bool = false
 
-    // TODO: use a task queue (`OperationQueue`) for RefreshEvents / fetches? See `AWSPerformMutationQueue`
-    private var pendingRefreshEvent: RefreshEvent?
+    private var refreshEventQueue: RefreshEventQueueType
 
     /// Token identifying request to run in background when app is launched in background from notification.
     private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
@@ -66,11 +65,13 @@ class DataProvider: DataProviderType {
     init(
         credentialsProvider: CredentialsProvider,
         client: MehSyncClientType,
-        refreshManager: RefreshManaging = RefreshManager()
+        refreshManager: RefreshManaging = RefreshManager(),
+        refreshEventQueue: RefreshEventQueueType = RefreshEventQueue()
     ) {
         self.credentialsProvider = credentialsProvider
         self.client = client
         self.refreshManager = refreshManager
+        self.refreshEventQueue = refreshEventQueue
 
         // TODO: do work on another thread
         self.$dealState
@@ -103,9 +104,8 @@ class DataProvider: DataProviderType {
         credentialsProvider.initialize()
             .then { [weak self] _ in
                 self?.credentialsProviderIsInitialized = true
-                if let refreshEvent = self?.pendingRefreshEvent {
+                if let refreshEvent = self?.refreshEventQueue.pop() {
                     self?.refreshDeal(for: refreshEvent)
-                    self?.pendingRefreshEvent = nil
                 }
             }.catch { [weak self] error in
                 log.error("Unable to initialize credentialsProvider: \(error)")
@@ -113,9 +113,8 @@ class DataProvider: DataProviderType {
             }
         // case .guest:
         //     credentialsProviderIsInitialized = true
-        //     if let refreshEvent = pendingRefreshEvent {
+        //     if let refreshEvent = refreshEventQueue.pop() {
         //         refreshDeal(for: refreshEvent)
-        //         pendingRefreshEvent = nil
         //     }
         // case .signedIn:
         //     log.debug("currentUserState: \(credentialsProvider.currentUserState)")
@@ -207,16 +206,8 @@ class DataProvider: DataProviderType {
         log.info("\(#function) - \(event)")
 
         guard credentialsProviderIsInitialized else {
-            if let currentPendingRefreshEvent = pendingRefreshEvent {
-                // swiftlint:disable:next line_length
-                log.warning("AWSMobileClient not initialized - deferring RefreshEvent: \(event) - replacing: \(currentPendingRefreshEvent)")
-                // TODO: add logic to determine whether the new event should replace the current one
-                // TODO: wrap pending refreshEvents in wrapper containing `createdAt` so we can discard old ones?
-                pendingRefreshEvent = event
-            } else {
-                log.verbose("AWSMobileClient not initialized - deferring RefreshEvent: \(event)")
-                pendingRefreshEvent = event
-            }
+            log.verbose("AWSMobileClient not initialized - deferring RefreshEvent: \(event)")
+            refreshEventQueue.push(event)
             return
         }
 
@@ -439,10 +430,7 @@ class DataProvider: DataProviderType {
 
         if !credentialsProviderIsInitialized {
             log.error("Trying to refresh Deal before initializing credentials provider")
-            if pendingRefreshEvent != nil {
-                log.warning("Replacing pendingRefreshEvent '\(pendingRefreshEvent!)' with '.silentNotification'")
-            }
-            pendingRefreshEvent = .silentNotification(notification: .new(dealID), handler: completionHandler)
+            refreshEventQueue.push(.silentNotification(notification: .new(dealID), handler: completionHandler))
             return
         }
 
@@ -564,5 +552,3 @@ extension DataProvider {
             }
     }
 }
-
-

@@ -202,6 +202,7 @@
 		C9CDA65125219E740044A2A3 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA65025219E740044A2A3 /* Configuration.swift */; };
 		C9DA48F625282E32008A990D /* ThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DA48F525282E32008A990D /* ThemeViewController.swift */; };
 		C9DA48FE2528352F008A990D /* AppIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DA48FD2528352F008A990D /* AppIconViewController.swift */; };
+		C9DAA3CC264E229E00F5ACF8 /* RefreshEventQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAA3CB264E229E00F5ACF8 /* RefreshEventQueue.swift */; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
 		C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45A2147688500D6558B /* Assets.xcassets */; };
 		C9DAC45E2147688500D6558B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45C2147688500D6558B /* LaunchScreen.storyboard */; };
@@ -552,6 +553,7 @@
 		C9CDA6582521A2D30044A2A3 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		C9DA48F525282E32008A990D /* ThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeViewController.swift; sourceTree = "<group>"; };
 		C9DA48FD2528352F008A990D /* AppIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconViewController.swift; sourceTree = "<group>"; };
+		C9DAA3CB264E229E00F5ACF8 /* RefreshEventQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshEventQueue.swift; sourceTree = "<group>"; };
 		C9DAC4502147688500D6558B /* Adequate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adequate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DAC4532147688500D6558B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9DAC45A2147688500D6558B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1439,6 +1441,7 @@
 				C9093CC42228A76D00C9DA0C /* DataProvider.swift */,
 				C9FABAED2372498100C1E523 /* MehSyncClient.swift */,
 				C911E267246D1E100056C84A /* RefreshManager.swift */,
+				C9DAA3CB264E229E00F5ACF8 /* RefreshEventQueue.swift */,
 				C9088C2C22E6A418007C35CC /* DealNotification.swift */,
 				C9C2109322D8126700C4F66F /* RefreshEvent.swift */,
 				C989E1222237459300DEAE89 /* SyncClientError.swift */,
@@ -2155,6 +2158,7 @@
 				C928547B216DCE44001E5993 /* SNSManager.swift in Sources */,
 				C95B83C3218017FD0051B72B /* ThemeManager.swift in Sources */,
 				C9058DEE215C7A7800FF7B4C /* UNUserNotificationCenter+Promise.swift in Sources */,
+				C9DAA3CC264E229E00F5ACF8 /* RefreshEventQueue.swift in Sources */,
 				C923839222B1B4EA003BB1DA /* TopicType.swift in Sources */,
 				C961F35A22F4CF0E00405CA3 /* UIDevice+Ext.swift in Sources */,
 				C9C2109822D8FFA300C4F66F /* Lens.swift in Sources */,
