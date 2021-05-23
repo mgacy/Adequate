@@ -64,6 +64,7 @@
 		C94825662538D48C0009446D /* Semigroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94825652538D48C0009446D /* Semigroup.swift */; };
 		C948257A2538D52B0009446D /* Monoid.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94825792538D52B0009446D /* Monoid.swift */; };
 		C948F8F925CF1CA7000A674C /* MehSyncClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948F8F825CF1CA7000A674C /* MehSyncClientMock.swift */; };
+		C948F90125CF26FE000A674C /* DataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948F90025CF26FE000A674C /* DataProviderTests.swift */; };
 		C948F91725CF8524000A674C /* GraphQLQueryWatching.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948F91625CF8524000A674C /* GraphQLQueryWatching.swift */; };
 		C948F91F25CF96B1000A674C /* DealLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948F91E25CF96B1000A674C /* DealLoader.swift */; };
 		C94D2CED230E11C300043431 /* FontBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2CEC230E11C300043431 /* FontBook.swift */; };
@@ -411,6 +412,7 @@
 		C94825652538D48C0009446D /* Semigroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Semigroup.swift; sourceTree = "<group>"; };
 		C94825792538D52B0009446D /* Monoid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monoid.swift; sourceTree = "<group>"; };
 		C948F8F825CF1CA7000A674C /* MehSyncClientMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MehSyncClientMock.swift; sourceTree = "<group>"; };
+		C948F90025CF26FE000A674C /* DataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderTests.swift; sourceTree = "<group>"; };
 		C948F91625CF8524000A674C /* GraphQLQueryWatching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLQueryWatching.swift; sourceTree = "<group>"; };
 		C948F91E25CF96B1000A674C /* DealLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealLoader.swift; sourceTree = "<group>"; };
 		C94D2CEC230E11C300043431 /* FontBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontBook.swift; sourceTree = "<group>"; };
@@ -1162,6 +1164,7 @@
 				C984810D2448F6D5005B9B69 /* PriceFormatterTests.swift */,
 				C984810F244965DB005B9B69 /* Models+create.swift */,
 				C996E20E24D258D700F5F173 /* MehSyncClientTests.swift */,
+				C948F90025CF26FE000A674C /* DataProviderTests.swift */,
 				C9E0D7C1244CED2B00032DE1 /* SnapshotTestBase.swift */,
 				C9E0D7C3244CF0E900032DE1 /* DealViewControllerSnapshotTests.swift */,
 				C9E0D7C5244CF1EE00032DE1 /* PadDealViewControllerSnapshotTests.swift */,
@@ -2201,6 +2204,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C948F90125CF26FE000A674C /* DataProviderTests.swift in Sources */,
 				C984810E2448F6D5005B9B69 /* PriceFormatterTests.swift in Sources */,
 				C948F91F25CF96B1000A674C /* DealLoader.swift in Sources */,
 				C948F8F925CF1CA7000A674C /* MehSyncClientMock.swift in Sources */,

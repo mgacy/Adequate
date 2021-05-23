@@ -25,6 +25,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         log.debug("\(#function) - \(String(describing: launchOptions))")
         self.window = UIWindow(frame: UIScreen.main.bounds)
 
+        if CommandLine.arguments.contains("ENABLE-TESTING") {
+            appCoordinator = TestAppCoordinator(window: self.window!)
+            appCoordinator.start()
+            return true
+        }
+
         // TODO: should we just make `AppCoordinator` the delegate since we currently handle by passing off to it anyway?
         // Or should we make a separate `AppController` and maintain single role of `AppCoordinator`?
         UNUserNotificationCenter.current().delegate = self

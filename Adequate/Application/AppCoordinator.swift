@@ -149,3 +149,29 @@ extension AppCoordinator {
             }
     }
 }
+
+// MARK: - Testing
+class TestAppCoordinator: BaseCoordinator, AppCoordinating {
+
+    private let window: UIWindow
+
+    init(window: UIWindow) {
+        self.window = window
+    }
+
+    override func start(with: DeepLink?) {
+        start()
+    }
+
+    override func start() {
+        let viewController = UIViewController()
+        window.rootViewController = viewController
+        window.makeKeyAndVisible()
+    }
+
+    // MARK: - AppCoordinating
+
+    func refreshDeal(for event: RefreshEvent) {}
+
+    func registerForPushNotifications(with manager: NotificationManagerType) {}
+}
