@@ -53,6 +53,7 @@
 		C9385BAF25685B1C00F7AFB5 /* NotificationCategoryIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9385BAE25685B1C00F7AFB5 /* NotificationCategoryIdentifier.swift */; };
 		C9385BBC25685B2E00F7AFB5 /* NotificationCategoryIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9385BAE25685B1C00F7AFB5 /* NotificationCategoryIdentifier.swift */; };
 		C93BD90422B1B38100FAD8AA /* ItemAttributeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD90322B1B38100FAD8AA /* ItemAttributeType.swift */; };
+		C93C151125C5120F000F75FA /* Combine+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93C151025C5120F000F75FA /* Combine+Logging.swift */; };
 		C93CBED72320ADCE0033DCD0 /* DealViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CBED62320ADCE0033DCD0 /* DealViewControllerDelegate.swift */; };
 		C93CBEDA2320C8C70033DCD0 /* DebugCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CBED92320C8C70033DCD0 /* DebugCoordinator.swift */; };
 		C93CBEDC2320C8D80033DCD0 /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CBEDB2320C8D80033DCD0 /* DebugViewController.swift */; };
@@ -401,6 +402,7 @@
 		C9385B9F2565B7A000F7AFB5 /* DataEnvelope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataEnvelope.swift; sourceTree = "<group>"; };
 		C9385BAE25685B1C00F7AFB5 /* NotificationCategoryIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCategoryIdentifier.swift; sourceTree = "<group>"; };
 		C93BD90322B1B38100FAD8AA /* ItemAttributeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAttributeType.swift; sourceTree = "<group>"; };
+		C93C151025C5120F000F75FA /* Combine+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Combine+Logging.swift"; sourceTree = "<group>"; };
 		C93CBED62320ADCE0033DCD0 /* DealViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealViewControllerDelegate.swift; sourceTree = "<group>"; };
 		C93CBED92320C8C70033DCD0 /* DebugCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugCoordinator.swift; sourceTree = "<group>"; };
 		C93CBEDB2320C8D80033DCD0 /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
@@ -1198,6 +1200,7 @@
 				C996E21024D26C3200F5F173 /* AWSAppSyncClient+Result.swift */,
 				C989E1202237432600DEAE89 /* AWSMobileClient+Promise.swift */,
 				C98D1C8A215FED5B008F876B /* AWSSNS+Promise.swift */,
+				C93C151025C5120F000F75FA /* Combine+Logging.swift */,
 				C9DAC48821476AC300D6558B /* DateFormatter+Ext.swift */,
 				C94D94B0253287610000328D /* Insets+Ext.swift */,
 				C992D1DD216D93F000B373D5 /* Optional+Ext.swift */,
@@ -2066,6 +2069,7 @@
 				C9093CBF2225BC0500C9DA0C /* HistoryDetailCoordinator.swift in Sources */,
 				C96F2C8A246B417900E1B563 /* Caching.swift in Sources */,
 				C937EFE522DFFD4800C363C8 /* Affine.swift in Sources */,
+				C93C151125C5120F000F75FA /* Combine+Logging.swift in Sources */,
 				C93F79062256FCBD004B4DD6 /* Logger.swift in Sources */,
 				C9058DF1215C7CB600FF7B4C /* SettingsCoordinator.swift in Sources */,
 				C9DAC48521476A7A00D6558B /* Reusable.swift in Sources */,
