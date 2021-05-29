@@ -21,8 +21,8 @@ public enum ViewState<Element> {
 
     var isCompletion: Bool {
         switch self {
-        case .empty, .loading: return false
-        case .result, .error: return true
+        case .loading: return false
+        case .result, .error, .empty: return true
         }
     }
 

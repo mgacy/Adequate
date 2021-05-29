@@ -24,7 +24,7 @@ class DataProvider: DataProviderType {
     // TODO: rename `ViewState<T>` as `ResourceState<T>`?
 
     @Published private(set) var dealState: ViewState<Deal> = .empty
-    var dealPublisher: Published<ViewState<Deal>>.Publisher { $dealState } // Use `$dealState.removeDuplicates()`?
+    var dealPublisher: Published<ViewState<Deal>>.Publisher { $dealState }
 
     @Published private(set) var historyState: ViewState<[DealHistory]> = .empty
     var historyPublisher: Published<ViewState<[DealHistory]>>.Publisher { $historyState }
@@ -33,13 +33,17 @@ class DataProvider: DataProviderType {
 
     private let client: MehSyncClientType
 
+    //private let queue: DispatchQueue
+
+    private let refreshEventQueue: RefreshEventQueueType
+
     private let refreshManager: RefreshManaging
+
+    private let dealFetchResultManager: FetchResultManager
 
     private var currentDealWatcher: GraphQLQueryWatching?
 
     private var credentialsProviderIsInitialized: Bool = false
-
-    private var refreshEventQueue: RefreshEventQueueType
 
     /// Token identifying request to run in background when app is launched in background from notification.
     private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
@@ -52,9 +56,6 @@ class DataProvider: DataProviderType {
 
     private var cancellables: Set<AnyCancellable> = []
 
-    // TODO: instead of holding subscriber, hold `fetchCompletionHandler: FetchCompletionHandler?` and check / call for every event?
-    private var fetchCompletionSubscriber: AnyCancellable?
-
     // MARK: - Lifecycle
 
     convenience init(credentialsProvider: CredentialsProvider) {
@@ -65,13 +66,20 @@ class DataProvider: DataProviderType {
     init(
         credentialsProvider: CredentialsProvider,
         client: MehSyncClientType,
+        refreshEventQueue: RefreshEventQueueType = RefreshEventQueue(),
         refreshManager: RefreshManaging = RefreshManager(),
-        refreshEventQueue: RefreshEventQueueType = RefreshEventQueue()
+        dealFetchResultManager: FetchResultManager = FetchResultManager()
+        //queue: DispatchQueue = DispatchQueue(label: "com.mgacy.data_provider", qos: .userInitiated)
     ) {
         self.credentialsProvider = credentialsProvider
         self.client = client
-        self.refreshManager = refreshManager
         self.refreshEventQueue = refreshEventQueue
+        self.refreshManager = refreshManager
+        self.dealFetchResultManager = dealFetchResultManager
+        //self.queue = queue
+
+        dealFetchResultManager.configure(with: $dealState)
+
 
         // TODO: do work on another thread
         self.$dealState
@@ -95,6 +103,15 @@ class DataProvider: DataProviderType {
                     }
                 }
                 strongSelf.shouldRefreshWidget = false
+            }
+            .store(in: &cancellables)
+
+        dealFetchResultManager.actionPublisher
+            .sink { [weak self] action in
+                switch action {
+                case .fetchHistory(let cachePolicy):
+                    self?.getDealHistory(cachePolicy: cachePolicy)
+                }
             }
             .store(in: &cancellables)
 
@@ -223,15 +240,7 @@ class DataProvider: DataProviderType {
         // App State
         case .launch:
             let cachePolicy = refreshManager.cacheCondition.cachePolicy
-
-            // Update Deal history after fetching current Deal
-            $dealState
-                .filter { $0.isCompletion } // Should we just `dropFirst()` and filter `isLoading`?
-                .prefix(1)
-                .sink { [weak self] _ in
-                    self?.getDealHistory(cachePolicy: cachePolicy)
-                }
-                .store(in: &cancellables)
+            dealFetchResultManager.push(.fetchHistory(cachePolicy))
 
             // TODO: should we refresh widget?
             configureWatcher(cachePolicy: cachePolicy)
@@ -240,13 +249,12 @@ class DataProvider: DataProviderType {
 
             // On iOS 13, it seemed that `AppDelegate.application(_:didReceiveRemoteNotification:fetchCompletionHandler:)`
             // was not being called when app was launched for a background notification, so we will start a
-            // backgroundTask to ensure sufficient time to update deal in respnose. It looks like that might have been
-            // fixed on iOS 14.
+            // backgroundTask to ensure sufficient time to update deal in respnose. This seems to have been fixed on
+            // iOS 14.
 
             // NOTE: this method requests the task assertion asynchronously; it is possible that the system could
             // suspend the app before that assertion is granted, though I have not seen any evidence of that happening.
-            // swiftlint:disable:next line_length
-            backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "NotificationBackgroundTask") { () -> Void in
+            backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "NotificationBackgroundTask") {
                 self.endTask()
             }
 
@@ -277,6 +285,7 @@ class DataProvider: DataProviderType {
                 case .failure(let error):
                     self.shouldRefreshWidget = false
                     log.error("\(error)")
+                    self.dealState = .error(error)
                 }
                 self.endTask()
             }
@@ -290,6 +299,7 @@ class DataProvider: DataProviderType {
             // FIXME: under certain conditions, we should simply return if (1) last request succeeded
             // and (2) time interval since `lastDealResponse` < `minimumRefreshInterval`
 
+            // TODO: show .loading if dealState is .empty / .error; otherwise use cacheCondition.loading
             let cacheCondition = refreshManager.cacheCondition
             refetchCurrentDeal(showLoading: cacheCondition.showLoading)
 
@@ -316,7 +326,6 @@ class DataProvider: DataProviderType {
             // TODO: still refresh if backgroundRefreshStatus == .available?
             refetchCurrentDeal(showLoading: true)
 
-            // TODO: improve handling; call handler via `CompletionWrapper`?
             completionHandler(presentationOptions)
         case .silentNotification(let notification, let completionHandler):
             switch notification {
@@ -373,14 +382,12 @@ class DataProvider: DataProviderType {
 
         switch dealState {
         case .loading:
-            log.info("\(#function) - already fetching Deal; setting .fetchCompletionSubscriber")
-            if fetchCompletionSubscriber != nil {
-                // TODO: check that `refreshManager.lastDealRequest` is recent (last 30 seconds?)
-                log.error("Replacing existing .fetchCompletionSubscriber")
-                // FIXME: should we be calling the associated completion handler?
-            }
-            fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
+            log.info("\(#function) - already fetching Deal; pushing to dealFetchResultManager")
+            dealFetchResultManager.push(.silentNotification(dealID: dealDelta.dealID, handler: completionHandler))
+
         case .result(let currentDeal):
+            // FIXME: we currently rely on `MehSyncClient.updateCache(for:dealDelta:)` to compare dealIDs and return
+            // error if they don't match; we should instead handle that here or in `refreshDeal(for:)`
             do {
                 guard let updatedDeal = try dealDelta.apply(to: currentDeal) else {
                     log.info("No changes from applying \(dealDelta) to \(currentDeal)")
@@ -434,21 +441,15 @@ class DataProvider: DataProviderType {
             return
         }
 
-        refreshManager.update(.request)
         // FIXME: this does not necessarily ensure we are not already fetching the current deal, since we may have
         // called `refreshDeal(showLoading: false, cachePolicy:)`
         guard dealState != ViewState<Deal>.loading else {
-            // TODO: check that `refreshManager.lastDealRequest` is recent (last 30 seconds?)
-            log.info("\(#function) - already fetching Deal; setting .fetchCompletionSubscriber")
-            if fetchCompletionSubscriber != nil {
-                // TODO: log more information; what does RefreshManager have?
-                // TODO: check that `refreshManager.lastDealRequest` is recent (last 30 seconds?)
-                log.error("Replacing existing .fetchCompletionSubscriber")
-                // FIXME: should we be calling the associated completion handler?
-            }
-            fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
+            log.info("\(#function) - already fetching Deal; pushing to dealFetchResultManager")
+            dealFetchResultManager.push(.silentNotification(dealID: dealID, handler: completionHandler))
             return
         }
+
+        refreshManager.update(.request)
 
         // TODO: set dealState to .loading if it's currently .empty / .error?
         currentDealOperation = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in

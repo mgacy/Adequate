@@ -204,6 +204,7 @@
 		C9CDA65125219E740044A2A3 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA65025219E740044A2A3 /* Configuration.swift */; };
 		C9DA48F625282E32008A990D /* ThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DA48F525282E32008A990D /* ThemeViewController.swift */; };
 		C9DA48FE2528352F008A990D /* AppIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DA48FD2528352F008A990D /* AppIconViewController.swift */; };
+		C9DAA3C4264E1CBD00F5ACF8 /* FetchResultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAA3C3264E1CBD00F5ACF8 /* FetchResultManager.swift */; };
 		C9DAA3CC264E229E00F5ACF8 /* RefreshEventQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAA3CB264E229E00F5ACF8 /* RefreshEventQueue.swift */; };
 		C9DAC4542147688500D6558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC4532147688500D6558B /* AppDelegate.swift */; };
 		C9DAC45B2147688500D6558B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC45A2147688500D6558B /* Assets.xcassets */; };
@@ -557,6 +558,7 @@
 		C9CDA6582521A2D30044A2A3 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		C9DA48F525282E32008A990D /* ThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeViewController.swift; sourceTree = "<group>"; };
 		C9DA48FD2528352F008A990D /* AppIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconViewController.swift; sourceTree = "<group>"; };
+		C9DAA3C3264E1CBD00F5ACF8 /* FetchResultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchResultManager.swift; sourceTree = "<group>"; };
 		C9DAA3CB264E229E00F5ACF8 /* RefreshEventQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshEventQueue.swift; sourceTree = "<group>"; };
 		C9DAC4502147688500D6558B /* Adequate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adequate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DAC4532147688500D6558B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -1448,6 +1450,7 @@
 				C9FABAED2372498100C1E523 /* MehSyncClient.swift */,
 				C911E267246D1E100056C84A /* RefreshManager.swift */,
 				C9DAA3CB264E229E00F5ACF8 /* RefreshEventQueue.swift */,
+				C9DAA3C3264E1CBD00F5ACF8 /* FetchResultManager.swift */,
 				C9088C2C22E6A418007C35CC /* DealNotification.swift */,
 				C9C2109322D8126700C4F66F /* RefreshEvent.swift */,
 				C989E1222237459300DEAE89 /* SyncClientError.swift */,
@@ -2067,6 +2070,7 @@
 				C9DAC49121476B4700D6558B /* Deal.swift in Sources */,
 				C9DAC49521476B9900D6558B /* Item.swift in Sources */,
 				C9093CBF2225BC0500C9DA0C /* HistoryDetailCoordinator.swift in Sources */,
+				C9DAA3C4264E1CBD00F5ACF8 /* FetchResultManager.swift in Sources */,
 				C96F2C8A246B417900E1B563 /* Caching.swift in Sources */,
 				C937EFE522DFFD4800C363C8 /* Affine.swift in Sources */,
 				C93C151125C5120F000F75FA /* Combine+Logging.swift in Sources */,
