@@ -19,8 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private var appCoordinator: AppCoordinating!
     private var notificationServiceManager: NotificationServiceManager?
 
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         log.debug("\(#function) - \(String(describing: launchOptions))")
         self.window = UIWindow(frame: UIScreen.main.bounds)
@@ -83,9 +84,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - URL-Specified Resources
 
-    func application(_ app: UIApplication,
-                     open url: URL,
-                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+    func application(
+        _ app: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey: Any] = [:]
     ) -> Bool {
         let deepLink = DeepLink.build(with: url)
         log.verbose("\(#function) - url: \(url) - options: \(options) - deepLink: \(String(describing: deepLink))")
@@ -95,8 +97,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Notifications
 
-    func application(_ application: UIApplication,
-                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    func application(
+        _ application: UIApplication,
+        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
     ) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         notificationServiceManager = appDependency.makeNotificationServiceManager()
@@ -112,8 +115,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
     }
 
-    func application(_ application: UIApplication,
-                     didFailToRegisterForRemoteNotificationsWithError error: Error
+    func application(
+        _ application: UIApplication,
+        didFailToRegisterForRemoteNotificationsWithError error: Error
     ) {
         log.error("Failed to register for remote notifications with error: \(error)")
         // TODO: disable notification-related functions
@@ -123,16 +127,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // FIXME: remove
     // see https://developer.apple.com/forums/thread/130138 about this method being called if `content-availble: 1`
-    func application(_ application: UIApplication,
-                     performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    func application(
+        _ application: UIApplication,
+        performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
     ) {
         log.error("****\(#function) was called for some reason")
         completionHandler(.newData)
     }
 
-    func application(_ application: UIApplication,
-                     didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
     ) {
         // Called for silent notifications.
         // FIXME: this can be called a second time when user presses notification
@@ -151,9 +157,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: UNUserNotificationCenterDelegate {
 
     // Called when a notification is delivered to a foreground app.
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
         log.debug("\(#function) - \(notification)")
         guard let dealNotification = DealNotification(userInfo: notification.request.content.userInfo) else {
@@ -166,9 +173,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 
     // Called to let your app know which action was selected by the user for a given notification.
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
         log.debug("\(#function) - \(response)")
 
         let deepLink = DeepLink.build(with: response)

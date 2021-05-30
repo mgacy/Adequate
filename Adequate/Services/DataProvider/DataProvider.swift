@@ -390,8 +390,9 @@ class DataProvider: DataProviderType {
     /// - Parameters:
     ///   - dealDelta: `DealDelta` representing the update carried by the notification.
     ///   - completionHandler: The block to execute when the download operation is complete.
-    private func updateDealInBackground(_ dealDelta: DealDelta,
-                                        fetchCompletionHandler completionHandler: @escaping FetchCompletionHandler
+    private func updateDealInBackground(
+        _ dealDelta: DealDelta,
+        fetchCompletionHandler completionHandler: @escaping FetchCompletionHandler
     ) {
         log.info("\(#function) - \(dealDelta)")
         if case .launchStatus = dealDelta.deltaType {
@@ -440,8 +441,9 @@ class DataProvider: DataProviderType {
     /// - Parameters:
     ///   - dealID: Id of the new `Deal` expected as current deal.
     ///   - completionHandler: The block to execute when the download operation is complete.
-    private func fetchDealInBackground(dealID: GraphQLID,
-                                       fetchCompletionHandler completionHandler: @escaping FetchCompletionHandler
+    private func fetchDealInBackground(
+        dealID: GraphQLID,
+        fetchCompletionHandler completionHandler: @escaping FetchCompletionHandler
     ) {
         log.verbose("\(#function)")
         // TODO: should we start a timer to ensure that the completionHandler is called within the next 30 - cushion seconds?
@@ -545,7 +547,11 @@ extension DataProvider {
     }
 
     // TODO: what is the memory cost for holding 60?
-    private func getDealHistory(limit: Int = 60, nextToken: String? = nil, cachePolicy: CachePolicy = .fetchIgnoringCacheData) {
+    private func getDealHistory(
+        limit: Int = 60,
+        nextToken: String? = nil,
+        cachePolicy: CachePolicy = .fetchIgnoringCacheData
+    ) {
         log.debug("\(#function) - \(cachePolicy)")
         //guard historyState != ViewState<[DealHistory]>.loading else { return }
 
