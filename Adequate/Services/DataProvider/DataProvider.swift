@@ -35,6 +35,8 @@ class DataProvider: DataProviderType {
 
     //private let queue: DispatchQueue
 
+    private let currentDealManager: CurrentDealManaging
+
     private let refreshEventQueue: RefreshEventQueueType
 
     private let refreshManager: RefreshManaging
@@ -66,6 +68,7 @@ class DataProvider: DataProviderType {
     init(
         credentialsProvider: CredentialsProvider,
         client: MehSyncClientType,
+        currentDealManager: CurrentDealManaging = CurrentDealManager(),
         refreshEventQueue: RefreshEventQueueType = RefreshEventQueue(),
         refreshManager: RefreshManaging = RefreshManager(),
         dealFetchResultManager: FetchResultManager = FetchResultManager()
@@ -73,6 +76,7 @@ class DataProvider: DataProviderType {
     ) {
         self.credentialsProvider = credentialsProvider
         self.client = client
+        self.currentDealManager = currentDealManager
         self.refreshEventQueue = refreshEventQueue
         self.refreshManager = refreshManager
         self.dealFetchResultManager = dealFetchResultManager
@@ -80,25 +84,39 @@ class DataProvider: DataProviderType {
 
         dealFetchResultManager.configure(with: $dealState)
 
+        #if DEBUG
+        $dealState.logSink(id: "dealState")
+            .store(in: &cancellables)
+        //$historyState.logSink(id: "historyState")
+        //    .store(in: &cancellables)
+        #endif
 
-        // TODO: do work on another thread
         self.$dealState
+            //.receive(on: DispatchQueue.main)
             .compactMap { viewState -> CurrentDeal? in
                 guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
                     return nil
                 }
+                log.debug("1️⃣ CurrentDeal: \(currentDeal)")
                 return currentDeal
             }
-            .sink { [weak self] currentDeal in
-                let currentDealManager = CurrentDealManager()
-                currentDealManager.saveDeal(currentDeal)
+            .removeDuplicates()
+            .flatMap { currentDeal in
+                self.currentDealManager.save(currentDeal: currentDeal)
+                    .catch { error -> Empty<Void, Never> in
+                        log.error("1️⃣ Error saving current deal: \(error)")
+                        return Empty<Void, Never>(completeImmediately: false)
+                    }
+            }
+            .filter { [weak self] _ in self?.shouldRefreshWidget ?? false }
+            .sink { [weak self] _ in
+                // NOTE: this is currently run on a background thread
+                log.debug("2️⃣ Have saved currentDeal")
 
-                // FIXME: we should really only reload for a change in status
-                // FIXME: should this be run as a completion handler on CurrentDealManager.saveDeal() so we don't reload
-                // until after it has saved?
                 guard let strongSelf = self else { return }
                 if #available(iOS 14, *) {
                     if strongSelf.shouldRefreshWidget {
+                        log.debug("3️⃣ Reloading widgets ...")
                         WidgetCenter.shared.reloadAllTimelines()
                     }
                 }

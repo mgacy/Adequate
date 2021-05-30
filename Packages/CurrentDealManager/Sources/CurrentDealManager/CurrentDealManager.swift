@@ -7,18 +7,44 @@
 //
 
 import UIKit
+import Combine
 
 public enum CurrentDealManagerError: Error {
-    case file(error: Error) // Type as NSError?
-    //case encoding?
-    //case decoding?
-    //case invalidData - wouldnt this be .decoding?
+    case file(error: Error)
+    case network(error: Error)
+    case encoding(EncodingError)
+    case decoding(DecodingError)
+    case invalidData // wouldn't this be .decoding?
+    //case missingFile(URL)
     case missingDeal
     case missingImage
+    case unknown(Error)
+
+    public static func wrap(_ error: Error) -> Self { // `transform(_:)`?
+        // swiftlint:disable force_cast
+        switch error {
+        case is CurrentDealManagerError:
+            return error as! CurrentDealManagerError
+        case is EncodingError:
+            return .encoding(error as! EncodingError)
+        case is DecodingError:
+            return .decoding(error as! DecodingError)
+        case is URLError:
+            return .network(error: error)
+        // swiftlint:enable force_cast
+        default:
+            switch (error as NSError).code {
+            case NSFileNoSuchFileError, NSFileReadNoSuchFileError:
+                return .file(error: error)
+            default:
+                return .unknown(error)
+            }
+        }
+    }
 }
 
 public protocol CurrentDealManaging {
-    func saveDeal(_ deal: CurrentDeal)
+    func save(currentDeal: CurrentDeal) -> AnyPublisher<Void, CurrentDealManagerError>
     func readDeal() -> CurrentDeal?
     func readImage() -> UIImage?
 }
@@ -45,49 +71,57 @@ public class CurrentDealManager: CurrentDealManaging {
 
     // MARK: - Write
 
-    public func saveDeal(_ deal: CurrentDeal) {
-        // Save CurrentDeal
-        DispatchQueue.global().async {
-            if let data = try? JSONEncoder().encode(deal) {
+    public func save(currentDeal: CurrentDeal) -> AnyPublisher<Void, CurrentDealManagerError> {
+        return Publishers.Zip(
+            saveCurrentDeal(currentDeal),
+            saveImage(currentDeal)
+        )
+        .map { _ in return }
+        .eraseToAnyPublisher()
+    }
+
+    private func saveCurrentDeal(_ deal: CurrentDeal) -> AnyPublisher<Void, CurrentDealManagerError> {
+        //return Deferred {
+        return Future<Void, CurrentDealManagerError> { promise in
+            DispatchQueue.global().async {
                 do {
+                    let data = try JSONEncoder().encode(deal)
                     try data.write(to: self.sharedContainerURL.appendingPathComponent(Constants.dealLocation))
+                    promise(.success(()))
                 } catch {
-                    // FIXME: improve handling
-                    print("Error writing data to file")
+                    promise(.failure(CurrentDealManagerError.wrap(error)))
                 }
             }
         }
-
-        // Save Image
-        // TODO: first try to load image from FileCache in case Notification service successfully downloaded it
-        session.dataTask(with: deal.imageURL) { data, _, _ in
-            guard let data = data, let image = UIImage(data: data)?.scaled(to: Constants.maxImageSize) else { return }
-            self.saveImage(image: image)
-        }
-        .resume()
+        //}
+        .eraseToAnyPublisher()
     }
 
-    private func saveImage(image: UIImage) {
-        let fileURL = sharedContainerURL.appendingPathComponent(Constants.imageLocation)
-        guard let data = image.pngData() else {
-            print("Error getting pngData from image")
-            return
-        }
+    private func saveImage(_ deal: CurrentDeal) -> AnyPublisher<Void, CurrentDealManagerError> {
+        // TODO: first try to load image from FileCache in case Notification service successfully downloaded it
+        session.dataTaskPublisher(for: deal.imageURL)
+            .map(\.data)
+            .tryMap { try self.scalePng(data: $0) }
+            .tryMap { try self.saveImageData($0) }
+            .mapError { CurrentDealManagerError.wrap($0) }
+            .eraseToAnyPublisher()
+    }
 
+    private func scalePng(data: Data) throws -> Data {
+        guard let scaledData = UIImage(data: data)?.scaledPngData(to: Constants.maxImageSize) else {
+            throw CurrentDealManagerError.invalidData
+        }
+        return scaledData
+    }
+
+    private func saveImageData(_ data: Data) throws {
+        let fileURL = sharedContainerURL.appendingPathComponent(Constants.imageLocation)
         // Check if file exists and remove it if so.
         if fileManager.fileExists(atPath: fileURL.path) {
-            do {
-                try fileManager.removeItem(atPath: fileURL.path)
-            } catch let removeError {
-                print("Error removing image file:", removeError)
-            }
+            try fileManager.removeItem(atPath: fileURL.path)
         }
 
-        do {
-            try data.write(to: fileURL)
-        } catch let error {
-            print("Error saving file:", error)
-        }
+        try data.write(to: fileURL)
     }
 
     // MARK: - Read
