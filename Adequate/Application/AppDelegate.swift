@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     private var appDependency: AppDependency!
-    private var appCoordinator: AppCoordinator!
+    private var appCoordinator: AppCoordinating!
     private var notificationServiceManager: NotificationServiceManager?
 
     func application(_ application: UIApplication,
@@ -24,6 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         log.debug("\(#function) - \(String(describing: launchOptions))")
         self.window = UIWindow(frame: UIScreen.main.bounds)
+
+        if CommandLine.arguments.contains("ENABLE-TESTING") {
+            appCoordinator = TestAppCoordinator(window: self.window!)
+            appCoordinator.start()
+            return true
+        }
 
         // TODO: should we just make `AppCoordinator` the delegate since we currently handle by passing off to it anyway?
         // Or should we make a separate `AppController` and maintain single role of `AppCoordinator`?

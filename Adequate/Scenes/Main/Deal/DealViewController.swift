@@ -8,6 +8,7 @@
 
 import UIKit
 import Promise
+import Combine
 
 // swiftlint:disable file_length
 
@@ -21,11 +22,8 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
     private let themeManager: ThemeManagerType
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
 
-    private var viewState: ViewState<Deal> = .empty {
-        didSet {
-            render(viewState)
-            footerViewController.render(viewState)
-        }
+    private var viewState: ViewState<Deal> {
+        dataProvider.dealState
     }
 
     private var initialSetupDone = false
@@ -119,11 +117,6 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     // MARK: - View Methods
 
     override func setupView() {
@@ -139,13 +132,28 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
             setupForPhone()
         }
 
+        dataProvider.dealPublisher
+            .sink { [weak self] viewState in
+                self?.render(viewState)
+            }
+            .store(in: &cancellables)
+
+        themeManager.themePublisher
+            .sink { [weak self] theme in
+                self?.apply(theme: theme)
+            }
+            .store(in: &cancellables)
+
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupConstraints()
         setupParallaxScrollView()
 
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(ensureVisibleImageLoaded),
-                                       name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default
+            .publisher(for: UIApplication.willEnterForegroundNotification)
+            .sink { [weak self] _ in
+                self?.ensureVisibleImageLoaded()
+            }
+            .store(in: &cancellables)
     }
 
     private func setupParallaxScrollView() {
@@ -176,14 +184,6 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
             barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor)
         ])
-    }
-
-    override func setupObservations() -> [ObservationToken] {
-        let dealToken = dataProvider.addDealObserver(self) { vc, viewState in
-            vc.viewState = viewState
-        }
-        let themeToken = themeManager.addObserver(self)
-        return [dealToken, themeToken]
     }
 
     // MARK: - Public Actions
@@ -237,7 +237,7 @@ final class DealViewController: BaseViewController<ScrollableView<DealContentVie
         delegate?.showPurchase(for: deal)
     }
 
-    @objc private func ensureVisibleImageLoaded() {
+    private func ensureVisibleImageLoaded() {
         guard let imageViewState = pagedImageView.visibleImageState else {
             return
         }
@@ -358,6 +358,7 @@ extension DealViewController: ViewStateRenderable {
             pagedImageView.isHidden = true
             rootView.scrollView.isHidden = true
         }
+        footerViewController.render(viewState)
     }
 }
 
@@ -465,6 +466,7 @@ extension DealViewController: PrimaryViewControllerType {
     }
 }
 
+// MARK: - RotationManaging
 extension DealViewController: RotationManaging {
 
     func beforeRotation() {

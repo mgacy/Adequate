@@ -9,6 +9,7 @@
 #if canImport(WidgetKit)
 import WidgetKit
 #endif
+import Combine
 import AWSAppSync
 import AWSMobileClient
 import class Promise.Promise // avoid name collision with AWSAppSync.Promise
@@ -17,157 +18,148 @@ import CurrentDealManager
 // swiftlint:disable cyclomatic_complexity file_length function_body_length type_body_length
 
 class DataProvider: DataProviderType {
-    typealias DealHistory = DealHistoryQuery.Data.DealHistory
+    typealias DealHistory = DealHistoryQuery.Data.DealHistory.Item
 
     // TODO: before transitioning .result -> .loading we could store `Deal` to enable comparison with result
     // TODO: rename `ViewState<T>` as `ResourceState<T>`?
-    private var dealState: ViewState<Deal> {
-        didSet {
-            // TODO: check that viewState != oldValue before calling completions?
-            log.verbose("New dealState: \(dealState)")
-            callObservations(with: dealState)
-        }
-    }
 
-    private var historyState: ViewState<[DealHistory.Item]> {
-        didSet {
+    @Published private(set) var dealState: ViewState<Deal> = .empty
+    var dealPublisher: Published<ViewState<Deal>>.Publisher { $dealState }
 
-            if case .result = historyState {
-                log.verbose("New historyState: RESULT")
-            } else {
-                log.verbose("New historyState: \(historyState)")
-            }
-
-            callObservations(with: historyState)
-        }
-    }
+    @Published private(set) var historyState: ViewState<[DealHistory]> = .empty
+    var historyPublisher: Published<ViewState<[DealHistory]>>.Publisher { $historyState }
 
     private let credentialsProvider: CredentialsProvider
 
     private let client: MehSyncClientType
 
-    private let refreshManager: RefreshManager
+    //private let queue: DispatchQueue
 
-    private var currentDealWatcher: GraphQLQueryWatcher<GetDealQuery>?
+    private let currentDealManager: CurrentDealManaging
 
-    private var dealObservations: [UUID: (ViewState<Deal>) -> Void] = [:]
-    private var historyObservations: [UUID: (ViewState<[DealHistory.Item]>) -> Void] = [:]
+    private let refreshEventQueue: RefreshEventQueueType
 
-    private var fetchCompletionObserver: CompletionWrapper<UIBackgroundFetchResult>?
-    private var refreshHistoryObserver: CompletionWrapper<Void>?
+    private let refreshManager: RefreshManaging
+
+    private let dealFetchResultManager: FetchResultManager
+
+    private var currentDealWatcher: GraphQLQueryWatching?
 
     private var credentialsProviderIsInitialized: Bool = false
-
-    // TODO: use a task queue (`OperationQueue`) for RefreshEvents / fetches? See `AWSPerformMutationQueue`
-    private var pendingRefreshEvent: RefreshEvent?
 
     /// Token identifying request to run in background when app is launched in background from notification.
     private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
 
     /// Reference to fetch query operation used to return current deal in response to background app refresh.
-    private var cancellable: Cancellable? // FIXME: use better name
+    private var currentDealOperation: AWSAppSync.Cancellable?
 
     // FIXME: this is ugly
     private var shouldRefreshWidget: Bool = false
 
+    private var cancellables: Set<AnyCancellable> = []
+
     // MARK: - Lifecycle
 
-    init(credentialsProvider: CredentialsProvider) {
-        self.dealState = .empty
-        self.historyState = .empty
+    convenience init(credentialsProvider: CredentialsProvider) {
+        let client = MehSyncClient(credentialsProvider: credentialsProvider)
+        self.init(credentialsProvider: credentialsProvider, client: client)
+    }
+
+    init(
+        credentialsProvider: CredentialsProvider,
+        client: MehSyncClientType,
+        currentDealManager: CurrentDealManaging = CurrentDealManager(),
+        refreshEventQueue: RefreshEventQueueType = RefreshEventQueue(),
+        refreshManager: RefreshManaging = RefreshManager(),
+        dealFetchResultManager: FetchResultManager = FetchResultManager()
+        //queue: DispatchQueue = DispatchQueue(label: "com.mgacy.data_provider", qos: .userInitiated)
+    ) {
         self.credentialsProvider = credentialsProvider
-        self.client = MehSyncClient(credentialsProvider: credentialsProvider)
-        self.refreshManager = RefreshManager()
+        self.client = client
+        self.currentDealManager = currentDealManager
+        self.refreshEventQueue = refreshEventQueue
+        self.refreshManager = refreshManager
+        self.dealFetchResultManager = dealFetchResultManager
+        //self.queue = queue
 
-        // TODO: do work on another thread
-        // swiftlint:disable:next identifier_name
-        addDealObserver(self) { dp, viewState in
-            guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
-                return
+        dealFetchResultManager.configure(with: $dealState)
+
+        #if DEBUG
+        $dealState.logSink(id: "dealState")
+            .store(in: &cancellables)
+        //$historyState.logSink(id: "historyState")
+        //    .store(in: &cancellables)
+        #endif
+
+        self.$dealState
+            //.receive(on: DispatchQueue.main)
+            .compactMap { viewState -> CurrentDeal? in
+                guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
+                    return nil
+                }
+                log.debug("1️⃣ CurrentDeal: \(currentDeal)")
+                return currentDeal
             }
-            let currentDealManager = CurrentDealManager()
-            currentDealManager.saveDeal(currentDeal)
+            .removeDuplicates()
+            .flatMap { currentDeal in
+                self.currentDealManager.save(currentDeal: currentDeal)
+                    .catch { error -> Empty<Void, Never> in
+                        log.error("1️⃣ Error saving current deal: \(error)")
+                        return Empty<Void, Never>(completeImmediately: false)
+                    }
+            }
+            .filter { [weak self] _ in self?.shouldRefreshWidget ?? false }
+            .sink { [weak self] _ in
+                // NOTE: this is currently run on a background thread
+                log.debug("2️⃣ Have saved currentDeal")
 
-            // FIXME: we should really only reload for a change in status
-            // FIXME: should this be run as a completion handler on CurrentDealManager.saveDeal() so we don't reload
-            // until after it has saved?
-            if #available(iOS 14, *) {
-                if dp.shouldRefreshWidget {
-                    WidgetCenter.shared.reloadAllTimelines()
+                guard let strongSelf = self else { return }
+                if #available(iOS 14, *) {
+                    if strongSelf.shouldRefreshWidget {
+                        log.debug("3️⃣ Reloading widgets ...")
+                        WidgetCenter.shared.reloadAllTimelines()
+                    }
+                }
+                strongSelf.shouldRefreshWidget = false
+            }
+            .store(in: &cancellables)
+
+        dealFetchResultManager.actionPublisher
+            .sink { [weak self] action in
+                switch action {
+                case .fetchHistory(let cachePolicy):
+                    self?.getDealHistory(cachePolicy: cachePolicy)
                 }
             }
-            dp.shouldRefreshWidget = false
-        }
+            .store(in: &cancellables)
 
+        // switch credentialsProvider.currentUserState {
+        // case .unknown:
         // TODO: should we indicate that we are in the process of initializing?
         credentialsProvider.initialize()
             .then { [weak self] _ in
                 self?.credentialsProviderIsInitialized = true
-                if let refreshEvent = self?.pendingRefreshEvent {
+                if let refreshEvent = self?.refreshEventQueue.pop() {
                     self?.refreshDeal(for: refreshEvent)
-                    self?.pendingRefreshEvent = nil
                 }
             }.catch { [weak self] error in
                 log.error("Unable to initialize credentialsProvider: \(error)")
                 self?.dealState = .error(error)
             }
-    }
-
-    init(credentialsProvider: CredentialsProvider, client: MehSyncClientType) {
-        self.dealState = .empty
-        self.historyState = .empty
-        self.credentialsProvider = credentialsProvider
-        self.client = client
-        self.refreshManager = RefreshManager()
-
-        // TODO: do work on another thread
-        // swiftlint:disable:next identifier_name
-        addDealObserver(self) { dp, viewState in
-            guard case .result(let deal) = viewState, let currentDeal = CurrentDeal(deal: deal) else {
-                return
-            }
-            let currentDealManager = CurrentDealManager()
-            currentDealManager.saveDeal(currentDeal)
-
-            // FIXME: we should really only reload for a change in status
-            // FIXME: should this be run as a completion handler on CurrentDealManager.saveDeal() so we don't reload
-            // until after it has saved?
-            if #available(iOS 14, *) {
-                if dp.shouldRefreshWidget {
-                    WidgetCenter.shared.reloadAllTimelines()
-                }
-            }
-            dp.shouldRefreshWidget = false
-        }
-
-        switch credentialsProvider.currentUserState {
-        case .unknown:
-            credentialsProvider.initialize()
-                .then { [weak self] _ in
-                    self?.credentialsProviderIsInitialized = true
-                    if let refreshEvent = self?.pendingRefreshEvent {
-                        self?.refreshDeal(for: refreshEvent)
-                        self?.pendingRefreshEvent = nil
-                    }
-                }.catch { [weak self] error in
-                    log.error("Unable to initialize credentialsProvider: \(error)")
-                    self?.dealState = .error(error)
-                }
-        case .guest:
-            credentialsProviderIsInitialized = true
-            if let refreshEvent = pendingRefreshEvent {
-                refreshDeal(for: refreshEvent)
-                pendingRefreshEvent = nil
-            }
-        case .signedIn:
-            log.debug("currentUserState: \(credentialsProvider.currentUserState)")
-        case .signedOut:
-            log.debug("currentUserState: \(credentialsProvider.currentUserState)")
-        case .signedOutFederatedTokensInvalid:
-            log.debug("currentUserState: \(credentialsProvider.currentUserState)")
-        case .signedOutUserPoolsTokenInvalid:
-            log.debug("currentUserState: \(credentialsProvider.currentUserState)")
-        }
+        // case .guest:
+        //     credentialsProviderIsInitialized = true
+        //     if let refreshEvent = refreshEventQueue.pop() {
+        //         refreshDeal(for: refreshEvent)
+        //     }
+        // case .signedIn:
+        //     log.debug("currentUserState: \(credentialsProvider.currentUserState)")
+        // case .signedOut:
+        //     log.debug("currentUserState: \(credentialsProvider.currentUserState)")
+        // case .signedOutFederatedTokensInvalid:
+        //     log.debug("currentUserState: \(credentialsProvider.currentUserState)")
+        // case .signedOutUserPoolsTokenInvalid:
+        //     log.debug("currentUserState: \(credentialsProvider.currentUserState)")
+        // }
     }
 
     // MARK: - CurrentDealWatcher Config
@@ -249,16 +241,8 @@ class DataProvider: DataProviderType {
         log.info("\(#function) - \(event)")
 
         guard credentialsProviderIsInitialized else {
-            if let currentPendingRefreshEvent = pendingRefreshEvent {
-                // swiftlint:disable:next line_length
-                log.warning("AWSMobileClient not initialized - deferring RefreshEvent: \(event) - replacing: \(currentPendingRefreshEvent)")
-                // TODO: add logic to determine whether the new event should replace the current one
-                // TODO: wrap pending refreshEvents in wrapper containing `createdAt` so we can discard old ones?
-                pendingRefreshEvent = event
-            } else {
-                log.verbose("AWSMobileClient not initialized - deferring RefreshEvent: \(event)")
-                pendingRefreshEvent = event
-            }
+            log.verbose("AWSMobileClient not initialized - deferring RefreshEvent: \(event)")
+            refreshEventQueue.push(event)
             return
         }
 
@@ -267,7 +251,6 @@ class DataProvider: DataProviderType {
         case .manual:
             guard currentDealWatcher != nil else {
                 log.error("\(#function) - \(event) - currentDealWatcher not configured)")
-                // FIXME: this will also make a `CompletionWrapper` to refresh history; do we want that?
                 refreshDeal(for: .launch)
                 return
             }
@@ -275,9 +258,7 @@ class DataProvider: DataProviderType {
         // App State
         case .launch:
             let cachePolicy = refreshManager.cacheCondition.cachePolicy
-
-            // Update Deal history after fetching current Deal
-            refreshHistoryObserver = makeRefreshHistoryObserver(cachePolicy: cachePolicy)
+            dealFetchResultManager.push(.fetchHistory(cachePolicy))
 
             // TODO: should we refresh widget?
             configureWatcher(cachePolicy: cachePolicy)
@@ -286,13 +267,12 @@ class DataProvider: DataProviderType {
 
             // On iOS 13, it seemed that `AppDelegate.application(_:didReceiveRemoteNotification:fetchCompletionHandler:)`
             // was not being called when app was launched for a background notification, so we will start a
-            // backgroundTask to ensure sufficient time to update deal in respnose. It looks like that might have been
-            // fixed on iOS 14.
+            // backgroundTask to ensure sufficient time to update deal in respnose. This seems to have been fixed on
+            // iOS 14.
 
             // NOTE: this method requests the task assertion asynchronously; it is possible that the system could
             // suspend the app before that assertion is granted, though I have not seen any evidence of that happening.
-            // swiftlint:disable:next line_length
-            backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "NotificationBackgroundTask") { () -> Void in
+            backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "NotificationBackgroundTask") {
                 self.endTask()
             }
 
@@ -314,7 +294,7 @@ class DataProvider: DataProviderType {
             configureWatcher(cachePolicy: .returnCacheDataDontFetch)  // or use .returnCacheDataElseFetch?
 
             // TODO: **if case .new = dealNotification, call fetchDealInBackground() { _ in ... self.endTask() }
-            cancellable = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
+            currentDealOperation = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
                 switch result {
                 case .success(let envelope):
                     self.shouldRefreshWidget = true
@@ -323,6 +303,7 @@ class DataProvider: DataProviderType {
                 case .failure(let error):
                     self.shouldRefreshWidget = false
                     log.error("\(error)")
+                    self.dealState = .error(error)
                 }
                 self.endTask()
             }
@@ -336,6 +317,7 @@ class DataProvider: DataProviderType {
             // FIXME: under certain conditions, we should simply return if (1) last request succeeded
             // and (2) time interval since `lastDealResponse` < `minimumRefreshInterval`
 
+            // TODO: show .loading if dealState is .empty / .error; otherwise use cacheCondition.loading
             let cacheCondition = refreshManager.cacheCondition
             refetchCurrentDeal(showLoading: cacheCondition.showLoading)
 
@@ -362,7 +344,6 @@ class DataProvider: DataProviderType {
             // TODO: still refresh if backgroundRefreshStatus == .available?
             refetchCurrentDeal(showLoading: true)
 
-            // TODO: improve handling; call handler via `CompletionWrapper`?
             completionHandler(presentationOptions)
         case .silentNotification(let notification, let completionHandler):
             switch notification {
@@ -419,14 +400,12 @@ class DataProvider: DataProviderType {
 
         switch dealState {
         case .loading:
-            log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
-            if fetchCompletionObserver != nil {
-                // TODO: check that `refreshManager.lastDealRequest` is recent (last 30 seconds?)
-                log.error("Replacing existing .fetchCompletionObserver")
-                // FIXME: should we be calling the associated completion handler
-            }
-            fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
+            log.info("\(#function) - already fetching Deal; pushing to dealFetchResultManager")
+            dealFetchResultManager.push(.silentNotification(dealID: dealDelta.dealID, handler: completionHandler))
+
         case .result(let currentDeal):
+            // FIXME: we currently rely on `MehSyncClient.updateCache(for:dealDelta:)` to compare dealIDs and return
+            // error if they don't match; we should instead handle that here or in `refreshDeal(for:)`
             do {
                 guard let updatedDeal = try dealDelta.apply(to: currentDeal) else {
                     log.info("No changes from applying \(dealDelta) to \(currentDeal)")
@@ -476,29 +455,22 @@ class DataProvider: DataProviderType {
 
         if !credentialsProviderIsInitialized {
             log.error("Trying to refresh Deal before initializing credentials provider")
-            if pendingRefreshEvent != nil {
-                log.warning("Replacing pendingRefreshEvent '\(pendingRefreshEvent!)' with '.silentNotification'")
-            }
-            pendingRefreshEvent = .silentNotification(notification: .new(dealID), handler: completionHandler)
+            refreshEventQueue.push(.silentNotification(notification: .new(dealID), handler: completionHandler))
+            return
+        }
+
+        // FIXME: this does not necessarily ensure we are not already fetching the current deal, since we may have
+        // called `refreshDeal(showLoading: false, cachePolicy:)`
+        guard dealState != ViewState<Deal>.loading else {
+            log.info("\(#function) - already fetching Deal; pushing to dealFetchResultManager")
+            dealFetchResultManager.push(.silentNotification(dealID: dealID, handler: completionHandler))
             return
         }
 
         refreshManager.update(.request)
-        // FIXME: this does not necessarily ensure we are not already fetching the current deal, since we may have
-        // called `refreshDeal(showLoading: false, cachePolicy:)`
-        guard dealState != ViewState<Deal>.loading else {
-            // TODO: check that `refreshManager.lastDealRequest` is recent (last 30 seconds?)
-            log.info("\(#function) - already fetching Deal; setting .fetchCompletionObserver")
-            if fetchCompletionObserver != nil {
-                // TODO: log more information; what does RefreshManager have?
-                log.error("Replacing existing .fetchCompletionObserver")
-                // FIXME: should we be calling the associated completion handler?
-            }
-            fetchCompletionObserver = makeBackgroundFetchObserver(completionHandler: completionHandler)
-            return
-        }
 
-        cancellable = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
+        // TODO: set dealState to .loading if it's currently .empty / .error?
+        currentDealOperation = client.fetchCurrentDeal(cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
             switch result {
             case .success(let envelope):
                 guard let newDeal = envelope.data else {
@@ -536,7 +508,7 @@ class DataProvider: DataProviderType {
 
     private func endTask() {
         log.debug("Cancelling background tasks ...")
-        cancellable?.cancel() // TODO: do we need any logic to skip if fetch already completed?
+        currentDealOperation?.cancel() // TODO: do we need any logic to skip if fetch already completed?
         // TODO: check if case .dealState = .loading { // would this ever be the case?
         UIApplication.shared.endBackgroundTask(backgroundTask)
         backgroundTask = .invalid
@@ -597,118 +569,5 @@ extension DataProvider {
                 // TODO: always show error?
                 self.historyState = .error(error)
             }
-    }
-}
-
-// MARK: - Observers
-extension DataProvider {
-
-    /// Add observer to be notified of changes to current Deal.
-    /// - Parameters:
-    ///   - : The observer.
-    ///   - closure: Closure to execute on changes to current Deal.
-    @discardableResult
-    func addDealObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, ViewState<Deal>) -> Void) -> ObservationToken {
-        let id = UUID()
-        dealObservations[id] = { [weak self, weak observer] state in
-            // If the observer has been deallocated, we can
-            // automatically remove the observation closure.
-            guard let observer = observer else {
-                self?.dealObservations.removeValue(forKey: id)
-                return
-            }
-            closure(observer, state)
-        }
-
-        closure(observer, dealState)
-        return ObservationToken { [weak self] in
-            self?.dealObservations.removeValue(forKey: id)
-        }
-    }
-
-    /// Add observer to be notified of changes to Deal history.
-    /// - Parameters:
-    ///   - : The observer.
-    ///   - closure: Closure to execute on changes to Deal history.
-    func addHistoryObserver<T: AnyObject>(_ observer: T, closure: @escaping (T, ViewState<[DealHistory.Item]>) -> Void) -> ObservationToken {
-        let id = UUID()
-        historyObservations[id] = { [weak self, weak observer] state in
-            // If the observer has been deallocated, we can
-            // automatically remove the observation closure.
-            guard let observer = observer else {
-                self?.historyObservations.removeValue(forKey: id)
-                return
-            }
-            closure(observer, state)
-        }
-
-        closure(observer, historyState)
-        return ObservationToken { [weak self] in
-            self?.historyObservations.removeValue(forKey: id)
-        }
-    }
-
-    private func callObservations(with dealState: ViewState<Deal>) {
-        dealObservations.values.forEach { observation in
-            observation(dealState)
-        }
-    }
-
-    private func callObservations(with dealState: ViewState<[DealHistory.Item]>) {
-        historyObservations.values.forEach { observation in
-            observation(dealState)
-        }
-    }
-
-}
-
-// MARK: - Refresh Observer Factory
-extension DataProvider {
-
-    private func makeBackgroundFetchObserver(completionHandler: @escaping (UIBackgroundFetchResult) -> Void) -> CompletionWrapper<UIBackgroundFetchResult> {
-        let observer = CompletionWrapper(wrapping: completionHandler) { [weak self] in
-            self?.fetchCompletionObserver = nil
-        }
-        observer.observationToken = addDealObserver(observer) { wrapper, viewState in
-            switch viewState {
-            case .result:
-                // TODO: ideally, we should store previous deal to decide between .newData / .noData
-                log.info("BACKGROUND_APP_REFRESH: newData")
-                wrapper.complete(with: .newData)
-            case .error:
-                log.info("BACKGROUND_APP_REFRESH: failed")
-                wrapper.complete(with: .failed)
-            case .empty:
-                // FIXME: this is sometimes getting called as soon as we add the observer since the dealState is still .empty
-                //log.debug("BACKGROUND_APP_REFRESH: noData")
-                //wrapper.complete(with: .noData)
-                break
-            case .loading:
-                // This is called immediately; ignore it
-                break
-            }
-        }
-        return observer
-    }
-
-    private func makeRefreshHistoryObserver(cachePolicy: CachePolicy) -> CompletionWrapper<Void> {
-        // swiftlint:disable:next multiple_closures_with_trailing_closure
-        let observer: CompletionWrapper<Void> = CompletionWrapper(wrapping: { }) { [weak self] in
-            self?.refreshHistoryObserver = nil
-        }
-        observer.observationToken = addDealObserver(observer) { [weak self] wrapper, viewState in
-            //log.debug("refreshHistoryObserver: \(viewState)")
-            switch viewState {
-            case .result:
-                self?.getDealHistory(cachePolicy: cachePolicy)
-                wrapper.complete(with: ())
-            case .error:
-                // TODO: should we complete, or wait for another successful refresh?
-                wrapper.complete(with: ())
-            default:
-                break
-            }
-        }
-        return observer
     }
 }

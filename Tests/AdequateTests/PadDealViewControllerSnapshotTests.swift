@@ -23,6 +23,7 @@ class PadDealViewControllerSnapshotTests: SnapshotTestBase {
 
     func renderResult() throws {
         let deal = try loadCurrentDealData()
+        //let deal = try DealLoader.loadCurrentDeal()
         dataProvider.dealState = .result(deal)
     }
 }

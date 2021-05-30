@@ -1,8 +1,11 @@
+import Combine
 import XCTest
 @testable import CurrentDealManager
 
 final class CurrentDealManagerTests: XCTestCase {
     typealias Constants = CurrentDealManager.Constants
+
+    var cancellables: Set<AnyCancellable>!
 
     var sut: CurrentDealManager!
 
@@ -23,6 +26,7 @@ final class CurrentDealManagerTests: XCTestCase {
     // MARK: - Configuration
 
     override func setUpWithError() throws {
+        cancellables = []
         let session = Self.makeSession()
         self.session = session
         sut = CurrentDealManager(session: session)
@@ -54,9 +58,7 @@ extension CurrentDealManagerTests {
             currentDeal.imageURL: .success(imageData)
         ]
 
-        sut.saveDeal(currentDeal)
-
-        sleep(2)
+        _ = try await(sut.save(currentDeal: currentDeal))
 
         // CurrentDeal
         let savedData = try Data(contentsOf: dealURL)
@@ -87,9 +89,8 @@ extension CurrentDealManagerTests {
             secondDeal.imageURL: .success(secondImageData)
         ]
 
-        for deal in [firstDeal, secondDeal] {
-            sut.saveDeal(deal)
-            sleep(2)
+        try [firstDeal, secondDeal].forEach { deal in
+            _ = try await(sut.save(currentDeal: deal))
         }
 
         // CurrentDeal
@@ -102,6 +103,20 @@ extension CurrentDealManagerTests {
         let expectedImageData = UIImage(data: secondImageData)?.scaledPngData(to: Constants.maxImageSize)
         XCTAssertNotNil(savedImageData)
         XCTAssertEqual(savedImageData, expectedImageData)
+    }
+
+    func testSaveWithNetworkError() throws {
+        let currentDeal: CurrentDeal = .testDeal
+        let networkError = URLError(.unknown, userInfo: [:])
+
+        URLProtocolMock.testResponses = [
+            currentDeal.imageURL: .failure(networkError)
+        ]
+
+        // Test
+        let error = try awaitError(sut.save(currentDeal: currentDeal))
+        let expectedError = CurrentDealManagerError.network(error: networkError)
+        XCTAssertEqual(expectedError.localizedDescription, error.localizedDescription)
     }
 
     func testReadCurrentDeal() throws {

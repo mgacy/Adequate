@@ -22,6 +22,7 @@ class HistoryListViewControllerSnapshotTests: SnapshotTestBase {
 
     func renderResult() throws {
         let history = try loadHistoryListData()
+        //let history = try DealLoader.loadHistoryList()
         dataProvider.historyState = .result(history)
     }
 }

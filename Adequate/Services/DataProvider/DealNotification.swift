@@ -12,7 +12,7 @@ import typealias AWSAppSync.GraphQLID // = String
 // swiftlint:disable opening_brace nesting
 
 /// Representation of notification content.
-enum DealNotification {
+enum DealNotification: Equatable {
     case new(GraphQLID) // Use `NewDeal` struct with dealURL, imageURL?
     case delta(DealDelta)
 
@@ -36,7 +36,7 @@ enum DealNotification {
 }
 
 /// Representation of an update to the current Deal.
-struct DealDelta {
+struct DealDelta: Equatable {
     let dealID: GraphQLID
     let deltaType: DeltaType
 
@@ -102,7 +102,7 @@ extension DealDelta {
 extension DealDelta {
 
     /// Type of update to a Deal.
-    enum DeltaType {
+    enum DeltaType: Equatable {
         /// Update `Deal.topic.commentCount`.
         case commentCount(Int)
         /// Update `Deal.launchStatus`.
@@ -155,7 +155,7 @@ extension DealDelta {
         }
     }
 
-    enum DeltaApplicationError: Error {
+    enum DeltaApplicationError: Error, Equatable {
         /// The `DealDelta` does not apply to `deal`.
         case invalidID
         /// The `DealDelta` involves changes to a missing object.

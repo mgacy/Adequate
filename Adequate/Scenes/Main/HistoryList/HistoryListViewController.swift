@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 // MARK: - Delegate
 
@@ -28,14 +29,12 @@ final class HistoryListViewController: UITableViewController {
     private let themeManager: ThemeManagerType
     private let dataProvider: DataProviderType
     private lazy var dataSource = makeDataSource(for: tableView)
-    private var observationTokens: [ObservationToken] = []
+    private var cancellables: Set<AnyCancellable> = []
     private var initialSetupDone = false
     private var wasRefreshedManually = false
 
-    private var viewState: ViewState<[Deal]> = .empty {
-        didSet {
-            render(viewState)
-        }
+    private var viewState: ViewState<[Deal]> {
+        dataProvider.historyState
     }
 
     // MARK: - Subviews
@@ -84,18 +83,17 @@ final class HistoryListViewController: UITableViewController {
         super.didMove(toParent: parent)
         // Ensure we wait until tableView is in the view hierarchy before potentially telling it to layout its visible
         // cells
-        if observationTokens.count < 2 {
-            let historyToken = dataProvider.addHistoryObserver(self) { vc, viewState in
-                vc.viewState = viewState
-            }
-            observationTokens.append(historyToken)
+        if !initialSetupDone {
+            dataProvider.historyPublisher
+                .sink { [weak self] viewState in
+                    self?.render(viewState)
+                }
+                .store(in: &cancellables)
         }
         if case .empty = viewState {
             getDealHistory()
         }
     }
-
-    deinit { observationTokens.forEach { $0.cancel() } }
 
     // MARK: - View Methods
 
@@ -116,7 +114,12 @@ final class HistoryListViewController: UITableViewController {
         //tableView.backgroundColor = ColorCompatibility.systemBackground
 
         setupTableView()
-        observationTokens = setupObservations()
+
+        themeManager.themePublisher
+            .sink { [weak self] theme in
+                self?.apply(theme: theme)
+            }
+            .store(in: &cancellables)
     }
 
     private func setupTableView() {
@@ -131,11 +134,6 @@ final class HistoryListViewController: UITableViewController {
         tableView.separatorStyle = .none
         //tableView.cellLayoutMarginsFollowReadableWidth = true
         tableView.register(cellType: HistoryListCell.self)
-    }
-
-    private func setupObservations() -> [ObservationToken] {
-        let themeToken = themeManager.addObserver(self)
-        return [themeToken]
     }
 
     // MARK: - DataProvider

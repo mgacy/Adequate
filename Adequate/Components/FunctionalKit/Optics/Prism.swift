@@ -28,4 +28,18 @@ public extension Prism {
             tryGet: self.tryGet,
             trySet: { part in self.tryModify { _ in part } })
     }
+
+    /// Check that an enum is a particular case.
+    ///
+    /// Usage:
+    ///
+    ///     let dealResult: ViewState<Deal> = .result(Deal())
+    ///     let resultPrism = Prism<ViewState, Deal>(...)
+    ///     resultPrism.isCase(dealResult) // true
+    ///
+    /// - Parameter whole: Instance of a `enum` on which a `Prism` is defined.
+    /// - Returns: Boolean indicating whether `whole` is a case
+    func isCase(_ whole: Whole) -> Bool {
+        return tryGet(whole) != nil
+    }
 }
