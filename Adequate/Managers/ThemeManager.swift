@@ -11,7 +11,7 @@ import Combine
 
 // MARK: - Protocol
 protocol ThemeManagerType {
-    var useDealTheme: Bool { get }
+    //var useDealTheme: Bool { get }
     var theme: AppTheme { get }
     // https://swiftsenpai.com/swift/define-protocol-with-published-property-wrapper/
     var themePublisher: Published<AppTheme>.Publisher { get }

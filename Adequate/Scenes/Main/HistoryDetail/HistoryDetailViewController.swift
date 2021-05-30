@@ -99,10 +99,10 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Ensure correct navigation bar style after aborted dismissal
-        if themeManager.useDealTheme {
-            navigationController?.navigationBar.barStyle = dealFragment.theme.foreground.navigationBarStyle
-            setNeedsStatusBarAppearanceUpdate()
-        }
+        //if themeManager.useDealTheme {
+        //    navigationController?.navigationBar.barStyle = dealFragment.theme.foreground.navigationBarStyle
+        //    setNeedsStatusBarAppearanceUpdate()
+        //}
 
         // Fix sizing when displayed on iPad on iOS 13
         //let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
@@ -280,15 +280,15 @@ extension HistoryDetailViewController: ViewStateRenderable {
 // MARK: - ThemeObserving
 extension HistoryDetailViewController: ThemeObserving {
     func apply(theme: AppTheme) {
-        if themeManager.useDealTheme {
-            apply(theme: ColorTheme(theme: dealFragment.theme))
-            //apply(foreground: dealFragment.theme.foreground)
-        } else {
-            apply(theme: theme.baseTheme)
-            if let foreground = theme.foreground {
-                apply(foreground: foreground)
-            }
+        //if themeManager.useDealTheme {
+        //    apply(theme: ColorTheme(theme: dealFragment.theme))
+        //    //apply(foreground: dealFragment.theme.foreground)
+        //} else {
+        apply(theme: theme.baseTheme)
+        if let foreground = theme.foreground {
+            apply(foreground: foreground)
         }
+        //}
     }
 }
 
