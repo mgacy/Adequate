@@ -20,6 +20,7 @@ validate: ##=> Check dependencies
 	$(MAKE) validate.sourcery
 	$(MAKE) validate.swiftgen
 
+# TODO: adopt to usage of Gemfile / Bundler
 validate.cocoapods:
 ifndef POD_EXISTS
 	$(error Please install CocoaPods following the directions at 'https://guides.cocoapods.org/using/getting-started.html')

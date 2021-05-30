@@ -9,6 +9,23 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
+
+// MARK: - Custom
+
+// Domain name reversed
+//ORGANIZATION_IDENTIFIER = com.mgacy
+
+
+// MARK: - Xcode (a)
+
+// Development Team
+//
+// The team ID of a development team to use for signing certificates and provisioning profiles.
+//DEVELOPMENT_TEAM = <Your Team ID>
+
+
+// MARK: - Xcode (a)
+
 // Current Project Version
 //
 // This setting defines the current version of the project. The value must be a integer or
