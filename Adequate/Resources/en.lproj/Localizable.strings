@@ -51,13 +51,6 @@
 "error.empty_operation_handler" = "Operation returned neither result not error.";
 "error.empty_result" = "Result contained neither data nor error.";
 
-/* NetworkClientError */
-"error.data_serialization" = "Data Serialization Error: %@";
-"error.json_serialization" = "JSON Serialization Error: %@";
-"error.object_serialization" = "Object Serialization Error: %@";
-"error.image_decoding" = "Unable to decode image";
-"error.bad_request" = "Bad Request";
-
 /* Settings - Theme */
 "appearance" = "Appearance";
 "theme" = "Theme";

@@ -8,6 +8,7 @@
 
 import UIKit
 import Promise
+import enum MGNetworking.NetworkClientError
 
 // MARK: - Protocol
 
@@ -48,7 +49,7 @@ final class PagedImageViewDataSource: NSObject, PagedImageViewDataSourceType {
     func imageSource(for indexPath: IndexPath) -> Promise<UIImage> {
         guard let imageURL = dataSource?.itemIdentifier(for: indexPath) else {
             // FIXME: use better error; add error type for data source?
-            let error = NetworkClientError.myError(message: "Missing URLs")
+            let error = NetworkClientError.unknown(message: "Missing URLs")
             return Promise<UIImage>(error: error)
         }
         if let cachedImage = imageService.fetchedImage(for: imageURL, tryingSecondary: indexPath.row == 0) {

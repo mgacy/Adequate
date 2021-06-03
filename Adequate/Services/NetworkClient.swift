@@ -8,6 +8,7 @@
 
 import UIKit
 import Promise
+import MGNetworking
 
 // MARK: - SessionProtocol
 
@@ -26,8 +27,12 @@ extension URLSession: SessionProtocol {
                 if let error = error {
                     reject(NetworkClientError.network(error: error))
                 } else if let data = data, let httpResponse = response as? HTTPURLResponse {
-                    httpResponse.validateStatus()
-                    fulfill(data)
+                    do {
+                        try httpResponse.validateStatus()
+                        fulfill(data)
+                    } catch {
+                        reject(error)
+                    }
                 } else {
                     //reject(NetworkClientError.myError(message: "Bad response or missing data"))
                     fatalError("Something has gone horribly wrong.")
@@ -36,28 +41,6 @@ extension URLSession: SessionProtocol {
         })
     }
 
-}
-
-// MARK: - HTTPURLResponse
-
-// TODO: - create protocol + add extension to validate .statusCode
-/// See Alamofire: Validation.swift for ideas
-
-/// var acceptableStatusCodes: [Int] { return Array(200..<300) }
-
-protocol StatusCodeValidating {
-    var statusCode: Int { get }
-    func validateStatus()
-}
-
-extension HTTPURLResponse: StatusCodeValidating {
-    func validateStatus() {
-        // TODO: throw if staus is invalid?
-        // TODO: return Error?
-        // TODO: return ValidationResult enum like Alamofire?
-        //guard (200...299).contains(statusCode) else { return }
-        print("Status Code: \(self.statusCode)")
-    }
 }
 
 // MARK: - Client
@@ -94,7 +77,7 @@ public class NetworkClient: NetworkClientType {
         let request = URLRequest(url: url)
         return session.data(with: request).then(on: queue, { data -> UIImage in
             guard let image = UIImage(data: data) else {
-                throw NetworkClientError.imageDecodingFailed
+                throw NetworkClientError.decoding(error: ImageError())
             }
             return image
         })

@@ -29,7 +29,7 @@ public class ImageService: ImageServiceType {
 
     public init(client: NetworkClientType) {
         self.client = client
-        self.memoryCache = Cache<URL, UIImage>()
+        self.memoryCache = MemoryCache<URL, UIImage>()
         self.diskCache = FileCache(fileLocation: AppGroup.currentDeal,
                                    coder: Coder<Any>.makeImageCoder())
     }

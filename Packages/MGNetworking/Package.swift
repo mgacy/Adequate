@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "MGNetworking",
-    //defaultLocalization: "en",
+    defaultLocalization: "en",
     platforms: [
         .iOS(.v13)
     ],
