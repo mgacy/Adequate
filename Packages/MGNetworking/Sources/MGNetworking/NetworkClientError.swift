@@ -8,9 +8,9 @@
 import Foundation
 
 public enum NetworkClientError: Error {
-    //case invalidURL
+    /// Not a valid request.
     case malformedRequest
-    /// Capture any underlying Error from the URLSession API
+    /// Capture any underlying Error from the URLSession API.
     case network(error: Error)
     /// No data returned from server.
     case noData
@@ -25,6 +25,9 @@ public enum NetworkClientError: Error {
     /// Unknown error.
     case unknown(message: String)
 
+    /// Returns an appropriate network client error for the passed error.
+    /// - Parameter error: A general error.
+    /// - Returns: The network client error case corresponding to `error`.
     public static func wrap(_ error: Error) -> NetworkClientError {
         // swiftlint:disable force_cast
         switch error {

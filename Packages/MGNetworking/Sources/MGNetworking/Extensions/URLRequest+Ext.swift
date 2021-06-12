@@ -7,16 +7,16 @@
 
 import Foundation
 
-// MARK: - HeaderProtocol
+// MARK: - HeaderFieldProtocol
 public extension URLRequest {
 
-    mutating func setHeader(_ header: HeaderProtocol) {
-        setValue(header.value, forHTTPHeaderField: header.field)
+    mutating func setHeader(_ field: HeaderFieldProtocol) {
+        setValue(field.value, forHTTPHeaderField: field.name)
     }
 
-    mutating func setHeaders(_ headers: [HeaderProtocol]) {
-        allHTTPHeaderFields = headers.reduce(into: [:]) { dict, header in
-            dict[header.field] = header.value
+    mutating func setHeaders(_ fields: [HeaderFieldProtocol]) {
+        allHTTPHeaderFields = fields.reduce(into: [:]) { dict, field in
+            dict[field.name] = field.value
         }
     }
 }

@@ -30,7 +30,7 @@ public struct Request<Response>: RequestProtocol {
     let url: URL
 
     @usableFromInline
-    let headers: [Header]?
+    let headers: [HeaderField]?
 
     @usableFromInline
     let parameters: Parameters?
@@ -46,7 +46,7 @@ public struct Request<Response>: RequestProtocol {
     public init(
         method: HTTPMethod = .get,
         url: URL,
-        headers: [Header]? = nil,
+        headers: [HeaderField]? = nil,
         parameters: Parameters? = nil,
         body: Data? = nil,
         decode: @escaping (Data) throws -> Response
@@ -63,6 +63,8 @@ public struct Request<Response>: RequestProtocol {
 // MARK: - URLRequestConvertible
 extension Request: URLRequestConvertible {
 
+    /// Returns request as `URLRequest`.
+    /// - Returns: The request as needed for `URLSession`.
     public func asURLRequest() -> URLRequest {
         var urlRequest: URLRequest
         if let parameters = parameters, !parameters.isEmpty {
@@ -102,6 +104,9 @@ extension Request: Equatable {
 // MARK: - Functor
 extension Request {
 
+    /// Returns a new request, mapping the `decode` closure using the given transformation.
+    /// - Parameter transform: A closure that takes the result of the `decode` closure of this instance.
+    /// - Returns: A request instance with a `decode` closure accepting the result of the original `decode` closure.
     @inlinable
     public func map<T>(_ transform: @escaping (Response) throws -> T) rethrows -> Request<T> {
         Request<T>(method: method,
@@ -126,7 +131,7 @@ public extension Request where Response: Swift.Decodable {
     init(
         method: HTTPMethod = .get,
         url: URL,
-        headers: [Header]? = nil,
+        headers: [HeaderField]? = nil,
         parameters: Parameters? = nil,
         body: Data? = nil,
         decoder: JSONDecoder = JSONDecoder()
@@ -141,7 +146,7 @@ public extension Request where Response == UIImage {
     init(
         method: HTTPMethod = .get,
         url: URL,
-        headers: [Header]? = nil,
+        headers: [HeaderField]? = nil,
         parameters: Parameters? = nil
     ) {
         self.init(method: method, url: url, headers: headers, parameters: parameters) { data in
@@ -157,7 +162,7 @@ public extension Request where Response == Void {
     init(
         method: HTTPMethod = .get,
         url: URL,
-        headers: [Header]? = nil,
+        headers: [HeaderField]? = nil,
         parameters: Parameters? = nil,
         body: Data? = nil
     ) {
@@ -176,7 +181,7 @@ public extension Request where Response == Data {
     init(
         method: HTTPMethod = .get,
         url: URL,
-        headers: [Header]? = nil,
+        headers: [HeaderField]? = nil,
         parameters: Parameters? = nil,
         body: Data? = nil
     ) {
