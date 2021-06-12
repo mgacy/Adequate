@@ -66,6 +66,7 @@ extension PagedImageViewDataSource {
     func addDataSource(toCollectionView collectionView: UICollectionView) {
         self.dataSource = makeDataSource(for: collectionView)
         collectionView.dataSource = dataSource
+        collectionView.prefetchDataSource = self
         dataSource?.apply(SingleSection.makeSnapshot(for: [URL]()),
                           animatingDifferences: false)
     }
@@ -93,6 +94,26 @@ extension PagedImageViewDataSource {
 
                 return cell
             })
+    }
+}
+
+// MARK: - UICollectionViewDataSourcePrefetching
+extension PagedImageViewDataSource: UICollectionViewDataSourcePrefetching {
+
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            if let url = dataSource?.itemIdentifier(for: indexPath) {
+                imageService.prefetchImage(for: url)
+            }
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            if let url = dataSource?.itemIdentifier(for: indexPath) {
+                imageService.cancelFetch(for: url)
+            }
+        }
     }
 }
 

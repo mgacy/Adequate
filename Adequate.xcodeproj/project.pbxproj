@@ -56,6 +56,8 @@
 		C93CBED72320ADCE0033DCD0 /* DealViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CBED62320ADCE0033DCD0 /* DealViewControllerDelegate.swift */; };
 		C93CBEDA2320C8C70033DCD0 /* DebugCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CBED92320C8C70033DCD0 /* DebugCoordinator.swift */; };
 		C93CBEDC2320C8D80033DCD0 /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CBEDB2320C8D80033DCD0 /* DebugViewController.swift */; };
+		C93E6C162674743A00A5AF0E /* AsynchronousOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93E6C152674743A00A5AF0E /* AsynchronousOperation.swift */; };
+		C93E6C182674748400A5AF0E /* FetchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93E6C172674748400A5AF0E /* FetchOperation.swift */; };
 		C93F79042256EBE8004B4DD6 /* LoggingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F79032256EBE8004B4DD6 /* LoggingType.swift */; };
 		C93F79062256FCBD004B4DD6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F79052256FCBD004B4DD6 /* Logger.swift */; };
 		C940BB07254B9BB30092AFA2 /* CellProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C940BB06254B9BB30092AFA2 /* CellProvider.swift */; };
@@ -200,6 +202,7 @@
 		C9CDA5B4252180670044A2A3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C99EF3BE22BC968300BF4410 /* Localizable.strings */; };
 		C9CDA5BB252180710044A2A3 /* Strings.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EF3BF22BD4FDD00BF4410 /* Strings.generated.swift */; };
 		C9CDA65125219E740044A2A3 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDA65025219E740044A2A3 /* Configuration.swift */; };
+		C9D7DD862674920600B124FD /* NewImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D7DD852674920600B124FD /* NewImageService.swift */; };
 		C9DA48F625282E32008A990D /* ThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DA48F525282E32008A990D /* ThemeViewController.swift */; };
 		C9DA48FE2528352F008A990D /* AppIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DA48FD2528352F008A990D /* AppIconViewController.swift */; };
 		C9DAA3C4264E1CBD00F5ACF8 /* FetchResultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAA3C3264E1CBD00F5ACF8 /* FetchResultManager.swift */; };
@@ -403,6 +406,8 @@
 		C93CBED62320ADCE0033DCD0 /* DealViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealViewControllerDelegate.swift; sourceTree = "<group>"; };
 		C93CBED92320C8C70033DCD0 /* DebugCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugCoordinator.swift; sourceTree = "<group>"; };
 		C93CBEDB2320C8D80033DCD0 /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
+		C93E6C152674743A00A5AF0E /* AsynchronousOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
+		C93E6C172674748400A5AF0E /* FetchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchOperation.swift; sourceTree = "<group>"; };
 		C93F79032256EBE8004B4DD6 /* LoggingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingType.swift; sourceTree = "<group>"; };
 		C93F79052256FCBD004B4DD6 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		C940BB06254B9BB30092AFA2 /* CellProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellProvider.swift; sourceTree = "<group>"; };
@@ -551,6 +556,7 @@
 		C9CDA6432521956D0044A2A3 /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Staging.xcconfig; sourceTree = "<group>"; };
 		C9CDA65025219E740044A2A3 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		C9CDA6582521A2D30044A2A3 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
+		C9D7DD852674920600B124FD /* NewImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewImageService.swift; sourceTree = "<group>"; };
 		C9DA48F525282E32008A990D /* ThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeViewController.swift; sourceTree = "<group>"; };
 		C9DA48FD2528352F008A990D /* AppIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconViewController.swift; sourceTree = "<group>"; };
 		C9DAA3C3264E1CBD00F5ACF8 /* FetchResultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchResultManager.swift; sourceTree = "<group>"; };
@@ -762,6 +768,9 @@
 			children = (
 				C925EEC7233E950300D24F38 /* Protocols */,
 				C9DAC4A421476C5E00D6558B /* ImageService.swift */,
+				C9D7DD852674920600B124FD /* NewImageService.swift */,
+				C93E6C152674743A00A5AF0E /* AsynchronousOperation.swift */,
+				C93E6C172674748400A5AF0E /* FetchOperation.swift */,
 			);
 			path = ImageService;
 			sourceTree = "<group>";
@@ -2057,6 +2066,7 @@
 				C984810A24463B9D005B9B69 /* PriceFormatter.swift in Sources */,
 				C9908F44254B62DE002948E1 /* DiffableDataSourceProvider.swift in Sources */,
 				C9DA48F625282E32008A990D /* ThemeViewController.swift in Sources */,
+				C93E6C182674748400A5AF0E /* FetchOperation.swift in Sources */,
 				C9DAC49121476B4700D6558B /* Deal.swift in Sources */,
 				C9DAC49521476B9900D6558B /* Item.swift in Sources */,
 				C9093CBF2225BC0500C9DA0C /* HistoryDetailCoordinator.swift in Sources */,
@@ -2072,6 +2082,7 @@
 				C9873204252ACF1D00E72A16 /* AppIconCell.swift in Sources */,
 				C9AE54CB21792ABC00818F11 /* ZoomingImageViewDelegate.swift in Sources */,
 				C9093CC1222796FD00C9DA0C /* RootPageViewController.swift in Sources */,
+				C93E6C162674743A00A5AF0E /* AsynchronousOperation.swift in Sources */,
 				C9AE54C72179270C00818F11 /* FullScreenImageViewController.swift in Sources */,
 				C98C7B4625951D5B00F5A28B /* MGButton.swift in Sources */,
 				C9908F30254B6202002948E1 /* Models.swift in Sources */,
@@ -2109,6 +2120,7 @@
 				C9C0C0CA230730E30011EFB4 /* MDStylerConfiguration.swift in Sources */,
 				C9F92266218A88D0001C257A /* UserDefaultsManager.swift in Sources */,
 				C96CA86A2182DB2500C3459E /* OnboardingCoordinator.swift in Sources */,
+				C9D7DD862674920600B124FD /* NewImageService.swift in Sources */,
 				C94D2CED230E11C300043431 /* FontBook.swift in Sources */,
 				C9DAC48F21476B2400D6558B /* URL+Ext.swift in Sources */,
 				C9BFB28A2537D4C40002EAE5 /* StyleBook.swift in Sources */,

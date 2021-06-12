@@ -10,8 +10,9 @@ import UIKit
 import Promise
 
 public protocol ImageServiceType {
-    func fetchImage(for url: URL) -> Promise<UIImage>
     func fetchedImage(for url: URL, tryingSecondary: Bool) -> UIImage?
-    //func cancelFetch(_ url: URL)
+    func fetchImage(for url: URL) -> Promise<UIImage>
+    func prefetchImage(for url: URL)
+    func cancelFetch(for url: URL)
     func clearCache()
 }

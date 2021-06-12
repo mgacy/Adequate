@@ -45,6 +45,7 @@ public class ImageService: ImageServiceType {
     // TODO: pass InvalidatableQueue as well?
     //@discardableResult
     public func fetchImage(for url: URL) -> Promise<UIImage> {
+        //lockQueue.addOperation {
         if let pendingFetch = pendingTasks[url.absoluteString] {
             return pendingFetch
         } else {
@@ -57,6 +58,7 @@ public class ImageService: ImageServiceType {
             pendingTasks[url.absoluteString] = promise
             return promise
         }
+        //}
     }
 
     public func fetchedImage(for url: URL, tryingSecondary: Bool = false) -> UIImage? {
@@ -73,15 +75,19 @@ public class ImageService: ImageServiceType {
             return nil
         }
     }
-    /*
-    public func cancelFetch(_ url: URL) {
-        // TODO: does any of this need to be performed on the lockQueue?
-        // TODO: add guard?
-        let task = pendingTasks[url.absoluteString]
-        task.queue.invalidate()
-        pendingTasks[url.absoluteString] = nil
+
+    public func prefetchImage(for url: URL) {
+        // ...
     }
-    */
+
+    public func cancelFetch(for url: URL) {
+        //lockQueue.addOperation {
+        //    let task = pendingTasks[url.absoluteString]
+        //    task.queue.invalidate()
+        //    pendingTasks[url.absoluteString] = nil
+        //}
+    }
+
     public func clearCache() {
         memoryCache.removeAll()
         // TODO: `diskCache.removeAll()`?
