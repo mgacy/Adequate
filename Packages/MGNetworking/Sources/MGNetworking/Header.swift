@@ -54,7 +54,7 @@ public enum Header: Equatable, HeaderProtocol {
     /// HTTP headers reserved by the URL Loading System.
     /// See: https://developer.apple.com/documentation/foundation/nsurlrequest
     static var reservedHeaderFields: [String] {
-        return [
+        [
             "Authorization",
             "Connection",
             "Content-Length",

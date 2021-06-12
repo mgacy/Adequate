@@ -24,6 +24,21 @@ public enum NetworkClientError: Error {
     case decoding(error: Error)
     /// Unknown error.
     case unknown(message: String)
+
+    public static func wrap(_ error: Error) -> NetworkClientError {
+        // swiftlint:disable force_cast
+        switch error {
+        case is NetworkClientError:
+            return error as! NetworkClientError
+        case is DecodingError:
+            return .decoding(error: error)
+        case is URLError:
+            return .network(error: error)
+        default:
+            return .unknown(message: error.localizedDescription)
+        }
+        // swiftlint:enable force_cast
+    }
 }
 
 // TODO: add static method on mapping status

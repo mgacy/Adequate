@@ -10,19 +10,11 @@ import UIKit
 import Promise
 import MGNetworking
 
-// MARK: - SessionProtocol
-
-protocol SessionProtocol {
-    func data(with request: URLRequest) -> Promise<Data>
-}
-
-extension URLSession: SessionProtocol {
+// MARK: - URLSession+Promise
+extension URLSession {
 
     public func data(with request: URLRequest) -> Promise<Data> {
         return Promise<Data>(work: { fulfill, reject in
-            //guard let urlRequest = request.urlRequest else {
-            //    reject(ClientError.badRequest)
-            //}
             self.dataTask(with: request, completionHandler: { data, response, error in
                 if let error = error {
                     reject(NetworkClientError.network(error: error))
@@ -34,8 +26,8 @@ extension URLSession: SessionProtocol {
                         reject(error)
                     }
                 } else {
+                    preconditionFailure("Neither response nor error.")
                     //reject(NetworkClientError.myError(message: "Bad response or missing data"))
-                    fatalError("Something has gone horribly wrong.")
                 }
             }).resume()
         })
