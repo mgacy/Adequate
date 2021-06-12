@@ -9,8 +9,10 @@
 import UIKit
 
 // MARK: - UITableView
+public typealias TableCellConfigurable = CellConfigurable & UITableViewCell
+
 public protocol TableViewDiffableDataSourceProvider {
-    associatedtype CellType: CellConfigurable & UITableViewCell
+    associatedtype CellType: TableCellConfigurable
     associatedtype SectionType: Hashable & CaseIterable
     associatedtype ItemType: Hashable
 
@@ -19,7 +21,7 @@ public protocol TableViewDiffableDataSourceProvider {
     ) -> UITableViewDiffableDataSource<SectionType, ItemType>
 }
 
-public extension TableViewDiffableDataSourceProvider where CellType: Reusable, CellType.ModelType == ItemType {
+public extension TableViewDiffableDataSourceProvider where CellType.ModelType == ItemType {
 
     /// NOTE: this doesn't help when the model is used to fetch resources asynchronously.
     func makeDataSource(
@@ -37,8 +39,10 @@ public extension TableViewDiffableDataSourceProvider where CellType: Reusable, C
 }
 
 // MARK: - UICollectionView
+public typealias CollectionCellConfigurable = CellConfigurable & UICollectionViewCell
+
 public protocol CollectionViewDiffableDataSourceProvider {
-    associatedtype CellType: CellConfigurable & UICollectionViewCell
+    associatedtype CellType: CollectionCellConfigurable
     associatedtype SectionType: Hashable & CaseIterable
     associatedtype ItemType: Hashable
 
@@ -47,7 +51,7 @@ public protocol CollectionViewDiffableDataSourceProvider {
     ) -> UICollectionViewDiffableDataSource<SectionType, ItemType>
 }
 
-public extension CollectionViewDiffableDataSourceProvider where CellType: Reusable, CellType.ModelType == ItemType {
+public extension CollectionViewDiffableDataSourceProvider where CellType.ModelType == ItemType {
 
     /// NOTE: this doesn't help when the model is used to fetch resources asynchronously.
     func makeDataSource(
