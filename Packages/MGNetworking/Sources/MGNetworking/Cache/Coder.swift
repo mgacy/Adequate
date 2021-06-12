@@ -7,7 +7,9 @@
 
 import UIKit
 
-public struct ImageError: Error {}
+public struct ImageError: Error {
+    public init() {}
+}
 
 public struct Coder<T> {
     let encode: ((T) throws -> Data)

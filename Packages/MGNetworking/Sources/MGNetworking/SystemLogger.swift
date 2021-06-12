@@ -18,26 +18,31 @@ public class SystemLogger {
 
     // MARK: - LoggingType
 
+    //@inline(__always)
     public static func verbose(_ message: String, file: String = #file, function: String = #function,
                                line: Int = #line) {
         write(level: .debug, message: message, file: file, function: function, line: line)
     }
 
+    //@inline(__always)
     public static func debug(_ message: String, file: String = #file, function: String = #function,
                              line: Int = #line) {
         write(level: .debug, message: message, file: file, function: function, line: line)
     }
 
+    //@inline(__always)
     public static func info(_ message: String, file: String = #file, function: String = #function,
                             line: Int = #line) {
         write(level: .info, message: message, file: file, function: function, line: line)
     }
 
+    //@inline(__always)
     public static func warning(_ message: String, file: String = #file, function: String = #function,
                                line: Int = #line) {
         write(level: .error, message: message, file: file, function: function, line: line)
     }
 
+    //@inline(__always)
     public static func error(_ message: String, file: String = #file, function: String = #function,
                              line: Int = #line) {
         write(level: .error, message: message, file: file, function: function, line: line)
@@ -45,6 +50,7 @@ public class SystemLogger {
 
     // MARK: - Private
 
+    //@inline(__always)
     private static func write(level: OSLogType, message: String, file: String, function: String, line: Int) {
         destination?.log(level: level, message: message, file: file, function: function, line: line)
     }
@@ -79,6 +85,7 @@ extension SystemLogger {
             self.log = OSLog(subsystem: subsystem.rawValue, category: category.rawValue)
         }
 
+        //@inline(__always)
         public func log(level: OSLogType, message: String, file: String, function: String, line: Int) {
             os_log("%{public}@:%{public}@ - %{public}@", log: log, type: level, function, String(line), message)
         }
@@ -93,6 +100,7 @@ extension SystemLogger {
             self.logger = Logger(subsystem: subsystem.rawValue, category: category.rawValue)
         }
 
+        //@inline(__always)
         public func log(level: OSLogType, message: String, file: String, function: String, line: Int) {
             logger.log(level: level, "\(function):\(line) - \(message)")
         }

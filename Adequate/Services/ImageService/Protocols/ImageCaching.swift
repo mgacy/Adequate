@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import class MGNetworking.MemoryCache
 
 public protocol ImageCaching {
     func insert(_: UIImage, for: URL)
@@ -14,3 +15,6 @@ public protocol ImageCaching {
     func removeValue(for: URL)
     func removeAll()
 }
+
+// MARK: - MemoryCache+ImageCaching
+extension MemoryCache: ImageCaching where Key == URL, Value == UIImage {}
