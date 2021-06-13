@@ -1,1 +1,2 @@
-- Fix crash on iOS 13
+- General performance improvements
+- Improve responsiveness of widgets
