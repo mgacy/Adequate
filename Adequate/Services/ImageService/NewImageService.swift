@@ -86,21 +86,14 @@ final class NewImageService: ImageServiceType {
             } else {
 
                 let request = Request<UIImage>(url: url)
-                let operation: FetchOperation<FetchRequest>
-                if let handler = completionHandler {
-                    operation = FetchOperation(client: self.networkClient,
-                                               request: request,
-                                               resultQueue: resultQueue,
-                                               completionHandler: handler)
-                } else {
-                    operation = FetchOperation(client: self.networkClient, request: request)
-                }
-
+                let operation = FetchOperation<FetchRequest>(client: self.networkClient, request: request,
+                                                             resultQueue: resultQueue,
+                                                             completionHandler: completionHandler)
                 operation.completionBlock = { [weak operation] in
                     self.serialAccessQueue.addOperation { self.pendingTasks[url] = nil }
-
-                    guard let result = operation?.fetchResult,
-                          case .success(let image) = result else { return }
+                    guard let image = operation?.response else {
+                        return
+                    }
                     self.memoryCache.insert(image, for: url)
                 }
 

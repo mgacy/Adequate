@@ -31,24 +31,14 @@ final class FetchOperation<Request: RequestProtocol>: AsynchronousOperation {
 
     init(
         client: NetworkClientProtocol,
-        request: Request
-    ) {
-        log.verbose("\(#function)")
-        self.networkClient = client
-        self.request = request
-        self.callbackState = .empty
-    }
-
-    init(
-        client: NetworkClientProtocol,
         request: Request,
-        resultQueue: DispatchQueue,
-        completionHandler: @escaping Handler
+        resultQueue: DispatchQueue = .main,
+        completionHandler: Handler?
     ) {
         log.verbose("\(#function)")
         self.networkClient = client
         self.request = request
-        self.callbackState = .single(Callback(resultQueue, completionHandler))
+        self.callbackState = completionHandler != nil ? .single(Callback(resultQueue, completionHandler!)) : .empty
     }
 
     // MARK: - B
