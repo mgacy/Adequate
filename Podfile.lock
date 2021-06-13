@@ -20,7 +20,7 @@ PODS:
     - AWSCore (= 2.24.2)
   - AWSSNS (2.24.2):
     - AWSCore (= 2.24.2)
-  - Down (0.9.4)
+  - Down (0.11.0)
   - Promises (2.0.4)
   - ReachabilitySwift (5.0.0)
   - SnapshotTesting (1.9.0)
@@ -70,7 +70,7 @@ SPEC CHECKSUMS:
   AWSCore: 08a61ac2b1d98b2d43f59ee40c4bd68e58dfdea3
   AWSMobileClient: 6af7fff9e58f8d427acf3381cbbae2f0c34d52ab
   AWSSNS: 53de40b86651e5f1b7764a2bdf355506f1507650
-  Down: 276f2c3eeeaf30345873bdad25f44b2640fcfa3a
+  Down: b6ba1bc985c9d2f4e15e3b293d2207766fa12612
   Promises: fcb83dc6be43294a8d30c343636ed1a45a8d2e0a
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   SnapshotTesting: 6141c48b6aa76ead61431ca665c14ab9a066c53b
