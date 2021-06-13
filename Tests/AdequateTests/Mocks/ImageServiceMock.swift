@@ -8,13 +8,15 @@
 
 import UIKit
 import Promise
+import enum MGNetworking.NetworkClientError
+import struct MGNetworking.ImageError
 @testable import Adequate
 
 class ImageServiceMock: ImageServiceType {
 
     var hasCachedImage: Bool = false
 
-    var response: Result<UIImage, NetworkClientError> = .failure(NetworkClientError.imageDecodingFailed)
+    var response: Result<UIImage, NetworkClientError> = .failure(.decoding(error: ImageError()))
 
     var responseDelay: TimeInterval?
 
@@ -60,6 +62,14 @@ class ImageServiceMock: ImageServiceType {
         hasCachedImage = false
     }
 
+    func prefetchImage(for url: URL) {
+        // No-op
+    }
+
+    func cancelFetch(for url: URL) {
+        // No-op
+    }
+
     // MARK: - Helpers
 
     func setDefaultImage() {
@@ -67,7 +77,7 @@ class ImageServiceMock: ImageServiceType {
     }
 
     func setDefaultError() {
-        response = .failure(.imageDecodingFailed)
+        response = .failure(.decoding(error: ImageError()))
     }
 
     func makeImage(color: UIColor, size: CGSize) -> UIImage {

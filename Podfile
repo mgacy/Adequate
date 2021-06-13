@@ -18,7 +18,7 @@ end
 
 # Testing
 def test_pods
-  pod 'SnapshotTesting', '~> 1.8.2'
+  pod 'SnapshotTesting', '~> 1.9'
 end
 
 # # UITesting

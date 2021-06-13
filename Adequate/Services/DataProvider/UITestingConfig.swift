@@ -6,6 +6,7 @@
 //  Copyright © 2020 Mathew Gacy. All rights reserved.
 //
 
+import AWSCore
 import AWSAppSync
 
 // TODO: relocate this; make more elegant
