@@ -24,7 +24,12 @@ fileprivate enum LaunchInstructor {
 
 }
 
-class AppCoordinator: BaseCoordinator {
+protocol AppCoordinating: CoordinatorType {
+    func refreshDeal(for event: RefreshEvent)
+    func registerForPushNotifications(with manager: NotificationManagerType)
+}
+
+class AppCoordinator: BaseCoordinator, AppCoordinating {
 
     private let window: UIWindow
     private let dependencies: AppDependency
@@ -143,4 +148,30 @@ extension AppCoordinator {
                 self.notificationManager = nil
             }
     }
+}
+
+// MARK: - Testing
+class TestAppCoordinator: BaseCoordinator, AppCoordinating {
+
+    private let window: UIWindow
+
+    init(window: UIWindow) {
+        self.window = window
+    }
+
+    override func start(with: DeepLink?) {
+        start()
+    }
+
+    override func start() {
+        let viewController = UIViewController()
+        window.rootViewController = viewController
+        window.makeKeyAndVisible()
+    }
+
+    // MARK: - AppCoordinating
+
+    func refreshDeal(for event: RefreshEvent) {}
+
+    func registerForPushNotifications(with manager: NotificationManagerType) {}
 }

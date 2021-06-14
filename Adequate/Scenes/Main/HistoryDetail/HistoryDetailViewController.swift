@@ -99,10 +99,10 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Ensure correct navigation bar style after aborted dismissal
-        if themeManager.useDealTheme {
-            navigationController?.navigationBar.barStyle = dealFragment.theme.foreground.navigationBarStyle
-            setNeedsStatusBarAppearanceUpdate()
-        }
+        //if themeManager.useDealTheme {
+        //    navigationController?.navigationBar.barStyle = dealFragment.theme.foreground.navigationBarStyle
+        //    setNeedsStatusBarAppearanceUpdate()
+        //}
 
         // Fix sizing when displayed on iPad on iOS 13
         //let parallaxHeight: CGFloat = view.frame.width + pagedImageView.pageControlHeight
@@ -121,6 +121,12 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
         if case .phone = UIDevice.current.userInterfaceIdiom {
             setupForPhone()
         }
+
+        themeManager.themePublisher
+            .sink { [weak self] theme in
+                self?.apply(theme: theme)
+            }
+            .store(in: &cancellables)
 
         rootView.contentView.forumButton.addTarget(self, action: #selector(didPressForum(_:)), for: .touchUpInside)
         setupConstraints()
@@ -150,11 +156,6 @@ final class HistoryDetailViewController: BaseViewController<ScrollableView<DealC
             barBackingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             barBackingView.bottomAnchor.constraint(equalTo: guide.topAnchor)
         ])
-    }
-
-    override func setupObservations() -> [ObservationToken] {
-        let themeToken = themeManager.addObserver(self)
-        return [themeToken]
     }
 
     // MARK: - Navigation
@@ -279,15 +280,15 @@ extension HistoryDetailViewController: ViewStateRenderable {
 // MARK: - ThemeObserving
 extension HistoryDetailViewController: ThemeObserving {
     func apply(theme: AppTheme) {
-        if themeManager.useDealTheme {
-            apply(theme: ColorTheme(theme: dealFragment.theme))
-            //apply(foreground: dealFragment.theme.foreground)
-        } else {
-            apply(theme: theme.baseTheme)
-            if let foreground = theme.foreground {
-                apply(foreground: foreground)
-            }
+        //if themeManager.useDealTheme {
+        //    apply(theme: ColorTheme(theme: dealFragment.theme))
+        //    //apply(foreground: dealFragment.theme.foreground)
+        //} else {
+        apply(theme: theme.baseTheme)
+        if let foreground = theme.foreground {
+            apply(foreground: foreground)
         }
+        //}
     }
 }
 

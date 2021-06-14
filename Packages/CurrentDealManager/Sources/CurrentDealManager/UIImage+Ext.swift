@@ -8,12 +8,12 @@
 import UIKit
 
 // MARK: - UIImage+scaled
+/// See comparison of different methods at: https://nshipster.com/image-resizing/
 extension UIImage {
 
     // https://stackoverflow.com/a/54380286/4472195
     func scaled(to maxSize: CGFloat) -> UIImage? {
-        let aspectRatio: CGFloat = min(maxSize / size.width, maxSize / size.height)
-        let newSize = CGSize(width: size.width * aspectRatio, height: size.height * aspectRatio)
+        let newSize = size.scaled(to: maxSize)
 
         let renderFormat = UIGraphicsImageRendererFormat.default()
         renderFormat.opaque = false // enable transparency
@@ -24,8 +24,7 @@ extension UIImage {
     }
 
     func scaledPngData(to maxSize: CGFloat) -> Data? {
-        let aspectRatio: CGFloat = min(maxSize / size.width, maxSize / size.height)
-        let newSize = CGSize(width: size.width * aspectRatio, height: size.height * aspectRatio)
+        let newSize = size.scaled(to: maxSize)
 
         let renderFormat = UIGraphicsImageRendererFormat.default()
         renderFormat.opaque = false // enable transparency
@@ -33,5 +32,13 @@ extension UIImage {
         return renderer.pngData { _ in
             draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: newSize))
         }
+    }
+}
+
+extension CGSize {
+
+    func scaled(to maxSize: CGFloat) -> CGSize {
+        let aspectRatio: CGFloat = min(maxSize / width, maxSize / height)
+        return CGSize(width: width * aspectRatio, height: height * aspectRatio)
     }
 }

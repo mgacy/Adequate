@@ -1,0 +1,5 @@
+strings:
+  - inputs: Sources/NetworkKit/Resources/en.lproj/Localizable.strings
+    outputs:
+      - templateName: structured-swift5
+        output: Sources/NetworkKit/Strings.generated.swift

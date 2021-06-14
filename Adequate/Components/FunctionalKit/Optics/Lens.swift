@@ -9,6 +9,26 @@ import Foundation
 
 // swiftlint:disable opening_brace
 
+/// Any `struct SomeType` with a memberwise initializer and annotated with `sourcery: lens` will receive an extension
+/// defining a type `SomeType.lens` having a `Lens` defined as a static property for each property of `SomeType`.
+/// For example, for the following type
+///
+///     struct SomeType { var property: Int }
+///
+/// Sourcery will generate the following extension:
+///
+///     extension SomeType {
+///         enum lens {
+///             static let property = Lens<AppTheme, ColorTheme>(...)
+///         }
+///     }
+///
+/// Usage:
+///
+///     let initial = SomeType(property: 5)
+///     let lens = SomeType.lens.property
+///     let updated = lens.set(7)(initial)
+///
 public struct Lens<Whole, Part> {
     public let get: (Whole) -> Part
     public let set: (Part) -> (Whole) -> Whole

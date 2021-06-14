@@ -10,7 +10,7 @@ import XCTest
 import AWSAppSync
 @testable import Adequate
 
-// NOTE: all snapshots were generated using iPad Pro (10.5-inch)
+// NOTE: all snapshots were generated using iPad Air (3rd generation)
 class SnapshotTestBase: XCTestCase {
 
     var dataProvider: DataProviderMock!

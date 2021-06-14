@@ -9,25 +9,6 @@
 import SwiftyBeaver
 
 class Logger: LoggingType {
-    /*
-    enum Level: Int, CustomStringConvertible {
-        case verbose = 0
-        case debug = 1
-        case info = 2
-        case warning = 3
-        case error = 4
-
-        var description: String {
-            switch self {
-            case .verbose: return "VERBOSE"
-            case .debug: return "DEBUG"
-            case .info: return "INFO"
-            case .warning: return "WARNING"
-            case .error: return "ERROR"
-            }
-        }
-    }
-    */
     private static var loggerLoaded = false
 
     private static func setupLogger() {
@@ -132,8 +113,40 @@ class Logger: LoggingType {
         custom(level: .error, message: message, file: file, function: function, line: line)
     }
 
-    private static func custom(level: SwiftyBeaver.Level, message: String, file: String, function: String, line: Int) {
+    static func custom(level: Level, message: String, file: String, function: String, line: Int) {
         checkIfLoggerIsLoaded()
-        SwiftyBeaver.custom(level: level, message: message, file: file, function: function, line: line)
+        SwiftyBeaver.custom(level: level.sbLevel, message: message, file: file, function: function, line: line)
+    }
+}
+
+// MARK: - Types
+extension Logger {
+
+    enum Level: Int, CustomStringConvertible {
+        case verbose = 0
+        case debug = 1
+        case info = 2
+        case warning = 3
+        case error = 4
+
+        var description: String {
+            switch self {
+            case .verbose: return "VERBOSE"
+            case .debug: return "DEBUG"
+            case .info: return "INFO"
+            case .warning: return "WARNING"
+            case .error: return "ERROR"
+            }
+        }
+
+        var sbLevel: SwiftyBeaver.Level {
+            switch self {
+            case .verbose: return .verbose
+            case .debug: return .debug
+            case .info: return .info
+            case .warning: return .warning
+            case .error: return .error
+            }
+        }
     }
 }

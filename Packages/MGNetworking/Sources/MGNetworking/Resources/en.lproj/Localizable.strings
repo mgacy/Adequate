@@ -1,0 +1,14 @@
+/*
+  Localizable.strings
+
+  Created by Mathew Gacy on 5/29/21.
+  Copyright © 2021 Mathew Gacy. All rights reserved.
+*/
+"error.malformed_request" = "Malformed Request";
+"error.network" = "Network Error: %@";
+"error.no_data" = "Missing Data";
+"error.invalid_response" = "Unexpexted Response Format: %@";
+"error.client_error" = "Client Error: %d"; /* TODO: check format string */
+"error.server_error" = "Server Error: %d";  /* TODO: check format string */
+"error.decoding" = "Decoding Error: %@";
+

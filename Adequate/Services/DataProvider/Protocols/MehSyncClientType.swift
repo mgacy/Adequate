@@ -17,7 +17,7 @@ protocol MehSyncClientType {
 
     func watchCurrentDeal(cachePolicy: CachePolicy,
                           queue: DispatchQueue,
-                          resultHandler: @escaping DealResultHandler) throws -> GraphQLQueryWatcher<GetDealQuery>
+                          resultHandler: @escaping DealResultHandler) throws -> GraphQLQueryWatching
 
     func fetchCurrentDeal(cachePolicy: CachePolicy,
                           queue: DispatchQueue,

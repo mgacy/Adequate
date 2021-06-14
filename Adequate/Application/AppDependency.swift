@@ -8,6 +8,7 @@
 
 import AWSAppSync
 import AWSMobileClient
+import class MGNetworking.NetworkClient
 
 class AppDependency: HasDataProvider, HasImageService, HasThemeManager, HasUserDefaultsManager {
     let credentialsProvider: AWSCredentialsProvider
@@ -25,8 +26,7 @@ class AppDependency: HasDataProvider, HasImageService, HasThemeManager, HasUserD
         // Initialize dataProvider
         self.dataProvider = DataProvider(credentialsProvider: credentialsProvider)
 
-        let networkClient = AppDependency.makeNetworkClient()
-        self.imageService = ImageService(client: networkClient)
+        self.imageService = Self.makeImageService()
 
         let userDefaultsManager = UserDefaultsManager(defaults: .standard)
         self.userDefaultsManager = userDefaultsManager
@@ -37,7 +37,7 @@ class AppDependency: HasDataProvider, HasImageService, HasThemeManager, HasUserD
 
     // MARK: - Factory Functions
 
-    static private func makeNetworkClient() -> NetworkClientType {
+    static private func makeImageService() -> ImageServiceType {
         // Configuration
         let configuration = URLSessionConfiguration.default
         //configuration.timeoutIntervalForRequest = 8  // seconds
@@ -48,11 +48,8 @@ class AppDependency: HasDataProvider, HasImageService, HasThemeManager, HasUserD
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         configuration.urlCache = nil
 
-        // JSON Decoding
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
-
-        return NetworkClient(configuration: configuration, decoder: decoder)
+        let networkClient = MGNetworking.NetworkClient(configuration: configuration)
+        return NewImageService(client: networkClient)
     }
 }
 
